@@ -37,7 +37,6 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;

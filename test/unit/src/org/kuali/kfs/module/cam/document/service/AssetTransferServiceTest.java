@@ -61,7 +61,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
         this.assetTransferService.createGLPostables(document);
         // assert gl postables
-        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPostables();
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPendingEntrySourceDetails();
         assertFalse(generalLedgerPostables.isEmpty());
         assertEquals(12, generalLedgerPostables.size());
         Asset asset = document.getAsset();
@@ -101,7 +101,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         AssetTransferDocument document = buildTransferDocumentWithoutOffset(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
         this.assetTransferService.createGLPostables(document);
         // assert gl postables
-        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPostables();
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPendingEntrySourceDetails();
         assertFalse(generalLedgerPostables.isEmpty());
         assertEquals(8, generalLedgerPostables.size());
         Asset asset = document.getAsset();
@@ -137,7 +137,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_NON_CAPITAL_ASSET.newAsset(), true);
         this.assetTransferService.createGLPostables(document);
         // assert gl postables
-        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPostables();
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPendingEntrySourceDetails();
         assertTrue(generalLedgerPostables.isEmpty());
     }
 
@@ -152,7 +152,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), false);
         this.assetTransferService.createGLPostables(document);
         // assert gl postables
-        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPostables();
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = document.getGeneralLedgerPendingEntrySourceDetails();
         assertTrue(generalLedgerPostables.isEmpty());
     }
 

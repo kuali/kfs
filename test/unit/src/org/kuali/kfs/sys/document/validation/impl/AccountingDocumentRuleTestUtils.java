@@ -21,7 +21,6 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBea
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.RouteDocumentRule;
 import org.kuali.core.rule.SaveDocumentRule;
@@ -32,7 +31,6 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
@@ -91,8 +89,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
     public static boolean testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(AccountingDocument document, AccountingLine line, GeneralLedgerPendingEntryFixture expectedExplicitFixture, GeneralLedgerPendingEntryFixture expectedOffsetFixture) throws Exception {
         boolean success = true;
         assertEquals(0, document.getGeneralLedgerPendingEntries().size());
-        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = document.getGeneralLedgerPostingHelper();
-        success &= glPostingHelper.generateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
+        success &= document.generateGeneralLedgerPendingEntries(line, new GeneralLedgerPendingEntrySequenceHelper());
         assertEquals(expectedOffsetFixture == null ? 1 : 2, document.getGeneralLedgerPendingEntries().size());
         assertSparselyEqualBean(expectedExplicitFixture.createGeneralLedgerPendingEntry(), document.getGeneralLedgerPendingEntry(0));
         if (expectedOffsetFixture != null) {

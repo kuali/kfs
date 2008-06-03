@@ -336,12 +336,6 @@
 		</property>
 	</bean>
     
-    <bean id="kfsGenericGeneralLedgerPostingHelper" class="org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl">
-    	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-    </bean>
-    
-    <bean id="kfsDoNothingGeneralLedgerPostingHelper" class="org.kuali.kfs.service.impl.DoNothingGeneralLedgerPendingEntryGenerationProcessImpl" />
-    
     <bean id="accountingDocumentRuleHelperService" class="org.kuali.kfs.service.impl.AccountingDocumentRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="objectTypeService"><ref bean="objectTypeService" /></property>

@@ -25,7 +25,6 @@ import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConst
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
@@ -33,6 +32,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -45,7 +45,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.service.AccountingPeriodService;
@@ -64,8 +63,6 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
 
     private String typeCode = ADJUSTMENT_DOC_TYPE;
     private java.sql.Date reversalDate;
-    
-    private final static String AUXILIARY_VOUCHER_GL_POSTER_HELPER_BEAN_ID = "auxiliaryVoucherGeneralLedgerPostingHelper";
 
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
@@ -455,15 +452,175 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     protected String getGeneralLedgerPendingEntryOffsetObjectCode() {
         return GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
     }
-
+    
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
+     * An Accrual Voucher only generates offsets if it is a recode (AVRC). So this method overrides to do nothing more than return
+     * true if it's not a recode. If it is a recode, then it is responsible for generating two offsets with a document type of DI.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param accountingLineCopy accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * @return true if general ledger pending entry is processed successfully for accurals, adjustments, and recodes
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
+     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glpeHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glpeHelpers.get(AuxiliaryVoucherDocument.AUXILIARY_VOUCHER_GL_POSTER_HELPER_BEAN_ID);
+    public boolean processOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        AccountingLine accountingLineCopy = (AccountingLine)glpeSourceDetail;
+        boolean success = true;
+
+        // do not generate an offset entry if this is a normal or adjustment AV type
+        if (isAccrualType() || isAdjustmentType()) {
+            success &= processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+        }
+        else if (isRecodeType()) { // recodes generate offsets
+            success &= processOffsetGeneralLedgerPendingEntryForRecodes(sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+        }
+        else {
+            throw new IllegalStateException("Illegal auxiliary voucher type: " + getTypeCode());
+        }
+        return success;
+    }
+
+    /**
+     * This method handles generating or not generating the appropriate offsets if the AV type is a recode.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param accountingLineCopy accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * @return true if offset general ledger pending entry is processed
+     */
+    protected boolean processOffsetGeneralLedgerPendingEntryForRecodes(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        // the explicit entry has already been generated and added to the list, so to get the right offset, we have to set the value
+        // of the document type code on the explicit
+        // to the type code for a DI document so that it gets passed into the next call and we retrieve the right offset definition
+        // since these offsets are
+        // specific to Distrib. of Income and Expense documents - we need to do a deep copy though so we don't do this by reference
+        GeneralLedgerPendingEntry explicitEntryDeepCopy = new GeneralLedgerPendingEntry(explicitEntry);
+        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+
+        // set the posting period to current, because DI GLPEs for recodes should post to the current period
+        java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
+        explicitEntryDeepCopy.setUniversityFiscalPeriodCode(SpringContext.getBean(AccountingPeriodService.class).getByDate(today).getUniversityFiscalPeriodCode()); // use
+
+        // call the super to process an offset entry; see the customize method below for AVRC specific attribute values
+        // pass in the explicit deep copy
+        boolean success = super.processOffsetGeneralLedgerPendingEntry(sequenceHelper, accountingLineCopy, explicitEntryDeepCopy, offsetEntry);
+
+        // increment the sequence appropriately
+        sequenceHelper.increment();
+
+        // now generate the AVRC DI entry
+        // pass in the explicit deep copy
+        processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry( sequenceHelper, explicitEntryDeepCopy);
+        return success;
+    }
+
+    /**
+     * This method handles generating or not generating the appropriate offsets if the AV type is accrual or adjustment.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param accountingLineCopy accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * @return true if offset general ledger pending entry is processed successfully
+     */
+    protected boolean processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean success = true;
+        if (this.isDocumentForMultipleAccounts()) {
+            success = super.processOffsetGeneralLedgerPendingEntry(sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+        }
+        else {
+            sequenceHelper.decrement(); // the parent already increments; b/c it assumes that all documents have offset entries all
+            // of the time
+        }
+        return success;
     }
     
+    /**
+     * This method is responsible for iterating through all of the accounting lines in the document (source only) and checking to
+     * see if they are all for the same account or not. It recognizes the first account element as the base, and then it iterates
+     * through the rest. If it comes across one that doesn't match, then we know it's for multiple accounts.
+     * 
+     * @param financialDocument submitted accounting document
+     * @return true if multiple accounts are being used
+     */
+    protected boolean isDocumentForMultipleAccounts() {
+        String baseAccountNumber = "";
+
+        int index = 0;
+        List<AccountingLine> lines = this.getSourceAccountingLines();
+        for (AccountingLine line : lines) {
+            if (index == 0) {
+                baseAccountNumber = line.getAccountNumber();
+            }
+            else if (!baseAccountNumber.equals(line.getAccountNumber())) {
+                return true;
+            }
+            index++;
+        }
+
+        return false;
+    }
+    
+    /**
+     * This method creates an AV recode specific GLPE with a document type of DI. The sequence is managed outside of this method. It
+     * uses the explicit entry as its model and then tweaks values appropriately.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param explicitEntry represents explicit entry
+     * @return true if recode GLPE is added to the financial document successfully
+     */
+    protected void processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
+        // create a new instance based off of the explicit entry
+        GeneralLedgerPendingEntry recodeGlpe = new GeneralLedgerPendingEntry(explicitEntry);
+
+        // set the sequence number according to what was passed in - this is managed external to this method
+        recodeGlpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+
+        // set the document type to that of a Distrib. Of Income and Expense
+        recodeGlpe.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+
+        // set the object type code base on the value of the explicit entry
+        recodeGlpe.setFinancialObjectTypeCode(getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(explicitEntry));
+
+        // set the reversal date to null
+        recodeGlpe.setFinancialDocumentReversalDate(null);
+
+        // although this is an offsets, we need to set the offset indicator to false
+        recodeGlpe.setTransactionEntryOffsetIndicator(false);
+
+        // add the new recode offset entry to the document now
+        addPendingEntry(recodeGlpe);
+    }
+    
+    /**
+     * This method examines the explicit entry's object type and returns the appropriate object type code. This is specific to AV
+     * recodes (AVRCs).
+     * 
+     * @param explicitEntry
+     * @return object type code from explicit entry (either financial object type code, financial object type expenditure code, or
+     *         financial object type income cash code)
+     */
+    protected String getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(GeneralLedgerPendingEntry explicitEntry) {
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        String objectTypeCode = explicitEntry.getFinancialObjectTypeCode();
+
+        if (options.getFinObjTypeExpNotExpendCode().equals(objectTypeCode)) {
+            objectTypeCode = options.getFinObjTypeExpenditureexpCd();
+        }
+        else if (options.getFinObjTypeIncomeNotCashCd().equals(objectTypeCode)) {
+            objectTypeCode = options.getFinObjectTypeIncomecashCode();
+        }
+
+        return objectTypeCode;
+    }
     
 }

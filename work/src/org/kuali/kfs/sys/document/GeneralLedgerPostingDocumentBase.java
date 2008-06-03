@@ -130,7 +130,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
         }
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             removeGeneralLedgerPendingEntries();
-            if (this instanceof ElectronicPaymentClaiming) { // TODO should use this.getClass().isAssignableFrom?
+            if (this instanceof ElectronicPaymentClaiming) {
                 ((ElectronicPaymentClaiming)this).declaimElectronicPaymentClaims();
             }
         }

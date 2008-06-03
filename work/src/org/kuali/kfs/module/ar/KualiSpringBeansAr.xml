@@ -192,12 +192,6 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>	
-	</bean>	
-	
-	<bean id="customerInvoiceDocumentGeneralLedgerPostingHelper" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentGeneralLedgerPostingHelperImpl">
-		<property name="generalLedgerPendingEntryService">
-			<ref bean="generalLedgerPendingEntryService" />
-		</property>
 	</bean>
 	
 	<bean id="lockboxJobTrigger" parent="cronTrigger">

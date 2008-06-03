@@ -48,7 +48,6 @@ import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.OptionsService;
@@ -212,26 +211,25 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySource poster) {
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySource glpeSource) {
         boolean success = true;
 
         // we must clear them first before creating new ones
-        poster.clearAnyGeneralLedgerPendingEntries();
+        glpeSource.clearAnyGeneralLedgerPendingEntries();
 
-        LOG.info("deleting existing gl pending ledger entries for document " + poster.getDocumentHeader().getDocumentNumber());
-        delete(poster.getDocumentHeader().getDocumentNumber());
+        LOG.info("deleting existing gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
+        delete(glpeSource.getDocumentHeader().getDocumentNumber());
 
-        LOG.info("generating gl pending ledger entries for document " + poster.getDocumentHeader().getDocumentNumber());
+        LOG.info("generating gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        GeneralLedgerPendingEntryGenerationProcess postingHelper = poster.getGeneralLedgerPostingHelper();
         List<GeneralLedgerPendingEntry> entries;
-        for (GeneralLedgerPendingEntrySourceDetail postable : poster.getGeneralLedgerPostables()) {
-            success &= postingHelper.generateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
+        for (GeneralLedgerPendingEntrySourceDetail glpeSourceDetail : glpeSource.getGeneralLedgerPendingEntrySourceDetails()) {
+            success &= glpeSource.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper);
             sequenceHelper.increment();
         }
 
         // doc specific pending entries generation
-        success = poster.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        success = glpeSource.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         return success;
     }
 
@@ -243,53 +241,47 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param sequenceHelper
      * @param explicitEntry
      */
-    public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
+    public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
-        // explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(poster.getClass()));
-        if (poster.getFinancialDocumentTypeCode() == null) {
-            explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(poster.getClass()));
-        }
-        else {
-            explicitEntry.setFinancialDocumentTypeCode(poster.getFinancialDocumentTypeCode());
-        }
+        explicitEntry.setFinancialDocumentTypeCode(glpeSource.getFinancialDocumentTypeCode());
         explicitEntry.setVersionNumber(new Long(1));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
-        explicitEntry.setAccountNumber(postable.getAccountNumber());
-        if (postable.getAccount().getAccountSufficientFundsCode() == null) {
-            postable.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
+        explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
+        if (glpeSourceDetail.getAccount().getAccountSufficientFundsCode() == null) {
+            glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
         }
-        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(postable.getObjectCode(), postable.getAccount().getAccountSufficientFundsCode()));
+        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(glpeSourceDetail.getObjectCode(), glpeSourceDetail.getAccount().getAccountSufficientFundsCode()));
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
-        explicitEntry.setChartOfAccountsCode(postable.getChartOfAccountsCode());
-        explicitEntry.setTransactionDebitCreditCode(poster.isDebit(postable) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+        explicitEntry.setChartOfAccountsCode(glpeSourceDetail.getChartOfAccountsCode());
+        explicitEntry.setTransactionDebitCreditCode(glpeSource.isDebit(glpeSourceDetail) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
-        explicitEntry.setDocumentNumber(postable.getDocumentNumber());
-        explicitEntry.setFinancialObjectCode(postable.getFinancialObjectCode());
-        ObjectCode objectCode = postable.getObjectCode();
+        explicitEntry.setDocumentNumber(glpeSourceDetail.getDocumentNumber());
+        explicitEntry.setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
+        ObjectCode objectCode = glpeSourceDetail.getObjectCode();
         if (ObjectUtils.isNull(objectCode)) {
-            postable.refreshReferenceObject("objectCode");
+            glpeSourceDetail.refreshReferenceObject("objectCode");
         }
-        explicitEntry.setFinancialObjectTypeCode(postable.getObjectCode().getFinancialObjectTypeCode());
-        explicitEntry.setOrganizationDocumentNumber(poster.getDocumentHeader().getOrganizationDocumentNumber());
-        explicitEntry.setOrganizationReferenceId(postable.getOrganizationReferenceId());
-        explicitEntry.setProjectCode(getEntryValue(postable.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
-        explicitEntry.setReferenceFinancialDocumentNumber(getEntryValue(postable.getReferenceNumber(), BLANK_SPACE));
-        explicitEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(postable.getReferenceTypeCode(), BLANK_SPACE));
-        explicitEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(postable.getReferenceOriginCode(), BLANK_SPACE));
-        explicitEntry.setSubAccountNumber(getEntryValue(postable.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-        explicitEntry.setFinancialSubObjectCode(getEntryValue(postable.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
+        explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        explicitEntry.setOrganizationDocumentNumber(glpeSource.getDocumentHeader().getOrganizationDocumentNumber());
+        explicitEntry.setOrganizationReferenceId(glpeSourceDetail.getOrganizationReferenceId());
+        explicitEntry.setProjectCode(getEntryValue(glpeSourceDetail.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
+        explicitEntry.setReferenceFinancialDocumentNumber(getEntryValue(glpeSourceDetail.getReferenceNumber(), BLANK_SPACE));
+        explicitEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(glpeSourceDetail.getReferenceTypeCode(), BLANK_SPACE));
+        explicitEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(glpeSourceDetail.getReferenceOriginCode(), BLANK_SPACE));
+        explicitEntry.setSubAccountNumber(getEntryValue(glpeSourceDetail.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        explicitEntry.setFinancialSubObjectCode(getEntryValue(glpeSourceDetail.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
         explicitEntry.setTransactionEntryOffsetIndicator(false);
-        explicitEntry.setTransactionLedgerEntryAmount(poster.getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(postable));
-        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(postable.getFinancialDocumentLineDescription(), poster.getDocumentHeader().getFinancialDocumentDescription()));
+        explicitEntry.setTransactionLedgerEntryAmount(glpeSource.getGeneralLedgerPendingEntryAmountForDetail(glpeSourceDetail));
+        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(glpeSourceDetail.getFinancialDocumentLineDescription(), glpeSource.getDocumentHeader().getFinancialDocumentDescription()));
         explicitEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
         // classes
-        explicitEntry.setUniversityFiscalYear(poster.getPostingYear());
+        explicitEntry.setUniversityFiscalYear(glpeSource.getPostingYear());
         // TODO wait for core budget year data structures to be put in place
         // explicitEntry.setBudgetYear(accountingLine.getBudgetYear());
         // explicitEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);

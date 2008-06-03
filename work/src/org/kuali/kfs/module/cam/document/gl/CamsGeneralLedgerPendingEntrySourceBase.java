@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -28,12 +29,10 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public abstract class CamsGeneralLedgerPendingEntrySourceBase implements GeneralLedgerPendingEntrySource {
-
 
     private List<GeneralLedgerPendingEntry> pendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     private DocumentHeader documentHeader;
@@ -58,10 +57,6 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         // over ride if needed
     }
 
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        return true;
-    }
-
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -70,17 +65,12 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         return documentHeader;
     }
 
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount();
     }
 
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return this.postables;
-    }
-
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
 
     public Integer getPostingYear() {
@@ -129,6 +119,14 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
     private void removeGeneralLedgerPendingEntries(String docNumber) {
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         glpeService.delete(docNumber);
+    }
+
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(this, postable, sequenceHelper, explicitEntry);
+        customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        addPendingEntry(explicitEntry);
+        return true;
     }
 
 }

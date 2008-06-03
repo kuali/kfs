@@ -232,10 +232,6 @@
     	<property name="assetObjectCodeService" ref="assetObjectCodeService" />
     </bean>
     
-    <bean id="camsGeneralLedgerPendingEntryGenerationProcess" class="org.kuali.module.cams.service.impl.CamsGeneralLedgerPendingEntryGenerationProcessImpl">
-    	<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-    </bean>
-    
     <bean id="assetRetirementService" class="org.kuali.module.cams.service.impl.AssetRetirementServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="assetObjectCodeService" ref="assetObjectCodeService"></property>

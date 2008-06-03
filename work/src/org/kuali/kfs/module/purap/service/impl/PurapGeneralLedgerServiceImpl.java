@@ -42,7 +42,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
@@ -316,10 +315,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             preq.setGenerateEncumbranceEntries(true);
-            GeneralLedgerPendingEntryGenerationProcess glPostingHelper = preq.getGeneralLedgerPostingHelper();
             for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
                 AccountingLine accountingLine = (AccountingLine) iter.next();
-                glPostingHelper.generateGeneralLedgerPendingEntries(preq, accountingLine, sequenceHelper);
+                preq.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
                 sequenceHelper.increment(); // increment for the next line
             }
         }
@@ -337,10 +335,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
             }
 
-            GeneralLedgerPendingEntryGenerationProcess glPostingHelper = preq.getGeneralLedgerPostingHelper();
             for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
                 AccountingLine accountingLine = (AccountingLine) iter.next();
-                glPostingHelper.generateGeneralLedgerPendingEntries(preq, accountingLine, sequenceHelper);
+                preq.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
                 sequenceHelper.increment(); // increment for the next line
             }
 
@@ -389,11 +386,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 // the map so Debits on negatives = a credit
                 cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
 
-                GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cm.getGeneralLedgerPostingHelper();
                 for (Iterator iter = encumbrances.iterator(); iter.hasNext();) {
                     AccountingLine accountingLine = (AccountingLine) iter.next();
                     if (accountingLine.getAmount().compareTo(ZERO) != 0) {
-                        glPostingHelper.generateGeneralLedgerPendingEntries(cm, accountingLine, sequenceHelper);
+                        cm.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
                         sequenceHelper.increment(); // increment for the next line
                     }
                 }
@@ -414,10 +410,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
             }
 
-            GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cm.getGeneralLedgerPostingHelper();
             for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
                 AccountingLine accountingLine = (AccountingLine) iter.next();
-                glPostingHelper.generateGeneralLedgerPendingEntries(cm, accountingLine, sequenceHelper);
+                cm.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
                 sequenceHelper.increment(); // increment for the next line
             }
         }

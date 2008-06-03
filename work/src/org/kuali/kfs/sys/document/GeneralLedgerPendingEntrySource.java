@@ -22,7 +22,6 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 
 /**
  * A collection of methods needed by anything - document or otherwise - that plans to generate
@@ -63,30 +62,8 @@ public interface GeneralLedgerPendingEntrySource {
      * Returns a list of any GeneralLedgerPostables this helper has, to create GeneralLedgerPendingEntries
      * @return a list of GeneralLedgerPostables
      */
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables();
-    
-    /**
-     * This method can be overridden to set attributes on the explicit entry in a way specific to a particular document. By default
-     * the explicit entry is returned without modification.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param explicitEntry
-     */
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry);
-    
-    /**
-     * This method can be overridden to set attributes on the offset entry in a way specific to a particular document. By default
-     * the offset entry is not modified.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param explicitEntry
-     * @param offsetEntry
-     * @return whether the offset generation is successful
-     */
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry);
-    
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails();
+        
     /**
      * Adds an UNSAVED general ledger pending entry to the GeneralLedgerPendingEntrySource, which the GLPESource can do with as it pleases
      * @param entry the completed entry to give back to the helper to handle
@@ -94,18 +71,12 @@ public interface GeneralLedgerPendingEntrySource {
     public void addPendingEntry(GeneralLedgerPendingEntry entry);
     
     /**
-     * Returns an instance of the helper that GeneralLedgerPendingEntryGenerationProcess should use in creating the GLPE's 
-     * @return an implementation of GeneralLedgerPendingEntryGenerationProcess appropriate for this document
-     */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper();
-    
-    /**
      * A method to determine what the actual amount, based off of a GeneralLedgerPendingEntrySourceDetail, should be for the resultant GeneralLedgerPendingEntry
      * 
      * @param accountingLine
      * @return KualiDecimal The amount that will be used to populate the GLPE.
      */
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable);
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail);
     
     /**
      * 
@@ -113,4 +84,13 @@ public interface GeneralLedgerPendingEntrySource {
      * @return
      */
     public String getFinancialDocumentTypeCode();
+    
+    /**
+     * Perform business rules common to all transactional documents when generating general ledger pending entries.
+     * 
+     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+
 }

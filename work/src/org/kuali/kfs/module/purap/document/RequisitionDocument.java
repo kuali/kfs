@@ -25,12 +25,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -38,8 +38,8 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
@@ -85,8 +85,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String capitalAssetSystemTypeCode;
     
     private CapitalAssetSystemType capitalAssetSystemType;
-    
-    private final static String REQUESITION_GL_POSTING_HELPER_BEAN_ID = "kfsDoNothingGeneralLedgerPostingHelper";
     
     /**
      * Default constructor.
@@ -569,11 +567,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
     
     /**
-     * Returns an instance of org.kuali.module.purap.service.impl.RequistionGeneralLedgerPostingHelperImpl, which will not generate GL pending entries for this document 
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
+     * This is a "do nothing" version of the method - it just won't create GLPEs
+     * @see org.kuali.kfs.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(RequisitionDocument.REQUESITION_GL_POSTING_HELPER_BEAN_ID);
+    @Override
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
     }
 }

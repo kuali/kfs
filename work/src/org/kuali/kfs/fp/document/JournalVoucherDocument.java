@@ -23,12 +23,12 @@ import static org.kuali.kfs.KFSPropertyConstants.BALANCE_TYPE;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -40,7 +40,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
@@ -62,8 +61,6 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     private String balanceTypeCode; // balanceType key
     private BalanceTyp balanceType;
     private java.sql.Date reversalDate;
-    
-    private final static String JOURNAL_VOUCHER_GL_POSTING_HELPER_BEAN_ID = "journalVoucherGeneralLedgerPostingHelper";
 
     /**
      * Constructs a JournalVoucherDocument instance.
@@ -367,12 +364,24 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
+     * A Journal Voucher document doesn't generate an offset entry at all, so this method overrides to do nothing more than return
+     * true. This will be called by the parent's processGeneralLedgerPendingEntries method.
+     * 
+     * @param financialDocument The document the offset will be stored within.
+     * @param sequenceHelper The sequence object to be modified.
+     * @param accountingLineToCopy The accounting line the offset is generated for.
+     * @param explicitEntry The explicit entry the offset will be generated for.
+     * @param offsetEntry The offset entry to be processed.
+     * @return This method always returns true.
+     * 
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
+     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(JournalVoucherDocument.JOURNAL_VOUCHER_GL_POSTING_HELPER_BEAN_ID);
+    public boolean processOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        sequenceHelper.decrement(); // the parent already increments; assuming that all documents have offset entries
+        return true;
     }
     
     /**
@@ -380,7 +389,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.kfs.bo.AccountingLine)
      */
     @Override
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail accountingLine) {
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail accountingLine) {
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
         KualiDecimal returnKualiDecimal;
 

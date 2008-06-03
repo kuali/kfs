@@ -27,7 +27,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
@@ -129,7 +128,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cashControlDocument.getGeneralLedgerPostingHelper();
 
         // get accounts receivable document header to get processing chart of accounts and organization
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = cashControlDocument.getAccountsReceivableDocumentHeader();
@@ -169,7 +167,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cashControlDocument.getGeneralLedgerPostingHelper();
 
         // get the accounts receivable document header to get the processing chart of accounts code and organization
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = cashControlDocument.getAccountsReceivableDocumentHeader();
@@ -214,7 +211,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         boolean success = true;
 
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = cashControlDocument.getGeneralLedgerPostingHelper();
         AccountingLine accountingLine = null;
 
         // get accounts receivable document header to get processing chart of accounts and organization code

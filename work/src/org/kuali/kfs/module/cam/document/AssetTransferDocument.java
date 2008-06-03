@@ -18,8 +18,8 @@ package org.kuali.module.cams.document;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
@@ -38,8 +38,7 @@ import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
-import org.kuali.module.cams.CamsConstants;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.service.AssetService;
@@ -213,22 +212,20 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount();
     }
 
     public List<AssetGlpeSourceDetail> getSourceAssetGlpeSourceDetails() {
         return this.sourceAssetGlpeSourceDetails;
     }
-
-
-    /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
-     */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        LOG.debug("getGeneralLedgerPostingHelper() " + CamsConstants.CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(CamsConstants.CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+    
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(this, postable, sequenceHelper, explicitEntry);
+        customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        addPendingEntry(explicitEntry);
+        return true;
     }
 
     /**
@@ -778,7 +775,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         generalLedgerPostables.addAll(this.sourceAssetGlpeSourceDetails);
         generalLedgerPostables.addAll(this.targetAssetGlpeSourceDetails);

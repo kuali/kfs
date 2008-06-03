@@ -9,17 +9,19 @@ import java.util.Map;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
-import org.kuali.module.ar.ArConstants;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
+import org.kuali.module.ar.bo.ReceivableCustomerInvoiceDetail;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.chart.bo.Account;
@@ -915,14 +917,102 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
     
     /**
-     * Returns an instance of org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl;
-     *  
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
+     * This method creates the following GLPE's for the invoice
+     * 
+     * 1. Debit to receivable for total line amount ( including sales tax if it exists ).
+     * 2. Credit to income based on item price * quantity.
+     * 3. Credit to state sales tax account/object code if state sales tax exists.
+     * 4. Credit to district sales tax account/object code if district sales tax exists. 
+     * 
+     * @see org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl#processGenerateGeneralLedgerPendingEntries(org.kuali.kfs.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(ArConstants.CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID);
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        
+        // 1. Debit to receivable
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        processReceivableDebitGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+        
+        // 2. Credit to the income
+        explicitEntry = new GeneralLedgerPendingEntry();
+        processIncomeCreditGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
+        
+        // increment the sequence counter
+        //sequenceHelper.increment();
+
+        // 3. If State Sales Tax exists, credit to sales tax account       
+        // TODO Sales Tax Service should create the state sales tax GLPEs
+        /*
+        // increment the sequence counter
+        sequenceHelper.increment();
+        */
+        
+        // 4. If District Sales Tax exists, credit to sales tax account
+        // TODO District Tax Service should create the state sales tax GLPEs
+
+        return true;
+    }
+    
+    
+    /**
+     * This method creates the receivable GLPE for each invoice detail line.
+     * 
+     * @param poster
+     * @param sequenceHelper
+     * @param postable
+     * @param explicitEntry
+     */
+    protected void processReceivableDebitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry) {
+
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;
+        
+        ReceivableCustomerInvoiceDetail receivable = new ReceivableCustomerInvoiceDetail( customerInvoiceDetail, this);
+        
+        //receivable line is debit if (normal invoice AND not a discount line) OR (reversal AND a discount line)
+        boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) 
+                            || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());
+        receivable.setDebit(isDebit);
+        
+        processExplicitGeneralLedgerPendingEntry(sequenceHelper, receivable, explicitEntry);
+    }
+    
+    /**
+     * This method adds pending entry with transaction ledger entry amount set to item price * quantity
+     * 
+     * @param poster
+     * @param sequenceHelper
+     * @param postable
+     * @param explicitEntry
+     */
+    protected void processIncomeCreditGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry) {
+
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;
+
+        //income line is debit if (normal invoice AND is a discount line) OR (reversal AND not a discount line)
+        boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) 
+        || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
+        customerInvoiceDetail.setDebit(isDebit);        
+        
+        // populate the explicit entry
+        getGeneralLedgerPendingEntryService().populateExplicitGeneralLedgerPendingEntry(this, glpeSourceDetail, sequenceHelper, explicitEntry);
+        
+        //modify amount (since income should exclude state and district tax amounts);
+        KualiDecimal subTotalAmount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
+        explicitEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForDetail(customerInvoiceDetail));
+        
+        //add pending entry
+        addPendingEntry(explicitEntry);
+    }
+    
+    /**
+     * Returns an implementation of the GeneralLedgerPendingEntryService
+     * @return an implementation of the GeneralLedgerPendingEntryService
+     */
+    public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
 
     /**

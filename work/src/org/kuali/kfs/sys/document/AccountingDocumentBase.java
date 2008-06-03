@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -43,7 +44,6 @@ import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.service.AccountingLineService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -298,7 +298,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         return this.getTargetAccountingLineClass().getName();
     }
     
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         List<GeneralLedgerPendingEntrySourceDetail> accountingLines = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         if (getSourceAccountingLines() != null) {
             Iterator iter = getSourceAccountingLines().iterator();
@@ -566,6 +566,90 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
         return lineMap;
     }
+    
+    /**
+     * Perform business rules common to all transactional documents when generating general ledger pending entries.
+     * 
+     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - start");
+
+        // handle the explicit entry
+        // create a reference to the explicitEntry to be populated, so we can pass to the offset method later
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
+        processExplicitGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        boolean success = processOffsetGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry, offsetEntry);
+
+        LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - end");
+        return success;
+    }
+    
+    /**
+     * This method processes all necessary information to build an explicit general ledger entry, and then adds that to the
+     * document.
+     * 
+     * @param accountingDocument
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param explicitEntry
+     * @return boolean True if the explicit entry generation was successful, false otherwise.
+     */
+    protected void processExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry) {
+        LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - start");
+
+        // populate the explicit entry
+        SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(this, glpeSourceDetail, sequenceHelper, explicitEntry);
+
+        // hook for children documents to implement document specific GLPE field mappings
+        customizeExplicitGeneralLedgerPendingEntry(glpeSourceDetail, explicitEntry);
+        
+        addPendingEntry(explicitEntry);
+
+        LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - end");
+    }
+
+    /**
+     * This method processes an accounting line's information to build an offset entry, and then adds that to the document.
+     * 
+     * @param accountingDocument
+     * @param sequenceHelper
+     * @param accountingLine
+     * @param explicitEntry
+     * @param offsetEntry
+     * @return boolean True if the offset generation is successful.
+     */
+    protected boolean processOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        LOG.debug("processOffsetGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - start");
+
+        // populate the offset entry
+        boolean success = SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+
+        // hook for children documents to implement document specific field mappings for the GLPE
+        success &= customizeOffsetGeneralLedgerPendingEntry(postable, explicitEntry, offsetEntry);
+        
+        addPendingEntry(offsetEntry);
+
+        LOG.debug("processOffsetGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - end");
+        return success;
+    }
+    
+    /**
+     * Returns one of the two given String's; if the preferred String is not null and has a length > 0, then it is returned, otherwise the second String is returned
+     * @param preferredString the String you're hoping isn't blank so you can get it back
+     * @param secondaryString the "rebound" String, which you'll end up with if the preferred String is blank
+     * @return one of the String's
+     */
+    private String getEntryValue(String preferredString, String secondaryString) {
+        return (StringUtils.isNotBlank(preferredString) ? preferredString : secondaryString);
+    }
 
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
@@ -580,15 +664,6 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) { 
         return true; 
     }
-
-    /**
-     * Returns an instance of org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl; this will suffice for most accounting documents 
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
-     */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(AccountingDocumentBase.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
-    }
     
     /**
      * GLPE amounts are ALWAYS positive, so just take the absolute value of the accounting line's amount.
@@ -596,7 +671,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @param accountingLine
      * @return KualiDecimal The amount that will be used to populate the GLPE.
      */
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
 
         KualiDecimal returnKualiDecimal = postable.getAmount().abs();

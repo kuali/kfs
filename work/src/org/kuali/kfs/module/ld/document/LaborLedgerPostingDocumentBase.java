@@ -17,15 +17,14 @@ package org.kuali.module.labor.document;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
@@ -123,13 +122,12 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     }
 
     /**
-     * Returns the Labor Ledger's GeneralLedgerPendingEntryGenerationProcess implementation, which supresses GLPE generation entirely
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
+     * This is a "do nothing" version of the method - it just won't create GLPEs
+     * @see org.kuali.kfs.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(LaborLedgerPostingDocumentBase.LABOR_LEDGER_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
     }
 
     /**

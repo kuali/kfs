@@ -78,7 +78,7 @@ public class TransferOfFundsFundGroupsBalancedValidation extends GenericValidati
 
             ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, fundGroupCode);
             if (evaluator.evaluationSucceeds()) {
-                KualiDecimal glpeLineAmount = tranDoc.getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(line);
+                KualiDecimal glpeLineAmount = tranDoc.getGeneralLedgerPendingEntryAmountForDetail(line);
                 if (line.isSourceAccountingLine()) {
                     sourceLinesTotal = sourceLinesTotal.add(glpeLineAmount);
                 }

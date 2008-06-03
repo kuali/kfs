@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -38,12 +37,10 @@ import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.CashieringTransaction;
@@ -407,7 +404,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * Returns an empty list as this document has no GeneralLedgerPostables
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#getGeneralLedgerPostables()
      */
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
 
@@ -519,20 +516,19 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }
 
-
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
+     * The Cash Management doc doesn't have accounting lines, so it doesn't create general ledger pending entries for the accounting lines it doesn't have
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(CashManagementDocument.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
     }
 
 
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
 

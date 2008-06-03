@@ -20,6 +20,7 @@ import java.sql.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
@@ -173,7 +174,11 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
         setAccountingPeriod(retrieveCurrentAccountingPeriod());
     }
     
+    /**
+     * Returns the financial document type code for the given document, using the DocumentTypeService
+     * @return the financial document type code for the given document
+     */
     public String getFinancialDocumentTypeCode() {
-        return null;
+        return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(this.getClass());
     }
 }

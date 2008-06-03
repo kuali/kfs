@@ -3,7 +3,6 @@ package org.kuali.module.ar.document;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
@@ -22,7 +21,6 @@ import org.kuali.kfs.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
@@ -410,23 +408,24 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
 
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
+    
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
+     * The Cash Control document doesn't generate general ledger pending entries based off of the accounting lines on the document
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(CashControlDocument.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
     }
 
     /**

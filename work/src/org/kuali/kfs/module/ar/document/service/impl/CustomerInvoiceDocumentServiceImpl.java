@@ -18,19 +18,27 @@ package org.kuali.module.ar.service.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.bo.OrganizationOptions;
+import org.kuali.module.ar.dao.CustomerInvoiceDocumentDao;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerAddressService;
@@ -39,6 +47,8 @@ import org.kuali.module.ar.service.ReceivableAccountingLineService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
 
     private BusinessObjectService businessObjectService;
@@ -46,7 +56,76 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private ReceivableAccountingLineService receivableAccountingLineService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CustomerAddressService customerAddressService;
+    private CustomerInvoiceDocumentDao customerInvoiceDocumentDao;
+    private DocumentService documentService;
+    private DocumentDao documentDao;
 
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoicesByCustomerNumber(java.lang.String)
+     */
+    public Collection<CustomerInvoiceDocument> getInvoicesByCustomerNumber(String customerNumber) {
+        
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("customerNumber", customerNumber);
+        
+        Collection<AccountsReceivableDocumentHeader> documentHeaders = 
+            businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
+        
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for(AccountsReceivableDocumentHeader header : documentHeaders) {
+            String documentNumber = null;
+            try {
+                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
+                documentNumber = header.getDocumentHeader().getDocumentNumber();
+                documentHeaderIds.add(documentNumber);
+            } catch(NumberFormatException nfe) {
+            }
+        }
+        
+//        try {
+        invoices = documentDao.findByDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+
+            // invoices = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+//        } catch(WorkflowException we) {
+//            throw new InfrastructureException("Unable to retrieve CustomerInvoiceDocuments", we);
+//        }
+        
+        return invoices;
+    }
+    
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerByOrganizationInvoiceNumber(java.lang.String)
+     */
+    public Customer getCustomerByOrganizationInvoiceNumber(String organizationInvoiceNumber) {
+        CustomerInvoiceDocument invoice = getInvoiceByOrganizationInvoiceNumber(organizationInvoiceNumber);
+        return invoice.getAccountsReceivableDocumentHeader().getCustomer();
+    }
+    
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
+     */
+    public CustomerInvoiceDocument getInvoiceByOrganizationInvoiceNumber(String organizationInvoiceNumber) {
+        return customerInvoiceDocumentDao.getInvoiceByOrganizationInvoiceNumber(organizationInvoiceNumber);
+    }
+
+    /**
+     * @param invoiceDocumentNumber
+     * @return
+     */
+    public Customer getCustomerByInvoiceDocumentNumber(String invoiceDocumentNumber) {
+        CustomerInvoiceDocument invoice = getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+        return invoice.getAccountsReceivableDocumentHeader().getCustomer();
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoiceByInvoiceDocumentNumber(java.lang.String)
+     */
+    public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber) {
+        return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+    }
+    
     /**
      * Refactor to have all the setters in here.
      * 
@@ -145,7 +224,23 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return sqlDueDate;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
+    public CustomerInvoiceDocumentDao getCustomerInvoiceDocumentDao() {
+        return customerInvoiceDocumentDao;
+    }
+
+    public void setCustomerInvoiceDocumentDao(CustomerInvoiceDocumentDao customerInvoiceDocumentDao) {
+        this.customerInvoiceDocumentDao = customerInvoiceDocumentDao;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+    
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+        public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
@@ -184,4 +279,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setCustomerAddressService(CustomerAddressService customerAddressService) {
         this.customerAddressService = customerAddressService;
     }
+
+    public void setDocumentDao(DocumentDao documentDao) {
+        this.documentDao = documentDao;
+    }
+    
 }

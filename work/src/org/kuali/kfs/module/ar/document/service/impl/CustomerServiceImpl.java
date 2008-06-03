@@ -15,10 +15,14 @@
  */
 package org.kuali.module.ar.service.impl;
 
+import java.util.Collection;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.SequenceAccessorService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.dao.CustomerDao;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.CustomerService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +32,14 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
     private SequenceAccessorService sequenceAccessorService;
     private BusinessObjectService businessObjectService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
-
+    
     /**
      * @see org.kuali.module.ar.service.CustomerService#getByPrimaryKey(java.lang.String)
      */
     public Customer getByPrimaryKey(String customerNumber) {
-        return customerDao.getByPrimaryId(customerNumber);
+       return customerDao.getByPrimaryId(customerNumber);
     }
 
     public CustomerDao getCustomerDao() {
@@ -79,14 +84,34 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public Customer getCustomerByName(String customerName) {
         return customerDao.getByName(customerName);
-    }
-
+	}
+	
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+
+    public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(Customer customer) {
+        Collection<CustomerInvoiceDocument> invoices = null;
+        if(null != customer) {
+            invoices = getInvoicesForCustomer(customer.getCustomerNumber());
+        }
+        return invoices;
+    }
+
+    public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber) {
+        return customerInvoiceDocumentService.getInvoicesByCustomerNumber(customerNumber);
     }
 
 }

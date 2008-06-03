@@ -15,8 +15,9 @@
  */
 package org.kuali.module.ar.service;
 
-import java.util.List;
+import java.util.Collection;
 
+import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerInvoiceDocumentService {
@@ -39,4 +40,35 @@ public interface CustomerInvoiceDocumentService {
      * If the customer number and address identifiers are present, display customer information
      */
     public void loadCustomerAddressesForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
+
+    /**
+     * @param customerNumber
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getInvoicesByCustomerNumber(String customerNumber);
+    
+    /**
+     * @param invoiceNumber
+     * @return
+     */
+    public Customer getCustomerByOrganizationInvoiceNumber(String invoiceNumber);
+    
+    /**
+     * @param organizationInvoiceNumber
+     * @return
+     */
+    public CustomerInvoiceDocument getInvoiceByOrganizationInvoiceNumber(String organizationInvoiceNumber);
+
+    /**
+     * @param documentNumber
+     * @return
+     */
+    public Customer getCustomerByInvoiceDocumentNumber(String documentNumber);
+    
+    /**
+     * @param invoiceDocumentNumber
+     * @return
+     */
+    public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber);
+    
 }

@@ -72,6 +72,7 @@
 	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerAddressDaoOjb" />
 	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.SystemInformationDaoOjb" />
 	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.LockboxDaoOjb" />
+	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerInvoiceDocumentDaoOjb" />
 	
 	<!--  AR Services  -->
 	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
@@ -125,9 +126,21 @@
 	    <property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
 		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>				
 	</bean>
 	
     <bean id="customerInvoiceDocumentService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentServiceImpl">
+		<property name="documentDao">
+			<ref bean="documentDao" />
+		</property>
+		<property name="customerInvoiceDocumentDao">
+			<ref bean="customerInvoiceDocumentDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>				
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -212,7 +225,6 @@
 			</list>
 		</property>
 	</bean>
-		
 	
 	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.ar.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
@@ -224,7 +236,6 @@
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
-	
 	
 	<!-- Workflow Lookupables -->
 	

@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.InvoicePaidApplied;
 import org.kuali.module.ar.bo.NonAppliedDistribution;
 import org.kuali.module.ar.bo.NonAppliedHolding;
@@ -33,6 +34,7 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private Collection<NonAppliedHolding> nonAppliedHoldings;
+    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     
     public PaymentApplicationDocument() {
         super();
@@ -91,6 +93,14 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
 
     public void setNonAppliedHoldings(Collection<NonAppliedHolding> nonAppliedHoldings) {
         this.nonAppliedHoldings = nonAppliedHoldings;
+    }
+
+    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
+        return accountsReceivableDocumentHeader;
+    }
+
+    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
+        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
     }
     
 }

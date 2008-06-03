@@ -180,9 +180,6 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.accountNumber}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.subAccountNumber}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialObjectCode}" hideRequiredAsterisk="${ !(empty forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name])}" rowspan="2"/>
-    <c:if test="${includeObjectTypeCode}">
-        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.objectTypeCode}" rowspan="2" forceRequired="true" />
-    </c:if>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}" rowspan="2"/>
@@ -287,7 +284,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         creditCellProperty="voucherLineHelper[${ctr}].credit"
         currentCellProperty="document.${sourceOrTarget}AccountingLine[${ctr}].currentBudgetAdjustmentAmount"
         baseCellProperty="document.${sourceOrTarget}AccountingLine[${ctr}].baseBudgetAdjustmentAmount"
-        includeObjectTypeCode="${includeObjectTypeCode}"
+        includeObjectTypeCode="false"
         displayHidden="${displayHidden}"
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         accountingLineValuesMap="${currentLine.valuesMap}"

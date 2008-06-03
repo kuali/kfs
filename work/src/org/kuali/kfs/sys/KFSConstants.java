@@ -1082,9 +1082,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CASH_CONTROL_DETAILS_ERRORS = "newCashControl*,document.cashControlDetail*";
     
     // Customer Credit Memo Document
-    public static final String CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS = "document.customerCreditMemoDetail.creditMemoItemQuantity,document.customerCreditMemoDetail.creditMemoItemTotalAmount";
+    public static final String CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS = "document.customerCreditMemoDetail.creditMemoItemQuantity,document.customerCreditMemoDetail.creditMemoItemTotalAmount"; 
     public static final String CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME = "creditMemoDetails";
-    
     
     public static final class ReportGeneration{
         public final static String PARAMETER_NAME_SUBREPORT_DIR = "SUBREPORT_DIR";
@@ -1100,4 +1099,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public final static KualiInteger ONE_HUNDRED = new KualiInteger(100);
+    
+    // effort certification period status codes
+    public static final class PeriodStatusCodes {
+        public static final String CLOSED = "C";
+        public static final String NOT_OPEN = "N";
+        public static final String OPEN = "O";
+    }
 }
+

@@ -16,7 +16,6 @@
 package org.kuali.module.chart.dao.ojb;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.StringBuilder;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,7 +28,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
@@ -62,11 +60,9 @@ import org.kuali.module.chart.dao.FiscalYearMakersCopyAction;
 import org.kuali.module.chart.dao.FiscalYearMakersDao;
 import org.kuali.module.chart.dao.FiscalYearMakersFieldChangeAction;
 import org.kuali.module.chart.dao.FiscalYearMakersFilterAction;
-import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
-import org.kuali.module.financial.bo.TravelPerDiem;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.labor.bo.BenefitsCalculation;
@@ -277,7 +273,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                     candidateRow.setEffortCertificationReportEndFiscalYear(candidateRow.getEffortCertificationReportEndFiscalYear()+1);
                     // we set all reporting period status codes to "not yet opened--updates allowed" before the
                     // start of the coming year
-                    candidateRow.setEffortCertificationReportPeriodStatusCode(EffortConstants.PeriodStatusCodes.NOT_OPEN);
+                    candidateRow.setEffortCertificationReportPeriodStatusCode(KFSConstants.PeriodStatusCodes.NOT_OPEN);
                 }
             };
 

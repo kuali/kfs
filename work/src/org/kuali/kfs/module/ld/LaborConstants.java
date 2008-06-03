@@ -127,6 +127,9 @@ public class LaborConstants {
         public static final String BENEFIT_CLEARING_CHART_PARM_NM = "BENEFIT_CLEARING_CHART_OF_ACCOUNTS";
         public static final String LABOR_LEDGER_SALARY_CODE = "S";
         public static final String SET_ADMIN_WORKGROUP_PARM_NM = "SALARY_EXPENSE_TRANSFER_ADMINISTRATORS_GROUP";
+        public static final String EFFORT_VALIDATION_OVERRIDE_QUESTION = "EffortValidationOverrideQuestion";
+        public static final String VALIDATE_AGAINST_EFFORT_PARM_NM = "VALIDATE_AGAINST_EFFORT_CERTIFICATION_IND";
+        public static final String EFFORT_ADMIN_WORKGROUP_PARM_NM = "EFFORT_CERTIFICATION_ADMIN_GROUP";
     }
 
     public static class Scrubber {

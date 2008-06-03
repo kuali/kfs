@@ -45,15 +45,6 @@ public class EffortConstants extends JSTLConstants {
     }
 
     /**
-     * Constants for the fixed period status code values.
-     */
-    public class PeriodStatusCodes {
-        public static final String CLOSED = "C";
-        public static final String NOT_OPEN = "N";
-        public static final String OPEN = "O";
-    }
-
-    /**
      * hold all system parameter names of effort reporting module
      */
     public class SystemParameters {

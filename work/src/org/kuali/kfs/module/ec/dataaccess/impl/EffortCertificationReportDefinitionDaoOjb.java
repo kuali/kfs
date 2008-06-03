@@ -27,6 +27,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
+import org.kuali.module.integration.bo.EffortCertificationReport;
 
 /**
  * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao
@@ -71,4 +72,19 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
         return overlappingReportDefinitions;
     }
 
+    /**
+     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getAllByYearAndPositionCode(java.lang.Integer, java.lang.String)
+     */
+    public List<EffortCertificationReport> getAllByYearAndPositionCode(Integer fiscalYear, String positionObjectCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR, fiscalYear);
+        
+        Criteria criteria2 = new Criteria();
+        criteria2.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, fiscalYear);
+        criteria.addOrCriteria(criteria2);
+        
+        criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_POSITIONS + "." + EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_POSITION_OBJECT_GROUP_CODE, positionObjectCode);
+        
+        return (List<EffortCertificationReport>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, criteria));
+    }
 }

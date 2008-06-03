@@ -55,4 +55,10 @@ public class LaborKeyConstants {
     public static final String MESSAGE_FRINGES_MOVED_TO = "message.labor.fringesMovedTo";
     public static final String MISSING_EMPLOYEE_ID = "error.labor.missingEmployeeIdError";
     public static final String PENDING_SALARY_TRANSFER_ERROR = "error.labor.alreadyPendingSalaryTransferError";
+    public static final String EFFORT_VALIDATION_OVERRIDE_MESSAGE = "message.labor.effortValidationOverride";
+    public static final String EFFORT_AUTO_DISAPPROVE_MESSAGE = "message.labor.effortAutoDisapprove";
+    public static final String ERROR_EFFORT_CLOSED_REPORT_PERIOD = "error.labor.effortReportPeriodClosed";
+    public static final String ERROR_EFFORT_OPEN_PERIOD_COST_SHARE = "error.labor.effortOpenPeriodCostShare";
+    public static final String ERROR_EFFORT_OPEN_PERIOD_CG_ACCOUNT = "error.labor.effortOpernPeriodCGAccount";
+    public static final String ERROR_EFFORT_OPEN_PERIOD_ACCOUNTS_NOT_BALANCED = "error.labor.effortOpenPeriodAccountNonBalanced";
 }

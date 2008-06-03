@@ -166,7 +166,7 @@
 					currentBaseAmount="${currentBaseAmountString}"
 					extraHiddenFields="${extraHiddenFieldsMap}"
 					useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-					includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
+					includeObjectTypeCode="false"
 					displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
 					forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
 					accountingLineAttributes="${accountingLineAttributesMap}">
@@ -207,7 +207,7 @@
 					currentBaseAmount="${currentBaseAmountString}"
 					extraHiddenFields="${extraHiddenFieldsMap}"
 					useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-					includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
+					includeObjectTypeCode="false"
 					displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
 					forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
 					accountingLineAttributes="${accountingLineAttributesMap}">

@@ -934,7 +934,28 @@
 		<property name="laborDao">
 			<ref bean="laborDao" />
 		</property>		
-	</bean>    	
+	</bean>   
+	
+	<bean id="salaryTransferPeriodValidationService" class="org.kuali.module.labor.service.impl.SalaryTransferPeriodValidationServiceImpl">
+		<property name="effortCertificationService">
+			<ref bean="effortCertificationService" />
+		</property>	
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>	
+		<property name="noteService">
+			<ref bean="noteService" />
+		</property>	
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>	
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>	
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>											
+	</bean>	
 		
 	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">

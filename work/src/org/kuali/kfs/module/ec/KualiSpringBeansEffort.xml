@@ -195,6 +195,18 @@
 		</property>
 	</bean>	
 		
+	<bean id="effortCertificationService" class="org.kuali.module.effort.service.impl.EffortCertificationServiceImpl">
+		<property name="effortCertificationReportDefinitionService">
+			<ref bean="effortCertificationReportDefinitionService" />
+		</property>	
+		<property name="effortCertificationReportDefinitionDao">
+			<ref bean="effortCertificationReportDefinitionDao" />
+		</property>	
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>					
+	</bean>
+	 	
 	<!-- DAO declarations -->		
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
 	

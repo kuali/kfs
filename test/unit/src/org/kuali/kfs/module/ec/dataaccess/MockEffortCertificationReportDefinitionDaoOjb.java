@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
+import org.kuali.module.integration.bo.EffortCertificationReport;
 
 /**
  * Mock dao class to be used for unit tests that do not test database operations
@@ -57,6 +58,10 @@ public class MockEffortCertificationReportDefinitionDaoOjb implements EffortCert
      */
     public void setReportDefinitionList(List<EffortCertificationReportDefinition> reportDefinitions) {
         this.reportDefinitions = reportDefinitions;
+    }
+
+    public List<EffortCertificationReport> getAllByYearAndPositionCode(Integer fiscalYear, String positionObjectCode) {
+        return null;
     }
 
 }

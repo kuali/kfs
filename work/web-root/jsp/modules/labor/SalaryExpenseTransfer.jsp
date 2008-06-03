@@ -138,7 +138,7 @@
             currentBaseAmount="${currentBaseAmountString}"
             extraHiddenFields="${extraHiddenFieldsMap}"
             useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-            includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
+            includeObjectTypeCode="false"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
             forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
             accountingLineAttributes="${accountingLineAttributesMap}">
@@ -174,7 +174,7 @@
             forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
             extraHiddenFields="${extraHiddenFieldsMap}"
             useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-            includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
+            includeObjectTypeCode="false"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">

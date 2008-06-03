@@ -44,6 +44,7 @@ public class EffortPropertyConstants {
     public static final String EFFORT_CERTIFICATION_REPORT_TYPE = "effortCertificationReportType";   
     public static final String EFFORT_CERTIFICATION_REPORT_TYPE_CODE = "effortCertificationReportTypeCode";
     public static final String EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT = "effortCertificationUpdatedOverallPercent";
+    public static final String EFFORT_CERTIFICATION_REPORT_POSITION_OBJECT_GROUP_CODE = "effortCertificationReportPositionObjectGroupCode";
 
     public static final String EXPENSE_TRANSFER_FISCAL_PERIOD = "expenseTransferFiscalPeriod";
     public static final String EXPENSE_TRANSFER_FISCAL_PERIOD_CODE = "expenseTransferFiscalPeriodCode";

@@ -237,7 +237,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        isValid = StringUtils.equals(EffortConstants.PeriodStatusCodes.OPEN, reportDefinition.getEffortCertificationReportPeriodStatusCode());
+        isValid = StringUtils.equals(KFSConstants.PeriodStatusCodes.OPEN, reportDefinition.getEffortCertificationReportPeriodStatusCode());
         if (!isValid) {
             reportError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_REPORT_DEFINITION_PERIOD_NOT_OPENED);
             return false;

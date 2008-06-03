@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
+import org.kuali.module.integration.bo.EffortCertificationReport;
 
 /**
  * Define the services that are related to EffortCertificationReportDefinition
@@ -83,7 +84,7 @@ public interface EffortCertificationReportDefinitionService {
      * @param reportDefinition the given report definition
      * @return true if the given report definition has been used for the employee; otherwise, false
      */
-    public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReportDefinition reportDefinition);
+    public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReport reportDefinition);
 
     /**
      * determine whether there is any pending/temporary effort certification waiting for the given report definition

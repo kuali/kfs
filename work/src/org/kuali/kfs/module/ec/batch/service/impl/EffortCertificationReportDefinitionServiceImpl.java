@@ -39,6 +39,7 @@ import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
+import org.kuali.module.integration.bo.EffortCertificationReport;
 
 /**
  * Provide the implementation of the service methods related to EffortCertificationReportDefinition
@@ -191,7 +192,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#hasBeenUsedForEffortCertificationGeneration(java.lang.String, org.kuali.module.effort.bo.EffortCertificationReportDefinition)
      */
-    public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReportDefinition reportDefinition) {
+    public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReport reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
         fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, reportDefinition.getEffortCertificationReportNumber());

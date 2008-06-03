@@ -30,11 +30,12 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.util.AccountingPeriodMonth;
+import org.kuali.module.integration.bo.EffortCertificationReport;
 
 /**
  * Business Object for the Effort Certification Report Definition Table.
  */
-public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase {
+public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase implements EffortCertificationReport {
 
     private Integer universityFiscalYear;
     private String effortCertificationReportNumber;

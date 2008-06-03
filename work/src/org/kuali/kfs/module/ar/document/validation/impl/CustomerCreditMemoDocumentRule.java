@@ -16,6 +16,7 @@
 package org.kuali.module.ar.rules;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -31,12 +32,13 @@ import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule;
+import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 
 /**
  * This class holds the business rules for the AR Credit Memo Document
  */
-public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<AccountingDocument>{
+public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<AccountingDocument>, RecalculateCustomerCreditMemoDocumentRule<AccountingDocument>{
   
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
@@ -72,8 +74,8 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
     }
     
     /**
-     * @see org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule#processRecalculateCustomerInvoiceDetailRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule#processRecalculateCustomerCreditMemoDetailRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.module.ar.bo.CustomerCreditMemoDetail)
      */
     public boolean processRecalculateCustomerCreditMemoDetailRules(AccountingDocument financialDocument, CustomerCreditMemoDetail customerCreditMemoDetail) {
         boolean success = true;
@@ -92,7 +94,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemTotalAmount());
             success &= isCustomerCreditMemoItemAmountGreaterThanInvoiceOpenItemAmount(customerCreditMemoDetail,customerCreditMemoDocument);
         }
-//      if there is no input or if both 'Qty' and 'Item Amount' were entered -> wrong input
+        // if there is no input or if both 'Qty' and 'Item Amount' were entered -> wrong input
         else
             success = false;
         
@@ -169,6 +171,29 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         KualiDecimal invoiceOpenItemQuantity = invoiceOpenItemAmount.divide(invoiceItemUnitPrice);
         
         return invoiceOpenItemQuantity;
+    }
+    
+    /**
+     * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
+     */
+    public boolean processRecalculateCustomerCreditMemoDocumentRules(AccountingDocument financialDocument) {
+        boolean success = true;
+        boolean crmDataEnteredFlag = false;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
+        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+        
+        for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
+            // validate only if there is input data
+            if (!isQtyOrItemAmountEntered(customerCreditMemoDetail).equals(StringUtils.EMPTY)) {
+                crmDataEnteredFlag = true;
+                success &= processRecalculateCustomerCreditMemoDetailRules(customerCreditMemoDocument,customerCreditMemoDetail);
+            }
+        }
+        // if (crmDataEnteredFlag == false ) => no CRM data was entered => success = false -> no recalculation will take place
+        // if error message is to be displayed, it should be done here...
+        success &= crmDataEnteredFlag;
+        
+        return success;
     }
     
 }

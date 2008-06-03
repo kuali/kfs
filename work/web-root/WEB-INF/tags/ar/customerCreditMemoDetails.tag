@@ -75,7 +75,7 @@
 				</td>
 				<td />
 				<td><div align="center" valign="middle" >
-					<html:image property=""
+					<html:image property="methodToCall.recalculateCustomerCreditMemoDocument"
 	    						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 	    						title="Recalculate Credit Memo Line Amounts"
 	    						alt="Recalculate Credit Memo Line Amounts"

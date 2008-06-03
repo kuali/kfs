@@ -35,7 +35,9 @@ import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDetailEvent;
+import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDocumentEvent;
 import org.kuali.module.ar.service.CustomerCreditMemoDetailService;
+import org.kuali.module.ar.service.CustomerCreditMemoDocumentService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
 
@@ -144,8 +146,7 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME + "[" + indexOfLineToRecalculate + "]";
 
-        boolean rulePassed = true;
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDetailEvent(errorPath, customerCreditMemoDocumentForm.getDocument(), customerCreditMemoDetail));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDetailEvent(errorPath, customerCreditMemoDocument, customerCreditMemoDetail));
         if (rulePassed) {
             CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
             customerCreditMemoDetailService.recalculateCustomerCreditMemoDetail(customerCreditMemoDetail,customerCreditMemoDocument);
@@ -209,6 +210,31 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         customerCreditMemoDocument.setCrmTotalTaxAmount(KualiDecimal.ZERO);
         customerCreditMemoDocument.setCrmTotalAmount(KualiDecimal.ZERO);
         
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Based on user input this method recalculates customer credit memo document <=> all customer credit memo details
+     * 
+     * @param mapping action mapping
+     * @param form action form
+     * @param request
+     * @param response
+     * @return action forward
+     * @throws Exception
+     */
+    public ActionForward recalculateCustomerCreditMemoDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocumentForm.getDocument();
+
+        // TODO!!!
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDocumentEvent(errorPath,customerCreditMemoDocument));
+        if (rulePassed) {
+            CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

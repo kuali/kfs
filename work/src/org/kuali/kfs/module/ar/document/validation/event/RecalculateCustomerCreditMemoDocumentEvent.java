@@ -17,21 +17,22 @@ package org.kuali.module.ar.rule.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
-import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule;
+import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
 
-public class RecalculateCustomerCreditMemoDetailEvent extends CustomerCreditMemoDetailEventBase {
+public class RecalculateCustomerCreditMemoDocumentEvent extends KualiDocumentEventBase {
 
-    public RecalculateCustomerCreditMemoDetailEvent(String errorPathPrefix, Document document, CustomerCreditMemoDetail customerCreditMemoDetail) {
-        super("Recalculating customer credit memo detail for document " + getDocumentId(document), errorPathPrefix, document, customerCreditMemoDetail);
-    }
+    public RecalculateCustomerCreditMemoDocumentEvent(String errorPathPrefix, Document document) {
+        super("Recalculating customer credit memo document " + getDocumentId(document), errorPathPrefix,document);
+    }    
     
     public Class getRuleInterfaceClass() {
-        return RecalculateCustomerCreditMemoDetailRule.class;
+        return RecalculateCustomerCreditMemoDocumentRule.class;
     }
-    
+
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((RecalculateCustomerCreditMemoDetailRule) rule).processRecalculateCustomerCreditMemoDetailRules((AccountingDocument)getDocument(), getCustomerCreditMemoDetail());
+        return ((RecalculateCustomerCreditMemoDocumentRule) rule).processRecalculateCustomerCreditMemoDocumentRules((AccountingDocument)getDocument());
     }
+
 }

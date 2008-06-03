@@ -325,14 +325,7 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount))
             prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
 
-        // update 'totals' with the recalculated credit memo line amounts
-        if (ObjectUtils.isNotNull(creditMemoItemTotalAmount)) {
-            KualiDecimal taxRate = getTaxRate();
-            
-            crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemTotalAmount);
-            crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoItemTotalAmount.multiply(taxRate));
-            crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
-        }
+        recalculateTotals(creditMemoItemTotalAmount);
         
         // update duplicate credit memo item amount with 'new' value
         customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemTotalAmount);   
@@ -355,6 +348,20 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         crmTotalItemAmount = crmTotalItemAmount.subtract(oldItemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.subtract(oldItemTaxAmount);
         crmTotalAmount = crmTotalAmount.subtract(oldItemAmount.add(oldItemTaxAmount));
+    }
+    
+    public void resetTotals(){
+        crmTotalItemAmount = KualiDecimal.ZERO;
+        crmTotalTaxAmount = KualiDecimal.ZERO;
+        crmTotalAmount = KualiDecimal.ZERO;
+    }
+    
+    public void recalculateTotals(KualiDecimal itemAmount) {
+        KualiDecimal taxRate = getTaxRate();
+        
+        crmTotalItemAmount = crmTotalItemAmount.add(itemAmount);
+        crmTotalTaxAmount = crmTotalTaxAmount.add(itemAmount.multiply(taxRate));
+        crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
     }
 
 }

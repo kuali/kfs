@@ -103,6 +103,8 @@
 	
 	<bean id="customerCreditMemoDetailService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDetailServiceImpl"/>
 	
+	<bean id="customerCreditMemoDocumentService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDocumentServiceImpl"/>
+	
 	<bean id="invoicePaidAppliedService" class="org.kuali.module.ar.service.impl.InvoicePaidAppliedServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />

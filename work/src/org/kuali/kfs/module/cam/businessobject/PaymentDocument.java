@@ -15,6 +15,7 @@ public class PaymentDocument extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private Long capitalAssetNumber;
 	private KualiDecimal previousTotalCostAmount;
+    private Integer nextCapitalAssetPaymentLineNumber;
 
     private DocumentHeader documentHeader;
     private Asset asset;

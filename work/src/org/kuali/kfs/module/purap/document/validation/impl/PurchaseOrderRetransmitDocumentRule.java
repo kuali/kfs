@@ -83,19 +83,6 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
         else {
             if (!document.getPurchaseOrderAutomaticIndicator()) {
                 // Check that the user is in purchasing workgroup.
-//                String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-//                UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
-//                UniversalUser user = null;
-//                try {
-//                    user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-//                    String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-//                    if (!uus.isMember(user, purchasingGroup)) {
-//                        valid = false;
-//                    }
-//                }
-//                catch (UserNotFoundException ue) {
-//                    valid = false;
-//                }
                 valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser(document, "retransmit");
             }
         }

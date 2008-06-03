@@ -48,20 +48,6 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         // Check that the user is in purchasing workgroup.
-//        String initiatorNetworkId = purapDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-//        UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
-//        UniversalUser user = null;
-//        try {
-//            user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-//            String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-//            if (!uus.isMember(user, purchasingGroup)) {
-//                valid = false;
-//                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, "amend", PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
-//            }
-//        }
-//        catch (UserNotFoundException ue) {
-//            valid = false;
-//        }
         valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser((PurchaseOrderDocument)purapDocument, "amend");
         valid &= validateContainsAtLeastOneActiveItem(purapDocument);
         return valid;

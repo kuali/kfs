@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CapitalAssetBuilderPendingActionMaintenanceDocument" parent="CapitalAssetBuilderPendingActionMaintenanceDocument-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingActionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.module.capitalAssetBuilder.bo.CapitalAssetBuilderPendingAction" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="CapitalAssetBuilderPendingActionMaintenanceDocument-EditCABActionCodes" />
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>actionCode</value>
+      </list>
+    </property>
+    <property name="label" value="Capital Asset Builder Pending Action Codes" />
+    <property name="shortLabel" value="Capital Asset Builder Pending Action Codes" />
+    <property name="summary" value="Capital Asset Builder Pending Action Codes Maintenance Document" />
+    <property name="description" value="Document used to create or update capital asset builder action codes objects" />
+    <property name="documentTypeName" value="CapitalAssetBuilderPendingActionMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="CBAC" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>CM_ADMINISTRATORS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="CapitalAssetBuilderPendingActionMaintenanceDocument-EditCABActionCodes" parent="CapitalAssetBuilderPendingActionMaintenanceDocument-EditCABActionCodes-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingActionMaintenanceDocument-EditCABActionCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Capital Asset Builder Pending Action Codes" />
+    <property name="title" value="Edit Capital Asset Builder Pending Action Codes" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="actionCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="actionDescription"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>

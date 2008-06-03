@@ -352,14 +352,6 @@
     </collection-descriptor>		
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.CapitalAssetBuilderPendingAction" table="CB_PND_ACTION_T">
-	<field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="actionDescription" column="ACTION_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cams.bo.AssetPayment" table="CM_AST_PAYMENT_T">
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="paymentSequenceNumber" column="AST_PMT_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>

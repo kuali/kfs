@@ -1,0 +1,138 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CapitalAssetBuilderPendingAction" parent="CapitalAssetBuilderPendingAction-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.capitalAssetBuilder.bo.CapitalAssetBuilderPendingAction" />
+    <property name="inquiryDefinition" >
+      <ref bean="CapitalAssetBuilderPendingAction-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="CapitalAssetBuilderPendingAction-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="CapitalAssetBuilderPendingAction-actionCode" />
+        <ref bean="CapitalAssetBuilderPendingAction-actionDescription" />
+        <ref bean="CapitalAssetBuilderPendingAction-active" />
+        <ref bean="CapitalAssetBuilderPendingAction-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CapitalAssetBuilderPendingAction-actionCode" parent="CapitalAssetBuilderPendingAction-actionCode-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-actionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="actionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Action Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="actionCode" />
+    <property name="description" value="actionCode description..." />
+  </bean>
+  <bean id="CapitalAssetBuilderPendingAction-actionDescription" parent="CapitalAssetBuilderPendingAction-actionDescription-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-actionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="actionDescription" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Action Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+    <property name="summary" value="actionDescription" />
+    <property name="description" value="actionDescription description..." />
+  </bean>
+  <bean id="CapitalAssetBuilderPendingAction-active" parent="CapitalAssetBuilderPendingAction-active-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="CapitalAssetBuilderPendingAction-versionNumber" parent="CapitalAssetBuilderPendingAction-versionNumber-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CapitalAssetBuilderPendingAction-inquiryDefinition" parent="CapitalAssetBuilderPendingAction-inquiryDefinition-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Capital Asset Builder Pending Action Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="actionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="actionDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CapitalAssetBuilderPendingAction-lookupDefinition" parent="CapitalAssetBuilderPendingAction-lookupDefinition-parentBean" />
+
+  <bean id="CapitalAssetBuilderPendingAction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Capital Asset Builder Pending Action Lookup" />
+    <property name="instructions" value="Look up a Captital Asset Builder Pending Action" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="actionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="actionDescription" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="Y"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="actionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="actionDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

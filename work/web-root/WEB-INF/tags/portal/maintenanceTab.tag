@@ -28,6 +28,7 @@
       <maintenanceChannel:preAward />
       <maintenanceChannel:postAward />
       <maintenanceChannel:effortCertification /> 
+      <maintenanceChannel:capitalAssetBuilder /> 
 </td>
 <td class="content" valign="top">
       <maintenanceChannel:vendor />

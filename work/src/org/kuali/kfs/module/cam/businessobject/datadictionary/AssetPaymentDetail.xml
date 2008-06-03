@@ -83,38 +83,15 @@
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber" parent="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" />
 
-  <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="expenditureFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Expenditure Financial Document Number" />
-    <property name="shortLabel" value="Fin. Doc#" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
-    </property>
-    <property name="summary" value="expenditureFinancialDocumentNumber" />
-    <property name="description" value="expenditureFinancialDocumentNumber description..." />
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" parent="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" />
 
-  <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="expenditureFinancialDocumentPostedDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Expenditure Financial Document Posted Date" />
     <property name="shortLabel" value="Posted Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
     <property name="summary" value="expenditureFinancialDocumentPostedDate" />
     <property name="description" value="expenditureFinancialDocumentPostedDate description..." />
   </bean>
@@ -231,20 +208,10 @@
   </bean>
   <bean id="AssetPaymentDetail-paymentApplicationDate" parent="AssetPaymentDetail-paymentApplicationDate-parentBean" />
 
-  <bean id="AssetPaymentDetail-paymentApplicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPaymentDetail-paymentApplicationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="paymentApplicationDate" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Application Date" />
     <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
     <property name="summary" value="paymentApplicationDate" />
     <property name="description" value="paymentApplicationDate description..." />
   </bean>

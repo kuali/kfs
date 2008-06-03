@@ -8,6 +8,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
@@ -39,6 +40,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private DocumentHeader documentHeader;
     private DocumentHeader expenditureFinancialDocument;
     private OriginationCode expenditureFinancialSystemOrigination;
+    private Account account;
 
 
     /**
@@ -234,5 +236,14 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     public void setExpenditureFinancialSystemOrigination(OriginationCode expenditureFinancialSystemOrigination) {
         this.expenditureFinancialSystemOrigination = expenditureFinancialSystemOrigination;
+    }
+    
+    public Account getAccount() {
+        return account;
+    }
+
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

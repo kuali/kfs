@@ -233,4 +233,10 @@ public class CamsConstants {
     public static final String DOCUMENT_PATH = "document";
     public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
     public static final String ASSET_LOAN_CONFIRM_QN_ID = "AssetTransferLoanConfirmation";
+    
+    public static class AssetGlobal {
+        public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
+        public static final String DOCUMENT_TYPE_CODE_FOR_ADD_ASET = "AA";
+        public static final String DOCUMENT_TYPE_CODE_FOR_NEW_CAPITAL_ASSET = "PREQ";
+    }
 }

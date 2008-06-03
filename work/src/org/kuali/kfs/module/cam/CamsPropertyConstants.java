@@ -152,6 +152,7 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_POSTING_DATE = "expenditureFinancialDocumentPostedDate";
         public static final String DOCUMENT_POSTING_FISCAL_YEAR = "financialDocumentPostingYear";
         public static final String DOCUMENT_POSTING_FISCAL_MONTH = "financialDocumentPostingPeriodCode";
+        public static final String ACCOUNT = "account";
     }
 
     public static class AssetType {

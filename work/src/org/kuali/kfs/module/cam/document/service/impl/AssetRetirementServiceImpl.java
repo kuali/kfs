@@ -309,43 +309,13 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
         AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
         category.setParams(postable, assetPayment, assetObjectCode);
-        setCommonPostableAttributes(documentNumber, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment, plantAccount, postable);
-        return postable;
-    }
 
-    /**
-     * 
-     * This method sets specific postable attributes.
-     * 
-     * @param postable
-     * @param lineDescription
-     * @param amount
-     * @param finacialObjectCode
-     * @param objectCode
-     */
-    private void setSpecificPostableAttributes(AssetGlpeSourceDetail postable, String lineDescription, KualiDecimal amount, String finacialObjectCode, ObjectCode objectCode) {
-        postable.setFinancialDocumentLineDescription(lineDescription);
-        postable.setAmount(amount);
-        postable.setFinancialObjectCode(finacialObjectCode);
-        postable.setObjectCode(objectCode);
-    }
-
-
-    /**
-     * Set Postable attributes which are common among Capitalized, Accumulated Depreciation and gain/loss disposition .
-     * 
-     * @param documentNumber
-     * @param orgOwnerChartOfAccountsCode
-     * @param assetPayment
-     * @param plantAccount
-     * @param postable
-     */
-    private void setCommonPostableAttributes(String documentNumber, String orgOwnerChartOfAccountsCode, AssetPayment assetPayment, Account plantAccount, AssetGlpeSourceDetail postable) {
+        // Set Postable attributes which are common among Capitalized, Accumulated Depreciation and gain/loss disposition .
         postable.setDocumentNumber(documentNumber);
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
         postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-        postable.setChartOfAccountsCode(orgOwnerChartOfAccountsCode);
+        postable.setChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
 
         postable.setPostingYear(universityDateService.getCurrentFiscalYear());
         // Fields copied from payment
@@ -353,7 +323,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         postable.setProjectCode(assetPayment.getProjectCode());
         postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+
+        return postable;
     }
+
 
     /**
      * Get the offset Object Code.

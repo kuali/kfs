@@ -148,16 +148,20 @@ public class CamsKeyConstants {
     }
 
     public static class AssetGlobal {
-
         public static final String ERROR_INVENTORY_STATUS_REQUIRED = "error.asset.inventory.status.code.required";
         public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.asset.owner.account.not.active";
         public static final String MIN_ONE_ASSET_REQUIRED = "error.document.min.one.asset.required";
+        public static final String MIN_ONE_PAYMENT_REQUIRED = "error.document.min.one.payment.required";
         public static final String ERROR_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
         public static final String ERROR_MFR_NAME_REQUIRED = "error.capital.asset.manufacturer.name.required";
+        public static final String ERROR_ACQUISITION_TYPE_CODE_REQUIRED = "error.acquisition.code.required";
         public static final String ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED = "error.acquisition.code.not.allowed";
         public static final String ERROR_INVENTORY_STATUS_CODE_INVALID = "error.asset.inventory.status.code.invalid";
         public static final String ERROR_OWNER_CHART_INVALID = "error.asset.owner.chart.code.invalid";
         public static final String ERROR_OWNER_ACCT_NUMBER_INVALID = "error.asset.owner.account.number.invalid";
         public static final String ERROR_CAMPUS_TAG_NUMBER_DUPLICATE = "error.asset.campus.tag.number.duplicate";
+        public static final String ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED = "error.capital.object.code.not.allowed";
+        public static final String ERROR_CAPITAL_OBJECT_CODE_REQUIRED = "error.capital.object.code.required";
+        public static final String ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED = "error.document.type.code.not.allowed";
     }
 }

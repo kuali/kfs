@@ -318,7 +318,7 @@
                     p:name="subAccountNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="financialObjectCode"
-                    p:required="false" />
+                    p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="financialSubObjectCode" 
                     p:overrideLookupClass="org.kuali.module.chart.bo.SubObjCd"
@@ -330,17 +330,17 @@
                     p:name="organizationReferenceId" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="expenditureFinancialDocumentNumber"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="expenditureFinancialDocumentTypeCode"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="purchaseOrderNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="requisitionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="expenditureFinancialDocumentPostedDate"
-                    p:required="true" />
+                    p:required="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="financialDocumentPostingYear"
                     p:readOnly="true" />
@@ -352,7 +352,6 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="paymentApplicationDate"
-                    p:required="true" 
                     p:readOnly="true"
 					p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
               <bean parent="MaintainableFieldDefinition"

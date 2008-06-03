@@ -215,7 +215,6 @@ public class CamsConstants {
         public static final String DONE_FILE_EXTENSION = ".done";
     }
 
-    public static final String ACQUISITION_TYPE_CODE_N = "N";
 
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
         public static final String DISPLAY_NEW_LOAN_TAB = "displayNewLoanTab";
@@ -231,7 +230,10 @@ public class CamsConstants {
     
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
-        public static final String DOCUMENT_TYPE_CODE_FOR_ADD_ASET = "AA";
-        public static final String DOCUMENT_TYPE_CODE_FOR_NEW_CAPITAL_ASSET = "PREQ";
+        public static final String ADD_ASSET_ACQUISITION_CODE_GROUP = "G;T;S;F";
+        public static final String ADD_ASSET_DOCUMENT_TYPE_CODE = "AA";
+        public static final String ACQUISITION_TYPE_CODE_N = "N";
+        public static final String NEW_CAPITAL_ASSET_DOCUMENT_TYPE_CODE_FOR = "PREQ";
+        public static final String NON_CAPITAL_ASSET_DOCUMENT_TYPE_CODE = "AA;PREQ";
     }
 }

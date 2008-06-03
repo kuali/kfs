@@ -18,7 +18,7 @@ package org.kuali.module.cams.bo;
 import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER;
 import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.AMOUNT;
 import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE;
+import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE;
 import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE;
 import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE;
@@ -36,7 +36,7 @@ import org.kuali.kfs.bo.AccountingLineParserBase;
 
 public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {
     protected static final String[] LINE_FORMAT = 
-    { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, OBJECT_CODE, SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT,
+    { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT,
       PURCHASE_ORDER,
         REQUISITION_NUMBER,
         DOCUMENT_NUMBER,

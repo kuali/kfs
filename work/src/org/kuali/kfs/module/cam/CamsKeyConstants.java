@@ -162,10 +162,14 @@ public class CamsKeyConstants {
         public static final String ERROR_CAMPUS_TAG_NUMBER_DUPLICATE = "error.asset.campus.tag.number.duplicate";
         public static final String ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED = "error.capital.object.code.not.allowed";
         public static final String ERROR_CAPITAL_OBJECT_CODE_REQUIRED = "error.capital.object.code.required";
+        public static final String ERROR_CAPITAL_OBJECT_CODE_INVALID = "error.capital.object.code.invalid";
         public static final String ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED = "error.document.type.code.not.allowed";
         public static final String ERROR_ASSET_TYPE_REQUIRED = "error.capital.asset.type.required";
         public static final String ERROR_ASSET_LOCATION_DEPENDENCY = "error.asset.location.validation.dependecy";
         public static final String ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN = "error.capital.asset.payment.min.limit";
         public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";
+        public static final String ERROR_DOCUMENT_POSTING_DATE_REQUIRED = "error.document.posting.date.required";
+        public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";
+        public static final String ERROR_INVALID_POSTING_DATE_USED_FOR_OBJECT_CODE = "error.invalid.posting.date.used.for.object.code";
     }
 }

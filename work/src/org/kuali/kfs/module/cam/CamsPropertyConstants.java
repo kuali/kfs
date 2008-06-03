@@ -131,7 +131,8 @@ public class CamsPropertyConstants {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
-        public static final String OBJECT_CODE = "financialObjectCode";
+        public static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";
+        public static final String OBJECT_CODE = "objectCode";
         public static final String SUB_OBJECT_CODE = "financialSubObjectCode";
         public static final String PROJECT_CODE = "projectCode";
         public static final String ORGANIZATION_REFERENCE_ID = "organizationReferenceId";

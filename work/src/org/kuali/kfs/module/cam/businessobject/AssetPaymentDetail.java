@@ -10,6 +10,7 @@ import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * 
@@ -34,6 +35,8 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private String financialDocumentPostingPeriodCode;
     private String purchaseOrderNumber;
     private String requisitionNumber;
+    private KualiDecimal amount;
+    private String financialObjectCode;
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
@@ -41,6 +44,8 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private DocumentHeader expenditureFinancialDocument;
     private OriginationCode expenditureFinancialSystemOrigination;
     private Account account;
+    private ObjectCode objectCode;
+
 
 
     /**
@@ -245,5 +250,35 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+    
+
+    public ObjectCode getObjectCode() {
+        return objectCode;
+    }
+
+
+    public void setObjectCode(ObjectCode objectCode) {
+        this.objectCode = objectCode;
+    }
+
+
+    public KualiDecimal getAmount() {
+        return amount;
+    }
+
+
+    public void setAmount(KualiDecimal amount) {
+        this.amount = amount;
+    }
+
+
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+
+
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
     }
 }

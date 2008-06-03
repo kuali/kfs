@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.BusinessObjectService;
@@ -33,6 +32,7 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -81,13 +81,13 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
         String fiscalYears = KFSConstants.EMPTY_STRING;
         String expenseObjectTypeCodes = KFSConstants.EMPTY_STRING;
         for (Integer fiscalYear : reportDefiniton.getReportPeriods().keySet()) {
-            fiscalYears += fiscalYear + RiceConstants.OR_LOGICAL_OPERATOR;
-            expenseObjectTypeCodes += optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd() + RiceConstants.OR_LOGICAL_OPERATOR;
+            fiscalYears += fiscalYear + KNSConstants.OR_LOGICAL_OPERATOR;
+            expenseObjectTypeCodes += optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd() + KNSConstants.OR_LOGICAL_OPERATOR;
         }
         searchFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYears);
         searchFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCodes);
 
-        String balanceTypeCodes = KFSConstants.BALANCE_TYPE_ACTUAL + RiceConstants.OR_LOGICAL_OPERATOR + KFSConstants.BALANCE_TYPE_A21;
+        String balanceTypeCodes = KFSConstants.BALANCE_TYPE_ACTUAL + KNSConstants.OR_LOGICAL_OPERATOR + KFSConstants.BALANCE_TYPE_A21;
         searchFieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
 
         return searchFieldValues;

@@ -27,7 +27,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.RiceConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -63,6 +62,7 @@ import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 
 /**
@@ -627,7 +627,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
         
-        String systemTypeCode = (String)request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String systemTypeCode = (String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         systemTypeCode = StringUtils.substringBetween(systemTypeCode, "selectSystemType.", ".");
 
         if (question == null) {

@@ -15,9 +15,9 @@
  */
 package org.kuali.module.kra;
 
-import org.kuali.core.JstlConstants;
+import org.kuali.rice.util.JSTLConstants;
 
-public class KraPropertyConstants extends JstlConstants {
+public class KraPropertyConstants extends JSTLConstants {
 
     // Common document values
     public static final String DOCUMENT = "document";

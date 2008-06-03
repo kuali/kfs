@@ -18,7 +18,6 @@ package org.kuali.module.cams.maintenance;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
@@ -34,6 +33,7 @@ import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
@@ -92,7 +92,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         List<Section> sections = super.getCoreSections(oldMaintainable);
 
         Asset asset = (Asset) getBusinessObject();
-        if (RiceConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+        if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
             // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
             // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
             for (Section section : sections) {

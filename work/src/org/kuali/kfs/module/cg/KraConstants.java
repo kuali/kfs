@@ -17,10 +17,10 @@ package org.kuali.module.kra;
 
 import java.util.Calendar;
 
-import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.rice.util.JSTLConstants;
 
-public class KraConstants extends JstlConstants {
+public class KraConstants extends JSTLConstants {
     private static final long serialVersionUID = 5725060921632498564L;
 
     public static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";

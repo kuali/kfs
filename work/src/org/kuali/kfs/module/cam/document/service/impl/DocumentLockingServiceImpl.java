@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.MaintenanceDocumentDao;
@@ -27,9 +26,9 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.DocumentLockingService;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -91,10 +90,10 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
 
         // build the link URL for the blocking document
         Properties parameters = new Properties();
-        parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, RiceConstants.DOC_HANDLER_METHOD);
-        parameters.put(RiceConstants.PARAMETER_DOC_ID, blockingDocId);
-        parameters.put(RiceConstants.PARAMETER_COMMAND, RiceConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        String blockingUrl = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KNSConstants.PARAMETER_DOC_ID, blockingDocId);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+        String blockingUrl = UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, parameters);
         if ( LOG.isDebugEnabled() ) {
             LOG.debug("blockingUrl = '" + blockingUrl + "'");
             LOG.debug("Record: " + lockedDocument.getDocumentHeader().getDocumentNumber() + "is locked.");
@@ -102,7 +101,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
 
         // post an error about the locked document
         String[] errorParameters = { blockingUrl, blockingDocId };
-        GlobalVariables.getErrorMap().putError(RiceConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
+        GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
 
         throw new ValidationException("Record is locked by another document.");
     }
@@ -132,7 +131,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         }
 
         // if the blocking document hasn't been routed, we can ignore it
-        return RiceConstants.DocumentStatusCodes.INITIATED.equals(documentHeader.getFinancialDocumentStatusCode());
+        return KNSConstants.DocumentStatusCodes.INITIATED.equals(documentHeader.getFinancialDocumentStatusCode());
     }
     
     /**

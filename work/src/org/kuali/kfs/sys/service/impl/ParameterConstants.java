@@ -20,7 +20,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kuali.RiceConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 
 public class ParameterConstants {
@@ -37,7 +37,7 @@ public class ParameterConstants {
     }
 
     protected static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
-    protected static final String NERVOUS_SYSTEM_NAMESPACE = RiceConstants.KNS_NAMESPACE;
+    protected static final String NERVOUS_SYSTEM_NAMESPACE = KNSConstants.KNS_NAMESPACE;
     protected static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SY";
     private static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";
     private static final String BUDGET_CONSTRUCTION_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "BC";

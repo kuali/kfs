@@ -17,24 +17,19 @@ package org.kuali.module.budget.rules;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.ErrorMap;
@@ -55,9 +50,7 @@ import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.bo.SalarySettingExpansion;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.module.budget.rule.DeleteMonthlySpreadRule;
@@ -66,10 +59,10 @@ import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.service.BudgetParameterService;
 import org.kuali.module.budget.service.SalarySettingService;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRules.class);
@@ -181,7 +174,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
         // budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
-        errors.addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
+        errors.addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         
         if (monthSpreadDeleteType == MonthSpreadDeleteType.REVENUE){
             doRevMonthRICheck = false;
@@ -199,7 +192,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         // iterate and validate expenditure lines
         isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, false, doExpMonthRICheck);
 
-        errors.removeFromErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
+        errors.removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
     }

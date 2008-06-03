@@ -20,13 +20,13 @@ import java.util.Properties;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * An action for Electronic Fund Transfer that simply redirects to either the claiming or non-claiming lookup.
@@ -46,10 +46,10 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
      */
     protected String getNonClaimingLookupUrl(ElectronicFundTransferForm form, String basePath) {        
         Properties props = getCommonLookupProperties(form);
-        props.put(RiceConstants.HIDE_LOOKUP_RETURN_LINK, Boolean.toString(true));
-        props.put(RiceConstants.RETURN_LOCATION_PARAMETER, basePath + "/" + getNonClaimingReturnLocation());
-        props.put(RiceConstants.BACK_LOCATION, basePath + "/" + getNonClaimingReturnLocation());
-        return UrlFactory.parameterizeUrl(basePath + "/kr/" + RiceConstants.LOOKUP_ACTION, props);
+        props.put(KNSConstants.HIDE_LOOKUP_RETURN_LINK, Boolean.toString(true));
+        props.put(KNSConstants.RETURN_LOCATION_PARAMETER, basePath + "/" + getNonClaimingReturnLocation());
+        props.put(KNSConstants.BACK_LOCATION, basePath + "/" + getNonClaimingReturnLocation());
+        return UrlFactory.parameterizeUrl(basePath + "/kr/" + KNSConstants.LOOKUP_ACTION, props);
     }
     
     /**
@@ -57,12 +57,12 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
      */
     protected String getClaimingLookupUrl(ElectronicFundTransferForm form, String basePath) {
         Properties props = getCommonLookupProperties(form);
-        props.put(RiceConstants.MULTIPLE_VALUE, Boolean.toString(true));
-        props.put(RiceConstants.LOOKUP_ANCHOR, RiceConstants.ANCHOR_TOP_OF_FORM);
-        props.put(RiceConstants.LOOKED_UP_COLLECTION_NAME, "claims");
-        props.put(RiceConstants.RETURN_LOCATION_PARAMETER, basePath + "/" + getClaimingReturnLocation());
-        props.put(RiceConstants.BACK_LOCATION, basePath + "/" + getClaimingReturnLocation());
-        return UrlFactory.parameterizeUrl(basePath + "/kr/" + RiceConstants.MULTIPLE_VALUE_LOOKUP_ACTION, props);
+        props.put(KNSConstants.MULTIPLE_VALUE, Boolean.toString(true));
+        props.put(KNSConstants.LOOKUP_ANCHOR, KNSConstants.ANCHOR_TOP_OF_FORM);
+        props.put(KNSConstants.LOOKED_UP_COLLECTION_NAME, "claims");
+        props.put(KNSConstants.RETURN_LOCATION_PARAMETER, basePath + "/" + getClaimingReturnLocation());
+        props.put(KNSConstants.BACK_LOCATION, basePath + "/" + getClaimingReturnLocation());
+        return UrlFactory.parameterizeUrl(basePath + "/kr/" + KNSConstants.MULTIPLE_VALUE_LOOKUP_ACTION, props);
     }
     
     /**
@@ -70,10 +70,10 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
      */
     protected Properties getCommonLookupProperties(ElectronicFundTransferForm form) {
         Properties props = new Properties();
-        props.put(RiceConstants.SUPPRESS_ACTIONS, Boolean.toString(true));
-        props.put(RiceConstants.DOC_FORM_KEY, "88888888");
-        props.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ElectronicPaymentClaim.class.getName());
-        props.put(RiceConstants.METHOD_TO_CALL_ATTRIBUTE, "start");
+        props.put(KNSConstants.SUPPRESS_ACTIONS, Boolean.toString(true));
+        props.put(KNSConstants.DOC_FORM_KEY, "88888888");
+        props.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ElectronicPaymentClaim.class.getName());
+        props.put(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, "start");
         return props;
     }
     

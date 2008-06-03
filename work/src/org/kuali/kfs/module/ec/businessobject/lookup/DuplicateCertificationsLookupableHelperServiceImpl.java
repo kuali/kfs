@@ -16,20 +16,18 @@
 package org.kuali.module.effort.lookup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.DuplicateCertificationsReport;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Searches for documents that are not approved.
@@ -43,9 +41,9 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
         LookupService lookupService = SpringContext.getBean(LookupService.class);
         List<EffortCertificationDocumentBuild> reportList = new ArrayList<EffortCertificationDocumentBuild>(lookupService.findCollectionBySearch(EffortCertificationDocumentBuild.class, fieldValues));
         
-        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         
         return findEmployeesWithPayOnMoreThanOneEffortCertificationReport(reportList);
     }

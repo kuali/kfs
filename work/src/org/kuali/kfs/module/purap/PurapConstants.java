@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -35,11 +34,12 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.rice.util.JSTLConstants;
 
 /**
  * Holds constants for PURAP.
  */
-public class PurapConstants extends JstlConstants {
+public class PurapConstants extends JSTLConstants {
 
     // special user used in the special ap cancel action
     public static final String SYSTEM_AP_USER = KFSConstants.SYSTEM_USER;

@@ -18,16 +18,16 @@ package org.kuali.module.effort;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.JstlConstants;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants.TransactionalEditMode;
+import org.kuali.rice.util.JSTLConstants;
 
 /**
  * General constants for the effort reporting module.
  */
-public class EffortConstants extends JstlConstants {
+public class EffortConstants extends JSTLConstants {
     /**
      * hold contants used by extract process
      */

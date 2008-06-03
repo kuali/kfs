@@ -25,12 +25,12 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.EncryptionService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.core.service.EncryptionService;
 
 /**
  * This class is a special implementation of Maintainable specifically for Account Delegates. It was created to correctly update the

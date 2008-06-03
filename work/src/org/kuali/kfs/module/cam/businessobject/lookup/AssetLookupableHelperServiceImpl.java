@@ -17,7 +17,6 @@ package org.kuali.module.cams.lookup;
 
 import java.util.Properties;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
@@ -90,8 +89,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         Asset asset = (Asset) bo;
         
         Properties parameters = new Properties();
-        parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-        parameters.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
         
         // Asset PK
         parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
@@ -99,7 +98,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
         parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypeCodes.ASSET_SEPERATE);
 
-        String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
+        String url = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
         url = "<a href=\"" + url + "\">" + CamsConstants.AssetActions.SEPARATE + "</a>";
         return url;
     }

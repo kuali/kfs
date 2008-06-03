@@ -18,20 +18,20 @@ package org.kuali.kfs;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.JstlConstants;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.workflow.attribute.RoutingAccount;
+import org.kuali.rice.util.JSTLConstants;
 import org.kuali.workflow.attribute.OrgReviewRoutingData;
+import org.kuali.workflow.attribute.RoutingAccount;
 import org.kuali.workflow.attribute.RoutingData;
 
 /**
  * This class is used to define global constants.
  */
-public class KFSConstants extends JstlConstants implements ParameterKeyConstants {
+public class KFSConstants extends JSTLConstants implements ParameterKeyConstants {
     private static final long serialVersionUID = 2882277719647128949L;
 
     // special user used in the post-processor

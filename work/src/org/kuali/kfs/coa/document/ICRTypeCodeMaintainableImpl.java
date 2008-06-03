@@ -34,10 +34,10 @@ import org.kuali.module.chart.bo.codes.ICRTypeCode;
 public class ICRTypeCodeMaintainableImpl extends KualiMaintainableImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ICRTypeCodeMaintainableImpl.class);
-    
+
     @Override
-    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues) {
-        PersistableBusinessObject bo = document.getNewMaintainableObject().getBusinessObject();
+    public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
+//        PersistableBusinessObject bo = document.getNewMaintainableObject().getBusinessObject();
         Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(bo, collectionName);
         String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
         

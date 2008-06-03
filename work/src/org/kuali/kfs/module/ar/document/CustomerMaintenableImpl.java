@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
@@ -29,6 +28,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerAddress;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerMaintenableImpl extends KualiMaintainableImpl {
 
@@ -43,7 +43,7 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
         Customer newCustomer = (Customer) newMaintainable.getBusinessObject();
 
         // when we create new customer set the customerRecordAddDate to current date
-        if (getMaintenanceAction().equalsIgnoreCase(RiceConstants.MAINTENANCE_NEW_ACTION)) {
+        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
             Date currentDate = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             newCustomer.setCustomerRecordAddDate(currentDate);
 
@@ -83,7 +83,7 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
 
             CustomerAddress customerAddress = (CustomerAddress) businessObject;
 
-            if (RiceConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+            if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
 
                 boolean hasPrimaryAddress = false;
 
@@ -105,7 +105,7 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
             }
 
             // if maintenance action is EDIT or COPY set default value for address type code to "Alternate"
-            if (RiceConstants.MAINTENANCE_EDIT_ACTION.equalsIgnoreCase(getMaintenanceAction()) || RiceConstants.MAINTENANCE_COPY_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+            if (KNSConstants.MAINTENANCE_EDIT_ACTION.equalsIgnoreCase(getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
                 customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
             }
 

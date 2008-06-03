@@ -15,27 +15,21 @@
  */
 package org.kuali.module.purap.lookup;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.lookup.LookupableHelperService;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Row;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This lookupable helper service is used to support lookups on the Threshold BO because it deals with the vendor number,
@@ -155,9 +149,9 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
 
         boolean searchUsingOnlyPrimaryKeyValues = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
 
-        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         List searchResults;
         if (UniversalUser.class.equals(getBusinessObjectClass())) {
             searchResults = (List) getUniversalUserService().findUniversalUsers(fieldValues);

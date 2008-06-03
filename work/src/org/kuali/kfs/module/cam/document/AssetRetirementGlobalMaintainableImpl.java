@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
@@ -232,7 +231,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
         if (KFSConstants.MULTIPLE_VALUE.equalsIgnoreCase(refreshCaller)) {
             if (!assetRetirementService.isAllowedRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode()) && assetRetirementGlobalDetails.size() > new Integer(1)) {
-                String errorPath = RiceConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
+                String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS;
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);

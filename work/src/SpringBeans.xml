@@ -293,7 +293,7 @@
 		</property>
 	</bean>
 
-	<bean id="encryptionService" class="org.kuali.core.service.impl.DemonstrationGradeEncryptionServiceImpl">
+	<bean id="encryptionService" class="org.kuali.rice.core.service.impl.DemonstrationGradeEncryptionServiceImpl">
 		<property name="secretKey">
 			<value>${encryption.key}</value>
 		</property>

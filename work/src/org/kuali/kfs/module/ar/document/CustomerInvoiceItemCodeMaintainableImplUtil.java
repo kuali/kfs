@@ -18,11 +18,11 @@ package org.kuali.module.ar.maintenance.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerInvoiceItemCodeMaintainableImplUtil {
     
@@ -38,18 +38,18 @@ public class CustomerInvoiceItemCodeMaintainableImplUtil {
 
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         StringBuilder lockRepresentation = new StringBuilder(CustomerInvoiceItemCode.class.getName());
-        lockRepresentation.append(RiceConstants.Maintenance.AFTER_CLASS_DELIM);
+        lockRepresentation.append(KNSConstants.Maintenance.AFTER_CLASS_DELIM);
         
         //get chart of accounts code locking representation
         String chartOfAccountsCode = String.valueOf(ObjectUtils.getPropertyValue(bo, CHART_OF_ACCOUNTS_CODE_FIELD));
         lockRepresentation.append(CHART_OF_ACCOUNTS_CODE_FIELD);
-        lockRepresentation.append(RiceConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+        lockRepresentation.append(KNSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
         lockRepresentation.append(chartOfAccountsCode);
         
         //get organization code locking representation
         String organizationCode = String.valueOf(ObjectUtils.getPropertyValue(bo, ORGANIZATION_CODE_FIELD));
         lockRepresentation.append(ORGANIZATION_CODE_FIELD);
-        lockRepresentation.append(RiceConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+        lockRepresentation.append(KNSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
         lockRepresentation.append(organizationCode);
 
         MaintenanceLock maintenanceLock = new MaintenanceLock();

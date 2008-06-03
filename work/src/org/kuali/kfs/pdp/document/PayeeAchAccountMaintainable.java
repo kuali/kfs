@@ -21,13 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class PayeeAchAccountMaintainable extends KualiMaintainableImpl {
 
@@ -38,7 +38,7 @@ public class PayeeAchAccountMaintainable extends KualiMaintainableImpl {
         
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         StringBuffer lockRepresentation = new StringBuffer(boClass.getName());
-        lockRepresentation.append(RiceConstants.Maintenance.AFTER_CLASS_DELIM);
+        lockRepresentation.append(KNSConstants.Maintenance.AFTER_CLASS_DELIM);
 
         PersistableBusinessObject bo = getBusinessObject();
         List keyFieldNames = KNSServiceLocator.getMaintenanceDocumentDictionaryService().getLockingKeys(KNSServiceLocator.getMaintenanceDocumentDictionaryService().getDocumentTypeName(boClass));
@@ -63,10 +63,10 @@ public class PayeeAchAccountMaintainable extends KualiMaintainableImpl {
             }
 
             lockRepresentation.append(fieldName);
-            lockRepresentation.append(RiceConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRepresentation.append(KNSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockRepresentation.append(String.valueOf(fieldValue));
             if (i.hasNext()) {
-                lockRepresentation.append(RiceConstants.Maintenance.AFTER_VALUE_DELIM);
+                lockRepresentation.append(KNSConstants.Maintenance.AFTER_VALUE_DELIM);
             }
         }
 

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
@@ -30,6 +29,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.bo.OutstandingCertificationsByOrganization;
 import org.kuali.module.effort.bo.OutstandingCertificationsByReport;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Searches for documents that are not approved.
@@ -82,9 +82,9 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
             }
         }
         
-        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         
         return new CollectionIncomplete(returnResults, new Long(0));
     }

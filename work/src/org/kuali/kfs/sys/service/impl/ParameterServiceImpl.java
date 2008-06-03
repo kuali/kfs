@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.KualiModule;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.Parameter;
@@ -46,7 +45,7 @@ import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants.COMPONENT;
 import org.kuali.kfs.service.impl.ParameterConstants.NAMESPACE;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * See ParameterService. The componentClass must be the business object, document, or step class that the parameter is associated
@@ -461,7 +460,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     private boolean constraintIsAllow(Parameter parameter) {
-        return RiceConstants.APC_ALLOWED_OPERATOR.equals(parameter.getParameterConstraintCode());
+        return KNSConstants.APC_ALLOWED_OPERATOR.equals(parameter.getParameterConstraintCode());
     }
 
 

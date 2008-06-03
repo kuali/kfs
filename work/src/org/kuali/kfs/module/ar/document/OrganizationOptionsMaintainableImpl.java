@@ -17,12 +17,8 @@ package org.kuali.module.ar.maintenance;
 
 import java.util.List;
 
-import org.kuali.RiceConstants;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.maintenance.util.CustomerInvoiceItemCodeMaintainableImplUtil;
 
 public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {

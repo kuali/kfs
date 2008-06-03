@@ -20,13 +20,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.core.JstlConstants;
 import org.kuali.core.util.KualiDecimal;
-
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.rice.util.JSTLConstants;
 
-public class BCConstants extends JstlConstants {
+public class BCConstants extends JSTLConstants {
 
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";

@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.service.BusinessObjectService;
@@ -51,6 +50,7 @@ import org.kuali.module.effort.util.DetailLineGroup;
 import org.kuali.module.effort.web.struts.form.CertificationReportForm;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -197,7 +197,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     public ActionForward sortDetailLineByColumn(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
 
-        String methodToCallAttribute = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String methodToCallAttribute = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String sortColumn = StringUtils.substringBetween(methodToCallAttribute, "sortDetailLineByColumn.", ".");
 
         this.toggleSortOrder(certificationReportForm);

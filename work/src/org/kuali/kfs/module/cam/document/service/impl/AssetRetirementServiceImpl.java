@@ -230,8 +230,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#checkRetireMultipleAssets(java.lang.String, java.util.List,
-     *      java.lang.Integer)
+     * @see org.kuali.module.cams.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
      */
     public boolean isAllowedRetireMultipleAssets(String retirementReasonCode) {
         // TODO: Replaced by system parameters

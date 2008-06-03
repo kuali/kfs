@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -47,6 +46,7 @@ import org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
 import org.kuali.module.ar.service.CustomerAddressService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument>, DiscountCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
@@ -68,12 +68,12 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     protected boolean processCustomRouteDocumentBusinessRules(Document doc) {
         boolean success = true;
         customerInvoiceDocument = (CustomerInvoiceDocument) doc;
-        GlobalVariables.getErrorMap().addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         success &= defaultExistenceChecks(customerInvoiceDocument);
         success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         success &= validateCustomerAddresses(customerInvoiceDocument);
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         return success;
     }
 

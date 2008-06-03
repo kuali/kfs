@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -73,7 +72,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public Map<String, String> getForcedLookupOptionalFields() {
         Map<String, String> forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
         forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE + ";" + DocumentType.class.getName());
-        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE + ";" + OriginationCode.class.getName());
+        forcedLookupOptionalFields.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE + ";" + OriginationCode.class.getName());
 
         return forcedLookupOptionalFields;
     }

@@ -15,12 +15,12 @@
  */
 package org.kuali.module.cg;
 
-import org.kuali.core.JstlConstants;
+import org.kuali.rice.util.JSTLConstants;
 
 /**
  * Constants specific to the Contracts and Grants module.
  */
-public class CGConstants extends JstlConstants {
+public class CGConstants extends JSTLConstants {
 
     /**
      * The key for the document error map to grab errors for the close document.

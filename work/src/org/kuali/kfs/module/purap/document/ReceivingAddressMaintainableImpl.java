@@ -25,7 +25,6 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.EncryptionService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
@@ -33,6 +32,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.service.ReceivingAddressService;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.core.service.EncryptionService;
 
 /**
  * ReceivingAddressMaintainableImpl is a special implementation of KualiMaintainableImpl for ReceivingAddresss. 

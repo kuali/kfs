@@ -15,22 +15,11 @@
  */
 package org.kuali.module.ar.maintenance;
 
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.kuali.RiceConstants;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.maintenance.util.CustomerInvoiceItemCodeMaintainableImplUtil;
-import org.kuali.module.ar.rules.CustomerRule;
-import org.kuali.rice.KNSServiceLocator;
 
 public class CustomerInvoiceItemCodeMaintainableImpl extends KualiMaintainableImpl {
     

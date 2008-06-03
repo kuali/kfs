@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
@@ -28,7 +27,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSKeyConstants.InvoiceItemCode;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.SpringContext.*;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.chart.bo.ObjectCode;

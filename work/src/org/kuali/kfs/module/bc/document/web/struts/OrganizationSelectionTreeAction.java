@@ -17,7 +17,6 @@ package org.kuali.module.budget.web.struts.action;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
@@ -57,6 +55,7 @@ import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.util.ReportControlListBuildHelper;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This class...
@@ -839,8 +838,8 @@ public class OrganizationSelectionTreeAction extends KualiAction {
      * @return BudgetConstructionReportMode - mode associated with parsed report name
      */
     private BudgetConstructionReportMode setupReportMode(HttpServletRequest request, OrganizationSelectionTreeForm organizationSelectionTreeForm) {
-        String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String reportName = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, RiceConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String reportName = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
         organizationSelectionTreeForm.setReportMode(reportName);
 
         return BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationSelectionTreeForm.getReportMode());

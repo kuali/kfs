@@ -66,8 +66,8 @@
   <bean id="VendorHeader-vendorOwnershipCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCategoryCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ownership Category" />
-    <property name="shortLabel" value="Ownership Category" />
+    <property name="label" value="Ownership Type Category" />
+    <property name="shortLabel" value="Ownership Type Category" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"

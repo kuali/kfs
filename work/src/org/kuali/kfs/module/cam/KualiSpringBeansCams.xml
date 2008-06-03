@@ -49,14 +49,6 @@
 				<value>org/kuali/module/cams/OJB-repository-cams.xml</value>
 			</list>
 		</property>
-
-		<property name="jobNames">
-			<list>
-				<!-- value>preAssetTaggingJob</value-->				
-				<value>assetDepreciationBatchJob</value>
-			</list>
-		</property>		
-
 		<!-- Asset Depreciation batch - START -->				
 		<property name="triggerNames">
 			<list>
@@ -152,49 +144,7 @@
 	<bean id="camsReportService" class="org.kuali.module.cams.service.impl.ReportServiceImpl"></bean>
 <!-- ********* end of report service beans ********** -->
 
-<!-- ********* Begin of pre-asset tagging batch beans ********** -->
-	<bean id="preAssetTaggingService" class="org.kuali.module.cams.service.impl.PreAssetTaggingServiceImpl">
-      	<property name="preAssetTaggingInputFileType">
-            <ref bean="preAssetTaggingInputFileType" />
-      	</property>
-      	<property name="businessObjectService">
-            <ref bean="businessObjectService" />
-      	</property>
-	</bean>
 
-	<!-- bean id="preAssetTaggingJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="preAssetTaggingStep"/>
-			</list>
-		</property>
-	</bean-->
-
-	<bean id="preAssetTaggingStep" class="org.kuali.module.cams.batch.PreAssetTaggingStep" parent="step">
-		<property name="preAssetTaggingService">
-			<ref bean="preAssetTaggingService" />
-		</property>
-	</bean>  
-
-    <bean id="preAssetTaggingInputFileType" class="org.kuali.module.cams.batch.PreAssetTaggingInputFileType">
-    	<property name="directoryPath">
-	       <value>/Documents and Settings/qlai/Desktop/preAssetTagging</value>
-	    </property>
-	    <property name="fileExtension">
-	       <value>csv</value>
-	    </property>
-	    <property name="digestorRulesFileName">
-	       <value>org/kuali/module/cams/batch/collector/collectorDigesterRules.xml</value>
-	    </property>
-	    <property name="schemaLocation">
-	       <value>org/kuali/module/cams/batch/collector/glCollector.xsd</value>
-	    </property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-	</bean>
-
-<!-- *********  End of pre-asset tagging batch beans ********** -->
     <bean id="assetLookupableHelperService" class="org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     	<property name="assetService" ref="assetService"/>    
     </bean>

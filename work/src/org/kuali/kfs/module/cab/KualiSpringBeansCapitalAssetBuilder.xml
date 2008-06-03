@@ -48,7 +48,56 @@
 				<value>org/kuali/module/capitalAssetBuilder/dwr-capitalAssetBuilder.xml</value>
 			</list>
 		</property>
+		<property name="jobNames">
+			<list>
+				<!-- value>preAssetTaggingJob</value-->				
+				<value>assetDepreciationBatchJob</value>
+			</list>
+		</property>		
 	</bean>
 
 	<bean id="capitalAssetBuilderUserService" class="org.kuali.module.capitalAssetBuilder.service.impl.CapitalAssetBuilderUserServiceImpl" parent="kualiModuleUserServiceBase" />
+	
+<!-- ********* Begin of pre-asset tagging batch beans ********** -->
+	<bean id="preAssetTaggingService" class="org.kuali.module.capitalAssetBuilder.service.impl.PreAssetTaggingServiceImpl">
+      	<property name="preAssetTaggingInputFileType">
+            <ref bean="preAssetTaggingInputFileType" />
+      	</property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+	</bean>
+
+	<!-- bean id="preAssetTaggingJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="preAssetTaggingStep"/>
+			</list>
+		</property>
+	</bean-->
+
+	<bean id="preAssetTaggingStep" class="org.kuali.module.capitalAssetBuilder.batch.PreAssetTaggingStep" parent="step">
+		<property name="preAssetTaggingService">
+			<ref bean="preAssetTaggingService" />
+		</property>
+	</bean>  
+
+    <bean id="preAssetTaggingInputFileType" class="org.kuali.module.capitalAssetBuilder.batch.PreAssetTaggingInputFileType">
+    	<property name="directoryPath">
+	       <value>/Documents and Settings/qlai/Desktop/preAssetTagging</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>csv</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/module/capitalAssetBuilder/batch/collector/collectorDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>org/kuali/module/capitalAssetBuilder/batch/collector/glCollector.xsd</value>
+	    </property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+<!-- *********  End of pre-asset tagging batch beans ********** -->	
 </beans>

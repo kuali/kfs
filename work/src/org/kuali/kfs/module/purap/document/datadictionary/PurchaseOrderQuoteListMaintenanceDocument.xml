@@ -107,6 +107,8 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorDetailAssignedIdentifier"
                     p:template="vendorDetailAssignedIdentifier" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="versionNumber" />                    
             </list>
           </property>
           <property name="duplicateIdentificationFields">

@@ -351,4 +351,6 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return
      */
     public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier);
+    
+    public void processPaymentRequestInReceivingStatus();
 }

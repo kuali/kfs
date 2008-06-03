@@ -125,4 +125,11 @@ public interface PaymentRequestDao {
      * @return
      */
     public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId);
+    
+    /**
+     * Get all payment request which are waiting in receiving status queue
+     * @return
+     */
+    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus();
+    
 }

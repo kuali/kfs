@@ -1357,4 +1357,49 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         return hasActivePreqs;
     }
+    
+    public void processPaymentRequestInReceivingStatus() {
+        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        if (docs != null) {
+            for (PaymentRequestDocument paymentRequestDocument : docs) {
+                processPaymentRequestInReceivingStatus(paymentRequestDocument);
             }
+        }
+    }
+    
+    public void processPaymentRequestInReceivingStatus(PaymentRequestDocument preqDoc) {
+        
+        boolean changeStatus = false;
+        PurchaseOrderDocument poDoc = preqDoc.getPurchaseOrderDocument();
+        
+        List<PaymentRequestItem> preqItems = preqDoc.getItems();
+        for (PaymentRequestItem preqItem : preqItems) {
+            if(!StringUtils.equalsIgnoreCase(preqItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
+                    PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
+                    KualiDecimal preqItemQuantity = preqItem.getItemQuantity(); 
+                    KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity();                                
+                    KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity();
+                    if (preqItemQuantity.isLessEqual((poItemReceivedQty.subtract(
+                                                           poItemInvoicedQty.subtract(
+                                                                   preqItemQuantity))))){
+                        
+                        changeStatus = true;
+                    }else{
+                        changeStatus = false;
+                        break;
+                    }
+            }
+        }
+        
+        if (changeStatus){
+            purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
+            try{
+                documentService.routeDocument(preqDoc, null, null);
+            }catch (WorkflowException e) {
+                String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
+                LOG.error(errorMsg, e);
+                throw new RuntimeException(errorMsg, e);
+            }
+        }
+    }
+}

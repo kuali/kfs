@@ -987,4 +987,10 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
             return nodeNames[0];
         }
     }
+    
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
+    
 }

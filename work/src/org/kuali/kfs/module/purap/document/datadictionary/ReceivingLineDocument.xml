@@ -17,9 +17,7 @@
     </property>    
     <property name="documentTypeName" value="ReceivingLineDocument" />
     <property name="documentClass" value="org.kuali.module.purap.document.ReceivingLineDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.ReceivingLineDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.ReceivingLineDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.ReceivingLineDocumentPreRules" />
     <property name="documentTypeCode" value="RCVL" />
     <property name="authorizations" >
       <list>

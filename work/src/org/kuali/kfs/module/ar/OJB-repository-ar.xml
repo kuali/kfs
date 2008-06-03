@@ -440,15 +440,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.CustomerInternalNote" table="AR_CUST_INT_NOTE_T">
-	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="customerInternalNoteCreateTimestamp" column="CUST_INTNTE_CRT_TS" jdbc-type="TIMESTAMP" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="customerInternalNoteAuthorIdentifier" column="CUST_INT_AUTHOR_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="customerInternalNoteText" column="CUST_INT_NTE_TXT" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.ar.bo.CustomerInvoiceItemCode" table="AR_INV_ITM_CODE_T">
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>

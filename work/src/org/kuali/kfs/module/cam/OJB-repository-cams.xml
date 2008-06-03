@@ -217,9 +217,6 @@
 	<collection-descriptor name="assetDispositions" element-class-ref="org.kuali.module.cams.bo.AssetDisposition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
-	<collection-descriptor name="assetHeaders" element-class-ref="org.kuali.module.cams.bo.AssetHeader" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<inverse-foreignkey field-ref="capitalAssetNumber" />
-	</collection-descriptor>
 	<collection-descriptor name="assetLocations" element-class-ref="org.kuali.module.cams.bo.AssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
@@ -276,9 +273,6 @@
 	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/> 
 
-	<reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

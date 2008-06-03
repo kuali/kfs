@@ -44,7 +44,6 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;

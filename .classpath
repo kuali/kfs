@@ -27,7 +27,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-io-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-pool-1.2.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/db-ojb-1.0.4-kuali-mods-debug.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/db-ojb-1.0.4-kuali-mods-debug.jar" sourcepath="/kuali_dependencies/db-ojb-1.0.4-kuali-src.zip"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/dwr-1.1.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/fop-0.20.5.jar"/>
@@ -61,8 +61,8 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xpp3_min-1.1.3.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jasperreports-2.0.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9.3-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-0.9.3-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-0.9.3-SNAPSHOT.jar" sourcepath="/kuali_dependencies/rice-kew-0.9.3-SNAPSHOT-sources.zip"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar" sourcepath="/kuali_dependencies/rice-kns-0.9.3-SNAPSHOT-sources.zip"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-lang-2.3.jar"/>
@@ -77,6 +77,6 @@
 	<classpathentry kind="lib" path="build/external/appserver/jts1_0.jar"/>
 	<classpathentry kind="lib" path="build/external/appserver/objectweb-datasource.jar"/>
 	<classpathentry kind="lib" path="build/external/appserver/ow_carol.jar"/>
-	<classpathentry kind="lib" path="build/external/appserver/xapool.jar"/>	
+	<classpathentry kind="lib" path="build/external/appserver/xapool.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

@@ -85,14 +85,6 @@ public class CamsPropertyConstants {
 
     }
 
-    public static class AssetHeader {
-        public static final String DOCUMENT_NUMBER = "documentNumber";
-        public static final String DOCUMENT_HEADER = "documentHeader";
-        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
-        public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
-        public static final String ORGANIZATION_OWNER_CHART = "organizationOwnerChartOfAccounts";
-    }
-
     public static class AssetObject {
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     }
@@ -179,7 +171,6 @@ public class CamsPropertyConstants {
         public static final String CAMPUS_CODE = "campusCode";
         public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
-        public static final String ASSET_HEADER = "assetHeader";
         public static final String CAMPUS = "campus";
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "organizationOwnerChartOfAccounts";
         public static final String OFF_CAMPUS_STATE = "offCampusState";

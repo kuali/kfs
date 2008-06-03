@@ -134,11 +134,6 @@ public class CamsConstants {
     public static final String RETIREMENT_REASON_CODE_M = "M";
     public static final String GL_BALANCE_TYPE_CDE_AC = "AC";
 
-    public static class AssetHeader {
-        public static final String DOCUMENT_HEADER = "documentHeader";
-
-    }
-
     public static class AssetRetirementGlobal {
         public static final String DOCUMENT_HEADER = "documentHeader";
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";

@@ -66,7 +66,6 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
      * @param assetTransferForm Form
      * @param assetTransferDocument Document
      * @param service BusinessObjectService
-     * @param assetHeader Asset header object
      * @return Asset
      */
     protected void handleRequestFromWorkflow(AssetTransferForm assetTransferForm, AssetTransferDocument assetTransferDocument) {

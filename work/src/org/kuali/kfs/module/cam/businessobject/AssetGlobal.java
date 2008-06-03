@@ -55,7 +55,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     
     // Not Presisted
     private Date lastInventoryDate;
-   // private AssetHeader assetHeader;
     private Agency agency;
     private UniversalUser assetRepresentative;
     private AssetType capitalAssetType;
@@ -764,22 +763,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.lastInventoryDate = lastInventoryDate;
     }
 
-
+    // TODO Is this needed any more? (we got rid of assetHeader)
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-     //   assetHeader.setDocumentNumber(documentNumber);
         super.beforeUpdate(persistenceBroker);
     }
 
+    //  TODO Is this needed any more? (we got rid of assetHeader)
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-   //     assetHeader.setDocumentNumber(documentNumber);
         super.beforeInsert(persistenceBroker);
     }
 

@@ -116,7 +116,6 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetWarranty assetWarranty;
     private List<AssetComponent> assetComponents;
     private List<AssetDisposition> assetDispositions;
-    private List<AssetHeader> assetHeaders;
     private List<AssetLocation> assetLocations;
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
@@ -152,7 +151,6 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
         this.assetComponents = new TypedArrayList(AssetComponent.class);
         this.assetDispositions = new TypedArrayList(AssetDisposition.class);
-        this.assetHeaders = new TypedArrayList(AssetHeader.class);
         this.assetLocations = new TypedArrayList(AssetLocation.class);
         this.assetRetirementHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
         this.retirementGlobals = new TypedArrayList(AssetRetirementGlobal.class);
@@ -1789,14 +1787,6 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setFederalContribution(KualiDecimal federalContribution) {
         this.federalContribution = federalContribution;
-    }
-
-    public List<AssetHeader> getAssetHeaders() {
-        return assetHeaders;
-    }
-
-    public void setAssetHeaders(List<AssetHeader> assetHeaders) {
-        this.assetHeaders = assetHeaders;
     }
 
     public AssetRetirementGlobalDetail getRetirementInfo() {

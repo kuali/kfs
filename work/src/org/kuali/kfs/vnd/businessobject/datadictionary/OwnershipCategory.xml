@@ -15,7 +15,7 @@
       <ref bean="OwnershipCategory-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="vendorOwnershipCategoryCode" />
-    <property name="objectLabel" value="Ownership Category" />
+    <property name="objectLabel" value="Ownership Type Category" />
     <property name="attributes" >
       <list>
         <ref bean="OwnershipCategory-vendorOwnershipCategoryCode" />
@@ -34,7 +34,7 @@
   <bean id="OwnershipCategory-vendorOwnershipCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCategoryCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ownership Category Code" />
+    <property name="label" value="Ownership Type Category Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -51,7 +51,7 @@
   <bean id="OwnershipCategory-vendorOwnershipCategoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCategoryDescription" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ownership Category Description" />
+    <property name="label" value="Ownership Type Category Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
@@ -80,7 +80,7 @@
   <bean id="OwnershipCategory-inquiryDefinition" parent="OwnershipCategory-inquiryDefinition-parentBean" />
 
   <bean id="OwnershipCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Ownership Category Inquiry" />
+    <property name="title" value="Ownership Type Category Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -107,7 +107,7 @@
   <bean id="OwnershipCategory-lookupDefinition" parent="OwnershipCategory-lookupDefinition-parentBean" />
 
   <bean id="OwnershipCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Ownership Category Lookup" />
+    <property name="title" value="Ownership Type Category Lookup" />
     <property name="instructions" value="Lookup an Owner Category" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

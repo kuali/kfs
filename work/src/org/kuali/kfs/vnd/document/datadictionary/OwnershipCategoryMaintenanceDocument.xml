@@ -19,8 +19,8 @@
         <value>vendorOwnershipCategoryCode</value>
       </list>
     </property>
-    <property name="label" value="Ownership Category" />
-    <property name="shortLabel" value="Ownership Category" />
+    <property name="label" value="Ownership Type Category" />
+    <property name="shortLabel" value="Ownership Type Category" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
             p:parameterNamespace="KFS-VN"
@@ -53,8 +53,8 @@
   <bean id="OwnershipCategoryMaintenanceDocument-EditOwnershipCategory" parent="OwnershipCategoryMaintenanceDocument-EditOwnershipCategory-parentBean" />
 
   <bean id="OwnershipCategoryMaintenanceDocument-EditOwnershipCategory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Ownership Category" />
-    <property name="title" value="Edit Ownership Category" />
+    <property name="id" value="Edit Ownership Type Category" />
+    <property name="title" value="Edit Ownership Type Category" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"

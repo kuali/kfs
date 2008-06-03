@@ -70,8 +70,8 @@
   <bean id="OwnershipType-vendorOwnershipCategoryAllowedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCategoryAllowedIndicator" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ownership Category Allowed Indicator" />
-    <property name="shortLabel" value="Ownership Category Allowed" />
+    <property name="label" value="Ownership Type Category Allowed Indicator" />
+    <property name="shortLabel" value="Ownership Type Category Allowed" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />

@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -41,6 +42,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.service.NoteService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -50,11 +52,15 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
@@ -110,6 +116,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     private KualiWorkflowInfo workflowInfoService;
     private MaintenanceDocumentService maintenanceDocumentService;
+    private ParameterService parameterService;
+    private UniversalUserService universalUserService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -171,6 +179,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.maintenanceDocumentService = maintenanceDocumentService;
     }
     
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
+    }
+
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#saveDocumentNoValidation(org.kuali.module.purap.document.PurchaseOrderDocument)
      */
@@ -1269,4 +1285,24 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         return adHocRoutePersons;
     }
+    
+    public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType) {
+        boolean valid = true;
+        // Check that the user is in purchasing workgroup.
+        String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        UniversalUser user = null;
+        try {
+            user = universalUserService.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
+            String purchasingGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+            if (!universalUserService.isMember(user, purchasingGroup)) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, actionType , PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
+            }
+        }
+        catch (UserNotFoundException ue) {
+            valid = false;
+        }
+        return valid;
+    }
+
 }

@@ -87,22 +87,7 @@ public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentR
             throw new ValidationException("Purchase Order Payment Hold document was null on validation.");
         }
         else {
-            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
-
-            // Check that the user is in purchasing workgroup.
-            String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            UniversalUserService uus = SpringContext.getBean(UniversalUserService.class);
-            UniversalUser user = null;
-            try {
-                user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-                String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-                if (!uus.isMember(user, purchasingGroup)) {
-                    valid = false;
-                }
-            }
-            catch (UserNotFoundException ue) {
-                valid = false;
-            }
+            valid &= SpringContext.getBean(PurchaseOrderService.class).isPurchasingUser(document, "create payment hold for");
         }
         return valid;
     }

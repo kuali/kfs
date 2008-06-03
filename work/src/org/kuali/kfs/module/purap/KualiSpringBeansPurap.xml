@@ -397,6 +397,12 @@
         <property name="maintenanceDocumentService">
             <ref bean="maintenanceDocumentService" />
         </property>  
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>  
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>          
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 

@@ -303,4 +303,6 @@ public interface PurchaseOrderService {
      */
     public VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po);
     
+    public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType);
+
 }

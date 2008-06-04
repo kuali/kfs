@@ -164,12 +164,12 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
         // it is assumed that the key's components can all be concatenated
         // there is apparently no concatenation function that is supported in all
         // versions of SQL (even though there is a standard)
-        // so, we'll just run the query with OJB's getCount, which runs the query
-        // and counts the rows using the Iterator returned.  One hopes that isn't
-        // much more expensive than just doing an SQL COUNT(DISTINCT CONCAT(..))
+        // OJB's getCount does NOT handle this properly (it counts the number of primary keys)
+        // so, we use a helper method to build our own DISTINCT query, based on the OJB platform
+        // if the platform is not Oracle or MySQL, we return a default size
         ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(classID, selectList, criteriaID);
-        return (getPersistenceBrokerTemplate().getCount(queryID));
+            new ReportQueryByCriteria(classID, selectList, criteriaID, true);
+        return (hashCapacity(queryID));
     }
     
     private String[] buildCountDistinct(ReportQueryByCriteria originalQuery)

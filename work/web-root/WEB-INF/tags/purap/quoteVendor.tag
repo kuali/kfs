@@ -180,9 +180,8 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" />
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatus.statusDescription" 
-                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
-                <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatusCode" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderQuoteStatusCode" 
+                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" readOnlyAlternateDisplay="${ KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderQuoteStatus.statusDescription}"/>
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" />

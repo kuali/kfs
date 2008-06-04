@@ -1401,6 +1401,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorLine2Address(awardedQuote.getVendorLine2Address());
                 document.setVendorCityName(awardedQuote.getVendorCityName());
                 document.setVendorStateCode(awardedQuote.getVendorStateCode());
+                document.setVendorPostalCode(awardedQuote.getVendorPostalCode());
                 document.setVendorCountryCode(awardedQuote.getVendorCountryCode());
                 document.setVendorPhoneNumber(awardedQuote.getVendorPhoneNumber());
                 document.setVendorFaxNumber(awardedQuote.getVendorFaxNumber());

@@ -46,7 +46,6 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.dao.DepreciableAssetsDao;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -221,14 +220,12 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         q.setAttributes(new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER });
 
         Iterator<Object> i= getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-        
         while (i.hasNext()) {
             fieldValue = (Object[]) i.next();
             if (fieldValue[0] != null) {
-                capitalAssetNumbers.add((String)fieldValue[0]);                
+                capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));
             }
         }
-
         // transferred assets sub query
 
         criteria = new Criteria();
@@ -242,7 +239,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         while (i.hasNext()) {
             fieldValue = (Object[]) i.next();
             if (fieldValue[0] != null) {
-                capitalAssetNumbers.add((String)fieldValue[0]);                
+                capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));             
             }
         }
         
@@ -262,7 +259,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
 
-        Long count; 
+        Object result=null;
+        Long lCount = new Long(0);
+        BigDecimal bdCount = new BigDecimal(0);
         
         List<String> notPendingDocStatuses = new ArrayList<String>();
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
@@ -278,21 +277,34 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
         q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER + ")" });
         Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-
-        Object[] data = (Object[]) i.next();
-        count = (Long)data[0];
-
+        
+        Object[] data1 = (Object[]) i.next();
+        if (data1[0] instanceof BigDecimal)
+            bdCount=bdCount.add((BigDecimal)data1[0]);
+        else
+            lCount=lCount+(Long)data1[0];
+            
         // transferred assets sub query
         q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
         q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER + ")" });
         i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
 
-        data = (Object[]) i.next();
-        count+=(Long)data[0];
+        Object[] data2 = (Object[]) i.next();
+        if (data2[0] instanceof BigDecimal) {
+            bdCount=bdCount.add((BigDecimal)data2[0]);
+        } else {
+            lCount=lCount+(Long)data2[0];
+        }
+     
+        if (bdCount.compareTo(new BigDecimal(0)) != 0)
+            result=(Object)bdCount;
+        
+        if (lCount.compareTo(new Long(0)) != 0)
+            result=(Object)lCount;
         
         LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets being retired or transferred.");
-        return (Object)count;        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets being retired or transferred.");        
+        return result;
     }
 
 
@@ -583,9 +595,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, false));
             q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER + ")", "count(*)" });
             i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+            
             data = (Object[]) i.next();
-
-
+            
             if (data[1] instanceof BigDecimal) {
                 eligibleAssetPaymentCount = new Integer(((BigDecimal) data[1]).toString());
                 federallyOwnedAssetPaymentCount = new Integer(((BigDecimal) federallyOwnedAssetPaymentObjectCount).toString());
@@ -802,28 +814,25 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of federally owned asset payments.");
 
-        Object[] data;
+        String sNumber="0";
+        Object[] data=null;
         List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
         if (!federallyOwnedObjectSubTypes.isEmpty()) {
             ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, true));
             q.setAttributes(new String[] { "count(*)" });
             Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-            if (!i.hasNext()) {
-                data = new Object[1];
-                data[0] = new BigDecimal(0);
-            }
-            else {
+            if (i.hasNext()) {
                 data = (Object[]) i.next();
+                sNumber = this.convertCountValueToString(data[0]);
             }
-        }
-        else {
-            data = new Object[1];
-            data[0] = new BigDecimal(0);
         }
 
         LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of federally owned asset payments.");
-        return data[0];
+        if (data[0] instanceof Long)
+            return new Long(sNumber);
+        else 
+            return new BigDecimal(sNumber);
     }
 
 

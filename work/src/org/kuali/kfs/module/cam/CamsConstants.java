@@ -45,7 +45,7 @@ public class CamsConstants {
     public static class DocumentTypeCodes {
         public static final String ASSET_SEPERATE = "ASEP";
     }
-
+    
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class Parameters {
@@ -94,11 +94,11 @@ public class CamsConstants {
         public static final String ASSET_SEPARATE_CODE = "S";
     }
 
-    public static class AssetPaymentErrors {
-        public static final String INFORMATION_TAB_ERRORS = "AssetInfoErrors,document.capitalAssetNumber,document.organizationOwnerChartOfAccountsCode,document.campusCode," + "document.representativeUniversalIdentifier";
 
+    public static class BarcodeInventoryError {
+        public static final String DETAIL_ERRORS = "document.inventoryUploadErrorDetail*";
     }
-
+    
     public static class Workgroups {
         public static final String WORKGROUP_CM_ADMINISTRATORS = "CM_ADMINISTRATORS";
         public static final String WORKGROUP_CM_SECURITY_ADMINISTRATORS = "CM_SECURITY_ADMINISTRATORS";
@@ -137,7 +137,7 @@ public class CamsConstants {
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
-        public static final String FIS_DOC_TYPE_CODE = "AR";
+        public static final String FIS_DOC_TYPE_CODE = "AR"; 
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
@@ -150,6 +150,7 @@ public class CamsConstants {
         public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
         public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F;S";
         public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";
+
     }
 
     public static class AssetRetirementReasonCode {
@@ -206,13 +207,13 @@ public class CamsConstants {
 
     public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetPaymentDifferentObjectSubTypeQuestion";
 
-    public static class BarCodeInventory {
+    public static class BarCodeInventory {    
         public static final String FILE_TYPE_INDENTIFIER = "assetBarCodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";
-        public static final String DATA_FILE_EXTENSION = ".csv";
+        public static final String DATA_FILE_EXTENSION = ".csv";        
         public static final String DONE_FILE_EXTENSION = ".done";
     }
-
+    
 
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
         public static final String DISPLAY_NEW_LOAN_TAB = "displayNewLoanTab";

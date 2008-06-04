@@ -37,6 +37,7 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAmendmentDocument.class);
 
+    boolean newUnorderedItem; //Used for routing
     /**
      * Default constructor.
      */
@@ -108,4 +109,17 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
        // don't think i should have to override this, but default isn't getting the right PO doc
        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT);
    }
+   @Override
+   public void populateDocumentForRouting() {
+       super.populateDocumentForRouting();
+       newUnorderedItem = SpringContext.getBean(PurchaseOrderService.class).hasNewUnorderedItem(this);
+   }
+
+public boolean isNewUnorderedItem() {
+    return newUnorderedItem;
+}
+
+public void setNewUnorderedItem(boolean newUnorderedItem) {
+    this.newUnorderedItem = newUnorderedItem;
+}
 }

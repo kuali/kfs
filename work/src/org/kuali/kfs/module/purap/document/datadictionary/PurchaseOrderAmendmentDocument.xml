@@ -35,6 +35,26 @@
         </bean>
       </list>
     </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PurchaseOrderAmendmentDocument-newUnorderedItem" />
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Attribute Definitions -->
+  
+  <bean id="PurchaseOrderAmendmentDocument-newUnorderedItem" parent="PurchaseOrderAmendmentDocument-newUnorderedItem-parentBean" />
+
+  <bean id="PurchaseOrderAmendmentDocument-newUnorderedItem-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="newUnorderedItem" />
+    <property name="label" value="New Unordered Items on Amendment" />
+    <property name="shortLabel" value="New Unordered Items" />
+    <property name="description" value="New Unordered Items on Purchase Order Amendment" />
+    <property name="control" >
+       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="maxLength" value="1" />
   </bean>
 
 <!-- Exported Workflow Properties -->

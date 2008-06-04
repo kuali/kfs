@@ -300,7 +300,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public List<SummaryAccount> generateSummaryAccounts(PurchasingAccountsPayableDocument document) {
         // always update the amounts first
         updateAccountAmounts(document);
-        return generateSummaryAccounts(document.getItems());
+        return generateSummaryAccounts(document.getItems(), ZERO_TOTALS_RETURNED_VALUE);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryAccountsWithNoZeroTotals(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotals(PurchasingAccountsPayableDocument document) {
+        // always update the amounts first
+        updateAccountAmounts(document);
+        return generateSummaryAccounts(document.getItems(), ZERO_TOTALS_NOT_RETURNED_VALUE);
     }
 
     /**
@@ -309,13 +319,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param items a list of PurAp Items.
      * @return a list of summary accounts.
      */
-    private List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items) {
+    private List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items, Boolean useZeroTotals) {
         String methodName = "generateSummaryAccounts()";
         List<SummaryAccount> returnList = new ArrayList<SummaryAccount>();
         if ( LOG.isDebugEnabled() ) {
             LOG.debug(methodName + " started");
         }
-        List<SourceAccountingLine> sourceLines = generateSummary(items);
+        
+        List<SourceAccountingLine> sourceLines = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, useZeroTotals, ALTERNATE_AMOUNT_NOT_USED);
         for (SourceAccountingLine sourceAccountingLine : sourceLines) {
             SummaryAccount summaryAccount = new SummaryAccount();
             summaryAccount.setAccount((SourceAccountingLine) ObjectUtils.deepCopy(sourceAccountingLine));

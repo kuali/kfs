@@ -79,6 +79,14 @@ public interface PurapAccountingService {
 
     /**
      * 
+     * This creates summary accounts based on a list of items excluding zero totals.
+     * @param document the document to generate the summary accounts from
+     * @return a list of summary accounts.
+     */
+    public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotals(PurchasingAccountsPayableDocument document);
+
+    /**
+     * 
      * Generates an account summary, that is it creates a list of source accounts
      * by rounding up the Purchasing Accounts Payable accounts off of the Purchasing Accounts Payable items.
      *

@@ -155,45 +155,15 @@ public class ReportRunnerAction extends KualiAction {
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
             }
             case 3:{
-                String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-                Properties parameters = new Properties();
-                parameters.put("universityFiscalYear", reportRunnerForm.getUniversityFiscalYear().toString());
-                parameters.put("chartOfAccountsCode", reportRunnerForm.getChartOfAccountsCode());
-                parameters.put("accountNumber", reportRunnerForm.getAccountNumber());
-                parameters.put("subAccountNumber", reportRunnerForm.getSubAccountNumber());
-                parameters.put("reportMode", BudgetConstructionReportMode.ACCOUNT_DUMP.reportModeName);
-                parameters.put("methodToCall", "start");
-                String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportDump.do", parameters);
-                
-                return new ActionForward(lookupUrl, true);
+                return new ActionForward(buildReportDumpForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.ACCOUNT_DUMP.reportModeName), true);
             }
                 
             case 4: {
-                String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-                Properties parameters = new Properties();
-                parameters.put("universityFiscalYear", reportRunnerForm.getUniversityFiscalYear().toString());
-                parameters.put("chartOfAccountsCode", reportRunnerForm.getChartOfAccountsCode());
-                parameters.put("accountNumber", reportRunnerForm.getAccountNumber());
-                parameters.put("subAccountNumber", reportRunnerForm.getSubAccountNumber());
-                parameters.put("reportMode", BudgetConstructionReportMode.FUNDING_DUMP.reportModeName);
-                parameters.put("methodToCall", "start");
-                String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportDump.do", parameters);
-
-                return new ActionForward(lookupUrl, true);
+                return new ActionForward(buildReportDumpForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.FUNDING_DUMP.reportModeName), true);
             }
                 
             case 5: {
-                String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-                Properties parameters = new Properties();
-                parameters.put("universityFiscalYear", reportRunnerForm.getUniversityFiscalYear().toString());
-                parameters.put("chartOfAccountsCode", reportRunnerForm.getChartOfAccountsCode());
-                parameters.put("accountNumber", reportRunnerForm.getAccountNumber());
-                parameters.put("subAccountNumber", reportRunnerForm.getSubAccountNumber());
-                parameters.put("reportMode", BudgetConstructionReportMode.MONTHLY_DUMP.reportModeName);
-                parameters.put("methodToCall", "start");
-                String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportDump.do", parameters);
-
-                return new ActionForward(lookupUrl, true);
+                return new ActionForward(buildReportDumpForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.MONTHLY_DUMP.reportModeName), true);
             }
                 
         }
@@ -225,9 +195,12 @@ public class ReportRunnerAction extends KualiAction {
         parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(reportRunnerForm, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportRunnerForm.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, reportRunnerForm.getChartOfAccountsCode());
+        parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, reportRunnerForm.getAccountNumber());
+        parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, reportRunnerForm.getSubAccountNumber());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
-
+        
         // TODO may need another parm to indicate this is a Budget Document dump, not Organization dump.
         // no driving mt table to dump multiple accounts, just one account (document) here
 

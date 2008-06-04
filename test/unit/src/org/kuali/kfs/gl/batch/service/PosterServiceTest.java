@@ -591,7 +591,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
 
         // Exclude type
         unitTestSqlDao.sqlCommand("delete from ca_icr_excl_type_t where acct_icr_typ_cd = '23' and fin_coa_cd = 'BL'");
-        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('23','BL','2401','" + new Guid().toString() + "',1)");
+        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_ICR_EXCL_TYP_ACTV_IND) values ('23','BL','2401','" + new Guid().toString() + "',1,'Y')");
 
         loadInputTransactions(OriginEntrySource.SCRUBBER_VALID, inputTransactions);
         posterService.postMainEntries();

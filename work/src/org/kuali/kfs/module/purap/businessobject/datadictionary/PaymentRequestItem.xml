@@ -62,7 +62,7 @@
     <property name="name" value="itemLineNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Line Number" />
-    <property name="shortLabel" value="#" />
+    <property name="shortLabel" value="Item Line #" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />

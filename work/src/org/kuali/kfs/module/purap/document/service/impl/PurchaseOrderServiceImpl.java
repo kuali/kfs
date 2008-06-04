@@ -1264,7 +1264,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemIdentifier(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
 
                     // loop through accounts and pull off fiscal officer
-                    for(PurApAccountingLine account : poItem.getBaselineSourceAccountingLines()){
+                    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
 
                         //check for dupes of fiscal officer
                         if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier()) == false ){

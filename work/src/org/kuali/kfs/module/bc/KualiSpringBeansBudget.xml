@@ -513,8 +513,6 @@
     </property>
 	</bean>
     
-    
-    
     <bean id="budgetParameterService" class="org.kuali.module.budget.service.impl.BudgetParameterServiceImpl">
     <property name="parameterService">
     	<ref bean="parameterService" />
@@ -611,12 +609,15 @@
         </property>    
     </bean>
 
-    <bean id="genesisDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GenesisDaoOjb">
+    <bean id="genesisDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.module.budget.dao.ojb.GenesisDaoOjb">
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>
         <property name="documentService">
             <ref bean="documentService" />
+        </property>
+        <property name="laborModuleService">
+            <ref bean="laborModuleService" />
         </property>
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
@@ -740,5 +741,7 @@
 	    <property name="ojbMySqlPlatform">
 	    <ref bean="mySqlIndicator" />
 	    </property>
-	</bean>   
+	</bean>
+	
+	
 </beans>

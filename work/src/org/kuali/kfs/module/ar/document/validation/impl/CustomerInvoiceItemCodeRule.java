@@ -24,9 +24,9 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSKeyConstants.InvoiceItemCode;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.ArConstants.InvoiceItemCode;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -36,7 +36,7 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceItemCode.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArConstants.InvoiceItemCode.class);
     
     private CustomerInvoiceItemCode newInvoiceItemCode;
     
@@ -72,7 +72,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(itemDefaultPrice)) {
             validEntry = itemDefaultPrice.isPositive();
             if (!validEntry)
-                putFieldError("itemDefaultPrice",KFSKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_PRICE, "Item Default Price" );
+                putFieldError("itemDefaultPrice",ArConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_PRICE, "Item Default Price" );
         }
         return validEntry;
     }
@@ -84,7 +84,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         
         if (ObjectUtils.isNotNull(itemDefaultQuantity)) {
             if (itemDefaultQuantity.floatValue() <= 0) {
-                putFieldError("itemDefaultQuantity",KFSKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_QUANTITY, "Item Default Quantity" );
+                putFieldError("itemDefaultQuantity",ArConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_QUANTITY, "Item Default Quantity" );
                 validEntry = false;
             }
         }
@@ -108,7 +108,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         if( businessObjectService.countMatching(OrganizationOptions.class, criteria) == 0) {
-            putFieldError("organizationCode",KFSKeyConstants.InvoiceItemCode.ORG_OPTIONS_DOES_NOT_EXIST_FOR_CHART_AND_ORG, new String[]{customerInvoiceItemCode.getChartOfAccountsCode(),customerInvoiceItemCode.getOrganizationCode()});
+            putFieldError("organizationCode",ArConstants.InvoiceItemCode.ORG_OPTIONS_DOES_NOT_EXIST_FOR_CHART_AND_ORG, new String[]{customerInvoiceItemCode.getChartOfAccountsCode(),customerInvoiceItemCode.getOrganizationCode()});
             isValid = false;
         }
         
@@ -133,7 +133,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
 
                if (!success) {
                    // RE-USE this OrgAccDef error because it applies here
-                   putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceItemCodeObject.getCode());                
+                   putFieldError("defaultInvoiceFinancialObjectCode", ArConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceItemCodeObject.getCode());                
                }
            }
        

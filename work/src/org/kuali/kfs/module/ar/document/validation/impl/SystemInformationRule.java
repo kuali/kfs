@@ -20,8 +20,8 @@ import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
 import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -79,7 +79,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
             success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(salesTaxFinancialObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("salesTaxFinancialObjectCode",KFSKeyConstants.SystemInformation.SALES_TAX_OBJECT_CODE_INVALID,salesTaxFinancialObject.getCode());
+                putFieldError("salesTaxFinancialObjectCode",ArConstants.SystemInformation.SALES_TAX_OBJECT_CODE_INVALID,salesTaxFinancialObject.getCode());
             }
         }
         return success;

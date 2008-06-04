@@ -16,6 +16,7 @@
 package org.kuali.module.ar.rules;
 
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -32,7 +33,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.UnitOfMeasure;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -46,6 +49,7 @@ import org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
 import org.kuali.module.ar.service.CustomerAddressService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument>, DiscountCustomerInvoiceDetailRule<AccountingDocument> {
@@ -91,8 +95,11 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) financialDocument;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) accountingLine;
-
-        // success &= isCustomerInvoiceItemCodeValid(customerInvoiceDetail);
+        
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals( receivableOffsetOption ) ){
+            success &= doesChartCodeHaveRecivableObjectCode( customerInvoiceDetail );
+        }
         success &= isCustomerInvoiceDetailUnitPriceValid(customerInvoiceDetail, customerInvoiceDocument);
         success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
         success &= isValidUnitOfMeasure(customerInvoiceDetail);
@@ -174,7 +181,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     private boolean isValidPaymentAccountNumber(CustomerInvoiceDocument doc) {
 
         if (StringUtils.isEmpty(doc.getPaymentAccountNumber())) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
             return false;
         }
         else {
@@ -197,7 +204,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     private boolean isValidPaymentChartOfAccountsCode(CustomerInvoiceDocument doc) {
 
         if (StringUtils.isEmpty(doc.getPaymentChartOfAccountsCode())) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
             return false;
         }
         else {
@@ -219,7 +226,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     private boolean isValidPaymentFinancialObjectCode(CustomerInvoiceDocument doc) {
         if (StringUtils.isEmpty(doc.getPaymentFinancialObjectCode())) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE_REQUIRED);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
             return false;
         }
         else {
@@ -417,12 +424,16 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     protected boolean isValidUnitOfMeasure(CustomerInvoiceDetail detail) {
-        boolean success = true;
-        // this most likely will be a parameter service call
-        if (!StringUtils.isEmpty(detail.getInvoiceItemUnitOfMeasureCode())) {
-            // validate through parameter service
+        
+        if (StringUtils.isNotEmpty(detail.getInvoiceItemUnitOfMeasureCode())) {
+            Map criteria = new HashMap();
+            criteria.put("itemUnitOfMeasureCode", detail.getInvoiceItemUnitOfMeasureCode());
+            if ( ObjectUtils.isNull(SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UnitOfMeasure.class, criteria ) ) ){
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD);
+                return false;
+            }
         }
-        return success;
+        return true;
     }
 
     /**
@@ -663,6 +674,25 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
             }
             return false;
 
+        }
+        return true;
+    }
+    
+    /**
+     * This method returns true if chart code has receivable object code
+     * 
+     * @param customerInvoiceDetail
+     * @return
+     */
+    public boolean doesChartCodeHaveRecivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail ){
+        
+        customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
+        Chart chart = customerInvoiceDetail.getChart();
+        if( ObjectUtils.isNotNull( chart ) ){
+            if( StringUtils.isEmpty(chart.getFinAccountsReceivableObjCode()) ){
+                GlobalVariables.getErrorMap().putError(CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD);
+                return false;
+            }
         }
         return true;
     }

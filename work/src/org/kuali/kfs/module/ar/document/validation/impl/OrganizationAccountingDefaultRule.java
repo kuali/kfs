@@ -19,10 +19,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectTypeService;
 
@@ -52,6 +55,14 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
         success &= isWriteOffObjectValidExpense(newOrganizationAccountingDefault);
         success &= isLateChargeObjectValidIncome(newOrganizationAccountingDefault);
         success &= isDefaultInvoiceFinancialObjectValidIncome(newOrganizationAccountingDefault);
+        
+        // validate receivable FAU line if system parameter for receivable is set to 3
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption)) {
+            success &= doesPaymentAccountNumberExist(newOrganizationAccountingDefault);
+            success &= doesPaymentChartOfAccountsCodeExist(newOrganizationAccountingDefault);
+            success &= doesPaymentFinancialObjectCodeExist(newOrganizationAccountingDefault);
+        }
 
         return success;
     }
@@ -96,7 +107,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
             success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(writeObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("writeoffObjectCode", KFSKeyConstants.OrganizationAccountingDefault.WRITE_OFF_OBJECT_CODE_INVALID, writeObject.getCode());
+                putFieldError(ArConstants.OrganizationAccountingDefaultFields.WRITE_OFF_OBJECT_CODE, ArConstants.OrganizationAccountingDefaultErrors.WRITE_OFF_OBJECT_CODE_INVALID, writeObject.getCode());
             }
         }
 
@@ -123,7 +134,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
             success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(lateChargeObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("organizationLateChargeObjectCode", KFSKeyConstants.OrganizationAccountingDefault.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObject.getCode());
+                putFieldError(ArConstants.OrganizationAccountingDefaultFields.LATE_CHARGE_OBJECT_CODE, ArConstants.OrganizationAccountingDefaultErrors.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObject.getCode());
             }
         }
 
@@ -147,7 +158,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
         if (StringUtils.isNotEmpty(organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode()) &&
                 StringUtils.isEmpty(organizationAccountingDefault.getDefaultInvoiceChartOfAccountsCode())) {
             
-            putFieldError("defaultInvoiceChartOfAccountsCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_CHART_OF_ACCOUNTS_REQUIRED_IF_DEFAULT_OBJECT_CODE_EXISTS );
+            putFieldError(ArConstants.OrganizationAccountingDefaultFields.INVOICE_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationAccountingDefaultErrors.DEFAULT_CHART_OF_ACCOUNTS_REQUIRED_IF_DEFAULT_OBJECT_CODE_EXISTS );
             success = false;
             
         } else {
@@ -160,13 +171,60 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
                 success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceFinancialObject.getFinancialObjectTypeCode());
 
                 if (!success) {
-                    putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObject.getCode());
+                    putFieldError(ArConstants.OrganizationAccountingDefaultFields.INVOICE_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObject.getCode());
                 }
             }
         }
 
         return success;
     }
+    
+    /**
+     * This method returns true if payment account number is provided and is valid.
+     * 
+     * @param doc
+     * @return
+     */
+    private boolean doesPaymentAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
+
+        if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentAccountNumber())) {
+            putFieldError(ArConstants.OrganizationAccountingDefaultFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * This method returns true if payment chart of accounts code is provided and is valid
+     * 
+     * @param doc
+     * @return
+     */
+    private boolean doesPaymentChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+
+        if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentChartOfAccountsCode())) {
+            putFieldError(ArConstants.OrganizationAccountingDefaultFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * This method returns true if payment financial object code is provided and is valid
+     * 
+     * @param doc
+     * @return
+     */
+    private boolean doesPaymentFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+        if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentFinancialObjectCode())) {
+            putFieldError(ArConstants.OrganizationAccountingDefaultFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
+            return false;
+        }
+
+        return true;
+    }    
 
     public ObjectTypeService getObjectTypeService() {
         return objectTypeService;

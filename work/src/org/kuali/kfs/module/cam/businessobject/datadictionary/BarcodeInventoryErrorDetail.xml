@@ -1,0 +1,395 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BarcodeInventoryErrorDetail" parent="BarcodeInventoryErrorDetail-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.cams.bo.BarcodeInventoryErrorDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="BarcodeInventoryErrorDetail-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="BarcodeInventoryErrorDetail-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="BarcodeInventoryErrorDetail-assetConditionCode" />
+        <ref bean="BarcodeInventoryErrorDetail-assetTagNumber" />
+        <ref bean="BarcodeInventoryErrorDetail-buildingCode" />
+        <ref bean="BarcodeInventoryErrorDetail-buildingRoomNumber" />
+        <ref bean="BarcodeInventoryErrorDetail-buildingSubRoomNumber" />
+        <ref bean="BarcodeInventoryErrorDetail-campusCode" />
+        <ref bean="BarcodeInventoryErrorDetail-correctorUniversalIdentifier" />
+        <ref bean="BarcodeInventoryErrorDetail-documentNumber" />
+        <ref bean="BarcodeInventoryErrorDetail-errorCorrectionStatusCode" />
+        <ref bean="BarcodeInventoryErrorDetail-inventoryCorrectionTimestamp" />
+        <ref bean="BarcodeInventoryErrorDetail-uploadRowNumber" />
+        <ref bean="BarcodeInventoryErrorDetail-uploadScanIndicator" />
+        <ref bean="BarcodeInventoryErrorDetail-uploadScanTimestamp" />
+        <ref bean="BarcodeInventoryErrorDetail-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BarcodeInventoryErrorDetail-assetConditionCode" parent="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetConditionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Condition Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="assetConditionCode" />
+    <property name="description" value="assetConditionCode description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-assetTagNumber" parent="BarcodeInventoryErrorDetail-assetTagNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-assetTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assetTagNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Asset Tag Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="assetTagNumber" />
+    <property name="description" value="assetTagNumber description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="buildingCode" />
+    <property name="description" value="buildingCode description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber" parent="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="buildingRoomNumber" />
+    <property name="description" value="buildingRoomNumber description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber" parent="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingSubRoomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Sub Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="buildingSubRoomNumber" />
+    <property name="description" value="buildingSubRoomNumber description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-campusCode" parent="BarcodeInventoryErrorDetail-campusCode-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Campus Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="campusCode" />
+    <property name="description" value="campusCode description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-correctorUniversalIdentifier" parent="BarcodeInventoryErrorDetail-correctorUniversalIdentifier-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-correctorUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="correctorUniversalIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Corrector Universal Identifier" />
+    <property name="shortLabel" value="Identifier" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="correctorUniversalIdentifier" />
+    <property name="description" value="correctorUniversalIdentifier description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-documentNumber" parent="BarcodeInventoryErrorDetail-documentNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="14" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="16" />
+    </property>
+    <property name="summary" value="documentNumber" />
+    <property name="description" value="documentNumber description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-errorCorrectionStatusCode" parent="BarcodeInventoryErrorDetail-errorCorrectionStatusCode-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-errorCorrectionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="errorCorrectionStatusCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Error Correction Status Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="errorCorrectionStatusCode" />
+    <property name="description" value="errorCorrectionStatusCode description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-inventoryCorrectionTimestamp" parent="BarcodeInventoryErrorDetail-inventoryCorrectionTimestamp-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-inventoryCorrectionTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="inventoryCorrectionTimestamp" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Inventory Correction Timestamp" />
+    <property name="shortLabel" value="Timestamp" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="inventoryCorrectionTimestamp" />
+    <property name="description" value="inventoryCorrectionTimestamp description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-uploadRowNumber" parent="BarcodeInventoryErrorDetail-uploadRowNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-uploadRowNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="uploadRowNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Upload Row Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="12" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="14" />
+    </property>
+    <property name="summary" value="uploadRowNumber" />
+    <property name="description" value="uploadRowNumber description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-uploadScanIndicator" parent="BarcodeInventoryErrorDetail-uploadScanIndicator-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-uploadScanIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="uploadScanIndicator" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Upload Scan Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="summary" value="uploadScanIndicator" />
+    <property name="description" value="uploadScanIndicator description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-uploadScanTimestamp" parent="BarcodeInventoryErrorDetail-uploadScanTimestamp-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-uploadScanTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="uploadScanTimestamp" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Upload Scan Timestamp" />
+    <property name="shortLabel" value="Timestamp" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="uploadScanTimestamp" />
+    <property name="description" value="uploadScanTimestamp description..." />
+  </bean>
+  <bean id="BarcodeInventoryErrorDetail-versionNumber" parent="BarcodeInventoryErrorDetail-versionNumber-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="BarcodeInventoryErrorDetail-inquiryDefinition" parent="BarcodeInventoryErrorDetail-inquiryDefinition-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Inventory Upload Error Detail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetConditionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetTagNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingSubRoomNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="campusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="correctorUniversalIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="errorCorrectionStatusCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="inventoryCorrectionTimestamp" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="uploadRowNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="uploadScanIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="uploadScanTimestamp" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BarcodeInventoryErrorDetail-lookupDefinition" parent="BarcodeInventoryErrorDetail-lookupDefinition-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Inventory Upload Error Detail Lookup" />
+    <property name="instructions" value="Look up an Inventory Upload Error Detail" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="assetConditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingSubRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="correctorUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="errorCorrectionStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryCorrectionTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="uploadRowNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="uploadScanIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="uploadScanTimestamp" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="assetConditionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetTagNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="buildingSubRoomNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="correctorUniversalIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="errorCorrectionStatusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="inventoryCorrectionTimestamp" />
+        <bean parent="FieldDefinition"
+              p:attributeName="uploadRowNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="uploadScanIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="uploadScanTimestamp" />
+      </list>
+    </property>
+  </bean>
+</beans>

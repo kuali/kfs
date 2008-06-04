@@ -1379,6 +1379,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     KualiDecimal preqItemQuantity = preqItem.getItemQuantity(); 
                     KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity();                                
                     KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity();
+                    
                     if (preqItemQuantity.isLessEqual((poItemReceivedQty.subtract(
                                                            poItemInvoicedQty.subtract(
                                                                    preqItemQuantity))))){
@@ -1392,14 +1393,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         if (changeStatus){
+            /**
+             * FIXME: Have to change this status - vpc
+             */
             purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
-            try{
-                documentService.routeDocument(preqDoc, null, null);
-            }catch (WorkflowException e) {
-                String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
-                LOG.error(errorMsg, e);
-                throw new RuntimeException(errorMsg, e);
-            }
+            saveDocumentWithoutValidation(preqDoc);
         }
     }
 }

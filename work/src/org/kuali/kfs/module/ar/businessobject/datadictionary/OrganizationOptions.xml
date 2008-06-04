@@ -84,14 +84,14 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="800 Phone Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
+    <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+        p:allowWhitespace="true" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="15" />
+        p:size="42" />
     </property>
     <property name="summary" value="organization800PhoneNumber" />
     <property name="description" value="organization800PhoneNumber description..." />
@@ -123,14 +123,14 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Fax Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
+    <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+        p:allowWhitespace="true" />
     </property>
-    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="15" />
+        p:size="42" />
     </property>
     <property name="summary" value="organizationFaxNumber" />
     <property name="description" value="organizationFaxNumber description..." />
@@ -182,14 +182,14 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Phone Number" />
     <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
+    <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+        p:allowWhitespace="true" />
     </property>
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="15" />
+        p:size="42" />
     </property>
     <property name="summary" value="organizationPhoneNumber" />
     <property name="description" value="organizationPhoneNumber description..." />

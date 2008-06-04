@@ -49,6 +49,13 @@
 				<value>org/kuali/module/cams/OJB-repository-cams.xml</value>
 			</list>
 		</property>
+
+		<property name="jobNames">
+			<list>
+				<value>assetDepreciationBatchJob</value>
+			</list>
+		</property>
+
 		<!-- Asset Depreciation batch - START -->				
 		<property name="triggerNames">
 			<list>

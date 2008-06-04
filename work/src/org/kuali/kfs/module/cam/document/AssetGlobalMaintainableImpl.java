@@ -189,6 +189,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
             ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(firstAssetPaymentDetail.getFinancialDocumentPostingYear(), firstAssetPaymentDetail.getChartOfAccountsCode(), firstAssetPaymentDetail.getFinancialObjectCode());
             if (ObjectUtils.isNotNull(objectCode)) {
+                assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
                 Map<String, String> primaryKeys = new HashMap<String, String>();
                 primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, objectCode.getFinancialObjectSubTypeCode());
                 AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);

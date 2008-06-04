@@ -67,7 +67,7 @@ public class AssetDateServiceImpl implements AssetDateService {
      */
     public java.sql.Date computeDepreciationDate(AssetType assetType, AssetDepreciationConvention depreciationConvention, java.sql.Date inServiceDate) {
         java.sql.Date depreciationDate = null;
-        if (assetType.getDepreciableLifeLimit().intValue() != 0) {
+        if (assetType.getDepreciableLifeLimit() != null && assetType.getDepreciableLifeLimit().intValue() != 0) {
             if (depreciationConvention == null || CamsConstants.DepreciationConvention.CREATE_DATE.equalsIgnoreCase(depreciationConvention.getDepreciationConventionCode())) {
                 depreciationDate = inServiceDate;
             }

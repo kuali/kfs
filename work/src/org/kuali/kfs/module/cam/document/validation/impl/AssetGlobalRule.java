@@ -401,7 +401,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         KualiDecimal qty = new KualiDecimal(assetPaymentDetails.size());
 
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            totalAmount.add(assetPaymentDetail.getAmount().divide(qty));
+            totalAmount.add(assetPaymentDetail.getAmount());
+        }
+        if (!qty.isZero()) {
+            return totalAmount.divide(qty);
         }
         return totalAmount;
     }

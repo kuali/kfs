@@ -66,6 +66,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.util.SummaryAccount;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -171,8 +172,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesCreatePaymentRequest() started");
         List encumbrances = relieveEncumbrance(preq);
-        List accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
-        generateEntriesPaymentRequest(preq, encumbrances, accountingLines, CREATE_PAYMENT_REQUEST);
+        List summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotals(preq);
+        generateEntriesPaymentRequest(preq, encumbrances, summaryAccounts, CREATE_PAYMENT_REQUEST);
     }
 
     /**
@@ -184,8 +185,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesCreatePaymentRequest() started");
         List encumbrances = reencumberEncumbrance(preq);
-        List accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(preq.getItems());
-        generateEntriesPaymentRequest(preq, encumbrances, accountingLines, CANCEL_PAYMENT_REQUEST);
+        List summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotals(preq);
+        generateEntriesPaymentRequest(preq, encumbrances, summaryAccounts, CANCEL_PAYMENT_REQUEST);
     }
 
     /**
@@ -231,18 +232,19 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             glEntries.put(key, amt);
         }
 
-        List<SourceAccountingLine> accounts = new ArrayList();
+        List<SummaryAccount> summaryAccounts = new ArrayList();
         for (Iterator iter = glEntries.keySet().iterator(); iter.hasNext();) {
             SourceAccountingLine account = (SourceAccountingLine) iter.next();
             KualiDecimal amount = (KualiDecimal) glEntries.get(account);
             if (ZERO.compareTo(amount) != 0) {
                 account.setAmount(amount);
-                accounts.add(account);
+                SummaryAccount sa = new SummaryAccount(account);
+                summaryAccounts.add(sa);
             }
         }
 
         LOG.debug("generateEntriesModifyPaymentRequest() Generate GL entries");
-        generateEntriesPaymentRequest(preq, null, accounts, MODIFY_PAYMENT_REQUEST);
+        generateEntriesPaymentRequest(preq, null, summaryAccounts, MODIFY_PAYMENT_REQUEST);
     }
 
     /**
@@ -288,7 +290,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param processType Type of process (create, modify, cancel)
      * @return Boolean returned indicating whether entry creation succeeded
      */
-    private boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, List encumbrances, List accountingLines, String processType) {
+    private boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, List encumbrances, List summaryAccounts, String processType) {
         LOG.debug("generateEntriesPaymentRequest() started");
         boolean success = true;
         preq.setGeneralLedgerPendingEntries(new ArrayList());
@@ -322,10 +324,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        if (ObjectUtils.isNotNull(accountingLines) && !accountingLines.isEmpty()) {
+        if (ObjectUtils.isNotNull(summaryAccounts) && !summaryAccounts.isEmpty()) {
             LOG.debug("generateEntriesPaymentRequest() now book the actuals");
             preq.setGenerateEncumbranceEntries(false);
-
+            
             if (CREATE_PAYMENT_REQUEST.equals(processType) || MODIFY_PAYMENT_REQUEST.equals(processType)) {
                 // on create and modify, use DEBIT code
                 preq.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
@@ -335,14 +337,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 preq.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
             }
 
-            for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
-                AccountingLine accountingLine = (AccountingLine) iter.next();
-                preq.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
+            for (Iterator iter = summaryAccounts.iterator(); iter.hasNext();) {
+                SummaryAccount summaryAccount = (SummaryAccount)iter.next();
+                preq.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
                 sequenceHelper.increment(); // increment for the next line
             }
 
-            // Manually save summary accounts
-            savePaymentRequestSummaryAccounts(accountingLines, preq.getPurapDocumentIdentifier());
+            // Manually save preq summary accounts
+            savePaymentRequestSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
         }
 
         // Manually save GL entries for Payment Request and encumbrances
@@ -396,8 +398,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        List<SourceAccountingLine> accountingLines = purapAccountingService.generateSummaryWithNoZeroTotals(cm.getItems());
-        if (accountingLines != null) {
+        List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotals(cm);
+        if (summaryAccounts != null) {
             LOG.debug("generateEntriesCreditMemo() now book the actuals");
             cm.setGenerateEncumbranceEntries(false);
 
@@ -410,9 +412,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
             }
 
-            for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
-                AccountingLine accountingLine = (AccountingLine) iter.next();
-                cm.generateGeneralLedgerPendingEntries(accountingLine, sequenceHelper);
+            for (Iterator iter = summaryAccounts.iterator(); iter.hasNext();) {
+                SummaryAccount summaryAccount = (SummaryAccount) iter.next();
+                cm.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
                 sequenceHelper.increment(); // increment for the next line
             }
         }
@@ -1274,14 +1276,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param sourceLines Accounts to be saved
      * @param purapDocumentIdentifier Purap document id for accounts
      */
-    private void savePaymentRequestSummaryAccounts(List<SourceAccountingLine> sourceLines, Integer purapDocumentIdentifier) {
+    private void savePaymentRequestSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier) {
         LOG.debug("savePaymentRequestSummaryAccounts() started");
         purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier);
-        List<PaymentRequestSummaryAccount> summaryAccounts = new ArrayList();
-        for (SourceAccountingLine account : sourceLines) {
-            summaryAccounts.add(new PaymentRequestSummaryAccount(account, purapDocumentIdentifier));
+        List<PaymentRequestSummaryAccount> preqSummaryAccounts = new ArrayList();
+        for (SummaryAccount summaryAccount : summaryAccounts) {
+            preqSummaryAccounts.add(new PaymentRequestSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier));
         }
-        businessObjectService.save(summaryAccounts);
+        businessObjectService.save(preqSummaryAccounts);
     }
 
     /**

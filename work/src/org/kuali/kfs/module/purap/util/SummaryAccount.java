@@ -33,11 +33,16 @@ public class SummaryAccount {
     private List<PurApSummaryItem> items;
 
     /**
-     * 
      * Constructs a Summary Account
      */
     public SummaryAccount() {
         super();
+        items = new TypedArrayList(PurApSummaryItem.class);
+    }
+
+    public SummaryAccount(SourceAccountingLine account) {
+        super();
+        setAccount(account);
         items = new TypedArrayList(PurApSummaryItem.class);
     }
 

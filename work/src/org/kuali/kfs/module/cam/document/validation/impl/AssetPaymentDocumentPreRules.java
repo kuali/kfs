@@ -54,12 +54,10 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
     
     /**
      * 
-     * This method determines whether or not an asset has different object sub type codes in its documents This is a validation
-     * specifically created for Indiana University
+     * This method determines whether or not an asset has different object sub type codes in its documents.
      * 
      * @return true when the asset has payments with object codes that point to different object sub type codes
      */
-    
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
         
         // This method will only execute if the document is being submitted.

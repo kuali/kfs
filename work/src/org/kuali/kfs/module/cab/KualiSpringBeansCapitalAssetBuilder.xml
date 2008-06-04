@@ -51,7 +51,6 @@
 		<property name="jobNames">
 			<list>
 				<!-- value>preAssetTaggingJob</value-->				
-				<value>assetDepreciationBatchJob</value>
 			</list>
 		</property>		
 	</bean>

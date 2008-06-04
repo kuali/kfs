@@ -2958,7 +2958,7 @@
     <field-descriptor name="purchaseOrderQuoteRankNumber" column="PO_QT_RANK_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="purchaseOrderQuoteStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteStatus" auto-retrieve="true" auto-update="none" auto-delete="none">

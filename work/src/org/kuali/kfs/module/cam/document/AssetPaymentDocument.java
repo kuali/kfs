@@ -31,6 +31,7 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.MaintenanceDocumentService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.Building;
@@ -58,25 +59,15 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
     private Long capitalAssetNumber;
-    private String representativeUniversalIdentifier;
-    private String organizationOwnerChartOfAccountsCode;
-    private String organizationOwnerAccountNumber;
-    private String agencyNumber;
-    private String campusCode;
-    private String buildingCode;
     private Integer nextCapitalAssetPaymentLineNumber;
-
-    private Account organizationOwnerAccount;
-    private Chart organizationOwnerChartOfAccounts;
-    private Campus campus;
-    private Building building;
+    KualiDecimal previousTotalCostAmount;
+    
     private List<AssetPaymentDetail> assetPaymentDetail;
     private Asset asset;
 
     public AssetPaymentDocument() {
         super();
-        assetPaymentDetail = new ArrayList<AssetPaymentDetail>();
-        //asset = new Asset();        
+        assetPaymentDetail = new ArrayList<AssetPaymentDetail>();      
     }
 
     /**
@@ -136,7 +127,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
-    }
+    }    
 
     /**
      * 
@@ -188,54 +179,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.capitalAssetNumber = capitalAssetNumber;
     }
 
-    public String getRepresentativeUniversalIdentifier() {
-        return representativeUniversalIdentifier;
-    }
-
-    public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
-        this.representativeUniversalIdentifier = representativeUniversalIdentifier;
-    }
-
-    public String getOrganizationOwnerChartOfAccountsCode() {
-        return organizationOwnerChartOfAccountsCode;
-    }
-
-    public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
-        this.organizationOwnerChartOfAccountsCode = organizationOwnerChartOfAccountsCode;
-    }
-
-    public String getOrganizationOwnerAccountNumber() {
-        return organizationOwnerAccountNumber;
-    }
-
-    public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
-        this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
-    }
-
-    public String getAgencyNumber() {
-        return agencyNumber;
-    }
-
-    public void setAgencyNumber(String agencyNumber) {
-        this.agencyNumber = agencyNumber;
-    }
-
-    public String getCampusCode() {
-        return campusCode;
-    }
-
-    public void setCampusCode(String campusCode) {
-        this.campusCode = campusCode;
-    }
-
-    public String getBuildingCode() {
-        return buildingCode;
-    }
-
-    public void setBuildingCode(String buildingCode) {
-        this.buildingCode = buildingCode;
-    }
-
     public Integer getNextCapitalAssetPaymentLineNumber() {
         return nextCapitalAssetPaymentLineNumber;
     }
@@ -244,37 +187,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.nextCapitalAssetPaymentLineNumber = nextCapitalAssetPaymentLineNumber;
     }
 
-    public Account getOrganizationOwnerAccount() {
-        return organizationOwnerAccount;
-    }
-
-    public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
-        this.organizationOwnerAccount = organizationOwnerAccount;
-    }
-
-    public Chart getOrganizationOwnerChartOfAccounts() {
-        return organizationOwnerChartOfAccounts;
-    }
-
-    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
-        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
-    }
-
-    public Campus getCampus() {
-        return campus;
-    }
-
-    public void setCampus(Campus campus) {
-        this.campus = campus;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
 
     public List<AssetPaymentDetail> getAssetPaymentDetail() {
         return assetPaymentDetail;
@@ -290,5 +202,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
     public void setAsset(Asset asset) {
         this.asset = asset;
+    }
+
+    public KualiDecimal getPreviousTotalCostAmount() {
+        return previousTotalCostAmount;
+    }
+
+    public void setPreviousTotalCostAmount(KualiDecimal previousTotalCostAmount) {
+        this.previousTotalCostAmount = previousTotalCostAmount;
     }
 }

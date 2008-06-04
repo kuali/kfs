@@ -138,7 +138,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             // ***************** GET RID OF THESE LINES WHEN DONE TESTING **********
             //depreciationDateParameter = "2008-02-01";
             //currentDate.setTime(dateFormat.parse("2008-02-01"));
-            // *********************************************************************
+            // ********************************************************************
 
             // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
             if (depreciationDateParameter != null && !depreciationDateParameter.trim().equals("")) {

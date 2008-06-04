@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
@@ -67,16 +68,9 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         //asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentForm, assetPaymentDocument, asset);
         asset = handleRequestFromLookup(capitalAssetNumber, assetPaymentDocument);
 
-        //TODO change it because assetHeader table is needed anymore.        
         //Populating the hidden fields in the assetPayment.jsp
         assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());        
-        assetPaymentDocument.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
-        assetPaymentDocument.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
-        assetPaymentDocument.setCampusCode(asset.getCampusCode());
-        assetPaymentDocument.setAgencyNumber(asset.getAgencyNumber());
-        assetPaymentDocument.setBuildingCode(asset.getBuildingCode());
-        assetPaymentDocument.setRepresentativeUniversalIdentifier(asset.getRepresentativeUniversalIdentifier());
-
+        assetPaymentDocument.setPreviousTotalCostAmount(new KualiDecimal(0));
         //Adding the changes made in the document in the ActionForm.
         assetPaymentForm.setDocument(assetPaymentDocument);
     }

@@ -32,48 +32,31 @@
     <property name="attributes" >
       <list>
         <ref bean="AssetPaymentDocument-capitalAssetNumber" />
-        <ref bean="AssetPaymentDocument-organizationOwnerAccountNumber" />
-        <ref bean="AssetPaymentDocument-organizationOwnerChartOfAccountsCode" />
+        <ref bean="AssetPaymentDocument-previousTotalCostAmount" />
         <ref bean="AssetPaymentDocument-versionNumber" />
-        <ref bean="AssetPaymentDocument-agencyNumber" />
-        <ref bean="AssetPaymentDocument-campusCode" />
-        <ref bean="AssetPaymentDocument-buildingCode" />
       </list>
     </property>
     <property name="validationMap" ref="AssetPaymentDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
-
-
   <bean id="AssetPaymentDocument-capitalAssetNumber" parent="AssetPaymentDocument-capitalAssetNumber-parentBean" />
-
   <bean id="AssetPaymentDocument-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
-  <bean id="AssetPaymentDocument-organizationOwnerAccountNumber" parent="AssetPaymentDocument-organizationOwnerAccountNumber-parentBean" />
 
-  <bean id="AssetPaymentDocument-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
-  </bean>
-  <bean id="AssetPaymentDocument-organizationOwnerChartOfAccountsCode" parent="AssetPaymentDocument-organizationOwnerChartOfAccountsCode-parentBean" />
-
-  <bean id="AssetPaymentDocument-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode">
-  </bean>
   <bean id="AssetPaymentDocument-versionNumber" parent="AssetPaymentDocument-versionNumber-parentBean" />
-
   <bean id="AssetPaymentDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
-  <bean id="AssetPaymentDocument-agencyNumber" parent="AssetPaymentDocument-agencyNumber-parentBean" />
 
-  <bean id="AssetPaymentDocument-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">
-  </bean>
-  <bean id="AssetPaymentDocument-campusCode" parent="AssetPaymentDocument-campusCode-parentBean" />
-
-  <bean id="AssetPaymentDocument-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
-  </bean>
-  <bean id="AssetPaymentDocument-buildingCode" parent="AssetPaymentDocument-buildingCode-parentBean" />
-
-  <bean id="AssetPaymentDocument-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
-  </bean>
+  <bean id="AssetPaymentDocument-previousTotalCostAmount" parent="AssetPaymentDocument-previousTotalCostAmount-parentBean" />
+<bean id="AssetPaymentDocument-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="previousTotalCostAmount" />
+    <property name="label" value="Previous Total Cost Amount" />
+    <property name="shortLabel" value="Amount" />
+    <property name="summary" value="previousTotalCostAmount" />
+    <property name="description" value="previousTotalCostAmount description..." />
+    <property name="formatterClass" value="org.kuali.core.web.format.CurrencyFormatter" />
+  </bean>    
   <!-- Validations -->
   
   <bean id="AssetPaymentDocument-validations" parent="AssetPaymentDocument-validations-parentBean" />

@@ -77,7 +77,7 @@ import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.module.gl.GLConstants.ColumnNames;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.integration.service.LaborModuleService;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.KEWServiceLocator;
@@ -91,7 +91,7 @@ import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.server.BeanConverter;
 
 
-public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb 
+public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb 
              implements GenesisDao {
     /*
      *   These routines are written to try to mitigate the performance hit that
@@ -171,6 +171,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private DateTimeService dateTimeService; 
     private DocumentDao documentDao;
     private RouteHeaderService routeHeaderService = null;
+    private LaborModuleService laborModuleService;
     
     
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
@@ -218,84 +219,6 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             
     }
     
-    /*
-     * ******************************************************************************
-     *   These are utility routines used by all the units
-     * ******************************************************************************  
-     */
-    //  return the recommended length of a hash map (to avoid collisions but avoid 
-    //  wasting too much space)
-    //**********************************************************
-    // our technique of doing joins in Java instead of OJB is going to use a lot of
-    // memory.  since memory is a finite resource, we want the garbage collector to
-    // remove things no longer in use.  we could use weak hashmaps, but since many of
-    // the hashed objects in the globally scoped hashmaps are built within the scope
-    // of a method, doing so might cause them to be trashed prematurely.  instead, 
-    // we instantiate all the hashmaps on declaration with a length of 1 (to avoid
-    // null pointers).  then, we instantiate them again on first use with a size
-    // determined by the likely number of objects * (1.75) (see Horstman).  When
-    // we are done with the hash objects, we clear them, so the underlying objects
-    // are no longer referred to by anything and are fair game for the garbage 
-    // collector.  This is active memory management ala C.  If this offends 
-    // sensibilities, the offended are free to change the copy of the code they are
-    // using.
-    //***********************************************************
-    private Integer hashCapacity(Integer hashSize)
-    {
-        // this corresponds to a little more than the default load factor of .75
-        // a rehash supposedly occurs when the actual number of elements exceeds
-        // (load factor)*capacity
-        // N rows < .75 capacity ==> capacity > 4N/3 or 1.3333N.  We add a little slop.
-        Double tempValue = hashSize.floatValue()*(1.45);
-        return (Integer) tempValue.intValue();
-    }
-    
-    private Integer hashObjectSize(Class classID, Criteria criteriaID)
-    {
-        // this counts all rows
-        String[] selectList = new String[] {"COUNT(*)"};
-        ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(classID, selectList, criteriaID);
-        Iterator resultRows = 
-            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        if (resultRows.hasNext())
-        {
-            return(hashCapacity(((Number)((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRows))[0]).intValue()));
-        }
-        return (new Integer(1));
-    }
-    
-    private Integer hashObjectSize(Class classID, Criteria criteriaID,
-                                   String propertyName)
-    {
-        // this one counts distinct rows
-        String[] selectList = new String[] {"COUNT(DISTINCT "+
-                                             propertyName+")"};
-        ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(classID, selectList, criteriaID);
-        Iterator resultRows = 
-            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        if (resultRows.hasNext())
-        {
-            return(hashCapacity(((Number)((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(resultRows))[0]).intValue()));
-        }
-        return (new Integer(1));
-    }
-    
-    private Integer hashObjectSize(Class classID, Criteria criteriaID, 
-                                   String[] selectList)
-    {
-        // this version is designed to do a count of distinct composite key values
-        // it is assumed that the key's components are all strings
-        // there is apparently no concatenation function that is supported in all
-        // versions of SQL (even though there is a standard)
-        // so, we'll just run the query with OJB's getCount, which runs the query
-        // and counts the rows using the Iterator returned.  One hopes that isn't
-        // much more expensive than just doing an SQL COUNT(DISTINCT CONCAT(..))
-        ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(classID, selectList, criteriaID, true);
-        return (getPersistenceBrokerTemplate().getCount(queryID));
-    }
 
   /*
    * ********************************************************************************
@@ -1146,21 +1069,17 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear+1;
         Criteria criteriaId = new Criteria();
-        Collection<BudgetConstructionHeader> Results;
+        Iterator<Object[]> Results;
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               RequestYear);
-        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
-                                                      criteriaId);
-        Results = getPersistenceBrokerTemplate().getCollectionByQuery(queryId);
-        Iterator ReturnedRows = Results.iterator();
-        
-        while (ReturnedRows.hasNext())
+        String[] selectList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
+        ReportQueryByCriteria queryId = new ReportQueryByCriteria(BudgetConstructionHeader.class, selectList, criteriaId);
+        Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+       
+        while (Results.hasNext())
         {
-            BudgetConstructionHeader bCHdr = 
-                (BudgetConstructionHeader) ReturnedRows.next();
-            currentBCHeaderKeys.add(bCHdr.getChartOfAccountsCode()+
-                                    bCHdr.getAccountNumber()+
-                                    bCHdr.getSubAccountNumber());
+            Object[] returnedRow = Results.next();
+            currentBCHeaderKeys.add(((String) returnedRow[0])+((String) returnedRow[1])+((String) returnedRow[2]));
         }
     }
     
@@ -3067,8 +2986,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         criteriaID.addEqualTo(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR,
                                   true);
         String[] selectList = {KFSPropertyConstants.FINANCIAL_OBJECT_CODE};
+        Class laborObjectClass = laborModuleService.getLaborLedgerObjectClass();
         ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(LaborObject.class,selectList,criteriaID,true);
+            new ReportQueryByCriteria(laborObjectClass,selectList,criteriaID,true);
         Iterator objectCodesReturned =
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (objectCodesReturned.hasNext())
@@ -4112,7 +4032,17 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         }
     }
     
-        
+    public void testLaborInterface()
+    {
+        LOG.warn("\n\ntest the new labor interface\n");
+        ArrayList<String> laborObjects = findPositionRequiredObjectCodes(2007);
+        for (String posObject : laborObjects)
+        {
+            LOG.warn(String.format("  %s ",posObject));
+        }
+        LOG.warn("\nend of labor interface test\n");
+    }
+    
 
 
     //
@@ -4124,6 +4054,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     }
      public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+    public void setLaborModuleService(LaborModuleService laborModuleService)
+    {
+        this.laborModuleService = laborModuleService;
     }
      public void setWorkflowDocumentService (WorkflowDocumentService workflowDocumentService)
      {

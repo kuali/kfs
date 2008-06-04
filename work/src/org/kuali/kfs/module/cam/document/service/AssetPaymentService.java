@@ -70,4 +70,11 @@ public interface AssetPaymentService {
      */
     public void adjustPaymentAmounts(AssetPayment assetPayment, boolean reverseAmount, boolean nullPeriodDepreciation) throws IllegalAccessException, InvocationTargetException;
 
+    /**
+     * Checks if payment is eligible for GL posting
+     * 
+     * @param assetPayment AssetPayment
+     * @return true if elgible for GL posting
+     */
+    public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment);
 }

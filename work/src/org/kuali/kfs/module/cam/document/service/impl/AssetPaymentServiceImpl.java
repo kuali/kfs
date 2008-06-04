@@ -103,12 +103,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
 
     /**
-     * 
      * This method updates the total cost amount of the asset by adding the total cost of the new asset payments
      * 
      * @param asset bo where the update will occur
      * @param subTotal amount of the new asset payment detail records
-     * 
      */
     private void updateAssetTotalCost(Asset asset, KualiDecimal subTotal) {
         KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount());
@@ -135,7 +133,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 assetPayment.setCapitalAssetNumber(document.getAsset().getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
                 assetPayment.setDocumentNumber(document.getDocumentNumber());
-                
+
                 KualiDecimal baseAmount = new KualiDecimal(0);
 
                 // If the object sub type is not in the list of federally owned object sub types, then...
@@ -262,5 +260,13 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
+    }
+
+    /**
+     * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentEligibleForGLPosting(org.kuali.module.cams.bo.AssetPayment)
+     */
+    public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
+        // Payment transfer code is not "Y", Financial Object Code is active for the Payment and is not a Federal Contribution
+        return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && isPaymentFinancialObjectActive(assetPayment) && !isPaymentFederalContribution(assetPayment);
     }
 }

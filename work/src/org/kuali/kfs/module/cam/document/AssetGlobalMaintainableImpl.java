@@ -51,20 +51,21 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument,
+     *      java.util.Map)
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        
+
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
-        
+
         // For separate an asset this gets the appropriate code
         String[] financialDocumentTypeCode = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
         if (ObjectUtils.isNotNull(financialDocumentTypeCode)) {
             assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0]);
         }
-        
+
         super.processAfterNew(document, parameters);
     }
 
@@ -187,11 +188,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             LOG.debug("Compute depreciation date based on asset type, depreciation convention and in-service date");
             AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
             ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(firstAssetPaymentDetail.getFinancialDocumentPostingYear(), firstAssetPaymentDetail.getChartOfAccountsCode(), firstAssetPaymentDetail.getFinancialObjectCode());
-            Map<String, String> primaryKeys = new HashMap<String, String>();
-            primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, objectCode.getFinancialObjectSubTypeCode());
-            AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
-            Date depreciationDate = SpringContext.getBean(AssetDateService.class).computeDepreciationDate(assetGlobal.getCapitalAssetType(), depreciationConvention, inServiceDate);
-            assetGlobal.setCapitalAssetDepreciationDate(depreciationDate);
+            if (ObjectUtils.isNotNull(objectCode)) {
+                Map<String, String> primaryKeys = new HashMap<String, String>();
+                primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, objectCode.getFinancialObjectSubTypeCode());
+                AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
+                Date depreciationDate = SpringContext.getBean(AssetDateService.class).computeDepreciationDate(assetGlobal.getCapitalAssetType(), depreciationConvention, inServiceDate);
+                assetGlobal.setCapitalAssetDepreciationDate(depreciationDate);
+            }
         }
     }
 

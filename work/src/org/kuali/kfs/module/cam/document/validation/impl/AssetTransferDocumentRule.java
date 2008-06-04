@@ -16,6 +16,7 @@
 package org.kuali.module.cams.rules;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,9 +36,11 @@ import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.CamsKeyConstants.Transfer;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetLocationService;
+import org.kuali.module.cams.service.AssetObjectCodeService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
@@ -71,18 +74,39 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-
-        if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), assetTransferDocument.getAsset().getCapitalAssetNumber())) {
+        Asset asset = assetTransferDocument.getAsset();
+        if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
-        if (checkReferencesExist(assetTransferDocument)) {
+        if (checkReferencesExist(assetTransferDocument) && validateAssetObjectCodeDefn(assetTransferDocument, asset)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
             if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
                 throw new ValidationException("General Ledger GLPE generation failed");
             }
             return true;
         }
-        return true;
+        return false;
+    }
+
+    private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
+        boolean valid = true;
+        List<AssetPayment> assetPayments = asset.getAssetPayments();
+        for (AssetPayment assetPayment : assetPayments) {
+            if (SpringContext.getBean(AssetPaymentService.class).isPaymentEligibleForGLPosting(assetPayment) && !assetPayment.getAccountChargeAmount().isZero()) {
+                // validate if asset object code
+                AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
+                if (ObjectUtils.isNull(originAssetObjectCode)) {
+                    putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+                    valid = false;
+                }
+                AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
+                if (ObjectUtils.isNull(targetAssetObjectCode)) {
+                    putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+                    valid = false;
+                }
+            }
+        }
+        return valid;
     }
 
     /**

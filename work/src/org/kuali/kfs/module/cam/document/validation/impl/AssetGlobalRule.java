@@ -42,7 +42,6 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
@@ -158,7 +157,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    //TODO: Is this needed any more or not (we are deleting assetHeader)?
+    // TODO: Is this needed any more or not (we are deleting assetHeader)?
     private boolean checkReferenceExists(AssetGlobal assetGlobal) {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerChartOfAccountsCode())) {
@@ -295,7 +294,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method...
      * 
      * @param assetGlobal
@@ -413,15 +411,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
         success = validateAccount(assetGlobal);
+        success = validateAssetType(assetGlobal);
         if (isCapitalStatus(assetGlobal)) {
-            if (StringUtils.isBlank(assetGlobal.getVendorName())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.VENDOR_NAME, CamsKeyConstants.AssetGlobal.ERROR_VENDOR_NAME_REQUIRED);
-                success &= false;
-            }
-            if (StringUtils.isBlank(assetGlobal.getManufacturerName())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.MFR_NAME, CamsKeyConstants.AssetGlobal.ERROR_MFR_NAME_REQUIRED);
-                success &= false;
-            }
+            success = validateVendorAndManufacturer(assetGlobal);
         }
         if (CamsConstants.AssetGlobal.ACQUISITION_TYPE_CODE_N.equals(assetGlobal.getAcquisitionTypeCode())) {
             UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
@@ -433,6 +425,19 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String statusCode = assetGlobal.getInventoryStatusCode();
         if (StringUtils.isNotBlank(statusCode) && (CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(statusCode) || isStatusCodeRetired(statusCode))) {
             putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { statusCode });
+            success &= false;
+        }
+        return success;
+    }
+
+    private boolean validateVendorAndManufacturer(AssetGlobal assetGlobal) {
+        boolean success = true;
+        if (StringUtils.isBlank(assetGlobal.getVendorName())) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.VENDOR_NAME, CamsKeyConstants.AssetGlobal.ERROR_VENDOR_NAME_REQUIRED);
+            success &= false;
+        }
+        if (StringUtils.isBlank(assetGlobal.getManufacturerName())) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.MFR_NAME, CamsKeyConstants.AssetGlobal.ERROR_MFR_NAME_REQUIRED);
             success &= false;
         }
         return success;
@@ -465,17 +470,23 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_REQUIRED);
             success = false;
         }
-        assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
-        if (ObjectUtils.isNull(assetGlobal.getCapitalAssetType())) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
-            success = false;
-        }
+        success = validateAssetType(assetGlobal);
         if (success) {
             boolean isCapitalAsset = isCapitalStatus(assetGlobal);
             success = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetGlobalDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
         }
         else {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.VERSION_NUM, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
+        }
+        return success;
+    }
+
+    private boolean validateAssetType(AssetGlobal assetGlobal) {
+        boolean success = true;
+        assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
+        if (ObjectUtils.isNull(assetGlobal.getCapitalAssetType())) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
+            success = false;
         }
         return success;
     }

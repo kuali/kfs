@@ -18,9 +18,7 @@ package org.kuali.module.cams.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
@@ -32,7 +30,6 @@ public class AssetObjectCodeServiceImpl implements AssetObjectCodeService {
     BusinessObjectService businessObjectService;
 
     /**
-     * 
      * @see org.kuali.module.cams.service.AssetObjectCodeService#findAssetObjectCode(java.lang.String,
      *      org.kuali.module.cams.bo.AssetPayment)
      */
@@ -41,11 +38,7 @@ public class AssetObjectCodeServiceImpl implements AssetObjectCodeService {
         pkKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityDateService().getCurrentFiscalYear());
         pkKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         pkKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-        AssetObjectCode assetObjectCode = (AssetObjectCode) getBusinessObjectService().findByPrimaryKey(AssetObjectCode.class, pkKeys);
-        if (ObjectUtils.isNull(assetObjectCode)) {
-            throw new ReferentialIntegrityException("Asset object code is not defined for this organizationOwnerChartOfAccountsCode=" + chartOfAccountsCode + ", financialObjectSubTypeCode=" + assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() + " for current fiscal year  " + getUniversityDateService().getCurrentFiscalYear());
-        }
-        return assetObjectCode;
+        return (AssetObjectCode) getBusinessObjectService().findByPrimaryKey(AssetObjectCode.class, pkKeys);
     }
 
     public UniversityDateService getUniversityDateService() {

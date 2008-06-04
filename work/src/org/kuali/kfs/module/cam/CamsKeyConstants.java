@@ -84,6 +84,7 @@ public class CamsKeyConstants {
         public static final String WARN_TRFR_AST_LOAN_ACTIVE = "warn.asset.loan.active";
         public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
+        public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
     }
 
     public static class AssetLocation {
@@ -164,7 +165,7 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_OBJECT_CODE_REQUIRED = "error.capital.object.code.required";
         public static final String ERROR_CAPITAL_OBJECT_CODE_INVALID = "error.capital.object.code.invalid";
         public static final String ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED = "error.document.type.code.not.allowed";
-        public static final String ERROR_ASSET_TYPE_REQUIRED = "error.capital.asset.type.required";
+        public static final String ERROR_ASSET_TYPE_REQUIRED = "error.valid.capital.asset.type.required";
         public static final String ERROR_ASSET_LOCATION_DEPENDENCY = "error.asset.location.validation.dependecy";
         public static final String ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN = "error.capital.asset.payment.min.limit";
         public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";

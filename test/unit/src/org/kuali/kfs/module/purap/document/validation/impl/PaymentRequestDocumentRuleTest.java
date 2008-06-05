@@ -20,8 +20,10 @@ import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -214,6 +216,10 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             public boolean userIsRoutedByUser(UniversalUser user) {
                 return false;
             }
+
+            public Set<UniversalUser> getAllPriorApprovers() throws WorkflowException, UserNotFoundException {
+                return null;
+            }
         };
         
         PaymentRequestDocument document2 = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
@@ -291,6 +297,10 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
             public boolean userIsRoutedByUser(UniversalUser user) {
                 return false;
+            }
+            
+            public Set<UniversalUser> getAllPriorApprovers() throws WorkflowException, UserNotFoundException {
+                return null;
             }
         };
         

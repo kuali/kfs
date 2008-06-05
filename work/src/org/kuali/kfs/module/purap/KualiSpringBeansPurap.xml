@@ -55,6 +55,7 @@
 				<value>processPdpCancelsAndPaidJob</value>
 				<value>purchasingPreDisbursementImmediatesExtractJob</value>
 				<value>purchasingPreDisbursementExtractJob</value>
+				<value>receivingPaymentRequestJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -540,6 +541,12 @@
 		</property>
 	</bean>
 
+	<bean id="receivingPaymentRequestStep" class="org.kuali.module.purap.batch.ReceivingPaymentRequestStep" parent="step">
+        <property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>
+    </bean>
+    
 	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -585,6 +592,14 @@
 			<map>
 				<entry key="processPdpCancelsAndPaidJob" value="softDependency" />
 			</map>
+		</property>
+	</bean>
+	
+	<bean id="receivingPaymentRequestJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="receivingPaymentRequestStep" />
+			</list>
 		</property>
 	</bean>
 

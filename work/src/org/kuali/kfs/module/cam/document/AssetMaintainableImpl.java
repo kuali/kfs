@@ -24,7 +24,9 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetDispositionService;
@@ -162,6 +164,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             newAsset.setVendorName(CamsConstants.VENDOR_NAME_CONSTRUCTED);
             newAsset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
             newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+            newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
         }
     }
 

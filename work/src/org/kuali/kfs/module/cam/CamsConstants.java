@@ -45,7 +45,7 @@ public class CamsConstants {
     public static class DocumentTypeCodes {
         public static final String ASSET_SEPERATE = "ASEP";
     }
-    
+
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class Parameters {
@@ -64,7 +64,12 @@ public class CamsConstants {
         public static final String MERGE_SEPARATE_EDITABLE_FIELDS = "MERGE_SEPARATE_EDITABLE_FIELDS";
         public static final String DEPARTMENT_EDITABLE_FIELDS = "DEPARTMENT_EDITABLE_FIELDS";
         public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
-
+        public static final String INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS = "INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS";
+        public static final String VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS = "VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS";
+        public static final String MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES = "MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES";
+        public static final String NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES = "NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES";
+        public static final String CAPITALIZATION_LIMIT_AMOUNT = "CAPITALIZATION_LIMIT_AMOUNT";
+        public static final String DEFAULT_FABRICATION_ASSET_TYPE_CODE = "DEFAULT_FABRICATION_ASSET_TYPE_CODE";
     }
 
     public static class Report {
@@ -98,7 +103,7 @@ public class CamsConstants {
     public static class BarcodeInventoryError {
         public static final String DETAIL_ERRORS = "document.inventoryUploadErrorDetail*";
     }
-    
+
     public static class Workgroups {
         public static final String WORKGROUP_CM_ADMINISTRATORS = "CM_ADMINISTRATORS";
         public static final String WORKGROUP_CM_SECURITY_ADMINISTRATORS = "CM_SECURITY_ADMINISTRATORS";
@@ -137,7 +142,7 @@ public class CamsConstants {
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
-        public static final String FIS_DOC_TYPE_CODE = "AR"; 
+        public static final String FIS_DOC_TYPE_CODE = "AR";
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
@@ -150,7 +155,6 @@ public class CamsConstants {
         public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
         public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F;S";
         public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";
-
     }
 
     public static class AssetRetirementReasonCode {
@@ -207,13 +211,13 @@ public class CamsConstants {
 
     public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetPaymentDifferentObjectSubTypeQuestion";
 
-    public static class BarCodeInventory {    
+    public static class BarCodeInventory {
         public static final String FILE_TYPE_INDENTIFIER = "assetBarCodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";
-        public static final String DATA_FILE_EXTENSION = ".csv";        
+        public static final String DATA_FILE_EXTENSION = ".csv";
         public static final String DONE_FILE_EXTENSION = ".done";
     }
-    
+
 
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
         public static final String DISPLAY_NEW_LOAN_TAB = "displayNewLoanTab";
@@ -226,7 +230,7 @@ public class CamsConstants {
     public static final String DOCUMENT_PATH = "document";
     public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
     public static final String ASSET_LOAN_CONFIRM_QN_ID = "AssetTransferLoanConfirmation";
-    
+
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
         public static final String ADD_ASSET_ACQUISITION_CODE_GROUP = "G;T;S;F";

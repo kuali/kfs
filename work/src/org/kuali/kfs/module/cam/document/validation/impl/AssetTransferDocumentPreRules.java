@@ -33,6 +33,11 @@ import org.kuali.rice.KNSServiceLocator;
 
 public class AssetTransferDocumentPreRules extends PreRulesContinuationBase {
 
+    /**
+     * This method asks a question to confirm if transfer needs to be proceeded for a loaned equipment
+     * 
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     @Override
     public boolean doRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;

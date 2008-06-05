@@ -16,6 +16,7 @@
 package org.kuali.module.cams.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.module.cams.bo.Asset;
@@ -37,7 +38,7 @@ public interface AssetService {
      * @return if the asset is on loan or not
      */
     boolean isAssetLoaned(Asset asset);
-    
+
     /**
      * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
      * the asset created in the current fiscal year
@@ -132,4 +133,12 @@ public interface AssetService {
      * @return boolean
      */
     public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode);
+
+    /**
+     * This method returns all active assets found matching this tab number
+     * 
+     * @param campusTagNumber Campus Tag Number
+     * @return List of assets found matching tag number
+     */
+    public List<Asset> findActiveAssetsMatchingTagNumber(String campusTagNumber);
 }

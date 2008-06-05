@@ -15,23 +15,23 @@
  */
 package org.kuali.module.cams.service.impl;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetLocation;
@@ -199,17 +199,32 @@ public class AssetServiceImpl implements AssetService {
      * @see org.kuali.module.cams.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
      */
     public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode) {
-        String[] movableFinObjSubTypeCodes = new String[] { "CM", "CF", "C1", "C2", "UC", "UF", "BR", "BY" };
-        String[] nonMovableFinObjSubTypeCodes = new String[] { "AM", "BD", "BF", "BI", "CP", "ES", "IF", "LA", "LE", "LI", "LF", "LR" };
-        if (ArrayUtils.contains(movableFinObjSubTypeCodes, financialObjectSubTypeCode)) {
+        if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return true;
         }
-        else if (ArrayUtils.contains(nonMovableFinObjSubTypeCodes, financialObjectSubTypeCode)) {
+        else if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return false;
         }
         else {
             throw new ValidationException("Cound not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
         }
+    }
+
+    public List<Asset> findActiveAssetsMatchingTagNumber(String campusTagNumber) {
+        List<Asset> activeMatches = new ArrayList<Asset>();
+        // find all assets matching this tag number
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, campusTagNumber);
+        Collection<Asset> tagMatches = SpringContext.getBean(BusinessObjectService.class).findMatching(Asset.class, params);
+        if (tagMatches != null && !tagMatches.isEmpty()) {
+            for (Asset asset : tagMatches) {
+                // if found matching, check if status is not retired
+                if (!isAssetRetired(asset)) {
+                    activeMatches.add(asset);
+                }
+            }
+        }
+        return activeMatches;
     }
 
 }

@@ -351,13 +351,14 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         KualiDecimal totalPaymentByAsset = totalPaymentByAsset(assetGlobal);
         // check if amount is above threshold for capital assets for normal user
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-        if (isCapitalStatus(assetGlobal) && totalPaymentByAsset.isLessThan(new KualiDecimal(5000)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, "5000");
+        String capitalizationThresholdAmount = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
+        if (isCapitalStatus(assetGlobal) && totalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
             success &= false;
         }
 
         // check if amount is less than threshold for non-capital assets for all users
-        if (!isCapitalStatus(assetGlobal) && totalPaymentByAsset.isGreaterEqual(new KualiDecimal(5000))) {
+        if (!isCapitalStatus(assetGlobal) && totalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX);
             success &= false;
         }
@@ -414,21 +415,28 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
         success = validateAccount(assetGlobal);
-        success = validateAssetType(assetGlobal);
-        if (isCapitalStatus(assetGlobal)) {
-            success = validateVendorAndManufacturer(assetGlobal);
-        }
-        if (CamsConstants.AssetGlobal.ACQUISITION_TYPE_CODE_N.equals(assetGlobal.getAcquisitionTypeCode())) {
+
+        String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
+        String statusCode = assetGlobal.getInventoryStatusCode();
+
+        if (CamsConstants.AssetGlobal.ACQUISITION_TYPE_CODE_N.equals(acquisitionTypeCode)) {
             UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
             if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED, new String[] { CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, assetGlobal.getAcquisitionTypeCode() });
+                putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED, new String[] { CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, acquisitionTypeCode });
                 success &= false;
             }
         }
-        String statusCode = assetGlobal.getInventoryStatusCode();
         if (StringUtils.isNotBlank(statusCode) && (CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(statusCode) || isStatusCodeRetired(statusCode))) {
             putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_CODE_INVALID, new String[] { statusCode });
             success &= false;
+        }
+        if (StringUtils.isNotBlank(acquisitionTypeCode) && StringUtils.isNotBlank(statusCode)) {
+            // check if status code and acquisition type code combination is valid
+            success = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
+        }
+        success = validateAssetType(assetGlobal);
+        if (isCapitalStatus(assetGlobal)) {
+            success = validateVendorAndManufacturer(assetGlobal);
         }
         return success;
     }

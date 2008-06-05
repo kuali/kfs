@@ -253,7 +253,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
         }
         for (AssetPayment assetPayment : assetPayments) {
-            if (isPaymentEligibleForGLPosting(assetPayment)) {
+            if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
                 assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
                     KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
@@ -290,7 +290,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             targetPlantAcct = document.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
         }
         for (AssetPayment assetPayment : assetPayments) {
-            if (isPaymentEligibleForGLPosting(assetPayment)) {
+            if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
                 KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
                 if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
@@ -362,17 +362,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
         }
         return isGLPostable;
-    }
-
-    /**
-     * Helper method to check conditions if a payment is eligible for GL posting
-     * 
-     * @param assetPayment Asset Payment record
-     * @return True is record can be used for GL entry creation
-     */
-    protected boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
-        // Payment transfer code is not "Y", Financial Object Code is active for the Payment and is not a Federal Contribution
-        return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && getAssetPaymentService().isPaymentFinancialObjectActive(assetPayment) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
     }
 
 

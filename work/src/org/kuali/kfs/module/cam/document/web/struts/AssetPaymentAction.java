@@ -70,7 +70,8 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
         //Populating the hidden fields in the assetPayment.jsp
         assetPaymentDocument.setCapitalAssetNumber(asset.getCapitalAssetNumber());        
-        assetPaymentDocument.setPreviousTotalCostAmount(new KualiDecimal(0));
+        assetPaymentDocument.setPreviousTotalCostAmount(asset.getTotalCostAmount());
+        //assetPaymentDocument.setPreviousTotalCostAmount(new KualiDecimal(0));
         //Adding the changes made in the document in the ActionForm.
         assetPaymentForm.setDocument(assetPaymentDocument);
     }

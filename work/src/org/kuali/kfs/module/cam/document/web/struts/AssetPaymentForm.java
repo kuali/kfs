@@ -18,6 +18,8 @@ package org.kuali.module.cams.web.struts.form;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.DocumentType;
@@ -131,6 +133,19 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        //This would store the latest total cost of the asset into the asset payment document.
+        if (this.getAssetPaymentDocument().getAsset() != null) {
+            this.getAssetPaymentDocument().refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
+            this.getAssetPaymentDocument().setPreviousTotalCostAmount(this.getAssetPaymentDocument().getAsset().getTotalCostAmount());
+        }
+    }
+    
+    /**
      * 
      * This method stores in a Map the total amounts that need to be display on the asset payment screen and that will be passed as
      * parameter to the accountingLine.tag in order to display them.
@@ -142,7 +157,8 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         CurrencyFormatter cf = new CurrencyFormatter();
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
-        KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getAsset().getTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getAsset().getTotalCostAmount());
+        //KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getAsset().getTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getAsset().getTotalCostAmount());
+        KualiDecimal assetTotalCost = (ObjectUtils.isNull(getAssetPaymentDocument().getPreviousTotalCostAmount()) ? new KualiDecimal(0) : getAssetPaymentDocument().getPreviousTotalCostAmount());
 
         totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.TOTAL_LABEL), (String) cf.format(this.getAssetPaymentDocument().getSourceTotal()));
         totals.put(kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.PREVIOUS_COST_LABEL), (String) cf.format(assetTotalCost));

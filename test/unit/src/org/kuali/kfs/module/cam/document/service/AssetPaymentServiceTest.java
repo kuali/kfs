@@ -111,12 +111,14 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         document.setAsset(asset);
         document.setCapitalAssetNumber(asset.getCapitalAssetNumber());
         document.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+        document.setPreviousTotalCostAmount(new KualiDecimal(0));
 
         // Saving document **************************
         this.businessObjectService.save(document);
         // ******************************************
 
         // Getting current total cost before update
+        KualiDecimal previousAssetTotalCost = asset.getTotalCostAmount();
         KualiDecimal newAssetTotalCost = asset.getTotalCostAmount();
         KualiDecimal documentTotal = new KualiDecimal(0);
         for (AssetPaymentDetail assetPaymentDetail : document.getAssetPaymentDetail()) {
@@ -129,12 +131,15 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         // ********** Testing data **********************
         key = new HashMap();
-        key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, document.getAsset().getCapitalAssetNumber());
+        key.put(RicePropertyConstants.DOCUMENT_NUMBER,document.getDocumentNumber());
 
-        // Checking that total cost was updated
-        asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, key);
-        assertEquals(newAssetTotalCost, asset.getTotalCostAmount());
+        // Checking that total cost was updated in the asset table
+        document = (AssetPaymentDocument) businessObjectService.findByPrimaryKey(AssetPaymentDocument.class, key);
+        assertEquals(newAssetTotalCost, document.getAsset().getTotalCostAmount());
 
+        //Checking the previous cost is updated in the asset document table
+       assertEquals(document.getPreviousTotalCostAmount(),previousAssetTotalCost);
+       
         key = new HashMap();
         key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, document.getAsset().getCapitalAssetNumber());
         key.put(RicePropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());

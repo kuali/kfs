@@ -290,8 +290,11 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetDepreciationConvention {
-
         public static final String FINANCIAL_OBJECT_SUB_TYPE_CODE = "financialObjectSubTypeCode";
+    }
 
+    public static class AssetPaymentDocument {
+        public static final String ASSET = "asset";
     }
 }
+

@@ -17,7 +17,7 @@
     <property name="businessRulesClass" value="org.kuali.module.cams.rules.BarcodeInventoryErrorDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
     
-    <property name="documentTypeCode" value="BCIE" />
+    <property name="documentTypeCode" value="MPAY" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

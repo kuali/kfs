@@ -566,12 +566,12 @@ public class ReceivingServiceImpl implements ReceivingService {
                     throw new RuntimeException(errorMsg, e);
                 }
                 
-                //add note to receiving line document
+                //add note to amendment po document
                 try{
                     String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items";
                     
-                    Note noteObj = documentService.createNoteFromDocument(receivingDocument, note);
-                    documentService.addNoteToDocument(receivingDocument, noteObj);
+                    Note noteObj = documentService.createNoteFromDocument(amendmentPo, note);
+                    documentService.addNoteToDocument(amendmentPo, noteObj);
                     noteService.save(noteObj);
                 }catch (Exception e){
                     String errorMsg = "Note Service Exception caught: " + e.getLocalizedMessage();

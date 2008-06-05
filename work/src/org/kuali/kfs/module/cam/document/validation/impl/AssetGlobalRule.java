@@ -18,7 +18,6 @@ package org.kuali.module.cams.rules;
 
 import java.sql.Date;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -44,6 +42,7 @@ import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.service.AssetLocationService;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -504,17 +503,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     private boolean validateTagDuplication(String campusTagNumber) {
         // find all assets matching this tag number
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, campusTagNumber);
-        Collection<Asset> tagMatches = SpringContext.getBean(BusinessObjectService.class).findMatching(Asset.class, params);
-        if (tagMatches != null && !tagMatches.isEmpty()) {
-            for (Asset asset : tagMatches) {
-                // if found matching, check if status is not retired
-                if (!isStatusCodeRetired(asset.getInventoryStatusCode())) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
-                    return false;
-                }
-            }
+        List<Asset> tagMatches = SpringContext.getBean(AssetService.class).findActiveAssetsMatchingTagNumber(campusTagNumber);
+        if (!tagMatches.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+            return false;
         }
         return true;
     }

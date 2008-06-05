@@ -24,12 +24,6 @@
 
     <kul:hiddenDocumentFields />
   	<html:hidden property="document.capitalAssetNumber"/>
-    <html:hidden property="document.representativeUniversalIdentifier" />
-	<html:hidden property="document.organizationOwnerChartOfAccountsCode" />    
-    <html:hidden property="document.organizationOwnerAccountNumber" />
-	<html:hidden property="document.agencyNumber" />    
-    <html:hidden property="document.campusCode" />
-	<html:hidden property="document.buildingCode" />
 	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -58,14 +52,14 @@
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
 		isOptionalFieldsInNewRow="true"		
-		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
+		optionalFields="purchaseOrderNumber,requisitionNumber,expenditureFinancialSystemOriginationCode,expenditureFinancialDocumentNumber,expenditureFinancialDocumentTypeCode,expenditureFinancialDocumentPostedDate,financialDocumentPostingYear,financialDocumentPostingPeriodCode"		
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber"
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
 	</fin:accountingLines>
 	
 	<cams:viewAssetDetails defaultTabHide="true" /> 
 	
-	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
+	<cams:viewPayments defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />

@@ -24,8 +24,11 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.MaintenanceDocumentDao;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.service.DocumentLockingService;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -88,13 +91,14 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
             return;
         }
 
-        // build the link URL for the blocking document. Easier to use en/docHandler because this could be
+        // build the link URL for the blocking document. Better to use DocHandler because this could be
         // a maintenance document or tDoc.
         Properties parameters = new Properties();
         parameters.put(KNSConstants.PARAMETER_DOC_ID, blockingDocId);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        // TODO add constant for the following line
-        String blockingUrl = UrlFactory.parameterizeUrl("en/DocHandler.do", parameters);
+        String blockingUrl = UrlFactory.parameterizeUrl(
+                SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY)
+                + "/" + KNSConstants.DOC_HANDLER_ACTION, parameters);
         if ( LOG.isDebugEnabled() ) {
             LOG.debug("blockingUrl = '" + blockingUrl + "'");
             LOG.debug("Record: " + lockedDocument.getDocumentHeader().getDocumentNumber() + "is locked.");

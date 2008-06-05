@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -227,16 +226,20 @@ public class AssetServiceImpl implements AssetService {
         return activeMatches;
     }
 
-
+    /**
+     * 
+     * @see org.kuali.module.cams.service.AssetService#isObjectSubTypeCompatible(java.util.List)
+     */
     public boolean isObjectSubTypeCompatible(List<String> financialObjectSubTypeCode) {
-        if (financialObjectSubTypeCode == null || financialObjectSubTypeCode.size() <= 1 ) {
+        if (financialObjectSubTypeCode == null || financialObjectSubTypeCode.size() <= 1) {
             return true;
         }
 
         List<String> subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
-        String firstObjectSubType = (String) financialObjectSubTypeCode.iterator().next();
+        String firstObjectSubType = (String) financialObjectSubTypeCode.get(0);
         List<String> validObjectSubTypes = new ArrayList<String>();
 
+        // Get the set for compatible object sub type code by the first financial object sub type code
         for (String subType : subTypes) {
             validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
             if (validObjectSubTypes.contains(firstObjectSubType)) {
@@ -249,13 +252,13 @@ public class AssetServiceImpl implements AssetService {
             validObjectSubTypes.add(firstObjectSubType);
         }
 
-        for (Iterator iterator = financialObjectSubTypeCode.iterator(); iterator.hasNext();) {
-            if (!validObjectSubTypes.contains(iterator.next())) {
+        // Check in the whole list if all object sub type code are compatible.
+        for (String subTypeCode : financialObjectSubTypeCode) {
+            if (!validObjectSubTypes.contains(subTypeCode)) {
                 return false;
             }
         }
 
         return true;
     }
-    
 }

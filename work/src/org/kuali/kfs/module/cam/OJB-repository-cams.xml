@@ -823,47 +823,6 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AssetHeader" table="CM_CPTLAST_HDR_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
-	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="nextCapitalAssetPaymentLineNumber" column="NXT_AST_PMT_LN_NBR" jdbc-type="INTEGER"/>
-
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
-		<foreignkey field-ref="organizationOwnerAccountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="campusCode" />
-	</reference-descriptor>
-    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="campusCode" />
-        <foreignkey field-ref="buildingCode" />
-    </reference-descriptor>
-    <reference-descriptor name="assetRetirementGlobal" class-ref="org.kuali.module.cams.bo.AssetRetirementGlobal" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="equipmentLoanOrReturnDocument" class-ref="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="agencyNumber" />
-	</reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cams.document.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

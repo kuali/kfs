@@ -763,24 +763,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.lastInventoryDate = lastInventoryDate;
     }
 
-    // TODO Is this needed any more? (we got rid of assetHeader)
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
-    }
-
-    //  TODO Is this needed any more? (we got rid of assetHeader)
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
-    }
-
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

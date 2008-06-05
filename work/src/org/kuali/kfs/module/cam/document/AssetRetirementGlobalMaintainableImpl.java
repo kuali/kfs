@@ -261,9 +261,4 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         new AssetRetirementGeneralLedgerPendingEntrySource(documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
     }
-
-
-    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
-        return ((AssetRetirementGlobal) getBusinessObject()).getGeneralLedgerPendingEntries();
-    }
 }

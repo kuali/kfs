@@ -18,10 +18,6 @@
 <c:if test="${!empty generalLedgerPendingEntriesList}">
 	<gl:generalLedgerPendingEntries 
 	generalLedgerPendingEntries="${generalLedgerPendingEntriesList}"  
-	generalLedgerPendingEntryProperty="document.newMaintainableObject.generalLedgerPendingEntries"
-	generalLedgerPendingEntriesProperty="document.newMaintainableObject.generalLedgerPendingEntries" />
-	<%-- 
 	generalLedgerPendingEntryProperty="document.newMaintainableObject.businessObject.generalLedgerPendingEntries"
 	generalLedgerPendingEntriesProperty="document.newMaintainableObject.businessObject.generalLedgerPendingEntries" />
-	--%>
 </c:if>

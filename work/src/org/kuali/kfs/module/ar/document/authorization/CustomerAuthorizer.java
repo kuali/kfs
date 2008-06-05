@@ -22,6 +22,7 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
@@ -93,25 +94,32 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
         return retVal;
     }
 
-    // TODO in case we decide to use VIEW_ONLY instead of UNVIEWABLE we need to override getDocumentActionFlags too, otherwise
-    // delete this method
-    // @Override
-    // public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-    // DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-    //        
-    // MaintenanceDocument maintDocument = (MaintenanceDocument)document;
-    // String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
-    //        
-    // if(maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION)
-    // ||maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION))
-    // {
-    // if (!isUserInArSupervisorGroup(user) ){
-    // actionFlags.setCanRoute(false);
-    // actionFlags.setCanSave(false);
-    // actionFlags.setCanCancel(false);
-    // }
-    // }
-    // return actionFlags;
-    // }
+     /**
+     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+
+        MaintenanceDocument maintDocument = (MaintenanceDocument) document;
+        String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
+
+        // if user is not AR SUPERVISOR he cannot approve the customer creation document
+        if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) && !isUserInArSupervisorGroup(user)) {
+
+            actionFlags.setCanApprove(false);
+            actionFlags.setCanBlanketApprove(false);
+
+        }
+
+//         if ((maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) || maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
+//
+//            actionFlags.setCanRoute(false);
+//            actionFlags.setCanSave(false);
+//            actionFlags.setCanCancel(false);
+//
+//        }
+        return actionFlags;
+    }
 
 }

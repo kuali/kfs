@@ -71,6 +71,12 @@
                     p:name="capitalAssetNumber" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          	  <bean parent="MaintainableFieldDefinition" 
+          			p:name="capitalAssetNumber" />
+          	</list>
+          </property>
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"

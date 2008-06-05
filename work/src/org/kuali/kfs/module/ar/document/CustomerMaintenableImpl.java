@@ -82,6 +82,9 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
         if (collectionName.equalsIgnoreCase(ArConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
 
             CustomerAddress customerAddress = (CustomerAddress) businessObject;
+            
+            // set default address name to customer name
+            customerAddress.setCustomerAddressName(customer.getCustomerName());
 
             if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
 

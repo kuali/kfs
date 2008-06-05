@@ -73,7 +73,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -110,7 +111,8 @@
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -164,7 +166,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -182,7 +185,8 @@
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

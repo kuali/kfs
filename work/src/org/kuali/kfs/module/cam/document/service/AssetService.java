@@ -135,6 +135,17 @@ public interface AssetService {
     public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode);
 
     /**
+     * 
+     * This will check if the list of financial object sub type code are compatible with each other.
+     * <li> return TRUE if all Object sub type code are compatible with each other.
+     * <li> return FALSE if any non copatible object sub type code are found.
+     * 
+     * @param financialObjectSubTypeCode
+     * @return
+     */
+    boolean isObjectSubTypeCompatible(List<String> financialObjectSubTypeCode);
+
+    /**
      * This method returns all active assets found matching this tab number
      * 
      * @param campusTagNumber Campus Tag Number

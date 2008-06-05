@@ -17,6 +17,7 @@ package org.kuali.module.cams.rules;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -71,8 +72,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
-    private boolean checkRequiredFieldExists(AssetGlobal assetGlobal) {
+    private boolean checkReferenceExists(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
 
         if (StringUtils.isBlank(assetGlobal.getAcquisitionTypeCode()) || ObjectUtils.isNull(assetGlobal.getAcquisitionType())) {
@@ -85,17 +87,19 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        return valid;
-    }
-
-    private boolean checkReferenceExists(AssetPaymentDetail assetPaymentDetail) {
-        boolean valid = true;
         // Check for account
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
         if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
             valid = false;
         }
+
+        valid &= checkObjectCodeExists(assetPaymentDetail);
+        return valid;
+    }
+
+    private boolean checkObjectCodeExists(AssetPaymentDetail assetPaymentDetail) {
+        boolean valid = true;
 
         // Check for ObjectCode
         if (StringUtils.isNotBlank(assetPaymentDetail.getFinancialObjectCode())) {
@@ -205,9 +209,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
-            if (success &= checkRequiredFieldExists(assetGlobal)) {
-                AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+            AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+            if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
+                if (!success) {
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
+                }
             }
         }
         return success;
@@ -216,17 +223,15 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validatePaymentLine(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
 
-
-        success &= checkReferenceExists(assetPaymentDetail);
-
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
+
 
         // Validate Financial Document Type Code
         if (StringUtils.isNotBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
             success = validateDocumentType(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode(), assetGlobal);
         }
 
-        // Validate Finacial Posted date
+        // Validate Financial Posted date
         if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
             success &= validatePostedDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate(), assetPaymentDetail.getFinancialDocumentPostingYear());
         }
@@ -248,6 +253,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
+
 
     private boolean validateFinanicalPostingYear(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
@@ -362,11 +368,32 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
 
+        success &= validateObjectSubTypeCode(assetGlobal);
+
         if (success) {
             setSystemControlledFields(assetGlobal);
         }
 
         return success;
+    }
+
+
+    private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal) {
+        boolean valid = true;
+        List<String> objectSubTypeList = new ArrayList<String>();
+        // build object sub type list
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
+            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
+                objectSubTypeList.add(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
+            }
+        }
+
+        if (!assetService.isObjectSubTypeCompatible(objectSubTypeList)) {
+            putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE);
+            valid = false;
+        }
+        return valid;
     }
 
 
@@ -503,7 +530,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     private boolean validateTagDuplication(String campusTagNumber) {
         // find all assets matching this tag number
-        List<Asset> tagMatches = SpringContext.getBean(AssetService.class).findActiveAssetsMatchingTagNumber(campusTagNumber);
+        List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
         if (!tagMatches.isEmpty()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
             return false;

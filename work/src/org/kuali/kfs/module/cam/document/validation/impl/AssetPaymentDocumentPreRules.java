@@ -125,12 +125,12 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
             for(AssetPaymentDetail assetPaymentDetail_a:assetPaymentDetails_a){
                 if (!validObjectSubTypes.contains(assetPaymentDetail_a.getObjectCode().getFinancialObjectSubTypeCode())) {
                     // Differences where found.
-                    return true;
+                    return false;
                 }
             }               
         }
         // If none object sub types are different...
-        return false;
+        return true;
     }
     
     

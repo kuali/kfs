@@ -16,8 +16,10 @@
 package org.kuali.module.cams.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -225,4 +227,35 @@ public class AssetServiceImpl implements AssetService {
         return activeMatches;
     }
 
+
+    public boolean isObjectSubTypeCompatible(List<String> financialObjectSubTypeCode) {
+        if (financialObjectSubTypeCode == null || financialObjectSubTypeCode.size() <= 1 ) {
+            return true;
+        }
+
+        List<String> subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+        String firstObjectSubType = (String) financialObjectSubTypeCode.iterator().next();
+        List<String> validObjectSubTypes = new ArrayList<String>();
+
+        for (String subType : subTypes) {
+            validObjectSubTypes = Arrays.asList(StringUtils.split(subType, ","));
+            if (validObjectSubTypes.contains(firstObjectSubType)) {
+                break;
+            }
+            validObjectSubTypes = new ArrayList<String>();
+        }
+
+        if (validObjectSubTypes.isEmpty()) {
+            validObjectSubTypes.add(firstObjectSubType);
+        }
+
+        for (Iterator iterator = financialObjectSubTypeCode.iterator(); iterator.hasNext();) {
+            if (!validObjectSubTypes.contains(iterator.next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
 }

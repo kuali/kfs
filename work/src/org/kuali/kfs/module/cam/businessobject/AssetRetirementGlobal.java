@@ -79,7 +79,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
             setMergeObjectsForPersist(persistables, retirementService);
         }
 
-
         for (AssetRetirementGlobalDetail detail : assetRetirementGlobalDetails) {
             setAssetForPersist(detail, persistables, retirementService);
         }

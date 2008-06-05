@@ -172,5 +172,6 @@ public class CamsKeyConstants {
         public static final String ERROR_DOCUMENT_POSTING_DATE_REQUIRED = "error.document.posting.date.required";
         public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";
         public static final String ERROR_INVALID_POSTING_DATE_USED_FOR_OBJECT_CODE = "error.invalid.posting.date.used.for.object.code";
+        public static final String ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE = "error.invalid.fin.object.sub.type.code";
     }
 }

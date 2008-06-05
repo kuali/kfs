@@ -146,6 +146,7 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_POSTING_FISCAL_YEAR = "financialDocumentPostingYear";
         public static final String DOCUMENT_POSTING_FISCAL_MONTH = "financialDocumentPostingPeriodCode";
         public static final String ACCOUNT = "account";
+        public static final String VERSION_NUMBER = "versionNumber";
     }
 
     public static class AssetType {
@@ -248,11 +249,11 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetGlobal {
-        
+
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
         public static final String ORGANIZATION_OWNER_CHART = "organizationOwnerChartOfAccounts";
-        
+
         public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
         public static final String ASSET_SHARED_DETAILS = "assetSharedDetails";
         public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";

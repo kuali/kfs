@@ -15,11 +15,25 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.module.purap.PurapConstants.ReceivingCorrectionDocumentStrings;
 import org.kuali.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.service.ReceivingService;
+import org.kuali.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.module.purap.web.struts.form.ReceivingCorrectionForm;
 import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
 
@@ -42,5 +56,45 @@ public class ReceivingCorrectionAction extends ReceivingBaseAction {
         SpringContext.getBean(ReceivingService.class).populateReceivingCorrectionDocument(rcDoc);
 
     }
+    
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        
+        String operation = "AddCorrectionNote ";
 
+        ReceivingQuestionCallback callback = new ReceivingQuestionCallback() {
+            public boolean questionComplete = false;
+            
+            public ReceivingDocument doPostQuestion(ReceivingDocument document, String noteText) throws Exception {
+                //add note to receiving line document
+                ReceivingLineDocument rlDoc = ((ReceivingCorrectionDocument)document).getReceivingLineDocument();
+                SpringContext.getBean(ReceivingService.class).addNoteToReceivingDocument(rlDoc,noteText);
+                
+                //mark question completed
+                this.setQuestionComplete(true);
+                
+                return document;
+            }
+            
+            public boolean isQuestionComplete(){
+                return this.questionComplete;
+            }
+            
+            public void setQuestionComplete(boolean questionComplete){
+                this.questionComplete = questionComplete;
+            }
+        };
+
+        //ask question
+        ActionForward forward = askQuestionWithInput(mapping, form, request, response, ReceivingCorrectionDocumentStrings.RECEIVING_CORRECTION_NOTE_QUESTION, ReceivingCorrectionDocumentStrings.RECEIVING_CORRECTION_NOTE_PREFIX, operation, PurapKeyConstants.MESSAGE_RECEIVING_CORRECTION_NOTE, callback);
+        
+        //if question asked is complete, then route
+        if(callback.isQuestionComplete()){
+            forward = super.route(mapping,form,request,response);
+        }
+        
+        return forward;
+        
+    }
 }

@@ -726,4 +726,10 @@ public class ReceivingServiceImpl implements ReceivingService {
 
         }
     }    
+    
+    public void addNoteToReceivingDocument(ReceivingDocument receivingDocument, String note) throws Exception{
+        Note noteObj = documentService.createNoteFromDocument(receivingDocument, note);
+        documentService.addNoteToDocument(receivingDocument, noteObj);
+        noteService.save(noteObj);        
+    }
 }

@@ -470,7 +470,12 @@ public class PurapConstants extends JSTLConstants {
         public static final String DUPLICATE_RECEIVING_LINE_QUESTION = "DuplicateReceivingLine";
         public static final String VENDOR_DATE = "Vendor Date";
     }
-    
+
+    public static class ReceivingCorrectionDocumentStrings{
+        public static final String RECEIVING_CORRECTION_NOTE_QUESTION = "ReceivingCorrectionNote";
+        public static final String RECEIVING_CORRECTION_NOTE_PREFIX = "Note entered while creating Receiving Correction: ";
+    }
+
     public static class PREQDocumentsStrings {
         public static final String DUPLICATE_INVOICE_QUESTION = "PREQDuplicateInvoice";
         public static final String HOLD_PREQ_QUESTION = "HoldPREQ";

@@ -271,5 +271,6 @@ public class PurapKeyConstants {
         
     // Receiving Correction
     public static final String ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE = "errors.receivingCorrection.documentActiveForRcvLine";
+    public static final String MESSAGE_RECEIVING_CORRECTION_NOTE = "message.receiving.correction.note"; 
     
 }

@@ -126,4 +126,13 @@ public interface ReceivingService {
      * @param receivingDocument receivingCorrectionDocument
      */
     public void completeReceivingCorrectionDocument(ReceivingDocument correctionDocument);
+    
+    /**
+     * Adds a note to a receiving document.
+     * 
+     * @param receivingDocument
+     * @param note
+     * @throws Exception
+     */
+    public void addNoteToReceivingDocument(ReceivingDocument receivingDocument, String note) throws Exception;
 }

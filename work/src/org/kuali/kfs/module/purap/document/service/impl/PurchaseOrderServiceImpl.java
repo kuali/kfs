@@ -681,7 +681,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
-    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber) {
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List, java.lang.String, boolean)
+     */
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes) {
         
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);        
         if (ObjectUtils.isNull(currentDocument)) {
@@ -700,11 +703,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Prepare for copying fields over from the current document.
                 Set<Class> classesToExclude = getClassesToExcludeFromCopy();
                 Map<String, Class> uncopyableFields = PurapConstants.UNCOPYABLE_FIELDS_FOR_PO;
-                uncopyableFields.put(PurapPropertyConstants.PURAP_DOC_ID, null);        // We need to have a new PO ID.
-                uncopyableFields.put(PurapPropertyConstants.ITEMS, null);               // Items (including additional charges) are to be excluded from the copy.
-                // TODO: Exclude Quotes fields from copy.
+                uncopyableFields.putAll(PurapConstants.UNCOPYABLE_FIELDS_FOR_SPLIT_PO);
                 
-                // Copy all fields over from the current document except the items.
+                // Copy all fields over from the current document except the items and the above-specified fields.
                 PurApObjectUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);
                 newDocument.getDocumentHeader().setFinancialDocumentDescription(currentDocument.getDocumentHeader().getFinancialDocumentDescription());
                 newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());
@@ -715,6 +716,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Add in and renumber the items that the new document should have.
                 newDocument.setItems(newPOItems);
                 newDocument.renumberItems(0);
+                
+                List<Note> notes = currentDocument.getBoNotes();
+                Note lastNote = notes.get(notes.size() - 1);
+                notes.remove(lastNote);
+                if (copyNotes) {
+                    newDocument.setBoNotes(notes);
+                }
+                String splitNoteText = lastNote.getNoteText();
+                splitNoteText = splitNoteText.substring(splitNoteText.indexOf(":") + 1);
+                splitNoteText = PurapConstants.PODocumentsStrings.SPLIT_NOTE_PREFIX_NEW_DOC + currentDocument.getPurapDocumentIdentifier() + " : " + splitNoteText;
+                Note splitNote = new Note();
+                splitNote.setNoteText(splitNoteText);
+                try {
+                    splitNote = noteService.createNote(splitNote,newDocument);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException("Cannot create note.");
+                }
+                newDocument.addNote(splitNote);
                 
                 newDocument.refreshNonUpdateableReferences();
                 

@@ -101,6 +101,12 @@ public class PurapPropertyConstants {
     // vendor quote
     public static final String PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER = "purchaseOrderVendorQuoteIdentifier";
     public static final String PURCHASE_ORDER_QUOTE_STATUS ="purchaseOrderQuoteStatus";
+    public static final String PURCHASE_ORDER_VENDOR_QUOTES = "purchaseOrderVendorQuotes";
+    public static final String PURCHASE_ORDER_QUOTE_INITIALIZATION_DATE = "purchaseOrderQuoteInitializationDate";
+    public static final String PURCHASE_ORDER_QUOTE_AWARDED_DATE = "purchaseOrderQuoteAwardedDate";
+    public static final String PURCHASE_ORDER_QUOTE_DUE_DATE = "purchaseOrderQuoteDueDate";
+    public static final String PURCHASE_ORDER_QUOTE_TYPE_CODE = "purchaseOrderQuoteTypeCode";
+    public static final String PURCHASE_ORDER_QUOTE_VENDOR_NOTE_TEXT = "purchaseOrderQuoteVendorNoteText";
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     // Receiving Address

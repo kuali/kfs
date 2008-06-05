@@ -550,7 +550,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     
     /**
      * 
-     * This method...
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -561,10 +561,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward continuePurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
         LOG.debug("Continue Purchase Order Split started");
         
-        //TODO: Implement business rules.
-        
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        // This PO does not contain all data, but enough for our purposes; it has been reloaded with only the Split PO tab showing.
         PurchaseOrderDocument poToSplit = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        boolean copyNotes = poToSplit.isCopyingNotesWhenSplitting();
         List<PurchaseOrderItem> items = (List<PurchaseOrderItem>)poToSplit.getItems();
         TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
         TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
@@ -576,21 +576,33 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 remainingPOItems.add(item);
             }
         }
-        poToSplit = (PurchaseOrderDocument)SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poToSplit.getPurapDocumentIdentifier());
-        poToSplit.setItems(remainingPOItems);
-        poToSplit.renumberItems(0);
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(poToSplit);
-        
-        PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit.getDocumentNumber());
-        
-        kualiDocumentFormBase.setDocument(splitPO);
-        kualiDocumentFormBase.setDocId(splitPO.getDocumentNumber());
-        kualiDocumentFormBase.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentType());
-        try {
-            loadDocument(kualiDocumentFormBase);
+        // This checks a business rule.  Should it be moved into the rule class?
+        if (movingPOItems.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE);
+            poToSplit.setPendingSplit(true);
         }
-        catch (WorkflowException we) {
-            throw new RuntimeException(we);
+        else if (remainingPOItems.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN);
+            poToSplit.setPendingSplit(true);
+        }
+        else {
+            // Fetch the whole PO from the database.
+            poToSplit = (PurchaseOrderDocument)SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poToSplit.getPurapDocumentIdentifier());
+            poToSplit.setItems(remainingPOItems);
+            poToSplit.renumberItems(0);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(poToSplit);
+            
+            PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit.getDocumentNumber(),copyNotes);
+            
+            kualiDocumentFormBase.setDocument(splitPO);
+            kualiDocumentFormBase.setDocId(splitPO.getDocumentNumber());
+            kualiDocumentFormBase.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            try {
+                loadDocument(kualiDocumentFormBase);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException(we);
+            }
         }
                       
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

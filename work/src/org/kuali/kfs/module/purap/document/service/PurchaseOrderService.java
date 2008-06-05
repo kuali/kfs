@@ -89,8 +89,16 @@ public interface PurchaseOrderService {
      */
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
     
-    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber);
-
+    /**
+     * Creates and saves a Purchase Order Split document based on the document number of the old PO document, and the items from that PO that the 
+     * new Split PO is to contain.
+     * 
+     * @param newPOItems        The List<PurchaseOrderItem> of the items that the new Split PO is to contain
+     * @param documentNumber    The PO ID of the 
+     * @param copyNotes
+     * @return
+     */
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes);
 
     /**
      * Obtains the internal purchasing dollar limit amount for a purchase order document.

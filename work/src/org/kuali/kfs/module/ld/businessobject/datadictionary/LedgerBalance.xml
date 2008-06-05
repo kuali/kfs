@@ -479,7 +479,8 @@
               p:required="true"
               p:attributeName="emplid" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode"
+        	  p:noLookup="true"
+        	  p:attributeName="financialBalanceTypeCode"
               p:defaultValueFinderClass="org.kuali.module.labor.web.optionfinder.BalanceTypeCodeOptionFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.consolidationOption"

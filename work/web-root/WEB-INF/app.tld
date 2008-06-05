@@ -21,7 +21,7 @@
   <tlibversion>1.0</tlibversion>
   <jspversion>1.1</jspversion>
   <shortname>Application Tag Library</shortname>
-  <uri>http://www.kuali.org/PDP/app.tld</uri>
+  <uri>http://www.kuali.org/communities/kfs/jsp/app.tld</uri>
   <info>
     This tag library contains functionality specific to the Application.
   </info>

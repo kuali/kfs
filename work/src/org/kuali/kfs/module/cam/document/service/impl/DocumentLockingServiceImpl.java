@@ -88,12 +88,13 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
             return;
         }
 
-        // build the link URL for the blocking document
+        // build the link URL for the blocking document. Easier to use en/docHandler because this could be
+        // a maintenance document or tDoc.
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(KNSConstants.PARAMETER_DOC_ID, blockingDocId);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        String blockingUrl = UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, parameters);
+        // TODO add constant for the following line
+        String blockingUrl = UrlFactory.parameterizeUrl("en/DocHandler.do", parameters);
         if ( LOG.isDebugEnabled() ) {
             LOG.debug("blockingUrl = '" + blockingUrl + "'");
             LOG.debug("Record: " + lockedDocument.getDocumentHeader().getDocumentNumber() + "is locked.");

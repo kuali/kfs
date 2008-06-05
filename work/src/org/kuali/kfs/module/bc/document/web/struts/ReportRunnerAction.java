@@ -200,6 +200,7 @@ public class ReportRunnerAction extends KualiAction {
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, reportRunnerForm.getSubAccountNumber());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
+        parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "false");
         
         // TODO may need another parm to indicate this is a Budget Document dump, not Organization dump.
         // no driving mt table to dump multiple accounts, just one account (document) here

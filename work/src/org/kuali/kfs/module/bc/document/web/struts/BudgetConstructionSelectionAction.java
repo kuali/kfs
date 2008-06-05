@@ -39,6 +39,7 @@ import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
@@ -242,8 +243,8 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
-        parameters.put("universityFiscalYear", budgetConstructionSelectionForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetConstructionSelectionForm.getUniversityFiscalYear().toString());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         //anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());

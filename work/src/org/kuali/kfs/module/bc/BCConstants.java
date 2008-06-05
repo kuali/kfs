@@ -63,6 +63,8 @@ public class BCConstants extends JSTLConstants {
     public static final String LABOR_OBJECT_FRINGE_CODE = "F";
     public static final String MAPPING_IMPORT_EXPORT = "import_export";
     
+    public static final String IS_ORG_REPORT_REQUEST_PARAMETER = "orgReport";
+    
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }

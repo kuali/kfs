@@ -335,7 +335,8 @@ public class OrganizationReportSelectionAction extends KualiAction {
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationReportSelectionForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());
-
+        parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "true");
+        
         return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_DUMP_ACTION, parameters);
     }
 

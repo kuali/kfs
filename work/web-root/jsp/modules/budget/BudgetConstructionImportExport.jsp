@@ -34,6 +34,7 @@
 		    <html:hidden name="KualiForm" property="reportMode" />
 		    <html:hidden property="returnAnchor" />
             <html:hidden property="returnFormKey" />
+            <html:hidden property="orgReport" />
             
             <c:if test="${KualiForm.reportMode != 'requestImport'}">  
 	            <html:hidden property="chartOfAccountsCode" />

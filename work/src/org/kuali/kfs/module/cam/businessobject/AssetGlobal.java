@@ -693,9 +693,26 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             // newAssetGlobalDetail = (AssetGlobalDetail) ObjectUtils.deepCopy(locationDetail);
             asset.setCapitalAssetNumber(detail.getCapitalAssetNumber());
             asset.setCapitalAssetDescription(capitalAssetDescription);
+            asset.setInventoryStatusCode(inventoryStatusCode);
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
             asset.setConditionCode(conditionCode);
             asset.setAcquisitionTypeCode(acquisitionTypeCode);
+            asset.setPrimaryDepreciationMethodCode(primaryDepreciationMethodCode); //??
+            asset.setManufacturerName(manufacturerName);
+            asset.setManufacturerModelNumber(manufacturerModelNumber);
+            asset.setTotalCostAmount(totalCostAmount);
+            asset.setLandCountyName(landCountyName);
+            asset.setLandAcreageSize(landAcreageSize);
+            asset.setLandParcelNumber(landParcelNumber);
+            asset.setVendorName(vendorName);
+            asset.setOrganizationOwnerAccountNumber(organizationOwnerAccountNumber);
+            asset.setOrganizationOwnerChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
+            asset.setAgencyNumber(agencyNumber);
+            asset.setRepresentativeUniversalIdentifier(representativeUniversalIdentifier);
+            asset.setCapitalAssetInServiceDate(capitalAssetInServiceDate);
+            asset.setDepreciationDate(capitalAssetDepreciationDate);
+            asset.setCreateDate(createDate);
+            asset.setAgency(agency); // ???
             asset.setCampusCode(detail.getCampusCode());
             asset.setBuildingCode(detail.getBuildingCode());
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());

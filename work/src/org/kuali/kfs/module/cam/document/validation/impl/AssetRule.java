@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.DateUtils;
@@ -274,9 +275,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * Validate Inventory Status Code Change
      */
     private boolean validateInventoryStatusCode() {
-        return parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+        boolean valid = true;
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+            valid &=  parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+        }
+        return valid;
     }
-
 
     private void initializeAttributes(MaintenanceDocument document) {
         if (newAsset == null) {
@@ -321,7 +326,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
-
 
     /**
      * The Vendor Name is required for capital equipment and not required for non-capital assets.

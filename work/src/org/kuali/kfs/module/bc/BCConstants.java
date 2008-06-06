@@ -216,6 +216,7 @@ public class BCConstants extends JSTLConstants {
         public final static String YES = "Y";
         public final static String NO = "N";
         public final static String THRESHOLD = "Threshold: ";
+        public final static String SELECTED_REASONS = "Selected Reasons: "; 
         public final static String THRESHOLD_GREATER = "greater then or equal to ";
         public final static String THRESHOLD_LESS = "less than or equal to ";
         public final static String PERCENT = "%";

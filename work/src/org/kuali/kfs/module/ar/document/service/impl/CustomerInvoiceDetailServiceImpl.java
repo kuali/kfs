@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.fop.render.pdf.CIDFont;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
@@ -252,6 +253,10 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.module.ar.bo.CustomerInvoiceDetail)
      */
     public void updateAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
+        customerInvoiceDetail.setAccountsReceivableObjectCode(getAccountsReceivableObjectCodeBasedOnReceivableParameter(customerInvoiceDetail));
+    }
+    
+    public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail) {
         String receivableOffsetOption = parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         String accountsReceivableObjectCode = null;
         if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(receivableOffsetOption)) {
@@ -266,8 +271,8 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
                 accountsReceivableObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, customerInvoiceDetail.getAccount().getSubFundGroupCode());
             }
         }
-        customerInvoiceDetail.setAccountsReceivableObjectCode(accountsReceivableObjectCode);
-    }
+        return accountsReceivableObjectCode;
+    }    
 
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#prepareCustomerInvoiceDetailForAdd(org.kuali.module.ar.bo.CustomerInvoiceDetail, org.kuali.module.ar.document.CustomerInvoiceDocument)
@@ -309,4 +314,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
+
 }

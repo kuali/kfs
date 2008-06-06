@@ -27,33 +27,7 @@ import org.kuali.module.ar.rules.OrganizationAccountingDefaultRuleTest;
 import org.kuali.module.ar.rules.SystemInformationRuleTest;
 import org.kuali.module.ar.service.CashControlDocumentServiceTest;
 import org.kuali.module.ar.service.CustomerInvoiceDetailServiceTest;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentGeneralLedgerPostingHelperTest;
-import org.kuali.module.gl.batch.BalanceForwardStepTest;
-import org.kuali.module.gl.batch.CollectorStepTest;
-import org.kuali.module.gl.batch.FileEnterpriseFeederTest;
-import org.kuali.module.gl.batch.ForwardEncumbranceTest;
-import org.kuali.module.gl.batch.PurgeTest;
-import org.kuali.module.gl.batch.YearEndFlexibleOffsetTest;
-import org.kuali.module.gl.bo.OriginEntryTest;
-import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
-import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
-import org.kuali.module.gl.service.CollectorServiceTest;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
-import org.kuali.module.gl.service.NightlyOutServiceTest;
-import org.kuali.module.gl.service.PosterServiceTest;
-import org.kuali.module.gl.service.ReportServiceTest;
-import org.kuali.module.gl.service.RunDateServiceTest;
-import org.kuali.module.gl.service.ScrubberFlexibleOffsetTest;
-import org.kuali.module.gl.service.ScrubberServiceTest;
-import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
-import org.kuali.module.gl.service.SufficientFundsServiceTest;
-import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionCategoryTest;
-import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionLogicTest;
-import org.kuali.module.gl.util.OJBUtilityTest;
-import org.kuali.module.gl.web.lookupable.AccountBalanceLookupableHelperServiceTest;
-import org.kuali.module.gl.web.lookupable.BalanceLookupableHelperServiceTest;
-import org.kuali.module.gl.web.lookupable.EntryLookupableHelperServiceTest;
-import org.kuali.module.gl.web.lookupable.PendingLedgerServiceHelperServiceTest;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentGeneralLedgerPostingTest;
 
 /**
  * Runs all the tests in the GL test suite.
@@ -77,7 +51,7 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(SystemInformationRuleTest.class);
         suite.addTestSuite(CashControlDocumentServiceTest.class);
         suite.addTestSuite(CustomerInvoiceDetailServiceTest.class);
-        suite.addTestSuite(CustomerInvoiceDocumentGeneralLedgerPostingHelperTest.class);
+        suite.addTestSuite(CustomerInvoiceDocumentGeneralLedgerPostingTest.class);
 
         return suite;
     }

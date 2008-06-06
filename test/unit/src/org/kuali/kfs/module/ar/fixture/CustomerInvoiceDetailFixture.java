@@ -37,13 +37,47 @@ public enum CustomerInvoiceDetailFixture {
             "SAC", //financialSubObjectCode
             "CID", //organizationRefId
             "BOB", //projectCode
+            null,  //accountsReceivableObjectCode
+            Date.valueOf( "2008-01-01" ), //invoiceItemServiceDate
+            new BigDecimal( 1 ), // invoiceItemQuantity
+            new KualiDecimal( 1 ), //invoiceItemUnitPrice
+            new KualiDecimal( 1 ), //amount
+            new KualiDecimal(0) //invoiceItemTaxAmount
+    ),
+    
+    CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE(
+            null, //documentNumber
+            "BL", //chartOfAccountsCode
+            "1031400", //accountNumber
+            "ADV",  //subAccountNumber
+            "5000",  //financialObjectCode
+            "SAC", //financialSubObjectCode
+            "CID", //organizationRefId
+            "BOB", //projectCode
+            "8110",  //accountsReceivableObjectCode
+            Date.valueOf( "2008-01-01" ), //invoiceItemServiceDate
+            new BigDecimal( 1 ), // invoiceItemQuantity
+            new KualiDecimal( 1 ), //invoiceItemUnitPrice
+            new KualiDecimal( 1 ), //amount
+            new KualiDecimal(0) //invoiceItemTaxAmount
+    ),    
+    
+    CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE(
+            null, //documentNumber
+            "BL", //chartOfAccountsCode
+            "1031400", //accountNumber
+            "ADV",  //subAccountNumber
+            "5000",  //financialObjectCode
+            "SAC", //financialSubObjectCode
+            "CID", //organizationRefId
+            "BOB", //projectCode
             "8118",  //accountsReceivableObjectCode
             Date.valueOf( "2008-01-01" ), //invoiceItemServiceDate
             new BigDecimal( 1 ), // invoiceItemQuantity
             new KualiDecimal( 1 ), //invoiceItemUnitPrice
             new KualiDecimal( 1 ), //amount
             new KualiDecimal(0) //invoiceItemTaxAmount
-    ); 
+    );    
     
     public String documentNumber;
     public String chartOfAccountsCode;

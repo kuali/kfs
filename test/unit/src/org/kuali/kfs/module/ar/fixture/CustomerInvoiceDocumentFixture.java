@@ -26,7 +26,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public enum CustomerInvoiceDocumentFixture {
     
-    BASE_CIDOC( null, //customerNumber 
+    BASE_CIDOC_NO_CUSTOMER( null, //customerNumber 
             "BA", //processingChartOfAccountsCode
             "ACAC", //processingOrganizationCode
             null, //paymentChartOfAccountsCode
@@ -38,6 +38,18 @@ public enum CustomerInvoiceDocumentFixture {
             null
     ),
     
+    BASE_CIDOC_WITH_CUSTOMER( "ABB2", //customerNumber 
+            "BA", //processingChartOfAccountsCode
+            "ACAC", //processingOrganizationCode
+            null, //paymentChartOfAccountsCode
+            null, //paymentAccountNumber
+            null, //paymentSubAccountNumber
+            null, //paymentFinancialObjectCode
+            null, //paymentSubObjectCode
+            null, //paymentProjectCode
+            null
+    ),    
+    
     CIDOC_WITH_FAU_RECEIVABLE( "ABB2", //customerNumber 
             "BA", //processingChartOfAccountsCode
             "ACAC", //processingOrganizationCode
@@ -48,7 +60,7 @@ public enum CustomerInvoiceDocumentFixture {
             "001", //paymentSubObjectCode
             null, //paymentProjectCode
             "FAU" //FAU
-    );    
+    );
     
     public String customerNumber;
     public String processingChartOfAccountsCode;

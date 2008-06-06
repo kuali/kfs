@@ -93,46 +93,45 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     /**
      * @see org.kuali.module.cams.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.module.cams.document.AssetPaymentDocument)
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument document) {
+    public void processApprovedAssetPayment(AssetPaymentDocument document) {        
         // Creating new asset payment records
         createNewPayments(document);
-
-        // Updating the asset previous cost in the asset payment document table
+        
+        //Updating the asset previous cost in the asset payment document table
         updatePaymentAssetPreviousTotalCost(document);
-
+        
         // Updating the total cost of the asset
-        // updateAssetTotalCost(document.getAsset(), document.getSourceTotal());
+        updateAssetTotalCost(document);        
     }
 
     /**
      * This method updates the total cost amount of the asset by adding the total cost of the new asset payments
      * 
      * @param asset bo where the update will occur
-     * @param subTotal amount of the new asset payment detail records private void updateAssetTotalCost(Asset asset, KualiDecimal
-     *        subTotal) { KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount()); asset = (Asset)
-     *        getBusinessObjectService().retrieve(asset); asset.setTotalCostAmount(totalCost);
-     *        getBusinessObjectService().save(asset); }
+     * @param subTotal amount of the new asset payment detail records
      */
+    private void updateAssetTotalCost(AssetPaymentDocument assetPaymentDocument) {
+        KualiDecimal subTotal = assetPaymentDocument.getSourceTotal();
+        KualiDecimal totalCost = subTotal.add(assetPaymentDocument.getAsset().getTotalCostAmount());
+        
+        //Retrieving the asset that will have its cost updated
+        Asset asset = (Asset) getBusinessObjectService().retrieve(assetPaymentDocument.getAsset());        
+        asset.setTotalCostAmount(totalCost);
+        
+        //Saving changes
+        getBusinessObjectService().save(asset);
+     }
 
     /**
-     * This method...
      * 
+     * Updates asset previous cost in the asset document table
      * @param assetPaymentDocument
      */
     private void updatePaymentAssetPreviousTotalCost(AssetPaymentDocument assetPaymentDocument) {
-        Asset asset = assetPaymentDocument.getAsset();
-        assetPaymentDocument.setPreviousTotalCostAmount(asset.getTotalCostAmount());
-
-        KualiDecimal subTotal = assetPaymentDocument.getSourceTotal();
-        KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount() != null ? asset.getTotalCostAmount() : KualiDecimal.ZERO);
-
-        // asset = (Asset) getBusinessObjectService().retrieve(asset);
-        asset.setTotalCostAmount(totalCost);
-
-        // getBusinessObjectService().save(assetPaymentDocument.getAsset());
+        assetPaymentDocument.setPreviousTotalCostAmount(assetPaymentDocument.getAsset().getTotalCostAmount());
         getBusinessObjectService().save(assetPaymentDocument);
     }
-
+     
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 

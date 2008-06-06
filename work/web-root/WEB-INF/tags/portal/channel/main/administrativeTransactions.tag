@@ -19,7 +19,7 @@
 <div class="body">
   <strong>Effort Certification</strong>
   <ul class="chan">		
-	 <li><portal:portalLink displayTitle="true" title="Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" /></li>
+	 <li><portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" /></li>
   </ul>
   <strong>Electronic Fund Transfer</strong>
   <ul class="chan">

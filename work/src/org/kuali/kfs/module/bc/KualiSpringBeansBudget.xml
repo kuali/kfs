@@ -518,6 +518,17 @@
     	<ref bean="parameterService" />
     </property>
     </bean>
+    
+    <bean id="BudgetConstructionAccountSalaryDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSalaryDetailReportServiceImpl">
+	<property name="budgetConstructionReportsServiceHelper">
+		<ref bean="budgetConstructionReportsServiceHelper" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+	</bean>
+    
+    
  	
 	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountSummaryReportDaoJdbc">
 		<property name="persistenceService">

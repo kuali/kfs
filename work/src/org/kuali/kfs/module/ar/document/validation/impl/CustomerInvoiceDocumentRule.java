@@ -15,9 +15,6 @@
  */
 package org.kuali.module.ar.rules;
 
-import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -49,6 +46,7 @@ import org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
 import org.kuali.module.ar.service.CustomerAddressService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -98,8 +96,11 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals( receivableOffsetOption ) ){
-            success &= doesChartCodeHaveRecivableObjectCode( customerInvoiceDetail );
+            success &= doesChartCodeHaveReceivableObjectCode( customerInvoiceDetail );
+        } else if ( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals( receivableOffsetOption ) ) {
+            success &= doesSubFundGroupHaveReceivableObjectCode( customerInvoiceDetail );
         }
+        
         success &= isCustomerInvoiceDetailUnitPriceValid(customerInvoiceDetail, customerInvoiceDocument);
         success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
         success &= isValidUnitOfMeasure(customerInvoiceDetail);
@@ -452,7 +453,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         // if amount is = 0
         if (KualiDecimal.ZERO.equals(amount)) {
-            GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         else {
@@ -460,21 +461,21 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
             if (customerInvoiceDocument.isInvoiceReversal()) {
                 if (customerInvoiceDetail.isDiscountLine() && amount.isNegative()) {
-                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
                 else if (!customerInvoiceDetail.isDiscountLine() && amount.isPositive()) {
-                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
             }
             else {
                 if (customerInvoiceDetail.isDiscountLine() && amount.isPositive()) {
-                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
                 else if (!customerInvoiceDetail.isDiscountLine() && amount.isNegative()) {
-                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
             }
@@ -684,16 +685,36 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @param customerInvoiceDetail
      * @return
      */
-    public boolean doesChartCodeHaveRecivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail ){
+    public boolean doesChartCodeHaveReceivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail ){
         
         customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
         Chart chart = customerInvoiceDetail.getChart();
-        if( ObjectUtils.isNotNull( chart ) ){
-            if( StringUtils.isEmpty(chart.getFinAccountsReceivableObjCode()) ){
-                GlobalVariables.getErrorMap().putError(CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD);
+        if( StringUtils.isEmpty(chart.getFinAccountsReceivableObjCode()) ){
+            GlobalVariables.getErrorMap().putError(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD, chart.getChartOfAccountsCode());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * This method returns true if sub fund group associated with account has a corresponding AR object code
+     * 
+     * @param customerInvoiceDetail
+     * @return
+     */
+    public boolean doesSubFundGroupHaveReceivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail ){
+        customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        Account account = customerInvoiceDetail.getAccount();
+        if( StringUtils.isNotEmpty(account.getSubFundGroupCode() ) ){
+            String receivableObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, account.getSubFundGroupCode());
+            
+            if( StringUtils.isEmpty(receivableObjectCode) ){
+                GlobalVariables.getErrorMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD, account.getSubFundGroupCode(), account.getAccountNumber());
                 return false;
             }
         }
-        return true;
+        
+        return true;                
     }
 }

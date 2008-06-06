@@ -56,7 +56,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
-        customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+        customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateAccountReceivableObjectCodes();
         try {
             // proceed as usual
             customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
@@ -250,7 +250,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         if (rulePassed) {
 
             CustomerInvoiceDetail discountCustomerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getDiscountCustomerInvoiceDetailForCurrentYear(parentCustomerInvoiceDetail, customerInvoiceDocument);
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(discountCustomerInvoiceDetail);
+            discountCustomerInvoiceDetail.refreshNonUpdateableReferences();
             insertAccountingLine(true, customerInvoiceDocumentForm, discountCustomerInvoiceDetail);
 
             // also set parent customer invoice detail line to have discount line seq number
@@ -286,15 +286,12 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         if (rulePassed) {
 
             // add accountingLine
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(customerInvoiceDetail);
-            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            customerInvoiceDetailService.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
-            customerInvoiceDetail.updateARObjectCode();
+            customerInvoiceDetail.refreshNonUpdateableReferences();
+            service.prepareCustomerInvoiceDetailForAdd(customerInvoiceDetail, customerInvoiceDocument);
             insertAccountingLine(true, customerInvoiceDocumentForm, customerInvoiceDetail);
 
             // clear the used newTargetLine
             customerInvoiceDocumentForm.setNewSourceLine(null);
-
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

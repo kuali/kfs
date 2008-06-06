@@ -20,12 +20,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
 
 public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
 

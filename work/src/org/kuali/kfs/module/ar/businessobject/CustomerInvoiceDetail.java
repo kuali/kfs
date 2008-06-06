@@ -362,21 +362,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         }
     }
 
-
-    /**
-     * This method updates the AR Object Code for invoices
-     */
-    public void updateARObjectCode() {
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals( receivableOffsetOption ) ){
-            setAccountsReceivableObjectCode(getChart().getFinAccountsReceivableObj().getFinancialObjectCode());
-        } else if ( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals( receivableOffsetOption )) {
-            //get AR object code from sub fund group code
-            //setAccountsReceivableObjectCode(getAccount().getSubFundGroup().getFinAccountsReceivableObj().getFinancialObjectCode());
-        }
-    }
-
-
     public CustomerInvoiceDetail getParentDiscountCustomerInvoiceDetail() {
         return parentDiscountCustomerInvoiceDetail;
     }

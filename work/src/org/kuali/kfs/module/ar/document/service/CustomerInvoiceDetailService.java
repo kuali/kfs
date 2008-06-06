@@ -18,6 +18,8 @@ package org.kuali.module.ar.service;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.impl.CustomerInvoiceDetailServiceImpl;
+import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This class provides services related to the customer invoice document
@@ -105,8 +107,20 @@ public interface CustomerInvoiceDetailService {
     public void recalculateCustomerInvoiceDetail( CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail );
     
     /**
-     * This method is used to update 
+     * This method is used to update account for corresponding discount line based on parent line's account
      * @param parentDiscountCustomerInvoiceDetail
      */
     public void updateAccountsForCorrespondingDiscount( CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail );
+    
+    /**
+     * This method is used update the accounts receivable object code if receivable options 1 or 2 are selected.
+     * @param customerInvoiceDetail
+     */
+    public void updateAccountsReceivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail );
+    
+    /**
+     * This method is used make sure the amounts are calculated correctly and the correct AR object code is in place
+     * @param customerInvoiceDetail
+     */
+    public void prepareCustomerInvoiceDetailForAdd( CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument );
 }

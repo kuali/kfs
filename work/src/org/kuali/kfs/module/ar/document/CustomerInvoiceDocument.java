@@ -22,6 +22,7 @@ import org.kuali.module.ar.bo.CustomerAddress;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.ReceivableCustomerInvoiceDetail;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.chart.bo.Account;
@@ -914,6 +915,15 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     @Override
     public Class getSourceAccountingLineClass() {
         return CustomerInvoiceDetail.class;
+    }
+    
+    /**
+     * Ensures that all the accounts receivable object codes are correctly updated
+     */
+    public void updateAccountReceivableObjectCodes(){
+        for( Iterator e = getSourceAccountingLines().iterator(); e.hasNext(); ){
+            SpringContext.getBean(CustomerInvoiceDetailService.class).updateAccountsReceivableObjectCode(((CustomerInvoiceDetail)e.next()));
+        }
     }
     
     /**

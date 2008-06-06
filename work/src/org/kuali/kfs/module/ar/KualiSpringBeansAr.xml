@@ -99,6 +99,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>				
 	</bean>	
 	
 	<bean id="customerCreditMemoDetailService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDetailServiceImpl"/>

@@ -1082,7 +1082,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CASH_CONTROL_DETAILS_ERRORS = "newCashControl*,document.cashControlDetail*";
     
     // Customer Credit Memo Document
-    public static final String CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS = "document.customerCreditMemoDetail.creditMemoItemQuantity,document.customerCreditMemoDetail.creditMemoItemTotalAmount"; 
+//    public static final String CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS = "document.customerCreditMemoDetail.creditMemoItemQuantity,document.customerCreditMemoDetail.creditMemoItemTotalAmount";
+    public static final String CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS = "document.creditMemoDetails*";
     public static final String CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME = "creditMemoDetails";
     
     public static final class ReportGeneration{

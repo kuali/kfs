@@ -13,10 +13,13 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 
 /**
@@ -362,6 +365,39 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         crmTotalItemAmount = crmTotalItemAmount.add(itemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.add(itemAmount.multiply(taxRate));
         crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
+    }
+    
+    /*
+     * populate customer credit memo details based on the invoice info
+     */
+    public void populateCustomerCreditMemoDetails() {
+        CustomerCreditMemoDetail customerCreditMemoDetail;
+        KualiDecimal invItemTaxAmount, openInvoiceAmount;
+        Integer itemLineNumber;
+        
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
+
+        List<SourceAccountingLine> invoiceDetails = invoice.getSourceAccountingLines();
+        for( SourceAccountingLine invoiceDetail : invoiceDetails ){
+            customerCreditMemoDetail = new CustomerCreditMemoDetail();
+            
+            // populate invoice item 'Total Amount'
+            invItemTaxAmount = ((CustomerInvoiceDetail)invoiceDetail).getInvoiceItemTaxAmount();
+            if (invItemTaxAmount == null) {
+                invItemTaxAmount = KualiDecimal.ZERO;
+                ((CustomerInvoiceDetail)invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
+            }
+            customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
+            
+            itemLineNumber = ((CustomerInvoiceDetail)invoiceDetail).getSequenceNumber();
+            customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
+            
+            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(itemLineNumber,(CustomerInvoiceDetail)invoiceDetail);
+            customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
+            
+            creditMemoDetails.add(customerCreditMemoDetail);
+         }
     }
 
 }

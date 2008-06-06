@@ -27,18 +27,15 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.module.ar.rule.event.ContinueCustomerCreditMemoDocumentEvent;
 import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDetailEvent;
 import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDocumentEvent;
 import org.kuali.module.ar.service.CustomerCreditMemoDetailService;
 import org.kuali.module.ar.service.CustomerCreditMemoDocumentService;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -91,38 +88,15 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
      * @return An ActionForward
      */
     public ActionForward continueCreditMemo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerCreditMemoDetail customerCreditMemoDetail;
-        KualiDecimal invItemTaxAmount, openInvoiceAmount;
-        String docNumber;
-        Integer itemLineNumber;
-        
+
         CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
-        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         
-        customerCreditMemoDocument.setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new ContinueCustomerCreditMemoDocumentEvent(errorPath,customerCreditMemoDocument));
+        if (rulePassed)
+            customerCreditMemoDocument.populateCustomerCreditMemoDetails();
 
-        // populate customer credit memo details based on the given invoice
-        List<SourceAccountingLine> invoiceDetails = customerCreditMemoDocument.getInvoice().getSourceAccountingLines();
-        for( SourceAccountingLine invoiceDetail : invoiceDetails ){
-            customerCreditMemoDetail = new CustomerCreditMemoDetail();
-            
-            // populate invoice item 'Total Amount'
-            invItemTaxAmount = ((CustomerInvoiceDetail)invoiceDetail).getInvoiceItemTaxAmount();
-            if (invItemTaxAmount == null) {
-                invItemTaxAmount = KualiDecimal.ZERO;
-                ((CustomerInvoiceDetail)invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
-            }
-            customerCreditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount,invoiceDetail.getAmount());
-            
-            itemLineNumber = ((CustomerInvoiceDetail)invoiceDetail).getSequenceNumber();
-            customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
-            
-            openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(itemLineNumber,(CustomerInvoiceDetail)invoiceDetail);
-            customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
-            
-            customerCreditMemoDocument.getCreditMemoDetails().add(customerCreditMemoDetail);
-        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -228,7 +202,6 @@ public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentAct
         CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm) form;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocumentForm.getDocument();
 
-        // TODO!!!
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDocumentEvent(errorPath,customerCreditMemoDocument));
         if (rulePassed) {

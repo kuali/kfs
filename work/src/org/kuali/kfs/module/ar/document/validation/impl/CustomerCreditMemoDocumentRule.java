@@ -24,6 +24,7 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -31,14 +32,19 @@ import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule;
 import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule;
 import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 
 /**
  * This class holds the business rules for the AR Credit Memo Document
  */
-public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<AccountingDocument>, RecalculateCustomerCreditMemoDocumentRule<AccountingDocument>{
+public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<AccountingDocument>,
+                                                                                          RecalculateCustomerCreditMemoDocumentRule<AccountingDocument>,
+                                                                                          ContinueCustomerCreditMemoDocumentRule<AccountingDocument>{
   
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
@@ -181,19 +187,78 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
         boolean crmDataEnteredFlag = false;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
         List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+        int i = 0;
+        String propertyName;
         
         for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
+            propertyName = KFSConstants.CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME + "[" + i +"]";
+            GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+            
             // validate only if there is input data
             if (!isQtyOrItemAmountEntered(customerCreditMemoDetail).equals(StringUtils.EMPTY)) {
                 crmDataEnteredFlag = true;
                 success &= processRecalculateCustomerCreditMemoDetailRules(customerCreditMemoDocument,customerCreditMemoDetail);
             }
+            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+            i++;
         }
         // if (crmDataEnteredFlag == false ) => no CRM data was entered => success = false -> no recalculation will take place
         // if error message is to be displayed, it should be done here...
         success &= crmDataEnteredFlag;
         
         return success;
+    }
+
+    /**
+     * @see org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule#processContinueCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
+     */
+    public boolean processContinueCustomerCreditMemoDocumentRules(AccountingDocument financialDocument) {
+        boolean success;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) financialDocument;
+   
+        success = checkIfInvoiceNumberIsValid(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
+        if (success)
+            success = checkIfThereIsAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument.getInvoice());
+        
+        return success;
+    }
+    
+    private boolean checkIfInvoiceNumberIsValid(String invDocumentNumber) {
+        boolean success = true;
+        
+        if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
+        } else {    
+            CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+            CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
+        
+            if (ObjectUtils.isNull(customerInvoiceDocument)) {
+                success = false;
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
+            }
+        }
+        return success;
+    }
+    /**
+     * 
+     * This method checks if there is another CRM in route for the invoice
+     * not in route if CRM status is one of the following: processed, cancelled, or disapproved
+     * @param invoice
+     * @return
+     */
+    private boolean checkIfThereIsAnotherCRMInRouteForTheInvoice(CustomerInvoiceDocument invoice) {
+        boolean success = true;
+        
+        /* TODO
+        *if (ObjectUtils.isNotNull(invoice.getRefCreditMemoNumber)) {
+        
+        if (true) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+        }
+        */
+        return success;  
     }
     
 }

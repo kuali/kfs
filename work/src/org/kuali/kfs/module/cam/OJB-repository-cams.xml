@@ -272,6 +272,7 @@
 	<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/> 
+	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
 
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />

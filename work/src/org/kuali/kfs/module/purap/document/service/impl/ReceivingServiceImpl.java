@@ -190,7 +190,9 @@ public class ReceivingServiceImpl implements ReceivingService {
 
         boolean canCreate = false;
        
-        if( (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
+        if(  po != null &&
+             ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) &&
+             (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) &&
              !isReceivingLineDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) &&

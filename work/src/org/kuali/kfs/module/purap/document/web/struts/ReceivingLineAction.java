@@ -114,7 +114,7 @@ public class ReceivingLineAction extends ReceivingBaseAction {
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReceivingLineForm rlForm = (ReceivingLineForm) form;
         ReceivingLineDocument rlDocument = (ReceivingLineDocument) rlForm.getDocument();
-        rlDocument.clearInitFields();
+        rlDocument.clearInitFields(rlForm.isFromPurchaseOrder());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

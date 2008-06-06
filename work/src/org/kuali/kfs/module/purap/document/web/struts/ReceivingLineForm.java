@@ -38,6 +38,7 @@ public class ReceivingLineForm extends ReceivingFormBase {
     
     private Integer purchaseOrderId;
     private ReceivingLineItem newReceivingLineItemLine;
+    private boolean fromPurchaseOrder = false;
     
     /**
      * Constructs a ReceivingLineForm instance and sets up the appropriately casted document.
@@ -170,6 +171,14 @@ public class ReceivingLineForm extends ReceivingFormBase {
      */
     public boolean isAbleToShowClearAndLoadQtyButtons(){        
         return SpringContext.getBean(ParameterService.class).getIndicatorParameter(ReceivingLineDocument.class, PurapParameterConstants.SHOW_CLEAR_AND_LOAD_QTY_BUTTONS);        
+    }
+
+    public boolean isFromPurchaseOrder() {
+        return fromPurchaseOrder;
+    }
+
+    public void setFromPurchaseOrder(boolean fromPurchaseOrder) {
+        this.fromPurchaseOrder = fromPurchaseOrder;
     }
 
 }

@@ -21,14 +21,7 @@
     showTabButtons="true">
     
     <kul:hiddenDocumentFields isTransactionalDocument="false" />
-    		 
-	<html:hidden property="document.purchaseOrderIdentifier" />
-	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
-	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.vendorDetailAssignedIdentifier" />
-	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
-    		
+    		     		
     <c:choose>
     <c:when test="${!empty KualiForm.editingMode['fullEntry']}">
     	<c:set var="fullEntryMode" value="true" scope="request" />
@@ -39,10 +32,18 @@
     </c:choose>
     
 	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
+		<html:hidden property="fromPurchaseOrder" />
     	<purap:receivingLineInit documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}"/>
 	</c:if>
     
     <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
+	<html:hidden property="document.purchaseOrderIdentifier" />
+	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
+	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
+	<html:hidden property="document.vendorDetailAssignedIdentifier" />
+	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
+	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
+    
 	    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		<purap:receivingVendor

@@ -91,7 +91,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     /**
      * Perform logic needed to clear the initial fields on a Receiving Line Document
      */
-    public void clearInitFields() {
+    public void clearInitFields(boolean fromPurchaseOrder) {
         // Clearing document overview fields
         this.getDocumentHeader().setFinancialDocumentDescription(null);
         this.getDocumentHeader().setExplanation(null);
@@ -99,6 +99,9 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         this.getDocumentHeader().setOrganizationDocumentNumber(null);
 
         // Clearing document Init fields
+        if(fromPurchaseOrder == false){
+            this.setPurchaseOrderIdentifier(null);
+        }        
         this.setShipmentReceivedDate(null);
         this.setShipmentPackingSlipNumber(null);
         this.setShipmentBillOfLadingNumber(null);

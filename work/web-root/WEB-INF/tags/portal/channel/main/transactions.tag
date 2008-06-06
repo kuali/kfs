@@ -58,11 +58,12 @@
 	        <li><portal:portalLink displayTitle="true" title="Routing Form" url="researchRoutingFormMainPage.do?methodToCall=docHandler&command=initiate&docTypeName=KualiRoutingFormDocument" /></li>
 		</ul>
 
-		<strong>Purchasing/Accounts Payable</strong><br />
+	<strong>Purchasing/Accounts Payable</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Contract Manager Assignment" url="purapAssignContractManager.do?methodToCall=docHandler&command=initiate&docTypeName=AssignContractManagerDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Credit Memo" url="purapCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=CreditMemoDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Payment Request" url="purapPaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentRequestDocument" /></li>
+		<li><portal:portalLink displayTitle="true" title="Receiving" url="purapReceivingLine.do?methodToCall=docHandler&command=initiate&docTypeName=ReceivingLineDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Requisition" url="purapRequisition.do?methodToCall=docHandler&command=initiate&docTypeName=RequisitionDocument" /></li>
     </ul>
 </div>

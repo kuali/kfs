@@ -82,7 +82,10 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= hasRequiredFieldsForContinue(receivingLineDocument);
-        valid &= canCreateReceivingLineDocument(receivingLineDocument);
+        //only do this if valid
+        if(valid){
+            valid &= canCreateReceivingLineDocument(receivingLineDocument);
+        }
         
         return valid;
     }

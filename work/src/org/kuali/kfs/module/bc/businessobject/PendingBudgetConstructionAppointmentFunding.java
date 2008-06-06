@@ -26,6 +26,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.util.SalarySettingCalculator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -95,21 +97,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @return Returns percentChange
      */
     public KualiDecimal getPercentChange() {
+        percentChange = null;
 
-        if (bcnCalculatedSalaryFoundationTracker == null || bcnCalculatedSalaryFoundationTracker.isEmpty()) {
-            percentChange = null;
-        }
-        else {
-            BudgetConstructionCalculatedSalaryFoundationTracker csfLine = (BudgetConstructionCalculatedSalaryFoundationTracker) bcnCalculatedSalaryFoundationTracker.get(0);
+        BudgetConstructionCalculatedSalaryFoundationTracker csfTracker = this.getEffectiveCSFTracker();
+        if (csfTracker != null) {
+            KualiInteger baseAmount = csfTracker.getCsfAmount();
+            KualiInteger requestedAmount = this.getAppointmentRequestedAmount();
 
-            if (csfLine.getCsfAmount() == null || csfLine.getCsfAmount().isZero()) {
-                percentChange = null;
-            }
-            else {
-                BigDecimal diffRslt = (getAppointmentRequestedAmount().bigDecimalValue().setScale(4)).subtract(csfLine.getCsfAmount().bigDecimalValue().setScale(4));
-                BigDecimal divRslt = diffRslt.divide((csfLine.getCsfAmount().bigDecimalValue().setScale(4)), KualiDecimal.ROUND_BEHAVIOR);
-                percentChange = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2));
-            }
+            percentChange = SalarySettingCalculator.getPercentChange(baseAmount, requestedAmount);
         }
         return percentChange;
     }
@@ -142,7 +137,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.universityFiscalYear = universityFiscalYear;
     }
 
-
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
@@ -161,7 +155,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-
     /**
      * Gets the accountNumber attribute.
      * 
@@ -179,7 +172,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-
 
     /**
      * Gets the subAccountNumber attribute.
@@ -385,9 +377,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @return Returns the appointmentRequestedAmount
      */
     public KualiInteger getAppointmentRequestedAmount() {
-        if (appointmentRequestedAmount == null) {
-            appointmentRequestedAmount = KualiInteger.ZERO;
-        }
         return appointmentRequestedAmount;
     }
 
@@ -774,44 +763,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * Returns a map with the primitive field names as the key and the primitive values as the map value.
-     * 
-     * @return Map
-     */
-    public Map getValuesMap() {
-        Map simpleValues = new HashMap();
-
-        simpleValues.put("universityFiscalYear", getUniversityFiscalYear());
-        simpleValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-        simpleValues.put("accountNumber", getAccountNumber());
-        simpleValues.put("subAccountNumber", getSubAccountNumber());
-        simpleValues.put("financialObjectCode", getFinancialObjectCode());
-        simpleValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-        simpleValues.put("positionNumber", getPositionNumber());
-        simpleValues.put("emplid", getEmplid());
-
-        return simpleValues;
-    }
-
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.universityFiscalYear != null) {
-            m.put("universityFiscalYear", this.universityFiscalYear.toString());
-        }
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("subAccountNumber", this.subAccountNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("financialSubObjectCode", this.financialSubObjectCode);
-        m.put("positionNumber", this.positionNumber);
-        m.put("emplid", this.emplid);
-        return m;
-    }
-
-    /**
      * Gets the adjustmentAmount attribute.
      * 
      * @return Returns the adjustmentAmount.
@@ -858,5 +809,46 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         }
 
         return bcnCalculatedSalaryFoundationTracker.get(0);
+    }
+
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map a map with the primitive field names as the key and the primitive values as the map value.
+     */
+    public Map<String, Object> getValuesMap() {
+        Map<String, Object> valuesMap = new HashMap<String, Object>();
+
+        valuesMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+        valuesMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        valuesMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        valuesMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        valuesMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, getFinancialObjectCode());
+        valuesMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, getFinancialSubObjectCode());
+        valuesMap.put(KFSPropertyConstants.POSITION_NUMBER, getPositionNumber());
+        valuesMap.put(KFSPropertyConstants.EMPLID, getEmplid());
+
+        return valuesMap;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+
+        if (this.universityFiscalYear != null) {
+            map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear().toString());
+        }
+
+        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, getFinancialObjectCode());
+        map.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, getFinancialSubObjectCode());
+        map.put(KFSPropertyConstants.POSITION_NUMBER, getPositionNumber());
+        map.put(KFSPropertyConstants.EMPLID, getEmplid());
+
+        return map;
     }
 }

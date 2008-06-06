@@ -449,29 +449,16 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 // one way or another we will have to fake the user session so get the current one
                 UserSession originalUserSession = GlobalVariables.getUserSession();
 
-                if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
-                    // for now this works but if place of full entry changes it may need to be based on something else since may
-                    // need disapprove
-                    // if past full entry and workflow not in final state
-                    if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                        try {
-                            // need to run a super user cancel since person canceling may not have an action requested on the
-                            // document
-                            GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                            documentService.superUserDisapproveDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
-                        }
-                        finally {
-                            GlobalVariables.setUserSession(originalUserSession);
-                        }
-                    }
-                    else {
-                        // call gl method here (no reason for post processing since workflow done)
-                        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
-                    }
-                }
-                else {
-                    try {
-                        // need to run a super user cancel since person canceling may not have an action requested on the document
+                // If state is approved or final or processed
+                if (document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+                    //call gl method here (no reason for post processing since workflow done)
+                    SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
+                }else if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() ||
+                    document.getDocumentHeader().getWorkflowDocument().stateIsSaved()){
+                    documentService.cancelDocument(document, "");
+                }else if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()){
+                    try{
+                        //need to run a super user cancel since person canceling may not have an action requested on the document
                         GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
                         documentService.superUserCancelDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
                     }
@@ -479,6 +466,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                         GlobalVariables.setUserSession(originalUserSession);
                     }
                 }
+                        
                 Note noteObj = documentService.createNoteFromDocument(document, noteText);
                 documentService.addNoteToDocument(document, noteObj);
                 SpringContext.getBean(NoteService.class).save(noteObj);

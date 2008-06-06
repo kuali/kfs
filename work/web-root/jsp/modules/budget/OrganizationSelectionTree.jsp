@@ -34,72 +34,9 @@
 
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
 
+	<bc:budgetConstructionOrgSelection />
+
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
-        <tr>
-            <th class="grid" colspan="6" align="left">
-                <br>
-                <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
-                ${KualiForm.operatingModeTitle}
-                <br><br>
-		    </th>
-        </tr>
-	    <tr>
-            <%--point of view header --%>
-            <th class="grid" colspan="1" rowspan="1">&nbsp;</th>
-		    <th class="grid" align="left" colspan="5"><br>Current Point Of View Organization</th>
-	    </tr>
-	    <tr>
-            <%-- point of view data line --%>
-            <%-- first cell in row above spans two rows --%>
-            <td class="grid" valign="center" rowspan="1" colspan="1">
-            <div align="right">
-                <html:hidden property="previousPointOfViewKeyCode" value="${KualiForm.currentPointOfViewKeyCode}" />
-                <kul:htmlControlAttribute
-                     property="currentPointOfViewKeyCode"
-                     attributeEntry="${pointOfViewOrgAttributes.selectionKeyCode}"
-                     onchange="refreshPointOfView(this.form)"
-                     readOnly="false"
-                     styleClass="grid" />
-                <noscript>     
-                <html:image property="methodToCall.performBuildPointOfView" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>
-                </noscript>     
-            </div>
-            </td>
-            <td class="grid" valign="center" rowspan="1" colspan="1">
-            <kul:htmlControlAttribute
-                property="pointOfViewOrg.chartOfAccountsCode"
-                attributeEntry="${pointOfViewOrgAttributes.chartOfAccountsCode}"
-                readOnly="true"
-                readOnlyBody="true">
-                <kul:inquiry
-                    boClassName="org.kuali.module.chart.bo.Chart"
-                    keyValues="chartOfAccountsCode=${pointOfViewOrg.chartOfAccountsCode}"
-                    render="${!empty KualiForm.pointOfViewOrg.chartOfAccountsCode}">
-                	<html:hidden write="true" property="pointOfViewOrg.chartOfAccountsCode" />
-                </kul:inquiry>&nbsp;
-            </kul:htmlControlAttribute>
-            </td>
-            <td class="grid" valign="center" rowspan="1" colspan="1">
-            <kul:htmlControlAttribute
-                property="pointOfViewOrg.organizationCode"
-                attributeEntry="${pointOfViewOrgAttributes.organizationCode}"
-                readOnly="true"
-                readOnlyBody="true">
-                <kul:inquiry
-                    boClassName="org.kuali.module.chart.bo.Org"
-                    keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}"
-                    render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
-                	<html:hidden write="true" property="pointOfViewOrg.organizationCode" />
-                </kul:inquiry>&nbsp;
-	      	</kul:htmlControlAttribute>
-            </td>
-            <td class="grid" valign="center" rowspan="1" colspan="3">
-            <kul:htmlControlAttribute
-                property="pointOfViewOrg.organization.organizationName"
-                attributeEntry="${organizationAttributes.organizationName}"
-                readOnly="true"/>&nbsp;
-            </td>
-	    </tr>
 
         <c:if test="${!empty KualiForm.previousBranchOrgs}">
 

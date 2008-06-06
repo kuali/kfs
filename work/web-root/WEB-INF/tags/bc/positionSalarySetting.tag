@@ -658,13 +658,22 @@
         <tr>
         	<td colspan="12" style="width: 70%;"><center><br/>
         		<bc:appointmentFundingDetail 
-        			fundingLine="${budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[status.index]}" 
+        			fundingLine="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[status.index]}" 
         			fundingLineName="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
         		<br/>
         		</center>
         	</td>            
         </tr>
         </c:forEach>
+        
+        <tr>
+        	<td colspan="12" style="width: 70%;"><center><br/>
+        		<br/>
+    			<bc:appointmentFundingTotal pcafAware="${KualiForm.budgetConstructionPosition}"/>
+        		<br/>
+        		</center>
+        	</td>            
+        </tr>
     </table>
 </div>
 </kul:tabTop>

@@ -44,7 +44,12 @@
 	<c:if test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
 	<tr>
 		<th align="right">CSF:</th>	
-		<td>&nbsp;</td>		
+		<td>
+			<bc:salaryAdjustment attributes="${bcafAttributes}" 
+				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
+				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
+				lineIndex="${lineIndex}"/>
+		</td>		
 		
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="${fundingLine}"
@@ -82,14 +87,8 @@
 	</c:if>
       
 	<tr>
-		<th align="right">Request:</th>			
-		
-		<td>
-			<bc:salaryAdjustment attributes="${bcafAttributes}" 
-				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
-				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
-				lineIndex="${lineIndex}"/>
-		</td>
+		<th align="right">Request:</th>					
+		<td>&nbsp;</td>
 		
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="${fundingLine}"
@@ -136,7 +135,7 @@
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
-		<!-- TODO: fix NPE
+		<%-- TODO: fix NPE
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
               accountingLine="${fundingLine}"
               cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonCode"
@@ -154,7 +153,7 @@
               fieldAlign="right"
               readOnly="${readOnly}"
               rowSpan="1" dataFieldCssClass="amount" />
-         -->
+         --%>
          
         <td>&nbsp;</td>		
 		<td>&nbsp;</td>

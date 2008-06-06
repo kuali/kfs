@@ -15,30 +15,19 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:page showDocumentInfo="false"
-	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true"
-	showTabButtons="true"
-	docTitle="Quick Salary Setting"
-    transactionalDocument="false"
-	>
-
-<%--
-	<kul:hiddenDocumentFields
-		isFinancialDocument="false"
-		isTransactionalDocument="false" />
---%>
+<kul:page showDocumentInfo="false" docTitle="Quick Salary Setting" transactionalDocument="false"
+	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true" showTabButtons="true">
+    
     <bc:quickSalarySetting/>
 	<kul:panelFooter />
 
-<%--TODO need to create save and close(and prompt to save) actions that calls returnToCaller --%>
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">
-	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="save" alt="save"/>
+	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 
+	        	styleClass="globalbuttons" property="methodToCall.returnToCaller" title="save" alt="save"/>
 	    </c:if>
-        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
-
+	    
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
+        	styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
     </div>
 </kul:page>
-
-
-

@@ -249,17 +249,10 @@
 	
 	<tr>
 		<td colspan ="7">
-				<kul:htmlAttributeLabel attributeEntry="${pbcafAttributes.adjustmentMeasurement}"
-					forceRequired="false" useShortLabel="true" />
-				<kul:htmlControlAttribute attributeEntry="${pbcafAttributes.adjustmentMeasurement}"
-					property="${fundingLineName}.adjustmentMeasurement"/>
-				<kul:htmlControlAttribute attributeEntry="${pbcafAttributes.adjustmentAmount}"
-					property="${fundingLineName}.adjustmentAmount"/>	
-				
-				<html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
-					src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif" 
-					title="Percent Adjustment For Line ${status.index}"
-					alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
+			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
+				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
+				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
+				lineIndex = "${status.index}"/>
 		</td>
 	</tr>
 	</c:forEach>

@@ -86,6 +86,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public PendingBudgetConstructionAppointmentFunding() {
         budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
         bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
+        budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
     }
 
     /**

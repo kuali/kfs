@@ -28,7 +28,7 @@
 
 <c:set var="readOnly" value="false" />
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+<table style="border-top: 1px solid rgb(153, 153, 153); width: inherit;" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
 		<th>&nbsp;</th>
 		<th>Row Operation</th>
@@ -40,7 +40,8 @@
 		<th>Reason Select</th>
 		<th>Reason Amount</th>
 	</tr>
-
+	
+	<c:if test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
 	<tr>
 		<th align="right">CSF:</th>	
 		<td>&nbsp;</td>		
@@ -78,6 +79,7 @@
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
+	</c:if>
       
 	<tr>
 		<th align="right">Request:</th>			
@@ -134,9 +136,10 @@
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
+		<!-- TODO: fix NPE
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
               accountingLine="${fundingLine}"
-              cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason.appointmentFundingReasonCode"
+              cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonCode"
               attributes="${reasonAttributes}"
               field="appointmentFundingReasonCode"
               fieldAlign="right"
@@ -145,12 +148,16 @@
 	
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
               accountingLine="${fundingLine}"
-              cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason.appointmentFundingReasonAmount"
+              cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonAmount"
               attributes="${reasonAttributes}"
               field="appointmentFundingReasonAmount"
               fieldAlign="right"
               readOnly="${readOnly}"
               rowSpan="1" dataFieldCssClass="amount" />
+         -->
+         
+        <td>&nbsp;</td>		
+		<td>&nbsp;</td>
 	</tr>
 	
 	<tr>

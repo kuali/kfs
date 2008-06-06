@@ -126,6 +126,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
                 }
                 
                 if (StringUtils.isNotBlank(detail.getCampusTagNumber())) {
+                    asset.setOldTagNumber(asset.getCampusTagNumber());
                     asset.setCampusTagNumber(detail.getCampusTagNumber());
                 }
                 

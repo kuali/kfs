@@ -12,7 +12,9 @@
    
     <property name="maintainableSections" >
       <list>
-        <ref bean="CustomerMaintenanceDocument-EditCustomer" />
+        <ref bean="CustomerMaintenanceDocument-GeneralInformation" />
+        <ref bean="CustomerMaintenanceDocument-CorporateInformation" />
+        <ref bean="CustomerMaintenanceDocument-ContactInformation" />
         <ref bean="CustomerMaintenanceDocument-Addresses" />
       </list>
     </property>
@@ -61,11 +63,11 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="CustomerMaintenanceDocument-EditCustomer" parent="CustomerMaintenanceDocument-EditCustomer-parentBean" />
+  <bean id="CustomerMaintenanceDocument-GeneralInformation" parent="CustomerMaintenanceDocument-GeneralInformation-parentBean" />
 
-  <bean id="CustomerMaintenanceDocument-EditCustomer-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Customer Maintenance" />
-    <property name="title" value="Customer Maintenance" />
+  <bean id="CustomerMaintenanceDocument-GeneralInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="General Information" />
+    <property name="title" value="General Information" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
@@ -80,18 +82,57 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="customerTypeCode" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="customerActiveIndicator"
+              p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition"
               p:name="customerRecordAddDate"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="customerLastActivityDate"
+              p:readOnly="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerAddressChangeDate"
+              p:readOnly="true" />
+
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="CustomerMaintenanceDocument-CorporateInformation" parent="CustomerMaintenanceDocument-CorporateInformation-parentBean" />
+
+  <bean id="CustomerMaintenanceDocument-CorporateInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Corporate Information" />
+    <property name="title" value="Corporate Information" />
+    <property name="maintainableItems" >
+      <list>  
+        <bean parent="MaintainableFieldDefinition"
               p:name="customerSocialSecurityNumberIdentifier" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerFederalIdentifierNumber" />
+              p:name="customerFederalIdentifierNumber" />            
         <bean parent="MaintainableFieldDefinition"
               p:name="customerTaxExemptIndicator" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerBirthDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerCreditApprovedByName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerCreditLimitAmount" />
+
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="CustomerMaintenanceDocument-ContactInformation" parent="CustomerMaintenanceDocument-ContactInformation-parentBean" />
+
+  <bean id="CustomerMaintenanceDocument-ContactInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Contact Information" />
+    <property name="title" value="Contact Information" />
+    <property name="maintainableItems" >
+      <list>  
         <bean parent="MaintainableFieldDefinition"
               p:name="customerEmailAddress" />
         <bean parent="MaintainableFieldDefinition"
@@ -104,17 +145,7 @@
               p:name="customerContactName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerContactPhoneNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerBirthDate" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerActiveIndicator"
-              p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerLastActivityDate"
-              p:readOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerAddressChangeDate"
-              p:readOnly="true" />
+
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>
@@ -145,6 +176,8 @@
                     p:name="customerAddressIdentifier"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressTypeCode" />
+              <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressName"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
@@ -160,18 +193,16 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerZipCode" />
               <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressInternationalProvinceName" />
+              <bean parent="MaintainableFieldDefinition"
                     p:name="customerInternationalMailCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerEmailAddress" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressTypeCode" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressEndDate" />     
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerCountryCode"
                     p:required="true" /> 
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerAddressInternationalProvinceName" />
+                    p:name="customerEmailAddress" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="customerAddressEndDate" />     
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>

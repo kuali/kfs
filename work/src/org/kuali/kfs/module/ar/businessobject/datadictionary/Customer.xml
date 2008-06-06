@@ -66,7 +66,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customer800PhoneNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer800 Phone Number" />
+		<property name="label" value="800 Phone Number" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
@@ -86,8 +86,8 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerActiveIndicator" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Active Indicator" />
-		<property name="shortLabel" value="Indicator" />
+		<property name="label" value="Active Indicator" />
+		<property name="shortLabel" value="Active" />
 		<property name="maxLength" value="1" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
@@ -102,7 +102,7 @@
 	<bean id="Customer-customerAddressChangeDate-parentBean"
 		abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="customerAddressChangeDate" />
-		<property name="label" value="Customer Address Change Date" />
+		<property name="label" value="Last Address Change Date" />
 		<property name="shortLabel" value="Date" />
 		<property name="summary" value="customerAddressChangeDate" />
 		<property name="description"
@@ -115,7 +115,7 @@
 		parent="GenericAttributes-genericDate">
 		<property name="name" value="customerBirthDate" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Birth Date" />
+		<property name="label" value="Birth Date" />
 		<property name="shortLabel" value="Date" />
 		<property name="summary" value="customerBirthDate" />
 		<property name="description"
@@ -128,7 +128,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="customerContactName" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Contact Name" />
+		<property name="label" value="Contact Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern">
@@ -149,7 +149,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerContactPhoneNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Contact Phone Number" />
+		<property name="label" value="Contact Phone Number" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
@@ -169,7 +169,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerCreditApprovedByName" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Credit Approved By Name" />
+		<property name="label" value="Credit Approved By" />
 		<property name="shortLabel" value="Name" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern">
@@ -190,7 +190,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerCreditLimitAmount" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Credit Limit Amount" />
+		<property name="label" value="Credit Limit Amount" />
 		<property name="shortLabel" value="Amount" />
 		<property name="maxLength" value="19" />
 		<property name="validationPattern">
@@ -210,7 +210,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="customerEmailAddress" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Email Address" />
+		<property name="label" value="Email Address" />
 		<property name="shortLabel" value="Address" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern">
@@ -230,7 +230,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="customerFaxNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Fax Number" />
+		<property name="label" value="Fax Number" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
@@ -251,7 +251,7 @@
 		<property name="name" value="customerFederalIdentifierNumber" />
 		<property name="forceUppercase" value="true" />
 		<property name="label"
-			value="Customer Federal Identifier Number" />
+			value="Federal Identifier Number" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="9" />
 		<property name="validationPattern">
@@ -272,7 +272,7 @@
 		abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="customerLastActivityDate" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Last Activity Date" />
+		<property name="label" value="Last Activity Date" />
 		<property name="summary" value="customerLastActivityDate" />
 		<property name="description"
 			value="customerLastActivityDate description..." />
@@ -347,8 +347,8 @@
 		parent="AttributeDefinition">
 		<property name="name" value="customerPhoneNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Phone Number" />
-		<property name="shortLabel" value="Number" />
+		<property name="label" value="Phone Number" />
+		<property name="shortLabel" value="Phone" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
@@ -383,7 +383,7 @@
 			value="customerSocialSecurityNumberIdentifier" />
 		<property name="forceUppercase" value="true" />
 		<property name="label"
-			value="Customer Social Security Number Identifier" />
+			value="Social Security Identifier" />
 		<property name="shortLabel" value="Identifier" />
 		<property name="maxLength" value="9" />
 		<property name="validationPattern">
@@ -404,7 +404,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerTaxExemptIndicator" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Tax Exempt Indicator" />
+		<property name="label" value="Tax Exempt Indicator" />
 		<property name="shortLabel" value="Tax" />
 		<property name="maxLength" value="1" />
 		<property name="control">
@@ -454,7 +454,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Customer" />
+					<property name="title" value="General Information" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -466,22 +466,48 @@
 								p:attributeName="customerName" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerTypeCode" />
+			                <bean parent="FieldDefinition"
+								p:attributeName="customerActiveIndicator" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerRecordAddDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="customerLastActivityDate" />
+							<bean parent="FieldDefinition"
+								p:attributeName="customerAddressChangeDate" />
+						</list>
+					</property>
+				</bean>
+
+                <bean parent="InquirySectionDefinition">
+					<property name="title" value="Corporate Information" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
 							<bean parent="FieldDefinition"
 								p:attributeName="customerSocialSecurityNumberIdentifier" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerFederalIdentifierNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerTaxExemptIndicator" />
+					        <bean parent="FieldDefinition"
+								p:attributeName="customerBirthDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerCreditApprovedByName" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerCreditLimitAmount" />
+						</list>
+					</property>
+				</bean>
+				
+				 <bean parent="InquirySectionDefinition">
+					<property name="title" value="Contact Information" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
 							<bean parent="FieldDefinition"
 								p:attributeName="customerEmailAddress" />
-							<bean parent="FieldDefinition"
-								p:attributeName="customerContactPhoneNumber" />
+						    <bean parent="FieldDefinition"
+								p:attributeName="customerPhoneNumber" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customer800PhoneNumber" />
 							<bean parent="FieldDefinition"
@@ -489,19 +515,11 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="customerContactName" />
 							<bean parent="FieldDefinition"
-								p:attributeName="customerPhoneNumber" />
-							<bean parent="FieldDefinition"
-								p:attributeName="customerBirthDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="customerLastActivityDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="customerAddressChangeDate" />
-							<bean parent="FieldDefinition"
-								p:attributeName="customerActiveIndicator" />
+								p:attributeName="customerContactPhoneNumber" />
 						</list>
 					</property>
 				</bean>
-
+				
 				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Address" />
 					<property name="numberOfColumns" value="1" />
@@ -514,37 +532,33 @@
 								<property name="businessObjectClass"
 									value="org.kuali.module.ar.bo.CustomerAddress" />
 								<property name="numberOfColumns"
-									value="2" />
+									value="1" />
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition"
-											p:attributeName="customerAddressEndDate" />
-										<bean parent="FieldDefinition"
-											p:attributeName="customerAddressIdentifier" />
-										<bean parent="FieldDefinition"
-											p:attributeName="customerAddressName" />
-										<bean parent="FieldDefinition"
+									   <bean parent="FieldDefinition"
 											p:attributeName="customerAddressTypeCode" />
 										<bean parent="FieldDefinition"
-											p:attributeName="customerCityName" />
-										<bean parent="FieldDefinition"
-											p:attributeName="customerEmailAddress" />
-										<bean parent="FieldDefinition"
-											p:attributeName="customerInternationalMailCode" />
+											p:attributeName="customerAddressName" />
 										<bean parent="FieldDefinition"
 											p:attributeName="customerLine1StreetAddress" />
 										<bean parent="FieldDefinition"
 											p:attributeName="customerLine2StreetAddress" />
 										<bean parent="FieldDefinition"
-											p:attributeName="customerNumber" />
-										<bean parent="FieldDefinition"
+											p:attributeName="customerCityName" />
+									    <bean parent="FieldDefinition"
 											p:attributeName="customerStateCode" />
 										<bean parent="FieldDefinition"
 											p:attributeName="customerZipCode" />
 										<bean parent="FieldDefinition"
+											p:attributeName="customerAddressInternationalProvinceName" />	
+										<bean parent="FieldDefinition"
+											p:attributeName="customerInternationalMailCode" />
+										<bean parent="FieldDefinition"
 											p:attributeName="customerCountryCode" />
 										<bean parent="FieldDefinition"
-											p:attributeName="customerAddressInternationalProvinceName" />
+											p:attributeName="customerEmailAddress" />
+										<bean parent="FieldDefinition"
+											p:attributeName="customerAddressEndDate" />
 									</list>
 								</property>
 								<property name="summaryFields">

@@ -33,7 +33,7 @@ public class BudgetConstructionOrgReasonSummaryReport {
     private String reqFy;
     private String objectCodes;
     private String numberAndNameForAccountSubAccount;
-    private String threshold;
+    private String thresholdOrReason;
 
 
     // Groups
@@ -635,11 +635,12 @@ public class BudgetConstructionOrgReasonSummaryReport {
         this.personTiFlag = personTiFlag;
     }
 
-    public String getThreshold() {
-        return threshold;
+    public String getThresholdOrReason() {
+        return thresholdOrReason;
     }
 
-    public void setThreshold(String threshold) {
-        this.threshold = threshold;
+    public void setThresholdOrReason(String thresholdOrReason) {
+        this.thresholdOrReason = thresholdOrReason;
     }
+
 }

@@ -30,7 +30,7 @@ public class BudgetConstructionOrgReasonStatisticsReport {
     private String organizationName;
     private String consHdr;
     private String objectCodes;
-    private String threshold;
+    private String thresholdOrReason;
     
     // Body parts
     private BigDecimal initialRequestedFteQuantity;
@@ -148,12 +148,10 @@ public class BudgetConstructionOrgReasonStatisticsReport {
     public void setTotalInitialRequestedAmount(Integer totalInitialRequestedAmount) {
         this.totalInitialRequestedAmount = totalInitialRequestedAmount;
     }
-    public String getThreshold() {
-        return threshold;
+    public String getThresholdOrReason() {
+        return thresholdOrReason;
     }
-    public void setThreshold(String threshold) {
-        this.threshold = threshold;
+    public void setThresholdOrReason(String thresholdOrReason) {
+        this.thresholdOrReason = thresholdOrReason;
     }
-   
-
 }

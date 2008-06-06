@@ -30,6 +30,7 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
 import org.kuali.module.budget.bo.BudgetConstructionOrgReasonStatisticsReport;
+import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
 import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
 import org.kuali.module.budget.bo.BudgetConstructionSalaryTotal;
 import org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao;
@@ -77,18 +78,29 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionSalaryTotal> reasonStatisticsList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryTotal.class, searchCriteria, orderList);
 
-        // get object codes
+        // get object codes  --> helper class?
         searchCriteria.clear();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-        Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
+        Collection<BudgetConstructionObjectPick> objectCodePickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         String objectCodes = "";
-        for (BudgetConstructionObjectPick objectPick : objectPickList) {
-            objectCodes += objectPick.getFinancialObjectCode() + " ";
+        for (BudgetConstructionObjectPick objectCode : objectCodePickList) {
+            objectCodes += objectCode.getFinancialObjectCode() + " ";
         }
+        
+        // get reason codes  --> helper class?
+        searchCriteria.clear();
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        Collection<BudgetConstructionObjectPick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, searchCriteria);
+        String reasonCodes = "";
+        for (BudgetConstructionObjectPick reasonCode : reasonCodePickList) {
+            reasonCodes += reasonCode.getFinancialObjectCode() + " ";
+        }
+        
+        
         // build reports
         for (BudgetConstructionSalaryTotal reasonStatisticsEntry : reasonStatisticsList) {
             orgReasonStatisticsReportEntry = new BudgetConstructionOrgReasonStatisticsReport();
-            buildReportsHeader(universityFiscalYear, objectCodes, orgReasonStatisticsReportEntry, reasonStatisticsEntry, budgetConstructionReportThresholdSettings);
+            buildReportsHeader(universityFiscalYear, objectCodes, reasonCodes, orgReasonStatisticsReportEntry, reasonStatisticsEntry, budgetConstructionReportThresholdSettings);
             buildReportsBody(orgReasonStatisticsReportEntry, reasonStatisticsEntry);
             reportSet.add(orgReasonStatisticsReportEntry);
         }
@@ -100,7 +112,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      * 
      * @param BudgetConstructionObjectDump bcod
      */
-    public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, String reasonCodes, BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
 
         // set fiscal year
         Integer prevFiscalyear = universityFiscalYear - 1;
@@ -133,10 +145,12 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         
         if(budgetConstructionReportThresholdSettings.isUseThreshold()){
             if(budgetConstructionReportThresholdSettings.isUseGreaterThanOperator()){
-                orgReasonStatisticsReportEntry.setThreshold(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_GREATER + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
+                orgReasonStatisticsReportEntry.setThresholdOrReason(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_GREATER + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
             } else {
-                orgReasonStatisticsReportEntry.setThreshold(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_LESS + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
+                orgReasonStatisticsReportEntry.setThresholdOrReason(BCConstants.Report.THRESHOLD + BCConstants.Report.THRESHOLD_LESS + budgetConstructionReportThresholdSettings.getThresholdPercent().toString() + BCConstants.Report.PERCENT);
             }
+        } else {
+            orgReasonStatisticsReportEntry.setThresholdOrReason(BCConstants.Report.SELECTED_REASONS + reasonCodes);
         }
         
     }

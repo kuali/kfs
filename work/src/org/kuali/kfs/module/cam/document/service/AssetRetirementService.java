@@ -83,5 +83,5 @@ public interface AssetRetirementService {
     /**
      * Creates GL Postables
      */
-    void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster);
+    boolean createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster);
 }

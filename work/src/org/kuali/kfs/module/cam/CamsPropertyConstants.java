@@ -199,6 +199,7 @@ public class CamsPropertyConstants {
         public static final String MERGED_TARGET_CAPITAL_ASSET_NUMBER = "mergedTargetCapitalAssetNumber";
         public static final String RETIREMENT_REASON_CODE = "retirementReasonCode";
         public static final String ASSET_RETIREMENT_GLOBAL_DETAILS = "assetRetirementGlobalDetails";
+        public static final String VERSION_NUMBER = "versionNumber";
     }
 
     public static class AssetRetirementGlobalDetail {
@@ -296,6 +297,11 @@ public class CamsPropertyConstants {
 
     public static class AssetPaymentDocument {
         public static final String ASSET = "asset";
+    }
+    
+    public static class AssetObjectCode {
+        public static final String CAPITALIZATION_FINANCIAL_OBJECT = "capitalizationFinancialObject";
+        public static final String ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT = "accumulatedDepreciationFinancialObject";
     }
 }
 

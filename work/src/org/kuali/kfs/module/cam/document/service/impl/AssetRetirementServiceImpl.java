@@ -57,7 +57,15 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 postable.setAmount(assetPayment.getAccountChargeAmount());
                 postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
                 postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
-            }
+            };
+
+            boolean isObjectCodeExists(AssetObjectCode assetObjectCode) {
+                assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.CAPITALIZATION_FINANCIAL_OBJECT);
+                if (ObjectUtils.isNull(assetObjectCode.getCapitalizationFinancialObject())) {
+                    return false;
+                }
+                return true;
+            };
         },
         ACCUMMULATE_DEPRECIATION {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
@@ -66,7 +74,15 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
                 postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
                 postable.setObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObject());
-            }
+            };
+
+            boolean isObjectCodeExists(AssetObjectCode assetObjectCode) {
+                assetObjectCode.refreshReferenceObject(CamsPropertyConstants.AssetObjectCode.ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT);
+                if (ObjectUtils.isNull(assetObjectCode.getAccumulatedDepreciationFinancialObject())) {
+                    return false;
+                }
+                return true;
+            };
         },
         OFFSET_AMOUNT {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
@@ -75,10 +91,16 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
                 postable.setFinancialObjectCode(DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
                 postable.setObjectCode(getOffsetFinancialObject(assetPayment.getAsset()));
-            }
+            };
+
+            boolean isObjectCodeExists(AssetObjectCode assetObjectCode) {
+                return true;
+            };
         };
 
         abstract void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode);
+
+        abstract boolean isObjectCodeExists(AssetObjectCode assetObjectCode);
     }
 
     // TODO: replaced by system parameters
@@ -242,7 +264,8 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @see org.kuali.module.cams.service.AssetRetirementService#createGLPostables(org.kuali.module.cams.bo.AssetRetirementGlobal,
      *      org.kuali.module.cams.gl.CamsGlPosterBase)
      */
-    public void createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster) {
+    public boolean createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster) {
+        boolean success = true;
 
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
 
@@ -250,12 +273,14 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             Asset asset = assetRetirementGlobalDetail.getAsset();
 
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
-                List<GeneralLedgerPendingEntrySourceDetail> postables = generateGlPostablesForOnePayment(assetRetirementGlobal.getDocumentNumber(), assetRetirementGlPoster, asset, assetPayment);
-                assetRetirementGlPoster.getPostables().addAll(postables);
+                List<GeneralLedgerPendingEntrySourceDetail> postables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+                if (success = generateGlPostablesForOnePayment(assetRetirementGlobal.getDocumentNumber(), assetRetirementGlPoster, asset, assetPayment, postables)) {
+                    assetRetirementGlPoster.getPostables().addAll(postables);
+                }
             }
 
         }
-
+        return success;
     }
 
     /**
@@ -268,28 +293,27 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param assetPayment
      * @return
      */
-    private List<GeneralLedgerPendingEntrySourceDetail> generateGlPostablesForOnePayment(String documentNumber, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster, Asset asset, AssetPayment assetPayment) {
-        List<GeneralLedgerPendingEntrySourceDetail> postables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+    private boolean generateGlPostablesForOnePayment(String documentNumber, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster, Asset asset, AssetPayment assetPayment, List<GeneralLedgerPendingEntrySourceDetail> postables) {
+        boolean success = true;
         Account plantAccount = getPlantFundAccount(asset, assetPayment);
 
         if (ObjectUtils.isNotNull(plantAccount)) {
-            AssetGlpeSourceDetail postable = null;
             KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
             KualiDecimal accumlatedDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
 
             if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
-                postables.add(createNewPostable(AmountCategory.CAPITALIZATION, asset, assetPayment, documentNumber, plantAccount));
+                success = createNewPostable(AmountCategory.CAPITALIZATION, asset, assetPayment, documentNumber, plantAccount, postables);
             }
 
             if (accumlatedDepreciationAmount != null && !accumlatedDepreciationAmount.isZero()) {
-                postables.add(createNewPostable(AmountCategory.ACCUMMULATE_DEPRECIATION, asset, assetPayment, documentNumber, plantAccount));
+                success = createNewPostable(AmountCategory.ACCUMMULATE_DEPRECIATION, asset, assetPayment, documentNumber, plantAccount, postables);
             }
 
             if (accountChargeAmount != null && accumlatedDepreciationAmount != null && !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero()) {
-                postables.add(createNewPostable(AmountCategory.OFFSET_AMOUNT, asset, assetPayment, documentNumber, plantAccount));
+                success = createNewPostable(AmountCategory.OFFSET_AMOUNT, asset, assetPayment, documentNumber, plantAccount, postables);
             }
         }
-        return postables;
+        return success;
     }
 
     /**
@@ -303,27 +327,33 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param plantAccount
      * @return
      */
-    private AssetGlpeSourceDetail createNewPostable(AmountCategory category, Asset asset, AssetPayment assetPayment, String documentNumber, Account plantAccount) {
+    private boolean createNewPostable(AmountCategory category, Asset asset, AssetPayment assetPayment, String documentNumber, Account plantAccount, List<GeneralLedgerPendingEntrySourceDetail> postables) {
+        boolean success = true;
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
 
         AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
-        category.setParams(postable, assetPayment, assetObjectCode);
+        if (category.isObjectCodeExists(assetObjectCode)) {
+            category.setParams(postable, assetPayment, assetObjectCode);
 
-        // Set Postable attributes which are common among Capitalized, Accumulated Depreciation and gain/loss disposition .
-        postable.setDocumentNumber(documentNumber);
-        postable.setAccount(plantAccount);
-        postable.setAccountNumber(plantAccount.getAccountNumber());
-        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-        postable.setChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
+            // Set Postable attributes which are common among Capitalized, Accumulated Depreciation and gain/loss disposition .
+            postable.setDocumentNumber(documentNumber);
+            postable.setAccount(plantAccount);
+            postable.setAccountNumber(plantAccount.getAccountNumber());
+            postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+            postable.setChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
 
-        postable.setPostingYear(universityDateService.getCurrentFiscalYear());
-        // Fields copied from payment
-        postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
-        postable.setProjectCode(assetPayment.getProjectCode());
-        postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
-        postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
-
-        return postable;
+            postable.setPostingYear(universityDateService.getCurrentFiscalYear());
+            // Fields copied from payment
+            postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
+            postable.setProjectCode(assetPayment.getProjectCode());
+            postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
+            postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+            postables.add(postable);
+        }
+        else {
+            success = false;
+        }
+        return success;
     }
 
 

@@ -245,7 +245,6 @@ public class AssetServiceImpl implements AssetService {
             if (validObjectSubTypes.contains(firstObjectSubType)) {
                 break;
             }
-            validObjectSubTypes = new ArrayList<String>();
         }
 
         if (validObjectSubTypes.isEmpty()) {

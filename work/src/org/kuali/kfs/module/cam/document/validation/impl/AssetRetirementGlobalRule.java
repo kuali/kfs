@@ -85,7 +85,10 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             // create poster
             AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource(document.getDocumentHeader());
             // create postables
-            assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster);
+            if (!(valid = assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster))) {
+                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
+                return valid;
+            }
             if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetRetirementGlPoster)) {
                 assetRetirementGlobal.setGeneralLedgerPendingEntries(assetRetirementGlPoster.getPendingEntries());
             }

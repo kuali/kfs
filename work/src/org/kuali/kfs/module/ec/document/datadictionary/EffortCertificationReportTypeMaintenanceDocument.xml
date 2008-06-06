@@ -19,7 +19,7 @@
         <value>effortCertificationReportTypeCode</value>
       </list>
     </property>
-    <property name="label" value="Report Type Maintenance Document" />
+    <property name="label" value="Report Type" />
     <property name="shortLabel" value="Effort Cert Report Type Maintenance Document" />
     <property name="summary" value="Report Type Code Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Type" />

@@ -20,7 +20,7 @@
         <value>effortCertificationReportPeriodStatusCode</value>
       </list>
     </property>
-    <property name="label" value="Report Period Status Code  Maintenance Document" />
+    <property name="label" value="Report Period Status Code" />
     <property name="shortLabel" value="Effort Cert Prd Status Code Maint Doc" />
     <property name="summary" value="Period Status Code  Maintenance Document" />
     <property name="description" value="Document used to create or update Effort Certification Period Status Code  Maintenance Document" />

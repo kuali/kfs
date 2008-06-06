@@ -53,7 +53,7 @@
         <value>effortCertificationReportNumber</value>
       </list>
     </property>
-    <property name="label" value="Report Definition Maintenance Document" />
+    <property name="label" value="Report Definition" />
     <property name="shortLabel" value="Effort Cert Report Maint Doc" />
     <property name="summary" value="Effort Certification Report Definition Maintenance Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Maintenance Document" />

@@ -33,7 +33,7 @@
         <value>payGroup</value>
       </list>
     </property>
-    <property name="label" value="Report Earn Paygroup Document" />
+    <property name="label" value="Report Earn Paygroup" />
     <property name="shortLabel" value="Effort Certification Report Earn Pay Document" />
     <property name="summary" value="Report Earn Pay Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Earn Pay Document" />

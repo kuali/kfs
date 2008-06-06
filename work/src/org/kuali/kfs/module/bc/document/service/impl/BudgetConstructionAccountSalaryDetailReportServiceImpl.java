@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountMonthlyDetailReport;
 import org.kuali.module.budget.bo.BudgetConstructionAccountSalaryDetailReport;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.service.BudgetConstructionAccountSalaryDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.module.budget.util.BudgetConstructionReportHelper;
@@ -44,13 +44,12 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * @see org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+    public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Collection<BudgetConstructionAccountSalaryDetailReport> reportSet = new ArrayList();
 
         BudgetConstructionAccountSalaryDetailReport accountSalaryDetailReport;
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
@@ -59,17 +58,17 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
         // build order list
         List<String> orderList = buildOrderByList();
-        Collection<BudgetConstructionMonthly> budgetConstructionMonthlyList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionMonthly.class, searchCriteria, orderList);
+        Collection<PendingBudgetConstructionAppointmentFunding> pendingAppointmentFundingList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(PendingBudgetConstructionAppointmentFunding.class, searchCriteria, orderList);
 
 
-        for (BudgetConstructionMonthly bcMonthly : budgetConstructionMonthlyList) {
+/*        for (BudgetConstructionMonthly bcMonthly : budgetConstructionMonthlyList) {
             accountSalaryDetailReport = new BudgetConstructionAccountSalaryDetailReport();
             buildReportsHeader(bcMonthly, accountSalaryDetailReport);
             buildReportsBody(bcMonthly, accountSalaryDetailReport);
             
             reportSet.add(accountSalaryDetailReport);
         }
-
+*/
         return reportSet;
     }
 

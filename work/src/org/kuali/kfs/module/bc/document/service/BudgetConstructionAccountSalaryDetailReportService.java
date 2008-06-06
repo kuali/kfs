@@ -33,6 +33,6 @@ public interface BudgetConstructionAccountSalaryDetailReportService {
      * @param accountSummaryList
      * @return Collection
      */
-    public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     
 }

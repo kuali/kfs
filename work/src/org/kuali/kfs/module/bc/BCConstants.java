@@ -52,7 +52,8 @@ public class BCConstants extends JSTLConstants {
     public static final String ORG_SEL_TREE_METHOD = "loadExpansionScreen";
     public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
     public static final String ORG_REPORT_SELECTION_ACTION = "budgetOrganizationReportSelection.do";
-    public static final String REPORT_DUMP_ACTION = "budgetReportDump.do";
+    public static final String REPORT_EXPORT_ACTION = "budgetReportExport.do";
+    public static final String REPORT_EXPORT_PATH = "budgetReportExport";
     public static final String REQUEST_IMPORT_ACTION = "budgetBudgetConstructionRequestImport.do";
     
     public static final String REQUEST_IMPORT_REFRESH_CALLER = "RequestImport";

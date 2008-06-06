@@ -165,15 +165,15 @@ public class ReportRunnerAction extends KualiAction {
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
             }
             case 3:{
-                return new ActionForward(buildReportDumpForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.ACCOUNT_DUMP.reportModeName), true);
+                return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.ACCOUNT_EXPORT.reportModeName), true);
             }
                 
             case 4: {
-                return new ActionForward(buildReportDumpForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.FUNDING_DUMP.reportModeName), true);
+                return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.FUNDING_EXPORT.reportModeName), true);
             }
                 
             case 5: {
-                return new ActionForward(buildReportDumpForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.MONTHLY_DUMP.reportModeName), true);
+                return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.MONTHLY_EXPORT.reportModeName), true);
             }
                 
         }
@@ -197,7 +197,7 @@ public class ReportRunnerAction extends KualiAction {
     /**
      * Builds URL for the report dump url.
      */
-    private String buildReportDumpForwardURL(ReportRunnerForm reportRunnerForm, ActionMapping mapping, String documentReportMode) {
+    private String buildReportExportForwardURL(ReportRunnerForm reportRunnerForm, ActionMapping mapping, String documentReportMode) {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         Properties parameters = new Properties();
@@ -212,9 +212,6 @@ public class ReportRunnerAction extends KualiAction {
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "false");
         
-        // TODO may need another parm to indicate this is a Budget Document dump, not Organization dump.
-        // no driving mt table to dump multiple accounts, just one account (document) here
-
-        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_DUMP_ACTION, parameters);
+        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 }

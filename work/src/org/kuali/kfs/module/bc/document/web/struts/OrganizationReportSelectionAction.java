@@ -174,10 +174,10 @@ public class OrganizationReportSelectionAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        // for report dumps foward to dump action to display formatting screen
-        if (reportMode.dump) {
-            String dumpUrl = this.buildReportDumpForwardURL(organizationReportSelectionForm, mapping);
-            return new ActionForward(dumpUrl, true);
+        // for report exports foward to export action to display formatting screen
+        if (reportMode.export) {
+            String exportUrl = this.buildReportExportForwardURL(organizationReportSelectionForm, mapping);
+            return new ActionForward(exportUrl, true);
         }
 
         // build report data and populate report objects for rendering
@@ -325,7 +325,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
     /**
      * Builds URL for the report dump url.
      */
-    private String buildReportDumpForwardURL(OrganizationReportSelectionForm organizationReportSelectionForm, ActionMapping mapping) {
+    private String buildReportExportForwardURL(OrganizationReportSelectionForm organizationReportSelectionForm, ActionMapping mapping) {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         Properties parameters = new Properties();
@@ -337,7 +337,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
         parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "true");
         
-        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_DUMP_ACTION, parameters);
+        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 
     /**

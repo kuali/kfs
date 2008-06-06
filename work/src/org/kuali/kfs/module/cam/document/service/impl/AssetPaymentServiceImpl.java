@@ -93,48 +93,46 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     /**
      * @see org.kuali.module.cams.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.module.cams.document.AssetPaymentDocument)
      */
-    public void processApprovedAssetPayment(AssetPaymentDocument document) {        
+    public void processApprovedAssetPayment(AssetPaymentDocument document) {
         // Creating new asset payment records
         createNewPayments(document);
 
-        //Updating the asset previous cost in the asset payment document table
+        // Updating the asset previous cost in the asset payment document table
         updatePaymentAssetPreviousTotalCost(document);
-        
+
         // Updating the total cost of the asset
-       // updateAssetTotalCost(document.getAsset(), document.getSourceTotal());
+        // updateAssetTotalCost(document.getAsset(), document.getSourceTotal());
     }
 
     /**
      * This method updates the total cost amount of the asset by adding the total cost of the new asset payments
      * 
      * @param asset bo where the update will occur
-     * @param subTotal amount of the new asset payment detail records
-     *
-    private void updateAssetTotalCost(Asset asset, KualiDecimal subTotal) {
-        KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount());
-        asset = (Asset) getBusinessObjectService().retrieve(asset);
-        asset.setTotalCostAmount(totalCost);
-        getBusinessObjectService().save(asset);       
-    }*/
+     * @param subTotal amount of the new asset payment detail records private void updateAssetTotalCost(Asset asset, KualiDecimal
+     *        subTotal) { KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount()); asset = (Asset)
+     *        getBusinessObjectService().retrieve(asset); asset.setTotalCostAmount(totalCost);
+     *        getBusinessObjectService().save(asset); }
+     */
 
     /**
-     * 
      * This method...
+     * 
      * @param assetPaymentDocument
      */
     private void updatePaymentAssetPreviousTotalCost(AssetPaymentDocument assetPaymentDocument) {
-        assetPaymentDocument.setPreviousTotalCostAmount(assetPaymentDocument.getAsset().getTotalCostAmount());
-        
-        KualiDecimal subTotal = assetPaymentDocument.getSourceTotal();
-        KualiDecimal totalCost = subTotal.add(assetPaymentDocument.getAsset().getTotalCostAmount());
-        
-        //asset = (Asset) getBusinessObjectService().retrieve(asset);
-        assetPaymentDocument.getAsset().setTotalCostAmount(totalCost);
+        Asset asset = assetPaymentDocument.getAsset();
+        assetPaymentDocument.setPreviousTotalCostAmount(asset.getTotalCostAmount());
 
-        //getBusinessObjectService().save(assetPaymentDocument.getAsset());
+        KualiDecimal subTotal = assetPaymentDocument.getSourceTotal();
+        KualiDecimal totalCost = subTotal.add(asset.getTotalCostAmount() != null ? asset.getTotalCostAmount() : KualiDecimal.ZERO);
+
+        // asset = (Asset) getBusinessObjectService().retrieve(asset);
+        asset.setTotalCostAmount(totalCost);
+
+        // getBusinessObjectService().save(assetPaymentDocument.getAsset());
         getBusinessObjectService().save(assetPaymentDocument);
     }
-     
+
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 
@@ -286,7 +284,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentEligibleForGLPosting(org.kuali.module.cams.bo.AssetPayment)
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
-        // Payment transfer code is not "Y", Financial Object Code is active for the Payment and is not a Federal Contribution
-        return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && isPaymentFinancialObjectActive(assetPayment) && !isPaymentFederalContribution(assetPayment);
+        // Transfer payment code flag is not Y
+        boolean isEligible = !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode());
+        // Financial object code is currently active
+        isEligible &= isPaymentFinancialObjectActive(assetPayment);
+        // Payment is not federally funded
+        isEligible &= !isPaymentFederalContribution(assetPayment);
+        return isEligible;
     }
 }

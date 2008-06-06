@@ -96,7 +96,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         valid &= checkObjectCodeExists(assetPaymentDetail);
         return valid;
-    }
+        }
 
     private boolean checkObjectCodeExists(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
@@ -209,13 +209,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
-            AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+                AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
                 if (!success) {
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
-                }
             }
+        }
         }
         return success;
     }
@@ -253,7 +253,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
-
 
     private boolean validateFinanicalPostingYear(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
@@ -428,7 +427,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         KualiDecimal qty = new KualiDecimal(assetPaymentDetails.size());
 
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            totalAmount.add(assetPaymentDetail.getAmount());
+            totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
         }
         if (!qty.isZero()) {
             return totalAmount.divide(qty);

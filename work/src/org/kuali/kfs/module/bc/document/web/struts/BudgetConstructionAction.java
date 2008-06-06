@@ -49,7 +49,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
@@ -66,7 +65,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * need to figure out if this should extend KualiAction, KualiDocumentActionBase or KualiTransactionDocumentActionBase
  */
 public class BudgetConstructionAction extends KualiTransactionalDocumentActionBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingAction.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAction.class);
 
     /**
      * added this to be similar to KRA - remove if not needed
@@ -579,7 +578,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         bcDoc.addPBGLLine(line, isRevenue);
 
         // adjust totals
-        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
             }
@@ -587,7 +586,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
             }
         }
-        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().add(line.getFinancialBeginningBalanceLineAmount()));
             }
@@ -596,7 +595,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
-        
+
         // TODO add the decorator, if determined to be needed
 
     }
@@ -691,7 +690,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
 
         // adjust totals
-        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
             }
@@ -699,7 +698,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
             }
         }
-        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
             }
@@ -707,7 +706,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
             }
         }
-        
+
         // remove the line
         if (isRevenue) {
             bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
@@ -903,7 +902,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             }
         }
-        
+
         // repop and refresh refs - esp monthly so jsp can properly display state
         tForm.populatePBGLLines();
 
@@ -926,8 +925,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-        
-        if (isRevenue){
+
+        if (isRevenue) {
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
         }
         else {

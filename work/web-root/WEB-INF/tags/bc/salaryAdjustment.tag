@@ -22,21 +22,16 @@
 	description="The name of the adjustment measurement field"%>
 <%@ attribute name="adjustmentAmountFieldName" required="true"
 	description="The name of the adjustment amount field"%>
-<%@ attribute name="action" required="true"
-	description="The action name"%>
-	
+<%@ attribute name="lineIndex" required="false"
+	description="the index of the line to be adjuested"%>
 
-<kul:htmlControlAttribute 
-	attributeEntry="${attributes.adjustmentMeasurement}"
-	property="${adjustmentMeasurementField}"/>
-
-<kul:htmlControlAttribute 
-	attributeEntry="${attributes.adjustmentAmount}"
-	property="${adjustmentAmountFieldName}"/>
-
-<html:image property="methodToCall.${action}" 
-	src="${ConfigProperties.externalizable.images.url}tinybutton-percentincdec.gif" 
-	title="Percent Adjustment" 
-	alt="Percent Adjustment" 
-	styleClass="tinybutton" />
-	
+<kul:htmlAttributeLabel attributeEntry="${attributes.adjustmentMeasurement}"
+	forceRequired="false" useShortLabel="true" />
+<kul:htmlControlAttribute attributeEntry="${attributes.adjustmentMeasurement}"
+	property="${adjustmentMeasurementFieldName}"/>
+<kul:htmlControlAttribute attributeEntry="${attributes.adjustmentAmount}"
+	property="${adjustmentAmountFieldName}"/>				
+<html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${lineIndex}.anchorsalaryexistingLineLineAnchor${lineIndex}" 
+	src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif" 
+	title="Percent Adjustment For Line ${lineIndex}"
+	alt="Percent Adjustment For Line ${lineIndex}" styleClass="tinybutton" />	

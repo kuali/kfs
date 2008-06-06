@@ -901,5 +901,8 @@
         </tr>
 
     </table>
+    <br/>
+    <br/>
+    <bc:appointmentFundingDetail fundingLine="newBCAFLine" fundingLineName="newBCAFLine" lineIndex="1"/>
 </div>
 </kul:tabTop>

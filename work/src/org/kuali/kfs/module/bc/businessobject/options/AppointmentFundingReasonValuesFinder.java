@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,27 +24,25 @@ import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.module.budget.bo.BudgetConstructionDuration;
 
-/**
- * This class...
- */
-public class BudgetConstructionDurationValuesFinder extends KeyValuesBase {
+public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection<BudgetConstructionDuration> budgetConstructionDurationCodes = boService.findAll(BudgetConstructionDuration.class);
+        Collection<BudgetConstructionAppointmentFundingReasonCode> reasonCodes = boService.findAll(BudgetConstructionAppointmentFundingReasonCode.class);
 
-        List<KeyLabelPair> durationKeyLabels = new ArrayList<KeyLabelPair>();
-        for (BudgetConstructionDuration budgetConstructionDurationCode : budgetConstructionDurationCodes) {
-            String code = budgetConstructionDurationCode.getAppointmentDurationCode();
+        List<KeyLabelPair> reasonCodeKeyLabels = new ArrayList<KeyLabelPair>();
+        for (BudgetConstructionAppointmentFundingReasonCode reasonCode : reasonCodes) {
+            String code = reasonCode.getAppointmentFundingReasonCode();
 
-            durationKeyLabels.add(new KeyLabelPair(code, code));
+            reasonCodeKeyLabels.add(new KeyLabelPair(code, code));
         }
 
-        return durationKeyLabels;
+        return reasonCodeKeyLabels;
     }
 }

@@ -82,8 +82,9 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.AppointmentFundingReasonValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="appointmentFundingReasonCode" />
     <property name="description" value="appointmentFundingReasonCode description..." />

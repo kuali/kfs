@@ -71,7 +71,7 @@
    		<form-bean name="BudgetConstructionSelectionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm" />
    		<form-bean name="BudgetConstructionRequestImportForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm" />
    		<form-bean name="OrganizationSelectionTreeForm" type="org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm" />
-   		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />
+   		<form-bean name="QuickSalarySettingForm" type="org.kuali.module.budget.web.struts.form.QuickSalarySettingForm" />
    		<form-bean name="BudgetConstructionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionForm" />
    		<form-bean name="MonthlyBudgetForm" type="org.kuali.module.budget.web.struts.form.MonthlyBudgetForm" />
    		<form-bean name="PositionSalarySettingForm" type="org.kuali.module.budget.web.struts.form.PositionSalarySettingForm" />

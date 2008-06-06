@@ -64,7 +64,6 @@
 			lookupOrInquiryKeys="chartOfAccountsCode"
 			accountingLineValuesMap="${KualiForm.pendingBudgetConstructionGeneralLedger.valuesMap}" />
 
-
 		<%-- Account Number and Name --%>
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 
 			accountingLine="${accountingLine}" 

@@ -45,7 +45,7 @@ import org.kuali.kfs.service.ReportGenerationService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BudgetConstructionReportMode;
 import org.kuali.module.budget.service.BudgetConstructionAccountMonthlyDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
+import org.kuali.module.budget.service.BudgetConstructionAccountSalaryDetailReportService;
 import org.kuali.module.budget.web.struts.form.ReportRunnerForm;
 
 /**
@@ -137,7 +137,17 @@ public class ReportRunnerAction extends KualiAction {
 
             
             case 1: {
-                jasperFileName = "";
+                jasperFileName = "BudgetAccountSalaryDetail";
+                reportSet = SpringContext.getBean(BudgetConstructionAccountSalaryDetailReportService.class).buildReports(reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                
+                ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
+                Map<String, Object> reportData = new HashMap<String, Object>();
+                reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+                
+                SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
+                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
             }
             
             

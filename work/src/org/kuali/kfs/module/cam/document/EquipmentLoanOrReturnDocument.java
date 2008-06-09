@@ -75,6 +75,8 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
     private Asset asset;
+    
+    private boolean returnLoan;
 
     /**
      * Default constructor.
@@ -577,7 +579,7 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
      * @return Returns the loanDate
      */
     public Date getLoanDate() {
-        if (ObjectUtils.isNotNull(loanDate)) {
+        if (loanDate != null) {
             return loanDate;
         }
         else {
@@ -714,6 +716,14 @@ public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
+    }
+
+    public boolean isReturnLoan() {
+        return returnLoan;
+    }
+
+    public void setReturnLoan(boolean returnLoan) {
+        this.returnLoan = returnLoan;
     }
 
 

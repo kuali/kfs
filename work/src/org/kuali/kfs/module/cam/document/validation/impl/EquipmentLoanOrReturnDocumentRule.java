@@ -16,16 +16,15 @@
 package org.kuali.module.cams.rules;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -37,9 +36,7 @@ import org.kuali.module.cams.service.AssetService;
 public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentRule.class);
 
-    private static final String DATEFORMAT = "MM/dd/yyyy";
     private AssetService assetService;
-    private DateTimeService dateTimeService;
 
     /**
      * Does not fail on rules failure
@@ -98,22 +95,33 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     protected boolean validateLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
-        Date maxLoanDate = CalculateMaxLoanDate(equipmentLoanOrReturnDocument);
         Date loanDate = equipmentLoanOrReturnDocument.getLoanDate();
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(loanDate);
+        cal.add(Calendar.YEAR, 2);
+        Date maxDate = new Date(cal.getTime().getTime());
 
+        // Loan can not be before today
+        DateUtils.clearTimeFields(loanDate);
+        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_DATE);
+        }
+
+        // expect return date must be >= loan date and withing 2 years limit
         Date expectReturnDate = equipmentLoanOrReturnDocument.getExpectedReturnDate();
-        if (ObjectUtils.isNotNull(expectReturnDate)) {
-            if ((dateTimeService.dateDiff(loanDate, expectReturnDate, false) <= 0) || (dateTimeService.dateDiff(expectReturnDate, maxLoanDate, false) <= 0)) {
+        if (expectReturnDate != null) {
+            DateUtils.clearTimeFields(expectReturnDate);
+            if (loanDate.after(expectReturnDate) || maxDate.before(expectReturnDate)) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
             }
         }
 
+        // loan return date must be >= loan date and withing 2 years limit
         Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
-        if (ObjectUtils.isNotNull(loanReturnDate)) {
-            if ((dateTimeService.dateDiff(loanDate, loanReturnDate, false) <= 0) || (dateTimeService.dateDiff(loanReturnDate, maxLoanDate, false) <= 0)) {
+        if (loanReturnDate != null) {
+            DateUtils.clearTimeFields(loanReturnDate);
+            if (loanDate.after(loanReturnDate) || maxDate.before(loanReturnDate)) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_RETURN_DATE);
             }
@@ -123,35 +131,12 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     }
 
     /**
-     * This method calculate maximum loan date
-     * 
-     * @param equipmentLoanOrReturnDocument
-     * @return maxi loan date which is 2 years limit
-     */
-    protected Date CalculateMaxLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
-        Date maxDate = null;
-        String sLoanDate = new SimpleDateFormat(DATEFORMAT).format(equipmentLoanOrReturnDocument.getLoanDate());
-        int sMaxLoanYear = Integer.parseInt(sLoanDate.substring(6, 10));
-        sMaxLoanYear += 2;
-        String maxLoanDate = sLoanDate.substring(0, 6) + sMaxLoanYear;
-        try {
-            maxDate = new java.sql.Date(((new SimpleDateFormat(DATEFORMAT)).parse(maxLoanDate)).getTime());
-        }
-        catch (ParseException pE) {
-            LOG.error("EquipmentLoanOrReturnAction - convertStringToDate() error occurred.", pE);
-        }
-
-        return maxDate;
-    }
-
-    /**
      * Implementation of the rule that if borrower id is valid
      * 
      * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
      * @return boolean false if the borrower id does not exist.
      */
     private boolean validBorrowerId(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
-        LOG.info("borrower id= " + equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier() + "");
         boolean valid = true;
         if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_USER + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);

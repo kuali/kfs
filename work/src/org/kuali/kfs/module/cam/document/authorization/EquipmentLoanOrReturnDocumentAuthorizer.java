@@ -20,7 +20,6 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 
@@ -39,7 +38,7 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocume
         Map<String, String> editModeMap = super.getEditMode(document, user);
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
 
-        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getExpectedReturnDate())) {
+        if (equipmentLoanOrReturnDocument.isReturnLoan()) {
             editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
         }
         else {

@@ -140,6 +140,7 @@ public class CamsKeyConstants {
 
     public static class EquipmentLoanOrReturn {
         public static final String ERROR_INVALID_BORROWER_ID = "error.invalid.borrower.id";
+        public static final String ERROR_INVALID_LOAN_DATE = "error.invalid.loan.date";
         public static final String ERROR_INVALID_EXPECTED_RETURN_DATE = "error.invalid.expected.return.date";
         public static final String ERROR_INVALID_LOAN_RETURN_DATE = "error.invalid.loan.return.date";
         public static final String ERROR_INVALID_BORROWER_STATE = "error.invalid.borrower.state.code";

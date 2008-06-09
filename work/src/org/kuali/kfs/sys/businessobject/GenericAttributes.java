@@ -30,8 +30,6 @@ public class GenericAttributes extends AttributeReferenceDummy {
     private Integer transactionEntrySequenceId;
     private String universityFiscalAccountingPeriod;
     private Integer genericFiscalYear;
-    private Date createDate;
-    private String initiatorNetworkId;
     private String maxDollarAmount;
     private String minDollarAmount;
     private String totalDollarAmount;
@@ -102,22 +100,6 @@ public class GenericAttributes extends AttributeReferenceDummy {
 
     public void setGenericFiscalYear(Integer genericFiscalYear) {
         this.genericFiscalYear = genericFiscalYear;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getInitiatorNetworkId() {
-        return initiatorNetworkId;
-    }
-
-    public void setInitiatorNetworkId(String initiatorNetworkId) {
-        this.initiatorNetworkId = initiatorNetworkId;
     }
 
     public String getMaxDollarAmount() {

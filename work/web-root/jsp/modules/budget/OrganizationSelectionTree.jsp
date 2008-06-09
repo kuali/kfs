@@ -39,10 +39,14 @@
 	</c:if>
 	<c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
 		<bc:budgetConstructionOrgSelectionSubTreeOrgs />
-	</c:if>
-    <c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
-		<bc:budgetConstructionOrgReportSelection />       
+		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS}">
+			<bc:budgetConstructionOrgReportSelection />
+		</c:if>
+		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP or KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">    
+			<bc:budgetConstructionOrgReportSelectionPushOrPull />     
+		</c:if>       
     </c:if>
+    
 	<kul:panelFooter/>
     <div id="globalbuttons" class="globalbuttons">
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>

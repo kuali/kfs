@@ -100,7 +100,7 @@
             </c:when>
 
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP}">
-            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="4">
                 <div align="center">
                     <html:image property="methodToCall.selectPullOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org All" alt="Select Org All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPullSubOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select SubOrg All" alt="Select Sub Org All" styleClass="tinybutton" />
@@ -111,7 +111,7 @@
             </c:when>
 
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">
-            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="4">
                 <div align="center">
                     <html:image property="methodToCall.selectPushOrgLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org Lev All" alt="Select Org Lev All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />

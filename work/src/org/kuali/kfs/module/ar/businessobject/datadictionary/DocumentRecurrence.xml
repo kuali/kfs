@@ -1,0 +1,314 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="DocumentRecurrence" parent="DocumentRecurrence-parentBean" />
+
+  <bean id="DocumentRecurrence-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.module.ar.bo.DocumentRecurrence" />
+    <property name="inquiryDefinition" >
+      <ref bean="DocumentRecurrence-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="DocumentRecurrence-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="DocumentRecurrence-documentNumber" />
+        <ref bean="DocumentRecurrence-referenceFinancialDocumentNumber" />
+        <ref bean="DocumentRecurrence-customerNumber" />
+        <ref bean="DocumentRecurrence-documentRecurrenceBeginDate" />
+        <ref bean="DocumentRecurrence-documentRecurrenceEndDate" />
+        <ref bean="DocumentRecurrence-documentTotalRecurrenceNumber" />
+        <ref bean="DocumentRecurrence-documentRecurrenceIntervalCode" />
+        <ref bean="DocumentRecurrence-workgroupIdentifier" />
+        <ref bean="DocumentRecurrence-documentInitiatorUserIdentifier" />
+        <ref bean="DocumentRecurrence-documentLastCreateDate" />
+        <ref bean="DocumentRecurrence-active" />
+        <ref bean="DocumentRecurrence-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="DocumentRecurrence-documentNumber" parent="DocumentRecurrence-documentNumber-parentBean" />
+
+  <bean id="DocumentRecurrence-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="name" value="documentNumber" />
+    <property name="forceUppercase" value="true" />
+  </bean>
+  <bean id="DocumentRecurrence-referenceFinancialDocumentNumber" parent="DocumentRecurrence-referenceFinancialDocumentNumber-parentBean" />
+
+  <bean id="DocumentRecurrence-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="name" value="referenceFinancialDocumentNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Reference Invoice Number" />
+    <property name="shortLabel" value="RefInvNbr" />
+    <property name="required" value="true" />
+  </bean>
+  <bean id="DocumentRecurrence-customerNumber" parent="DocumentRecurrence-customerNumber-parentBean" />
+
+  <bean id="DocumentRecurrence-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="customerNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Customer Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="customerNumber" />
+    <property name="description" value="customerNumber description..." />
+  </bean>
+  <bean id="DocumentRecurrence-documentRecurrenceBeginDate" parent="DocumentRecurrence-documentRecurrenceBeginDate-parentBean" />
+
+  <bean id="DocumentRecurrence-documentRecurrenceBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="documentRecurrenceBeginDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Recurrence Begin Date" />
+    <property name="shortLabel" value="BegDate" />
+    <property name="required" value="true" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="documentRecurrenceBeginDate" />
+    <property name="description" value="The date when the document recurrence begins" />
+  </bean>
+  <bean id="DocumentRecurrence-documentRecurrenceEndDate" parent="DocumentRecurrence-documentRecurrenceEndDate-parentBean" />
+
+  <bean id="DocumentRecurrence-documentRecurrenceEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="documentRecurrenceEndDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Recurrence End Date" />
+    <property name="shortLabel" value="EndDate" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="documentRecurrenceEndDate" />
+    <property name="description" value="The date when the document recurrence ends" />
+  </bean>
+  <bean id="DocumentRecurrence-documentTotalRecurrenceNumber" parent="DocumentRecurrence-documentTotalRecurrenceNumber-parentBean" />
+
+  <bean id="DocumentRecurrence-documentTotalRecurrenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentTotalRecurrenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Total Number of Recurrences" />
+    <property name="shortLabel" value="TotRecur" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="documentTotalRecurrenceNumber" />
+    <property name="description" value="Total number of recurrences a document will create" />
+  </bean>
+  <bean id="DocumentRecurrence-documentRecurrenceIntervalCode" parent="DocumentRecurrence-documentRecurrenceIntervalCode-parentBean" />
+
+  <bean id="DocumentRecurrence-documentRecurrenceIntervalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentRecurrenceIntervalCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Recurrence Interval Code" />
+    <property name="shortLabel" value="IntCd" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="documentRecurrenceIntervalCode" />
+    <property name="description" value="The document recurrence interval code defines the frequency of the recurrence." />
+  </bean>
+  <bean id="DocumentRecurrence-workgroupIdentifier" parent="DocumentRecurrence-workgroupIdentifier-parentBean" />
+
+  <bean id="DocumentRecurrence-workgroupIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workgroupIdentifier" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Workgroup Identifier" />
+    <property name="shortLabel" value="Wrkgrp" />
+    <property name="maxLength" value="70" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern"
+            p:allowUnderscore="true" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="WorkflowWorkgroupControlDefinition" />
+    </property>
+    <property name="summary" value="workgroupIdentifier" />
+    <property name="description" value="The document recurrences will route to this workgroup" />
+  </bean>
+  <bean id="DocumentRecurrence-documentInitiatorUserIdentifier" parent="DocumentRecurrence-documentInitiatorUserIdentifier-parentBean" />
+
+  <bean id="DocumentRecurrence-documentInitiatorUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="documentInitiatorUserIdentifier" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Initiator User ID" />
+    <property name="shortLabel" value="DocInitID" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+    <property name="summary" value="documentInitiatorUserIdentifier" />
+    <property name="description" value="The document recurrences will be initiated by this userid." />
+  </bean>
+  <bean id="DocumentRecurrence-documentLastCreateDate" parent="DocumentRecurrence-documentLastCreateDate-parentBean" />
+
+  <bean id="DocumentRecurrence-documentLastCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentLastCreateDate" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Last Create Date" />
+    <property name="shortLabel" value="LstCrDt" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="9" />
+    </property>
+    <property name="summary" value="documentLastCreateDate" />
+    <property name="description" value="The date when the last document recurrence was created" />
+  </bean>
+  <bean id="DocumentRecurrence-active" parent="DocumentRecurrence-active-parentBean" />
+
+  <bean id="DocumentRecurrence-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  <bean id="DocumentRecurrence-versionNumber" parent="DocumentRecurrence-versionNumber-parentBean" />
+
+  <bean id="DocumentRecurrence-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="DocumentRecurrence-inquiryDefinition" parent="DocumentRecurrence-inquiryDefinition-parentBean" />
+
+  <bean id="DocumentRecurrence-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="DocumentRecurrence Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Header Text" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="referenceFinancialDocumentNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="customerNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentRecurrenceBeginDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentRecurrenceEndDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentTotalRecurrenceNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentRecurrenceIntervalCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="workgroupIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentInitiatorUserIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="documentLastCreateDate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="DocumentRecurrence-lookupDefinition" parent="DocumentRecurrence-lookupDefinition-parentBean" />
+
+  <bean id="DocumentRecurrence-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="DocumentRecurrence Lookup" />
+    <property name="instructions" value="Look up a DocumentRecurrence" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentRecurrenceBeginDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentRecurrenceEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTotalRecurrenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentRecurrenceIntervalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="workgroupIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentInitiatorUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentLastCreateDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentRecurrenceBeginDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentRecurrenceEndDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTotalRecurrenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentRecurrenceIntervalCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="workgroupIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentInitiatorUserIdentifier" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentLastCreateDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

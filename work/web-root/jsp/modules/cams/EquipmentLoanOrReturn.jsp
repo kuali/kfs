@@ -27,31 +27,12 @@
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
-<%--
-	<html:hidden property="document.borrowerUniversalIdentifier" /> 
---%>
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	<kul:tab tabTitle="Asset" defaultOpen="true"> 
-	    <div class="tab-container" align="center">
-	      	<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-	      		<tr>
-					<td class="tab-subhead"  width="100%" colspan="2">Asset Information</td>
-				</tr>	
-		     	<tr>
-		      		<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true"/></th>
-		      		<td class="grid" width="75%"><kul:htmlControlAttribute property="document.asset.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true"/>  </td>
-		     	</tr>
-		      	<tr>
-		      		<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></th>
-		      		<td class="grid" width="75%"><kul:htmlControlAttribute property="document.asset.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>		      	
-		     	</tr>		    
-		 	</table>   
-      	</div>
-	</kul:tab>
+    <cams:viewAssetDetails defaultTabHide="false" /> 
 
-	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalUser.personUserIdentifier,document.expectedReturnDate,document.loanReturnDate"> 
+	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalUser.personUserIdentifier,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 
 	    <div class="tab-container" align="center">
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>
@@ -59,6 +40,7 @@
 			</tr>	
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" /></th>
 		      	<td class="grid" width="25%">
+		      	<kul:checkErrors keyMatch="document.borrowerUniversalUser.personUserIdentifier" />
 				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" 
 					      userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" 
 				          universalIdFieldName="document.borrowerUniversalIdentifier" 
@@ -69,14 +51,11 @@
  						  lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier" 
 						  fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
 						  hasErrors="${hasErrors}"/>
-<%--
-		      	<kul:htmlControlAttribute property="document.borrowerUniversalUser.personUserIdentifier" attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" />
---%>
 				</td>
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}" readOnly="true"/></th>
                 <td class="grid" width="25%"> 	                        
-                	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
+                	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" />
                 </td>                          
 			</tr>
 		    <tr>
@@ -156,9 +135,7 @@
     <cams:assetLocation defaultTabHide="true" />  
 	<cams:organizationInfo defaultTabHide="true"/>
 
-	<cams:viewAssetDetails defaultTabHide="true" /> 
 	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
-  
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />

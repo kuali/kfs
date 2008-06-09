@@ -21,32 +21,102 @@
 </c:if>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 
-<kul:tab tabTitle="View Asset Details" defaultOpen="${!defaultTabHide}"> 
+<c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
+
+	<kul:tab tabTitle="Asset" defaultOpen="${!defaultTabHide}"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
+
+	      	<tr>
+				<td class="tab-subhead"  width="100%" colspan="4">Asset Information</td>
+			</tr>	
+
+		    <tr>
+		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true"/></th>
+		      	<td class="grid" width="75%" colspan="3">
+		      		<kul:htmlControlAttribute property="${assetValueObj}.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" readOnlyBody="true">
+						<kul:inquiry boClassName="org.kuali.module.cams.bo.Asset" keyValues="capitalAssetNumber=${KualiForm.document.asset.capitalAssetNumber}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.capitalAssetNumber" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
+		    </tr>
+
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true" /></th>
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>
+			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerChartOfAccountsCode" attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+					<kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerChartOfAccountsCode" attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true" readOnlyBody="true">								
+		      			<kul:inquiry boClassName="org.kuali.module.chart.bo.Chart" keyValues="chartOfAccountsCode=" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.organizationOwnerChartOfAccountsCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerAccountNumber}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccountNumber" attributeEntry="${assetAttributes.organizationOwnerAccountNumber}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+					<kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccountNumber" attributeEntry="${assetAttributes.organizationOwnerAccountNumber}" readOnly="true" readOnlyBody="true">								
+						<kul:inquiry boClassName="org.kuali.module.chart.bo.Account" keyValues="chartOfAccountsCode=${KualiForm.document.asset.organizationOwnerChartOfAccountsCode}&amp;accountNumber=${KualiForm.document.asset.organizationOwnerAccountNumber}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.organizationOwnerAccountNumber" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.agencyNumber}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.agencyNumber" attributeEntry="${assetAttributes.agencyNumber}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.acquisitionTypeCode" attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+					<kul:htmlControlAttribute property="${assetValueObj}.agencyNumber" attributeEntry="${assetAttributes.agencyNumber}" readOnly="true" readOnlyBody="true">								
+						<kul:inquiry boClassName="org.kuali.module.cg.bo.Agency" keyValues="agencyNumber=${KualiForm.document.asset.agencyNumber}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.agencyNumber" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
+		        <th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.organizationCode}" readOnly="true" /></th>
+	   	        <td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccount.organizationCode" attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.module.chart.bo.Account" keyValues="chartOfAccountsCode=${KualiForm.document.asset.organizationOwnerChartOfAccountsCode}&amp;accountNumber=${KualiForm.document.asset.organizationOwnerAccountNumber}&amp;organizationCode=${KualiForm.document.asset.organizationOwnerAccount.organizationCode}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.organizationOwnerAccount.organizationCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.inventoryStatusCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.inventoryStatusCode" attributeEntry="${assetAttributes.inventoryStatusCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.inventoryStatusCode" attributeEntry="${assetAttributes.inventoryStatusCode}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.module.cams.bo.AssetStatus" keyValues="inventoryStatusCode=${KualiForm.document.asset.inventoryStatusCode}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.inventoryStatusCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.conditionCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.conditionCode" attributeEntry="${assetAttributes.conditionCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.conditionCode" attributeEntry="${assetAttributes.conditionCode}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.module.cams.bo.AssetCondition" keyValues="assetConditionCode=${KualiForm.document.asset.conditionCode}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.conditionCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetInServiceDate" attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true" /></th>
+				<td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.acquisitionTypeCode" attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.module.cams.bo.AssetAcquisitionType" keyValues="acquisitionTypeCode=${KualiForm.document.asset.acquisitionTypeCode}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.acquisitionTypeCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetTypeCode" attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.capitalAssetTypeCode" attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.module.cams.bo.AssetType" keyValues="capitalAssetTypeCode=${KualiForm.document.asset.capitalAssetTypeCode}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.capitalAssetTypeCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.vendorName}" readOnly="true" /></th>
@@ -73,21 +143,35 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.nationalStockNumber" attributeEntry="${assetAttributes.nationalStockNumber}" readOnly="true"/></td>								
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.lastInventoryDate" attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetInServiceDate" attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true"/></td>								
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.createDate}" readOnly="true" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.createDate" attributeEntry="${assetAttributes.createDate}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingYear" attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingPeriodCode" attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingYear" attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.kfs.bo.Options" keyValues="universityFiscalYear=${KualiForm.document.asset.financialDocumentPostingYear}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.financialDocumentPostingYear" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.lastInventoryDate" attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true"/></td>								
 			</tr>
 			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true" /></th>
+				<td class="grid" width="25%">
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingPeriodCode" attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true" readOnlyBody="true"> 
+						<kul:inquiry boClassName="org.kuali.module.chart.bo.AccountingPeriod" keyValues="universityFiscalYear=${KualiForm.document.asset.financialDocumentPostingYear}&amp;universityFiscalPeriodCode=${KualiForm.document.asset.financialDocumentPostingPeriodCode}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.financialDocumentPostingPeriodCode" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
+				<th class="grid" width="50%" colspan="2"></th>
 			</tr>
+
 		</table>
 		</div>
-</kul:tab>
+	</kul:tab>

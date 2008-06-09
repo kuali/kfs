@@ -60,13 +60,13 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
 
         switch (reportMode) {
             case ACCOUNT_EXPORT:
-                reportDumpForm.setTitle("Budget Revenue/Expenditure Dump");
+                reportDumpForm.setTitle("Budget Revenue/Expenditure Export");
                 break;
             case MONTHLY_EXPORT:
-                reportDumpForm.setTitle("Monthly Budget Dump");
+                reportDumpForm.setTitle("Monthly Budget Export");
                 break;
             case FUNDING_EXPORT:
-                reportDumpForm.setTitle("Budgeted Salary Lines Dump");
+                reportDumpForm.setTitle("Budgeted Salary Lines Export");
                 break;
         }
 
@@ -99,7 +99,7 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
                     fileString = SpringContext.getBean(ReportExportService.class).buildAccountDumpFile(personUniversalIdentifier, getFieldSeparator(reportExportForm), getTextFieldDelimiter(reportExportForm), reportExportForm.getUniversityFiscalYear(), reportExportForm.getChartOfAccountsCode(), reportExportForm.getAccountNumber(), reportExportForm.getSubAccountNumber());
                 }
                 
-                fileName = ReportGeneration.ACCOUNT_DUMP_FILE_NAME;
+                fileName = ReportGeneration.ACCOUNT_EXPORT_FILE_NAME;
                 break;
             case MONTHLY_EXPORT:
                 if (reportExportForm.isOrgReport()) {
@@ -108,7 +108,7 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
                     fileString = SpringContext.getBean(ReportExportService.class).buildAccountMonthlyDumpFile(personUniversalIdentifier, getFieldSeparator(reportExportForm), getTextFieldDelimiter(reportExportForm), reportExportForm.getUniversityFiscalYear(), reportExportForm.getChartOfAccountsCode(), reportExportForm.getAccountNumber(), reportExportForm.getSubAccountNumber());
                 }
                 
-                fileName = ReportGeneration.MONTHLY_DUMP_FILE_NAME;
+                fileName = ReportGeneration.MONTHLY_EXPORT_FILE_NAME;
                 break;
             case FUNDING_EXPORT:
                 if (reportExportForm.isOrgReport()) {
@@ -117,7 +117,7 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
                     fileString = SpringContext.getBean(ReportExportService.class).buildAccountFundingDumpFile(personUniversalIdentifier, getFieldSeparator(reportExportForm), getTextFieldDelimiter(reportExportForm), reportExportForm.getUniversityFiscalYear(), reportExportForm.getChartOfAccountsCode(), reportExportForm.getAccountNumber(), reportExportForm.getSubAccountNumber());
                 }
                 
-                fileName = ReportGeneration.FUNDING_DUMP_FILE_NAME;
+                fileName = ReportGeneration.FUNDING_EXPORT_FILE_NAME;
                 break;
         }
 

@@ -758,6 +758,7 @@ public class KFSPropertyConstants {
     public static final String LABOR_OBJECT = "laborObject";
     public static final String LAST_UPDATE = "lastUpdate";
     public static final String LAST_UPDATE_TIMESTAMP = "lastUpdateTimestamp";
+    public static final String LEVEL_FINANCIAL_REPORT_SORT_CODE = "levelFinancialReportSortCode";
     public static final String LINE = "line";
     public static final String LINE_NUMBER = "lineNumber";
     public static final String LOCKING_REPRESENTATION = "lockingRepresentation";
@@ -1109,6 +1110,7 @@ public class KFSPropertyConstants {
     public static final String TWO_DIGIT_TEXT_CODE = KNSPropertyConstants.TWO_DIGIT_TEXT_CODE;
     public static final String TYPE = KNSPropertyConstants.TYPE;
     public static final String TYPE_CODE = "typeCode";
+    public static final String TYPE_FINANCIAL_REPORT_SORT_CODE = "typeFinancialReportSortCode";
     public static final String UNIT_OF_MEASURE_CODE = "unitOfMeasureCode";
     public static final String UNIVERSAL_IDENTIFIER = "universalIdentifier";
     public static final String UNIVERSAL_USER = KNSPropertyConstants.UNIVERSAL_USER;

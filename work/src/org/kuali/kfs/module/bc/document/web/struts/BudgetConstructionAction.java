@@ -474,7 +474,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
@@ -858,7 +858,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_RUNNER_ACTION, parameters);
         return new ActionForward(lookupUrl, true);

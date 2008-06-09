@@ -82,7 +82,7 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
                     nextApprovers = approveUser.getPersonName();
                 }
                 else {
-                    nextApprovers += ", " + approveUser.getPersonName();
+                    nextApprovers += "; " + approveUser.getPersonName();
                 }
             }
         }

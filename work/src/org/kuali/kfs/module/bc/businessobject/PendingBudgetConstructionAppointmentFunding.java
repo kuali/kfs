@@ -86,7 +86,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * Default constructor.
      */
     public PendingBudgetConstructionAppointmentFunding() {
-        budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
+        budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);       
         bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
         budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
     }
@@ -655,6 +655,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @return Returns the budgetConstructionAppointmentFundingReason.
      */
     public List<BudgetConstructionAppointmentFundingReason> getBudgetConstructionAppointmentFundingReason() {
+        if(budgetConstructionAppointmentFundingReason == null) {
+            budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
+        }
+        
+        if(budgetConstructionAppointmentFundingReason.size()<=0) {
+            budgetConstructionAppointmentFundingReason.add(new BudgetConstructionAppointmentFundingReason());
+        }
+        
         return budgetConstructionAppointmentFundingReason;
     }
 

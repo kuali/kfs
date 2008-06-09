@@ -201,7 +201,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
     /**
      * adjust the salary amount of the specified funding line
      */
-    public ActionForward performPercentAdjustmentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
 
@@ -218,7 +218,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
     /**
      * adjust the salary amounts of all funding lines
      */
-    public ActionForward performPercentAdjustmentAllSalarySettingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward adjustAllSalarySettingLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
 

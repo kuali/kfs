@@ -252,6 +252,7 @@
 			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
+				methodToCall = "adjustSalarySettingLinePercent"
 				lineIndex = "${status.index}"/>
 		</td>
 	</tr>

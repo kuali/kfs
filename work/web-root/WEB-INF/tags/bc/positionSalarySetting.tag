@@ -532,6 +532,7 @@
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].positionNumber" />
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].versionNumber" />
            </kul:htmlAttributeHeaderCell>
+           
            <bc:pbglLineDataCell dataCellCssClass="datacell"
                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentFundingDeleteIndicator"
@@ -658,13 +659,14 @@
         	<td colspan="12" style="width: 70%;"><center><br/>
         		<bc:appointmentFundingDetail 
         			fundingLine="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[status.index]}" 
-        			fundingLineName="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
+        			fundingLineName="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+        			lineIndex = "${status.index}"/>
         		<br/>
         		</center>
-            </td>
+        	</td>            
         </tr>
         </c:forEach>
-
+        
         <tr>
         	<td colspan="12" style="width: 70%;"><center><br/>
         		<br/>

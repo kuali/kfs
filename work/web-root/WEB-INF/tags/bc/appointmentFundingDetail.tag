@@ -48,13 +48,14 @@
 			<bc:salaryAdjustment attributes="${bcafAttributes}" 
 				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
+				methodToCall = "adjustSalarySettingLinePercent"
 				lineIndex="${lineIndex}"/>
 		</td>		
 		
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="${fundingLine}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfAmount"
-                attributes="${pbcafAttributes}"
+                attributes="${bcsfAttributes}"
                 field="csfAmount"
                 fieldAlign="right"
                 readOnly="${readOnly}"
@@ -66,7 +67,7 @@
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="${fundingLine}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfTimePercent"
-                attributes="${pbcafAttributes}"
+                attributes="${bcsfAttributes}"
                 field="csfTimePercent"
                 fieldAlign="right"
                 readOnly="${readOnly}"
@@ -135,7 +136,6 @@
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
-		<%-- TODO: fix NPE
 		<bc:pbglLineDataCell dataCellCssClass="infoline"
               accountingLine="${fundingLine}"
               cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonCode"
@@ -153,10 +153,6 @@
               fieldAlign="right"
               readOnly="${readOnly}"
               rowSpan="1" dataFieldCssClass="amount" />
-         --%>
-         
-        <td>&nbsp;</td>		
-		<td>&nbsp;</td>
 	</tr>
 	
 	<tr>

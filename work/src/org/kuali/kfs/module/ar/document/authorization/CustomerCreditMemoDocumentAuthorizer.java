@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.ParameterService;
@@ -30,12 +31,14 @@ import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
-public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+//public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+public class CustomerCreditMemoDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+
     
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document document, UniversalUser user) {
         
-        Map<String,String> editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+        Map<String,String> editModeMap = super.getEditMode(document, user);
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
         
         if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(),ArConstants.CustomerCreditMemoStatuses.INITIATE))

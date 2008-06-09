@@ -25,10 +25,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.rule.event.ContinueCustomerCreditMemoDocumentEvent;
@@ -40,7 +40,8 @@ import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentActionBase {
+//public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentActionBase {
+public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocumentActionBase {
     
     public CustomerCreditMemoDocumentAction() {
         super();

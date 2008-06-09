@@ -1,38 +1,40 @@
 package org.kuali.module.ar.document;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerCreditMemoDocument extends AccountingDocumentBase {
+//public class CustomerCreditMemoDocument extends AccountingDocumentBase {
+public class CustomerCreditMemoDocument extends TransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
     
     private String statusCode;
-    
-    private String documentNumber;
-    private Integer financialDocumentPostingYear;// there is an inherited property 'postingYear'
+    private Integer postingYear;
     private String financialDocumentReferenceInvoiceNumber;
     
     private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
@@ -40,15 +42,16 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     private KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
     
     private Integer invOutstandingDays;
-    
-    private DocumentHeader documentHeader;
 
     private CustomerInvoiceDocument invoice;
     private List<CustomerCreditMemoDetail> creditMemoDetails;
     
+    protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
+    
     public CustomerCreditMemoDocument(){
         super();
         creditMemoDetails = new TypedArrayList(CustomerCreditMemoDetail.class);
+        generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     }
 
     /**
@@ -59,7 +62,6 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         return creditMemoDetails;
     }
 
-
     /**
      * Sets the creditMemoDetails attribute value.
      * @param creditMemoDetails The creditMemoDetails to set.
@@ -67,61 +69,6 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     public void setCreditMemoDetails(List<CustomerCreditMemoDetail> creditMemoDetails) {
         this.creditMemoDetails = creditMemoDetails;
     }
-
-
-    /**
-     * Gets the documentHeader attribute. 
-     * @return Returns the documentHeader.
-     */
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-
-    /**
-     * Sets the documentHeader attribute value.
-     * @param documentHeader The documentHeader to set.
-     */
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }
-
-
-    /**
-     * Gets the documentNumber attribute. 
-     * @return Returns the documentNumber.
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-
-    /**
-     * Sets the documentNumber attribute value.
-     * @param documentNumber The documentNumber to set.
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
-
-    /**
-     * Gets the financialDocumentPostingYear attribute. 
-     * @return Returns the financialDocumentPostingYear.
-     */
-    public Integer getFinancialDocumentPostingYear() {
-        return financialDocumentPostingYear;
-    }
-
-
-    /**
-     * Sets the financialDocumentPostingYear attribute value.
-     * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
-     */
-    public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
-        this.financialDocumentPostingYear = financialDocumentPostingYear;
-    }
-
 
     /**
      * Gets the financialDocumentReferenceInvoiceNumber attribute. 
@@ -178,19 +125,29 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
     }
     
     /**
+     * Gets the postingYear attribute. 
+     * @return Returns the postingYear.
+     */
+    public Integer getPostingYear() {
+        return postingYear;
+    }
+
+    /**
+     * Sets the postingYear attribute value.
+     * @param postingYear The postingYear to set.
+     */
+    public void setPostingYear(Integer postingYear) {
+        this.postingYear = postingYear;
+    }
+    
+    /**
      * Initializes the values for a new document.
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
         setStatusCode(ArConstants.CustomerCreditMemoStatuses.INITIATE);
     }
-    
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
-        m.put("documentNumber", this.documentNumber);
-        return m;
-    }
-    
+ 
     /**
      * Clear out the initially populated fields.
      */
@@ -199,13 +156,6 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
 
         // Clearing document Init fields
         setFinancialDocumentReferenceInvoiceNumber(null);
-    }
-
-
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     /**
@@ -304,6 +254,24 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         this.invOutstandingDays = invOutstandingDays;
     }
     
+    /**
+     * This method gets the glpes
+     * 
+     * @return a list of glpes
+     */
+    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
+        return generalLedgerPendingEntries;
+    }
+
+    /**
+     * This method sets the glpes
+     * 
+     * @return a list of glpes
+     */
+    public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
+        this.generalLedgerPendingEntries = generalLedgerPendingEntries;
+    }
+    
     public KualiDecimal getTaxRate(){
         KualiDecimal stateTaxRate = invoice.getStateTaxPercent();
         KualiDecimal localTaxRate = invoice.getLocalTaxPercent();
@@ -398,6 +366,81 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
             
             creditMemoDetails.add(customerCreditMemoDetail);
          }
+    }
+    
+    // TODO
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean success = true;
+        // TODO
+        return success;
+    }
+    
+    // TODO
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     */
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        //TODO
+        return false;
+    }
+     
+    /**
+    * Returns a document header associated with this general ledger posting helper
+    * @return a document header
+    */
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+        
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
+     */
+    public void clearAnyGeneralLedgerPendingEntries() {
+        generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
+
+    }
+    
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
+     */
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
+        return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+    }
+            
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
+    public void addPendingEntry(GeneralLedgerPendingEntry entry) {
+        generalLedgerPendingEntries.add(entry);
+
+    }
+        
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     */
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
+        return postable.getAmount().abs();
+    }
+    
+    // TODO
+    public String getFinancialDocumentTypeCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+     
+    // TODO 
+    /**
+    * Perform business rules common to all transactional documents when generating general ledger pending entries.
+    * 
+    * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
+    *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+    */
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        // TODO
+        return true;
     }
 
 }

@@ -20,14 +20,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
@@ -42,10 +42,10 @@ import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 /**
  * This class holds the business rules for the AR Credit Memo Document
  */
-public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<AccountingDocument>,
-                                                                                          RecalculateCustomerCreditMemoDocumentRule<AccountingDocument>,
-                                                                                          ContinueCustomerCreditMemoDocumentRule<AccountingDocument>{
-  
+
+public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<TransactionalDocument>,
+                                                                                             RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>,
+                                                                                             ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
@@ -83,7 +83,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
      * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule#processRecalculateCustomerCreditMemoDetailRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.module.ar.bo.CustomerCreditMemoDetail)
      */
-    public boolean processRecalculateCustomerCreditMemoDetailRules(AccountingDocument financialDocument, CustomerCreditMemoDetail customerCreditMemoDetail) {
+    public boolean processRecalculateCustomerCreditMemoDetailRules(TransactionalDocument financialDocument, CustomerCreditMemoDetail customerCreditMemoDetail) {
         boolean success = true;
  
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
@@ -182,7 +182,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
     /**
      * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
      */
-    public boolean processRecalculateCustomerCreditMemoDocumentRules(AccountingDocument financialDocument) {
+    public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument financialDocument) {
         boolean success = true;
         boolean crmDataEnteredFlag = false;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
@@ -212,7 +212,7 @@ public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase i
     /**
      * @see org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule#processContinueCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
      */
-    public boolean processContinueCustomerCreditMemoDocumentRules(AccountingDocument financialDocument) {
+    public boolean processContinueCustomerCreditMemoDocumentRules(TransactionalDocument financialDocument) {
         boolean success;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) financialDocument;
    

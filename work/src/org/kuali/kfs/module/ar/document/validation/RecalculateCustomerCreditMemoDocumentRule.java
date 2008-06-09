@@ -15,9 +15,9 @@
  */
 package org.kuali.module.ar.rule;
 
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.core.document.TransactionalDocument;
 
-public interface RecalculateCustomerCreditMemoDocumentRule<F extends AccountingDocument> {
+public interface RecalculateCustomerCreditMemoDocumentRule<F extends TransactionalDocument> {
 
     public boolean processRecalculateCustomerCreditMemoDocumentRules(F financialDocument);
 }

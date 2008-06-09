@@ -16,9 +16,9 @@
 package org.kuali.module.ar.rule.event;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule;
 
 public class ContinueCustomerCreditMemoDocumentEvent extends KualiDocumentEventBase {
@@ -32,7 +32,7 @@ public class ContinueCustomerCreditMemoDocumentEvent extends KualiDocumentEventB
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ContinueCustomerCreditMemoDocumentRule) rule).processContinueCustomerCreditMemoDocumentRules((AccountingDocument)getDocument());
+        return ((ContinueCustomerCreditMemoDocumentRule) rule).processContinueCustomerCreditMemoDocumentRules((TransactionalDocument)getDocument());
     }
 
 }

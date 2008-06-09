@@ -15,10 +15,10 @@
  */
 package org.kuali.module.ar.rule;
 
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 
-public interface RecalculateCustomerCreditMemoDetailRule<F extends AccountingDocument> extends CustomerCreditMemoDetailRule {
+public interface RecalculateCustomerCreditMemoDetailRule<F extends TransactionalDocument> extends CustomerCreditMemoDetailRule {
 
     /**
      * Returns true if business rules for recalculating a customer credit memo detail return true

@@ -36,7 +36,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ReportGeneration;
@@ -46,6 +45,7 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BudgetConstructionReportMode;
 import org.kuali.module.budget.service.BudgetConstructionAccountMonthlyDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionAccountSalaryDetailReportService;
+import org.kuali.module.budget.service.BudgetConstructionDocumentAccountObjectDetailReportService;
 import org.kuali.module.budget.web.struts.form.ReportRunnerForm;
 
 /**
@@ -98,7 +98,17 @@ public class ReportRunnerAction extends BudgetExpansionAction {
         switch (selectIndex) {
             
             case 0: {
-                jasperFileName = "";
+                jasperFileName = "BudgetAccountObjectDetail";
+                SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).updateDocumentAccountObjectDetailReportTable(personUserIdentifier, reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
+                reportSet = SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).buildReports(personUserIdentifier);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                
+                ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
+                Map<String, Object> reportData = new HashMap<String, Object>();
+                reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+                
+                SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
+                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
             }
 
             

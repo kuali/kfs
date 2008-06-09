@@ -23,6 +23,10 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.budget.web.struts.action.BudgetConstructionRequestImportAction;
+import org.kuali.module.budget.web.struts.action.MonthlyBudgetAction;
+import org.kuali.module.budget.web.struts.action.OrganizationSelectionTreeAction;
+import org.kuali.module.budget.web.struts.action.QuickSalarySettingAction;
 import org.kuali.rice.util.JSTLConstants;
 
 public class BCConstants extends JSTLConstants {
@@ -47,7 +51,7 @@ public class BCConstants extends JSTLConstants {
     public static final String BC_SELECTION_ACTION = "budgetBudgetConstructionSelection.do";
     public static final String BC_SELECTION_REFRESH_METHOD = "refresh";
 
-    public static final String ORG_SEL_TREE_REFRESH_CALLER = "BudgetConstruction";
+    public static final String ORG_SEL_TREE_REFRESH_CALLER = OrganizationSelectionTreeAction.class.getName();
     public static final String ORG_SEL_TREE_ACTION = "budgetOrganizationSelectionTree.do";
     public static final String ORG_SEL_TREE_METHOD = "loadExpansionScreen";
     public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
@@ -55,14 +59,16 @@ public class BCConstants extends JSTLConstants {
     public static final String REPORT_EXPORT_ACTION = "budgetReportExport.do";
     public static final String REPORT_EXPORT_PATH = "budgetReportExport";
     public static final String REQUEST_IMPORT_ACTION = "budgetBudgetConstructionRequestImport.do";
-    
-    public static final String REQUEST_IMPORT_REFRESH_CALLER = "RequestImport";
+
+    public static final String REQUEST_IMPORT_REFRESH_CALLER = BudgetConstructionRequestImportAction.class.getName();
     public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
     
     public static final String REQUEST_IMPORT_OUTPUT_FILE = "budgetImportLog.pdf";
     
     public static final String LABOR_OBJECT_FRINGE_CODE = "F";
     public static final String MAPPING_IMPORT_EXPORT = "import_export";
+    
+    public static final String POSITION_NUMBER_NOT_FOUND = "NotFnd";
     
     public static final String IS_ORG_REPORT_REQUEST_PARAMETER = "orgReport";
     
@@ -124,11 +130,11 @@ public class BCConstants extends JSTLConstants {
     public static final String BC_DOCUMENT_REFRESH_METHOD = "refresh";
     public static final String BC_DOCUMENT_METHOD = "docHandler";
 
-    public static final String MONTHLY_BUDGET_REFRESH_CALLER = "MonthlyBudget";
+    public static final String MONTHLY_BUDGET_REFRESH_CALLER = MonthlyBudgetAction.class.getName();
     public static final String MONTHLY_BUDGET_ACTION = "budgetMonthlyBudget.do";
     public static final String MONTHLY_BUDGET_METHOD = "loadExpansionScreen";
 
-    public static final String SALARY_SETTING_REFRESH_CALLER = "QuickSalarySetting";
+    public static final String SALARY_SETTING_REFRESH_CALLER = QuickSalarySettingAction.class.getName();
     public static final String SALARY_SETTING_ACTION = "budgetQuickSalarySetting.do";
     public static final String SALARY_SETTING_METHOD = "loadExpansionScreen";
 
@@ -139,6 +145,8 @@ public class BCConstants extends JSTLConstants {
     public static final String INCUMBENT_SALARY_SETTING_REFRESH_CALLER = "IncumbentSalarySetting";
     public static final String INCUMBENT_SALARY_SETTING_ACTION = "budgetIncumbentSalarySetting.do";
     public static final String INCUMBENT_SALARY_SETTING_METHOD = "loadExpansionScreen";
+    
+    public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 
     public static final String RETURN_ANCHOR = "returnAnchor";
     public static final String RETURN_FORM_KEY = "returnFormKey";
@@ -259,6 +267,7 @@ public class BCConstants extends JSTLConstants {
         public final static int POSITION_SELECT = 2;
         public final static int ACCOUNT_SELECT_ABOVE_POV = 3;
         public final static int ACCOUNT_SELECT_BUDGETED_DOCUMENTS = 4;
+        public final static int LOCK_MONITOR = 5;
     }
 
     public enum RequestImportFileType {
@@ -352,10 +361,23 @@ public class BCConstants extends JSTLConstants {
     
     public final static String POSITION_CODE_INACTIVE = "I";   
     public final static String DOCUMENT_TYPE_CODE_ALL = "ALL";
-
+    
+    public static class LockTypes {
+        public final static String ACCOUNT_LOCK = "account lock";
+        public final static String FUNDING_LOCK = "orphan funding lock";
+        public final static String POSITION_FUNDING_LOCK = "position/funding lock";
+        public final static String POSITION_LOCK = "position lock";
+        public final static String TRANSACTION_LOCK = "transaction lock";
+    }
+    
     public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
     
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
     public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL = STANDARD_WEEKLY_WORK_HOUR.divide(ONE_HUNDRED, 2, KualiDecimal.ROUND_BEHAVIOR);
+    
+    // constants for lock monitor
+    public static final String TEMP_LIST_UNLOCK_METHOD = "unlock";
+    public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
+    public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
 }

@@ -51,7 +51,7 @@ import org.kuali.module.budget.web.struts.form.ReportRunnerForm;
 /**
  * Action class to display document reports and dumps menu
  */
-public class ReportRunnerAction extends KualiAction {
+public class ReportRunnerAction extends BudgetExpansionAction {
     
     /**
      * Handles any special onetime setup when called from another screen action
@@ -68,40 +68,6 @@ public class ReportRunnerAction extends KualiAction {
         ReportRunnerForm reportRunnerForm = (ReportRunnerForm) form;
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Called by the close button on the reportrunner.jsp
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return returnToCaller((ReportRunnerForm) form);
-    }
-
-    /**
-     * Sets up the parameters to pass back to the calling (parent) action.
-     * 
-     * @param reportRunnerForm
-     * @return
-     * @throws Exception
-     */
-    public ActionForward returnToCaller(ReportRunnerForm reportRunnerForm) throws Exception {
-
-        // setup the return parms for the document and anchor
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, reportRunnerForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, reportRunnerForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, "ReportRunner");
-
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
-        return new ActionForward(lookupUrl, true);
     }
 
     /**
@@ -177,19 +143,6 @@ public class ReportRunnerAction extends KualiAction {
             }
                 
         }
-
-        
-        
-
-        // for report dumps foward to dump action to display formatting screen
-        // if (reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).dump) {
-        // String dumpUrl = this.buildReportDumpForwardURL(reportRunnerForm, mapping, reportModeName);
-        // return new ActionForward(dumpUrl, true);
-        // }
-
-        // TODO call method to build mt and/or render the report
-        // stuff below is just to test output works.
-
         
         return null;
     }
@@ -202,7 +155,7 @@ public class ReportRunnerAction extends KualiAction {
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(reportRunnerForm, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(reportRunnerForm, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportRunnerForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, reportRunnerForm.getChartOfAccountsCode());
@@ -211,7 +164,7 @@ public class ReportRunnerAction extends KualiAction {
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "false");
-        
+
         return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 }

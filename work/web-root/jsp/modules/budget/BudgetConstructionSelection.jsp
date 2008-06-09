@@ -77,8 +77,8 @@
     	<tr>
             <td class="grid" colspan="4">
             <div align="center">
-              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_myaccounts.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_myorganization.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
+              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-myaccounts.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-myorg.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
             </div>
 		    </td>
             <td class="grid" colspan="3">
@@ -359,16 +359,17 @@
             <td class="grid" colspan="4">
             <div align="center">
               <c:if test="${!KualiForm.salarySettingDisabled}">
-              <html:image property="methodToCall.performOrgSalarySetting.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgsalsetting.gif" title="Organization Salary Setting" alt="Organization Salary Setting" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performOrgSalarySetting.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-orgsalsettings.gif" title="Organization Salary Setting" alt="Organization Salary Setting" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
               </c:if>
-              <html:image property="methodToCall.performReportDump.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgreportdump.gif" title="Organization Report/Dump" alt="Organization Report/Dump" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_reqimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />
+              <html:image property="methodToCall.performReportDump.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-orgrepdump.gif" title="Organization Report/Dump" alt="Organization Report/Dump" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-requestimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performLockMonitor.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-lockmonitor.gif" title="Lock Monitor" alt="Lock Monitor" styleClass="tinybutton" />
             </div>
 		    </td>
             <td class="grid" colspan="3">
             <div align="center">
-              <html:image property="methodToCall.performOrgPullup.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpullup.gif" title="Organization Pull Up" alt="Organization Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performOrgPushdown.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_orgpushdown.gif" title="Organization Push Down" alt="Organization Push Down" styleClass="tinybutton" />
+              <html:image property="methodToCall.performOrgPullup.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-orgpullup.gif" title="Organization Pull Up" alt="Organization Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performOrgPushdown.anchororgControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-orgpushdown.gif" title="Organization Push Down" alt="Organization Push Down" styleClass="tinybutton" />
             </div>
 		    </td>
 		</tr>

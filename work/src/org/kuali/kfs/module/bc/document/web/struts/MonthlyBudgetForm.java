@@ -26,7 +26,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 
-public class MonthlyBudgetForm extends KualiForm {
+public class MonthlyBudgetForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetForm.class);
 
     private BudgetConstructionMonthly budgetConstructionMonthly;
@@ -38,8 +38,6 @@ public class MonthlyBudgetForm extends KualiForm {
     protected Map editingMode;
 
     // url parameters sent from BCDoc
-    private String returnAnchor;
-    private String returnFormKey;
     private String documentNumber;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -92,41 +90,6 @@ public class MonthlyBudgetForm extends KualiForm {
     // public void setDocTypeName(String docTypeName) {
     // this.docTypeName = docTypeName;
     // }
-    /**
-     * Gets the returnAnchor attribute.
-     * 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the returnTabStates attribute.
-     * 
-     * @return Returns the returnTabStates.
-     */
-    public String getReturnFormKey() {
-        return returnFormKey;
-    }
-
-    /**
-     * Sets the returnTabStates attribute value.
-     * 
-     * @param returnTabStates The returnTabStates to set.
-     */
-    public void setReturnFormKey(String returnTabStates) {
-        this.returnFormKey = returnTabStates;
-    }
 
     /**
      * Gets the accountNumber attribute.

@@ -257,6 +257,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String GRANT = "Grant";
     public static final String HIDE_LOOKUP_RETURN_LINK = "hideReturnLink";
     public static final String SUPPRESS_ACTIONS = "suppressActions";
+    public static final String SHOW_MAINTENANCE_LINKS = "showMaintenanceLinks";
     public static final String REFERENCES_TO_REFRESH = "referencesToRefresh";
     public static final String INCOME = "Income";
     public static final String INITIAL_KUALI_DOCUMENT_STATUS_CD = "?";

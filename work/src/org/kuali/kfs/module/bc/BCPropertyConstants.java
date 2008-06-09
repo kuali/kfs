@@ -25,4 +25,13 @@ public class BCPropertyConstants {
     public static final String PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES = "pendingBudgetConstructionGeneralLedgerExpenditureLines";
     public static final String BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER = "bcnCalculatedSalaryFoundationTracker";
     public static final String BUDGET_CONSTRUCTION_INTENDED_INCUMBENT = "budgetConstructionIntendedIncumbent";
+    public static final String LOCK_USER_ID = "lockUserId";
+    public static final String LOCK_TYPE = "lockType";
+    public static final String BUDGET_LOCK_USER_IDENTIFIER = "budgetLockUserIdentifier";
+    public static final String BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER = "budgetTransactionLockUserIdentifier";
+    public static final String POSITION_LOCK_USER_IDENTIFIER = "positionLockUserIdentifier";
+    public static final String POSITION_NUMBER = "positionNumber";
+    public static final String APPOINTMENT_FUNDING_LOCK_USER_ID = "appointmentFundingLockUserId";
+    public static final String BUDGET_CONSTRUCTION_POSITION = "budgetConstructionPosition";
+    public static final String BUDGET_CONSTRUCTION_FUNDING_LOCKS = "budgetConstructionFundingLocks";
 }

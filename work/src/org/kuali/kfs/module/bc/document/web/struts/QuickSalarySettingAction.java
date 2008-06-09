@@ -50,7 +50,7 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
 import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.budget.web.struts.form.QuickSalarySettingForm;
 
-public class QuickSalarySettingAction extends KualiAction {
+public class QuickSalarySettingAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingAction.class);
 
     /**
@@ -177,23 +177,6 @@ public class QuickSalarySettingAction extends KualiAction {
     }
 
     /**
-     * return to the caller of the current action
-     */
-    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-
-        // setup the return parms for the document and anchor
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, salarySettingForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, salarySettingForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.SALARY_SETTING_REFRESH_CALLER);
-
-        String returningURL = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
-        return new ActionForward(returningURL, true);
-    }
-
-    /**
      * vacate the specified appointment funding line
      */
     public ActionForward performVacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -262,7 +245,7 @@ public class QuickSalarySettingAction extends KualiAction {
      * perform salary setting by incumbent with the specified funding line
      */
     public ActionForward performIncumbentSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String salarySettingURL = this.buildSalarySettingURL(form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
+        String salarySettingURL = this.buildSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
 
         return new ActionForward(salarySettingURL, true);
     }
@@ -271,7 +254,7 @@ public class QuickSalarySettingAction extends KualiAction {
      * perform salary setting by position with the specified funding line
      */
     public ActionForward performPositionSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String salarySettingURL = this.buildSalarySettingURL(form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
+        String salarySettingURL = this.buildSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
 
         return new ActionForward(salarySettingURL, true);
     }
@@ -290,7 +273,7 @@ public class QuickSalarySettingAction extends KualiAction {
     }
 
     // build the URL for the specified salary setting method
-    private String buildSalarySettingURL(ActionForm form, HttpServletRequest request, String salarySettingAction) {
+    private String buildSalarySettingURL(ActionMapping mapping, ActionForm form, HttpServletRequest request, String salarySettingAction) {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
 
@@ -308,6 +291,7 @@ public class QuickSalarySettingAction extends KualiAction {
         // build the query strings with the information of the selected line
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());

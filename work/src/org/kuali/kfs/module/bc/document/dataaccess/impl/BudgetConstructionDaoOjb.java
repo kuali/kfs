@@ -151,9 +151,12 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         return fundingLocks;
     }
 
-    private String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getPositionAssociatedWithFundingLock(org.kuali.module.budget.bo.BudgetConstructionFundingLock)
+     */
+    public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
 
-        String positionNumber = "NotFnd"; // default if there is no associated position that is locked (orphaned)
+        String positionNumber = BCConstants.POSITION_NUMBER_NOT_FOUND; // default if there is no associated position that is locked (orphaned)
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.chartOfAccountsCode", budgetConstructionFundingLock.getChartOfAccountsCode());

@@ -60,7 +60,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 /**
  * This class...
  */
-public class OrganizationSelectionTreeAction extends KualiAction {
+public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
 
     /**
@@ -135,25 +135,11 @@ public class OrganizationSelectionTreeAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
-
         // depopulate any selection subtrees for the user
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         SpringContext.getBean(BudgetOrganizationTreeService.class).cleanPullup(personUserIdentifier);
 
-
-        // setup the return parms for the document and anchor
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, orgSelTreeForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, orgSelTreeForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.ORG_SEL_TREE_REFRESH_CALLER);
-
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-
-        return new ActionForward(lookupUrl, true);
+        return super.returnToCaller(mapping, form, request, response);
     }
 
     /**
@@ -857,6 +843,10 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionAccountSelect.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        
+        boolean supressActions = true;
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, supressActions);
+        
         parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
@@ -879,7 +869,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationSelectionTreeForm, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationSelectionTreeForm, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());

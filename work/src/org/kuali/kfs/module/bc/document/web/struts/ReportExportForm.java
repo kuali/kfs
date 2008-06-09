@@ -22,9 +22,6 @@ import org.kuali.module.budget.BCConstants;
  * Struts action formm for report dumps.
  */
 public class ReportExportForm extends BudgetConstructionImportExportForm {
-    private String backLocation;
-    private String returnAnchor;
-    private String docFormKey;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -36,60 +33,6 @@ public class ReportExportForm extends BudgetConstructionImportExportForm {
      */
     public ReportExportForm() {
         super();
-    }
-
-    /**
-     * Gets the backLocation attribute.
-     * 
-     * @return Returns the backLocation.
-     */
-    public String getBackLocation() {
-        return backLocation;
-    }
-
-    /**
-     * Sets the backLocation attribute value.
-     * 
-     * @param backLocation The backLocation to set.
-     */
-    public void setBackLocation(String backLocation) {
-        this.backLocation = backLocation;
-    }
-
-    /**
-     * Gets the docFormKey attribute.
-     * 
-     * @return Returns the docFormKey.
-     */
-    public String getDocFormKey() {
-        return docFormKey;
-    }
-
-    /**
-     * Sets the docFormKey attribute value.
-     * 
-     * @param docFormKey The docFormKey to set.
-     */
-    public void setDocFormKey(String docFormKey) {
-        this.docFormKey = docFormKey;
-    }
-
-    /**
-     * Gets the returnAnchor attribute.
-     * 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
     }
 
     /**
@@ -145,7 +88,5 @@ public class ReportExportForm extends BudgetConstructionImportExportForm {
     public void setOrgReport(boolean orgReport) {
         this.orgReport = orgReport;
     }
-    
-    
 
 }

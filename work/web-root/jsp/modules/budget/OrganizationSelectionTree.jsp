@@ -28,6 +28,7 @@
     
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
+	<html-el:hidden name="KualiForm" property="backLocation" />
 	<html-el:hidden name="KualiForm" property="operatingMode" />
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 

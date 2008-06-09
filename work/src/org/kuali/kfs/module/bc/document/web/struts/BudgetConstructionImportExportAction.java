@@ -25,7 +25,7 @@ import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
 
-public class BudgetConstructionImportExportAction extends KualiAction {
+public class BudgetConstructionImportExportAction extends BudgetExpansionAction {
     
     /**
      * checks form values against business rules

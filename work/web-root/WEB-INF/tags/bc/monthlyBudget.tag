@@ -33,6 +33,7 @@
           <kul:htmlAttributeHeaderCell align="left" attributeEntry="${pbglAttributes.universityFiscalYear}" >
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="backLocation" />
               <html:hidden property="documentNumber" />
               <html:hidden property="universityFiscalYear" />
               <html:hidden property="chartOfAccountsCode" />

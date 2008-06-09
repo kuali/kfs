@@ -26,12 +26,10 @@ import org.kuali.module.budget.BudgetConstructionDocumentReportMode;
 /**
  * Form class to display document reports and dumps menu
  */
-public class ReportRunnerForm extends KualiForm {
+public class ReportRunnerForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportRunnerForm.class);
     
     // url parameters sent from BCDoc
-    private String returnAnchor;
-    private String returnFormKey;
     private String documentNumber;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -112,39 +110,7 @@ public class ReportRunnerForm extends KualiForm {
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-
-    /**
-     * Gets the returnAnchor attribute. 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the returnFormKey attribute. 
-     * @return Returns the returnFormKey.
-     */
-    public String getReturnFormKey() {
-        return returnFormKey;
-    }
-
-    /**
-     * Sets the returnFormKey attribute value.
-     * @param returnFormKey The returnFormKey to set.
-     */
-    public void setReturnFormKey(String returnFormKey) {
-        this.returnFormKey = returnFormKey;
-    }
-
+    
     /**
      * Gets the subAccountNumber attribute. 
      * @return Returns the subAccountNumber.

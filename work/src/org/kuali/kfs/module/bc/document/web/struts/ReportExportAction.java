@@ -128,30 +128,4 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
 
         return null;
     }
-
-    /**
-     * Returns back to sub-fund select.
-     * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ReportExportForm reportExportForm = (ReportExportForm) form;
-        String backUrl = reportExportForm.getBackLocation();
-        if (reportExportForm.isOrgReport()) {
-            backUrl = backUrl + "?methodToCall=start&docFormKey=" + reportExportForm.getDocFormKey() 
-                + "&" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + "=" + reportExportForm.getUniversityFiscalYear()
-                + "&" + KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER + "=" + GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier()
-                + "&" + BCConstants.Report.REPORT_MODE + "=" + reportExportForm.getReportMode();
-        } else {
-            backUrl = backUrl + "?methodToCall=refresh&docFormKey=" + reportExportForm.getDocFormKey() 
-                + "&" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + "=" + reportExportForm.getUniversityFiscalYear()
-                + "&" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "=" + reportExportForm.getChartOfAccountsCode()
-                + "&" + KFSPropertyConstants.ACCOUNT_NUMBER + "=" + reportExportForm.getAccountNumber()
-                + "&" + KFSPropertyConstants.SUB_ACCOUNT_NUMBER + "=" + reportExportForm.getSubAccountNumber()
-                + "&" + BCConstants.Report.REPORT_MODE + "=" + reportExportForm.getReportMode();
-        }
-        
-        return new ActionForward(backUrl, true);
-    }
 }

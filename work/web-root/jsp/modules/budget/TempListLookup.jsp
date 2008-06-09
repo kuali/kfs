@@ -59,9 +59,23 @@
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonParams" />
 	</c:forEach>
 
-	<kul:errors errorTitle="Errors found in Search Criteria:" />
-	<kul:messages/>
-
+   	<table width="100%">
+		<tr>
+			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
+				height="20"></td>
+			<td>
+			<td>
+			   <br/>
+	           <kul:errors errorTitle="Errors Found:" />
+	           <kul:messages/>
+	
+	           <c:forEach items="${KualiForm.messages}" var="message">
+	             ${message}
+	          </c:forEach>
+            </td>
+         </tr>
+    </table>
+            
 	<table width="100%">
 		<tr>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
@@ -150,7 +164,8 @@
 				<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
 				id="row" export="true" pagesize="100"
-				requestURI="budgetTempListLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}">
+				excludedParams="*"
+				requestURI="budgetTempListLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&backLocation=${KualiForm.backLocation}&businessObjectClassName=${KualiForm.businessObjectClassName}&hideReturnLink=${KualiForm.hideReturnLink}&tempListLookupMode=${KualiForm.tempListLookupMode}&docFormKey=${KualiForm.formKey}&suppressActions=${KualiForm.suppressActions}">
 
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
           <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
@@ -190,7 +205,7 @@
 							<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
 						</display:column>
 					</c:if>
-					<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true && !KualiForm.multipleValues && KualiForm.showMaintenanceLinks}">
+					<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true}">
 						<display:column class="infocell" property="actionUrls"
 							title="Actions" media="html" />
 					</c:if>

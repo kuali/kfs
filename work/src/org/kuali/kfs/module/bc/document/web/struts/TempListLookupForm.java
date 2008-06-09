@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.core.web.struts.form.LookupForm;
 
 /**
@@ -29,6 +32,7 @@ public class TempListLookupForm extends LookupForm {
     private boolean reportConsolidation;
     private boolean showInitialResults;
     private int tempListLookupMode;
+    private List<String> messages;
 
     /**
      * Gets the currentPointOfViewKeyCode attribute.
@@ -172,6 +176,36 @@ public class TempListLookupForm extends LookupForm {
      */
     public void setTempListLookupMode(int tempListLookupMode) {
         this.tempListLookupMode = tempListLookupMode;
+    }
+
+    /**
+     * Gets the messages attribute.
+     * 
+     * @return Returns the messages.
+     */
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    /**
+     * Sets the messages attribute value.
+     * 
+     * @param messages The messages to set.
+     */
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
+    }
+    
+    /**
+     * Adds a message to the form message list.
+     * 
+     * @param message - message text to add
+     */
+    public void addMessage(String message) {
+        if (getMessages() == null) {
+            setMessages(new ArrayList<String>());
+        }
+        getMessages().add(message);
     }
 
 }

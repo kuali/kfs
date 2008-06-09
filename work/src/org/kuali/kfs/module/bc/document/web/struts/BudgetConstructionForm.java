@@ -51,11 +51,12 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
-    
+
     private boolean hideDetails = false;
     private boolean pickListClose = false;
 
     // passed parms
+    private String backLocation;
     private String returnAnchor;
     private String returnFormKey;
     private Integer universityFiscalYear;
@@ -84,7 +85,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
 
         super.populate(request);
-        
+
         // now run through PBGL rev and exp lines
         String methodToCall = this.getMethodToCall();
         BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
@@ -117,7 +118,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
             populatePBGLLines();
 
             setDocTypeName(discoverDocumentTypeName());
-            
+
         }
 
     }
@@ -214,8 +215,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateAuthorizationFields(org.kuali.core.document.authorization.DocumentAuthorizer)
-     * 
-     * Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
+     *      Additionally checks for BC specific exceptions throwing BudgetConstructionDocumentAuthorizationException appropos
      */
     @Override
     public void populateAuthorizationFields(DocumentAuthorizer documentAuthorizer) {
@@ -239,9 +239,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#useDocumentAuthorizer(org.kuali.core.document.authorization.DocumentAuthorizer)
-     * 
-     * Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags
-     * This uses the BC security model to setup the authorization state
+     *      Uses BudgetConstructionDocumentAuthorizer to get the editMode and set the action flags This uses the BC security model
+     *      to setup the authorization state
      */
     @Override
     protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
@@ -249,7 +248,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
         setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
-        
+
         // use BudgetConstructionDocumentAuthorizer method version using editingMode to set action flags
         setDocumentActionFlags(bcDocumentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser, getEditingMode()));
     }
@@ -428,42 +427,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * Gets the returnAnchor attribute.
-     * 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the returnFormKey attribute.
-     * 
-     * @return Returns the returnFormKey.
-     */
-    public String getReturnFormKey() {
-        return returnFormKey;
-    }
-
-    /**
-     * Sets the returnFormKey attribute value.
-     * 
-     * @param returnFormKey The returnFormKey to set.
-     */
-    public void setReturnFormKey(String returnFormKey) {
-        this.returnFormKey = returnFormKey;
-    }
-
-    /**
      * Gets the benefitsCalculationDisabled attribute.
      * 
      * @return Returns the benefitsCalculationDisabled.
@@ -516,5 +479,60 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public void setPickListClose(boolean pickListClose) {
         this.pickListClose = pickListClose;
     }
+
+    /**
+     * Gets the backLocation attribute.
+     * 
+     * @return Returns the backLocation.
+     */
+    public String getBackLocation() {
+        return backLocation;
+    }
+
+    /**
+     * Sets the backLocation attribute value.
+     * 
+     * @param backLocation The backLocation to set.
+     */
+    public void setBackLocation(String backLocation) {
+        this.backLocation = backLocation;
+    }
+
+    /**
+     * Gets the returnAnchor attribute.
+     * 
+     * @return Returns the returnAnchor.
+     */
+    public String getReturnAnchor() {
+        return returnAnchor;
+    }
+
+    /**
+     * Sets the returnAnchor attribute value.
+     * 
+     * @param returnAnchor The returnAnchor to set.
+     */
+    public void setReturnAnchor(String returnAnchor) {
+        this.returnAnchor = returnAnchor;
+    }
+
+    /**
+     * Gets the returnFormKey attribute.
+     * 
+     * @return Returns the returnFormKey.
+     */
+    public String getReturnFormKey() {
+        return returnFormKey;
+    }
+
+    /**
+     * Sets the returnFormKey attribute value.
+     * 
+     * @param returnFormKey The returnFormKey to set.
+     */
+    public void setReturnFormKey(String returnFormKey) {
+        this.returnFormKey = returnFormKey;
+    }
+
 
 }

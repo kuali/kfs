@@ -142,6 +142,9 @@
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
 		</property>
+		<property name="budgetConstructionLockDao">
+		    <ref bean="budgetConstructionLockDao" />
+		</property>
 	</bean>
 
 	<bean id="permissionService" class="org.kuali.module.budget.service.impl.PermissionServiceImpl">
@@ -240,6 +243,33 @@
 	<bean id="accountSelectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="accountSelectLookupableHelperService" />
+		</property>
+	</bean>	
+	
+	<bean id="lockMonitorLookupableHelperService" class="org.kuali.module.budget.web.lookupable.LockMonitorLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>			
+	</bean>
+
+	<bean id="lockMonitorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="lockMonitorLookupableHelperService" />
 		</property>
 	</bean>	
 
@@ -518,7 +548,7 @@
     	<ref bean="parameterService" />
     </property>
     </bean>
-    
+ 	
     <bean id="BudgetConstructionAccountSalaryDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSalaryDetailReportServiceImpl">
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
@@ -743,7 +773,7 @@
 	
 	<bean id="reportDumpDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.ReportDumpDaoJdbc">
     </bean>
-
+    
 	<bean id="budgetConstructionBatchHelperDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionBatchHelperDaoOjb">
 	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
 	    <property name="ojbOraclePlatform">
@@ -753,6 +783,10 @@
 	    <ref bean="mySqlIndicator" />
 	    </property>
 	</bean>
-	
-	
+
+    <bean id="budgetConstructionLockDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionLockDaoOjb">
+  		<property name="budgetConstructionDao">
+			<ref bean="budgetConstructionDao" />
+		</property>  
+    </bean>
 </beans>

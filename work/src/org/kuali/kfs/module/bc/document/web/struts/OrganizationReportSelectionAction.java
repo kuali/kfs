@@ -73,18 +73,8 @@ import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
 /**
  * Struts Action Class for the Organization Report Selection Screen.
  */
-public class OrganizationReportSelectionAction extends KualiAction {
+public class OrganizationReportSelectionAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReportSelectionAction.class);
-
-    /**
-     * Return to previous screen, Organization Selection screen.
-     */
-    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
-        String backUrl = organizationReportSelectionForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + organizationReportSelectionForm.getDocFormKey();
-
-        return new ActionForward(backUrl, true);
-    }
 
     /**
      * Called from org select or account listing. Checks for needed control list build, makes call to build control list if
@@ -330,7 +320,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationReportSelectionForm, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationReportSelectionForm, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationReportSelectionForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());

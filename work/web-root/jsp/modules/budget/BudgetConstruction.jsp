@@ -40,6 +40,7 @@
 		isTransactionalDocument="false" />
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
+	<html-el:hidden name="KualiForm" property="backLocation" />
 	<html-el:hidden name="KualiForm" property="pickListMode" />
 	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.benefitsCalcNeeded" />
 	<html-el:hidden name="KualiForm" property="budgetConstructionDocument.monthlyBenefitsCalcNeeded" />

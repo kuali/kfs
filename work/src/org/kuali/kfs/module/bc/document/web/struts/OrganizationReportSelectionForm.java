@@ -41,11 +41,7 @@ import org.kuali.module.budget.service.BudgetReportsControlListService;
 /**
  * Struts Action Form for the Organization Report Selection Screen.
  */
-public class OrganizationReportSelectionForm extends KualiForm {
-    private String backLocation;
-    private String returnAnchor;
-    private String docFormKey;
-
+public class OrganizationReportSelectionForm extends BudgetExpansionForm {
     private String reportMode;
     private Integer universityFiscalYear;
     private boolean reportConsolidation;
@@ -162,62 +158,7 @@ public class OrganizationReportSelectionForm extends KualiForm {
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
-
-    /**
-     * Gets the backLocation
-     * 
-     * @return Returns the backLocation
-     */
-    public String getBackLocation() {
-        return backLocation;
-    }
-
-    /**
-     * Sets the backLocation
-     * 
-     * @param backLocation The backLocation to set.
-     */
-    public void setBackLocation(String backLocation) {
-        this.backLocation = backLocation;
-    }
-
-
-    /**
-     * Gets the returnAnchor
-     * 
-     * @return Returns the returnAnchor
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the docFormKey
-     * 
-     * @return Returns the docFormKey
-     */
-    public String getDocFormKey() {
-        return docFormKey;
-    }
-
-    /**
-     * Sets the docFormKey
-     * 
-     * @param docFormKey The docFormKey to set.
-     */
-    public void setDocFormKey(String docFormKey) {
-        this.docFormKey = docFormKey;
-    }
-
+  
     /**
      * Gets the reportConsolidation
      * 

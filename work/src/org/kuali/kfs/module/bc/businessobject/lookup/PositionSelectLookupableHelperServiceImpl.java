@@ -82,7 +82,7 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
             // }
 
             // should be no return needed if opened in new window
-            parameters.put(BCConstants.RETURN_FORM_KEY, "88888888");
+            parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
 
             lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
 

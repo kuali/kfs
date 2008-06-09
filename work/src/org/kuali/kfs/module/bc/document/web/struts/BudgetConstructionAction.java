@@ -410,6 +410,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put("documentNumber", pbglLine.getDocumentNumber());
         parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
         parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
@@ -455,6 +456,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
         parameters.put("documentNumber", pbglLine.getDocumentNumber());
         parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
@@ -472,7 +474,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
@@ -578,7 +580,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         bcDoc.addPBGLLine(line, isRevenue);
 
         // adjust totals
-        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
             if (isRevenue) {
                 bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
             }
@@ -586,7 +588,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
             }
         }
-        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO) {
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
             if (isRevenue) {
                 bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().add(line.getFinancialBeginningBalanceLineAmount()));
             }
@@ -595,7 +597,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
-
+        
         // TODO add the decorator, if determined to be needed
 
     }
@@ -690,7 +692,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
 
         // adjust totals
-        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
             if (isRevenue) {
                 bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
             }
@@ -698,7 +700,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
             }
         }
-        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO) {
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
             if (isRevenue) {
                 bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
             }
@@ -706,7 +708,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
             }
         }
-
+        
         // remove the line
         if (isRevenue) {
             bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
@@ -843,6 +845,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put("documentNumber", tForm.getDocument().getDocumentNumber());
         parameters.put("universityFiscalYear", tForm.getUniversityFiscalYear().toString());
         parameters.put("chartOfAccountsCode", tForm.getChartOfAccountsCode());
@@ -855,9 +858,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetReportRunner.do", parameters);
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_RUNNER_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
 
@@ -902,7 +905,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             }
         }
-
+        
         // repop and refresh refs - esp monthly so jsp can properly display state
         tForm.populatePBGLLines();
 
@@ -925,8 +928,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-
-        if (isRevenue) {
+        
+        if (isRevenue){
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
         }
         else {

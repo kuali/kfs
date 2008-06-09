@@ -53,6 +53,7 @@
                 horizontal="true" colspan="3" >
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="backLocation" />
               <html:hidden property="universityFiscalYear" />
               <html:hidden property="chartOfAccountsCode" />
               <html:hidden property="accountNumber" />
@@ -60,7 +61,6 @@
               <html:hidden property="financialObjectCode" />
               <html:hidden property="financialSubObjectCode" />
               <html:hidden property="positionNumber" />
-              <html:hidden property="returnFormKey" />
               <html:hidden property="budgetByAccountMode" />
             </kul:htmlAttributeHeaderCell>
             <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -532,7 +532,6 @@
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].positionNumber" />
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].versionNumber" />
            </kul:htmlAttributeHeaderCell>
-           
            <bc:pbglLineDataCell dataCellCssClass="datacell"
                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentFundingDeleteIndicator"
@@ -662,10 +661,10 @@
         			fundingLineName="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
         		<br/>
         		</center>
-        	</td>            
+            </td>
         </tr>
         </c:forEach>
-        
+
         <tr>
         	<td colspan="12" style="width: 70%;"><center><br/>
         		<br/>

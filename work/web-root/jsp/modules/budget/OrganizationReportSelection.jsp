@@ -23,7 +23,7 @@
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 	<html-el:hidden name="KualiForm" property="backLocation" />
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
-	<html-el:hidden name="KualiForm" property="docFormKey" />
+	<html-el:hidden name="KualiForm" property="returnFormKey" />
 	<html-el:hidden name="KualiForm" property="reportMode" />
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
 	<html-el:hidden name="KualiForm" property="operatingModeTitle" />

@@ -16,7 +16,10 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -24,10 +27,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrTokenizer;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
@@ -38,14 +43,22 @@ import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAccountSelect;
 import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect;
+import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
 import org.kuali.module.budget.bo.BudgetConstructionPositionSelect;
+import org.kuali.module.budget.service.LockService;
 import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
 import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
 import org.kuali.module.budget.web.struts.form.TempListLookupForm;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborKeyConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Action class to display special budget lookup screens.
@@ -158,7 +171,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, tempListLookupForm.getFormKey());
+        parameters.put(BCConstants.RETURN_FORM_KEY, tempListLookupForm.getFormKey());
         parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + BCConstants.ORG_SEL_TREE_ACTION);
         if (tempListLookupForm.isReportConsolidation()) {
             parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
@@ -172,4 +185,139 @@ public class TempListLookupAction extends KualiLookupAction {
 
         return new ActionForward(lookupUrl, true);
     }
+    
+    /**
+     * Unlocks a current budget lock and returns back to lock monitor with refreshed locks.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        
+        // populate BudgetConstructionLockSummary with the information for the record to unlock (passed on unlock button)
+        String unlockKeyString = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isBlank(unlockKeyString)) {
+            unlockKeyString = request.getParameter(KNSConstants.METHOD_TO_CALL_PATH);
+        }
+        BudgetConstructionLockSummary lockSummary = populateLockSummary(unlockKeyString);
+        String lockKeyMessage = buildLockKeyMessage(lockSummary.getLockType(), lockSummary.getLockUserId(), lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getPositionNumber());
+        
+        // confirm the unlock
+        ActionForward forward = doUnlockConfirmation(mapping, form, request, response, lockSummary.getLockType(), lockKeyMessage);
+        if (forward != null) {
+            return forward;
+        }
+        
+        // verify lock for user still exists, if not give warning message
+        boolean lockExists = SpringContext.getBean(LockService.class).checkLockExists(lockSummary);
+        if (!lockExists) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_LOCK_NOTEXIST, lockSummary.getLockType(), lockKeyMessage);       
+        }
+        else {
+            // do the unlock
+            LockStatus lockStatus = SpringContext.getBean(LockService.class).doUnlock(lockSummary);
+            if (LockStatus.SUCCESS.equals(lockStatus)) {
+                String successMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_SUCCESSFUL);
+                tempListLookupForm.addMessage(MessageFormat.format(successMessage, lockSummary.getLockType(), lockKeyMessage));
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_UNLOCK_NOTSUCCESSFUL, lockSummary.getLockType(), lockKeyMessage);
+            }
+        }
+        
+        // refresh locks before returning
+        return this.search(mapping, form, request, response);
+    }    
+    
+
+    
+    /**
+     * Gives a confirmation first time called. The next time will check the confirmation result. If the returned forward is not null, that indicates we are fowarding to the question
+     * or they selected No to the confirmation and we should return to the unlock page.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward doUnlockConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String lockType, String lockKeyMessage) throws Exception {
+        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+     
+        if (question == null) { // question hasn't been asked
+            String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_CONFIRMATION);
+            message = MessageFormat.format(message, lockType, lockKeyMessage);
+
+            return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, "");
+        }
+        else {
+            // get result of confirmation, if yes return null which will indicate the unlock can continue
+            String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((BCConstants.UNLOCK_CONFIRMATION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                return null;
+            }
+        }
+
+        // selected no to confirmation so return to lock screen with refreshed results
+        return this.search(mapping, form, request, response);
+    }
+    
+    /**
+     * Parses the methodToCall parameter which contains the lock information in a known format. Populates a BudgetConstructionLockSummary
+     * that represents the record to unlock.
+     * 
+     * @param methodToCallString - request parameter containing lock information
+     * @return lockSummary populated from request parameter
+     */
+    protected BudgetConstructionLockSummary populateLockSummary(String methodToCallString) {
+        BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
+        
+        // parse lock fields from methodToCall parameter
+        String lockType = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String lockFieldsString = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        String lockUser = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL);
+    
+        // space was replaced by underscore for html
+        lockSummary.setLockType(StringUtils.replace(lockType,"_", " "));
+        lockSummary.setLockUserId(lockUser);
+        
+        // parse key fields
+        StrTokenizer strTokenizer = new StrTokenizer(lockFieldsString, "%");
+        strTokenizer.setIgnoreEmptyTokens(false);
+        String fiscalYear = strTokenizer.nextToken();
+        if (fiscalYear != null) {
+            lockSummary.setUniversityFiscalYear(Integer.parseInt(fiscalYear));
+        }
+
+        lockSummary.setChartOfAccountsCode(strTokenizer.nextToken());
+        lockSummary.setAccountNumber(strTokenizer.nextToken());
+        lockSummary.setSubAccountNumber(strTokenizer.nextToken());
+        lockSummary.setPositionNumber(strTokenizer.nextToken());
+        
+        return lockSummary;
+    }
+    
+    /**
+     * Retrieves the message text for the lock key and fills in message parameters based on the lock type.
+     * 
+     * @return lockKey built from given parameters
+     */
+    protected String buildLockKeyMessage(String lockType, String lockUserId, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String positionNumber) {
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+
+        String lockKeyMessage = "";
+        if (BCConstants.LockTypes.POSITION_LOCK.equals(lockType)) {
+            lockKeyMessage = kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_LOCK_POSITIONKEY);
+            lockKeyMessage = MessageFormat.format(lockKeyMessage, lockUserId, fiscalYear.toString(), positionNumber);
+        }
+        else if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
+            lockKeyMessage = kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_LOCK_POSITIONFUNDINGKEY);
+            lockKeyMessage = MessageFormat.format(lockKeyMessage, lockUserId, fiscalYear.toString(), positionNumber, chartOfAccountsCode, accountNumber, subAccountNumber);          
+        }
+        else {
+            lockKeyMessage = kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_LOCK_ACCOUNTKEY);
+            lockKeyMessage = MessageFormat.format(lockKeyMessage, lockUserId, fiscalYear.toString(), chartOfAccountsCode, accountNumber, subAccountNumber);
+        }
+
+        return lockKeyMessage;
+    }
+    
 }

@@ -21,6 +21,7 @@
         <ref bean="EffortCertificationPeriodStatusCode-versionNumber" />
       </list>
     </property>
+    <property name="titleAttribute" value="effortCertificationReportPeriodStatusCode"/>
   </bean>
 
 <!-- Attribute Definitions -->

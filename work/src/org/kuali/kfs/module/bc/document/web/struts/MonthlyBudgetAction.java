@@ -48,7 +48,7 @@ import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
 import org.kuali.module.budget.web.struts.form.MonthlyBudgetForm;
 
 
-public class MonthlyBudgetAction extends KualiAction {
+public class MonthlyBudgetAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetAction.class);
 
     /**
@@ -214,20 +214,8 @@ public class MonthlyBudgetAction extends KualiAction {
                 // else go to close logic below
             }
         }
-        return returnToCaller(monthlyBudgetForm);
-    }
-
-    public ActionForward returnToCaller(MonthlyBudgetForm monthlyBudgetForm) throws Exception {
-
-        // setup the return parms for the document and anchor
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, monthlyBudgetForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.MONTHLY_BUDGET_REFRESH_CALLER);
-
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
-        return new ActionForward(lookupUrl, true);
+        
+        return returnToCaller(mapping, form, request, response);
     }
 
     /**

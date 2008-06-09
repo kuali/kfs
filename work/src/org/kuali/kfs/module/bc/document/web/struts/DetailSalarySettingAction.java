@@ -52,7 +52,7 @@ import org.kuali.module.budget.web.struts.form.DetailSalarySettingForm;
 /**
  * the base struts action for the salary setting
  */
-public abstract class DetailSalarySettingAction extends KualiAction {
+public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
 
     /**
@@ -142,23 +142,6 @@ public abstract class DetailSalarySettingAction extends KualiAction {
         salarySettingForm.setOrgSalSetClose(true);
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * return to the caller screen
-     */
-    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
-        // setup the return parms for the document and anchor
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, salarySettingForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, salarySettingForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, salarySettingForm.getRefreshCallerName());
-
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.SALARY_SETTING_ACTION, parameters);
-        return new ActionForward(lookupUrl, true);
     }
 
     /**

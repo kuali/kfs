@@ -87,6 +87,14 @@ public interface BudgetConstructionDao {
      * @return Collection<BudgetConstructionFundingLock>
      */
     public Collection<BudgetConstructionFundingLock> getFlocksForAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
+    
+    /**
+     * Returns the position number associated with a funding lock or the not found string if the lock is an orphan.
+     * 
+     * @param budgetConstructionFundingLock - funding lock to get position for
+     * @return position number associated with lock
+     */
+    public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock);
 
     /**
      * Gets a BudgetConstructionPosition from the database by the primary key positionNumber, fiscalYear

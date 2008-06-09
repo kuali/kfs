@@ -53,7 +53,6 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRequestImportAction.class);
     
     public ActionForward start(ActionMapping arg0, ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
-        //super.execute(arg0, arg1, arg2, arg3);
         return arg0.findForward("import_export");
     }
 
@@ -125,35 +124,6 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
         budgetRequestImportService.generatePdf(messageList, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.REQUEST_IMPORT_OUTPUT_FILE);
         return null;
-    }
-    
-    /**
-     * returns to budget construction selection page without importing the file
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /*String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        String lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
-        
-        return new ActionForward(lookupUrl, true);*/
-        
-        BudgetConstructionRequestImportForm budgetConstructionImportForm = (BudgetConstructionRequestImportForm) form;
-        // setup the return parms for the document and anchor
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, budgetConstructionImportForm.getReturnFormKey());
-        parameters.put(KFSConstants.ANCHOR, budgetConstructionImportForm.getReturnAnchor());
-        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.REQUEST_IMPORT_REFRESH_CALLER);
-        
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-        return new ActionForward(lookupUrl, true);
     }
     
     /**

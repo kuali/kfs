@@ -22,6 +22,7 @@
 
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
+<html:hidden property="backLocation" />
 
 <html:hidden property="universityFiscalYear" />
 <html:hidden property="documentNumber" />
@@ -63,6 +64,7 @@
 			boClassSimpleName="Chart" readOnly="true" displayHidden="false" colSpan="1" 
 			lookupOrInquiryKeys="chartOfAccountsCode"
 			accountingLineValuesMap="${KualiForm.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+
 
 		<%-- Account Number and Name --%>
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 

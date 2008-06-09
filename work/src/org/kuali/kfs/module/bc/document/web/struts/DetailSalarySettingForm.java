@@ -39,7 +39,7 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
 /**
  * the base struts form for the salary setting
  */
-public abstract class DetailSalarySettingForm extends KualiForm {
+public abstract class DetailSalarySettingForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingForm.class);
     
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
@@ -49,8 +49,6 @@ public abstract class DetailSalarySettingForm extends KualiForm {
     protected Map<String, String> editingMode;
 
     // url parameters sent from BCDoc
-    private String returnAnchor;
-    private String returnFormKey;
     private boolean hideDetails = false;
 
     // set and pass these when budgetByAccountMode to prefill the add line
@@ -501,42 +499,6 @@ public abstract class DetailSalarySettingForm extends KualiForm {
      */
     public void setNewBCAFLine(PendingBudgetConstructionAppointmentFunding newBCAFLine) {
         this.newBCAFLine = newBCAFLine;
-    }
-
-    /**
-     * Gets the returnAnchor attribute.
-     * 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the returnFormKey attribute.
-     * 
-     * @return Returns the returnFormKey.
-     */
-    public String getReturnFormKey() {
-        return returnFormKey;
-    }
-
-    /**
-     * Sets the returnFormKey attribute value.
-     * 
-     * @param returnFormKey The returnFormKey to set.
-     */
-    public void setReturnFormKey(String returnFormKey) {
-        this.returnFormKey = returnFormKey;
     }
 
     /**

@@ -23,12 +23,13 @@
 	>
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
+              <html-el:hidden name="KualiForm" property="backLocation" />
               <html:hidden property="documentNumber" />
               <html:hidden property="universityFiscalYear" />
               <html:hidden property="chartOfAccountsCode" />
               <html:hidden property="accountNumber" />
               <html:hidden property="subAccountNumber" />
-
+	
     <bc:budgetConstructionReportDumpLines />
 
 	<kul:panelFooter />

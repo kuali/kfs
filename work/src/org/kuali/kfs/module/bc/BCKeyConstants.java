@@ -73,5 +73,12 @@ public class BCKeyConstants {
     public static final String ERROR_TEXT_DELIMITER_REQUIRED = "error.budget.requestImport.missingTextFieldDelimiter";
     public static final String ERROR_DISTINCT_DELIMITERS_REQUIRED = "error.budget.requestImport.nonDistinctDelimiters";
     public static final String ERROR_BUDGET_YEAR_REQUIRED = "error.budget.requestImport.missingBudgetYear";
+    public static final String MSG_UNLOCK_CONFIRMATION = "message.budget.lock.unlockConfirmation";
+    public static final String MSG_LOCK_NOTEXIST = "message.budget.lock.lockNotExist";
+    public static final String MSG_UNLOCK_SUCCESSFUL = "message.budget.lock.unlockSuccessful";
+    public static final String MSG_UNLOCK_NOTSUCCESSFUL = "message.budget.lock.unlockNotSuccessful";
+    public static final String MSG_LOCK_POSITIONKEY = "message.budget.lock.positionKey";
+    public static final String MSG_LOCK_POSITIONFUNDINGKEY = "message.budget.lock.positionFundingKey";
+    public static final String MSG_LOCK_ACCOUNTKEY = "message.budget.lock.accountKey";
 }
 

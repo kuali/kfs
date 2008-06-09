@@ -35,7 +35,7 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 /**
  * This class...
  */
-public class OrganizationSelectionTreeForm extends KualiForm {
+public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeForm.class);
 
     private BudgetConstructionOrganizationReports pointOfViewOrg;
@@ -50,8 +50,6 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private List pullFlagKeyLabels;
 
     // passed parms
-    private String returnAnchor;
-    private String returnFormKey;
     private String operatingMode;
 
     // holds the BC fiscal year that is currently active
@@ -168,42 +166,6 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setPointOfViewOrg(BudgetConstructionOrganizationReports pointOfViewOrg) {
         this.pointOfViewOrg = pointOfViewOrg;
-    }
-
-    /**
-     * Gets the returnAnchor attribute.
-     * 
-     * @return Returns the returnAnchor.
-     */
-    public String getReturnAnchor() {
-        return returnAnchor;
-    }
-
-    /**
-     * Sets the returnAnchor attribute value.
-     * 
-     * @param returnAnchor The returnAnchor to set.
-     */
-    public void setReturnAnchor(String returnAnchor) {
-        this.returnAnchor = returnAnchor;
-    }
-
-    /**
-     * Gets the returnFormKey attribute.
-     * 
-     * @return Returns the returnFormKey.
-     */
-    public String getReturnFormKey() {
-        return returnFormKey;
-    }
-
-    /**
-     * Sets the returnFormKey attribute value.
-     * 
-     * @param returnFormKey The returnFormKey to set.
-     */
-    public void setReturnFormKey(String returnFormKey) {
-        this.returnFormKey = returnFormKey;
     }
 
     /**

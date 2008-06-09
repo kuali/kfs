@@ -58,6 +58,7 @@
                 horizontal="true" colspan="3" >
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="backLocation" />
               <html:hidden property="universityFiscalYear" />
               <html:hidden property="chartOfAccountsCode" />
               <html:hidden property="accountNumber" />
@@ -65,7 +66,6 @@
               <html:hidden property="financialObjectCode" />
               <html:hidden property="financialSubObjectCode" />
               <html:hidden property="emplid" />
-              <html:hidden property="returnFormKey" />
               <html:hidden property="budgetByAccountMode" />
             </kul:htmlAttributeHeaderCell>
             <bc:pbglLineDataCell dataCellCssClass="datacell"

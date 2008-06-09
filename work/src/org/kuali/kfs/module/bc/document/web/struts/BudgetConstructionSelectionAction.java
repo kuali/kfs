@@ -44,8 +44,11 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelOpMode;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
 import org.kuali.module.budget.service.BudgetDocumentService;
+import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
+import org.kuali.module.chart.service.OrganizationService;
 
 
 /**
@@ -214,6 +217,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.ORG_SEL_TREE_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put("operatingMode", opMode.toString());
         parameters.put("universityFiscalYear", budgetConstructionSelectionForm.getUniversityFiscalYear().toString());
         // anchor, if it exists
@@ -238,13 +242,13 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     }
 
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetConstructionSelectionForm.getUniversityFiscalYear().toString());
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         //anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
@@ -254,11 +258,47 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REQUEST_IMPORT_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
-        
-        
-        
     }
 
+    /**
+     * Builds forward URL to lock monitor page, following expansion screen pattern. Also checks if the user has permission for the unlock action and sets the
+     * show action column property accordingly.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward performLockMonitor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.LOCK_MONITOR));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionLockSummary.class.getName());
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+
+        // check if current user is an budget approver at the top level (root) org
+        String[] chartOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
+        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(personUserIdentifier, chartOrg[0], chartOrg[1]);
+//        parameters.put(KFSConstants.SUPPRESS_ACTIONS, !isRootApprover);
+//        parameters.put(KFSConstants.SHOW_MAINTENANCE_LINKS, true);
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.put(KFSConstants.SHOW_MAINTENANCE_LINKS, "true");
+        
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
+        return new ActionForward(lookupUrl, true);
+    }
+    
     public ActionForward performOrgPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;

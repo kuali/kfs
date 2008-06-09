@@ -25,25 +25,8 @@
 	<html:hidden property="document.asset.loanReturnDate" />
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	<kul:tab tabTitle="Asset" defaultOpen="true"> 
-	    <div class="tab-container" align="center">
-	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-	      	<tr>
-				<td class="tab-subhead"  width="100%" colspan="4">Asset Information</td>
-			</tr>	
-		     <tr>
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
-		      	<td class="grid" width="75%" colspan="3">
-		      		<kul:htmlControlAttribute property="document.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" />
-				</td>		      	
-		     </tr>
-		      <tr>
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" /></th>
-		      	<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>		      	
-		     </tr>		    
-		  </table>   
-        </div>
-	  </kul:tab>
+    <cams:viewAssetDetails defaultTabHide="false" /> 
+	
 	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber,document.organizationOwnerChartOfAccountsCode,document.transferOfFundsFinancialDocumentNumber"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
@@ -92,8 +75,7 @@
 		</table>
 		</div>
 	 </kul:tab>
-	 <cams:viewAssetDetails defaultTabHide="true" /> 
-	  <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*"> 
+	 <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			

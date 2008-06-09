@@ -27,26 +27,7 @@
 	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-
-	<kul:tab tabTitle="Asset" defaultOpen="true"> 
-	    <div class="tab-container" align="center">
-	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-	      	<tr>
-				<td class="tab-subhead"  width="100%" colspan="4">Asset Information</td>
-			</tr>	
-		     <tr>
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
-		      	<td class="grid" width="75%" colspan="3">
-		      		<kul:htmlControlAttribute property="document.asset.capitalAssetNumber" attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true" />
-				</td>		      	
-		     </tr>
-		      <tr>
-		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" /></th>
-		      	<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>		      	
-		     </tr>		    
-		  </table>   
-        </div>
-	  </kul:tab>
+    <cams:viewAssetDetails defaultTabHide="false" /> 
 	     
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
@@ -56,8 +37,6 @@
 		extraHiddenFields=",paymentApplicationDate,transferPaymentIndicator,financialDocumentLineNumber"
 		sourceTotalsOverride="${KualiForm.assetPaymentTotals}">
 	</fin:accountingLines>
-	
-	<cams:viewAssetDetails defaultTabHide="true" /> 
 	
 	<cams:viewPayments defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />

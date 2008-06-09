@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-
-
 <kul:tabTop tabTitle="Org Selection" defaultOpen="true" tabErrorKey="orgSel">
 <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 	<div class="tab-container" align="center" id="G02" style="display: block;">

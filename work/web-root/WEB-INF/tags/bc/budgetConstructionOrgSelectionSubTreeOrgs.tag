@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-
 <div class="tab-container" align="center"> 
     <div class="tab-container-error">
     </div>
@@ -27,7 +26,7 @@
     		<th width="12">Selected</th>
             <th>&nbsp;</th>
             <th>Organization Sub-Tree</th>
-            <th width="200"><span class="grid">Action</span></th>
+            <th>Action</th>
        </tr>
 
         <%-- pullup selection data lines --%>
@@ -59,7 +58,6 @@
                 </kul:inquiry>&nbsp;
             </kul:htmlControlAttribute>
 			-
-
             <kul:htmlControlAttribute
                 property="selectionSubTreeOrgs[${status.index}].organizationCode"
                 attributeEntry="${pullupOrgAttributes.organizationCode}"
@@ -83,24 +81,21 @@
             <div align="center">
             <c:if test="${!item.leaf}">
                 <html:image property="methodToCall.navigateDown.line${status.index}.anchorselectionSubTreeOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-down.gif" title="Drill Down" alt="Drill Down" styleClass="tinybutton" />
-            </c:if>&nbsp;
+            </c:if>
             </div>
             </td>
 	    </tr>
-
         </c:forEach>
 
         <%-- TODO make this choose a tag passing in operating mode --%>
         <tr>
-
         <c:choose>
-
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET || KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS || KualiForm.operatingMode == BCConstants.OrgSelOpMode.ACCOUNT}">
       	     <td colspan="4" nowrap class="infoline">
       		   <div align="center">
                     <html:image property="methodToCall.selectAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select All" alt="Select All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
-                </div>
+               </div>
             </td>
             </c:when>
 
@@ -127,39 +122,15 @@
                 </div>
             </td>
             </c:when>
-
             <c:otherwise>
-            <td class="grid" valign="center" rowspan="1" colspan="1">&nbsp;</td>
+	            <td class="grid" valign="center" rowspan="1" colspan="1">&nbsp;</td>
             </c:otherwise>
-        </c:choose>
-
-        <td class="grid" valign="center" rowspan="1" colspan="5">
-            <kul:errors keyMatch="selectionSubTreeOrgs" errorTitle="Errors found in Organization Selection Control:" />&nbsp;
-        </td>
-
+	        </c:choose>
+		</tr>
+		<tr>
+        	<td class="grid" valign="center" rowspan="1" colspan="5">
+            	<kul:errors keyMatch="selectionSubTreeOrgs" errorTitle="Errors found in Organization Selection Control:" />&nbsp;
+        	</td>
         </tr>
-
-		
-		
-		
-		
 		</table>
 		</div>
-		
-		
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-
-

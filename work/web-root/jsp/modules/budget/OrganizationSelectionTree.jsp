@@ -42,10 +42,8 @@
     <c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
 		<bc:budgetConstructionOrgReportSelection />       
     </c:if>
-
-
+	<kul:panelFooter/>
     <div id="globalbuttons" class="globalbuttons">
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
     </div>
-
 </kul:page>

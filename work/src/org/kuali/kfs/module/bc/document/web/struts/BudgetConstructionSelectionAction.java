@@ -282,9 +282,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         String[] chartOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
         boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(personUserIdentifier, chartOrg[0], chartOrg[1]);
-//        parameters.put(KFSConstants.SUPPRESS_ACTIONS, !isRootApprover);
-//        parameters.put(KFSConstants.SHOW_MAINTENANCE_LINKS, true);
-        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!isRootApprover));
         parameters.put(KFSConstants.SHOW_MAINTENANCE_LINKS, "true");
         
         // anchor, if it exists

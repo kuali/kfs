@@ -80,7 +80,8 @@
               p:webUILeaveFieldFunction="setCustomerAddressName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerTypeCode" />
+              p:name="customerTypeCode"
+              p:required="true />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerActiveIndicator"
               p:defaultValue="true" />
@@ -112,15 +113,15 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="customerFederalIdentifierNumber" />            
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerTaxExemptIndicator" />
+              p:name="customerTaxExemptIndicator"
+              p:defaultValue="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerBirthDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerCreditApprovedByName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerCreditLimitAmount" />
-
-        <bean parent="MaintainableFieldDefinition"
+  <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>
     </property>

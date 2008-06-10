@@ -37,11 +37,16 @@
 				<ref bean="Customer-customerParentCompanyNumber" />
 				<ref bean="Customer-customerPhoneNumber" />
 				<ref bean="Customer-customerRecordAddDate" />
-				<ref
-					bean="Customer-customerSocialSecurityNumberIdentifier" />
+				<ref bean="Customer-customerSocialSecurityNumberIdentifier" />
 				<ref bean="Customer-customerTaxExemptIndicator" />
 				<ref bean="Customer-customerTypeCode" />
-				<ref bean="Customer-versionNumber" />
+				<ref bean="Customer-customerAddresses.customerAddressName" />
+			 	<ref bean="Customer-customerAddresses.customerLine1StreetAddress" />
+				<ref bean="Customer-customerAddresses.customerLine2StreetAddress" />
+				<ref bean="Customer-customerAddresses.customerCityName" />
+				<ref bean="Customer-customerAddresses.customerStateCode" />
+				<ref bean="Customer-customerAddresses.customerZipCode" />  
+                <ref bean="Customer-versionNumber" />
 			</list>
 		</property>
 		<property name="collections">
@@ -442,6 +447,42 @@
 	<bean id="Customer-versionNumber-parentBean" abstract="true"
 		parent="GenericAttributes-versionNumber">
 	</bean>
+	
+	<bean id="Customer-customerAddresses.customerAddressName" parent="Customer-customerAddresses.customerAddressName-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName">
+        <property name="name" value="customerAddresses.customerAddressName" />
+    </bean>
+    
+    <bean id="Customer-customerAddresses.customerLine1StreetAddress" parent="Customer-customerAddresses.customerLine1StreetAddress-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
+        <property name="name" value="customerAddresses.customerLine1StreetAddress" />
+    </bean>
+    
+    <bean id="Customer-customerAddresses.customerLine2StreetAddress" parent="Customer-customerAddresses.customerLine2StreetAddress-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
+        <property name="name" value="customerAddresses.customerLine2StreetAddress" />
+    </bean>
+    
+    	<bean id="Customer-customerAddresses.customerCityName" parent="Customer-customerAddresses.customerCityName-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName">
+        <property name="name" value="customerAddresses.customerCityName" />
+    </bean>
+    
+    <bean id="Customer-customerAddresses.customerStateCode" parent="Customer-customerAddresses.customerStateCode-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode">
+        <property name="name" value="customerAddresses.customerStateCode" />
+    </bean>
+    
+    <bean id="Customer-customerAddresses.customerZipCode" parent="Customer-customerAddresses.customerZipCode-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode">
+        <property name="name" value="customerAddresses.customerZipCode" />
+    </bean>
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -558,7 +599,7 @@
 										<bean parent="FieldDefinition"
 											p:attributeName="customerEmailAddress" />
 										<bean parent="FieldDefinition"
-											p:attributeName="customerAddressEndDate" />
+											p:attributeName="customerAddressEndDate" ></bean>
 									</list>
 								</property>
 								<property name="summaryFields">
@@ -622,13 +663,29 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition"
+					p:attributeName="customerTypeCode" />
+				<bean parent="FieldDefinition"
 					p:attributeName="customerName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerPhoneNumber" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="customerSocialSecurityNumberIdentifier" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerFederalIdentifierNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="customerActiveIndicator" />
+					p:attributeName="customerActiveIndicator" />	
+			    <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerAddressName" />	
+		        <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerLine1StreetAddress" />	
+		        <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerLine2StreetAddress" />
+		        <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerCityName" />
+		        <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerStateCode" />
+		        <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerZipCode" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -636,13 +693,17 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition"
+					p:attributeName="customerTypeCode" />
+				<bean parent="FieldDefinition"
 					p:attributeName="customerName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerPhoneNumber" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="customerSocialSecurityNumberIdentifier" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerFederalIdentifierNumber" />
 				<bean parent="FieldDefinition"
-					p:attributeName="customerActiveIndicator" />
+					p:attributeName="customerActiveIndicator" />		
 			</list>
 		</property>
 	</bean>

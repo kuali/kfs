@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.service.PersistenceService;
@@ -39,7 +38,6 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     
     private PersistenceService persistenceService;
 
-    @RawSQL
     public BudgetConstructionReasonStatisticsReportDaoJdbc() {
 
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);

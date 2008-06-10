@@ -17,7 +17,6 @@ package org.kuali.module.budget.dao.jdbc;
 
 import java.util.List;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.bo.BudgetConstructionAccountDump;
 import org.kuali.module.budget.dao.ReportDumpDao;
 
@@ -29,7 +28,6 @@ import org.kuali.module.budget.dao.ReportDumpDao;
 public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements ReportDumpDao {
     private static String updateAccountDump = new String();
 
-    @RawSQL
     public ReportDumpDaoJdbc() {
         super();
 

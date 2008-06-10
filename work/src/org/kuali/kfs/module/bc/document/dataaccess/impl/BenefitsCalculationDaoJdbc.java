@@ -20,7 +20,6 @@ import java.lang.StringBuilder;
 import java.util.ArrayList;
 
 import org.kuali.core.util.Guid;
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.core.service.PersistenceService;
 
@@ -52,7 +51,6 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      *  these will be set to constant values in the constructor and used throughout SQL for the various steps.
      */
 
-    @RawSQL
     public BenefitsCalculationDaoJdbc() {
 
         //this is a bean constructor, so it is dangerous to access static constants defined in other classes here.  the other classes may not have been loaded yet.
@@ -345,7 +343,6 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
     }
 
-    @RawSQL
     /**
      * @see org.kuali.module.budget.dao.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(String, Integer, String, String, String, String)
      */
@@ -382,7 +379,6 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      * 
      * @see org.kuali.module.budget.dao.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
         String idForSession = (new Guid()).toString();
 

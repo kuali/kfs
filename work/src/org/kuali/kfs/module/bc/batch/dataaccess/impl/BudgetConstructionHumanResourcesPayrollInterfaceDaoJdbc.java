@@ -26,7 +26,6 @@ import java.lang.StringBuilder;
 import java.sql.Types;
 
 import org.kuali.core.util.Guid;
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 import org.kuali.kfs.KFSConstants;
@@ -42,7 +41,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAdministrativePosts(java.lang.Integer)
      */
-    @RawSQL
     public void buildBudgetConstructionAdministrativePosts() {
       /**
        * this unrealistic implementation will simply clean out what is already there
@@ -55,7 +53,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAppointmentFundingReasons(java.lang.Integer)
      */
-    @RawSQL
     public void buildBudgetConstructionAppointmentFundingReasons(Integer requestFiscalYear) {
         /**
          * this unrealistic implementation will simply clean out what is already there
@@ -68,7 +65,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionIntendedIncumbent(java.lang.Integer)
      */
-    @RawSQL
     public void buildBudgetConstructionIntendedIncumbent(Integer requestFiscalYear) {
         /**
          * this unrealistic implementation will refresh all incumbents who presently exist in the CSF tracker, but
@@ -148,7 +144,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionPositionBaseYear(java.lang.Integer)
      */
-    @RawSQL
     public void buildBudgetConstructionPositionBaseYear(Integer baseFiscalYear) {
         StringBuilder sqlBuilder = new StringBuilder(2000);
         String defaultRCCd = new String("--");
@@ -218,7 +213,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionPositonRequestYear(java.lang.Integer)
      */
-    @RawSQL
     public void buildBudgetConstructionPositonRequestYear(Integer requestFiscalYear) {
         StringBuilder sqlBuilder = new StringBuilder(2500);
         // we build constants for DB independence.  we let the library decide how they should be represented in what is passed to the DB server
@@ -280,7 +274,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      *   In this placeholder code, we set these based on the salary plan and the position type.  At IU, there is a table containing salary plan and 
      *   grade that is shared by payroll and the budget to mandate the object class used for salary funding.
      */
-    @RawSQL
     private void setAcademicDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
@@ -299,7 +292,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         String sqlString = sqlBuilder.toString();
         getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear,salaryPlan);
     }
-    @RawSQL
     private void setMonthlyStaffOvertimeEligibleDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
@@ -319,7 +311,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear,salaryPlan[0],salaryPlan[1]);
     }
 
-    @RawSQL
     private void setMonthlyStaffOvertimeExemptDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
@@ -342,7 +333,6 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear,salaryPlan);
     }
     
-    @RawSQL
     private void setBiweeklyStaffDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence

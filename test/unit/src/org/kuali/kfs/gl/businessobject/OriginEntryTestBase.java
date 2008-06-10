@@ -35,7 +35,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -49,7 +48,6 @@ import org.kuali.test.ConfigureContext;
  * OriginEntryTestBase...the uberpowerful base of a lot of GL tests.  Basically, this class provides
  * many convenience methods for writing tests that test against large batches of origin entries.
  */
-@RawSQL
 @ConfigureContext
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.PersistenceService;
 
 import org.kuali.module.budget.dao.BudgetConstructionDocumentAccountObjectDetailReportDao;
@@ -24,7 +23,6 @@ import org.kuali.module.budget.BCConstants;
 import java.util.ArrayList;
 
 
-@RawSQL
 public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionDocumentAccountObjectDetailReportDao {
 
     private PersistenceService persistenceService;

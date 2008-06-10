@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
@@ -40,7 +39,6 @@ import org.kuali.test.ConfigureContext;
  * Tests the SufficientFundsRebuilderService
  */
 @ConfigureContext
-@RawSQL
 public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceTest.class);
 

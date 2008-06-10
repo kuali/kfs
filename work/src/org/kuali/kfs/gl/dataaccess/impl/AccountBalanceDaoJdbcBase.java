@@ -16,14 +16,12 @@
 package org.kuali.module.gl.dao.jdbc;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * A base class to support the JDBC operations done for AccountBalance inquiries
  */
-@RawSQL
 public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
     protected OptionsService optionsService;
     protected UniversityDateService universityDateService;
@@ -71,7 +69,6 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param sessionIdColumn the name of the column in the temporary table that holds the unique id of the inquiry
      * @param sessionId the unique id of the web session of the inquiring user
      */
-    @RawSQL
     protected void purgeCostShareEntries(String tableName, String sessionIdColumn, String sessionId) {
         getSimpleJdbcTemplate().update("DELETE FROM " + tableName + " WHERE " + sessionIdColumn + " = ? " + " AND EXISTS (SELECT 1 FROM ca_a21_sub_acct_t a " + " WHERE a.fin_coa_cd = " + tableName + ".fin_coa_cd AND a.account_nbr = " + tableName + ".account_nbr AND a.sub_acct_nbr = " + tableName + ".sub_acct_nbr AND a.sub_acct_typ_cd = 'CS')", sessionId);
     }
@@ -82,7 +79,6 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param sessionId the unique web id of the inquiring user
      * @return true if this inquiring user has temporary pending entries, false otherwise
      */
-    @RawSQL
     protected boolean hasEntriesInPendingTable(String sessionId) {
         return getSimpleJdbcTemplate().queryForInt("select count(*) as COUNT from gl_pending_entry_mt WHERE sesid = ?", sessionId) != 0;
     }
@@ -93,7 +89,6 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param universityFiscalYear the fiscal year to update all the temporary pending entries of this inquiry to
      * @param sessionId the unique web id of the inquiring user
      */
-    @RawSQL
     protected void fixPendingEntryDisplay(Integer universityFiscalYear, String sessionId) {
         getSimpleJdbcTemplate().update("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = ? where SESID = ?", universityFiscalYear, sessionId);
         getSimpleJdbcTemplate().update("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");
@@ -106,7 +101,6 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param sessionIdColumn the name of the unique field on that table
      * @param sessionId the unique value of the inquiry; basically, the unique web session id of the inquiring user
      */
-    @RawSQL
     protected void clearTempTable(String tableName, String sessionIdColumn, String sessionId) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + sessionIdColumn + " = ?", sessionId);
     }

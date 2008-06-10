@@ -17,7 +17,6 @@ package org.kuali.module.budget.dao.jdbc;
 
 import java.util.List;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.module.budget.BCConstants.Report.BuildMode;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
@@ -41,7 +40,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     private static String updateReportsSelectedObjectCodeFlags = new String();
     private static String updateReportsSelectedReasonCodeFlags = new String();
 
-    @RawSQL
     public BudgetReportsControlListDaoJdbc() {
         // get the accounts for the selected org(s)
         StringBuilder sqlText = new StringBuilder(500);

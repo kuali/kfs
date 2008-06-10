@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao;
 
 /**
@@ -29,7 +28,6 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
 
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
 
-    @RawSQL
     public OrganizationBCDocumentSearchDaoJdbc() {
 
         StringBuilder sqlText = new StringBuilder(500);
@@ -123,7 +121,6 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
-    @RawSQL
     public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
         LOG.debug("buildAccountSelectPullList() started");
 
@@ -135,7 +132,6 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public int buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
         LOG.debug("buildBudgetedAccountsAbovePointsOfView() started");
 

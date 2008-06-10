@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
@@ -35,7 +34,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 /**
  * A class to do the database queries needed to calculate Balance By Consolidation Balance Inquiry Screen
  */
-@RawSQL
 public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBase implements AccountBalanceConsolidationDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceConsolidationDaoJdbc.class);
 
@@ -52,7 +50,6 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @return a List of Maps with the report information from this inquiry
      * @see org.kuali.module.gl.dao.AccountBalanceConsolidationDao#findAccountBalanceByConsolidationObjectTypes(java.lang.String[], java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    @RawSQL
     public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByConsolidationObjectTypes() started");
 
@@ -123,7 +120,6 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param sessionId the unique session id of the web session of the currently inquiring users, so temp table entries have a unique identifier 
      * @return true if pending entries exist that would affect this inquiry, false otherwise
      */
-    @RawSQL
     private boolean getMatchingPendingEntriesByConsolidation(String[] objectTypes, Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByConsolidation() started");
 
@@ -186,7 +182,6 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param options the system options of the fiscal year that is being inquired upon
      * @param sessionId the session id of the inquiring user, for a unique primary key in the temporary tables
      */
-    @RawSQL
     private void summarizePendingEntriesByConsolidation(Options options, String sessionId) {
         LOG.debug("summarizePendingEntriesByConsolidation() started");
 

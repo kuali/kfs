@@ -29,7 +29,6 @@ import org.kuali.module.budget.dao.ojb.GenesisDaoOjb;
 import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.BCConstants;
 
-import org.kuali.core.dbplatform.RawSQL;
 
 import org.kuali.core.service.PersistenceService;
 
@@ -52,7 +51,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     
     private PersistenceService persistenceService;
     
-    @RawSQL
     public BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc()
     {
 
@@ -203,7 +201,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsDeleteRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)  {
 
         // get the revenue object types as an SQL IN list
@@ -223,7 +220,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsDeleteExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // get the expenditure object types as an SQL IN list
@@ -243,7 +239,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsSpreadRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
     
         // for revenue, we delete all existing rows, and spread all the corresponding rows in the general ledger
@@ -271,7 +266,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsSpreadExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // spread general ledger expenditures across 12 months, excluding benefits object types.  benefits object expenditure will be recalculated and spread later, because several object codes eligible for benefits can target the same fringe benefit object
@@ -299,7 +293,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * 
      *  return true if there are benefits object codes in the general ledger for the document, false otherwise
      */
-    @RawSQL
     private boolean budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String BenefitsObjectsCheckSQL, String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         Long numberOfBenefitsEligibleRows = getSimpleJdbcTemplate().queryForLong(BenefitsObjectsCheckSQL,documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);

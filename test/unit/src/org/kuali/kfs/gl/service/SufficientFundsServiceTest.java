@@ -18,7 +18,6 @@ package org.kuali.module.gl.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
@@ -33,7 +32,6 @@ import org.kuali.test.ConfigureContext;
  * @see org.kuali.module.gl.service.SufficientFundsService
  */
 @ConfigureContext
-@RawSQL
 public class SufficientFundsServiceTest extends KualiTestBase {
 
     private SufficientFundsService sufficientFundsService = null;

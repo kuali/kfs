@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.PersistenceService;
 
 import org.kuali.module.budget.dao.BudgetConstructionSynchronizationProblemsReportDao;
@@ -36,7 +35,6 @@ public class BudgetConstructionSynchronizationProblemsReportDaoJdbc extends Budg
     
     private PersistenceService persistenceService;
 
-    @RawSQL
     public BudgetConstructionSynchronizationProblemsReportDaoJdbc() {
         
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(2);

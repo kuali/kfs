@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.StringBuilder;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.service.PersistenceService;
 
@@ -395,7 +394,6 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String)
      */
-    @RawSQL
     public void updateGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
         String  idForSession      = (new Guid()).toString();
         ArrayList<String> inLists = new ArrayList<String>(2);

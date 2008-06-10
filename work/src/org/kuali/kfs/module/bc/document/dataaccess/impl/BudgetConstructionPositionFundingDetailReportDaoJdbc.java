@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.service.PersistenceService;
@@ -36,7 +35,6 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     
     private PersistenceService persistenceService;
     
-    @RawSQL
     public BudgetConstructionPositionFundingDetailReportDaoJdbc() {
         
         /* populate the table based on threshold settings */

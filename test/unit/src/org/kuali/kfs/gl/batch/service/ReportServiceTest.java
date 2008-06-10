@@ -18,7 +18,6 @@ package org.kuali.module.gl.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
@@ -28,7 +27,6 @@ import org.kuali.test.ConfigureContext;
  * A test that allows manual testing of report generation for nightly out (ie, creates results and then people can look at those results and make certain they were expected)
  */
 @ConfigureContext
-@RawSQL
 public class ReportServiceTest extends KualiTestBase {
 
     private NightlyOutService nightlyOutService;

@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
@@ -33,7 +32,6 @@ import org.kuali.test.ConfigureContext;
  * Tests the PurgeStep
  */
 @ConfigureContext
-@RawSQL
 public class PurgeTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeTest.class);
 

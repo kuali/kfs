@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao;
 
@@ -33,7 +32,6 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     private static String[] populateSelectedPositionOrgsSubTreeTemplates = new String[1];
     private static String[] populatePositionSelectForSubTreeTemplates = new String[7];
     
-    @RawSQL
     public OrganizationSalarySettingSearchDaoJdbc() {
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -198,7 +196,6 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
      * @see org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao#buildIntendedIncumbentSelect(java.lang.String,
      *      java.lang.Integer)
      */
-    @RawSQL
     public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear) {
 
         LOG.debug("buildIntendedIncumbentSelect() started");
@@ -229,7 +226,6 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         clearTempTableBySesId("ld_bcn_build_pos_sel01_mt", "SESID", sessionId);
     }
 
-    @RawSQL
     private void initSelectedPositionOrgs(String sessionId, String personUserIdentifier) {
 
         int currentLevel = 0;
@@ -241,7 +237,6 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         }
     }
 
-    @RawSQL
     private void populateSelectedPositionOrgsSubTree(int previousLevel, String sessionId) {
 
         if (previousLevel <= MAXLEVEL) {
@@ -259,7 +254,6 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         }
     }
 
-    @RawSQL
     private void populatePositionSelectForSubTree(String sessionId, String personUserIdentifier, Integer universityFiscalYear) {
 
         // insert actives that are funded with person or vacant

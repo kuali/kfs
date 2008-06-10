@@ -25,14 +25,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.gl.dao.YearEndDao;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
  * A JDBC implementation of the YearEndDao, built mainly because OJB is darn slow at some queries
  */
-@RawSQL
 public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndDao {
 
     // All of the Comparators and RowMappers are stateless, so I can simply create them as variables and avoid unnecessary object
@@ -78,7 +76,6 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @return a Set of Maps holding the primary keys of missing prior year accounts
      * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingPriorYearAccountsForBalances(java.lang.Integer)
      */
-    @RawSQL
     public Set<Map<String, String>> findKeysOfMissingPriorYearAccountsForBalances(Integer balanceFiscalYear) {
         // 1. get a sorted list of the prior year account keys that are used by balances for the given fiscal year
         List priorYearKeys = getJdbcTemplate().query("select distinct fin_coa_cd, account_nbr from gl_balance_t where univ_fiscal_yr = ? order by fin_coa_cd, account_nbr", new Object[] { balanceFiscalYear }, priorYearAccountRowMapper);
@@ -94,7 +91,6 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @param priorYearKeys the prior year keys to search for
      * @return the set of those prior year accounts that are missing
      */
-    @RawSQL
     private Set<Map<String, String>> selectMissingPriorYearAccounts(List priorYearKeys) {
         Set<Map<String, String>> missingPriorYears = new TreeSet<Map<String, String>>(priorYearAccountPrimaryKeyComparator);
         for (Object priorYearKeyAsObject : priorYearKeys) {
@@ -114,7 +110,6 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @return a Set of Maps holding the primary keys of missing sub fund groups
      * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingSubFundGroupsForBalances(java.lang.Integer)
      */
-    @RawSQL
     public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForBalances(Integer balanceFiscalYear) {
         // see algorithm for findKeysOfMissingPriorYearAccountsForBalances
         List subFundGroupKeys = getJdbcTemplate().query("select distinct ca_prior_yr_acct_t.sub_fund_grp_cd from ca_prior_yr_acct_t, gl_balance_t where ca_prior_yr_acct_t.fin_coa_cd = gl_balance_t.fin_coa_cd and ca_prior_yr_acct_t.account_nbr = gl_balance_t.account_nbr and gl_balance_t.univ_fiscal_yr = ? and ca_prior_yr_acct_t.sub_fund_grp_cd is not null order by ca_prior_yr_acct_t.sub_fund_grp_cd", new Object[] { balanceFiscalYear }, subFundGroupRowMapper);
@@ -128,7 +123,6 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @param subFundGroupKeys the list of sub fund group keys to search through
      * @return a set of those sub fund group keys that are missing
      */
-    @RawSQL
     private Set<Map<String, String>> selectMissingSubFundGroups(List subFundGroupKeys) {
         Set<Map<String, String>> missingSubFundGroups = new TreeSet<Map<String, String>>(subFundGroupPrimaryKeyComparator);
         for (Object subFundGroupKeyAsObject : subFundGroupKeys) {
@@ -148,7 +142,6 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @return a Set of Maps holding the primary keys of missing prior year accounts
      * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingPriorYearAccountsForOpenEncumbrances(java.lang.Integer)
      */
-    @RawSQL
     public Set<Map<String, String>> findKeysOfMissingPriorYearAccountsForOpenEncumbrances(Integer encumbranceFiscalYear) {
         List priorYearKeys = getJdbcTemplate().query("select distinct fin_coa_cd, account_nbr from gl_encumbrance_t where univ_fiscal_yr = ? and acln_encum_amt <> acln_encum_cls_amt order by fin_coa_cd, account_nbr", new Object[] { encumbranceFiscalYear }, priorYearAccountRowMapper);
         return selectMissingPriorYearAccounts(priorYearKeys);
@@ -161,7 +154,6 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @return a Set of Maps holding the primary keys of missing sub fund group records
      * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingSubFundGroupsForOpenEncumbrances(java.lang.Integer)
      */
-    @RawSQL
     public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForOpenEncumbrances(Integer encumbranceFiscalYear) {
         List subFundGroupKeys = getJdbcTemplate().query("select distinct ca_prior_yr_acct_t.sub_fund_grp_cd from ca_prior_yr_acct_t, gl_encumbrance_t where ca_prior_yr_acct_t.fin_coa_cd = gl_encumbrance_t.fin_coa_cd and ca_prior_yr_acct_t.account_nbr = gl_encumbrance_t.account_nbr and gl_encumbrance_t.univ_fiscal_yr = ? and gl_encumbrance_t.acln_encum_amt <> gl_encumbrance_t.acln_encum_cls_amt and ca_prior_yr_acct_t.sub_fund_grp_cd is not null order by ca_prior_yr_acct_t.sub_fund_grp_cd", new Object[] { encumbranceFiscalYear }, subFundGroupRowMapper);
         return selectMissingSubFundGroups(subFundGroupKeys);

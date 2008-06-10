@@ -24,7 +24,6 @@ import java.sql.Date;
 import org.kuali.kfs.service.ParameterService;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.core.dbplatform.RawSQL;
 
 import org.apache.log4j.Logger;
 
@@ -48,12 +47,10 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
     private  StringBuilder[] ansi92SubString = {new StringBuilder("SUBSTRING("),new StringBuilder(" FROM "), new StringBuilder(" FOR "), new StringBuilder(")")};
     private  String          dateFetcher     = new String("SELECT MIN(UNIV_DT) FROM SH_UNIV_DATE_T WHERE (UNIV_FISCAL_YR = ?)");
     
-    @RawSQL
     protected void clearTempTableByUnvlId(String tableName, String personUnvlIdColumn, String personUserIdentifier) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + personUnvlIdColumn + " = ?", personUserIdentifier);
     }
 
-    @RawSQL
     protected void clearTempTableBySesId(String tableName, String SesIdColumn, String sessionId) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + SesIdColumn + " = ?", sessionId);
     }
@@ -64,7 +61,6 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param parameterCount the number of parameters in the IN clause
      * @return the String (?,?,?) with the correct nubmer of parameters
      */       
-    @RawSQL
     protected String inString(Integer parameterCount)
     {
         // there should be at least one parameter in the IN string
@@ -89,7 +85,6 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param inListValues: components of the IN list
      * @return an empty string if the IN list will be empty
      */
-    @RawSQL
     protected String inString (List<String> inListValues)
     {
         // the delimiter for strings in the DB is assumed to be a single quote.

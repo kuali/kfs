@@ -18,7 +18,6 @@ package org.kuali.module.budget.dao.jdbc;
 import java.util.ArrayList;
 
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.core.service.PersistenceService;
 
@@ -40,7 +39,6 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
     private PersistenceService persistenceService;
 
 
-    @RawSQL
     public BudgetConstructionLevelSummaryReportDaoJdbc() {
 
         // builds and updates LevelSummaryReports

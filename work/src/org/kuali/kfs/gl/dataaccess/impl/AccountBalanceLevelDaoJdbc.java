@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
@@ -36,7 +35,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 /**
  * Calculate Balance By Level Balance Inquiry Screen
  */
-@RawSQL
 public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implements AccountBalanceLevelDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceLevelDaoJdbc.class);
 
@@ -53,7 +51,6 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @return a List of Maps with appropriate report data
      * @see org.kuali.module.gl.dao.AccountBalanceLevelDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    @RawSQL
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
 
         // Set the default sort so that income entries are first, then expense below.
@@ -109,7 +106,6 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param options a given set of system options
      * @param sessionId the unique web id of the currently inquiring user, which acts as a key for the temporary table
      */
-    @RawSQL
     private void summarizePendingEntriesByLevel(Options options, String sessionId) {
         LOG.debug("summarizePendingEntriesByLevel() started");
 
@@ -232,7 +228,6 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param sessionId the unique web id of the currently inquiring user, used as a key for the temporary tables
      * @return true if summarization process found pending entries to process, false otherwise
      */
-    @RawSQL
     private boolean getMatchingPendingEntriesByLevel(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByLevel() started");
 

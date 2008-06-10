@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCConstants.OrgSelControlOption;
@@ -33,7 +32,6 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
 
     private static String[] pushdownSelectedOrganizationDocumentsTemplates = new String[11];
 
-    @RawSQL
     public BudgetOrganizationPushPullDaoJdbc() {
 
         // get accounts for selected orgs and attach the pull_flag setting
@@ -450,7 +448,6 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.module.budget.dao.BudgetOrganizationPushPullDao#pullupSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
         String sessionId = new Guid().toString();
@@ -476,7 +473,6 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.module.budget.dao.BudgetOrganizationPushPullDao#pushdownSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    @RawSQL
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
         String sessionId = new Guid().toString();

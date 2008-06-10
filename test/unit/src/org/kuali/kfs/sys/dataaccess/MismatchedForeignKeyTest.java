@@ -20,14 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.dbplatform.KualiDBPlatformOracle;
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
-@RawSQL
 public class MismatchedForeignKeyTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MismatchedForeignKeyTest.class);
 

@@ -15,11 +15,10 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.dao.BudgetPullupDao;
 
 /**
- * This class implemements BudgetPullupDao using RawSql
+ * This class implemements BudgetPullupDao using Raw Sql
  */
 public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetPullupDao {
 
@@ -29,7 +28,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
     private static String[] initPointOfViewTemplates = new String[1];
     private static String[] insertChildOrgTemplates = new String[2];
     
-    @RawSQL
     public BudgetPullupDaoJdbc() {
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -69,7 +67,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.module.budget.dao.BudgetPullupDao#initPointOfView(java.lang.String, java.lang.String, java.lang.String, int)
      */
-    @RawSQL
     public void initPointOfView(String personUserIdentifier, String chartOfAccountsCode, String organizationCode, int currentLevel) {
    
         LOG.debug("initPointOfView() called");
@@ -82,7 +79,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.module.budget.dao.BudgetPullupDao#insertChildOrgs(java.lang.String, int)
      */
-    @RawSQL
     public void insertChildOrgs(String personUserIdentifier, int previousLevel) {
         
         LOG.debug("insertChildOrgs() called");

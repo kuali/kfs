@@ -54,8 +54,8 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
         // retrieve report mode to titles for export screen
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(reportDumpForm.getReportMode());
         if (reportMode == null) {
-            LOG.error("Invalid report mode passed to report dump action: " + reportDumpForm.getReportMode());
-            throw new RuntimeException("Invalid report mode passed to report dump action: " + reportDumpForm.getReportMode());
+            LOG.error("Invalid report mode passed to report export action: " + reportDumpForm.getReportMode());
+            throw new RuntimeException("Invalid report mode passed to report export action: " + reportDumpForm.getReportMode());
         }
 
         switch (reportMode) {

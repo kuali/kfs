@@ -87,22 +87,6 @@ public class SchedulerServiceImpl implements SchedulerService {
         catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
-        for (String jobName : (List<String>) BatchSpringContext.getBatchComponents().get(JobDescriptor.class.getName())) {
-            try {
-                loadJob(BatchSpringContext.getJobDescriptor(jobName));
-            }
-            catch (NoSuchBeanDefinitionException ex) {
-                LOG.error("unable to find job bean definition for job: " + ex.getBeanName(), ex);
-            }
-        }
-        for (String triggerName : (List<String>) BatchSpringContext.getBatchComponents().get(TriggerDescriptor.class.getName())) {
-            try {
-                addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
-            }
-            catch (NoSuchBeanDefinitionException ex) {
-                LOG.error("unable to find trigger definition: " + ex.getBeanName(), ex);
-            }
-        }
         for (KualiModule module : moduleService.getInstalledModules()) {
             LOG.info("Loading scheduled jobs for: " + module.getModuleId());
             for (String jobName : module.getJobNames()) {

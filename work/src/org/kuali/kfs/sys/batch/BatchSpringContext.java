@@ -20,10 +20,6 @@ import java.util.Map;
 import org.kuali.kfs.context.SpringContext;
 
 public class BatchSpringContext {
-    public static Map getBatchComponents() {
-        return SpringContext.getBeansOfType(Map.class).get("kfsBatchComponents");
-    }
-
     public static Step getStep(String beanId) {
         return SpringContext.getBeansOfType(Step.class).get(beanId);
     }

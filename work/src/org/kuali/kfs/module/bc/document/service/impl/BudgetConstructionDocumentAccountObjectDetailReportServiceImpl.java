@@ -72,14 +72,18 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    private void buildReportsHeader(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
-        accountMonthlyDetailReport.setUniversityFiscalYear(bcMonthly.getUniversityFiscalYear());
-        accountMonthlyDetailReport.setChartOfAccountsCode(bcMonthly.getChartOfAccountsCode());
-        accountMonthlyDetailReport.setAccountNumber(bcMonthly.getAccountNumber());
-        accountMonthlyDetailReport.setSubAccountNumber(bcMonthly.getSubAccountNumber());
-        accountMonthlyDetailReport.setAccountName(bcMonthly.getAccount().getAccountName());
+    private void buildReportsHeader(BudgetConstructionBalanceByAccount balanceByAccount, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
+        accountMonthlyDetailReport.setUniversityFiscalYear(balanceByAccount.getUniversityFiscalYear());
+        accountMonthlyDetailReport.setChartOfAccountsCode(balanceByAccount.getChartOfAccountsCode());
+        balanceByAccount.getAccount().getOrganizationCode();
+        balanceByAccount.getAccount().getOrganization().getOrganizationName();
+        balanceByAccount.getAccount().getSubFundGroup().getFundGroupCode();
+        balanceByAccount.getAccount().getSubFundGroup().getFundGroup().getName();
+        accountMonthlyDetailReport.setAccountNumber(balanceByAccount.getAccountNumber());
+        accountMonthlyDetailReport.setSubAccountNumber(balanceByAccount.getSubAccountNumber());
+        accountMonthlyDetailReport.setAccountName(balanceByAccount.getAccount().getAccountName());
         try {
-            accountMonthlyDetailReport.setSubAccountName(bcMonthly.getSubAccount().getSubAccountName());
+            accountMonthlyDetailReport.setSubAccountName(balanceByAccount.getSubAccount().getSubAccountName());
         }
         catch (Exception e) {
             accountMonthlyDetailReport.setSubAccountName("");

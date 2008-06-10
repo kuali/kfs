@@ -26,6 +26,7 @@ import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
@@ -46,6 +47,11 @@ import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<TransactionalDocument>,
                                                                                              RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>,
                                                                                              ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
+    /**
+     * SAVE
+     * 
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
@@ -55,6 +61,11 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return isValid;
     }
     
+    /**
+     * SUBMIT
+     * 
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
@@ -74,9 +85,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
       
     private boolean checkReferenceInvoiceNumber(CustomerCreditMemoDocument document) {
-        boolean isValid = false;
-        return isValid;
-        
+       return true;
     }
     
     /**
@@ -218,7 +227,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
    
         success = checkIfInvoiceNumberIsValid(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
         if (success)
-            success = checkIfThereIsAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument.getInvoice());
+            success = checkIfThereIsAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument);
         
         return success;
     }
@@ -247,8 +256,13 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
      * @param invoice
      * @return
      */
-    private boolean checkIfThereIsAnotherCRMInRouteForTheInvoice(CustomerInvoiceDocument invoice) {
+    private boolean checkIfThereIsAnotherCRMInRouteForTheInvoice(CustomerCreditMemoDocument customerCreditMemoDocument) {
         boolean success = true;
+        /*
+        KualiWorkflowDocument workflowDocument = customerCreditMemoDocument.getDocumentHeader().getWorkflowDocument();
+        if (ObjectUtils.isNotNull(workflowDocument)) {
+            if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCancelled() || workflowDocument.stateIsDisapproved())
+        }
         
         /* TODO
         *if (ObjectUtils.isNotNull(invoice.getRefCreditMemoNumber)) {

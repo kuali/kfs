@@ -17,7 +17,7 @@
 
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
-<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />          
+<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />       
               
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS}">
     <div class="tab-container" align=center>		
@@ -43,8 +43,9 @@
 				name="KualiForm"
 				property="document.creditMemoDetails"
 				indexId="ctr">
+						<c:set var="accountingLineIndex" value="${KualiForm.document.creditMemoDetails[ctr].accountingLineIndexForCorrespondingInvoiceDetail}" />
 						<ar:customerCreditMemoDetail
-							invPropertyName="document.invoice.sourceAccountingLine[${ctr}]"
+							invPropertyName="document.invoice.sourceAccountingLine[${accountingLineIndex}]"
 							crmPropertyName="document.creditMemoDetails[${ctr}]" 
 			        		refreshMethod="refreshCustomerCreditMemoDetail.line${ctr}"
 			        		recalculateMethod="recalculateCustomerCreditMemoDetail.line${ctr}"

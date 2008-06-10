@@ -241,7 +241,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         for (InvoicePaidApplied invoicePaidApplied : results) {
             appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
             if (ObjectUtils.isNotNull(appliedAmount))
-                totalAppliedAmount.add(appliedAmount);
+                totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
         }
         invoiceItemAmount = customerInvoiceDetail.getAmount();
         openInvoiceAmount = invoiceItemAmount.subtract(totalAppliedAmount);

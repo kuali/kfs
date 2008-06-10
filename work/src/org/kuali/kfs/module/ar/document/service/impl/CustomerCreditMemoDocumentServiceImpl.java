@@ -45,7 +45,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
             // no data entered for the current credit memo detail -> no processing needed
             itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
-            customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
+            customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
             if (ObjectUtils.isNull(itemQuantity) && ObjectUtils.isNull(customerCreditMemoDetailItemAmount)) {
                 customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(null);
                 continue;

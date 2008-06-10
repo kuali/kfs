@@ -25,7 +25,9 @@
 <%@ attribute name="cssClass" required="true"%>
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
-<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" /> 
+<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />
+
+<html:hidden property="${crmPropertyName}.accountingLineIndexForCorrespondingInvoiceDetail" /> 
 
 <tr>
 	<!--  Line Number -->

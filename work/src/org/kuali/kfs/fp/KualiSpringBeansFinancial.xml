@@ -413,6 +413,5 @@
 	<import resource="document/validation/configuration/TransferOfFundsValidation.xml" />
 	<import resource="document/validation/configuration/AuxiliaryVoucherValidation.xml" />
 	<import resource="document/validation/configuration/CashReceiptValidation.xml" />
-	<import resource="document/validation/configuration/AssetPaymentValidation.xml" />
 	
 </beans>

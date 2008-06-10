@@ -19,11 +19,21 @@ import java.beans.PropertyDescriptor;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+/**
+ * This class is a utility which will do copying of attributes from a original object to destination object. Intention was to
+ * provide a attribute value copying mechanism which is less expensive than ObjectUtils.deepCopy() method
+ */
 public final class ObjectValueUtils {
 
     private ObjectValueUtils() {
     }
 
+    /**
+     * This method use simple getter/setter methods copy object values from a source object to target object
+     * 
+     * @param origin original object
+     * @param destination destination object
+     */
     public static void copySimpleProperties(Object origin, Object destination) {
         try {
             Object[] empty = new Object[] {};

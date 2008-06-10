@@ -48,6 +48,7 @@ public class BCKeyConstants {
     public static final String ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION = "error.budget.report.gettingSubAccountDescription";
     public static final String ERROR_REPORT_GETTING_ORGANIZATION_NAME = "error.budget.report.gettingOrganizationName";
     public static final String ERROR_REPORT_GETTING_FUNDGROUP_NAME = "error.budget.report.gettingFundGroupName";
+    public static final String ERROR_REPORT_GETTING_FUNDGROUP_CODE = "error.budget.report.gettingFundGroupCode";
     public static final String ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION = "error.budget.report.gettingSubFundGroupDescription";
     public static final String MSG_REPORT_HEADER_ACCOUNT_SUB = "message.budget.report.header.accountSub";
     public static final String MSG_REPORT_HEADER_ACCOUNT_SUB_NAME = "message.budget.report.header.accountSubName"; 

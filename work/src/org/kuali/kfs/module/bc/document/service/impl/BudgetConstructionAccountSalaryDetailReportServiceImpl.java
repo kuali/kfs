@@ -78,7 +78,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * @param BudgetConstructionObjectSummary bcas
      */
     private void buildReportsHeader(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
-        accountMonthlyDetailReport.setUniversityFiscalYear(bcMonthly.getUniversityFiscalYear());
+        accountMonthlyDetailReport.setFiscalYear(bcMonthly.getUniversityFiscalYear().toString());
         accountMonthlyDetailReport.setChartOfAccountsCode(bcMonthly.getChartOfAccountsCode());
         accountMonthlyDetailReport.setAccountNumber(bcMonthly.getAccountNumber());
         accountMonthlyDetailReport.setSubAccountNumber(bcMonthly.getSubAccountNumber());
@@ -96,7 +96,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * @param BudgetConstructionLevelSummary bcas
      */
     private void buildReportsBody(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
-        accountMonthlyDetailReport.setFinancialObjectCode(bcMonthly.getFinancialObjectCode());
+        /*accountMonthlyDetailReport.setFinancialObjectCode(bcMonthly.getFinancialObjectCode());
         accountMonthlyDetailReport.setFinancialSubObjectCode(bcMonthly.getFinancialSubObjectCode());
         accountMonthlyDetailReport.setFinancialObjectCodeShortName(bcMonthly.getFinancialObject().getFinancialObjectCodeShortName());
         accountMonthlyDetailReport.setObjCodeSubObjCode(accountMonthlyDetailReport.getFinancialObjectCode() + accountMonthlyDetailReport.getFinancialSubObjectCode());
@@ -132,7 +132,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         accountMonthlyDetailReport.setFinancialDocumentMonth10LineAmount(financialDocumentMonth10LineAmount);
         accountMonthlyDetailReport.setFinancialDocumentMonth11LineAmount(financialDocumentMonth11LineAmount);
         accountMonthlyDetailReport.setFinancialDocumentMonth12LineAmount(financialDocumentMonth12LineAmount);
-        
+*/        
     }
 
     /**

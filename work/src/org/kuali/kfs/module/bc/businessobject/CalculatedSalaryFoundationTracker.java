@@ -68,9 +68,11 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
+    private CalculatedSalaryFoundationTrackerOverride calculatedSalaryFoundationTrackerOverride;
+    
     private transient Options universityFiscal;
     private final int PERCENTAGE_SCALE = 2;
-
+    
     /**
      * Default constructor.
      */
@@ -589,5 +591,41 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
      */
     public void setFinancialSubObject(SubObjCd financialSubObject) {
         this.financialSubObject = financialSubObject;
+    }
+
+    public CalculatedSalaryFoundationTrackerOverride getCalculatedSalaryFoundationTrackerOverride() {
+        return calculatedSalaryFoundationTrackerOverride;
+    }
+
+    public void setCalculatedSalaryFoundationTrackerOverride(CalculatedSalaryFoundationTrackerOverride calculatedSalaryFoundationTrackerOverride) {
+        this.calculatedSalaryFoundationTrackerOverride = calculatedSalaryFoundationTrackerOverride;
+    }
+    
+    public boolean isOverride() {
+        
+        return (getCalculatedSalaryFoundationTrackerOverride() != null);
+    }
+    
+    public String getPositionLookupPositionNumber() {
+        if ( isOverride() ) return getCalculatedSalaryFoundationTrackerOverride().getPositionNumber();
+        
+        return getPositionNumber();
+    }
+
+    public KualiDecimal getPositionLookupCsfAmount() {
+        if ( isOverride() ) return getCalculatedSalaryFoundationTrackerOverride().getCsfAmount();
+        
+        return getCsfAmount();
+    }
+    
+    public BigDecimal getPositionLookupCsfFullTimeEmploymentQuantity() {
+        if ( isOverride() ) return getCalculatedSalaryFoundationTrackerOverride().getCsfFullTimeEmploymentQuantity();
+        
+        return getCsfFullTimeEmploymentQuantity();
+    }
+    
+    public String getPositionLookupOverrideFlag() {
+        
+        return isOverride() ? "Y" : "N";
     }
 }

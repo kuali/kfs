@@ -1774,6 +1774,16 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
+	<reference-descriptor name="calculatedSalaryFoundationTrackerOverride" class-ref="org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+		<foreignkey field-ref="financialObjectCode" />
+		<foreignkey field-ref="financialSubObjectCode" />
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="emplid" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride" table="LD_CSFTRCKR_OVRD_T">

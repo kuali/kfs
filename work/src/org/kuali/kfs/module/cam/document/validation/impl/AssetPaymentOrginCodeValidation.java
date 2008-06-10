@@ -22,7 +22,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.service.OriginationCodeService;
 import org.kuali.kfs.validation.GenericValidation;
@@ -31,14 +30,16 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 
 public class AssetPaymentOrginCodeValidation extends GenericValidation {
 
+    private OriginationCodeService originationCodeService;
+    private DataDictionaryService dataDictionaryService;
     private AccountingLine accountingLineForValidation;
 
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode())) {
-            if (SpringContext.getBean(OriginationCodeService.class).getByPrimaryKey(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) == null) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(OriginationCode.class.getName()).getAttributeDefinition(RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE).getLabel();
+            if (originationCodeService.getByPrimaryKey(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) == null) {
+                String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(OriginationCode.class.getName()).getAttributeDefinition(RicePropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
@@ -52,6 +53,22 @@ public class AssetPaymentOrginCodeValidation extends GenericValidation {
 
     public void setAccountingLineForValidation(AccountingLine accountingLine) {
         this.accountingLineForValidation = accountingLine;
+    }
+
+    public OriginationCodeService getOriginationCodeService() {
+        return originationCodeService;
+    }
+
+    public void setOriginationCodeService(OriginationCodeService originationCodeService) {
+        this.originationCodeService = originationCodeService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 

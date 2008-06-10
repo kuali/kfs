@@ -27,7 +27,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -39,25 +38,30 @@ import org.kuali.module.gl.bo.UniversityDate;
 public class AssetPaymentPostingDateValidation extends GenericValidation {
 
     private AccountingLine accountingLineForValidation;
+    private DateTimeService dateTimeService;
+    private BusinessObjectService businessObjectService;
+    private DataDictionaryService dataDictionaryService;
+    private UniversityDateService universityDateService;
+
 
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         Date expenditureFinancialDocumentPostedDate = assetPaymentDetail.getExpenditureFinancialDocumentPostedDate();
         if (expenditureFinancialDocumentPostedDate != null) {
-            Calendar documentPostedDate = SpringContext.getBean(DateTimeService.class).getCalendar(expenditureFinancialDocumentPostedDate);
+            Calendar documentPostedDate = dateTimeService.getCalendar(expenditureFinancialDocumentPostedDate);
 
             Map<String, Object> keyToFind = new HashMap<String, Object>();
             keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, expenditureFinancialDocumentPostedDate);
 
-            if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
+            if (businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind) == null) {
+                String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
 
             // Validating the posted document date is not greater than the current fiscal year.
-            Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+            Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
             if (documentPostedDate.get(Calendar.YEAR) > currentFiscalYear.intValue()) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
                 result = false;
@@ -72,6 +76,38 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
 
     public void setAccountingLineForValidation(AccountingLine accountingLine) {
         this.accountingLineForValidation = accountingLine;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
 

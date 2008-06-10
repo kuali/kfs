@@ -26,7 +26,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -34,6 +33,8 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 
 public class AssetPaymentDocumentTypeValidation extends GenericValidation {
     private AccountingLine accountingLineForValidation;
+    private BusinessObjectService businessObjectService;
+    private DataDictionaryService dataDictionaryService;
 
     public AccountingLine getAccountingLineForValidation() {
         return accountingLineForValidation;
@@ -51,13 +52,30 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
             Map<String, Object> keyToFind = new HashMap<String, Object>();
             keyToFind.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
 
-            if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {
-                label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
+            if (businessObjectService.findByPrimaryKey(DocumentType.class, keyToFind) == null) {
+                label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
         }
         return result;
     }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
 
 }

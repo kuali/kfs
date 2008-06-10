@@ -15,7 +15,6 @@
  */
 package org.kuali.module.cams.document.validation.impl;
 
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.document.AssetPaymentDocument;
@@ -23,11 +22,21 @@ import org.kuali.module.cams.service.AssetService;
 
 public class AssetPaymentLockValidation extends GenericValidation {
 
+    private AssetService assetService;
+
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
-        if (SpringContext.getBean(AssetService.class).isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
+        if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {
             return false;
         }
         return true;
+    }
+
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
     }
 }

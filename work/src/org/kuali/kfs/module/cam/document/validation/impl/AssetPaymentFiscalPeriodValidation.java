@@ -24,7 +24,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -32,6 +31,9 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.gl.bo.UniversityDate;
 
 public class AssetPaymentFiscalPeriodValidation extends GenericValidation {
+
+    private BusinessObjectService businessObjectService;
+    private DataDictionaryService dataDictionaryService;
 
     private AccountingLine accountingLineForValidation;
 
@@ -50,15 +52,31 @@ public class AssetPaymentFiscalPeriodValidation extends GenericValidation {
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, assetPaymentDetail.getFinancialDocumentPostingYear());
         keyToFind.put(KFSPropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD, assetPaymentDetail.getFinancialDocumentPostingPeriodCode());
 
-        if (SpringContext.getBean(BusinessObjectService.class).countMatching(UniversityDate.class, keyToFind) == 0) {
-            String labelFiscalYear = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
-            String labelFiscalMonth = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
+        if (businessObjectService.countMatching(UniversityDate.class, keyToFind) == 0) {
+            String labelFiscalYear = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR).getLabel();
+            String labelFiscalMonth = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH).getLabel();
 
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalYear);
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH, KFSKeyConstants.ERROR_EXISTENCE, labelFiscalMonth);
             result = false;
         }
         return result;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 

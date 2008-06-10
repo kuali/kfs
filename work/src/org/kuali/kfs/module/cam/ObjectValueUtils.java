@@ -29,7 +29,7 @@ public final class ObjectValueUtils {
     }
 
     /**
-     * This method use simple getter/setter methods copy object values from a source object to target object
+     * This method use simple getter/setter methods to copy object values from a original object to destination object
      * 
      * @param origin original object
      * @param destination destination object

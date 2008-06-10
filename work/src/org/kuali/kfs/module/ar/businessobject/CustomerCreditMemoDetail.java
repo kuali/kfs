@@ -22,6 +22,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
     private KualiDecimal invoiceOpenItemAmount; //not in DB
+    private Integer accountingLineIndexForCorrespondingInvoiceDetail; // not in DB
     /**
      * Default constructor.
      */
@@ -242,6 +243,22 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      */
     public void setDuplicateCreditMemoItemTotalAmount(KualiDecimal duplicateCreditMemoItemTotalAmount) {
         this.duplicateCreditMemoItemTotalAmount = duplicateCreditMemoItemTotalAmount;
+    }
+
+    /**
+     * Gets the accountingLineIndexForCorrespondingInvoiceDetail attribute. 
+     * @return Returns the accountingLineIndexForCorrespondingInvoiceDetail.
+     */
+    public Integer getAccountingLineIndexForCorrespondingInvoiceDetail() {
+        return accountingLineIndexForCorrespondingInvoiceDetail;
+    }
+
+    /**
+     * Sets the accountingLineIndexForCorrespondingInvoiceDetail attribute value.
+     * @param accountingLineIndexForCorrespondingInvoiceDetail The accountingLineIndexForCorrespondingInvoiceDetail to set.
+     */
+    public void setAccountingLineIndexForCorrespondingInvoiceDetail(Integer accountingLineIndexForCorrespondingInvoiceDetail) {
+        this.accountingLineIndexForCorrespondingInvoiceDetail = accountingLineIndexForCorrespondingInvoiceDetail;
     }
 
 }

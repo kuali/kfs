@@ -33,6 +33,8 @@ public class BudgetConstructionAccountObjectDetailReport {
     private String consHdr;
     private String fundGroupCode;
     private String fundGroupName;
+    private String accountNumber;
+    
     private String subFundGroupCode;
     private String subFundGroupDescription;
     private String baseFy;
@@ -513,6 +515,16 @@ public class BudgetConstructionAccountObjectDetailReport {
     }
     public void setTypePercentChange(BigDecimal typePercentChange) {
         this.typePercentChange = typePercentChange;
+    }
+
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
     
     

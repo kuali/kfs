@@ -17,6 +17,7 @@ package org.kuali.module.budget.service;
 
 import java.util.Collection;
 
+import org.kuali.module.budget.bo.BudgetConstructionAccountObjectDetailReport;
 import org.kuali.module.budget.bo.BudgetConstructionAccountSalaryDetailReport;
 
 /**
@@ -35,6 +36,6 @@ public interface BudgetConstructionDocumentAccountObjectDetailReportService {
      * @param accountSummaryList
      * @return Collection
      */
-    public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(String personUserIdentifier);
+    public Collection<BudgetConstructionAccountObjectDetailReport> buildReports(String personUserIdentifier);
     
 }

@@ -81,7 +81,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerTypeCode"
-              p:required="true />
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerActiveIndicator"
               p:defaultValue="true" />

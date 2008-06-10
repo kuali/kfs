@@ -19,7 +19,6 @@
     <property name="attributes" >
       <list>
         <ref bean="OriginationCode-financialSystemOriginationCode" />
-        <ref bean="OriginationCode-nextFinancialDocumentNumber" />
         <ref bean="OriginationCode-financialSystemServerName" />
         <ref bean="OriginationCode-financialSystemDatabaseName" />
         <ref bean="OriginationCode-financialSystemDatabaseDesc" />
@@ -59,25 +58,7 @@
     <property name="summary" value="Origination Code" />
     <property name="description" value="The origination code uniquely identify an Origination." />
   </bean>
-  <bean id="OriginationCode-nextFinancialDocumentNumber" parent="OriginationCode-nextFinancialDocumentNumber-parentBean" />
-
-  <bean id="OriginationCode-nextFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextFinancialDocumentNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Next Document Number" />
-    <property name="shortLabel" value="Next Doc No" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="Next Document Number" />
-    <property name="description" value="Next Document Number..." />
-  </bean>
+  
   <bean id="OriginationCode-financialSystemServerName" parent="OriginationCode-financialSystemServerName-parentBean" />
 
   <bean id="OriginationCode-financialSystemServerName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -319,8 +300,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialSystemOriginationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="nextFinancialDocumentNumber" />
-              <bean parent="FieldDefinition"
                     p:attributeName="financialSystemServerName" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialSystemDatabaseName" />
@@ -373,8 +352,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSystemOriginationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="nextFinancialDocumentNumber" />
-        <bean parent="FieldDefinition"
               p:attributeName="financialSystemServerName" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSystemDatabaseName" />
@@ -404,8 +381,6 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextFinancialDocumentNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSystemServerName" />
         <bean parent="FieldDefinition"

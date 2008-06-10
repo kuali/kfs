@@ -798,7 +798,6 @@ public class KFSPropertyConstants {
     public static final String NEXT_CORRECTION_GROUP_NUMBER = "nextCorrectionGroupNumber";
     public static final String NEXT_DISB_VCHR_PAYEE_ID_NBR = "nextDisbVchrPayeeIdNbr";
     public static final String NEXT_FDOC_ATTACHMENT_IDENTIFIER = "nextFdocAttachmentIdentifier";
-    public static final String NEXT_FINANCIAL_DOCUMENT_NUMBER = "nextFinancialDocumentNumber";
     public static final String NEXT_ITEM_LINE_NUMBER = "nextItemLineNumber";
     public static final String NEXT_NON_CAPITAL_ASSET_NUMBER = "nextNonCapitalAssetNumber";
     public static final String NEXT_SOURCE_LINE_NUMBER = "nextSourceLineNumber";

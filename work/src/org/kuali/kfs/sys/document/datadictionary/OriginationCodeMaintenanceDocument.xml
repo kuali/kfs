@@ -63,9 +63,6 @@
               p:name="financialSystemOriginationCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="nextFinancialDocumentNumber"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="financialSystemServerName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

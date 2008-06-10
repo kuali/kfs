@@ -184,7 +184,6 @@
     <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="nextFinancialDocumentNumber" column="NEXT_FDOC_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialSystemServerName" column="FS_SERVER_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialSystemDatabaseName" column="FS_DATABASE_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialSystemDatabaseDesc" column="FS_DATABASE_DESC" jdbc-type="VARCHAR" />

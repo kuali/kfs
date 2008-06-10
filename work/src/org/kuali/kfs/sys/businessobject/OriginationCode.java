@@ -27,7 +27,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class OriginationCode extends PersistableBusinessObjectBase {
 
     private String financialSystemOriginationCode;
-    private String nextFinancialDocumentNumber;
     private String financialSystemServerName;
     private String financialSystemDatabaseName;
     private String financialSystemDatabaseDesc;
@@ -67,26 +66,7 @@ public class OriginationCode extends PersistableBusinessObjectBase {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
     }
 
-    /**
-     * Gets the nextFinancialDocumentNumber attribute.
-     * 
-     * @return Returns the nextFinancialDocumentNumber
-     */
-    public String getNextFinancialDocumentNumber() {
-        return nextFinancialDocumentNumber;
-    }
-
-
-    /**
-     * Sets the nextFinancialDocumentNumber attribute.
-     * 
-     * @param nextFinancialDocumentNumber The nextFinancialDocumentNumber to set.
-     */
-    public void setNextFinancialDocumentNumber(String nextFinancialDocumentNumber) {
-        this.nextFinancialDocumentNumber = nextFinancialDocumentNumber;
-    }
-
-    /**
+     /**
      * Gets the financialSystemServerName attribute.
      * 
      * @return Returns the financialSystemServerName

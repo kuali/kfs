@@ -20,9 +20,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.TransientBusinessObjectBase;
 
 public class KualiModuleBO extends TransientBusinessObjectBase {
-
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiModuleBO.class);
-
     private String moduleName;
 
     private String moduleCode;

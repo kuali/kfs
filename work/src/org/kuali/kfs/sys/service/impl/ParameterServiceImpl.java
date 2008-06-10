@@ -408,7 +408,7 @@ public class ParameterServiceImpl implements ParameterService {
     private List<String> getParameterValues(Parameter parameter, String constrainingValue) {
         List<String> constraintValuePairs = getParameterValues(parameter);
         for (String pair : constraintValuePairs) {
-            if (constrainingValue.equals(StringUtils.substringBefore(pair, "="))) {
+            if (StringUtils.equals(constrainingValue, StringUtils.substringBefore(pair, "="))) {
                 return Arrays.asList(StringUtils.substringAfter(pair, "=").split(","));
             }
         }

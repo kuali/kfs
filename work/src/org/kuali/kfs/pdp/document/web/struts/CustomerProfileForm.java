@@ -28,8 +28,8 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.utilities.GeneralUtilities;
 
 
@@ -72,7 +72,7 @@ public class CustomerProfileForm extends ActionForm {
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private String id; // CUST_ID
     private Timestamp lastUpdate; // LST_UPDT_TS
-    private PdpUser lastUpdateUser;
+    private UniversalUser lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
     private String version; // VER_NBR
@@ -671,7 +671,7 @@ public class CustomerProfileForm extends ActionForm {
     /**
      * @return Returns the lastUpdateUser.
      */
-    public PdpUser getLastUpdateUser() {
+    public UniversalUser getLastUpdateUser() {
         return lastUpdateUser;
     }
 
@@ -986,7 +986,7 @@ public class CustomerProfileForm extends ActionForm {
     /**
      * @param lastUpdateUser The lastUpdateUser to set.
      */
-    public void setLastUpdateUser(PdpUser lastUpdateUser) {
+    public void setLastUpdateUser(UniversalUser lastUpdateUser) {
         this.lastUpdateUser = lastUpdateUser;
     }
 

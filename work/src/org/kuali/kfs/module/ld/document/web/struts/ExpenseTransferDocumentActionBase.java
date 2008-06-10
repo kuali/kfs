@@ -178,7 +178,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                Set<String> selectedIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                Set<String> selectedIds = getSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
                 for (String selectedId : selectedIds) {
                     String selectedObjId = StringUtils.substringBefore(selectedId, ".");
                     String selectedMonthData = StringUtils.substringAfter(selectedId, ".");
@@ -190,7 +190,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
                 }
 
                 LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
-                rawValues = getSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), LedgerBalance.class, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                rawValues = getSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), LedgerBalance.class, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
             }
 
             if (rawValues != null) {

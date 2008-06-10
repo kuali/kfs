@@ -23,6 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.util.JSTLConstants;
 import org.kuali.workflow.attribute.OrgReviewRoutingData;
 import org.kuali.workflow.attribute.RoutingAccount;
@@ -34,6 +35,24 @@ import org.kuali.workflow.attribute.RoutingData;
 public class KFSConstants extends JSTLConstants implements ParameterKeyConstants {
     private static final long serialVersionUID = 2882277719647128949L;
 
+    public static class Modules {
+        public static final String KFS = "kfs";
+        public static final String CHART = "chart";
+        public static final String FINANCIAL = "financial";
+        public static final String GL = "gl";
+        public static final String VENDOR = "vendor";
+        public static final String PDP = "pdp";
+    }
+    public static class ParameterNamespaces {
+        public static final String KFS = "KFS-SY";
+        public static final String CHART = "KFS-CA";
+        public static final String FINANCIAL = "KFS-FT";
+        public static final String GL = "KFS-GL";
+        public static final String VENDOR = "KFS-VN";
+        public static final String PDP = "KFS-PD";
+        public static final String KNS = KNSConstants.KNS_NAMESPACE;
+    }
+    
     // special user used in the post-processor
     public static final String SYSTEM_USER = "KULUSER";
 
@@ -57,6 +76,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String WORKFLOW_URL_KEY = "workflow.url";
     public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
     public static final String MAINTAIN_USERS_LOCALLY_KEY = "maintain.users.locally";
+    public static final String MAINTAIN_KFS_USERS_LOCALLY_KEY = "maintain.kfs.users.locally";
     public static final String USE_STANDALONE_WORKFLOW = "rice.use.standalone.workflow";
 
     public static final String DATABASE_REPOSITORY_FILES_LIST_NAME = "databaseRepositoryFilePaths";
@@ -686,9 +706,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class CoreApcParms {
 
         // Kuali User params
-        public static final String USER_INVALID_EMPLOYEE_STATUSES = "ACTIVE_KFS_USER_EMPLOYEE_STATUSES";
-
-        public static final String UNIVERSAL_USER_EDIT_WORKGROUP = "UNIVERSAL_USER_EDIT_GROUP";
+        public static final String ACTIVE_EMPLOYEE_STATUSES_PARM = "ACTIVE_EMPLOYEE_STATUSES";
+        public static final String UNIVERSAL_USER_EDIT_WORKGROUP_PARM = "UNIVERSAL_USER_EDIT_GROUP";
+        public static final String FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM = "FINANCIAL_SYSTEM_USER_EDIT_GROUP";
         public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
     }
 
@@ -730,11 +750,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
         public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "FUND_GROUP_DENOTES_CG_IND";
         public static final String ACCOUNT_CG_DENOTING_VALUE = "CG_DENOTING_VALUE";
-
-        public static final String DEFAULT_USER_CHART_CODE_SOURCE_ATTRIBUTE = "DEFAULT_CHART_SOURCE_ATTRIBUTE";
-        public static final String DEFAULT_USER_CHART_CODE_EXTRACTION_REGEXP = "DEFAULT_CHART_EXTRACTION_REG_EXP";
-        public static final String DEFAULT_USER_ORGANIZATION_CODE_SOURCE_ATTRIBUTE = "DEFAULT_ORGANIZATION_SOURCE_ATTRIBUTE";
-        public static final String DEFAULT_USER_ORGANIZATION_CODE_EXTRACTION_REGEXP = "DEFAULT_ORGANIZATION_EXTRACTION_REG_EXP";
     }
 
     public static class FinancialApcParms {

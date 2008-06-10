@@ -103,7 +103,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
 
         // paymentRequestDocument.setPurchaseOrderIdentifier(1);
         // paymentRequestDocument.setInvoiceDate(today);
-        // UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
+        // UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getKfsUser();
         // paymentRequestDocument.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
         // paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("test description");
 

@@ -1469,7 +1469,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
                 document.getPurchaseOrderVendorQuotes().clear();
                 Note cancelNote = new Note();
-                cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
                 String reasonPrefix = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);

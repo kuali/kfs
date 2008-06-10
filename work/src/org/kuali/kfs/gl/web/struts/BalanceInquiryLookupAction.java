@@ -333,7 +333,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to persist multiple lookup results", e);
@@ -357,7 +357,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
             LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
             String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
 
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to export multiple lookup results", e);

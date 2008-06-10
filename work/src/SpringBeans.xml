@@ -243,34 +243,16 @@
 
 	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb" />
 
-	<bean id="universalUserService" class="org.kuali.core.service.impl.UniversalUserServiceImpl">
-		<property name="universalUserDao">
-			<ref bean="universalUserDao" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="kualiGroupService">
-			<ref bean="kualiGroupService" />
-		</property>
-		<property name="lookupDao">
-			<ref bean="lookupDao" />
-		</property>
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="moduleUserPropertyService">
-			<ref bean="kualiModuleUserPropertyService" />
-		</property>
-		<property name="businessObjectMetaDataService">
-			<ref bean="businessObjectMetaDataService" />
-		</property>
-		<property name="maintenanceDocumentDictionaryService">
-			<ref bean="maintenanceDocumentDictionaryService" />
-		</property>
+	<bean id="universalUserService" class="org.kuali.kfs.service.impl.FinancialSystemUserServiceImpl">
+		<property name="universalUserDao" ref="universalUserDao" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="kualiGroupService" ref="kualiGroupService" />
+		<property name="lookupDao" ref="lookupDao" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="moduleUserPropertyService" ref="kualiModuleUserPropertyService" />
+		<property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+		<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
 		<property name="workflowUserCapabilities">
 			<bean class="edu.iu.uis.eden.user.UserCapabilities">
 				<property name="lookupSupported" value="true" />
@@ -278,6 +260,7 @@
 			</bean>
 		</property>
 	</bean>
+    <alias name="universalUserService" alias="financialSystemUserService"/>
 
 	<bean id="kualiModuleUserServiceBase" class="org.kuali.core.service.impl.KualiModuleUserServiceBaseImpl" abstract="true">
 		<property name="universalUserService">

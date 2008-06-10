@@ -26,7 +26,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -37,13 +36,14 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rules.KfsMaintenanceDocumentRuleBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountDescription;
 import org.kuali.module.chart.bo.AccountGuideline;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -55,7 +55,7 @@ import org.kuali.module.integration.service.LaborModuleService;
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
  */
-public class AccountRule extends MaintenanceDocumentRuleBase {
+public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
 
@@ -337,7 +337,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         // we need to get the old maintanable doc here
-        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getUniversalUser())) {
+        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getFinancialSystemUser())) {
             success &= false;
             putFieldError("accountClosedIndicator", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
@@ -992,15 +992,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
-        try {
-            UniversalUser fiscalOfficer = getUniversalUserService().getUniversalUser(fiscalOfficerUserId);
-            if (fiscalOfficer != null && !fiscalOfficer.isActiveForModule(ChartUser.MODULE_ID)) {
-                result = false;
+        FinancialSystemUser fiscalOfficer = getKfsUserService().getFinancialSystemUser(fiscalOfficerUserId);
+        if (fiscalOfficer == null || !fiscalOfficer.isActiveFinancialSystemUser() ) {
+            result = false;
+            if ( fiscalOfficer != null ) {
                 putFieldError("accountFiscalOfficerUser.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
             }
-        }
-        catch (UserNotFoundException e) {
-            result = false;
         }
 
         return result;

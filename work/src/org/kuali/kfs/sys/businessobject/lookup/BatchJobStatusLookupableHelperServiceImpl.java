@@ -77,7 +77,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
             StringBuffer sb = new StringBuffer();
             if (parameterService.parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP)) {
                 String adminWorkgroup = parameterService.getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
-                if (!GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup)) {
+                if (!GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminWorkgroup)) {
                     linkText = "View";
                 }
             }

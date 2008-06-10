@@ -18,27 +18,12 @@
 <beans>
     <bean id="pdpModule" parent="pdpModule-parentBean" />
 
-    <bean id="pdpModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="pdpModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="pdp" />
 		<property name="moduleName" value="Pre-Disbursement Processor" />
 		<property name="moduleCode" value="PD" />
-		<property name="moduleUserService" ref="pdpUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.pdp.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="pdpModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/pdp/datadictionary</value>
@@ -70,8 +55,13 @@
 		</property>
 	</bean>
 
-	<bean id="pdpUserService" class="org.kuali.module.pdp.service.impl.PdpUserServiceImpl" parent="kualiModuleUserServiceBase">
-	</bean>
+    <bean id="pdpModuleAuthorizer" parent="financialSystemModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.pdp.</value>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="pdpPayeeTypeDao" class="org.kuali.module.pdp.dao.other.PayeeTypeDaoOther">
     	<property name="payees">

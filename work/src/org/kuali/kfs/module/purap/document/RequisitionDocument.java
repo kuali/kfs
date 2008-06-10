@@ -38,8 +38,11 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
@@ -51,7 +54,6 @@ import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDet
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.CapitalAssetSystemType;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurapUser;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.service.PurapService;
@@ -113,13 +115,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // set the default funding source
         this.setFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.DEFAULT_FUNDING_SOURCE));
 
-        PurapUser currentUser = (PurapUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(PurapUser.MODULE_ID);
-        this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
-        this.setOrganizationCode(currentUser.getOrganizationCode());
-        this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
-        this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
-        this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
-        this.setRequestorPersonPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
+        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId("purap");
+        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+        this.setDeliveryCampusCode(currentUser.getCampusCode());
+        this.setRequestorPersonName(currentUser.getPersonName());
+        this.setRequestorPersonEmailAddress(currentUser.getPersonEmailAddress());
+        this.setRequestorPersonPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getPersonLocalPhoneNumber()));
 
         // set the APO limit
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
@@ -188,15 +191,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // Need to clear this identifier before copy so that related documents appear to be none
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         super.toCopy();
-        PurapUser currentUser = (PurapUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(PurapUser.MODULE_ID);
+        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId("purap");
         this.setPurapDocumentIdentifier(null);
 
         // Set req status to INPR.
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
 
         // Set fields from the user.
-        this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
-        this.setOrganizationCode(currentUser.getOrganizationCode());
+        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         this.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
         boolean activeVendor = true;
@@ -532,9 +536,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         RequisitionItem item = (RequisitionItem) this.getItem(0);
         if (ObjectUtils.isNotNull(item)) {
             if (item.getSourceAccountingLines().size() > 0) {
-                PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
-                if (ObjectUtils.isNotNull(accountLine) && ObjectUtils.isNotNull(accountLine.getChartOfAccountsCode()) && ObjectUtils.isNotNull(accountLine.getAccountNumber())) {
-                    chartAcct = accountLine.getChartOfAccountsCode() + "-" + accountLine.getAccountNumber();
+            PurApAccountingLine accountLine = item.getSourceAccountingLine(0);
+            if (ObjectUtils.isNotNull(accountLine) && ObjectUtils.isNotNull(accountLine.getChartOfAccountsCode()) && ObjectUtils.isNotNull(accountLine.getAccountNumber())) {
+                chartAcct = accountLine.getChartOfAccountsCode() + "-" + accountLine.getAccountNumber();
                 }
             }
         }

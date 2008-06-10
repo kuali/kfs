@@ -15,9 +15,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +30,6 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -42,26 +38,22 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.TravelCompanyCode;
-import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.DisbursementVoucherTravelService;
-import org.kuali.module.financial.service.UniversityDateService;
 
 
 /**
@@ -151,14 +143,14 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then
             // the line is accessible
-            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(financialDocument, GlobalVariables.getUserSession().getUniversalUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
+            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(financialDocument, GlobalVariables.getUserSession().getFinancialSystemUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
                 isAccessible = true;
             }
         }
 
         // report (and log) errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier() };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
         }
 
@@ -196,7 +188,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         // amounts can only decrease
         DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(dvDocument);
-        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getUniversalUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
+        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getFinancialSystemUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
 
             // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
@@ -804,8 +796,17 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
         }
 
+        
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(getInitiator(document),KFSConstants.Modules.CHART);
+        
         // initiator campus code restrictions
-        getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, ((ChartUser) getInitiator(document).getModuleUser(ChartUser.MODULE_ID)).getOrganization().getOrganizationPhysicalCampusCode(), documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+        getParameterService().getParameterEvaluator(
+                DisbursementVoucherDocument.class, 
+                DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, 
+                DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, 
+                (chartOrg == null || chartOrg.getOrganization() == null)?null:chartOrg.getOrganization().getOrganizationPhysicalCampusCode(), 
+                documentationLocationCode)
+                        .evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
     }
 
     /**
@@ -1164,7 +1165,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (taxGroupName == null) {
             taxGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getUniversalUser().isMember(taxGroupName);
+        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(taxGroupName);
     }
 
     /**
@@ -1176,7 +1177,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (travelGroupName == null) {
             travelGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getUniversalUser().isMember(travelGroupName);
+        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(travelGroupName);
     }
 
     /**
@@ -1188,7 +1189,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (frnGroupName == null) {
             frnGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getUniversalUser().isMember(frnGroupName);
+        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(frnGroupName);
     }
 
     /**
@@ -1200,7 +1201,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (wireTransferGroupName == null) {
             wireTransferGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getUniversalUser().isMember(wireTransferGroupName);
+        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(wireTransferGroupName);
     }
 
     /**
@@ -1212,7 +1213,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (adminGroupName == null) {
             adminGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
+        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminGroupName);
     }
 
     /**

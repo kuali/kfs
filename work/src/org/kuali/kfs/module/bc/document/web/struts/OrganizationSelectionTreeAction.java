@@ -84,9 +84,9 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
 
         AuthorizationType adHocAuthorizationType = new AuthorizationType.AdHocRequest(this.getClass(), methodToCall);
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getUniversalUser(), adHocAuthorizationType)) {
+        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), adHocAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), adHocAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiForm) form).getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), adHocAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiForm) form).getClass()));
         }
 
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
@@ -98,7 +98,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
         }
         catch (Exception e) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), this.getClass().getName(), "Can't determine organization approver status.");
+            throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), this.getClass().getName(), "Can't determine organization approver status.");
         }
     }
 
@@ -169,7 +169,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
                 organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
 
                 // build a new selection subtree
-                String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
                 SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullupSql(personUniversalIdentifier, flds[0], flds[1]);
 
                 // initialize the selection tool to the root
@@ -202,7 +202,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     public ActionForward navigateDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
-        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
         // reset any set pullflags in the database before navigation
         SpringContext.getBean(BudgetOrganizationTreeService.class).resetPullFlag(personUniversalIdentifier);
@@ -233,7 +233,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     public ActionForward navigateUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
-        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
         // reset any set pullflags in the database before navigation
         SpringContext.getBean(BudgetOrganizationTreeService.class).resetPullFlag(personUniversalIdentifier);
@@ -523,7 +523,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
-            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
 
             parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.POSITION_SELECT));
 
@@ -575,7 +575,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
-            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
 
             parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT));
 
@@ -605,7 +605,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         }
         else {
             // build table but give a message if empty
-            int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear());
+            int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear());
             if (rowCount == 0) {
                 GlobalVariables.getMessageList().add("error.inquiry");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -629,7 +629,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
-            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
 
             parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS));
 
@@ -665,7 +665,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
             String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
             Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
-            String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
             SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
@@ -725,7 +725,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
             String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
             Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
-            String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
             SpringContext.getBean(BudgetPushPullService.class).pushdownSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
@@ -786,7 +786,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // check if there are any accounts above user's point of view, if so forward to account listing page. if not, forward to
         // report select(subfund or object code) screen
         String[] pointOfViewFields = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
-        int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear(), pointOfViewFields[0], pointOfViewFields[1]);
+        int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear(), pointOfViewFields[0], pointOfViewFields[1]);
 
         String forwardURL = "";
         if (rowCount != 0) {

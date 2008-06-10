@@ -18,15 +18,15 @@ package org.kuali.module.chart.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.rules.KfsMaintenanceDocumentRuleBase;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 
 /**
  * This class contains common Business Rule functionality for Global Documents.
  */
-public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
+public class GlobalDocumentRuleBase extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * Constructs a GlobalDocumentRuleBase.java.

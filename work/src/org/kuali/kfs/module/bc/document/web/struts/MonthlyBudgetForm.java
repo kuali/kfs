@@ -298,7 +298,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
 
         // TODO probably need BCAuthorizationConstants extension
         if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
+            throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
         }
 
         /*
@@ -306,7 +306,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
          * useBCAuthorizer(documentAuthorizer); // graceless hack which takes advantage of the fact that here and only here will we
          * have guaranteed access to the // correct DocumentAuthorizer if
          * (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) { throw new
-         * AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view",
+         * AuthorizationException(GlobalVariables.getUserSession().getKfsUser().getPersonName(), "view",
          * this.getAccountNumber()+", "+this.getSubAccountNumber()); } }
          */
     }
@@ -315,7 +315,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
      * TODO should probably move this to extension class
      */
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
         // TODO probably don't need these, editingmode drives expansion screen actions

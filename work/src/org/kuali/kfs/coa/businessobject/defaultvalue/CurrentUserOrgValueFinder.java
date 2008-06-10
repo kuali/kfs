@@ -16,7 +16,7 @@
 package org.kuali.module.chart.lookup.valuefinder;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.bo.FinancialSystemUser;
 
 /**
  * A value finder that returns the current user's default organization code.
@@ -29,7 +29,7 @@ public class CurrentUserOrgValueFinder implements ValueFinder {
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        FinancialSystemUser currentUser = ValueFinderUtil.getCurrentFinancialSystemUser();
         if (currentUser != null) {
             return currentUser.getOrganizationCode();
         }

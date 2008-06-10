@@ -43,7 +43,7 @@ public class PaymentGroupHistory implements UserRequired, Serializable, Persiste
     private Integer id; // PMT_GRP_HIST_ID
 
     private String changeNoteText; // PMT_CHG_NTE_TXT VARCHAR2 250
-    private PdpUser changeUser;
+    private UniversalUser changeUser;
     private String changeUserId; // PMT_CHG_USR_ID VARCHAR2 8
     private Timestamp changeTime; // PMT_CHG_TS DATE 7
     private Timestamp origPaymentDate; // ORIG_PMT_DT DATE 7
@@ -377,14 +377,14 @@ public class PaymentGroupHistory implements UserRequired, Serializable, Persiste
     /**
      * @return Returns the changeUser.
      */
-    public PdpUser getChangeUser() {
+    public UniversalUser getChangeUser() {
         return changeUser;
     }
 
     /**
      * @param changeUser The changeUser to set.
      */
-    public void setChangeUser(PdpUser changeUser) {
+    public void setChangeUser(UniversalUser changeUser) {
         if (changeUser != null) {
             this.changeUserId = changeUser.getPersonUniversalIdentifier();
         }
@@ -403,12 +403,7 @@ public class PaymentGroupHistory implements UserRequired, Serializable, Persiste
 
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
         UniversalUser u = userService.getUniversalUser(changeUserId);
-        if (u == null) {
-            setChangeUser(null);
-        }
-        else {
-            setChangeUser(new PdpUser(u));
-        }
+        setChangeUser(u);
     }
 
     public boolean equals(Object obj) {

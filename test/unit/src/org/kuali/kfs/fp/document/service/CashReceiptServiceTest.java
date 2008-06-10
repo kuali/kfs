@@ -125,7 +125,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     public final void testGetCashReceiptVerificationUnit_validUser() {
         String expectedUnit = DEFAULT_UNIT_NAME;
 
-        String unit = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
+        String unit = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getFinancialSystemUser());
         assertEquals(expectedUnit, unit);
     }
 

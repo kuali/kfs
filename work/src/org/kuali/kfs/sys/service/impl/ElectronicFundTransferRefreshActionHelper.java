@@ -49,7 +49,7 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map params, String basePath) {
         // is the current user able to claim electronic funds?
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (!electronicPaymentClaimingService.isUserMemberOfClaimingGroup(currentUser)) {
             throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferRefreshActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
         }

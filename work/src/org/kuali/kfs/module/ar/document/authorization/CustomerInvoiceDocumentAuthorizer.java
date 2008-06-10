@@ -19,28 +19,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
@@ -92,11 +89,11 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
         // to initiate, the user must have the organization options set up.
-        ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
+        ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
-        criteria.put("organizationCode", chartUser.getUserOrganizationCode());
+        criteria.put("organizationCode", chartUser.getOrganizationCode());
         OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
         //if organization doesn't exist

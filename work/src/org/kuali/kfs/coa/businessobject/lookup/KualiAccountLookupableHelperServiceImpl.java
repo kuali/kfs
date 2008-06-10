@@ -18,13 +18,17 @@ package org.kuali.module.chart.lookup;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * This class overrids the base getActionUrls method
  */
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    ThreadLocal<FinancialSystemUser> currentUser = new ThreadLocal<FinancialSystemUser>();
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
      * 
@@ -34,7 +38,12 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
     public String getActionUrls(BusinessObject bo) {
         StringBuffer actions = new StringBuffer();
         Account theAccount = (Account) bo;
-        ChartUser user = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
+        
+        FinancialSystemUser user = currentUser.get();
+        if ( user == null ) {
+            user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser( GlobalVariables.getUserSession().getFinancialSystemUser() );
+            currentUser.set(user);
+        }
         if (!theAccount.isAccountClosedIndicator() || user.isAdministratorUser()) {
             actions.append(getMaintenanceUrl(bo, "edit"));
         }

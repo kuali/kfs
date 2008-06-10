@@ -86,7 +86,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         selectable.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to persist multiple lookup results", e);
@@ -107,7 +107,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
         List<ResultRow> resultTable = null;
         try {
-            resultTable = SpringContext.getBean(LookupResultsService.class).retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = SpringContext.getBean(LookupResultsService.class).retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to retrieve multiple lookup results", e);
@@ -131,7 +131,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
         List<ResultRow> resultTable = null;
         try {
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to retrieve multiple lookup results", e);
@@ -158,7 +158,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
         // repersist the list
         try {
-            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to persist multiple lookup results", e);
@@ -185,7 +185,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to retrieve selected multiple lookup results", e);
@@ -220,7 +220,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to export multiple lookup results", e);
@@ -239,7 +239,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to export multiple lookup results", e);
@@ -268,7 +268,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to export multiple lookup results", e);

@@ -26,14 +26,13 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.labor.service.LaborUserService;
 
 /**
  * Labor business object for LedgerBalance.
@@ -478,13 +477,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     public UniversalUser getLedgerPerson() {
         if (ledgerPerson == null) {
             // Try to find a ledger person for this emplid if one exists
-            try {
-                setLedgerPerson(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
-            }
-            catch (UserNotFoundException unfe) {
-                // The user is not valid. We don't have a user
-                setLedgerPerson(null);
-            }
+            setLedgerPerson(SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(emplid));
         }
 
         return ledgerPerson;

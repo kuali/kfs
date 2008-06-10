@@ -28,9 +28,10 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
@@ -61,6 +62,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         Map editModeMap = super.getEditMode(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         RequisitionDocument reqDocument = (RequisitionDocument) document;
+        FinancialSystemUser kfsUser = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(user);
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {
@@ -96,7 +98,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     }
                 }
 
-                if (userOwnsAnyAccountingLine((ChartUser) user.getModuleUser(ChartUser.MODULE_ID), lineList)) {
+                if (userOwnsAnyAccountingLine(kfsUser, lineList)) {
                     // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
                     editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                     editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;

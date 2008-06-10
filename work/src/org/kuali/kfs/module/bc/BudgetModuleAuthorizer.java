@@ -17,23 +17,23 @@ package org.kuali.module.budget.authorization;
 
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.authorization.KfsModuleAuthorizerBase;
+import org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase;
 import org.kuali.module.budget.web.struts.action.OrganizationSelectionTreeAction;
 
 /**
  * This class...
  */
-public class BudgetModuleAuthorizer extends KfsModuleAuthorizerBase {
+public class BudgetModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {
 
     /**
-     * @see org.kuali.kfs.authorization.KfsModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser,
      *      org.kuali.core.authorization.AuthorizationType)
      */
     @Override
     public boolean isAuthorized(UniversalUser user, AuthorizationType authorizationType) {
 
         if (OrganizationSelectionTreeAction.class.equals(authorizationType.getTargetObjectClass())) {
-            return user.isActiveForModule(getModule().getModuleId());
+            return financialSystemUserService.convertUniversalUserToFinancialSystemUser(user).isActiveFinancialSystemUser();
         }
         return super.isAuthorized(user, authorizationType);
     }

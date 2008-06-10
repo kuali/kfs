@@ -124,7 +124,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
 
         //set the last action performed to find out who was the last to route
-        paymentRequestDocument.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier() );
+        paymentRequestDocument.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier() );
         
         return super.route(mapping, form, request, response);
     }

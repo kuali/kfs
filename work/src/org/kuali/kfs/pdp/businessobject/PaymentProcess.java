@@ -41,7 +41,7 @@ public class PaymentProcess implements UserRequired, Serializable, PersistenceBr
     private Timestamp processTimestamp;
     private String campus;
     private String processUserId;
-    private PdpUser processUser;
+    private UniversalUser processUser;
     private Timestamp lastUpdate;
     private Integer version;
 
@@ -51,12 +51,7 @@ public class PaymentProcess implements UserRequired, Serializable, PersistenceBr
 
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
         UniversalUser u = userService.getUniversalUser(processUserId);
-        if (u == null) {
-            setProcessUser(null);
-        }
-        else {
-            setProcessUser(new PdpUser(u));
-        }
+        setProcessUser(u);
     }
 
     public String getCampus() {
@@ -83,11 +78,11 @@ public class PaymentProcess implements UserRequired, Serializable, PersistenceBr
         this.processTimestamp = processTimestamp;
     }
 
-    public PdpUser getProcessUser() {
+    public UniversalUser getProcessUser() {
         return processUser;
     }
 
-    public void setProcessUser(PdpUser processUser) {
+    public void setProcessUser(UniversalUser processUser) {
         if (processUser != null) {
             processUserId = processUser.getPersonUniversalIdentifier();
         }

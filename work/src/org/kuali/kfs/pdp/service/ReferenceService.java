@@ -22,8 +22,8 @@ package org.kuali.module.pdp.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.bo.PdpUser;
 
 
 /**
@@ -36,11 +36,11 @@ public interface ReferenceService {
 
     public Map getallMap(String type);
 
-    public Code addCode(String type, String code, String description, PdpUser u);
+    public Code addCode(String type, String code, String description, UniversalUser u);
 
-    public void updateCode(String code, String description, String type, PdpUser u);
+    public void updateCode(String code, String description, String type, UniversalUser u);
 
-    public void updateCode(Code item, PdpUser u);
+    public void updateCode(Code item, UniversalUser u);
 
     public void deleteCode(Code item);
 }

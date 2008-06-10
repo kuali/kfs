@@ -32,8 +32,10 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
@@ -43,7 +45,6 @@ import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CashControlDocumentService;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -116,7 +117,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocument document = form.getCashControlDocument();
 
         // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());

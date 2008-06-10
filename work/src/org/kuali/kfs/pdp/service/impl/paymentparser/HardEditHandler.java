@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
 import org.kuali.module.pdp.dao.PaymentFileLoadDao;
 import org.kuali.module.pdp.xml.PdpFileHandler;
@@ -214,7 +214,7 @@ public class HardEditHandler implements PdpFileHandler {
         // Unneeded
     }
 
-    public void setUser(PdpUser u) {
+    public void setUser(UniversalUser u) {
         // Unneeded
     }
 

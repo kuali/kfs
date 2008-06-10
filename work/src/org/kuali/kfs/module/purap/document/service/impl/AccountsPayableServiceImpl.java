@@ -131,7 +131,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void generateExpiredOrClosedAccountWarning(AccountsPayableDocument document) {
 
         // get user
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         // get parameter to see if fiscal officers may see the continuation account warning
         String showContinuationAccountWaringFO = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);

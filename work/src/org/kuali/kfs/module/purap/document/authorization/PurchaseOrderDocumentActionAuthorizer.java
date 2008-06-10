@@ -70,7 +70,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
      */
     public PurchaseOrderDocumentActionAuthorizer(PurchaseOrderDocument po, Map editingMode) {
 
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
         this.purchaseOrder = po;
         this.editMode = editingMode;
         
@@ -145,7 +145,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * @return boolean true if the print button can be displayed.
      */
     public boolean canFirstTransmitPrintPo() {
-        boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
+        boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getFinancialSystemUser());
         // If the status is Pending Print and the user is either authorized
         // or an action is requested of them for the document transmission route node, return true to show the print po button.
         if (PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) && (isUserAuthorized || isDocumentTransmissionActionRequested)) {

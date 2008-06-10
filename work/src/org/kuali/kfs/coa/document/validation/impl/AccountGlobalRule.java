@@ -34,12 +34,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGlobal;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.OrganizationService;
 import org.kuali.module.chart.service.SubFundGroupService;
@@ -434,15 +434,13 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      */
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
-        try {
-            UniversalUser fiscalOfficer = getUniversalUserService().getUniversalUser(fiscalOfficerUserId);
-            if (fiscalOfficer != null && !fiscalOfficer.isActiveForModule(ChartUser.MODULE_ID)) {
-                result = false;
+
+        FinancialSystemUser fiscalOfficer = getKfsUserService().getFinancialSystemUser(fiscalOfficerUserId);
+        if (fiscalOfficer == null || !fiscalOfficer.isActiveFinancialSystemUser() ) {
+            result = false;
+            if ( fiscalOfficer != null ) {
                 putFieldError("accountFiscalOfficerUser.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
             }
-        }
-        catch (UserNotFoundException e) {
-            result = false;
         }
 
         return result;

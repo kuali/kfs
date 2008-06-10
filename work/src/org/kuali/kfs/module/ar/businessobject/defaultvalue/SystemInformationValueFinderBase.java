@@ -15,10 +15,12 @@
  */
 package org.kuali.module.ar.lookup.valuefinder;
 
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.ar.service.SystemInformationService;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
 
@@ -34,11 +36,7 @@ public class SystemInformationValueFinderBase {
         SystemInformationService service = (SpringContext.getBean(SystemInformationService.class));
         
         Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
-        System.out.println(currentUniversityFiscalYear);
-        System.out.println(chartUser.getChartOfAccountsCode());
-        System.out.println(chartUser.getOrganizationCode());
+        ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         sysInfo = service.getByPrimaryKey(currentUniversityFiscalYear, chartUser.getChartOfAccountsCode(), chartUser.getOrganizationCode());
-       // System.out.println(sysInfo.getOrganizationRemitToAddressName());
     }
 }

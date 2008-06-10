@@ -21,36 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.exceptions.UnknownDocumentIdException;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.document.CashControlDocument;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
-import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.module.ar.service.CashControlDocumentService;
-import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
 import org.kuali.module.cams.document.BarcodeInventoryErrorDocument;
 import org.kuali.module.cams.web.struts.form.BarcodeInventoryErrorForm;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);

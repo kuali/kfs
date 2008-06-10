@@ -54,6 +54,7 @@ import java.util.ListIterator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
@@ -73,6 +74,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -83,10 +85,10 @@ import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.rule.UpdateAccountingLineRule;
 import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.ChartUser;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -341,7 +343,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // report (and log) errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier() };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
 
             LOG.info("accountIsAccessible check failed: account " + errorParams[0] + ", user " + errorParams[1]);
@@ -362,7 +364,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         boolean isAccessible = false;
 
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        ChartUser currentUser = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
+        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             isAccessible = true;
@@ -380,7 +382,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && currentUser.getUniversalUser().isWorkflowExceptionUser()) {
+                    if (workflowDocument.stateIsException() && currentUser.isWorkflowExceptionUser()) {
                         isAccessible = true;
                     }
                 }
@@ -403,7 +405,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        ChartUser currentUser = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
+        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (workflowDocument.stateIsEnroute()) {
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
@@ -422,7 +424,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             hasLines = (accessibleLines >= min);
         }
         else {
-            if (workflowDocument.stateIsException() && currentUser.getUniversalUser().isWorkflowExceptionUser()) {
+            if (workflowDocument.stateIsException() && currentUser.isWorkflowExceptionUser()) {
                 hasLines = true;
             }
             else {

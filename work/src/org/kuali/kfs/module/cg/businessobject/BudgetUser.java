@@ -23,13 +23,13 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.service.ChartUserService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 
@@ -40,7 +40,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetUser.class);
     private transient BudgetPersonnelService budgetPersonnelService;
-    private transient ChartUserService chartUserService;
+    private transient FinancialSystemUserService financialSystemUserService;
 
     private String documentNumber; // RDOC_NBR
     private Integer budgetUserSequenceNumber; // BDGT_USR_SEQ_NBR
@@ -78,7 +78,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     public BudgetUser() {
         super();
         budgetPersonnelService = SpringContext.getBean(BudgetPersonnelService.class);
-        chartUserService = (ChartUserService) SpringContext.getBean(KualiModuleService.class).getModule("chart").getModuleUserService();
+        financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
     }
 
     public BudgetUser(String documentNumber, Integer budgetUserSequenceNumber) {
@@ -395,13 +395,10 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
             String chart = "";
             String org = "";
-            if (this.user.getModuleUser(ChartUser.MODULE_ID) != null) {
-                chart = ((ChartUser) this.user.getModuleUser(ChartUser.MODULE_ID)).getChartOfAccountsCode();
-                org = ((ChartUser) this.user.getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
-            }
-            else {
-                chart = SpringContext.getBean(ChartUserService.class).getDefaultChartCode(this.user);
-                org = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(this.user);
+            ChartOrgHolder chartOrg = financialSystemUserService.getOrganizationByModuleId(this.user,"chart");
+            if ( chartOrg != null ) {
+                chart = chartOrg.getChartOfAccountsCode();
+                org = chartOrg.getOrganizationCode();
             }
 
             this.fiscalCampusCode = chart;

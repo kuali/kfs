@@ -18,7 +18,7 @@ package org.kuali.module.pdp.service;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PdpUser;
+import org.kuali.core.bo.user.UniversalUser;
 
 public interface FormatService {
     // Get the customer profiles to list on the screen
@@ -32,13 +32,13 @@ public interface FormatService {
 
     // Mark the process log so a format only happens once per campus. Mark all the
     // payments that will be formatted and return a summary. attachments will be Y, N or null for both.
-    public List startFormatProcess(PdpUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes);
+    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes);
 
     // Mark the process as ended.
     public void endFormatProcess(String campus);
 
     // Called from a struts action class, select data to format
-    public FormatSelection formatSelectionAction(PdpUser user, boolean clearFormat);
+    public FormatSelection formatSelectionAction(UniversalUser user, boolean clearFormat);
 
     // Actually format the data for check printing.
     // Return a list of Process Summaries to be displayed

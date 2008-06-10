@@ -19,9 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
 
@@ -35,7 +37,7 @@ public class OrganizationAccountingDefaultValueFinderBase {
      */
     public OrganizationAccountingDefaultValueFinderBase(){        
         Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
+        ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
 
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", currentUniversityFiscalYear);

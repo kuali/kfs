@@ -18,27 +18,12 @@
 <beans>
     <bean id="laborModule" parent="laborModule-parentBean" />
 
-    <bean id="laborModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="laborModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="labor" />
 		<property name="moduleName" value="Labor Distribution" />
 		<property name="moduleCode" value="LD" />
-		<property name="moduleUserService" ref="laborUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.labor.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="laborModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/labor/datadictionary</value>
@@ -68,13 +53,15 @@
 		</property>
 	</bean>
 
-    <!--  Section 1: Spring Beans for Business Objects -->
+    <bean id="laborModuleAuthorizer" parent="financialSystemModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.labor.</value>
+            </list>
+        </property>
+    </bean>
 
-	<bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
-		</property>	
-	</bean>
+    <!--  Section 1: Spring Beans for Business Objects -->
 		
 	<bean id="laborLedgerPendingEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerPendingEntryServiceImpl">
 		<property name="businessObjectService">

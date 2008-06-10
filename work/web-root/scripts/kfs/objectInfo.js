@@ -334,6 +334,6 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
                 DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
             }
         };
-        KfsUniversalUserService.getUniversalUserByPersonPayrollIdentifier( userId, dwrReply );
+        FinancialSystemUserService.getUniversalUserByPersonPayrollIdentifier( userId, dwrReply );
     }
 }

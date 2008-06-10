@@ -55,7 +55,7 @@ public class PaymentRequestDocumentActionAuthorizer {
      */
     public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq) {
 
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         // doc indicators
         this.docStatus = preq.getStatusCode();

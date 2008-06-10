@@ -26,7 +26,6 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * Authorization permissions specific to the Credit Card Receipt document.
@@ -54,7 +53,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.core.bo.user.KualiUser,
      *      java.util.List)
      */
-    protected boolean userOwnsAnyAccountingLine(ChartUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(UniversalUser user, List accountingLines) {
         return false;
     }
 
@@ -64,7 +63,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();
     }
 
@@ -75,7 +74,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         return new HashMap();
     }
 

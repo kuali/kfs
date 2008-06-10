@@ -59,7 +59,7 @@ public class ProposalInquirable extends KfsInquirableImpl {
         Collection inquirySections = SpringContext.getBean(BusinessObjectDictionaryService.class).getInquirySections(getBusinessObjectClass());
         for (Iterator iter = inquirySections.iterator(); iter.hasNext();) {
 
-            UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+            UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
             InquirySectionDefinition inquirySection = (InquirySectionDefinition) iter.next();
             Section section = SectionBridge.toSection(this, inquirySection, bo);
             if (inquirySection.getTitle().equals("Research Risks")) {

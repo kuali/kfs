@@ -100,7 +100,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         LOG.debug("initiateDocument() started");
         setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
 
-        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getFinancialSystemUser();
         setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
         setProcessingCampusCode(currentUser.getCampusCode());
     }

@@ -226,13 +226,13 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
             // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
             // correct DocumentAuthorizer
             if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
             }
             if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
             }
             if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
             }
         }
     }

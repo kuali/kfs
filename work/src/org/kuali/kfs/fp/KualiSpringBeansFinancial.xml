@@ -18,29 +18,12 @@
 <beans>
     <bean id="financialModule" parent="financialModule-parentBean" />
 
-    <bean id="financialModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="financialModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="financial" />
 		<property name="moduleName" value="Financial Transaction Processing" />
 		<property name="moduleCode" value="FP" />
-		<property name="moduleUserService" ref="financialUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.module.financial.authorization.FinancialModuleAuthorizer">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.financial.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<bean class="org.kuali.module.financial.rules.FinancialUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
-				<!--  TODO: bind in other services -->
-			</bean>
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="financialModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/financial/datadictionary</value>
@@ -64,14 +47,13 @@
 		</property>
 	</bean>
 
-	<bean id="financialUserService" class="org.kuali.module.financial.service.impl.FinancialUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="propertyList">
-			<list>
-				<value>userChartOfAccountsCode</value>
-				<value>userOrganizationCode</value>
-			</list>
-		</property>
-	</bean>
+    <bean id="financialModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.module.financial.authorization.FinancialModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.financial.</value>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb" />
 	

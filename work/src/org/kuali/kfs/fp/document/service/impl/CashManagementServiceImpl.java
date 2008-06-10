@@ -146,7 +146,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         // check user authorization
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
         documentAuthorizer.canInitiate(documentTypeName, user);

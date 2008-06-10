@@ -31,7 +31,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.module.financial.document.ServiceBillingDocument;
 import org.kuali.module.financial.rules.ServiceBillingDocumentRuleUtil;
@@ -58,7 +57,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
      *      KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();
     }
 
@@ -69,7 +68,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         return new HashMap();
     }
 

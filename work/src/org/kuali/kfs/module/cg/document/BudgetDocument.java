@@ -33,11 +33,12 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -448,7 +449,7 @@ public class BudgetDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getFiscalCampusCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
-                    xml.append(SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(projectDirector.getUser()));
+                    xml.append(SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode());
                 }
                 else {
                     xml.append(projectDirector.getPrimaryDepartmentCode());

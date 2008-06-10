@@ -29,13 +29,12 @@ import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
-import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-import org.kuali.module.labor.service.LaborUserService;
 
 /**
  * Struts Action Form for the Salary Expense Transfer document. This method extends the parent ExpenseTransferDocumentFormBase class
@@ -45,7 +44,7 @@ import org.kuali.module.labor.service.LaborUserService;
 public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
 
-    private LaborUser user;
+    private UniversalUser user;
     private String balanceTypeCode;
     private String emplid;
 
@@ -58,7 +57,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         setLookupResultsBOClassName(LedgerBalance.class.getName());
-        setUser(new LaborUser(new UniversalUser()));
+        setUser(new UniversalUser());
         setFormatterType(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.APPROVAL_OBJECT_CODE_BALANCES, CurrencyFormatter.class);
     }
 
@@ -102,7 +101,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      * 
      * @param user The user to set.
      */
-    public void setUser(LaborUser user) {
+    public void setUser(UniversalUser user) {
         this.user = user;
     }
 
@@ -111,7 +110,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      * 
      * @return Returns the LaborUser.
      */
-    public LaborUser getUser() {
+    public UniversalUser getUser() {
         return user;
     }
 
@@ -125,12 +124,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         getSalaryExpenseTransferDocument().setEmplid(id);
 
         if (id != null) {
-            try {
-                setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(id));
-            }
-            catch (UserNotFoundException e) {
-            }
-
+            setUser(SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(id));
         }
     }
 
@@ -142,11 +136,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public String getEmplid() throws UserNotFoundException {
         if (user == null) {
-            try {
-                setUser(SpringContext.getBean(LaborUserService.class).getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
-            }
-            catch (UserNotFoundException e) {
-            }
+            setUser(SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
         }
 
         return getSalaryExpenseTransferDocument().getEmplid();
@@ -172,7 +162,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         try {
-            isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
+            isAdmin = GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminGroupName);
         }
         catch (Exception e) {
             throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e);

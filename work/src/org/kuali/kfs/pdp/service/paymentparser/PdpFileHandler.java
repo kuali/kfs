@@ -17,13 +17,13 @@ package org.kuali.module.pdp.xml;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PdpUser;
+import org.kuali.core.bo.user.UniversalUser;
 
 
 public interface PdpFileHandler {
     public void setFilename(String filename);
 
-    public void setUser(PdpUser u);
+    public void setUser(UniversalUser u);
 
     public void setMaxNoteLines(int lines);
 

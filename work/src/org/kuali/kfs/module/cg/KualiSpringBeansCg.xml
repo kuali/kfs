@@ -18,27 +18,12 @@
 <beans>
     <bean id="cgModule" parent="cgModule-parentBean" />
 
-    <bean id="cgModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="cgModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="cg" />
 		<property name="moduleName" value="Post-Award" />
 		<property name="moduleCode" value="CG" />
-		<property name="moduleUserService" ref="cgUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.cg.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="cgModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/cg/datadictionary</value>
@@ -66,6 +51,14 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="cgModuleAuthorizer" parent="financialSystemModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.cg.</value>
+            </list>
+        </property>
+    </bean>
 	
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.AwardDaoOjb" />
@@ -88,9 +81,6 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-	</bean>
-
-	<bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 	
 	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />

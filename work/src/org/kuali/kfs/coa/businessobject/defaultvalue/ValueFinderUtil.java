@@ -15,14 +15,11 @@
  */
 package org.kuali.module.chart.lookup.valuefinder;
 
-import java.util.Map;
-
-import org.kuali.core.bo.user.KualiModuleUser;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.service.FinancialSystemUserService;
 
 /**
  * This class holds utilities to assist with finding current chart and universal users
@@ -30,16 +27,15 @@ import org.kuali.module.chart.bo.ChartUser;
 public class ValueFinderUtil {
 
     /**
-     * This method returns the currently logged in Chart User.
+     * This method returns the currently logged in KFS User.
      * 
      * @return the currently logged in Chart User
      * @see ChartUser
      */
-    public static ChartUser getCurrentChartUser() {
+    public static FinancialSystemUser getCurrentFinancialSystemUser() {
         UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
         if (currentUser != null) {
-            Map<String, KualiModuleUser> moduleUsers = SpringContext.getBean(UniversalUserService.class).getModuleUsers(currentUser);
-            return (ChartUser) moduleUsers.get(ChartUser.MODULE_ID);
+            return SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(currentUser);
         }
         else {
             return null;
@@ -54,7 +50,7 @@ public class ValueFinderUtil {
      */
     private static UniversalUser getCurrentUniversalUser() {
         if (GlobalVariables.getUserSession() != null) {
-            return GlobalVariables.getUserSession().getUniversalUser();
+            return GlobalVariables.getUserSession().getFinancialSystemUser();
         }
         else {
             return null;

@@ -281,7 +281,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             DocumentHeader docHeader = cr.getDocumentHeader();
             try {
                 Long documentHeaderId = Long.valueOf(docHeader.getDocumentNumber());
-                UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+                UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
 
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }

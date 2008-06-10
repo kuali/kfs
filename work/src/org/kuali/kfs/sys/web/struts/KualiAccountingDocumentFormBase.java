@@ -49,7 +49,6 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
@@ -142,7 +141,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      */
     @Override
     protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         AccountingDocument financialDocument = (AccountingDocument) getDocument();
         AccountingDocumentAuthorizer financialDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizer;
@@ -152,7 +151,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         setAccountingLineEditableFields(financialDocumentAuthorizer.getAccountingLineEditableFields(financialDocument, kualiUser));
         setDocumentActionFlags(financialDocumentAuthorizer.getDocumentActionFlags(financialDocument, kualiUser));
 
-        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID)));
+        setEditableAccounts(financialDocumentAuthorizer.getEditableAccounts(glomBaselineAccountingLines(), kualiUser));
     }
 
 
@@ -656,7 +655,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
      */
     public void refreshEditableAccounts() {
         AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(this.getDocument());
-        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID)));
+        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), GlobalVariables.getUserSession().getFinancialSystemUser()));
     }
 
     /**

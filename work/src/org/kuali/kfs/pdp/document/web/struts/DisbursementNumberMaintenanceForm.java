@@ -23,8 +23,8 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.pdp.bo.DisbursementNumberRange;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.utilities.DateHandler;
 import org.kuali.module.pdp.utilities.GeneralUtilities;
 
@@ -39,7 +39,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     private String disbNbrEffectiveDt; // DISB_NBR_EFF_DT
     private String disbNbrExpirationDt; // DISB_NBR_EXPR_DT
     private Timestamp lastUpdate; // LST_UPDT_TS
-    private PdpUser lastUpdateUser;
+    private UniversalUser lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Integer version; // VER_NBR
     private Integer bankId;
@@ -252,7 +252,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     /**
      * @return Returns the lastUpdateUser.
      */
-    public PdpUser getLastUpdateUser() {
+    public UniversalUser getLastUpdateUser() {
         return lastUpdateUser;
     }
 
@@ -336,7 +336,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     /**
      * @param lastUpdateUser The lastUpdateUser to set.
      */
-    public void setLastUpdateUser(PdpUser lastUpdateUser) {
+    public void setLastUpdateUser(UniversalUser lastUpdateUser) {
         this.lastUpdateUser = lastUpdateUser;
     }
 

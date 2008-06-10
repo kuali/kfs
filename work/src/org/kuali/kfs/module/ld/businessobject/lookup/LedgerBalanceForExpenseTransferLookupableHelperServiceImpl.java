@@ -203,7 +203,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
         col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 
         // check security on field and do masking if necessary
-        boolean viewAuthorized = SpringContext.getBean(AuthorizationService.class).isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
+        boolean viewAuthorized = SpringContext.getBean(AuthorizationService.class).isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getFinancialSystemUser(), element.getClass().getName(), col.getPropertyName());
         if (!viewAuthorized) {
             Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
             propValue = displayMask.maskValue(propValue);

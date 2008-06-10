@@ -63,7 +63,7 @@ public class PrintAction extends KualiAction {
         // get the vendor quote
         // call the print service
         PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocNumber);
-        UniversalUser curUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser curUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (!hasPrintAuthorization(po, curUser)) {
             throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{curUser.getPersonUserIdentifier(), "print", "Purchase Order"});
         }

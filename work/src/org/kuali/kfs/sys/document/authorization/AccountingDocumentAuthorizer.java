@@ -23,7 +23,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.kfs.bo.FinancialSystemUser;
 
 /**
  * Extension to TransactionalDocumentAuthorizer interface which adds financial-document-specific methods.
@@ -62,7 +62,7 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      * @return Map of Account objects, indexed by accountKey (return value of account.buildAccountKey), which the given user should
      *         be allowed to edit
      */
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user);
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user);
 
     /**
      * This method takes a list of accounting lines, and it returns a map with the keys being well-formatted representations of the
@@ -72,5 +72,5 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      * @param user the user to authorize each accounting line for
      * @return a map with keys holding well formated primary keys of the editable accounts.
      */
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user);
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user);
 }

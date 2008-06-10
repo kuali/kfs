@@ -32,8 +32,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.Customer;
@@ -44,8 +46,6 @@ import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.AddCashControlDetailRule;
 import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
 import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.lookup.keyvalues.CheckingSavingsValuesFinder;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 /**
@@ -264,9 +264,9 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
-        ChartUser user = ValueFinderUtil.getCurrentChartUser();
+        ChartOrgHolder user = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         String chartCode = user.getChartOfAccountsCode();
-        String orgCode = user.getUserOrganizationCode();
+        String orgCode = user.getOrganizationCode();
 
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartCode);

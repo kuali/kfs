@@ -239,7 +239,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateNonMoveableAsset(Asset asset) {
         boolean success = true;
 
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (!assetService.isAssetMovable(asset) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_USER_GROUP_FOR_NON_MOVEABLE_ASSET, asset.getCapitalAssetNumber().toString());
             success = false;

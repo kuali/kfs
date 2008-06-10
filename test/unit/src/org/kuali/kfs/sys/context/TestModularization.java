@@ -7,19 +7,6 @@ import java.util.Set;
 
 import org.kuali.core.authorization.KualiModuleAuthorizerBase;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.module.ar.bo.ArUser;
-import org.kuali.module.budget.bo.BudgetUser;
-import org.kuali.module.cams.bo.CamsUser;
-import org.kuali.module.cg.bo.CgUser;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.effort.bo.EffortUser;
-import org.kuali.module.financial.bo.FinancialUser;
-import org.kuali.module.gl.bo.GlUser;
-import org.kuali.module.kra.budget.bo.KraUser;
-import org.kuali.module.labor.bo.LaborUser;
-import org.kuali.module.pdp.bo.PdpUser;
-import org.kuali.module.purap.bo.PurapUser;
-import org.kuali.module.vendor.bo.VendorUser;
 import org.kuali.test.ConfigureContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,22 +14,22 @@ public class TestModularization extends KualiTestBase {
     private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/KualiSpringBeansKfs.xml,org/kuali/module/integration/SpringBeansModules.xml,org/kuali/module/chart/KualiSpringBeansChart.xml,org/kuali/module/financial/KualiSpringBeansFinancial.xml,org/kuali/module/gl/KualiSpringBeansGl.xml,org/kuali/module/pdp/KualiSpringBeansPdp.xml,org/kuali/module/vendor/KualiSpringBeansVendor.xml";
     private static final Set<String> OPTIONAL_MODULE_IDS = new HashSet<String>();
     static {
-        OPTIONAL_MODULE_IDS.add(ArUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(BudgetUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(CamsUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(CgUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(EffortUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(KraUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(LaborUser.MODULE_ID);
-        OPTIONAL_MODULE_IDS.add(PurapUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add("ar");
+        OPTIONAL_MODULE_IDS.add("budget");
+        OPTIONAL_MODULE_IDS.add("cams");
+        OPTIONAL_MODULE_IDS.add("cg");
+        OPTIONAL_MODULE_IDS.add("effort");
+        OPTIONAL_MODULE_IDS.add("kra");
+        OPTIONAL_MODULE_IDS.add("labor");
+        OPTIONAL_MODULE_IDS.add("purap");
     }
     private static final Set<String> SYSTEM_MODULE_IDS = new HashSet<String>();
     static {
-        SYSTEM_MODULE_IDS.add(ChartUser.MODULE_ID);
-        SYSTEM_MODULE_IDS.add(FinancialUser.MODULE_ID);
-        SYSTEM_MODULE_IDS.add(GlUser.MODULE_ID);
-        SYSTEM_MODULE_IDS.add(PdpUser.MODULE_ID);
-        SYSTEM_MODULE_IDS.add(VendorUser.MODULE_ID);
+        SYSTEM_MODULE_IDS.add("chart");
+        SYSTEM_MODULE_IDS.add("financial");
+        SYSTEM_MODULE_IDS.add("gl");
+        SYSTEM_MODULE_IDS.add("pdp");
+        SYSTEM_MODULE_IDS.add("vendor");
     }
     private KualiModuleService moduleService;
 

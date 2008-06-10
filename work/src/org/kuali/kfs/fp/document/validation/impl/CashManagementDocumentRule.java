@@ -102,7 +102,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param cmd submitted cash management document
      */
     private void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
             String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
             if (!cmdInitiatorNetworkId.equalsIgnoreCase(currentUser.getPersonUserIdentifier())) {

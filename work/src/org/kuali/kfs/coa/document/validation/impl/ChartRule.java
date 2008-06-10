@@ -15,14 +15,14 @@
  */
 package org.kuali.module.chart.rules;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartService;
 
 /**
@@ -44,6 +44,8 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
 
         Chart chart = (Chart) document.getNewMaintainableObject().getBusinessObject();
         ChartService chartService = SpringContext.getBean(ChartService.class);
+        FinancialSystemUserService financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);  
+        
 
         String chartCode = chart.getChartOfAccountsCode();
 
@@ -58,16 +60,13 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        UniversalUser chartManager = null;
-        try {
-            chartManager = getUniversalUserService().getUniversalUser(chart.getFinCoaManagerUniversalId());
-        }
-        catch (UserNotFoundException e) {
+        FinancialSystemUser chartManager = financialSystemUserService.getFinancialSystemUser(chart.getFinCoaManagerUniversalId());
+        if ( chartManager == null ) {
             result = false;
             putFieldError("finCoaManagerUniversal.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
         }
 
-        if (chartManager != null && !chartManager.isActiveForModule(ChartUser.MODULE_ID)) {
+        if (chartManager != null && !chartManager.isActiveFinancialSystemUser()) {
             result = false;
             putFieldError("finCoaManagerUniversal.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }

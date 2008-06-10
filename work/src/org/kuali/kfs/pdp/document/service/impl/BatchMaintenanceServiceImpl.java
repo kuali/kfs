@@ -21,12 +21,12 @@ package org.kuali.module.pdp.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.pdp.bo.Code;
 import org.kuali.module.pdp.bo.PaymentChange;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentGroupHistory;
 import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.BatchMaintenanceDao;
 import org.kuali.module.pdp.dao.PaymentGroupDao;
 import org.kuali.module.pdp.dao.PaymentGroupHistoryDao;
@@ -59,7 +59,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
     private ReferenceService referenceService;
 
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, PdpUser user) {
+    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         Code cd = referenceService.getCode("PaymentChange", changeStatus);
@@ -84,7 +84,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void cancelPendingBatch(Integer paymentBatchId, String note, PdpUser user) throws PdpException {
+    public void cancelPendingBatch(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
         LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
         if (doBatchPaymentsHaveOpenOrHeldStatus(paymentBatchId)) {
             List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
@@ -115,7 +115,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void holdPendingBatch(Integer paymentBatchId, String note, PdpUser user) throws PdpException {
+    public void holdPendingBatch(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
         LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
         if (doBatchPaymentsHaveOpenStatus(paymentBatchId)) {
             List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
@@ -146,7 +146,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void removeBatchHold(Integer paymentBatchId, String note, PdpUser user) throws PdpException {
+    public void removeBatchHold(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
         LOG.debug("removeBatchHold() Enter method to hold batch with id = " + paymentBatchId);
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
             List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);

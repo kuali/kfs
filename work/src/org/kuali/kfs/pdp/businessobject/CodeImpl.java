@@ -40,17 +40,17 @@ public abstract class CodeImpl implements Code, UserRequired, Serializable, Pers
     private String code;
     private String description;
     private Timestamp lastUpdate;
-    private PdpUser lastUpdateUser;
+    private UniversalUser lastUpdateUser;
     private String lastUpdateUserId;
     private Integer version;
 
-    public PdpUser getLastUpdateUser() {
+    public UniversalUser getLastUpdateUser() {
         return lastUpdateUser;
     }
 
-    public void setLastUpdateUser(PdpUser s) {
+    public void setLastUpdateUser(UniversalUser s) {
         if (s != null) {
-            this.lastUpdateUserId = s.getUniversalUser().getPersonUniversalIdentifier();
+            this.lastUpdateUserId = s.getPersonUniversalIdentifier();
         }
         else {
             this.lastUpdateUserId = null;
@@ -68,12 +68,7 @@ public abstract class CodeImpl implements Code, UserRequired, Serializable, Pers
 
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
         UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        if (u == null) {
-            setLastUpdateUser(null);
-        }
-        else {
-            setLastUpdateUser(new PdpUser(u));
-        }
+        setLastUpdateUser(u);
     }
 
     public boolean equals(Object obj) {

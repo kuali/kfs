@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Delegate;
 
 
@@ -99,5 +99,5 @@ public interface AccountService {
      * @param user the chart user who may or may not have accessible accounting lines on the document
      * @return true if the given accountingLine refers to an account which allows it to be added, deleted, or updated
      */
-    public abstract boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, ChartUser user);
+    public abstract boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, FinancialSystemUser user);
 }

@@ -20,10 +20,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.service.ChartUserService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 
 /**
  * This class represents an ad-hoc person.
@@ -36,7 +36,8 @@ public class AdhocPerson extends AbstractAdhoc {
     private String personUserIdentifier;
     private String name;
     private UniversalUser user;
-
+    private transient FinancialSystemUserService financialSystemUserService;
+    
     public AdhocPerson() {
         super();
     }
@@ -71,7 +72,7 @@ public class AdhocPerson extends AbstractAdhoc {
      * @return Returns the user.
      */
     public UniversalUser getUser() {
-        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+        user = getKfsUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, user);
         return user;
     }
 
@@ -88,23 +89,12 @@ public class AdhocPerson extends AbstractAdhoc {
     public String getPrimaryDepartmentCode() {
         String org = "";
         if (user == null || user.getPersonUserIdentifier() == null) {
-            user = null;
-            try {
-                user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getPersonUniversalIdentifier());
-            }
-            catch (UserNotFoundException ex) {
-                // do nothing, leave user as null
-            }
+            user = getKfsUserService().getFinancialSystemUser(getPersonUniversalIdentifier());
         }
         if (user == null) {
             return "";
         }
-        if (this.user.getModuleUser(ChartUser.MODULE_ID) != null) {
-            org = ((ChartUser) this.user.getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
-        }
-        else {
-            org = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(this.user);
-        }
+        org = getKfsUserService().getOrganizationByModuleId(KFSConstants.Modules.CHART).getOrganizationCode();
         return org;
     }
 
@@ -117,7 +107,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if (user == null || user.getPersonUserIdentifier() == null) {
             user = null;
             try {
-                user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getPersonUniversalIdentifier());
+                user = getKfsUserService().getUniversalUser(getPersonUniversalIdentifier());
             }
             catch (UserNotFoundException ex) {
                 // do nothing, leave user as null
@@ -147,7 +137,7 @@ public class AdhocPerson extends AbstractAdhoc {
         if (user == null || user.getPersonName() == null) {
             user = null;
             try {
-                user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getPersonUniversalIdentifier());
+                user = getKfsUserService().getUniversalUser(getPersonUniversalIdentifier());
             }
             catch (UserNotFoundException ex) {
                 // do nothing, leave UU as null
@@ -176,5 +166,12 @@ public class AdhocPerson extends AbstractAdhoc {
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         return m;
+    }
+
+    public FinancialSystemUserService getKfsUserService() {
+        if ( financialSystemUserService == null ) {
+            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        }
+        return financialSystemUserService;
     }
 }

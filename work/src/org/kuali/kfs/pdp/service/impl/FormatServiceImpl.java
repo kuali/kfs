@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.core.bo.Parameter;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.SchedulerService;
@@ -44,7 +45,6 @@ import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentProcess;
 import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.bo.ProcessSummary;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
 import org.kuali.module.pdp.dao.DisbursementNumberRangeDao;
@@ -94,12 +94,12 @@ public class FormatServiceImpl implements FormatService {
     /**
      * @see org.kuali.module.pdp.service.FormatService#formatSelectionAction(org.kuali.module.pdp.bo.PdpUser, boolean)
      */
-    public FormatSelection formatSelectionAction(PdpUser user, boolean clearFormat) {
+    public FormatSelection formatSelectionAction(UniversalUser user, boolean clearFormat) {
         LOG.debug("formatSelectionAction() started");
 
         FormatSelection fs = new FormatSelection();
 
-        fs.setCampus(user.getUniversalUser().getCampusCode());
+        fs.setCampus(user.getCampusCode());
 
         Date startDate = getFormatProcessStartDate(fs.getCampus());
 
@@ -387,7 +387,7 @@ public class FormatServiceImpl implements FormatService {
 
     // Mark the process log so a format only happens once per campus. Mark all the
     // payments that will be formatted and return a summary
-    public List startFormatProcess(PdpUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes) {
+    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes) {
         LOG.debug("startFormatProcess() started");
 
         for (Iterator iter = customers.iterator(); iter.hasNext();) {

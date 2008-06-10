@@ -26,11 +26,11 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.bo.UserRequired;
 import org.kuali.module.pdp.dao.ReferenceDao;
 import org.kuali.module.pdp.exception.ConfigurationError;
@@ -116,7 +116,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
         return hm;
     }
 
-    public Code addCode(String type, String code, String description, PdpUser u) {
+    public Code addCode(String type, String code, String description, UniversalUser u) {
         Class clazz = getClass(type);
         Code c;
 
@@ -141,7 +141,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
     }
 
     // FROM TAFKAT
-    public void updateCode(String code, String description, String type, PdpUser u) {
+    public void updateCode(String code, String description, String type, UniversalUser u) {
         LOG.debug("updateCode() started");
 
         Criteria criteria = new Criteria();
@@ -157,7 +157,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
     }
 
     // OLD PDP
-    public void updateCode(Code item, PdpUser u) {
+    public void updateCode(Code item, UniversalUser u) {
         LOG.debug("updateCode() started");
 
         item.setLastUpdateUser(u);

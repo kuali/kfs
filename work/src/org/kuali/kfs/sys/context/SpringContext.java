@@ -80,7 +80,9 @@ public class SpringContext {
             bean = (T) SINGLETON_BEANS_BY_TYPE_CACHE.get(type);
         }
         else {
-            LOG.info("Bean not already in cache: " + type + " - calling getBeansOfType() ");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("Bean not already in cache: " + type + " - calling getBeansOfType() ");
+            }
             try {
                 Collection<T> beansOfType = getBeansOfType(type).values();
                 if (beansOfType.size() > 1) {
@@ -91,7 +93,9 @@ public class SpringContext {
                 }
             }
             catch (NoSuchBeanDefinitionException nsbde) {
-                LOG.info("Could not find bean of type " + type.getName() + " - checking KNS context");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("Could not find bean of type " + type.getName() + " - checking KNS context");
+                }
                 try {
                     bean = KNSServiceLocator.getBean(type);
                 }
@@ -124,7 +128,9 @@ public class SpringContext {
             beansOfType = SINGLETON_BEANS_OF_TYPE_CACHE.get(type);
         }
         else {
-            LOG.info("Bean not already in \"OF_TYPE\" cache: " + type + " - calling getBeansOfType() on KNS and locally");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("Bean not already in \"OF_TYPE\" cache: " + type + " - calling getBeansOfType() on KNS and locally");
+            }
             boolean allOfTypeAreSingleton = true;
             beansOfType = KNSServiceLocator.getBeansOfType(type);
             for ( String key : beansOfType.keySet() ) {
@@ -161,7 +167,9 @@ public class SpringContext {
                 isSingleton = applicationContext.isSingleton(name);
             }
             catch (NoSuchBeanDefinitionException nsbde) {
-                LOG.info("Could not find bean named " + name + " - checking KNS context");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("Could not find bean named " + name + " - checking KNS context");
+                }
                 try {
                     bean = KNSServiceLocator.getBean(type, name);
                 }

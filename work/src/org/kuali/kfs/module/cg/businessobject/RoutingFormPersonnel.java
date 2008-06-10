@@ -21,14 +21,16 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -69,6 +71,9 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     // private RoutingFormDocument routingFormDocument;
     private UniversalUser user;
 
+    private transient FinancialSystemUserService financialSystemUserService;
+    private transient ParameterService parameterService;
+    
     /**
      * Default constructor.
      */
@@ -106,13 +111,10 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     public void populateWithUserServiceFields() {
         // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
-        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
-        ChartUserService chartUserService = SpringContext.getBean(ChartUserService.class);
-        UniversalUser user = universalUserService.updateUniversalUserIfNecessary(this.getPersonUniversalIdentifier(), this.getUser());
-
+        ChartOrgHolder chartOrg = getKfsUserService().getOrganizationByModuleId(user, KFSConstants.Modules.CHART);
         // set chart / org for new person
-        this.setChartOfAccountsCode(chartUserService.getDefaultChartCode(user));
-        this.setOrganizationCode(chartUserService.getDefaultOrganizationCode(user));
+        this.setChartOfAccountsCode(chartOrg.getChartOfAccountsCode());
+        this.setOrganizationCode(chartOrg.getOrganizationCode());
 
         // set email address, campus address, and phone
         this.setPersonEmailAddress(user.getPersonEmailAddress());
@@ -673,7 +675,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the user.
      */
     public UniversalUser getUser() {
-        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+        user = getKfsUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, user);
         return user;
     }
 
@@ -736,14 +738,28 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
     public boolean isProjectDirector() {
-        final String PERSON_ROLE_CODE_PD = SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
+        final String PERSON_ROLE_CODE_PD = getParameterService().getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
 
         return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }
 
     public boolean isContactPerson() {
-        final String PERSON_ROLE_CODE_CP = SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_CONTACT_PERSON);
+        final String PERSON_ROLE_CODE_CP = getParameterService().getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_CONTACT_PERSON);
 
         return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());
     }
+
+    public FinancialSystemUserService getKfsUserService() {
+        if ( financialSystemUserService == null ) {
+            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        }
+        return financialSystemUserService;
+    }
+    public ParameterService getParameterService() {
+        if ( parameterService == null ) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
+
 }

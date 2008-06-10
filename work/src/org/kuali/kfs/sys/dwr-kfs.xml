@@ -38,8 +38,8 @@
 						
 	    <convert match="org.kuali.core.util.KualiDecimal" converter="kualinumber" />
 	    
-	    <create creator="spring" javascript="KfsUniversalUserService">
-	    	<param name="beanName" value="kfsUniversalUserService" />
+	    <create creator="spring" javascript="FinancialSystemUserService">
+	    	<param name="beanName" value="financialSystemUserService" />
 	    	<include method="getUniversalUserByPersonPayrollIdentifier" />
 	    </create>
 	</allow>

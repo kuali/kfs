@@ -87,7 +87,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         dvParameter.setDisbVchrPayeeTaxControlCode("");
         dvParameter.getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
 
-        dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getUniversalUser().getPersonName());
+        dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
         // set to tomorrow
         Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);

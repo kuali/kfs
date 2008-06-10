@@ -76,7 +76,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         boolean isAdmin = false;
         try {
-            isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
+            isAdmin = GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminGroupName);
         }
         catch (Exception e) {
             throw new RuntimeException("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e);

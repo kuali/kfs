@@ -34,10 +34,11 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -49,6 +50,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase implements AccountingDocumentAuthorizer {
     private static Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
 
+    protected FinancialSystemUserService financialSystemUserService;
+    
+    
     /**
      * @see org.kuali.core.authorization.FinancialDocumentAuthorizer#getAccountingLineEditableFields(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
@@ -76,7 +80,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
      *      org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
      */
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        ChartUser chartUser = (ChartUser) user.getModuleUser(ChartUser.MODULE_ID);
+        FinancialSystemUser financialSystemUser = getKfsUserService().convertUniversalUserToFinancialSystemUser(user);
 
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
@@ -103,7 +107,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
                 lineList.addAll(sourceAccountingLines);
                 lineList.addAll(targetAccountingLines);
 
-                if (workflowDocument.isApprovalRequested() && userOwnsAnyAccountingLine(chartUser, lineList)) {
+                if (workflowDocument.isApprovalRequested() && userOwnsAnyAccountingLine(financialSystemUser, lineList)) {
                     editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
                 }
             }
@@ -135,7 +139,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
      * @param user
      * @return true if the given user is responsible for any accounting line of the given transactionalDocument
      */
-    protected boolean userOwnsAnyAccountingLine(ChartUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(FinancialSystemUser user, List accountingLines) {
         for (Iterator i = accountingLines.iterator(); i.hasNext();) {
             AccountingLine accountingLine = (AccountingLine) i.next();
             String chartCode = accountingLine.getChartOfAccountsCode();
@@ -154,10 +158,10 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
      */
     private class AccountResponsibilityClosure implements Closure {
         private Map editableAccounts;
-        private ChartUser currentUser;
+        private UniversalUser currentUser;
         private AccountService accountService;
 
-        public AccountResponsibilityClosure(Map editableAccounts, ChartUser currentUser, AccountService accountService) {
+        public AccountResponsibilityClosure(Map editableAccounts, UniversalUser currentUser, AccountService accountService) {;
             this.editableAccounts = editableAccounts;
             this.currentUser = currentUser;
             this.accountService = accountService;
@@ -167,7 +171,7 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
             AccountingLine acctLine = (AccountingLine) input;
             Account acct = accountService.getByPrimaryId(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber());
             if (ObjectUtils.isNotNull(acct)) {
-                if (accountService.hasResponsibilityOnAccount(currentUser.getUniversalUser(), acct)) {
+                if (accountService.hasResponsibilityOnAccount(currentUser, acct)) {
                     editableAccounts.put(acctLine.getAccountKey(), acct);
                 }
             }
@@ -180,9 +184,9 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
 
     /**
      * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.module.chart.bo.ChartUser)
+     *      org.kuali.module.chart.bo.KfsUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
 
         Map editableAccounts = new HashMap();
         AccountingDocument acctDoc = (AccountingDocument) document;
@@ -199,14 +203,27 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
 
     /**
      * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(java.util.List,
-     *      org.kuali.module.chart.bo.ChartUser)
+     *      org.kuali.module.chart.bo.KfsUser)
      */
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         Map editableAccounts = new HashMap();
         AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringContext.getBean(AccountService.class));
 
         CollectionUtils.forAllDo(lines, accountResponsibilityClosure);
 
         return editableAccounts;
+    }
+
+
+    public FinancialSystemUserService getKfsUserService() {
+        if ( financialSystemUserService == null ) {
+            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        }
+        return financialSystemUserService;
+    }
+
+
+    public void setKfsUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 }

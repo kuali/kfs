@@ -31,11 +31,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.form.format.FormatSelectionForm;
 import org.kuali.module.pdp.service.FormatSelection;
 import org.kuali.module.pdp.service.FormatService;
@@ -66,18 +66,20 @@ public class FormatSelectionAction extends BaseAction {
 
         HttpSession session = request.getSession();
 
-        PdpUser user = getUser(request);
+        UniversalUser user = getUser(request);
         FormatSelection fs = formatService.formatSelectionAction(user, request.getParameter("clear") != null);
 
         // Get the user's campus
-        session.setAttribute("campus", user.getUniversalUser().getCampusCode());
+        session.setAttribute("campus", user.getCampusCode());
 
         // Note, customers, ranges and FormatSelectionForm have to be in session so
         // validate works. If they weren't in session, the page wouldn't have all the
         // data it needs to display after a validate failure.
 
         if (fs.getStartDate() != null) {
-            LOG.debug("executeLogic() Format is already running for " + user.getUniversalUser().getCampusCode());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("executeLogic() Format is already running for " + user.getCampusCode());
+            }
 
             session.removeAttribute("customers");
             session.removeAttribute("ranges");

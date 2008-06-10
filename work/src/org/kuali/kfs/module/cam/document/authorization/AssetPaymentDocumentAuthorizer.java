@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.ChartUser;
 
 
 public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
@@ -33,7 +33,7 @@ public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizer
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();
     }
 
@@ -44,7 +44,7 @@ public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizer
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         return new HashMap();
     }
 }

@@ -25,7 +25,6 @@ import org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent;
 import org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.AccountService;
 
 /**
@@ -55,7 +54,7 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID));
+        boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, GlobalVariables.getUserSession().getFinancialSystemUser());
 
         // report errors
         if (!isAccessible) {

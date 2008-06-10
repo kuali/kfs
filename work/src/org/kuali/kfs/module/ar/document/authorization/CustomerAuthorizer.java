@@ -30,10 +30,10 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationOptions;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -44,9 +44,9 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
         super.canInitiate(documentTypeName, user);
         // to initiate, the user must have the organization options set up.
-        ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
+        FinancialSystemUser chartUser = ValueFinderUtil.getCurrentFinancialSystemUser();
         String chartCode = chartUser.getChartOfAccountsCode();
-        String orgCode = chartUser.getUserOrganizationCode();
+        String orgCode = chartUser.getOrganizationCode();
 
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartCode);

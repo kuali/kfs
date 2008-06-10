@@ -42,7 +42,7 @@ public class ServiceBillingDocumentRuleUtil {
      * @return Whether the current user is authorized to use the given account in the service billing income section.
      */
     public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingDocumentRuleBase.AccountingLineAction action) {
-        return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getUniversalUser());
+        return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getFinancialSystemUser());
     }
 
     /**

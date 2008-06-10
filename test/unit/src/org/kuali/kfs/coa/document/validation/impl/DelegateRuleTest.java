@@ -514,7 +514,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
     }
 
     public void testcheckDelegateUserRules_badDelegate2() {
@@ -547,7 +547,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
     }
 
     /**

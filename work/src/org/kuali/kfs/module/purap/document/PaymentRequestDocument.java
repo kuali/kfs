@@ -394,7 +394,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getFinancialSystemUser();
         this.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
         this.setProcessingCampusCode(currentUser.getCampusCode());
@@ -473,7 +473,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setAlternateVendorDetailAssignedIdentifier(po.getAlternateVendorDetailAssignedIdentifier());
         
         // populate preq vendor address with the default remit address type for the vendor if found
-        String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();
+        String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
         VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
         if (vendorAddress != null) {
             this.templateVendorAddress(vendorAddress);

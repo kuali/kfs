@@ -803,12 +803,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // retrieve and save with hold indicator set to true
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(true);
-        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         saveDocumentWithoutValidation(preqDoc);
 
         // must also save it on the incoming document
         document.setHoldIndicator(true);
-        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         return preqDoc;
     }
 
@@ -885,14 +885,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // retrieve and save with hold indicator set to true
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setPaymentRequestedCancelIndicator(true);
-        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         saveDocumentWithoutValidation(preqDoc);
 
         // must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(true);
-        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        document.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        document.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
     }
 
     /**
@@ -1340,7 +1340,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         for (String docNumber : docNumbers) {
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }

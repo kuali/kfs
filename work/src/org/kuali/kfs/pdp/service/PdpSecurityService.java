@@ -19,11 +19,11 @@
  */
 package org.kuali.module.pdp.service;
 
-import org.kuali.module.pdp.bo.PdpUser;
+import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * @author jsissom
  */
 public interface PdpSecurityService {
-    public SecurityRecord getSecurityRecord(PdpUser user);
+    public SecurityRecord getSecurityRecord(UniversalUser user);
 }

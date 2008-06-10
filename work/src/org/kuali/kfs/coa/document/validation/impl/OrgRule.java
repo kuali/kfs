@@ -207,7 +207,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
          */
 
         // get user
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         // if not authroized to edit plant fields, exit with true
         if (isPlantAuthorized(user) == false) {

@@ -38,6 +38,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
@@ -72,7 +73,7 @@ public class PurapServiceImpl implements PurapService {
     private PersistenceService persistenceService;
     private PurchaseOrderService purchaseOrderService;
     private NoteService noteService;
-    
+
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -512,7 +513,7 @@ public class PurapServiceImpl implements PurapService {
 
         String documentLabel = dataDictionaryService.getDocumentLabelByClass(getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
-        String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
+        String userName = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName();
         closeReopenNote.append(dataDictionaryService.getDocumentLabelByClass(PurchaseOrderDocument.class));
         closeReopenNote.append(" will be manually ");
         closeReopenNote.append(action);

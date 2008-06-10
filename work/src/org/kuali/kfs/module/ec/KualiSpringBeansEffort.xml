@@ -18,27 +18,12 @@
 <beans>
     <bean id="effortModule" parent="effortModule-parentBean" />
 
-    <bean id="effortModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="effortModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="effort" />
 		<property name="moduleName" value="Effort Certification" />
 		<property name="moduleCode" value="ER" />
-		<property name="moduleUserService" ref="effortUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.effort.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="effortModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/effort/datadictionary</value>
@@ -62,6 +47,14 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="effortModuleAuthorizer" parent="financialSystemModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.effort.</value>
+            </list>
+        </property>
+    </bean>
 	
 	<!-- Section 1: Batch Job Definitions --> 
 	<bean id="effortCertificationExtractJob" parent="unscheduledJobDescriptor">
@@ -93,7 +86,6 @@
 	</bean>
 	
 	<!-- Section 2: Service declarations -->
-	<bean id="effortUserService" class="org.kuali.module.effort.service.impl.EffortUserServiceImpl"  parent="kualiModuleUserServiceBase" />
 	
 	<bean id="effortCertifcationReportPeriodUpdateService" class="org.kuali.module.effort.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl" >
 		<property name="effortCertificationReportDefinitionDao">

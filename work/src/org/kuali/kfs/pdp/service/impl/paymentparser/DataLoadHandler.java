@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -51,7 +52,6 @@ import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.CustomerProfileDao;
 import org.kuali.module.pdp.dao.PaymentFileLoadDao;
 import org.kuali.module.pdp.dao.ReferenceDao;
@@ -99,7 +99,7 @@ public class DataLoadHandler implements PdpFileHandler {
     private List errors = new ArrayList();
     private boolean abort = false;
     private String filename;
-    private PdpUser user;
+    private UniversalUser user;
     private int count = 0;
 
     private boolean taxEmailRequired = false;
@@ -185,7 +185,7 @@ public class DataLoadHandler implements PdpFileHandler {
     }
 
     // Manually set
-    public void setUser(PdpUser u) {
+    public void setUser(UniversalUser u) {
         user = u;
     }
 

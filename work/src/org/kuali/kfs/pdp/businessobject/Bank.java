@@ -48,7 +48,7 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
     private DisbursementType disbursementType;
     private String disbursementTypeCode;
     private Timestamp lastUpdate;
-    private PdpUser lastUpdateUser;
+    private UniversalUser lastUpdateUser;
     private String lastUpdateUserId;
 
     /**
@@ -67,7 +67,7 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
         }
         else {
             lastUpdateUserId = u.getPersonUniversalIdentifier();
-            lastUpdateUser = new PdpUser(u);
+            lastUpdateUser = u;
         }
     }
 
@@ -223,16 +223,16 @@ public class Bank implements UserRequired, Serializable, PersistenceBrokerAware 
     /**
      * @return Returns the lastUpdateUser.
      */
-    public PdpUser getLastUpdateUser() {
+    public UniversalUser getLastUpdateUser() {
         return lastUpdateUser;
     }
 
     /**
      * @param lastUpdateUser The lastUpdateUser to set.
      */
-    public void setLastUpdateUser(PdpUser lastUpdateUser) {
+    public void setLastUpdateUser(UniversalUser lastUpdateUser) {
         if (lastUpdateUser != null) {
-            this.lastUpdateUserId = lastUpdateUser.getUniversalUser().getPersonUniversalIdentifier();
+            this.lastUpdateUserId = lastUpdateUser.getPersonUniversalIdentifier();
         }
         else {
             this.lastUpdateUserId = null;

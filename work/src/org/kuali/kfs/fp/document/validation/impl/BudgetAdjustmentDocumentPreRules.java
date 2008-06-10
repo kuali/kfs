@@ -71,7 +71,7 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
         // and check that the user can edit the document
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetAdjustmentDocument.class);
         BudgetAdjustmentDocumentAuthorizer budgetAdjustmentDocumentAuthorizer = (BudgetAdjustmentDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser universalUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, universalUser, budgetDocument.getSourceAccountingLines(), budgetDocument.getTargetAccountingLines());
 
         if (map.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {

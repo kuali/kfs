@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.UserSession;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSConstants;
@@ -37,7 +38,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.service.PdpSecurityService;
 import org.kuali.module.pdp.service.SecurityRecord;
 
@@ -115,11 +115,11 @@ public abstract class BaseAction extends Action {
         // Do authorization (check again if backdoorId is set)
         SecurityRecord securityRecord = (SecurityRecord) session.getAttribute("SecurityRecord");
         String srUser = (String) session.getAttribute("SecurityRecordUser");
-        if ((securityRecord == null) || (srUser == null) || !srUser.equals(getUser(request).getNetworkId())) {
+        if ((securityRecord == null) || (srUser == null) || !srUser.equals(getUser(request).getPersonUserIdentifier())) {
             LOG.debug("execute() Security Check");
             securityRecord = securityService.getSecurityRecord(getUser(request));
             session.setAttribute("SecurityRecord", securityRecord);
-            session.setAttribute("SecurityRecordUser", getUser(request).getNetworkId());
+            session.setAttribute("SecurityRecordUser", getUser(request).getPersonUserIdentifier());
         }
 
         if (!isAuthorized(mapping, form, request, response)) {
@@ -202,7 +202,7 @@ public abstract class BaseAction extends Action {
         UserSession userSession = (UserSession) request.getSession().getAttribute(KFSConstants.USER_SESSION_KEY);
 
         // This is needed for PDP. At some point, PDP should be refactored to use UserSession
-        session.setAttribute("user", new PdpUser(userSession.getUniversalUser()));
+        session.setAttribute("user", userSession.getUniversalUser());
 
         MDC.put("user", userSession.getNetworkId());
 
@@ -231,8 +231,8 @@ public abstract class BaseAction extends Action {
      * @param request
      * @return The user object
      */
-    protected PdpUser getUser(HttpServletRequest request) {
-        return (PdpUser) request.getSession().getAttribute("user");
+    protected UniversalUser getUser(HttpServletRequest request) {
+        return (UniversalUser) request.getSession().getAttribute("user");
     }
 
     /**
@@ -315,14 +315,14 @@ public abstract class BaseAction extends Action {
      * @return
      */
     protected String getNetworkId(HttpServletRequest request) {
-        PdpUser user = getUser(request);
+        UniversalUser user = getUser(request);
 
         if (user == null) {
             LOG.error("getNetworkId() not authenticated");
             return null;
         }
         else {
-            return user.getUniversalUser().getPersonUserIdentifier();
+            return user.getPersonUserIdentifier();
         }
     }
 

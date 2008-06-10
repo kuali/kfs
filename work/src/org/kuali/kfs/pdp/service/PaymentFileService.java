@@ -15,8 +15,8 @@
  */
 package org.kuali.module.pdp.service;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.exception.PaymentLoadException;
 
 public interface PaymentFileService {
@@ -33,7 +33,7 @@ public interface PaymentFileService {
      * @return
      * @throws PaymentLoadException
      */
-    public LoadPaymentStatus loadPayments(String filename, PdpUser user) throws PaymentLoadException;
+    public LoadPaymentStatus loadPayments(String filename, UniversalUser user) throws PaymentLoadException;
 
     /**
      * Send notification email about a loaded batch

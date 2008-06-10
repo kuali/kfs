@@ -25,11 +25,12 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
@@ -41,8 +42,8 @@ public class OrganizationAccountingDefaultAuthorizer extends MaintenanceDocument
         Map editModes = new HashMap();
      //   try {
         OrganizationAccountingDefault orgAcctDefault = (OrganizationAccountingDefault)document.getDocumentBusinessObject();
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        Org userOrg = currentUser.getOrganization();
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        Org userOrg = chartOrg.getOrganization();
         Org docOrg = orgAcctDefault.getOrganization();
         
         if (ObjectUtils.equals(userOrg, docOrg) || isUserInArSupervisorGroup(user) ){

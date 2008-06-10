@@ -61,7 +61,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramMap, String basePath) {
         // can the user claim electronic payments at all?
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (!electronicPaymentClaimingService.isUserMemberOfClaimingGroup(currentUser)) {
             throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
         }

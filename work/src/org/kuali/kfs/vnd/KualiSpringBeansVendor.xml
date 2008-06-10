@@ -23,22 +23,7 @@
 		<property name="moduleName" value="Vendor" />
 		<property name="moduleCode" value="VN" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleUserService" ref="vendorUserService" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.vendor.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="vendorModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/vendor/datadictionary</value>
@@ -55,6 +40,14 @@
 			</list>
 		</property>
 	</bean>
+    
+    <bean id="vendorModuleAuthorizer" parent="activeStaffFacultyAffiliateModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.vendor.</value>
+            </list>
+        </property>
+    </bean>   
 
 	<bean id="workflow-org.kuali.module.vendor.bo.VendorType-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
@@ -74,9 +67,6 @@
         </property>
     </bean>
     
-	<bean id="vendorUserService" class="org.kuali.module.vendor.service.impl.VendorUserServiceImpl" parent="kualiModuleUserServiceBase">
-	</bean>
-
     <bean id="vendorService" class="org.kuali.module.vendor.service.impl.VendorServiceImpl">
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>

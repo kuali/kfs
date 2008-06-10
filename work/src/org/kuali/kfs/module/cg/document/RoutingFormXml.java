@@ -29,11 +29,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -183,6 +183,7 @@ public class RoutingFormXml {
         RoutingFormPersonnel projectDirector = routingFormMainPageService.getProjectDirector(routingFormPersonnel);
 
         principlesElement.setAttribute("CO-PD_IND", formatBoolean(routingFormMainPageService.checkCoPdExistance(routingFormPersonnel)));
+        FinancialSystemUserService financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
 
         Element projectDirectorElement = xmlDoc.createElement("PROJECT_DIRECTOR");
         if (projectDirector != null) {
@@ -196,16 +197,9 @@ public class RoutingFormXml {
                 projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
 
                 Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
-                String chart = "";
-                String org = "";
-                if (projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID) != null) {
-                    chart = ((ChartUser) projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getChartOfAccountsCode();
-                    org = ((ChartUser) projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
-                }
-                else {
-                    chart = SpringContext.getBean(ChartUserService.class).getDefaultChartCode(projectDirector.getUser());
-                    org = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(projectDirector.getUser());
-                }
+                ChartOrgHolder userChartOrg = financialSystemUserService.getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART);
+                String chart = userChartOrg.getChartOfAccountsCode();
+                String org = userChartOrg.getOrganizationCode();
 
                 homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(chart));
                 homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(org));
@@ -671,19 +665,18 @@ public class RoutingFormXml {
         Element approverElement = xmlDoc.createElement("APPROVER");
 
         UniversalUser kualiUser;
-        UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
-        ChartUserService chartUserService = SpringContext.getBean(ChartUserService.class);
+        FinancialSystemUserService kfsUserService = SpringContext.getBean(FinancialSystemUserService.class);
         try {
-            kualiUser = universalUserService.getUniversalUser(workflowUser.getUuId());
+            kualiUser = kfsUserService.getUniversalUser(workflowUser.getUuId());
         }
         catch (UserNotFoundException e) {
             LOG.error("Lookup for emplId=" + workflowUser.getEmplId() + " failed. Skipping putting person in XML.");
             return;
         }
-
+        ChartOrgHolder userChartOrg = kfsUserService.getOrganizationByModuleId(kualiUser,KFSConstants.Modules.CHART);
         approverElement.setAttribute("TITLE", ObjectUtils.toString(nodeName));
-        approverElement.setAttribute("CHART", ObjectUtils.toString(chartUserService.getDefaultChartCode(kualiUser)));
-        approverElement.setAttribute("ORG", ObjectUtils.toString(chartUserService.getDefaultOrganizationCode(kualiUser)));
+        approverElement.setAttribute("CHART", ObjectUtils.toString(userChartOrg.getChartOfAccountsCode()));
+        approverElement.setAttribute("ORG", ObjectUtils.toString(userChartOrg.getOrganizationCode()));
         approverElement.setAttribute("ACTION", ObjectUtils.toString(actionName));
         approverElement.setAttribute("ACTION_DATE", ObjectUtils.toString(actionDate));
 

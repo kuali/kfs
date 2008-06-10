@@ -501,7 +501,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
                     // see if this user can vew/modify the budget
                     BudgetDocumentAuthorizer budgetDocumentAuthorizer = new BudgetDocumentAuthorizer();
-                    Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getUniversalUser());
+                    Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getFinancialSystemUser());
                     if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) || (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
                         errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                         return false;

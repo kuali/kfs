@@ -25,17 +25,18 @@ import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.bo.ChartOrgHolder;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
@@ -117,21 +118,17 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
     public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
         // to initiate, the user must have the organization options set up.
-        ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
-        String chartCode = chartUser.getChartOfAccountsCode();
-        String orgCode = chartUser.getUserOrganizationCode();
+        FinancialSystemUser financialSystemUser = ValueFinderUtil.getCurrentFinancialSystemUser();
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(financialSystemUser, "ar");
 
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", chartCode);
-        criteria.put("organizationCode", orgCode);
+        criteria.put("chartOfAccountsCode", chartOrg.getChartOfAccountsCode());
+        criteria.put("organizationCode", chartOrg.getOrganizationCode());
         OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
-
-        KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
 
         //if organization doesn't exist
         if (ObjectUtils.isNull(organizationOptions)) {
             throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
-
         }
     }
 

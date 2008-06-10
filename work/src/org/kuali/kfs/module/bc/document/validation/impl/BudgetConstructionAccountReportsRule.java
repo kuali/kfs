@@ -97,7 +97,7 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
 
         boolean success = true;
         String chartUserId = "";
-        String transactionUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String transactionUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
         if (!(newBCAccountReports.getChartOfAccounts() == null)) {
 
             chartUserId = newBCAccountReports.getChartOfAccounts().getFinCoaManagerUniversalId();

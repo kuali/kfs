@@ -91,23 +91,23 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
 
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType)) {
+        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
         }
         /*
          * //TODO from KualiAction - remove when ready AuthorizationType defaultAuthorizationType = new
          * AuthorizationType.Default(this.getClass()); if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized(
-         * GlobalVariables.getUserSession().getUniversalUser(), defaultAuthorizationType ) ) { LOG.error("User not authorized to use
+         * GlobalVariables.getUserSession().getKfsUser(), defaultAuthorizationType ) ) { LOG.error("User not authorized to use
          * this action: " + this.getClass().getName() ); throw new ModuleAuthorizationException(
-         * GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), defaultAuthorizationType,
+         * GlobalVariables.getUserSession().getKfsUser().getPersonUserIdentifier(), defaultAuthorizationType,
          * getKualiModuleService().getResponsibleModule(((KualiDocumentFormBase)form).getDocument().getClass()) ); } //TODO from
          * KualiDocumentActionBase - remove when ready AuthorizationType documentAuthorizationType = new
          * AuthorizationType.Document(((KualiDocumentFormBase)form).getDocument().getClass(),
          * ((KualiDocumentFormBase)form).getDocument()); if ( !SpringContext.getBean(KualiModuleService.class).isAuthorized(
-         * GlobalVariables.getUserSession().getUniversalUser(), documentAuthorizationType ) ) { LOG.error("User not authorized to
+         * GlobalVariables.getUserSession().getKfsUser(), documentAuthorizationType ) ) { LOG.error("User not authorized to
          * use this action: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() ); throw new
-         * ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(),
+         * ModuleAuthorizationException( GlobalVariables.getUserSession().getKfsUser().getPersonUserIdentifier(),
          * documentAuthorizationType,
          * getKualiModuleService().getResponsibleModule(((KualiDocumentFormBase)form).getDocument().getClass()) ); }
          */

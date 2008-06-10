@@ -48,7 +48,7 @@ public class AssetPreRule extends MaintenancePreRulesBase {
 
     public String getUniversalUserId() {
         if (ObjectUtils.isNull(universalUserId)) {
-            this.universalUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            this.universalUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
         }
         return this.universalUserId;
     }

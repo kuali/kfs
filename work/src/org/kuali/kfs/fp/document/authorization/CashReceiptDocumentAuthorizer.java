@@ -30,9 +30,9 @@ import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.util.Timer;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
@@ -87,7 +87,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      java.util.List)
      */
     @Override
-    protected boolean userOwnsAnyAccountingLine(ChartUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(FinancialSystemUser user, List accountingLines) {
         return false;
     }
 
@@ -98,7 +98,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();
     }
 
@@ -109,7 +109,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         return new HashMap();
     }
 

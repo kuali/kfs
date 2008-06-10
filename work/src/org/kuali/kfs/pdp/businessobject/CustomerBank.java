@@ -51,7 +51,7 @@ public class CustomerBank implements UserRequired, Serializable, PersistenceBrok
     private DisbursementType disbursementType; // DISB_TYP_CD
 
     private Timestamp lastUpdate; // LST_UPDT_TS
-    private PdpUser lastUpdateUser;
+    private UniversalUser lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
 
     /**
@@ -61,13 +61,13 @@ public class CustomerBank implements UserRequired, Serializable, PersistenceBrok
         super();
     }
 
-    public PdpUser getLastUpdateUser() {
+    public UniversalUser getLastUpdateUser() {
         return lastUpdateUser;
     }
 
-    public void setLastUpdateUser(PdpUser s) {
+    public void setLastUpdateUser(UniversalUser s) {
         if (s != null) {
-            this.lastUpdateUserId = s.getUniversalUser().getPersonUniversalIdentifier();
+            this.lastUpdateUserId = s.getPersonUniversalIdentifier();
         }
         else {
             this.lastUpdateUserId = null;
@@ -85,12 +85,7 @@ public class CustomerBank implements UserRequired, Serializable, PersistenceBrok
 
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
         UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        if (u == null) {
-            setLastUpdateUser(null);
-        }
-        else {
-            setLastUpdateUser(new PdpUser(u));
-        }
+        setLastUpdateUser(u);
     }
 
     /**

@@ -173,7 +173,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
         DocumentActionFlags flags = routingForm.getDocumentActionFlags();
         if (flags.getCanRoute() || flags.getCanApprove()) {
-            UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+            UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
             if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPersonUniversalIdentifier())) {
                 routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.APPROVALS_PROJECT_DIRECTOR_WORDING));
             }

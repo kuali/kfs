@@ -23,13 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.KualiGroup;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.service.PdpSecurityService;
 import org.kuali.module.pdp.service.SecurityRecord;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -53,10 +52,10 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
         groupService = gs;
     }
 
-    public SecurityRecord getSecurityRecord(PdpUser user) {
+    public SecurityRecord getSecurityRecord(UniversalUser user) {
         LOG.debug("getSecurityRecord() started");
 
-        List groups = groupService.getUsersGroups(user.getUniversalUser());
+        List<KualiGroup> groups = user.getGroups();
 
         // All of these group names are names in the application settings table.
         SecurityRecord sr = new SecurityRecord();
@@ -77,8 +76,8 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
     }
 
     private boolean groupMember(List groups, String groupName) {
-        for (Iterator iter = groups.iterator(); iter.hasNext();) {
-            KualiGroup element = (KualiGroup) iter.next();
+        for (Iterator<KualiGroup> iter = groups.iterator(); iter.hasNext();) {
+            KualiGroup element = iter.next();
             if (element.getGroupName().equals(groupName)) {
                 return true;
             }

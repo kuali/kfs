@@ -145,7 +145,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         Object savedValue = null;
 
         KualiWorkflowDocument workflowDocument = null;
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
         try {
             workflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), user);
         }

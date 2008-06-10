@@ -118,7 +118,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         else {
             flags.setCanSave(true);
 
-            if (SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getUniversalUser())) {
+            if (SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getFinancialSystemUser())) {
                 flags.setCanCancel(true);
             }
             else {

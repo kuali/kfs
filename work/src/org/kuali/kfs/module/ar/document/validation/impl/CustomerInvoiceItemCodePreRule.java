@@ -15,14 +15,16 @@
  */
 package org.kuali.module.ar.rules;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.bo.ChartOrgHolder;
+import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.chart.service.impl.ChartUserServiceImpl;
 
 /**
  * This class is used to ensure that default values are set accordingly if blank
@@ -35,13 +37,11 @@ public class CustomerInvoiceItemCodePreRule extends PreRulesContinuationBase {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         CustomerInvoiceItemCode invoiceItemCode = (CustomerInvoiceItemCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
     
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        ChartUserServiceImpl service = new ChartUserServiceImpl();
-        String orgCode = service.getDefaultOrganizationCode(user);
-        String chartCode = service.getDefaultChartCode(user);
+        FinancialSystemUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId("ar");
         
-        invoiceItemCode.setChartOfAccountsCode(chartCode);
-        invoiceItemCode.setOrganizationCode(orgCode);
+        invoiceItemCode.setChartOfAccountsCode( chartOrg.getChartOfAccountsCode() );
+        invoiceItemCode.setOrganizationCode( chartOrg.getOrganizationCode() );
         
         OrganizationAccountingDefault orgAccDefault = new OrganizationAccountingDefault();
         invoiceItemCode.setChartOfAccounts(orgAccDefault.getChartOfAccounts());

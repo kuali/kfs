@@ -77,7 +77,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getUniversalUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         checkForPartiallyEnteredReportingFields();
@@ -105,7 +105,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getUniversalUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -133,7 +133,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getUniversalUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();

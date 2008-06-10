@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * JournalVoucher-specific DocumentAuthorizer
@@ -38,7 +38,7 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.core.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
         return new HashMap();
     }
 
@@ -49,7 +49,7 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         return new HashMap();
     }
 

@@ -90,7 +90,7 @@ public class DepositWizardAction extends KualiAction {
         // check authorization manually, since the auth-check isn't inherited by this class
         String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(cmDocTypeName);
-        UniversalUser luser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser luser = GlobalVariables.getUserSession().getFinancialSystemUser();
         cmDocAuthorizer.canInitiate(cmDocTypeName, luser);
 
         // populate the outgoing form used by the JSP if it seems empty

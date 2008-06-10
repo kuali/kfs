@@ -346,12 +346,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with hold indicator set to true
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(true);
-        cmDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        cmDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(true);
-        cmDocument.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        cmDocument.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         
         return cmDoc;
     }

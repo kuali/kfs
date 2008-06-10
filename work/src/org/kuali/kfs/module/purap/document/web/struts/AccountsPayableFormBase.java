@@ -104,7 +104,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     public boolean isApUser() {
 
         boolean apUser = false;
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
 

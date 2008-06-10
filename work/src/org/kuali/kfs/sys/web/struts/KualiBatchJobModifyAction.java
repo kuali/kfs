@@ -94,8 +94,8 @@ public class KualiBatchJobModifyAction extends KualiAction {
         String adminWorkgroup = getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
         if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX)) {
             String jobSpecificAdminWorkgroup = getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX);
-            if (!(GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup) || GlobalVariables.getUserSession().getUniversalUser().isMember(jobSpecificAdminWorkgroup))) {
-                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), actionType, job.getFullName());
+            if (!(GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminWorkgroup) || GlobalVariables.getUserSession().getFinancialSystemUser().isMember(jobSpecificAdminWorkgroup))) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), actionType, job.getFullName());
             }
         }
     }
@@ -108,7 +108,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         request.setAttribute("canSchedule", canModifyJob(job, "schedule"));
         request.setAttribute("canUnschedule", canModifyJob(job, "unschedule"));
         request.setAttribute("canStopJob", canModifyJob(job, "stopJob"));
-        request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getUniversalUser().getPersonEmailAddress());
+        request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getFinancialSystemUser().getPersonEmailAddress());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

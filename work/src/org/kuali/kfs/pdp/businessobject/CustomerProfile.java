@@ -78,7 +78,7 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private Integer id; // CUST_ID
     private Timestamp lastUpdate; // LST_UPDT_TS
-    private PdpUser lastUpdateUser;
+    private UniversalUser lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
     private Integer version; // VER_NBR
@@ -109,13 +109,13 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
         return (this.chartCode + this.orgCode + this.subUnitCode);
     }
 
-    public PdpUser getLastUpdateUser() {
+    public UniversalUser getLastUpdateUser() {
         return lastUpdateUser;
     }
 
-    public void setLastUpdateUser(PdpUser s) {
+    public void setLastUpdateUser(UniversalUser s) {
         if (s != null) {
-            this.lastUpdateUserId = s.getUniversalUser().getPersonUniversalIdentifier();
+            this.lastUpdateUserId = s.getPersonUniversalIdentifier();
         }
         else {
             this.lastUpdateUserId = null;
@@ -133,12 +133,7 @@ public class CustomerProfile implements UserRequired, Serializable, PersistenceB
 
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
         UniversalUser u = userService.getUniversalUser(lastUpdateUserId);
-        if (u == null) {
-            setLastUpdateUser(null);
-        }
-        else {
-            setLastUpdateUser(new PdpUser(u));
-        }
+        setLastUpdateUser(u);
     }
 
     /**

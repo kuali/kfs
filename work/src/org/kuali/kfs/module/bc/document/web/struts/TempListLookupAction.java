@@ -177,7 +177,7 @@ public class TempListLookupAction extends KualiLookupAction {
             parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
         }
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, tempListLookupForm.getReportMode());
         parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, tempListLookupForm.getCurrentPointOfViewKeyCode());
 

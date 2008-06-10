@@ -21,14 +21,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
 import org.kuali.module.chart.service.AccountService;
@@ -133,7 +132,7 @@ public class AccountServiceImpl implements AccountService {
     /**
      * @see org.kuali.module.chart.service.AccountService#accountIsAccessible(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.module.chart.bo.ChartUser)
      */
-    public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, ChartUser user) {
+    public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, FinancialSystemUser user) {
         LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
 
         boolean isAccessible = false;
@@ -156,7 +155,7 @@ public class AccountServiceImpl implements AccountService {
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && user.getUniversalUser().isWorkflowExceptionUser()) {
+                    if (workflowDocument.stateIsException() && user.isWorkflowExceptionUser()) {
                         isAccessible = true;
                     }
                 }

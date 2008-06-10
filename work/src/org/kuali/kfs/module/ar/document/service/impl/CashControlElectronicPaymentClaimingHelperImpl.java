@@ -23,17 +23,19 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CashControlDocumentService;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -65,7 +67,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.WIRE_TRANSFER);
 
             //create and set AccountsReceivableDocumentHeader
-            ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
             AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
             accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());

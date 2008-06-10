@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
@@ -44,11 +46,7 @@ import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerAddressService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.ReceivableAccountingLineService;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
@@ -198,7 +196,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     private void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());

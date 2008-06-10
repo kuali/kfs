@@ -82,7 +82,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String personUserIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
         // retrieve report mode to determine how control list should be built and what select screen should be rendered
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationReportSelectionForm.getReportMode());
@@ -157,7 +157,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      */
     public ActionForward performReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String personUserIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationReportSelectionForm.getReportMode());
         if (!storeCodeSelections(organizationReportSelectionForm, reportMode, personUserIdentifier)) {

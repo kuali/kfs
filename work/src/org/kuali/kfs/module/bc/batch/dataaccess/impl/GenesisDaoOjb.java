@@ -3837,7 +3837,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb
         String note3 = new String("Ernie bought another ticket--whoowee!");
         KualiWorkflowDocument workflowDocument = 
                               workflowDocumentService.createWorkflowDocument(testDocumentID,
-                                                      GlobalVariables.getUserSession().getUniversalUser());
+                                                      GlobalVariables.getUserSession().getFinancialSystemUser());
         // try to write to the log
         workflowDocument.logDocumentAction(note1);
         // try writing to the log again
@@ -3845,7 +3845,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb
         // get a fresh "flex doc" for the same ID and try writing a third message
         workflowDocument =
             workflowDocumentService.createWorkflowDocument(testDocumentID,
-                    GlobalVariables.getUserSession().getUniversalUser());
+                    GlobalVariables.getUserSession().getFinancialSystemUser());
         workflowDocument.logDocumentAction(note3);
     }
     

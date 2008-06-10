@@ -28,11 +28,11 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.bo.UserRequired;
 import org.kuali.module.pdp.dao.ProcessDao;
 
@@ -53,7 +53,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         super();
     }
 
-    public PaymentProcess createProcess(String campusCd, PdpUser processUser) {
+    public PaymentProcess createProcess(String campusCd, UniversalUser processUser) {
         LOG.debug("createProcess() started");
 
         Date d = new Date();

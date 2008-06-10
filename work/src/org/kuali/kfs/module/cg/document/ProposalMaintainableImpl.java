@@ -251,7 +251,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         String preAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PRE_AWARD_GROUP);
         String postAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.POST_AWARD_GROUP);
 
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {
             for (Section section : coreSections) {
                 if (!section.getSectionTitle().equalsIgnoreCase("Research Risks")) {

@@ -18,27 +18,12 @@
 <beans>
     <bean id="camsModule" parent="camsModule-parentBean" />
 
-    <bean id="camsModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="camsModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="cams" />
 		<property name="moduleName" value="Capital Asset Management" />
 		<property name="moduleCode" value="CM" />
-		<property name="moduleUserService" ref="camsUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.cams.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="camsModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/cams/datadictionary</value>
@@ -65,8 +50,13 @@
 		<!-- Asset Depreciation batch - END -->								
 	</bean>
 
-	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
-	</bean>
+    <bean id="camsModuleAuthorizer" parent="financialSystemModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.cams.</value>
+            </list>
+        </property>
+    </bean>
 
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService" class="org.kuali.module.cams.service.impl.AssetDepreciationServiceImpl">											       

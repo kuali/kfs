@@ -21,6 +21,8 @@ package org.kuali.module.pdp.bo;
 
 import java.sql.Timestamp;
 
+import org.kuali.core.bo.user.UniversalUser;
+
 /**
  * @author jsissom
  */
@@ -39,9 +41,9 @@ public interface Code {
 
     public void setLastUpdate(Timestamp lastUpdate);
 
-    public PdpUser getLastUpdateUser();
+    public UniversalUser getLastUpdateUser();
 
-    public void setLastUpdateUser(PdpUser u);
+    public void setLastUpdateUser(UniversalUser u);
 
     public Integer getVersion();
 

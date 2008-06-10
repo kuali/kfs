@@ -238,7 +238,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -294,7 +294,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -374,7 +374,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }

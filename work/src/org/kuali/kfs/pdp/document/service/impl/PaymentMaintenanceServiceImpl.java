@@ -20,6 +20,7 @@ package org.kuali.module.pdp.service.impl;
 
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.MailService;
@@ -35,7 +36,6 @@ import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentGroupHistory;
 import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.AchAccountNumberDao;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
 import org.kuali.module.pdp.dao.PaymentGroupDao;
@@ -87,7 +87,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private MailService mailService;
     private ParameterService parameterService;
 
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, PdpUser user) {
+    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         Code cd = referenceService.getCode("PaymentChange", changeStatus);
@@ -104,7 +104,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
 
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, PdpUser user, PaymentGroupHistory paymentGroupHistory) {
+    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user, PaymentGroupHistory paymentGroupHistory) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         Code cd = referenceService.getCode("PaymentChange", changeStatus);
         paymentGroupHistory.setPaymentChange((PaymentChange) cd);
@@ -132,7 +132,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, PdpUser user, SecurityRecord sr) throws PdpException {
+    public void cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user, SecurityRecord sr) throws PdpException {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelPendingPayment() Enter method to cancel pending payment with group id = " + paymentGroupId);
         LOG.debug("cancelPendingPayment() payment detail id being cancelled = " + paymentDetailId);
@@ -200,7 +200,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void holdPendingPayment(Integer paymentGroupId, String note, PdpUser user) throws PdpException {
+    public void holdPendingPayment(Integer paymentGroupId, String note, UniversalUser user) throws PdpException {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("holdPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
@@ -236,7 +236,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param user (User) Actor making change.
      * @param sr (SecurityRecord) User's rights
      */
-    public void removeHoldPendingPayment(Integer paymentGroupId, String note, PdpUser user, SecurityRecord sr) throws PdpException {
+    public void removeHoldPendingPayment(Integer paymentGroupId, String note, UniversalUser user, SecurityRecord sr) throws PdpException {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("removeHoldPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
@@ -278,7 +278,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
     }// end removeHoldPendingPayment()
 
-    public void changeImmediateFlag(Integer paymentGroupId, String note, PdpUser user) {
+    public void changeImmediateFlag(Integer paymentGroupId, String note, UniversalUser user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("changeImmediateFlag() Enter method to hold pending payment with id = " + paymentGroupId);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
@@ -306,7 +306,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, PdpUser user) throws PdpException {
+    public void cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user) throws PdpException {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
@@ -356,7 +356,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void cancelReissueDisbursement(Integer paymentGroupId, String note, PdpUser user) throws PdpException {
+    public void cancelReissueDisbursement(Integer paymentGroupId, String note, UniversalUser user) throws PdpException {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
@@ -420,7 +420,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
     }// end cancelReissueDisbursement()
 
-    public void sendCancelEmail(PaymentGroup paymentGroup, String note, PdpUser user) {
+    public void sendCancelEmail(PaymentGroup paymentGroup, String note, UniversalUser user) {
         LOG.debug("sendCancelEmail() starting");
         MailMessage message = new MailMessage();
 

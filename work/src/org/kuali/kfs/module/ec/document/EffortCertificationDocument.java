@@ -31,7 +31,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.KfsUniversalUserService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
@@ -176,7 +176,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      * @return Returns the employee.
      */
     public UniversalUser getEmployee() {
-        return SpringContext.getBean(KfsUniversalUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
+        return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
     }
 
     /**

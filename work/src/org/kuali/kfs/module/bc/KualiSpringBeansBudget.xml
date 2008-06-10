@@ -18,27 +18,12 @@
 <beans>
     <bean id="budgetModule" parent="budgetModule-parentBean" />
 
-    <bean id="budgetModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="budgetModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="budget" />
 		<property name="moduleName" value="Budget Construction" />
 		<property name="moduleCode" value="BC" />
-		<property name="moduleUserService" ref="budgetUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.module.budget.authorization.BudgetModuleAuthorizer">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.budget.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="budgetModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/budget/datadictionary</value>
@@ -66,8 +51,13 @@
 		</property>
 	</bean>
 
-	<bean id="budgetUserService" class="org.kuali.module.budget.service.impl.BudgetUserServiceImpl" parent="kualiModuleUserServiceBase">
-	</bean>
+    <bean id="budgetModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.module.budget.authorization.BudgetModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.budget.</value>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="budgetDocumentService" class="org.kuali.module.budget.service.impl.BudgetDocumentServiceImpl">
 		<property name="budgetConstructionDao">

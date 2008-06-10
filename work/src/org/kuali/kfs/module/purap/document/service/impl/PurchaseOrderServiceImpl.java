@@ -450,9 +450,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPurchaseOrderFirstTransmissionDate(currentDate);
         po.setPurchaseOrderLastTransmitDate(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
-        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser(), null);
+        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getFinancialSystemUser(), null);
         if (!performedAction) {
-            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {

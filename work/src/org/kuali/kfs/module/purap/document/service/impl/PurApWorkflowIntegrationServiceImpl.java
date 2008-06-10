@@ -238,7 +238,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
                     ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                     reportCriteriaVO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaVO.setRoutingUser(new NetworkIdVO(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier()));
+                    reportCriteriaVO.setRoutingUser(new NetworkIdVO(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier()));
                     reportCriteriaVO.setTargetNodeName(givenNodeDetail.getName());
                     boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ });
                     return value;

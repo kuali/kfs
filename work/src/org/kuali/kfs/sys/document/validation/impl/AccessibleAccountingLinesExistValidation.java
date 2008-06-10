@@ -23,9 +23,9 @@ import java.util.Iterator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.AccountService;
 
 /**
@@ -61,7 +61,7 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
 
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        ChartUser currentUser = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
+        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         if (workflowDocument.stateIsEnroute()) {
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
@@ -80,7 +80,7 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
             hasLines = (accessibleLines >= min);
         }
         else {
-            if (workflowDocument.stateIsException() && currentUser.getUniversalUser().isWorkflowExceptionUser()) {
+            if (workflowDocument.stateIsException() && currentUser.isWorkflowExceptionUser()) {
                 hasLines = true;
             }
             else {

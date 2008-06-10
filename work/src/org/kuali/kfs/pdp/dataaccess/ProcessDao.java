@@ -21,8 +21,8 @@ package org.kuali.module.pdp.dao;
 
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.PdpUser;
 
 
 /**
@@ -30,7 +30,7 @@ import org.kuali.module.pdp.bo.PdpUser;
  */
 public interface ProcessDao {
 
-    public PaymentProcess createProcess(String campusCd, PdpUser processUser);
+    public PaymentProcess createProcess(String campusCd, UniversalUser processUser);
 
     public PaymentProcess get(Integer procId);
 

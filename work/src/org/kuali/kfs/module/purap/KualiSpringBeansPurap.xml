@@ -23,22 +23,7 @@
 		<property name="moduleName" value="Purchasing/Accounts Payable" />
 		<property name="moduleCode" value="PA" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleUserService" ref="purapUserService" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.purap.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+		<property name="moduleAuthorizer" ref="purapModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/purap/datadictionary</value>
@@ -63,6 +48,14 @@
 		</property>
 	</bean>
 
+    <bean id="purapModuleAuthorizer" parent="activeStaffFacultyAffiliateModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.purap.</value>
+            </list>
+        </property>
+    </bean>
+
 	<!--  override accounting service -->
     <bean id="purapAccountingLineRuleHelperService" class="org.kuali.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
@@ -80,15 +73,6 @@
         </property>
     </bean>
     
-	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="propertyList">
-			<list>
-				<value>userChartOfAccountsCode</value>
-				<value>userOrganizationCode</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="pdpExtractService" class="org.kuali.module.purap.service.impl.PdpExtractServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
@@ -266,7 +250,7 @@
         </property>     
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
-        </property>             
+        </property>        
         <!-- property name="accountsPayableService">
             <ref bean="accountsPayableService" />
         </property -->
@@ -299,7 +283,7 @@
         <property name="purapService">
             <ref bean="purapService" />
         </property>	      
-        <property name="paymentRequestService">
+         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>	
          <property name="purchaseOrderService">
@@ -310,7 +294,7 @@
         </property>    
         <property name="accountsPayableService">
             <ref bean="accountsPayableService" />
-        </property>              
+        </property>	
     </bean>
     
 	<bean id="creditMemoCreateService" class="org.kuali.module.purap.service.impl.CreditMemoCreateServiceImpl">
@@ -403,7 +387,7 @@
         </property>  
         <property name="universalUserService">
             <ref bean="universalUserService" />
-        </property>          
+        </property>  
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 

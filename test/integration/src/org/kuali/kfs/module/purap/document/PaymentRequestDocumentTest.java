@@ -378,7 +378,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         preq.setVendorName(po.getVendorName());
 
         // populate preq vendor address with the default remit address type for the vendor if found
-        String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();
+        String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
         VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
         if (vendorAddress != null) {
             preq.templateVendorAddress(vendorAddress);

@@ -18,27 +18,12 @@
 <beans>
     <bean id="glModule" parent="glModule-parentBean" />
 
-    <bean id="glModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
+    <bean id="glModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="gl" />
 		<property name="moduleName" value="General Ledger" />
 		<property name="moduleCode" value="GL" />
-		<property name="moduleUserService" ref="glUserService" />
 		<property name="initializeDataDictionary" value="true" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.module.gl.</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
+        <property name="moduleAuthorizer" ref="glModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org/kuali/module/gl/datadictionary</value>
@@ -72,8 +57,13 @@
 		</property>
 	</bean>
 
-	<bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">
-	</bean>
+    <bean id="glModuleAuthorizer" parent="financialSystemModuleAuthorizer">
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.module.gl.</value>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb" />
 

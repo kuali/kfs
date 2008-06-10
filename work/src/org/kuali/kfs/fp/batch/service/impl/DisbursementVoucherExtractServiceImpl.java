@@ -22,9 +22,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,7 +36,6 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -64,7 +61,6 @@ import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentNoteText;
 import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.service.CustomerProfileService;
 import org.kuali.module.pdp.service.PaymentFileService;
 import org.kuali.module.pdp.service.PaymentGroupService;
@@ -506,7 +502,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         batch.setCustomerFileCreateTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setFileProcessTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setPaymentFileName("extr_fr_disb_voucher");
-        batch.setSubmiterUser(new PdpUser(user));
+        batch.setSubmiterUser(user);
 
         // Set these for now, we will update them later
         batch.setPaymentCount(0);

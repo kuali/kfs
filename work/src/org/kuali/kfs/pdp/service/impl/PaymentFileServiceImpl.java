@@ -38,7 +38,6 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
 import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.pdp.dao.PaymentFileLoadDao;
 import org.kuali.module.pdp.exception.PaymentLoadException;
 import org.kuali.module.pdp.service.CustomerProfileService;
@@ -73,10 +72,9 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     public void processPaymentFiles() {
         LOG.debug("processPaymentFiles() started");
 
-        PdpUser pusr = null;
+        UniversalUser pusr = null;
         try {
-            UniversalUser uu = universalUserService.getUniversalUserByAuthenticationUserId("KULUSER");
-            pusr = new PdpUser(uu);
+            pusr = universalUserService.getUniversalUserByAuthenticationUserId("KULUSER");
         }
         catch (UserNotFoundException u) {
             LOG.error("processPaymentFiles() Unable to find requested user", u);
@@ -224,7 +222,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     // This will parse the file for hard edit problems, then copy the file to
     // the batch directory. The batch job will actually load the file into the
     // database
-    public LoadPaymentStatus loadPayments(String filename, PdpUser user) throws PaymentLoadException {
+    public LoadPaymentStatus loadPayments(String filename, UniversalUser user) throws PaymentLoadException {
         PaymentFileParser paymentFileParser = SpringContext.getBean(PaymentFileParser.class);
 
         HardEditHandler hardEditHandler;

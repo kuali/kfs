@@ -20,10 +20,13 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.ReceivableAccountingLineService;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
 
@@ -35,12 +38,12 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
     public void setReceivableAccountingLineForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
 
         Integer currentUniverisityFiscalYear = universityDateService.getCurrentFiscalYear();
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", currentUniverisityFiscalYear);
-        criteria.put("chartOfAccountsCode", currentUser.getUserChartOfAccountsCode());
-        criteria.put("organizationCode", currentUser.getUserOrganizationCode());
+        criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
+        criteria.put("organizationCode", currentUser.getOrganizationCode());
         
         OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         if( ObjectUtils.isNotNull( organizationAccountingDefault) ){

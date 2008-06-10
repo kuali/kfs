@@ -105,7 +105,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
      * @param document
      */
     private void copyICRFromAccount(MaintenanceDocument document) {
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
 
         // get the correct documentAuthorizer for this document
         MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentAuthorizationService().getDocumentAuthorizer(document);

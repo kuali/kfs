@@ -50,7 +50,7 @@ public class Batch implements UserRequired, Serializable, PersistenceBrokerAware
     private Timestamp customerFileCreateTimestamp; // CUST_FL_CRTN_TS
     private Integer paymentCount; // PMT_CNT
     private BigDecimal paymentTotalAmount; // PMT_TOT_AMT
-    private PdpUser submiterUser;
+    private UniversalUser submiterUser;
     private String submiterUserId; // SBMTR_USR_ID
     private Timestamp fileProcessTimestamp; // FL_PROC_TS
     private Timestamp lastUpdate;
@@ -179,13 +179,13 @@ public class Batch implements UserRequired, Serializable, PersistenceBrokerAware
         customerProfile = cp;
     }
 
-    public PdpUser getSubmiterUser() {
+    public UniversalUser getSubmiterUser() {
         return submiterUser;
     }
 
-    public void setSubmiterUser(PdpUser s) {
+    public void setSubmiterUser(UniversalUser s) {
         if (s != null) {
-            this.submiterUserId = s.getUniversalUser().getPersonUniversalIdentifier();
+            this.submiterUserId = s.getPersonUniversalIdentifier();
         }
         else {
             this.submiterUserId = null;
@@ -215,7 +215,7 @@ public class Batch implements UserRequired, Serializable, PersistenceBrokerAware
             setSubmiterUser(null);
         }
         else {
-            setSubmiterUser(new PdpUser(u));
+            setSubmiterUser(u);
         }
     }
 

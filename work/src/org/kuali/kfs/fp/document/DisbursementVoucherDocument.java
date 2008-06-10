@@ -44,16 +44,18 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
@@ -941,9 +943,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * generic, shared logic used to iniate a dv document
      */
     public void initiateDocument() {
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         setDisbVchrContactPersonName(currentUser.getPersonName());
-        setCampusCode(((ChartUser) currentUser.getModuleUser(ChartUser.MODULE_ID)).getOrganization().getOrganizationPhysicalCampusCode());
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(currentUser,KFSConstants.Modules.CHART);
+        if ( chartOrg != null && chartOrg.getOrganization() != null ) {
+            setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
+        }
 
         // due date
         Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();

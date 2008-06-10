@@ -36,12 +36,13 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.Cfda;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -1835,12 +1836,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             xml.append("<projectDirector>");
             xml.append(projectDirector.getPersonUniversalIdentifier());
             xml.append("</projectDirector>");
-            if (!StringUtils.isBlank(projectDirector.getChartOfAccountsCode())) {
+            if (StringUtils.isNotBlank(projectDirector.getChartOfAccountsCode())) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 xml.append(projectDirector.getChartOfAccountsCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getOrganizationCode())) {
-                    xml.append(SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(projectDirector.getUser()));
+                    xml.append(SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode());
                 }
                 else {
                     xml.append(projectDirector.getOrganizationCode());

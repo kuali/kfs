@@ -34,11 +34,12 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
@@ -380,11 +381,9 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            if (this.getInitiator().getModuleUser(ChartUser.MODULE_ID) != null) {
-                return ((ChartUser) this.getInitiator().getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
-            }
-            else {
-                return SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(this.getInitiator());
+            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(this.getInitiator(),KFSConstants.Modules.CHART);
+            if ( chartOrg != null ) {
+                return chartOrg.getOrganizationCode();
             }
         }
         return "";

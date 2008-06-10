@@ -450,7 +450,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 UserSession originalUserSession = GlobalVariables.getUserSession();
 
                 // If state is approved or final or processed
-                if (document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+                if (document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                     //call gl method here (no reason for post processing since workflow done)
                     SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
                 }else if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() ||

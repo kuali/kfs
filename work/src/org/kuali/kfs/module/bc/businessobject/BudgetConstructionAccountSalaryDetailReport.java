@@ -16,6 +16,8 @@
 
 package org.kuali.module.budget.bo;
 
+import java.math.BigDecimal;
+
 import org.kuali.core.util.KualiInteger;
 
 /**
@@ -23,36 +25,69 @@ import org.kuali.core.util.KualiInteger;
  */
 public class BudgetConstructionAccountSalaryDetailReport{
 
-    // header
-    private Integer universityFiscalYear;
+    // Header parts
+    private String fiscalYear;
     private String chartOfAccountsCode;
+    private String chartOfAccountDescription;
+    private String organizationCode;
+    private String organizationName;
+    private String fundGroupCode;
+    private String fundGroupName;
     private String accountNumber;
     private String subAccountNumber;
-
     private String accountName;
     private String subAccountName;
-    
-    //body
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String financialObjectCodeShortName;
-    
-    //line break
-    private String objCodeSubObjCode;
-    private Integer annualAmount;
-    private Integer financialDocumentMonth1LineAmount;
-    private Integer financialDocumentMonth2LineAmount;
-    private Integer financialDocumentMonth3LineAmount;
-    private Integer financialDocumentMonth4LineAmount;
-    private Integer financialDocumentMonth5LineAmount;
-    private Integer financialDocumentMonth6LineAmount;
-    private Integer financialDocumentMonth7LineAmount;
-    private Integer financialDocumentMonth8LineAmount;
-    private Integer financialDocumentMonth9LineAmount;
-    private Integer financialDocumentMonth10LineAmount;
-    private Integer financialDocumentMonth11LineAmount;
-    private Integer financialDocumentMonth12LineAmount;
 
+    
+    // Body parts
+
+    private String financialObjectCode;
+    private String financialObjectCodeName;
+    
+    private String personName;
+    // from PendingBudgetConstructionAppointmentFunding
+    private String deleteBox;
+    private String financialSubObjectCode;
+    private String iuClassificationLevel;
+    // from BudgetConstructionAdministrativePost
+    private String administrativePost;
+    
+    // from BudgetConstructionPosition
+    private String positionNumber;
+    private String positionSalaryPlanDefault;
+    private String positionGradeDefault;
+    private String normalWorkMonthsAndiuPayMonths;
+    
+    // from BudgetConstructionCalculatedSalaryFoundationTracker
+    private Integer positionCsfAmount;
+    private BigDecimal positionCsfFullTimeEmploymentQuantity;
+    private String positionCsfFundingStatusCode;
+
+    // from PendingBudgetConstructionAppointmentFunding
+    private Integer appointmentFundingMonth;
+    private BigDecimal appointmentRequestedPayRate;
+    private Integer appointmentRequestedAmount;
+    private BigDecimal appointmentRequestedFteQuantity;
+    private Integer appointmentRequestedCsfAmount;
+    private String appointmentFundingDurationCode;
+    private Integer appointmentTotalIntendedAmount;
+    private BigDecimal appointmentTotalIntendedFteQuantity;
+    
+    private Integer amountChange;
+    private BigDecimal percentChange;
+
+    // total
+    private String totalDescription;
+    private Integer totalBaseAmount;
+    private BigDecimal totalBaseFte;
+    private Integer totalRequestAmount;
+    private BigDecimal totalRequestFte;
+    private Integer totalAmountChange;
+    private BigDecimal totalPercentChange;
+    
+    
+    
+    
     /**
      * Default constructor.
      */
@@ -60,187 +95,591 @@ public class BudgetConstructionAccountSalaryDetailReport{
 
     }
 
-    public String getAccountName() {
-        return accountName;
+
+
+
+    public String getFiscalYear() {
+        return fiscalYear;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+
+
+
+    public void setFiscalYear(String fiscalYear) {
+        this.fiscalYear = fiscalYear;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
 
-    public Integer getAnnualAmount() {
-        return annualAmount;
-    }
-
-    public void setAnnualAmount(Integer annualAmount) {
-        this.annualAmount = annualAmount;
-    }
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
+
+
+
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-    public Integer getFinancialDocumentMonth10LineAmount() {
-        return financialDocumentMonth10LineAmount;
+
+
+
+    public String getChartOfAccountDescription() {
+        return chartOfAccountDescription;
     }
 
-    public void setFinancialDocumentMonth10LineAmount(Integer financialDocumentMonth10LineAmount) {
-        this.financialDocumentMonth10LineAmount = financialDocumentMonth10LineAmount;
+
+
+
+    public void setChartOfAccountDescription(String chartOfAccountDescription) {
+        this.chartOfAccountDescription = chartOfAccountDescription;
     }
 
-    public Integer getFinancialDocumentMonth11LineAmount() {
-        return financialDocumentMonth11LineAmount;
+
+
+
+    public String getOrganizationCode() {
+        return organizationCode;
     }
 
-    public void setFinancialDocumentMonth11LineAmount(Integer financialDocumentMonth11LineAmount) {
-        this.financialDocumentMonth11LineAmount = financialDocumentMonth11LineAmount;
+
+
+
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
     }
 
-    public Integer getFinancialDocumentMonth12LineAmount() {
-        return financialDocumentMonth12LineAmount;
+
+
+
+    public String getOrganizationName() {
+        return organizationName;
     }
 
-    public void setFinancialDocumentMonth12LineAmount(Integer financialDocumentMonth12LineAmount) {
-        this.financialDocumentMonth12LineAmount = financialDocumentMonth12LineAmount;
+
+
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
-    public Integer getFinancialDocumentMonth1LineAmount() {
-        return financialDocumentMonth1LineAmount;
+
+
+
+    public String getFundGroupCode() {
+        return fundGroupCode;
     }
 
-    public void setFinancialDocumentMonth1LineAmount(Integer financialDocumentMonth1LineAmount) {
-        this.financialDocumentMonth1LineAmount = financialDocumentMonth1LineAmount;
+
+
+
+    public void setFundGroupCode(String fundGroupCode) {
+        this.fundGroupCode = fundGroupCode;
     }
 
-    public Integer getFinancialDocumentMonth2LineAmount() {
-        return financialDocumentMonth2LineAmount;
+
+
+
+    public String getFundGroupName() {
+        return fundGroupName;
     }
 
-    public void setFinancialDocumentMonth2LineAmount(Integer financialDocumentMonth2LineAmount) {
-        this.financialDocumentMonth2LineAmount = financialDocumentMonth2LineAmount;
+
+
+
+    public void setFundGroupName(String fundGroupName) {
+        this.fundGroupName = fundGroupName;
     }
 
-    public Integer getFinancialDocumentMonth3LineAmount() {
-        return financialDocumentMonth3LineAmount;
+
+
+
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setFinancialDocumentMonth3LineAmount(Integer financialDocumentMonth3LineAmount) {
-        this.financialDocumentMonth3LineAmount = financialDocumentMonth3LineAmount;
+
+
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public Integer getFinancialDocumentMonth4LineAmount() {
-        return financialDocumentMonth4LineAmount;
-    }
 
-    public void setFinancialDocumentMonth4LineAmount(Integer financialDocumentMonth4LineAmount) {
-        this.financialDocumentMonth4LineAmount = financialDocumentMonth4LineAmount;
-    }
 
-    public Integer getFinancialDocumentMonth5LineAmount() {
-        return financialDocumentMonth5LineAmount;
-    }
-
-    public void setFinancialDocumentMonth5LineAmount(Integer financialDocumentMonth5LineAmount) {
-        this.financialDocumentMonth5LineAmount = financialDocumentMonth5LineAmount;
-    }
-
-    public Integer getFinancialDocumentMonth6LineAmount() {
-        return financialDocumentMonth6LineAmount;
-    }
-
-    public void setFinancialDocumentMonth6LineAmount(Integer financialDocumentMonth6LineAmount) {
-        this.financialDocumentMonth6LineAmount = financialDocumentMonth6LineAmount;
-    }
-
-    public Integer getFinancialDocumentMonth7LineAmount() {
-        return financialDocumentMonth7LineAmount;
-    }
-
-    public void setFinancialDocumentMonth7LineAmount(Integer financialDocumentMonth7LineAmount) {
-        this.financialDocumentMonth7LineAmount = financialDocumentMonth7LineAmount;
-    }
-
-    public Integer getFinancialDocumentMonth8LineAmount() {
-        return financialDocumentMonth8LineAmount;
-    }
-
-    public void setFinancialDocumentMonth8LineAmount(Integer financialDocumentMonth8LineAmount) {
-        this.financialDocumentMonth8LineAmount = financialDocumentMonth8LineAmount;
-    }
-
-    public Integer getFinancialDocumentMonth9LineAmount() {
-        return financialDocumentMonth9LineAmount;
-    }
-
-    public void setFinancialDocumentMonth9LineAmount(Integer financialDocumentMonth9LineAmount) {
-        this.financialDocumentMonth9LineAmount = financialDocumentMonth9LineAmount;
-    }
-
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
-    }
-
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
-    }
-
-    public String getFinancialObjectCodeShortName() {
-        return financialObjectCodeShortName;
-    }
-
-    public void setFinancialObjectCodeShortName(String financialObjectCodeShortName) {
-        this.financialObjectCodeShortName = financialObjectCodeShortName;
-    }
-
-    public String getFinancialSubObjectCode() {
-        return financialSubObjectCode;
-    }
-
-    public void setFinancialSubObjectCode(String financialSubObjectCode) {
-        this.financialSubObjectCode = financialSubObjectCode;
-    }
-
-    public String getObjCodeSubObjCode() {
-        return objCodeSubObjCode;
-    }
-
-    public void setObjCodeSubObjCode(String objCodeSubObjCode) {
-        this.objCodeSubObjCode = objCodeSubObjCode;
-    }
-
-    public String getSubAccountName() {
-        return subAccountName;
-    }
-
-    public void setSubAccountName(String subAccountName) {
-        this.subAccountName = subAccountName;
-    }
 
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
 
+
+
+
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
 
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
+
+
+
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+
+
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+
+
+
+    public String getSubAccountName() {
+        return subAccountName;
+    }
+
+
+
+
+    public void setSubAccountName(String subAccountName) {
+        this.subAccountName = subAccountName;
+    }
+
+
+
+
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+
+
+
+
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+
+
+
+
+    public String getFinancialObjectCodeName() {
+        return financialObjectCodeName;
+    }
+
+
+
+
+    public void setFinancialObjectCodeName(String financialObjectCodeName) {
+        this.financialObjectCodeName = financialObjectCodeName;
+    }
+
+
+
+
+    public String getPersonName() {
+        return personName;
+    }
+
+
+
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+
+
+
+    public String getDeleteBox() {
+        return deleteBox;
+    }
+
+
+
+
+    public void setDeleteBox(String deleteBox) {
+        this.deleteBox = deleteBox;
+    }
+
+
+
+
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+
+
+
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+
+
+
+    public String getIuClassificationLevel() {
+        return iuClassificationLevel;
+    }
+
+
+
+
+    public void setIuClassificationLevel(String iuClassificationLevel) {
+        this.iuClassificationLevel = iuClassificationLevel;
+    }
+
+
+
+
+    public String getAdministrativePost() {
+        return administrativePost;
+    }
+
+
+
+
+    public void setAdministrativePost(String administrativePost) {
+        this.administrativePost = administrativePost;
+    }
+
+
+
+
+    public String getPositionNumber() {
+        return positionNumber;
+    }
+
+
+
+
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
+
+
+
+
+    public String getPositionSalaryPlanDefault() {
+        return positionSalaryPlanDefault;
+    }
+
+
+
+
+    public void setPositionSalaryPlanDefault(String positionSalaryPlanDefault) {
+        this.positionSalaryPlanDefault = positionSalaryPlanDefault;
+    }
+
+
+
+
+    public String getPositionGradeDefault() {
+        return positionGradeDefault;
+    }
+
+
+
+
+    public void setPositionGradeDefault(String positionGradeDefault) {
+        this.positionGradeDefault = positionGradeDefault;
+    }
+
+
+
+
+    public String getNormalWorkMonthsAndiuPayMonths() {
+        return normalWorkMonthsAndiuPayMonths;
+    }
+
+
+
+
+    public void setNormalWorkMonthsAndiuPayMonths(String normalWorkMonthsAndiuPayMonths) {
+        this.normalWorkMonthsAndiuPayMonths = normalWorkMonthsAndiuPayMonths;
+    }
+
+
+
+
+    public Integer getPositionCsfAmount() {
+        return positionCsfAmount;
+    }
+
+
+
+
+    public void setPositionCsfAmount(Integer positionCsfAmount) {
+        this.positionCsfAmount = positionCsfAmount;
+    }
+
+
+
+
+    public BigDecimal getPositionCsfFullTimeEmploymentQuantity() {
+        return positionCsfFullTimeEmploymentQuantity;
+    }
+
+
+
+
+    public void setPositionCsfFullTimeEmploymentQuantity(BigDecimal positionCsfFullTimeEmploymentQuantity) {
+        this.positionCsfFullTimeEmploymentQuantity = positionCsfFullTimeEmploymentQuantity;
+    }
+
+
+
+
+    public String getPositionCsfFundingStatusCode() {
+        return positionCsfFundingStatusCode;
+    }
+
+
+
+
+    public void setPositionCsfFundingStatusCode(String positionCsfFundingStatusCode) {
+        this.positionCsfFundingStatusCode = positionCsfFundingStatusCode;
+    }
+
+
+
+
+    public Integer getAppointmentFundingMonth() {
+        return appointmentFundingMonth;
+    }
+
+
+
+
+    public void setAppointmentFundingMonth(Integer appointmentFundingMonth) {
+        this.appointmentFundingMonth = appointmentFundingMonth;
+    }
+
+
+
+
+    public BigDecimal getAppointmentRequestedPayRate() {
+        return appointmentRequestedPayRate;
+    }
+
+
+
+
+    public void setAppointmentRequestedPayRate(BigDecimal appointmentRequestedPayRate) {
+        this.appointmentRequestedPayRate = appointmentRequestedPayRate;
+    }
+
+
+
+
+    public Integer getAppointmentRequestedAmount() {
+        return appointmentRequestedAmount;
+    }
+
+
+
+
+    public void setAppointmentRequestedAmount(Integer appointmentRequestedAmount) {
+        this.appointmentRequestedAmount = appointmentRequestedAmount;
+    }
+
+
+
+
+    public BigDecimal getAppointmentRequestedFteQuantity() {
+        return appointmentRequestedFteQuantity;
+    }
+
+
+
+
+    public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
+        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
+    }
+
+
+
+
+    public Integer getAppointmentRequestedCsfAmount() {
+        return appointmentRequestedCsfAmount;
+    }
+
+
+
+
+    public void setAppointmentRequestedCsfAmount(Integer appointmentRequestedCsfAmount) {
+        this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
+    }
+
+
+
+
+    public String getAppointmentFundingDurationCode() {
+        return appointmentFundingDurationCode;
+    }
+
+
+
+
+    public void setAppointmentFundingDurationCode(String appointmentFundingDurationCode) {
+        this.appointmentFundingDurationCode = appointmentFundingDurationCode;
+    }
+
+
+
+
+    public Integer getAppointmentTotalIntendedAmount() {
+        return appointmentTotalIntendedAmount;
+    }
+
+
+
+
+    public void setAppointmentTotalIntendedAmount(Integer appointmentTotalIntendedAmount) {
+        this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
+    }
+
+
+
+
+    public BigDecimal getAppointmentTotalIntendedFteQuantity() {
+        return appointmentTotalIntendedFteQuantity;
+    }
+
+
+
+
+    public void setAppointmentTotalIntendedFteQuantity(BigDecimal appointmentTotalIntendedFteQuantity) {
+        this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
+    }
+
+
+
+
+    public Integer getAmountChange() {
+        return amountChange;
+    }
+
+
+
+
+    public void setAmountChange(Integer amountChange) {
+        this.amountChange = amountChange;
+    }
+
+
+
+
+    public BigDecimal getPercentChange() {
+        return percentChange;
+    }
+
+
+
+
+    public void setPercentChange(BigDecimal percentChange) {
+        this.percentChange = percentChange;
+    }
+
+
+
+
+    public String getTotalDescription() {
+        return totalDescription;
+    }
+
+
+
+
+    public void setTotalDescription(String totalDescription) {
+        this.totalDescription = totalDescription;
+    }
+
+
+
+
+    public Integer getTotalBaseAmount() {
+        return totalBaseAmount;
+    }
+
+
+
+
+    public void setTotalBaseAmount(Integer totalBaseAmount) {
+        this.totalBaseAmount = totalBaseAmount;
+    }
+
+
+
+
+    public BigDecimal getTotalBaseFte() {
+        return totalBaseFte;
+    }
+
+
+
+
+    public void setTotalBaseFte(BigDecimal totalBaseFte) {
+        this.totalBaseFte = totalBaseFte;
+    }
+
+
+
+
+    public Integer getTotalRequestAmount() {
+        return totalRequestAmount;
+    }
+
+
+
+
+    public void setTotalRequestAmount(Integer totalRequestAmount) {
+        this.totalRequestAmount = totalRequestAmount;
+    }
+
+
+
+
+    public BigDecimal getTotalRequestFte() {
+        return totalRequestFte;
+    }
+
+
+
+
+    public void setTotalRequestFte(BigDecimal totalRequestFte) {
+        this.totalRequestFte = totalRequestFte;
+    }
+
+
+
+
+    public Integer getTotalAmountChange() {
+        return totalAmountChange;
+    }
+
+
+
+
+    public void setTotalAmountChange(Integer totalAmountChange) {
+        this.totalAmountChange = totalAmountChange;
+    }
+
+
+
+
+    public BigDecimal getTotalPercentChange() {
+        return totalPercentChange;
+    }
+
+
+
+
+    public void setTotalPercentChange(BigDecimal totalPercentChange) {
+        this.totalPercentChange = totalPercentChange;
     }
 }

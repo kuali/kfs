@@ -67,7 +67,7 @@ public class BudgetConstructionAccountObjectDetailReport {
     
     //when the values are zero, below fields should be blank, so make them as string.
     private String positionCsfLeaveFteQuantity;
-    private String positionFullTimeEquivalencyQuantity;
+    private String csfFullTimeEmploymentQuantity;
     private Integer financialBeginningBalanceLineAmount = new Integer(0);
     private String appointmentRequestedCsfFteQuantity;
     private String appointmentRequestedFteQuantity;
@@ -80,7 +80,7 @@ public class BudgetConstructionAccountObjectDetailReport {
     private String totalObjectDescription;
     
     private String totalObjectPositionCsfLeaveFteQuantity;
-    private String totalObjectPositionFullTimeEquivalencyQuantity;
+    private String totalObjectCsfFullTimeEmploymentQuantity;
     private Integer totalObjectFinancialBeginningBalanceLineAmount;
     private String totalObjectAppointmentRequestedCsfFteQuantity;
     private String totalObjectAppointmentRequestedFteQuantity;
@@ -91,7 +91,7 @@ public class BudgetConstructionAccountObjectDetailReport {
     private String totalLevelDescription;
     
     private String totalLevelPositionCsfLeaveFteQuantity;
-    private String totalLevelPositionFullTimeEquivalencyQuantity;
+    private String totalLevelCsfFullTimeEmploymentQuantity;
     private Integer totalLevelFinancialBeginningBalanceLineAmount;
     private String totalLevelAppointmentRequestedCsfFteQuantity;
     private String totalLevelAppointmentRequestedFteQuantity;
@@ -101,7 +101,7 @@ public class BudgetConstructionAccountObjectDetailReport {
     
     private String typeDesc;
     private String typePositionCsfLeaveFteQuantity;
-    private String typePositionFullTimeEquivalencyQuantity;
+    private String typeCsfFullTimeEmploymentQuantity;
     private Integer typeFinancialBeginningBalanceLineAmount;
     private String typeAppointmentRequestedCsfFteQuantity;
     private String typeAppointmentRequestedFteQuantity;
@@ -312,12 +312,6 @@ public class BudgetConstructionAccountObjectDetailReport {
     public void setPositionCsfLeaveFteQuantity(String positionCsfLeaveFteQuantity) {
         this.positionCsfLeaveFteQuantity = positionCsfLeaveFteQuantity;
     }
-    public String getPositionFullTimeEquivalencyQuantity() {
-        return positionFullTimeEquivalencyQuantity;
-    }
-    public void setPositionFullTimeEquivalencyQuantity(String positionFullTimeEquivalencyQuantity) {
-        this.positionFullTimeEquivalencyQuantity = positionFullTimeEquivalencyQuantity;
-    }
     public Integer getFinancialBeginningBalanceLineAmount() {
         return financialBeginningBalanceLineAmount;
     }
@@ -365,12 +359,6 @@ public class BudgetConstructionAccountObjectDetailReport {
     }
     public void setTotalObjectPositionCsfLeaveFteQuantity(String totalObjectPositionCsfLeaveFteQuantity) {
         this.totalObjectPositionCsfLeaveFteQuantity = totalObjectPositionCsfLeaveFteQuantity;
-    }
-    public String getTotalObjectPositionFullTimeEquivalencyQuantity() {
-        return totalObjectPositionFullTimeEquivalencyQuantity;
-    }
-    public void setTotalObjectPositionFullTimeEquivalencyQuantity(String totalObjectPositionFullTimeEquivalencyQuantity) {
-        this.totalObjectPositionFullTimeEquivalencyQuantity = totalObjectPositionFullTimeEquivalencyQuantity;
     }
     public Integer getTotalObjectFinancialBeginningBalanceLineAmount() {
         return totalObjectFinancialBeginningBalanceLineAmount;
@@ -420,12 +408,6 @@ public class BudgetConstructionAccountObjectDetailReport {
     public void setTotalLevelPositionCsfLeaveFteQuantity(String totalLevelPositionCsfLeaveFteQuantity) {
         this.totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity;
     }
-    public String getTotalLevelPositionFullTimeEquivalencyQuantity() {
-        return totalLevelPositionFullTimeEquivalencyQuantity;
-    }
-    public void setTotalLevelPositionFullTimeEquivalencyQuantity(String totalLevelPositionFullTimeEquivalencyQuantity) {
-        this.totalLevelPositionFullTimeEquivalencyQuantity = totalLevelPositionFullTimeEquivalencyQuantity;
-    }
     public Integer getTotalLevelFinancialBeginningBalanceLineAmount() {
         return totalLevelFinancialBeginningBalanceLineAmount;
     }
@@ -474,12 +456,46 @@ public class BudgetConstructionAccountObjectDetailReport {
     public void setTypePositionCsfLeaveFteQuantity(String typePositionCsfLeaveFteQuantity) {
         this.typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity;
     }
-    public String getTypePositionFullTimeEquivalencyQuantity() {
-        return typePositionFullTimeEquivalencyQuantity;
+    public String getCsfFullTimeEmploymentQuantity() {
+        return csfFullTimeEmploymentQuantity;
     }
-    public void setTypePositionFullTimeEquivalencyQuantity(String typePositionFullTimeEquivalencyQuantity) {
-        this.typePositionFullTimeEquivalencyQuantity = typePositionFullTimeEquivalencyQuantity;
+
+
+    public void setCsfFullTimeEmploymentQuantity(String csfFullTimeEmploymentQuantity) {
+        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
     }
+
+
+    public String getTotalObjectCsfFullTimeEmploymentQuantity() {
+        return totalObjectCsfFullTimeEmploymentQuantity;
+    }
+
+
+    public void setTotalObjectCsfFullTimeEmploymentQuantity(String totalObjectCsfFullTimeEmploymentQuantity) {
+        this.totalObjectCsfFullTimeEmploymentQuantity = totalObjectCsfFullTimeEmploymentQuantity;
+    }
+
+
+    public String getTotalLevelCsfFullTimeEmploymentQuantity() {
+        return totalLevelCsfFullTimeEmploymentQuantity;
+    }
+
+
+    public void setTotalLevelCsfFullTimeEmploymentQuantity(String totalLevelCsfFullTimeEmploymentQuantity) {
+        this.totalLevelCsfFullTimeEmploymentQuantity = totalLevelCsfFullTimeEmploymentQuantity;
+    }
+
+
+    public String getTypeCsfFullTimeEmploymentQuantity() {
+        return typeCsfFullTimeEmploymentQuantity;
+    }
+
+
+    public void setTypeCsfFullTimeEmploymentQuantity(String typeCsfFullTimeEmploymentQuantity) {
+        this.typeCsfFullTimeEmploymentQuantity = typeCsfFullTimeEmploymentQuantity;
+    }
+
+
     public Integer getTypeFinancialBeginningBalanceLineAmount() {
         return typeFinancialBeginningBalanceLineAmount;
     }

@@ -14,7 +14,7 @@
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" />
         <ref bean="AssetPaymentDetail-expenditureFinancialDocumentTypeCode" />
         <ref bean="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" />
-        <ref bean="AssetPaymentDetail-financialDocumentLineNumber" />
+        <ref bean="AssetPaymentDetail-sequenceNumber" />
         <ref bean="AssetPaymentDetail-financialDocumentOverrideCode" />
         <ref bean="AssetPaymentDetail-financialDocumentPostingPeriodCode" />
         <ref bean="AssetPaymentDetail-financialDocumentPostingYear" />
@@ -32,7 +32,6 @@
         <ref bean="AssetPaymentDetail-account.subFundGroup.fundGroupCode" />
         <ref bean="AssetPaymentDetail-balanceTypeCode" />
         <ref bean="AssetPaymentDetail-referenceNumber" />
-        <ref bean="AssetPaymentDetail-sequenceNumber" />
         <ref bean="AssetPaymentDetail-financialObjectCode" />
         <ref bean="AssetPaymentDetail-accountNumber" />
         <ref bean="AssetPaymentDetail-objectId" />
@@ -85,6 +84,7 @@
 
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="expenditureFinancialDocumentNumber" />
+    <property name="shortLabel" value="Doc. Number" />    
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" parent="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" />
 
@@ -92,6 +92,7 @@
     <property name="name" value="expenditureFinancialDocumentPostedDate" />
     <property name="label" value="Expenditure Financial Document Posted Date" />
     <property name="shortLabel" value="Posted Date" />
+     <property name="required" value="true" />
     <property name="summary" value="expenditureFinancialDocumentPostedDate" />
     <property name="description" value="expenditureFinancialDocumentPostedDate description..." />
   </bean>
@@ -119,8 +120,8 @@
   <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="expenditureFinancialSystemOriginationCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Origination Code" />
-    <property name="shortLabel" value="Orgination Code" />
+    <property name="label" value="Origin" />
+    <property name="shortLabel" value="Orgin" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -132,12 +133,12 @@
     <property name="summary" value="expenditureFinancialSystemOriginationCode" />
     <property name="description" value="expenditureFinancialSystemOriginationCode description..." />
   </bean>
-  <bean id="AssetPaymentDetail-financialDocumentLineNumber" parent="AssetPaymentDetail-financialDocumentLineNumber-parentBean" />
+  <!-- bean id="AssetPaymentDetail-sequenceNumber" parent="AssetPaymentDetail-sequenceNumber-parentBean" />
 
-  <bean id="AssetPaymentDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineNumber" />
+  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sequenceNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Line Number" />
+    <property name="label" value="Line Number" />
     <property name="shortLabel" value="Line#" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
@@ -147,9 +148,9 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="financialDocumentLineNumber" />
-    <property name="description" value="financialDocumentLineNumber description..." />
-  </bean>
+    <property name="summary" value="sequenceNumber" />
+    <property name="description" value="LineNumber description..." />
+  </bean-->
   <bean id="AssetPaymentDetail-financialDocumentOverrideCode" parent="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" />
 
   <bean id="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">

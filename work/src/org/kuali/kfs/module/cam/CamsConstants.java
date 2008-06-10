@@ -70,6 +70,7 @@ public class CamsConstants {
         public static final String NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES = "NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES";
         public static final String CAPITALIZATION_LIMIT_AMOUNT = "CAPITALIZATION_LIMIT_AMOUNT";
         public static final String DEFAULT_FABRICATION_ASSET_TYPE_CODE = "DEFAULT_FABRICATION_ASSET_TYPE_CODE";
+        public static final String CAPITAL_OBJECT_SUB_TYPE_CODES="CAPITAL_OBJECT_SUB_TYPES";
     }
 
     public static class Report {

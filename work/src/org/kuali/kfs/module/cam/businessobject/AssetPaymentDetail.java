@@ -19,8 +19,6 @@ import org.kuali.module.chart.bo.ObjectCode;
 public class AssetPaymentDetail extends SourceAccountingLine {
     private static Logger LOG = Logger.getLogger(AssetPaymentDetail.class);
 
-    private Integer financialDocumentLineNumber;
-
     private String expenditureFinancialSystemOriginationCode;
     private Date expenditureFinancialDocumentPostedDate;
     private String financialDocumentOverrideCode;
@@ -63,15 +61,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("documentNumber", this.getDocumentNumber());
         return m;
-    }
-
-
-    public Integer getFinancialDocumentLineNumber() {
-        return financialDocumentLineNumber;
-    }
-
-    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-        this.financialDocumentLineNumber = financialDocumentLineNumber;
     }
 
     public String getExpenditureFinancialSystemOriginationCode() {

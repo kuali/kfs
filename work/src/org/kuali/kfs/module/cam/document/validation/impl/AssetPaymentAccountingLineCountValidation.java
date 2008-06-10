@@ -37,5 +37,4 @@ public class AssetPaymentAccountingLineCountValidation extends GenericValidation
         }
         return valid;
     }
-
 }

@@ -46,6 +46,7 @@
 				<ref bean="Customer-customerAddresses.customerCityName" />
 				<ref bean="Customer-customerAddresses.customerStateCode" />
 				<ref bean="Customer-customerAddresses.customerZipCode" />  
+				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" /> 
                 <ref bean="Customer-versionNumber" />
 			</list>
 		</property>
@@ -483,6 +484,12 @@
     <bean id="Customer-customerAddresses.customerZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode">
         <property name="name" value="customerAddresses.customerZipCode" />
     </bean>
+    
+    <bean id="Customer-customerAddresses.customerAddressInternationalProvinceName" parent="Customer-customerAddresses.customerAddressInternationalProvinceName-parentBean" />
+
+    <bean id="Customer-customerAddresses.customerAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
+        <property name="name" value="customerAddresses.customerAddressInternationalProvinceName" />
+    </bean>  
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -593,8 +600,6 @@
 										<bean parent="FieldDefinition"
 											p:attributeName="customerAddressInternationalProvinceName" />	
 										<bean parent="FieldDefinition"
-											p:attributeName="customerInternationalMailCode" />
-										<bean parent="FieldDefinition"
 											p:attributeName="customerCountryCode" />
 										<bean parent="FieldDefinition"
 											p:attributeName="customerEmailAddress" />
@@ -686,6 +691,8 @@
 					p:attributeName="customerAddresses.customerStateCode" />
 		        <bean parent="FieldDefinition"
 					p:attributeName="customerAddresses.customerZipCode" />
+		        <bean parent="FieldDefinition"
+					p:attributeName="customerAddresses.customerAddressInternationalProvinceName" />
 			</list>
 		</property>
 		<property name="resultFields">

@@ -129,13 +129,13 @@
 	</td>
 	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 		<div align="right">
-			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerInternationalMailCode}" />
+			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerEmailAddress}" />
 		</div>
 	</th>
 	<td align=left valign=middle class="datacell" style="width: 25%;">
 		<kul:htmlControlAttribute
-			attributeEntry="${customerAddressAttributes.customerInternationalMailCode}"
-			property="${customerAddressObject}.customerInternationalMailCode"
+			attributeEntry="${customerAddressAttributes.customerEmailAddress}"
+			property="${customerAddressObject}.customerEmailAddress"
 			readOnly="true" />
 	</td>
 </tr>
@@ -153,14 +153,9 @@
 			readOnly="true" />
 	</td>
 	<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-		<div align="right">
-			<kul:htmlAttributeLabel attributeEntry="${customerAddressAttributes.customerEmailAddress}" />
-		</div>
+		&nbsp;
 	</th>
 	<td align=left valign=middle class="datacell" style="width: 25%;">
-		<kul:htmlControlAttribute
-			attributeEntry="${customerAddressAttributes.customerEmailAddress}"
-			property="${customerAddressObject}.customerEmailAddress"
-			readOnly="true" />
+		&nbsp;
 	</td>
 </tr>

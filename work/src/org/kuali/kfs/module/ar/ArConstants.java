@@ -221,7 +221,6 @@ public class ArConstants {
         public static final String CUSTOMER_ADDRESS_STATE_CODE = "customerStateCode";
         public static final String CUSTOMER_ADDRESS_ZIP_CODE = "customerZipCode";
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "customerAddressInternationalProvinceName";
-        public static final String CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE = "customerInternationalMailCode";
     }
 
     public static class CustomerConstants {
@@ -233,9 +232,8 @@ public class ArConstants {
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE = "A";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_US = "US";
         public static final String ERROR_CUSTOMER_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US="error.document.customer.stateCodeIsRequiredWhenCountryUS";
-        public static final String ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US="error.document.customer.zipCodeIsRequiredWhenCountryUS";
+        public static final String ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED="error.document.customer.zipCodeIsRequired";
         public static final String ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US="error.document.customer.addressInternationalProvinceNameIsRequiredWhenCountryNonUS";
-        public static final String ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US="error.document.customer.internationalMailCodeIsRequiredWhenCountryNonUS";
     }
 
     public static class CustomerTypeFields {

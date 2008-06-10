@@ -130,7 +130,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
             if (customerAddress.getCustomerZipCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerZipCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED);
             }
             if (customerAddress.getCustomerStateCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerStateCode())) {
                 isValid = false;
@@ -138,9 +138,9 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             }
         }
         else {
-            if (customerAddress.getCustomerInternationalMailCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerInternationalMailCode())) {
+            if (customerAddress.getCustomerZipCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerZipCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED);
             }
             if (customerAddress.getCustomerAddressInternationalProvinceName() == null || "".equalsIgnoreCase(customerAddress.getCustomerAddressInternationalProvinceName())) {
                 isValid = false;

@@ -35,9 +35,7 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
     private static final String CUSTOMER_ADDRESS_COUNTRY_CODE_RO = "RO";
     private static final String CUSTOMER_ADDRESS_STATE_CODE = "NY";
     private static final String CUSTOMER_ADDRESS_ZIP_CODE = "14850";
-    private static final String CUSTOMER_ADDRESS_PROVINCE = "Moldova";
-    private static final String CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE = "6600";
-
+    private static final String CUSTOMER_ADDRESS_PROVINCE = "Iasi";
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -115,7 +113,7 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
         customerAddress.setCustomerAddressName(CUSTOMER_ADDRESS_NAME);
         customerAddress.setCustomerCountryCode(CUSTOMER_ADDRESS_COUNTRY_CODE_RO);
         customerAddress.setCustomerAddressInternationalProvinceName(CUSTOMER_ADDRESS_PROVINCE);
-        customerAddress.setCustomerInternationalMailCode(CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE);
+        customerAddress.setCustomerZipCode(CUSTOMER_ADDRESS_ZIP_CODE);
 
         CustomerRule rule = (CustomerRule) setupMaintDocRule(newMaintDoc(customer), CustomerRule.class);
         boolean result = rule.checkAddressIsValid(customerAddress);
@@ -129,8 +127,7 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
         customerAddress.setCustomerAddressName(CUSTOMER_ADDRESS_NAME);
         customerAddress.setCustomerCountryCode(CUSTOMER_ADDRESS_COUNTRY_CODE_RO);
         customerAddress.setCustomerAddressInternationalProvinceName("");
-        customerAddress.setCustomerInternationalMailCode("");
-
+        customerAddress.setCustomerZipCode("");
 
         CustomerRule rule = (CustomerRule) setupMaintDocRule(newMaintDoc(customer), CustomerRule.class);
         boolean result = rule.checkAddressIsValid(customerAddress);

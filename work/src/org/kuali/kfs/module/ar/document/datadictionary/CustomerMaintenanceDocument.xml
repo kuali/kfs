@@ -196,8 +196,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="customerAddressInternationalProvinceName" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerInternationalMailCode" />
-              <bean parent="MaintainableFieldDefinition"
                     p:name="customerCountryCode"
                     p:required="true" /> 
               <bean parent="MaintainableFieldDefinition"

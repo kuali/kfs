@@ -25,7 +25,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     private String customerZipCode;
     private String customerCountryCode;
     private String customerAddressInternationalProvinceName;
-    private String customerInternationalMailCode;
     private String customerEmailAddress;
     private String customerAddressTypeCode;
     private Date customerAddressEndDate;
@@ -229,25 +228,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     }
 
     /**
-     * Gets the customerInternationalMailCode attribute.
-     * 
-     * @return Returns the customerInternationalMailCode
-     */
-    public String getCustomerInternationalMailCode() {
-        return customerInternationalMailCode;
-    }
-
-    /**
-     * Sets the customerInternationalMailCode attribute.
-     * 
-     * @param customerInternationalMailCode The customerInternationalMailCode to set.
-     */
-    public void setCustomerInternationalMailCode(String customerInternationalMailCode) {
-        this.customerInternationalMailCode = customerInternationalMailCode;
-    }
-
-
-    /**
      * Gets the customerEmailAddress attribute.
      * 
      * @return Returns the customerEmailAddress
@@ -407,10 +387,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
             return -1;
         }
         if (this.getCustomerAddressInternationalProvinceName() != null && address.getCustomerAddressInternationalProvinceName() != null && !this.getCustomerAddressInternationalProvinceName().equalsIgnoreCase(address.getCustomerAddressInternationalProvinceName())) {
-            return -1;
-        }
-
-        if (this.getCustomerInternationalMailCode() != null && address.getCustomerInternationalMailCode() != null && !this.getCustomerInternationalMailCode().equalsIgnoreCase(address.getCustomerInternationalMailCode())) {
             return -1;
         }
         if (this.getCustomerEmailAddress() != null && address.getCustomerEmailAddress() != null && !this.getCustomerEmailAddress().equalsIgnoreCase(address.getCustomerZipCode())) {

@@ -424,7 +424,6 @@
 	<field-descriptor name="customerZipCode" column="CUST_ZIP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="customerCountryCode" column="CUST_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="customerAddressInternationalProvinceName" column="CUST_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="customerInternationalMailCode" column="CUST_INTL_MAIL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerAddressEndDate" column="CUST_ADDR_END_DT" jdbc-type="DATE"/>

@@ -728,7 +728,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 // Divide each payment to records in Asset AssetGlobalDetails
                 AssetPayment assetPayment = new AssetPayment();
                 assetPayment.setCapitalAssetNumber(location.getCapitalAssetNumber());
-                assetPayment.setPaymentSequenceNumber(payment.getFinancialDocumentLineNumber());
+                assetPayment.setPaymentSequenceNumber(payment.getSequenceNumber());
                 assetPayment.setChartOfAccountsCode(payment.getChartOfAccountsCode());
                 assetPayment.setAccountNumber(payment.getAccountNumber());
                 assetPayment.setSubAccountNumber(payment.getSubAccountNumber());

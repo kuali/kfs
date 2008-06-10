@@ -300,13 +300,13 @@
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentLineNumber" />
+                    p:name="sequenceNumber" />
             </list>
           </property>
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="financialDocumentLineNumber"
+                    p:name="sequenceNumber"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="chartOfAccountsCode"

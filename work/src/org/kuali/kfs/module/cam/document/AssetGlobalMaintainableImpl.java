@@ -113,7 +113,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private void handAssetPaymentsCollection(String collectionName, AssetGlobal assetGlobal) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
         if (assetPaymentDetail != null) {
-            assetPaymentDetail.setFinancialDocumentLineNumber(assetGlobal.incrementFinancialDocumentLineNumber());
+            assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
         }
     }
 

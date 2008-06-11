@@ -15,15 +15,20 @@
  */
 package org.kuali.module.cams.service;
 
+import java.util.List;
+
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.module.cams.bo.AssetGlobal;
+import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
 
 
 /**
  * The interface defines methods for Asset Document
  */
 public interface AssetGlobalService {
-    /**
+	/**
      *
      * To calculate the total payment amounts for each asset.
      * @param assetGlobal
@@ -47,4 +52,9 @@ public interface AssetGlobalService {
      * @return 
      */
     KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal);
+    
+    /**
+     * Creates GL Postables
+     */
+    boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
 }

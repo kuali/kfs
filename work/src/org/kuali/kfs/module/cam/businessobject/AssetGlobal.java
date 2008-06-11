@@ -15,6 +15,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.service.AssetGlobalService;
@@ -54,9 +55,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String organizationOwnerChartOfAccountsCode;
     private String organizationOwnerAccountNumber;
     private String agencyNumber;
-    private Integer financialDocumentNextLineNumber;
-
-
+    private Integer financialDocumentNextLineNumber;    
+    
+    
     // Not Presisted
     private Date lastInventoryDate;
     private Agency agency;
@@ -73,7 +74,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     // field is here so that AssetLookupableHelperServiceImpl can pass action information
     private String financialDocumentTypeCode;
-
+    
+    private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
+    
     /**
      * Default constructor.
      */
@@ -81,6 +84,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
         assetSharedDetails = new TypedArrayList(AssetGlobalDetail.class);
         assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);
+        this.generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
     }
 
     /**
@@ -482,7 +486,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the agencyNumber attribute.
+     * Gets the agencyNumber attribute. 
      * 
      * @return Returns the agencyNumber.
      */
@@ -500,7 +504,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the organizationOwnerAccountNumber attribute.
+     * Gets the organizationOwnerAccountNumber attribute. 
      * 
      * @return Returns the organizationOwnerAccountNumber.
      */
@@ -518,7 +522,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the organizationOwnerChartOfAccountsCode attribute.
+     * Gets the organizationOwnerChartOfAccountsCode attribute. 
      * 
      * @return Returns the organizationOwnerChartOfAccountsCode.
      */
@@ -536,7 +540,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the representativeUniversalIdentifier attribute.
+     * Gets the representativeUniversalIdentifier attribute. 
      * 
      * @return Returns the representativeUniversalIdentifier.
      */
@@ -611,7 +615,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the organizationOwnerAccount attribute.
+     * Gets the organizationOwnerAccount attribute. 
      * 
      * @return Returns the organizationOwnerAccount.
      */
@@ -630,7 +634,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the organizationOwnerChartOfAccounts attribute.
+     * Gets the organizationOwnerChartOfAccounts attribute. 
      * 
      * @return Returns the organizationOwnerChartOfAccounts.
      */
@@ -647,7 +651,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
         this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
     }
-
+ 
     /**
      * Gets the assetGlobalDetails attribute.
      * 
@@ -719,7 +723,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
             asset.setConditionCode(conditionCode);
             asset.setAcquisitionTypeCode(acquisitionTypeCode);
-            asset.setPrimaryDepreciationMethodCode(primaryDepreciationMethodCode); // ??
+            asset.setPrimaryDepreciationMethodCode(primaryDepreciationMethodCode); //??
             asset.setManufacturerName(manufacturerName);
             asset.setManufacturerModelNumber(manufacturerModelNumber);
             asset.setTotalCostAmount(totalCostAmount);
@@ -767,8 +771,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
                 if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, acquisitionTypeCode)) {
                     assetPayment.setFinancialDocumentPostingDate(payment.getExpenditureFinancialDocumentPostedDate());
-                    assetPayment.setFinancialDocumentPostingYear(payment.getFinancialDocumentPostingYear());
-                    assetPayment.setFinancialDocumentPostingPeriodCode(payment.getFinancialDocumentPostingPeriodCode());
+                assetPayment.setFinancialDocumentPostingYear(payment.getFinancialDocumentPostingYear());
+                assetPayment.setFinancialDocumentPostingPeriodCode(payment.getFinancialDocumentPostingPeriodCode());
                 }
                 else {
                     UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
@@ -864,7 +868,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the financialDocumentTypeCode attribute.
+     * Gets the financialDocumentTypeCode attribute. 
      * 
      * @return Returns the financialDocumentTypeCode.
      */
@@ -880,7 +884,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
     }
-
+    
     /**
      * Gets the assetRepresentative attribute.
      * 
@@ -901,7 +905,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the agency attribute.
+     * Gets the agency attribute. 
      * 
      * @return Returns the agency.
      */
@@ -916,5 +920,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setAgency(Agency agency) {
         this.agency = agency;
+    }
+
+    /**
+     * Gets the generalLedgerPendingEntries attribute. 
+     * @return Returns the generalLedgerPendingEntries.
+     */
+    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
+        return generalLedgerPendingEntries;
+    }
+
+    /**
+     * Sets the generalLedgerPendingEntries attribute value.
+     * @param generalLedgerPendingEntries The generalLedgerPendingEntries to set.
+     */
+    public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
+        this.generalLedgerPendingEntries = generalLedgerPendingEntries;
     }
 }

@@ -265,7 +265,6 @@
 		</property>		
 	</bean>
 
-
 	<bean id="assetBarCodeInventoryInputFileType" class="org.kuali.module.cams.batch.barcode.AssetBarCodeInventoryInputFileType"> 
 	    <property name="directoryPath">
 	       <value>${staging.directory}/CM_BARCODE</value>
@@ -277,9 +276,15 @@
 	       <ref bean="dateTimeService"/>
 	    </property-->
 	</bean>
-	<bean id="assetGlobalService" class="org.kuali.module.cams.service.impl.AssetGlobalServiceImpl" >
+	
+	<bean id="assetGlobalService" class="org.kuali.module.cams.service.impl.AssetGlobalServiceImpl">
+    	<property name="universityDateService" ref="universityDateService" />
+    	<property name="assetObjectCodeService" ref="assetObjectCodeService"></property>
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="assetPaymentService" ref="assetPaymentService" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
+    
 	<import resource="document/validation/configuration/CapitalAssetsValidators.xml" />
 	<import resource="document/validation/configuration/AssetPaymentValidation.xml" />
 <!-- End of Asset Bar Code inventory batch job -->

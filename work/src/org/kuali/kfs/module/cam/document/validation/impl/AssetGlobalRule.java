@@ -35,6 +35,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -43,6 +44,7 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
+import org.kuali.module.cams.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.module.cams.service.AssetGlobalService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetService;
@@ -430,9 +432,30 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         success &= validatePaymentCollection(assetGlobal);
+        
+        // System shall not generate any GL entries for acquisition type code new
+       /*
+        if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+            // create poster
+            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader());
+            // create postables
+            if (!(success = assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
+                return success;
+            }
+            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+            }
+            else {
+                assetGlobalGlPoster.getPendingEntries().clear();
+            }
+        }
+        */
         return success;
     }
 
+    
+    
     private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
         boolean success = true;
 

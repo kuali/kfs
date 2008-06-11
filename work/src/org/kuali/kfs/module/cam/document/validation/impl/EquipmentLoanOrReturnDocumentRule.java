@@ -25,6 +25,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -82,6 +83,8 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
         // validate if borrower id is valid
         valid &= validBorrowerId(equipmentLoanOrReturnDocument);
+        // validate if borrower and storage state codes are avlid
+        valid &= validStateCode(equipmentLoanOrReturnDocument);
 
         return valid;
     }
@@ -142,6 +145,34 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_USER + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID);
             valid = false;
         }
+        return valid;
+    }
+
+
+    /**
+     * Implementation of the rule that if borrower and storage state codes are valid
+     * 
+     * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
+     * @return boolean false if the borrower or storage state code is not valid
+     */
+    private boolean validStateCode(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+        boolean valid = true;
+        // validate borrower state code
+        equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE);
+        if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerState())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE, equipmentLoanOrReturnDocument.getBorrowerStateCode());
+            valid = false;
+        }
+
+        // validate borrower storage state code
+        if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
+            equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE);
+            if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerStorageState())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
+                valid = false;
+            }
+        }
+
         return valid;
     }
 

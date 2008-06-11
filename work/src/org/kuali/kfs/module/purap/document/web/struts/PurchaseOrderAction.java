@@ -53,6 +53,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -623,14 +624,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+               
+        po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
         
         po.setPendingSplit(false);
-        po.setCopyingNotesWhenSplitting(false);       
-        ActionForward forward = reload(mapping, kualiDocumentFormBase, request, response);
-        List<Note> notes = po.getBoNotes();
-        po.deleteNote(notes.get(notes.size() - 1));
+        po.setCopyingNotesWhenSplitting(false);        
         kualiDocumentFormBase.setDocument(po);
-        //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+        reload(mapping, kualiDocumentFormBase, request, response);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1707,7 +1707,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingLine);
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "ReceivingLineDocument");        
         parameters.put("purchaseOrderId", document.getPurapDocumentIdentifier().toString() );
-        parameters.put("fromPurchaseOrder", "true");
         
         //create url
         String receivingUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapReceivingLine.do", parameters);

@@ -17,6 +17,16 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" 
               description="The DataDictionary entry containing attributes for this row's fields."%>
+              
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:choose>
+    <c:when test="${fn:contains(documentType, 'PurchaseOrder')}">
+        <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
+    </c:when>
+    <c:when test="${not fn:contains(documentType, 'Requisition')}">
+        <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
+    </c:when>
+</c:choose>
 
 <kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.RELATED_DOCS_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -31,14 +41,17 @@
 		
 		<purap:relatedPurchaseOrderDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedPurchaseOrderViews"
+			limitByPoId="${limitByPoId}"
 			documentTypeLabel="Purchase Order" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedPaymentRequestViews"
+			limitByPoId="${limitByPoId}"
 			documentTypeLabel="Payment Request" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedCreditMemoViews"
+			limitByPoId="${limitByPoId}"
 			documentTypeLabel="Credit Memo" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"

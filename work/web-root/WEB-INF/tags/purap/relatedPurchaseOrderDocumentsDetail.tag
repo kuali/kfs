@@ -19,6 +19,7 @@
 
 <%@ attribute name="viewList" required="true" %>
 <%@ attribute name="documentTypeLabel" required="true" %>
+<%@ attribute name="limitByPoId" required="true" %>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:choose>
@@ -32,23 +33,25 @@
 
 	   	<logic:notEmpty name="KualiForm" property="${viewList}">
 			<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
-			    <c:choose>
-			        <c:when test= "${view.purchaseOrderCurrentIndicator}">
-        	            <div class="h2-container">
-        	                <h2><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h2>
-			            </div>
-			        </c:when>
-			        <c:otherwise>
-			            <c:if test="${viewCtr == 0}">
-                            <div class="h2-container">
-                                <h2><c:out value="${documentTypeLabel}"/></h2>
-                            </div>			                
-			            </c:if>
-                        <div class="h2">
-                            <h2 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Doc #"/> <a href="<c:out value="${view.url}" />"  target="_BLANK"><c:out value="${view.documentNumber}" /></a></h2>
-                        </div>			        
-			        </c:otherwise>
-			    </c:choose>
+				<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
+				    <c:choose>
+				        <c:when test= "${view.purchaseOrderCurrentIndicator}">
+	        	            <div class="h2-container">
+	        	                <h2><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h2>
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				            <c:if test="${viewCtr == 0}">
+	                            <div class="h2-container">
+	                                <h2><c:out value="${documentTypeLabel}"/></h2>
+	                            </div>			                
+				            </c:if>
+	                        <div class="h2">
+	                            <h2 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Doc #"/> <a href="<c:out value="${view.url}" />"  target="_BLANK"><c:out value="${view.documentNumber}" /></a></h2>
+	                        </div>			        
+				        </c:otherwise>
+				    </c:choose>
+				</c:if>
 			</logic:iterate>
 			
 			<!--  Only display the notes if the document type is not Purchase Order -->
@@ -62,28 +65,30 @@
 			    <c:otherwise>
 
                     <logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
-			            <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
-			    	        <c:if test="${!empty view.notes}">
-						        <tr>
-        							<kul:htmlAttributeHeaderCell scope="col" width="15%">Date</kul:htmlAttributeHeaderCell>
-		        					<kul:htmlAttributeHeaderCell scope="col" width="15%">User</kul:htmlAttributeHeaderCell>
-				        			<kul:htmlAttributeHeaderCell scope="col" width="70%">Note</kul:htmlAttributeHeaderCell>
-			        	        </tr>
-        						<c:forEach items="${view.notes}" var="note" >
-		        	        		<tr>
-			                			<td align="center" valign="middle" class="datacell">
-			        	        			<c:out value="${note.notePostedTimestamp}" />
-				        		        </td>
-        				        		<td align="center" valign="middle" class="datacell">
-		        	        				<c:out value="${note.authorUniversal.personName}" />
-				                		</td>
-				                		<td align="left" valign="middle" class="datacell">
-			        			        	<c:out value="${note.noteText}" />
-        				        		</td>
-		        		        	</tr>
-				        		</c:forEach>
-					        </c:if>	
-		    	        </table>
+                    	<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
+				            <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
+				    	        <c:if test="${!empty view.notes}">
+							        <tr>
+	        							<kul:htmlAttributeHeaderCell scope="col" width="15%">Date</kul:htmlAttributeHeaderCell>
+			        					<kul:htmlAttributeHeaderCell scope="col" width="15%">User</kul:htmlAttributeHeaderCell>
+					        			<kul:htmlAttributeHeaderCell scope="col" width="70%">Note</kul:htmlAttributeHeaderCell>
+				        	        </tr>
+	        						<c:forEach items="${view.notes}" var="note" >
+			        	        		<tr>
+				                			<td align="center" valign="middle" class="datacell">
+				        	        			<c:out value="${note.notePostedTimestamp}" />
+					        		        </td>
+	        				        		<td align="center" valign="middle" class="datacell">
+			        	        				<c:out value="${note.authorUniversal.personName}" />
+					                		</td>
+					                		<td align="left" valign="middle" class="datacell">
+				        			        	<c:out value="${note.noteText}" />
+	        				        		</td>
+			        		        	</tr>
+					        		</c:forEach>
+						        </c:if>	
+			    	        </table>
+			    		</c:if>
 	       	        </logic:iterate>
 	       	    </c:otherwise>
             </c:choose>

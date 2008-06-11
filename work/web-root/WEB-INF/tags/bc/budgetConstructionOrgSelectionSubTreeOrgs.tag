@@ -100,24 +100,24 @@
             </c:when>
 
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP}">
-            <td class="grid" valign="center" rowspan="1" colspan="4">
+            <td colspan="4" valign="center" class="infoline" nowrap="nowrap">
                 <div align="center">
-                    <html:image property="methodToCall.selectPullOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org All" alt="Select Org All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPullSubOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select SubOrg All" alt="Select Sub Org All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPullBothAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Both All" alt="Select Both All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPullOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorg.gif" title="Select Org All" alt="Select Org All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPullSubOrgAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setsuborg.gif" title="Select SubOrg All" alt="Select Sub Org All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPullBothAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorgsuborg.gif" title="Select Both All" alt="Select Both All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
             </td>
             </c:when>
 
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">
-            <td class="grid" valign="center" rowspan="1" colspan="4">
+            <td colspan="4" valign="center" class="infoline" nowrap="nowrap">
                 <div align="center">
-                    <html:image property="methodToCall.selectPushOrgLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org Lev All" alt="Select Org Lev All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushOrgMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Org and Mgr Lev All" alt="Select Org and Mgr Lev All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushLevOneAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Lev One All" alt="Select Lev One All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushLevZeroAll" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" title="Select Lev Zero All" alt="Select Lev Zero All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushOrgLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorg.gif" title="Select Org Lev All" alt="Select Org Lev All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setmanagerlevel.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushOrgMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorgmanaglevel.gif" title="Select Org and Mgr Lev All" alt="Select Org and Mgr Lev All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushLevOneAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setlevelone.gif" title="Select Lev One All" alt="Select Lev One All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushLevZeroAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setleveltwo.gif" title="Select Lev Zero All" alt="Select Lev Zero All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
             </td>

@@ -33,22 +33,44 @@
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
+    
 	<bc:budgetConstructionOrgSelection />
+	
     <c:if test="${!empty KualiForm.previousBranchOrgs}">
 		<bc:budgetConstructionOrgSelectionPreviousBranches />
 	</c:if>
+	
 	<c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
 		<bc:budgetConstructionOrgSelectionSubTreeOrgs />
+		
 		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS}">
-			<bc:budgetConstructionOrgReportSelection />
+			<bc:budgetConstructionOrgSelectionReport />
 		</c:if>
+		
+	    <c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.ACCOUNT}">
+			<bc:budgetConstructionOrgSelectionAccount />
+		</c:if>
+		
+	    <c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET}">
+			<bc:budgetConstructionOrgSelectionSalset />
+		</c:if>
+		
 		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP or KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">    
-			<bc:budgetConstructionOrgReportSelectionPushOrPull />     
+			<bc:budgetConstructionOrgSelectionPushOrPull />     
 		</c:if>       
     </c:if>
     
 	<kul:panelFooter/>
+	
     <div id="globalbuttons" class="globalbuttons">
+        <c:if test="${!empty KualiForm.selectionSubTreeOrgs && KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP}">
+             <html:image property="methodToCall.performPullUp" src="${ConfigProperties.externalizable.images.url}buttonsmall_pullup.gif" title="Perform Pullup" alt="Perform Pullup" styleClass="globalbuttons" />
+        </c:if>
+        
+        <c:if test="${!empty KualiForm.selectionSubTreeOrgs && KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">
+             <html:image property="methodToCall.performPushDown" src="${ConfigProperties.externalizable.images.url}buttonsmall_pushdown.gif" title="Perform Pushdown" alt="Perform Pushdown" styleClass="globalbuttons" />
+        </c:if>
+        
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
     </div>
 </kul:page>

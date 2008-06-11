@@ -166,20 +166,12 @@
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode" parent="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="borrowerStateCode" />
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+     <property name="name" value="borrowerStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
-    </property>
     <property name="summary" value="borrowerStateCode" />
     <property name="description" value="borrowerStateCode description..." />
   </bean>
@@ -257,19 +249,11 @@
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="borrowerStorageStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
-    </property>
     <property name="summary" value="borrowerStorageStateCode" />
     <property name="description" value="borrowerStorageStateCode description..." />
   </bean>

@@ -1384,14 +1384,10 @@
   </bean>
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
 
-  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode">
+  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="offCampusLocation.assetLocationStateCode" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
-    </property>
     <property name="summary" value="Asset Off Campus State" />
     <property name="description" value="Asset Off Campus State description..." />
   </bean>

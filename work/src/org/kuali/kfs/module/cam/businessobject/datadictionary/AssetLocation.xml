@@ -145,19 +145,11 @@
   </bean>
   <bean id="AssetLocation-assetLocationStateCode" parent="AssetLocation-assetLocationStateCode-parentBean" />
 
-  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="assetLocationStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Location State Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
-    </property>
     <property name="summary" value="assetLocationStateCode" />
     <property name="description" value="assetLocationStateCode description..." />
   </bean>

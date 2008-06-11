@@ -191,19 +191,11 @@
   </bean>
   <bean id="AssetTransferDocument-offCampusStateCode" parent="AssetTransferDocument-offCampusStateCode-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
     <property name="name" value="offCampusStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-      	p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
-    </property>
     <property name="summary" value="offCampusStateCode" />
     <property name="description" value="offCampusStateCode description..." />
   </bean>

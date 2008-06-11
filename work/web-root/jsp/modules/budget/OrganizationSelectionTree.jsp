@@ -36,13 +36,7 @@
     
 	<bc:budgetConstructionOrgSelection />
 	
-    <c:if test="${!empty KualiForm.previousBranchOrgs}">
-		<bc:budgetConstructionOrgSelectionPreviousBranches />
-	</c:if>
-	
-	<c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
-		<bc:budgetConstructionOrgSelectionSubTreeOrgs />
-		
+	<c:if test="${!empty KualiForm.selectionSubTreeOrgs}">		
 		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS}">
 			<bc:budgetConstructionOrgSelectionReport />
 		</c:if>

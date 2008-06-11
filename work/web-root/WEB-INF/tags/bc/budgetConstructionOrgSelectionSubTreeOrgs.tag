@@ -15,9 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<div class="tab-container" align="center"> 
-    <div class="tab-container-error">
-    </div>
     <table cellpadding=0 cellspacing="0"  summary="">
 		<tr>
 	        <td class="subhead" colspan="4">Organization Sub-Tree</td>
@@ -78,7 +75,7 @@
                 readOnly="true"/>&nbsp;
             </td>
             <td class="grid" valign="center" rowspan="1" >
-            <div align="center">
+            <div align="center">&nbsp;
             <c:if test="${!item.leaf}">
                 <html:image property="methodToCall.navigateDown.line${status.index}.anchorselectionSubTreeOrgsAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}purap-down.gif" title="Drill Down" alt="Drill Down" styleClass="tinybutton" />
             </c:if>
@@ -117,7 +114,7 @@
                     <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setmanagerlevel.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPushOrgMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorgmanaglevel.gif" title="Select Org and Mgr Lev All" alt="Select Org and Mgr Lev All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPushLevOneAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setlevelone.gif" title="Select Lev One All" alt="Select Lev One All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushLevZeroAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setleveltwo.gif" title="Select Lev Zero All" alt="Select Lev Zero All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushLevZeroAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setlevelzero.gif" title="Select Lev Zero All" alt="Select Lev Zero All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearlines.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />
                 </div>
             </td>
@@ -127,10 +124,4 @@
             </c:otherwise>
 	        </c:choose>
 		</tr>
-		<tr>
-        	<td class="grid" valign="center" rowspan="1" colspan="5">
-            	<kul:errors keyMatch="selectionSubTreeOrgs" errorTitle="Errors found in Organization Selection Control:" />&nbsp;
-        	</td>
-        </tr>
 		</table>
-		</div>

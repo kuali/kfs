@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Previous Branches" defaultOpen="true" tabErrorKey="prevBranches">
-<div class="tab-container" align="center"> 
     <table cellpadding=0 cellspacing="0"  summary="">
       <tr>
         <td class="subhead" colspan="4">Previous Branches</td>
@@ -57,6 +55,3 @@
       </tr>
       </c:forEach>
     </table> 
-  </div>
-  
-  </kul:tab>

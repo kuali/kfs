@@ -15,22 +15,29 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<div class="tab-container" align="center"> 
-    <div class="tab-container-error">
-    </div>
-    <table cellpadding=0 cellspacing="0"  summary="">
-		<tr>
-	        <td class="subhead" colspan="1">Selection Operation </td>
-      	</tr>
-        <tr>
-           <td class="grid" valign="center" rowspan="1" colspan="6">
-              <div align="center">
-              <br>
-              <html:image property="methodToCall.performPositionPick" src="${ConfigProperties.externalizable.images.url}tinybutton-posnsalset.gif" title="Position Pick" alt="Position Pick" styleClass="tinybutton" />
-              <html:image property="methodToCall.performIncumbentPick" src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" title="Incumbent Pick" alt="Incumbent Pick" styleClass="tinybutton" />
-              <br>&nbsp;
-              </div>
-          </td>
-       </tr>
-    </table>
-</div>
+<kul:tab tabTitle="Select Operation" defaultOpen="true" tabErrorKey="reportSel">
+	<div class="tab-container" align="center" id="G02" style="display: block;">
+    	<div class="h2-container">
+    		<h2>Select Operation</h2>
+      	</div>
+      	
+      	<table width="100%" cellpadding="0" cellspacing="0">
+      		 <tr>
+                <td>Show Position Pick List </td>
+                <td width="200">
+                  <div align="center">
+                     <html:image property="methodToCall.performPositionPick" src="${ConfigProperties.externalizable.images.url}tinybutton-posnsalset.gif" title="Position Pick" alt="Position Pick" styleClass="tinybutton" />
+                  </div>
+                </td>
+             </tr>
+       		 <tr>
+                <td>Show Incumbent Pick List </td>
+                <td width="200">
+                  <div align="center">
+                     <html:image property="methodToCall.performIncumbentPick" src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" title="Incumbent Pick" alt="Incumbent Pick" styleClass="tinybutton" />
+                  </div>
+                </td>
+             </tr>            
+      </table>
+  </div>
+</kul:tab> 

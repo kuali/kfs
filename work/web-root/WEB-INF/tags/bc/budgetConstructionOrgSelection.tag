@@ -15,12 +15,13 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Org Selection" defaultOpen="true" tabErrorKey="orgSel">
-<c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
+<kul:tabTop tabTitle="${KualiForm.operatingModeTitle}" defaultOpen="true" tabErrorKey="orgSel,selectionSubTreeOrgs">
+    <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
+    <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
 	<div class="tab-container" align="center" id="G02" style="display: block;">
     	<div class="h2-container">
     		<span class="subhead-left">
-        		<h2><html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" /> ${KualiForm.operatingModeTitle}</h2>
+        		<h2>Current Point of View Organization Selection </h2>
         	</span>
       	</div>
         <table cellpadding=0 cellspacing="0"  summary="">
@@ -60,10 +61,19 @@
                 	            </td>
                             </c:if>
                        	</tr>
-                    </table>
+                    </table><br/>
                 </div>
                	</td>
 			</tr>
 		</table>
+		
+		<c:if test="${!empty KualiForm.previousBranchOrgs}">
+		  <bc:budgetConstructionOrgSelectionPreviousBranches />
+	    </c:if>
+	
+	    <c:if test="${!empty KualiForm.selectionSubTreeOrgs}">
+		  <bc:budgetConstructionOrgSelectionSubTreeOrgs />
+		</c:if>  
+    
     </div>
 </kul:tabTop>

@@ -26,6 +26,7 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
@@ -40,6 +41,7 @@ import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 import org.kuali.module.cams.service.AssetDateService;
+import org.kuali.module.cams.service.AssetGlobalService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 
@@ -49,6 +51,7 @@ import org.kuali.module.chart.service.ObjectCodeService;
 public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
+    private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
 
     /**
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument,
@@ -114,6 +117,11 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
         if (assetPaymentDetail != null) {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
+            // Set for document number and  document type code
+            if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+                assetPaymentDetail.setDocumentNumber(assetGlobal.getDocumentNumber());
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
+            }
         }
     }
 
@@ -174,9 +182,19 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
         }
         computeDepreciationDate(assetGlobal);
+        setPrimaryDepreciationAmount(assetGlobal);
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAssetGlobalDetails(newDetails);
+    }
+
+    private void setPrimaryDepreciationAmount(AssetGlobal assetGlobal) {
+        KualiDecimal primaryDepreciationPaymentAmount = assetGlobalService.totalNonFederalPaymentByAsset(assetGlobal);
+        
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            assetPaymentDetail.setPrimaryDepreciationPaymentAmount(primaryDepreciationPaymentAmount);
+        }
+        
     }
 
     private void computeDepreciationDate(AssetGlobal assetGlobal) {

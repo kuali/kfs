@@ -84,6 +84,7 @@
 
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="expenditureFinancialDocumentNumber" />
+    <property name="label" value="Expenditure Financial Document Number" />
     <property name="shortLabel" value="Doc. Number" />    
   </bean>
   <bean id="AssetPaymentDetail-expenditureFinancialDocumentPostedDate" parent="AssetPaymentDetail-expenditureFinancialDocumentPostedDate-parentBean" />

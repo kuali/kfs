@@ -153,7 +153,6 @@ public class CamsKeyConstants {
     }
 
     public static class AssetGlobal {
-
         public static final String ERROR_INVENTORY_STATUS_REQUIRED = "error.asset.inventory.status.code.required";
         public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.asset.owner.account.not.active";
         public static final String MIN_ONE_ASSET_REQUIRED = "error.document.min.one.asset.required";
@@ -178,5 +177,8 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_PAYMENT_AMOUNT = "error.payment.amount.invalid";
         public static final String ERROR_INVALID_POSTING_DATE_USED_FOR_OBJECT_CODE = "error.invalid.posting.date.used.for.object.code";
         public static final String ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE = "error.invalid.fin.object.sub.type.code";
+        public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED = "error.expenditure.financial.document.number.required";
+        public static final String ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED = "error.expenditure.financial.document.type.code.required";
+        public static final String ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED = "error.financial.document.posting.year.required";
     }
 }

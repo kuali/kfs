@@ -234,10 +234,8 @@ public class CamsConstants {
 
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
-        public static final String ADD_ASSET_ACQUISITION_CODE_GROUP = "G;T;S;F";
+        public static final String NON_NEW_ACQUISITION_CODE_GROUP = "G;T;S;F";
         public static final String ADD_ASSET_DOCUMENT_TYPE_CODE = "AA";
-        public static final String ACQUISITION_TYPE_CODE_N = "N";
-        public static final String NEW_CAPITAL_ASSET_DOCUMENT_TYPE_CODE_FOR = "PREQ";
-        public static final String NON_CAPITAL_ASSET_DOCUMENT_TYPE_CODE = "AA;PREQ";
+        public static final String NEW_ACQUISITION_TYPE_CODE = "N";
     }
 }

@@ -277,6 +277,9 @@
 	       <ref bean="dateTimeService"/>
 	    </property-->
 	</bean>
+	<bean id="assetGlobalService" class="org.kuali.module.cams.service.impl.AssetGlobalServiceImpl" >
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
 	<import resource="document/validation/configuration/CapitalAssetsValidators.xml" />
 	<import resource="document/validation/configuration/AssetPaymentValidation.xml" />
 <!-- End of Asset Bar Code inventory batch job -->

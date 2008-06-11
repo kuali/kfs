@@ -16,7 +16,6 @@
 package org.kuali.module.cams.rules;
 
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,9 +29,11 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -42,12 +43,14 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
+import org.kuali.module.cams.service.AssetGlobalService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.gl.bo.UniversityDate;
 
 /**
  * Rule implementation for Asset Global document.
@@ -73,17 +76,21 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+    private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
     private boolean checkReferenceExists(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
 
         if (StringUtils.isBlank(assetGlobal.getAcquisitionTypeCode()) || ObjectUtils.isNull(assetGlobal.getAcquisitionType())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_REQUIRED);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
             valid = false;
         }
 
         if (StringUtils.isBlank(assetGlobal.getInventoryStatusCode())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_REQUIRED);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
             valid = false;
         }
 
@@ -94,38 +101,24 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        valid &= checkObjectCodeExists(assetPaymentDetail);
-        return valid;
-        }
-
-    private boolean checkObjectCodeExists(AssetPaymentDetail assetPaymentDetail) {
-        boolean valid = true;
-
         // Check for ObjectCode
         if (StringUtils.isNotBlank(assetPaymentDetail.getFinancialObjectCode())) {
             if (assetPaymentDetail.getFinancialDocumentPostingYear() == null) {
-                Date postedDate = null;
-                if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
-                    postedDate = assetPaymentDetail.getExpenditureFinancialDocumentPostedDate();
-                }
-                else if (assetPaymentDetail.getPaymentApplicationDate() != null) {
-                    postedDate = assetPaymentDetail.getPaymentApplicationDate();
-                }
-                Integer fiscalYear = universityDateService.getFiscalYear(postedDate);
-
-                if (fiscalYear != null) {
-                    assetPaymentDetail.setFinancialDocumentPostingYear(fiscalYear);
-                }
-            }
-            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-            if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_INVALID, assetPaymentDetail.getFinancialObjectCode());
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_FINANCIAL_DOCUMENT_POSTING_YEAR_REQUIRED);
                 valid = false;
+            }
+            else {
+                assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
+                if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_INVALID, assetPaymentDetail.getFinancialObjectCode());
+                    valid = false;
+                }
             }
         }
 
         return valid;
     }
+
 
     private boolean checkReferenceExists(AssetGlobalDetail assetGlobalDetail) {
         boolean valid = true;
@@ -209,13 +202,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
-                AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
+            AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) line;
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
-                if (!success) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
             }
-        }
+
         }
         return success;
     }
@@ -223,111 +214,116 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validatePaymentLine(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
 
-        success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
-
-
-        // Validate Financial Document Type Code
-        if (StringUtils.isNotBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
-            success = validateDocumentType(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode(), assetGlobal);
+        if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode())) {
+            success &= checkRequiredFieldsForNew(assetPaymentDetail);
+        }
+        else {
+            // Validate Financial Document Type Code
+            success &= validateDocumentTypeForNonNew(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
         }
 
         // Validate Financial Posted date
         if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
-            success &= validatePostedDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate(), assetPaymentDetail.getFinancialDocumentPostingYear());
+            success &= validatePostedDate(assetPaymentDetail);
         }
 
-        // handle payment information
-        // amount should be positive
+        
+        // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
-            success &= false;
+            success = false;
         }
 
-        // TODO: what are the required fields when asset acquisition type is 'N'?
-        // check the business rule: if financial doc num is not same as current doc number, then posting date is required
-        // if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() == null &&
-        // StringUtils.isNotBlank(assetPaymentDetail.getExpenditureFinancialDocumentNumber()) &&
-        // !assetPaymentDetail.getExpenditureFinancialDocumentNumber().equalsIgnoreCase(assetGlobal.getDocumentNumber())) {
-        // success = false;
-        // }
+        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
+        
+        success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
+
+        success &= validateObjectSubTypeCode(assetGlobal, assetPaymentDetail);
 
         return success;
     }
 
-    private boolean validateFinanicalPostingYear(AssetPaymentDetail assetPaymentDetail) {
+    /**
+     * 
+     * This method check the required fields for acquisition type New .
+     * 
+     * @param assetPaymentDetail
+     * @return
+     */
+    private boolean checkRequiredFieldsForNew(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
-        if (assetPaymentDetail.getFinancialDocumentPostingYear() != null && assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
 
+        if (StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentNumber())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED);
+            valid = false;
         }
-        return valid;
-    }
-
-    private boolean validatePostedDate(Date postedDate, Integer financialPostingYear) {
-        boolean valid = true;
-        Integer fiscalYear = universityDateService.getFiscalYear(postedDate);
-        if (fiscalYear == null) {
-            throw new ValidationException("University Fiscal year is not defined for date - " + postedDate);
+        if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() == null) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_POSTING_DATE_REQUIRED);
+            valid = false;
         }
-        else if (!financialPostingYear.equals(fiscalYear)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.AssetGlobal.ERROR_INVALID_POSTING_DATE_USED_FOR_OBJECT_CODE);
+        if (StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED);
             valid = false;
         }
         return valid;
     }
 
-    private boolean validateDocumentType(String documentTypeCode, AssetGlobal assetGlobal) {
-        boolean valid = true;
-        // check document Type code if it is set
-        if (isCapitalStatus(assetGlobal)) {
-            if (isMemberInGroup(CamsConstants.AssetGlobal.ADD_ASSET_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode()) && !CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED);
-                valid = false;
-            }
 
-            if (CamsConstants.AssetGlobal.ACQUISITION_TYPE_CODE_N.equalsIgnoreCase(assetGlobal.getAcquisitionTypeCode()) && !CamsConstants.AssetGlobal.NEW_CAPITAL_ASSET_DOCUMENT_TYPE_CODE_FOR.equalsIgnoreCase(documentTypeCode)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED);
-                valid = false;
-            }
+    private boolean validatePostedDate(AssetPaymentDetail assetPaymentDetail) {
+        boolean valid = true;
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
+        UniversityDate universityDate = (UniversityDate) boService.findByPrimaryKey(UniversityDate.class, primaryKeys);
+        if (universityDate == null) {
+            throw new ValidationException("University has not defined for date - " + assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
         }
-        else if (isMemberInGroup(CamsConstants.AssetGlobal.NON_CAPITAL_ASSET_DOCUMENT_TYPE_CODE, documentTypeCode)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED);
-            valid = false;
+        else {
+            assetPaymentDetail.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
+            assetPaymentDetail.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         }
 
         return valid;
     }
 
     /**
-     * This method...
      * 
-     * @param assetGlobal
-     * @param assetPaymentDetail
-     * @param success
+     * Check document type code is set to the desired value when acquisition type code is non-new.
+     * 
+     * @param documentTypeCode
      * @return
      */
-    private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
+    private boolean validateDocumentTypeForNonNew(String documentTypeCode) {
         boolean valid = true;
-        // Check Object Code
-        if (!isCapitalStatus(assetGlobal) && isCapitablObjectCode(objectCode)) {
-            // Capital object code shall not be used for a non-capital asset.
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED);
-            valid = false;
-        }
-
-        // The acquisition type code of (C, F, G, N, P, S, T) requires a capital object code.
-        if (Arrays.asList(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP).contains(assetGlobal.getAcquisitionTypeCode()) && !isCapitablObjectCode(objectCode)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_REQUIRED);
+        if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
             valid = false;
         }
         return valid;
     }
 
-    public boolean isMemberInGroup(String groupName, String member) {
-        if (StringUtils.isBlank(groupName) || StringUtils.isBlank(member)) {
-            return false;
+    /**
+     * Check object code is set to capital only when the status is capital.
+     * 
+     * @param assetGlobal
+     * @param assetPaymentDetail
+     * @return valid
+     */
+    private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
+        boolean valid = true;
+        // Check Object Code: Capital object code shall not be used for a non-capital asset.
+        if (!isCapitalStatus(assetGlobal) && isCapitablObjectCode(objectCode)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED);
+            valid = false;
         }
-        return Arrays.asList(groupName.split(";")).contains(member);
+
+        // The acquisition type code of (C, F, G, N, P, S, T) requires a capital object code.
+        if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode()) && !isCapitablObjectCode(objectCode)) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_REQUIRED);
+            valid = false;
+        }
+        return valid;
     }
+
 
     private boolean isAccountInvalid(Account account) {
         return ObjectUtils.isNull(account) || account.isAccountClosedIndicator() || account.isExpired();
@@ -352,35 +348,43 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_PAYMENT_REQUIRED);
             success &= false;
         }
-        KualiDecimal totalPaymentByAsset = totalPaymentByAsset(assetGlobal);
+
+        KualiDecimal totalPaymentByAsset = assetGlobalService.totalPaymentByAsset(assetGlobal);
         // check if amount is above threshold for capital assets for normal user
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         String capitalizationThresholdAmount = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
         if (isCapitalStatus(assetGlobal) && totalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
-            success &= false;
+            success = false;
         }
 
         // check if amount is less than threshold for non-capital assets for all users
         if (!isCapitalStatus(assetGlobal) && totalPaymentByAsset.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX);
-            success &= false;
-        }
-
-        success &= validateObjectSubTypeCode(assetGlobal);
-
-        if (success) {
-            setSystemControlledFields(assetGlobal);
+            success = false;
         }
 
         return success;
     }
 
 
-    private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal) {
+    /**
+     * 
+     * Validate all object sub type codes are from the same group.
+     * 
+     * @param assetGlobal
+     * @param newLine
+     * @return
+     */
+    private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal, AssetPaymentDetail newLine) {
         boolean valid = true;
         List<String> objectSubTypeList = new ArrayList<String>();
+        
         // build object sub type list
+        if (ObjectUtils.isNotNull(newLine.getObjectCode())) {
+            objectSubTypeList.add(newLine.getObjectCode().getFinancialObjectSubTypeCode());
+        }
+        
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
             if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
@@ -389,51 +393,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         if (!assetService.isObjectSubTypeCompatible(objectSubTypeList)) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE);
             valid = false;
         }
         return valid;
     }
 
-
-    private void setSystemControlledFields(AssetGlobal assetGlobal) {
-        List<AssetPaymentDetail> payments = assetGlobal.getAssetPaymentDetails();
-
-        if (isMemberInGroup(CamsConstants.AssetGlobal.ADD_ASSET_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
-            for (AssetPaymentDetail assetPaymentDetail : payments) {
-                // Set for document number
-                if (StringUtils.isBlank(assetPaymentDetail.getDocumentNumber())) {
-                    assetPaymentDetail.setDocumentNumber(assetGlobal.getDocumentNumber());
-                }
-                // Set for document type code
-                if (StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
-                    assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
-                }
-                // Set for financial posting year and posting period.
-                if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() != null) {
-                    if (assetPaymentDetail.getFinancialDocumentPostingYear() == null) {
-                        assetPaymentDetail.setFinancialDocumentPostingYear(universityDateService.getFiscalYear(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate()));
-                    }
-                }
-
-            }
-        }
-    }
-
-
-    private KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal) {
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
-        KualiDecimal qty = new KualiDecimal(assetPaymentDetails.size());
-
-        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
-        }
-        if (!qty.isZero()) {
-            return totalAmount.divide(qty);
-        }
-        return totalAmount;
-    }
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -444,7 +409,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
         String statusCode = assetGlobal.getInventoryStatusCode();
 
-        if (CamsConstants.AssetGlobal.ACQUISITION_TYPE_CODE_N.equals(acquisitionTypeCode)) {
+        if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
             UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
             if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
                 putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED, new String[] { CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, acquisitionTypeCode });
@@ -457,11 +422,22 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         if (StringUtils.isNotBlank(acquisitionTypeCode) && StringUtils.isNotBlank(statusCode)) {
             // check if status code and acquisition type code combination is valid
-            success = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
+            success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
         }
         success = validateAssetType(assetGlobal);
         if (isCapitalStatus(assetGlobal)) {
-            success = validateVendorAndManufacturer(assetGlobal);
+            success &= validateVendorAndManufacturer(assetGlobal);
+        }
+
+        success &= validatePaymentCollection(assetGlobal);
+        return success;
+    }
+
+    private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
+        boolean success = true;
+
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
         }
         return success;
     }

@@ -1227,7 +1227,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
                 
                 //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
-                if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemIdentifier(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
+                if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
                     itemAdded = true;
                     break;    
                 }                
@@ -1236,7 +1236,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         return itemAdded;
     }
-    
+
+    public boolean isNewUnorderedItem(PurchaseOrderItem poItem){
+        
+        boolean itemAdded = false;
+        
+        //only check, active, above the line, unordered items
+        if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
+            
+            //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
+            if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(poItem.getPurchaseOrder().getPurapDocumentIdentifier()) )){
+                itemAdded = true;                 
+            }                
+        }
+        
+        return itemAdded;
+    }
+
     /**
      * Sends an FYI to fiscal officers for new unordered items.
      * 
@@ -1279,7 +1295,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
                 
                 //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
-                if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemIdentifier(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
+                if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
 
                     // loop through accounts and pull off fiscal officer
                     for(PurApAccountingLine account : poItem.getSourceAccountingLines()){

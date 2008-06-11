@@ -50,9 +50,9 @@ public interface PurchaseOrderDao {
     /**
      * Determines if the purchase order item exists on the current purchase order.
      * 
-     * @param poItemIdentifier
+     * @param poItemLineNumber
      * @param docNumber
      * @return
      */
-    public boolean itemExistsOnPurchaseOrder(Integer poItemIdentifier, String docNumber);
+    public boolean itemExistsOnPurchaseOrder(Integer poItemLineNumber, String docNumber);
 }

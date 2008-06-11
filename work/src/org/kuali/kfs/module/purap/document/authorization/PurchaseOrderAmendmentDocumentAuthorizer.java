@@ -23,9 +23,12 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.service.PurapService;
 
 
 /**
@@ -49,8 +52,11 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
         }
         editModeMap.put(editMode, "TRUE");
 
+        if(SpringContext.getBean(PurapService.class).isDocumentStoppedInRouteNode((PurchasingAccountsPayableDocument)d, "New Unordered Items")){
+            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.UNORDERED_ITEM_ACCOUNT_ENTRY, "TRUE");
+        }
+        
         return editModeMap;
     }
     
-
 }

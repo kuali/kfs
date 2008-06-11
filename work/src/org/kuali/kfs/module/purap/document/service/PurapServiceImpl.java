@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
@@ -565,4 +567,20 @@ public class PurapServiceImpl implements PurapService {
         }
     }
     
+    
+    public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName) {
+        List<String> currentRouteLevels = new ArrayList<String>();
+        try {
+            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+            currentRouteLevels = Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
+            if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
+                return true;
+            }
+            return false;
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     }

@@ -25,8 +25,10 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * Purchase Order Item Business Object.
@@ -341,4 +343,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         }
     }
 
+    public boolean isNewUnorderedItem(){
+        return SpringContext.getBean(PurchaseOrderService.class).isNewUnorderedItem(this);
+    }
 }

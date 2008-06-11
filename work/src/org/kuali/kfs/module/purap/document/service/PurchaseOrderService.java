@@ -313,4 +313,11 @@ public interface PurchaseOrderService {
     
     public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType);
 
+    /**
+     * Determines if a purchase order item is new unordered item. 
+     * 
+     * @param poItem
+     * @return
+     */
+    public boolean isNewUnorderedItem(PurchaseOrderItem poItem);
 }

@@ -173,4 +173,12 @@ public interface PurapService {
      */
     public void saveDocumentNoValidation(Document document);
     
+    /**
+     * Determines if a document is in a specified node.
+     * 
+     * @param document
+     * @param nodeName
+     * @return
+     */
+    public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName);
 }

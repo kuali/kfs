@@ -108,12 +108,12 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.module.purap.dao.PurchaseOrderDao#itemExistsOnPurchaseOrder(java.lang.Integer, java.lang.String)
      */
-    public boolean itemExistsOnPurchaseOrder(Integer poItemIdentifier, String docNumber){
+    public boolean itemExistsOnPurchaseOrder(Integer poItemLineNumber, String docNumber){
         boolean existsInPo = false;
                 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, docNumber);
-        criteria.addEqualTo(PurapPropertyConstants.ITEM_IDENTIFIER, poItemIdentifier);
+        criteria.addEqualTo("purchaseOrder.documentNumber", docNumber);
+        criteria.addEqualTo("itemLineNumber", poItemLineNumber);
 
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderItem.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });

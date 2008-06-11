@@ -103,9 +103,13 @@
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStateCode}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStateCode" attributeEntry="${eqipAttributes.borrowerStateCode}"/>								
+					&nbsp;
+	                <kul:lookup boClassName="org.kuali.kfs.bo.State" fieldConversions="postalStateCode:document.borrowerStateCode" lookupParameters="document.borrowerStateCode:postalStateCode" />
                 </td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageStateCode}" readOnly="true"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageStateCode" attributeEntry="${eqipAttributes.borrowerStorageStateCode}"/>								
+					&nbsp;
+	                <kul:lookup boClassName="org.kuali.kfs.bo.State" fieldConversions="postalStateCode:document.borrowerStorageStateCode" lookupParameters="document.borrowerStorageStateCode:postalStateCode" />
                 </td>
 			</tr>
 		    <tr>

@@ -93,14 +93,15 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) financialDocument;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) accountingLine;
-        
+
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals( receivableOffsetOption ) ){
-            success &= doesChartCodeHaveReceivableObjectCode( customerInvoiceDetail );
-        } else if ( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals( receivableOffsetOption ) ) {
-            success &= doesSubFundGroupHaveReceivableObjectCode( customerInvoiceDetail );
+        if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals(receivableOffsetOption)) {
+            success &= doesChartCodeHaveReceivableObjectCode(customerInvoiceDetail);
         }
-        
+        else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(receivableOffsetOption)) {
+            success &= doesSubFundGroupHaveReceivableObjectCode(customerInvoiceDetail);
+        }
+
         success &= isCustomerInvoiceDetailUnitPriceValid(customerInvoiceDetail, customerInvoiceDocument);
         success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
         success &= isValidUnitOfMeasure(customerInvoiceDetail);
@@ -425,11 +426,11 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     protected boolean isValidUnitOfMeasure(CustomerInvoiceDetail detail) {
-        
+
         if (StringUtils.isNotEmpty(detail.getInvoiceItemUnitOfMeasureCode())) {
             Map criteria = new HashMap();
             criteria.put("itemUnitOfMeasureCode", detail.getInvoiceItemUnitOfMeasureCode());
-            if ( ObjectUtils.isNull(SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UnitOfMeasure.class, criteria ) ) ){
+            if (ObjectUtils.isNull(SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UnitOfMeasure.class, criteria))) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD);
                 return false;
             }
@@ -637,24 +638,24 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         return success;
     }
-    
+
     /**
      * This method validates the ship to and bill to customer address
      * 
      * @param customerInvoiceDocument
      * @return
      */
-    public boolean validateCustomerAddresses( CustomerInvoiceDocument customerInvoiceDocument ){
+    public boolean validateCustomerAddresses(CustomerInvoiceDocument customerInvoiceDocument) {
         boolean success = true;
         String customerNumber = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
 
-        if( ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerShipToAddressIdentifier()) ){
+        if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerShipToAddressIdentifier())) {
             success &= isCustomerAddressValid(customerNumber, customerInvoiceDocument.getCustomerShipToAddressIdentifier(), true);
-        }        
-        if( ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerBillToAddressIdentifier()) ){
+        }
+        if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerBillToAddressIdentifier())) {
             success &= isCustomerAddressValid(customerNumber, customerInvoiceDocument.getCustomerBillToAddressIdentifier(), false);
         }
-        
+
         return success;
     }
 
@@ -670,7 +671,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         if (!SpringContext.getBean(CustomerAddressService.class).customerAddressExists(customerNumber, customerAddressIdentifier)) {
             if (isShipToAddress) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER);
-            } else {
+            }
+            else {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER);
             }
             return false;
@@ -678,43 +680,52 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         }
         return true;
     }
-    
+
     /**
      * This method returns true if chart code has receivable object code
      * 
      * @param customerInvoiceDetail
      * @return
      */
-    public boolean doesChartCodeHaveReceivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail ){
-        
+    public boolean doesChartCodeHaveReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
+
         customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
         Chart chart = customerInvoiceDetail.getChart();
-        if( StringUtils.isEmpty(chart.getFinAccountsReceivableObjCode()) ){
+        if (StringUtils.isEmpty(chart.getFinAccountsReceivableObjCode())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD, chart.getChartOfAccountsCode());
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * This method returns true if sub fund group associated with account has a corresponding AR object code
      * 
      * @param customerInvoiceDetail
      * @return
      */
-    public boolean doesSubFundGroupHaveReceivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail ){
+    public boolean doesSubFundGroupHaveReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
         customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         Account account = customerInvoiceDetail.getAccount();
-        if( StringUtils.isNotEmpty(account.getSubFundGroupCode() ) ){
+        if (StringUtils.isNotEmpty(account.getSubFundGroupCode())) {
             String receivableObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, account.getSubFundGroupCode());
-            
-            if( StringUtils.isEmpty(receivableObjectCode) ){
+
+            if (StringUtils.isEmpty(receivableObjectCode)) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD, account.getSubFundGroupCode(), account.getAccountNumber());
                 return false;
             }
+            else {
+                customerInvoiceDetail.setAccountsReceivableObjectCode(receivableObjectCode);
+                customerInvoiceDetail.refreshReferenceObject("accountsReceivableObject");
+
+                if (ObjectUtils.isNull(customerInvoiceDetail.getAccountsReceivableObject())) {
+                    GlobalVariables.getErrorMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM, receivableObjectCode, account.getSubFundGroupCode(), account.getAccountNumber());
+                    return false;
+                }
+            }
         }
-        
-        return true;                
+
+        return true;
     }
 }

@@ -45,7 +45,7 @@ public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
            this.poster.refreshReferenceObject("paymentFinancialSubObject");
            this.poster.refreshReferenceObject("paymentProject");           
        } else {
-           this.postable.refresh();
+           this.postable.refreshNonUpdateableReferences();
        }
        
    }

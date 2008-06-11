@@ -255,6 +255,9 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         customerInvoiceDetail.setAccountsReceivableObjectCode(getAccountsReceivableObjectCodeBasedOnReceivableParameter(customerInvoiceDetail));
     }
     
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAccountsReceivableObjectCodeBasedOnReceivableParameter(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     */
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail) {
         String receivableOffsetOption = parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         String accountsReceivableObjectCode = null;

@@ -75,7 +75,7 @@
     <property name="name" value="iuDefaultObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Default Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Default Object Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -93,7 +93,7 @@
     <property name="name" value="iuNormalWorkMonths" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Normal Work Months" />
-    <property name="shortLabel" value="WM" />
+    <property name="shortLabel" value="Work Months" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -111,7 +111,7 @@
     <property name="name" value="iuPayMonths" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Pay Months" />
-    <property name="shortLabel" value="PM" />
+    <property name="shortLabel" value="Pay Months" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -267,7 +267,7 @@
     <property name="name" value="positionGradeDefault" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Salary Grade Default" />
-    <property name="shortLabel" value="Grd" />
+    <property name="shortLabel" value="Salary Grade" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -285,7 +285,7 @@
     <property name="name" value="positionLockUserIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Lock User Identifier" />
-    <property name="shortLabel" value="Identifier" />
+    <property name="shortLabel" value="Lock User ID" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -303,7 +303,7 @@
     <property name="name" value="positionNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Position" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -340,7 +340,7 @@
     <property name="name" value="positionSalaryPlanDefault" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Salary Plan Default" />
-    <property name="shortLabel" value="SPln" />
+    <property name="shortLabel" value="Salary Plan" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -358,7 +358,7 @@
     <property name="name" value="positionStandardHoursDefault" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Standard Hours Default" />
-    <property name="shortLabel" value="Pos Std Hrs Default" />
+    <property name="shortLabel" value="Standard Hours" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -378,7 +378,7 @@
     <property name="name" value="positionStatus" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Status" />
-    <property name="shortLabel" value="Position Status" />
+    <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -397,7 +397,7 @@
     <property name="name" value="positionUnionCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Position Union Code" />
-    <property name="shortLabel" value="Position Union Code" />
+    <property name="shortLabel" value="Union Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -433,7 +433,7 @@
     <property name="name" value="setidDepartment" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Department Set Id" />
-    <property name="shortLabel" value="Dept Set Id" />
+    <property name="shortLabel" value="Set Id" />
     <property name="maxLength" value="5" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

@@ -27,7 +27,7 @@
 						
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Expenditure Salary Line Detail">
 	<tr>
-		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentFundingDeleteIndicator}" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentFundingDeleteIndicator}" nowrap="true"/>
 				
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.positionNumber}" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${bciiAttributes.personName}" />
@@ -167,9 +167,7 @@
 					accountingLineValuesMap="${item.valuesMap}" fieldAlign="right" readOnly="true" rowSpan="1" />
 			</c:when>
 			<c:otherwise>
-				<td>
-					&nbsp;
-				</td>
+				<td>&nbsp;</td>
 			</c:otherwise>
 		</c:choose>
 
@@ -186,9 +184,7 @@
 					formattedNumberValue="${formattedNumber}" readOnly="true" rowSpan="1" dataFieldCssClass="amount" />
 			</c:when>
 			<c:otherwise>
-				<td>
-					&nbsp;
-				</td>
+				<td>&nbsp;</td>
 			</c:otherwise>
 		</c:choose>
 
@@ -243,17 +239,23 @@
 					src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" 
 					title="Incumbent Salary Setting For Line ${status.index}"
 					alt="Incumbent Salary Setting For Line ${status.index}" styleClass="tinybutton" />
+				
+				<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+					src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
+					title="Vacate Salary Setting Line ${status.index}"
+					alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
 			</c:if>
 		</td>
 	</tr>
 	
 	<tr>
-		<td colspan ="7">
+		<td colspan ="7"><center>
 			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
 				methodToCall = "adjustSalarySettingLinePercent"
 				lineIndex = "${status.index}"/>
+			</center>
 		</td>
 	</tr>
 	</c:forEach>

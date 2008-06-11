@@ -62,6 +62,7 @@ public abstract class DetailSalarySettingForm extends BudgetExpansionForm {
     private String financialSubObjectCode;
     private String positionNumber;
     private String emplid;
+    private String personName;
 
     // pass the value of this as a url parm, false setting means budget by organization
     // this also controls where we return the user when done
@@ -416,5 +417,21 @@ public abstract class DetailSalarySettingForm extends BudgetExpansionForm {
      */
     public void setHideDetails(boolean hideDetails) {
         this.hideDetails = hideDetails;
+    }
+
+    /**
+     * Gets the personName attribute. 
+     * @return Returns the personName.
+     */
+    public String getPersonName() {
+        return personName;
+    }
+
+    /**
+     * Sets the personName attribute value.
+     * @param personName The personName to set.
+     */
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 }

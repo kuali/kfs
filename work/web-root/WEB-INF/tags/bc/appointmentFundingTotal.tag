@@ -19,7 +19,7 @@
 <%@ attribute name="pcafAware" required="true" type="java.lang.Object"
 			  description="The object containing the appointment funding lines"%>			  			  
 
-<table style="border-top: 1px solid rgb(153, 153, 153); width: inherit;" cellpadding="0" cellspacing="0" class="datatable">
+<table style="border-top: 1px solid rgb(153, 153, 153); width:60%;" cellpadding="0" cellspacing="0" border="0" class="datatable">
 	<tr>
 		<th>&nbsp;</th>
 		<th>Amount</th>

@@ -26,25 +26,15 @@
 </c:if>
 
 <c:if test="${!KualiForm.orgSalSetClose}">
-<kul:page showDocumentInfo="false"
-	htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
-	showTabButtons="true"
-	docTitle="Salary Setting by Position"
-    transactionalDocument="false"
-	>
-
-<%--
-	<kul:hiddenDocumentFields
-		isFinancialDocument="false"
-		isTransactionalDocument="false" />
---%>
+<kul:page showDocumentInfo="false" htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
+	showTabButtons="true" docTitle="Salary Setting by Position" transactionalDocument="false">
+	
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>
 
     <bc:positionSalarySetting />
 	<kul:panelFooter />
-
 
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">

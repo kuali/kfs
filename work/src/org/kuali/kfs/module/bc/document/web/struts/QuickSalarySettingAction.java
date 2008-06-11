@@ -179,7 +179,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
     /**
      * vacate the specified appointment funding line
      */
-    public ActionForward performVacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward vacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
 

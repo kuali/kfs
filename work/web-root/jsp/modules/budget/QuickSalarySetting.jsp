@@ -18,7 +18,14 @@
 <kul:page showDocumentInfo="false" docTitle="Quick Salary Setting" transactionalDocument="false"
 	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true" showTabButtons="true">
     
-    <bc:quickSalarySetting/>
+    <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
+	<kul:tabTop tabTitle="Quick Salary Setting" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS}">
+		<div class="tab-container" align=center>
+			<bc:expenditureSalaryLine/>			
+			<bc:expenditureSalaryLineDetails/>
+		</div>
+	</kul:tabTop>
+
 	<kul:panelFooter />
 
     <div id="globalbuttons" class="globalbuttons">

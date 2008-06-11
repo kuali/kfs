@@ -736,18 +736,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 newDocument.addNote(splitNote);
                 
-                newDocument.refreshNonUpdateableReferences();
-                
+                newDocument.refreshNonUpdateableReferences();               
                 newDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
                 
                 try {
-                    documentService.saveDocument(newDocument, DocumentSystemSaveEvent.class); // Also throws WorkflowException
+                    saveDocumentStandardSave(newDocument);
                 }
-                // If we catch a ValidationException, it means that the new PO doc found errors.
+                // If we catch a ValidationException, it means that errors were found in the new split PO doc.
                 catch (ValidationException ve) {
                     throw ve;
-                }
-                // If no validation exception was thrown, then the rules have passed and we are OK to edit the current PO.                                        
+                }                                        
                 return newDocument;
             }
             else {

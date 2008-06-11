@@ -15,21 +15,11 @@
  */
 package org.kuali.module.purap.document;
 
-import static org.kuali.core.util.KualiDecimal.ZERO;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.PurapConstants;
 
 public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
-
+    
 }

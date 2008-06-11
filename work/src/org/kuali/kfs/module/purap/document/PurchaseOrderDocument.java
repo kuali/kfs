@@ -313,7 +313,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(getDocumentHeader().getWorkflowDocument().getDocumentType())) {
+        String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
+        if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
+            (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
             if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed() && !getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                 super.prepareForSave(event);
             }

@@ -57,6 +57,7 @@
             horizontal="true" />    
         <bc:pbglLineDataCell dataCellCssClass="datacell"
             accountingLine="${budgetConstructionPosition}"
+            cellProperty="budgetConstructionPosition.positionNumber"
             field="positionNumber"
             attributes="${posnAttributes}" inquiry="true"
             boClassSimpleName="BudgetConstructionPosition"
@@ -71,6 +72,7 @@
             horizontal="true" />    
         <bc:pbglLineDataCell dataCellCssClass="datacell"
             accountingLine="${budgetConstructionPosition}"
+            cellProperty="budgetConstructionPosition.positionDescription"
             field="positionDescription"
             attributes="${posnAttributes}" inquiry="true"
             boClassSimpleName="BudgetConstructionPosition"

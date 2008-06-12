@@ -350,12 +350,14 @@ public class BCConstants extends JSTLConstants {
     }
     
     public enum SalaryAdjustmentMeasurement {
-        PERCENT("Percent"), AMOUNT("Flat Amount");
+        PERCENT("Percent", "%"), AMOUNT("Flat Amount", "flat");
         
         public String measurement;
+        public String label;
         
-        private SalaryAdjustmentMeasurement(String measurement) {
+        private SalaryAdjustmentMeasurement(String measurement, String label) {
             this.measurement = measurement;
+            this.label = label;
         }
     }
     

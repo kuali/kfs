@@ -18,6 +18,7 @@
 <c:set var="sseAttributes" value="${DataDictionary['SalarySettingExpansion'].attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary['Account'].attributes}" />
 
+<c:set var="readOnly" value="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}" />
 <c:set var="accountingLine" value="pendingBudgetConstructionGeneralLedger" />
 
 <html:hidden property="returnAnchor" />
@@ -137,18 +138,19 @@
 	</tr>
 
 	<%-- Row for Add Position and Add Incumbent Buttons --%>
+	<c:if test="${not readOnly}">
 	<tr>
-		<td class="grid" colspan="7">
-			<c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">
-				<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_addposn.gif" 
-					property="methodToCall.performAddPosition" title="Add Position" 
-					alt="Add Position" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-     			
-     			<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_addincmbnt.gif" 
-     				property="methodToCall.performAddIncumbent" title="Add Incumbent" 
-     				alt="Add Incumbent" styleClass="tinybutton" />
-			</c:if>
+		<td class="infoline" colspan="7"><center>			
+			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-addposition.gif" 
+				property="methodToCall.addPosition" title="Add Position" 
+				alt="Add Position" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+	   			
+	   		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-addincumbent.gif" 
+	   			property="methodToCall.addIncumbent" title="Add Incumbent" 
+	   			alt="Add Incumbent" styleClass="tinybutton" />
+	   		</center>
 		</td>
 	</tr>
+	</c:if>
 </tbody>
 </table>

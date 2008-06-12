@@ -30,6 +30,7 @@
 <table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
 		<th>&nbsp;</th>
+		<th>Row Operation</th>
 		<th>Amount</th>
 		<th>Hourly</th>
 		<th>Months</th>
@@ -41,7 +42,15 @@
 	
 	<c:if test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
 	<tr>
-		<th align="right" rowspan="2">CSF:</th>			
+		<th align="right">CSF:</th>	
+		
+		<td class="datacell">
+			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
+				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
+				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
+				methodToCall="adjustSalarySettingLinePercent"
+				lineIndex="${lineIndex}"/>
+		</td>		
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLine}"
@@ -76,24 +85,11 @@
 		<td class="datacell">&nbsp;</td>
 		<td class="datacell">&nbsp;</td>
 	</tr>
-	
-	<tr>
-		<td colspan="5" class="infoline"><center>
-			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
-				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
-				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
-				methodToCall="adjustSalarySettingLinePercent"
-				lineIndex="${lineIndex}"/>
-			</center>
-		</td>
-		
-		<td class="datacell">&nbsp;</td>
-		<td class="datacell">&nbsp;</td>		
-	</tr>
 	</c:if>
       
 	<tr>
-		<th align="right">Request:</th>					
+		<th align="right">Request:</th>	
+		<td class="datacell">&nbsp;</td>				
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLine}"
@@ -160,7 +156,16 @@
 	</tr>
 	
 	<tr>
-		<th align="right">Leave Request CSF:</th>	
+		<th align="right">Leave Request CSF:</th>
+			
+		<bc:pbglLineDataCell dataCellCssClass="datacell"
+                accountingLine="${fundingLine}"
+                cellProperty="${fundingLineName}.appointmentFundingDurationCode"
+                attributes="${pbcafAttributes}"
+                field="appointmentFundingDurationCode"
+                fieldAlign="left"
+                readOnly="${readOnly}"
+                rowSpan="1" />		
 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLine}"
@@ -192,20 +197,13 @@
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
 						
-		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentFundingDurationCode"
-                attributes="${pbcafAttributes}"
-                field="appointmentFundingDurationCode"
-                fieldAlign="left"
-                readOnly="${readOnly}"
-                rowSpan="1" />
-                
-		<td>&nbsp;</td>
+        <td class="datacell">&nbsp;</td>
+        <td class="datacell">&nbsp;</td>        
 	</tr>
 	
 	<tr>
 		<th align="right">Total Intended:</th>		
+		<td class="datacell">&nbsp;</td> 
 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLine}"

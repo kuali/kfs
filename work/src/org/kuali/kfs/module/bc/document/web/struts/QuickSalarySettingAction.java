@@ -110,7 +110,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward performAddIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         QuickSalarySettingForm tForm = (QuickSalarySettingForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Incumbent");
@@ -118,7 +118,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward performAddPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         QuickSalarySettingForm tForm = (QuickSalarySettingForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Position");

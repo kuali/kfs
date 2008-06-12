@@ -31,8 +31,8 @@ public class SalaryAdjustmentMeasurementValueFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(PERCENT.measurement, PERCENT.measurement));
-        keyValues.add(new KeyLabelPair(AMOUNT.measurement, AMOUNT.measurement));
+        keyValues.add(new KeyLabelPair(PERCENT.measurement, PERCENT.label));
+        keyValues.add(new KeyLabelPair(AMOUNT.measurement, AMOUNT.label));
 
         return keyValues;
     }

@@ -29,7 +29,7 @@
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="dwr/interface/KfsUniversalUserService.js"></script>
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/FinancialSystemUserService.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
@@ -41,7 +41,6 @@
 <c:set var="colspan" value="${countOfMajorColumns}" />
 
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
-<html:hidden property="${fundingLineName}.appointmentFundingDurationCode" />
 <html:hidden property="${fundingLineName}.positionNumber" />
 <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
@@ -62,7 +61,7 @@
 	
 	<tr> 
 	  	<bc:pbglLineDataCell dataCellCssClass="datacell"
-	    	accountingLine="${fundingLine}"
+	    	accountingLine="${fundingLineName}"
 	      	cellProperty="${fundingLineName}.appointmentFundingDeleteIndicator"
 		    attributes="${pbcafAttributes}"
 		    field="appointmentFundingDeleteIndicator"
@@ -157,28 +156,20 @@
 			lookupOrInquiryKeys="emplid"
 			accountingLineValuesMap="${fundingLine.valuesMap}"
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />	
-	
-		<c:choose>
-			<c:when test="${hasBeenAdded && fundingLine.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">	 
-		 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-		           	cellProperty="${fundingLineName}.budgetConstructionIntendedIncumbent.iuClassificationLevel"
-		           	field="iuClassificationLevel"
-		           	attributes="${intincAttributes}"
-		           	readOnly="true"
-		           	displayHidden="false" />
-		        
-		        <bc:pbglLineDataCell dataCellCssClass="datacell"
-		           	cellProperty="${fundingLineName}.budgetConstructionAdministrativePost.administrativePost"
-		           	field="administrativePost"
-		           	attributes="${adminPostAttributes}"
-		           	readOnly="true"
-		           	displayHidden="false" /> 	         
-		   	</c:when>
-	   		<c:otherwise>
-		       <td class="datacell">--</td>
-		       <td class="datacell">--</td>
-		    </c:otherwise>
-		</c:choose>
+	 
+ 		<bc:pbglLineDataCell dataCellCssClass="datacell"
+           	cellProperty="${fundingLineName}.budgetConstructionIntendedIncumbent.iuClassificationLevel"
+           	field="iuClassificationLevel"
+           	attributes="${intincAttributes}"
+           	readOnly="true"
+           	displayHidden="false" />
+        
+        <bc:pbglLineDataCell dataCellCssClass="datacell"
+           	cellProperty="${fundingLineName}.budgetConstructionAdministrativePost.administrativePost"
+           	field="administrativePost"
+           	attributes="${adminPostAttributes}"
+           	readOnly="true"
+           	displayHidden="false"/> 	         
 	</tr>
 	                                
 	<tr id="${fundingLineName}">

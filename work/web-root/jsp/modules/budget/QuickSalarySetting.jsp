@@ -15,13 +15,17 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
+
 <kul:page showDocumentInfo="false" docTitle="Quick Salary Setting" transactionalDocument="false"
 	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true" showTabButtons="true">
     
-    <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 	<kul:tabTop tabTitle="Quick Salary Setting" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS}">
 		<div class="tab-container" align=center>
-			<bc:expenditureSalaryLine/>			
+			<bc:expenditureSalaryLine/>	
+			
+			<br/>
+						
 			<bc:expenditureSalaryLineDetails/>
 		</div>
 	</kul:tabTop>
@@ -29,7 +33,7 @@
 	<kul:panelFooter />
 
     <div id="globalbuttons" class="globalbuttons">
-        <c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">
+        <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 
 	        	styleClass="globalbuttons" property="methodToCall.returnToCaller" title="save" alt="save"/>
 	    </c:if>

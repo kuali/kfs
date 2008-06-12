@@ -29,7 +29,7 @@
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="dwr/interface/KfsUniversalUserService.js"></script>
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/FinancialSystemUserService.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
@@ -41,7 +41,6 @@
 <c:set var="colspan" value="${countOfMajorColumns}" />
 
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
-<html:hidden property="${fundingLineName}.appointmentFundingDurationCode" />
 <html:hidden property="${fundingLineName}.emplid" />
 <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />

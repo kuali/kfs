@@ -8,6 +8,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerAddress;
@@ -47,6 +48,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             isValid &= checkCustomerHasAddress(newCustomer);
             if (isValid) {
                 isValid &= checkAddresses(newCustomer);
+            }
+
+            if (isValid) {
+                isValid &= checkTaxNumber(newCustomer);
             }
 
             if (isValid && document.isNew() && newCustomer.getCustomerNumber() == null) {
@@ -177,6 +182,39 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
         }
         return isValid;
+    }
+    
+    /**
+     * This method checks if tax number is entered when tax number is required
+     * 
+     * @param customer
+     * @return true if tax number is required and tax number is entered or if tax number is not required, false if tax number
+     *         required and tax number not entered
+     */
+    public boolean checkTaxNumber(Customer customer) {
+        boolean isValid = true;
+        if (isTaxNumberRequired()) {
+            boolean noTaxNumber = (customer.getCustomerFederalIdentifierNumber() == null || customer.getCustomerFederalIdentifierNumber().equalsIgnoreCase("")) && (customer.getCustomerSocialSecurityNumberIdentifier() == null || customer.getCustomerSocialSecurityNumberIdentifier().equalsIgnoreCase(""));
+            if (noTaxNumber) {
+                isValid = false;
+                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArConstants.CustomerFields.CUSTOMER_SOCIAL_SECURITY_NUMBER, ArConstants.CustomerConstants.ERROR_TAX_NUMBER_IS_REQUIRED);
+            }
+        }
+        return isValid;
+    }
+
+    /**
+     * This method checks if tax number is required
+     * 
+     * @return true if tax number is required, false otherwise
+     */
+    public boolean isTaxNumberRequired() {
+        boolean paramExists = SpringContext.getBean(ParameterService.class).parameterExists(Customer.class, KFSConstants.CustomerParameter.TAX_NUMBER_REQUIRED_IND);
+        if (paramExists) {
+            return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Customer.class, KFSConstants.CustomerParameter.TAX_NUMBER_REQUIRED_IND);
+        }
+        else
+            return false;
     }
 
 }

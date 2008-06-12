@@ -1122,5 +1122,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String NOT_OPEN = "N";
         public static final String OPEN = "O";
     }
+    
+    public static final class CustomerParameter {
+        public static final String TAX_NUMBER_REQUIRED_IND = "TAX_NUMBER_REQUIRED_INDI";
+    }
 }
 

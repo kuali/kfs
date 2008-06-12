@@ -200,7 +200,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
         for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
             Method readMethod = propertyDescriptor.getReadMethod();
-            if (readMethod != null && propertyDescriptor.getPropertyType() != null && propertyDescriptor.getPropertyType().isAssignableFrom(KualiDecimal.class)) {
+            if (readMethod != null && propertyDescriptor.getPropertyType() != null && KualiDecimal.class.isAssignableFrom(propertyDescriptor.getPropertyType())) {
                 KualiDecimal amount = (KualiDecimal) readMethod.invoke(assetPayment);
                 Method writeMethod = propertyDescriptor.getWriteMethod();
                 if (writeMethod != null && amount != null) {

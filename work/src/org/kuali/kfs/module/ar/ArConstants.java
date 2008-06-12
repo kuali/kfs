@@ -24,7 +24,7 @@ public class ArConstants {
     public static final String REMIT_TO_ADDRESS_EDITABLE_IND = "REMIT_TO_ADDRESS_EDITABLE_IND";
     public static final String REMIT_TO_NAME_EDITABLE_IND = "REMIT_TO_NAME_EDITABLE_IND";
     public static final String GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND = "GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND";
-    
+
     //constants for CashControlDocument
     public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.ReferenceDocNumberCannotBeNullforPaymentMediumCash";
     public static final String ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH = "error.ar.ReferenceDocNumberMustBeValidforPaymentMediumCash";
@@ -69,7 +69,7 @@ public class ArConstants {
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED = "error.document.customerCreditMemoDocument.invRefNumberIsRequired";
     public static final String WARNING_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVOICE_HAS_DISCOUNT = "warning.documnet.customerCreditMemoDocument.invoiceHasAppliedDiscount";
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT = "error.document.customerCreditMemoDocument.noDataToSubmit";
-    
+
     //Customer Invoice Document errors:
     public static final String ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO = "error.document.customerInvoiceDocument.invalidCustomerInvoiceDetailTotalAmount";
     public static final String ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO = "error.document.customerInvoiceDocument.invalidCustomerInvoiceDetailUnitPrice";
@@ -82,7 +82,7 @@ public class ArConstants {
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE = "error.document.customerInvoiceDocument.invalidInvoiceDueDateBeforeOrEqualBillingDate";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER = "error.document.customerInvoiceDocument.invalidCustomerNumber";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_NO_CUSTOMER_INVOICE_DETAILS = "error.document.customerInvoiceDocument.noCustomerInvoiceDetails";
-    
+
     public static final String ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED = "error.document.customerInvoiceDocument.paymentChartOfAccountsCodeRequired";
     public static final String ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED = "error.document.customerInvoiceDocument.paymentAccountNumberRequired";
     public static final String ERROR_PAYMENT_OBJECT_CODE_REQUIRED = "error.document.customerInvoiceDocument.paymentPaymentProjectCodeRequired";
@@ -96,7 +96,7 @@ public class ArConstants {
 
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER = "error.document.customerInvoiceDocument.invalidShipToAddressIdentifier";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER = "error.document.customerInvoiceDocument.invalidBillToAddressIdentifier";
-    
+
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD = "error.document.customerInvoiceDocument.invalidChartWithNoARObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD = "error.document.customerInvoiceDocument.invalidSubFundWithNoARObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM = "error.document.customerInvoiceDocument.invalidSubFundARObjectCodeInParm";
@@ -105,15 +105,15 @@ public class ArConstants {
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
-    
+
     public static final String COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION = "ConfirmationForCopyingInvoiceWithDiscounts";
 
 
     public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";
-    
-    
+
+
     public static final String CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX = "LINE ITEM DISCOUNT";
-    
+
     public static class PaymentMediumCode {
         public static final String CASH = "CA";
         public static final String CHECK = "CK";
@@ -154,7 +154,7 @@ public class ArConstants {
         public static final String CUSTOMER_INVOICE_DETAILS = "accountingLines";
         public static final String INVOICE_ITEM_CODE = "invoiceItemCode";
         public static final String UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
-        
+
 
         public static final String CUSTOMER = "customer";
         public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";
@@ -168,8 +168,8 @@ public class ArConstants {
 
         public static final String INVOICE_ITEM_UNIT_PRICE = "invoiceItemUnitPrice";
         public static final String INVOICE_ITEM_QUANTITY = "invoiceItemQuantity";
-        
-        
+
+
         public static final String SHIP_TO_ADDRESS_IDENTIFIER = "customerShipToAddressIdentifier";
         public static final String BILL_TO_ADDRESS_IDENTIFIER = "customerBillToAddressIdentifier";
     }
@@ -183,21 +183,21 @@ public class ArConstants {
         public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
         public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
     }
-    
+
     public static class OrganizationAccountingDefaultFields {
         public static final String WRITE_OFF_OBJECT_CODE = "writeoffObjectCode";
-        public static final String LATE_CHARGE_OBJECT_CODE ="organizationLateChargeObjectCode";
+        public static final String LATE_CHARGE_OBJECT_CODE = "organizationLateChargeObjectCode";
         public static final String INVOICE_CHART_OF_ACCOUNTS_CODE = "defaultInvoiceChartOfAccountsCode";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "defaultPaymentChartOfAccountsCode";
         public static final String PAYMENT_ACCOUNT_NUMBER = "defaultPaymentAccountNumber";
-        public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "defaultPaymentFinancialObjectCode";        
-    }    
-    
+        public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "defaultPaymentFinancialObjectCode";
+    }
+
     public static class OrganizationAccountingOptionsConstants {
         public static final String SHOW_EDIT_PAYMENTS_DEFAULTS_TAB = GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU;
         public static final String NAME_OF_THE_TAB_TO_HIDE = "Edit Organization Receivable Account Defaults";
     }
-    
+
     public static class CustomerCreditMemoStatuses {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
@@ -223,6 +223,7 @@ public class ArConstants {
         public static final String CUSTOMER_ADDRESS_STATE_CODE = "customerStateCode";
         public static final String CUSTOMER_ADDRESS_ZIP_CODE = "customerZipCode";
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "customerAddressInternationalProvinceName";
+        public static final String CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE = "customerInternationalMailCode";
         public static final String CUSTOMER_SOCIAL_SECURITY_NUMBER = "customerSocialSecurityNumberIdentifier";
     }
 
@@ -234,9 +235,10 @@ public class ArConstants {
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY = "P";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE = "A";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE_US = "US";
-        public static final String ERROR_CUSTOMER_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US="error.document.customer.stateCodeIsRequiredWhenCountryUS";
-        public static final String ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED="error.document.customer.zipCodeIsRequired";
-        public static final String ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US="error.document.customer.addressInternationalProvinceNameIsRequiredWhenCountryNonUS";
+        public static final String ERROR_CUSTOMER_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US = "error.document.customer.stateCodeIsRequiredWhenCountryUS";
+        public static final String ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US = "error.document.customer.zipCodeIsRequiredWhenCountryUS";
+        public static final String ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US = "error.document.customer.addressInternationalProvinceNameIsRequiredWhenCountryNonUS";
+        public static final String ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US = "error.document.customer.internationalMailCodeIsRequiredWhenCountryNonUS";
         public static final String ERROR_TAX_NUMBER_IS_REQUIRED = "error.document.customer.taxNumberRequired";
     }
 
@@ -247,7 +249,7 @@ public class ArConstants {
     public static class CustomerTypeConstants {
         public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
     }
-    
+
     public static class Workgroups {
         public static final String WORKGROUP_AR_SUPER_USERS = "AR_SUPER_USERS";
     }
@@ -268,7 +270,6 @@ public class ArConstants {
         public static final String DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID = "error.document.organizationAccountingDefaultMaintenance.defaultInvoiceFinancialObjectCodeInvalid";
         public static final String DEFAULT_CHART_OF_ACCOUNTS_REQUIRED_IF_DEFAULT_OBJECT_CODE_EXISTS = "error.document.organizationAccountingDefaultMaintenance.defaultInvoiceChartOfAccountsCodeMustExist";
     }
-    
-    
-    
+
+
 }

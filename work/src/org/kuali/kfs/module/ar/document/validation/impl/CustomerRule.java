@@ -130,12 +130,12 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
      */
     public boolean checkAddressIsValid(CustomerAddress customerAddress) {
         boolean isValid = true;
-        
+
         if (ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_US.equalsIgnoreCase(customerAddress.getCustomerCountryCode())) {
 
             if (customerAddress.getCustomerZipCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerZipCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED);
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
             }
             if (customerAddress.getCustomerStateCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerStateCode())) {
                 isValid = false;
@@ -143,9 +143,9 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             }
         }
         else {
-            if (customerAddress.getCustomerZipCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerZipCode())) {
+            if (customerAddress.getCustomerInternationalMailCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerInternationalMailCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED);
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
             if (customerAddress.getCustomerAddressInternationalProvinceName() == null || "".equalsIgnoreCase(customerAddress.getCustomerAddressInternationalProvinceName())) {
                 isValid = false;

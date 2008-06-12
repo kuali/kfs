@@ -25,6 +25,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     private String customerZipCode;
     private String customerCountryCode;
     private String customerAddressInternationalProvinceName;
+    private String customerInternationalMailCode;
     private String customerEmailAddress;
     private String customerAddressTypeCode;
     private Date customerAddressEndDate;
@@ -225,6 +226,24 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      */
     public void setCustomerCountryCode(String customerCountryCode) {
         this.customerCountryCode = customerCountryCode;
+    }
+
+    /**
+     * Gets the customerInternationalMailCode attribute.
+     * 
+     * @return Returns the customerInternationalMailCode
+     */
+    public String getCustomerInternationalMailCode() {
+        return customerInternationalMailCode;
+    }
+
+    /**
+     * Sets the customerInternationalMailCode attribute.
+     * 
+     * @param customerInternationalMailCode The customerInternationalMailCode to set.
+     */
+    public void setCustomerInternationalMailCode(String customerInternationalMailCode) {
+        this.customerInternationalMailCode = customerInternationalMailCode;
     }
 
     /**

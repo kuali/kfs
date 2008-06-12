@@ -82,7 +82,7 @@
   <bean id="Pretag-capitalAssetTypeCode" parent="Pretag-capitalAssetTypeCode-parentBean" />
 
   <bean id="Pretag-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
-    <property name="label" value="Captial Asset Type Code" />
+    <property name="label" value="Asset Type Code" />
     <property name="shortLabel" value="Asset Type Code" />
     <property name="required" value="true" />
     <property name="control" >

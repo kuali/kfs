@@ -35,7 +35,7 @@
   <bean id="AssetType-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Type Code" />
+    <property name="label" value="Asset Type Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
@@ -46,14 +46,14 @@
             p:size="9" />
     </property>
     <property name="summary" value="capitalAssetTypeCode" />
-    <property name="description" value="Capital asset type code" />
+    <property name="description" value="Capital Asset type code" />
   </bean>
   <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean" />
 
   <bean id="AssetType-capitalAssetTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTypeDescription" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Capital Asset Type Description" />
+    <property name="label" value="Asset Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="70" />
     <property name="validationPattern" >
@@ -65,7 +65,7 @@
             p:size="72" />
     </property>
     <property name="summary" value="capitalAssetTypeDescription" />
-    <property name="description" value="Capital asset type description." />
+    <property name="description" value="Capital Asset type description." />
   </bean>
   <bean id="AssetType-depreciableLifeLimit" parent="AssetType-depreciableLifeLimit-parentBean" />
 

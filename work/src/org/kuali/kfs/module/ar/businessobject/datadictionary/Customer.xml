@@ -659,6 +659,7 @@
 	<bean id="Customer-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Customer Lookup" />
+		<property name="lookupableID" value="customerLookupable" />
 		<property name="instructions" value="Look up a Customer" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition"></bean>

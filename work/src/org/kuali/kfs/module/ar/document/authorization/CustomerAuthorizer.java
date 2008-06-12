@@ -25,15 +25,14 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationOptions;
+import org.kuali.module.ar.util.ARUtil;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -73,7 +72,7 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
         MaintenanceDocument maintDocument = (MaintenanceDocument) document;
         String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
         if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) || maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) {
-            if (!isUserInArSupervisorGroup(user)) {
+            if (!ARUtil.isUserInArSupervisorGroup(user)) {
                 editModes.clear();
                 editModes.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
             }
@@ -82,17 +81,6 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
         return editModes;
     }
 
-    private boolean isUserInArSupervisorGroup(UniversalUser user) {
-        boolean retVal = false;
-        try {
-            retVal = SpringContext.getBean(KualiGroupService.class).getByGroupName(ArConstants.AR_SUPERVISOR_GROUP_NAME).hasMember(user);
-        }
-        catch (GroupNotFoundException gnfe) {
-
-        }
-
-        return retVal;
-    }
 
      /**
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
@@ -105,20 +93,21 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
         String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
 
         // if user is not AR SUPERVISOR he cannot approve the customer creation document
-        if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) && !isUserInArSupervisorGroup(user)) {
+        if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) && !ARUtil.isUserInArSupervisorGroup(user)) {
 
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);
 
         }
 
-//         if ((maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) || maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
-//
-//            actionFlags.setCanRoute(false);
-//            actionFlags.setCanSave(false);
-//            actionFlags.setCanCancel(false);
-//
-//        }
+        // if ((maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) ||
+        // maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
+        //
+        // actionFlags.setCanRoute(false);
+        // actionFlags.setCanSave(false);
+        // actionFlags.setCanCancel(false);
+        //
+        //        }
         return actionFlags;
     }
 

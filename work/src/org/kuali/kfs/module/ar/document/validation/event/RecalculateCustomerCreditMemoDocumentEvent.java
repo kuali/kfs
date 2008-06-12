@@ -22,9 +22,12 @@ import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
 
 public class RecalculateCustomerCreditMemoDocumentEvent extends KualiDocumentEventBase {
+    
+    protected boolean printErrMsgFlag;
 
-    public RecalculateCustomerCreditMemoDocumentEvent(String errorPathPrefix, Document document) {
+    public RecalculateCustomerCreditMemoDocumentEvent(String errorPathPrefix, Document document, boolean printErrMsgFlag) {
         super("Recalculating customer credit memo document " + getDocumentId(document), errorPathPrefix,document);
+        this.printErrMsgFlag = printErrMsgFlag;
     }    
     
     public Class getRuleInterfaceClass() {
@@ -32,7 +35,7 @@ public class RecalculateCustomerCreditMemoDocumentEvent extends KualiDocumentEve
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((RecalculateCustomerCreditMemoDocumentRule) rule).processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument)getDocument());
+        return ((RecalculateCustomerCreditMemoDocumentRule) rule).processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument)document,printErrMsgFlag);
     }
 
 }

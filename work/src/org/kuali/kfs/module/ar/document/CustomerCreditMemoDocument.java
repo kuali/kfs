@@ -373,6 +373,29 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
         }
 
     }
+    
+    /**
+     * This method populate credit memo details that aren't saved in database
+     */
+    public void populateCustomerCreditMemoDetailsAfterLoad(){
+        
+        KualiDecimal openInvoiceAmount;
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+
+        List<SourceAccountingLine> invoiceDetails = invoice.getSourceAccountingLines();
+        int index = 0;
+        for (SourceAccountingLine invoiceDetail : invoiceDetails) {
+           for( CustomerCreditMemoDetail creditMemoDetail : creditMemoDetails ){
+               if( invoiceDetail.getSequenceNumber().equals( creditMemoDetail.getReferenceInvoiceItemNumber() ) ){
+                   creditMemoDetail.setAccountingLineIndexForCorrespondingInvoiceDetail(index);
+                   openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(invoiceDetail.getSequenceNumber(), (CustomerInvoiceDetail) invoiceDetail);
+                   creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);                   
+               }
+               
+           }
+           index++;
+        }      
+    }
 
     // TODO
     /**

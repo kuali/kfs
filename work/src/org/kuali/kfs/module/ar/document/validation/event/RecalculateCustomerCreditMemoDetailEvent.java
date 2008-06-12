@@ -22,9 +22,12 @@ import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule;
 
 public class RecalculateCustomerCreditMemoDetailEvent extends CustomerCreditMemoDetailEventBase {
+    
+    protected CustomerCreditMemoDetail customerCreditMemoDetail;
 
     public RecalculateCustomerCreditMemoDetailEvent(String errorPathPrefix, Document document, CustomerCreditMemoDetail customerCreditMemoDetail) {
         super("Recalculating customer credit memo detail for document " + getDocumentId(document), errorPathPrefix, document, customerCreditMemoDetail);
+        this.customerCreditMemoDetail = customerCreditMemoDetail;
     }
     
     public Class getRuleInterfaceClass() {
@@ -32,6 +35,6 @@ public class RecalculateCustomerCreditMemoDetailEvent extends CustomerCreditMemo
     }
     
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((RecalculateCustomerCreditMemoDetailRule) rule).processRecalculateCustomerCreditMemoDetailRules((TransactionalDocument)getDocument(), getCustomerCreditMemoDetail());
+        return ((RecalculateCustomerCreditMemoDetailRule) rule).processRecalculateCustomerCreditMemoDetailRules((TransactionalDocument)document, customerCreditMemoDetail);
     }
 }

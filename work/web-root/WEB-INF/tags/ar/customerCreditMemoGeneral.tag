@@ -21,7 +21,7 @@
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />             
 <c:set var="customerAttributes" value="${DataDictionary.Customer.attributes}" />
               
-<kul:tab tabTitle="General" defaultOpen="false" >
+<kul:tab tabTitle="General" defaultOpen="true" >
     <div class="tab-container" align=center>
     	<div class="h2-container">
         	<h2>General</h2>

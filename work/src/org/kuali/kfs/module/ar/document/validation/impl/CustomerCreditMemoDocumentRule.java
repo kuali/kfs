@@ -16,17 +16,24 @@
 package org.kuali.module.ar.rules;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
@@ -40,6 +47,8 @@ import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * This class holds the business rules for the AR Credit Memo Document
  */
@@ -48,30 +57,25 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
                                                                                              RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>,
                                                                                              ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
     /**
-     * SAVE
-     * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
         isValid = checkReferenceInvoiceNumber(cmDocument);
-           
-        
+
         return isValid;
     }
     
     /**
-     * SUBMIT
-     * 
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
-        if (isValid) {
-            
-        }
+        if (isValid)
+           isValid &= processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument) document,true);
+
         return isValid;
     }
     
@@ -191,7 +195,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
      */
-    public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument financialDocument) {
+    public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument financialDocument, boolean printErrMsgFlag) {
         boolean success = true;
         boolean crmDataEnteredFlag = false;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
@@ -211,9 +215,12 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
             i++;
         }
-        // if (crmDataEnteredFlag == false ) => no CRM data was entered => success = false -> no recalculation will take place
-        // if error message is to be displayed, it should be done here...
+        
         success &= crmDataEnteredFlag;
+        
+        // print error message if 'Submit' button is pressed and there is no CRM data entered
+        if (!crmDataEnteredFlag && printErrMsgFlag)
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
         
         return success;
     }
@@ -227,7 +234,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
    
         success = checkIfInvoiceNumberIsValid(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
         if (success)
-            success = checkIfThereIsAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument);
+            success = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
         
         return success;
     }
@@ -251,27 +258,43 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
     /**
      * 
-     * This method checks if there is another CRM in route for the invoice
+     * This method checks if there is no another CRM in route for the invoice
      * not in route if CRM status is one of the following: processed, cancelled, or disapproved
      * @param invoice
      * @return
      */
-    private boolean checkIfThereIsAnotherCRMInRouteForTheInvoice(CustomerCreditMemoDocument customerCreditMemoDocument) {
+    private boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
+
+        KualiWorkflowDocument workflowDocument;
         boolean success = true;
-        /*
-        KualiWorkflowDocument workflowDocument = customerCreditMemoDocument.getDocumentHeader().getWorkflowDocument();
-        if (ObjectUtils.isNotNull(workflowDocument)) {
-            if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCancelled() || workflowDocument.stateIsDisapproved())
-        }
         
-        /* TODO
-        *if (ObjectUtils.isNotNull(invoice.getRefCreditMemoNumber)) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
         
-        if (true) {
-            success = false;
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = 
+            businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
+        
+        // no CRMs associated with the invoice are found
+        if (customerCreditMemoDocuments.isEmpty())
+            return success;
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        
+        for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
+            try {
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerCreditMemoDocument.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerCreditMemoDocument.getDocumentNumber() + "'", e);
+            }
+            
+            if (!(workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+                success = false;
+                break;
+            }
         }
-        */
         return success;  
     }
     

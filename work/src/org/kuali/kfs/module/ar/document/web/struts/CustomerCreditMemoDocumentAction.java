@@ -23,13 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.rule.event.ContinueCustomerCreditMemoDocumentEvent;
 import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDetailEvent;
@@ -40,7 +43,6 @@ import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-//public class CustomerCreditMemoDocumentAction extends KualiAccountingDocumentActionBase {
 public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocumentActionBase {
     
     public CustomerCreditMemoDocumentAction() {
@@ -56,6 +58,19 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         ((CustomerCreditMemoDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+    }
+    
+    /**
+     * This method loads the document by its provided document header id. This has been abstracted out so that it can be overridden
+     * in children if the need arises.
+     *
+     * @param kualiDocumentFormBase
+     * @throws WorkflowException
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+       super.loadDocument(kualiDocumentFormBase);
+       ((CustomerCreditMemoDocument)kualiDocumentFormBase.getDocument()).populateCustomerCreditMemoDetailsAfterLoad();
     }
     
     /**
@@ -204,7 +219,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)customerCreditMemoDocumentForm.getDocument();
 
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDocumentEvent(errorPath,customerCreditMemoDocument));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerCreditMemoDocumentEvent(errorPath,customerCreditMemoDocument,false));
         if (rulePassed) {
             CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
             customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument);

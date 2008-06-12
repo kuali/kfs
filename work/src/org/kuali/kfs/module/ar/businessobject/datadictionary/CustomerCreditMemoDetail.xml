@@ -70,7 +70,7 @@
     <property name="name" value="creditMemoItemTaxAmount" />
     <property name="label" value="Tax Amount" />
     <property name="shortLabel" value="Tax Amount" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="description" value="The salesTax amount" />
   </bean>
   
@@ -79,7 +79,7 @@
     <property name="name" value="creditMemoItemTotalAmount" />
     <property name="label" value="Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="description" value="The total amount" />
   </bean>
   
@@ -88,7 +88,7 @@
     <property name="name" value="creditMemoLineTotalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="description" value="The credit memo line total amount" />
   </bean>
   
@@ -97,7 +97,7 @@
     <property name="name" value="invoiceLineTotalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="description" value="The invoice total line amount" />
   </bean>
   
@@ -106,7 +106,7 @@
     <property name="name" value="invoiceOpenItemAmount" />
     <property name="label" value="Open Invoice Amount" />
     <property name="shortLabel" value="Open Invoice Amount" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="description" value="The open invoice item amount" />
   </bean>
   

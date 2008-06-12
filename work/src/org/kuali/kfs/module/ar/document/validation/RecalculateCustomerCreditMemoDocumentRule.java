@@ -19,5 +19,5 @@ import org.kuali.core.document.TransactionalDocument;
 
 public interface RecalculateCustomerCreditMemoDocumentRule<F extends TransactionalDocument> {
 
-    public boolean processRecalculateCustomerCreditMemoDocumentRules(F financialDocument);
+    public boolean processRecalculateCustomerCreditMemoDocumentRules(F financialDocument,boolean printErrMsgFlag);
 }

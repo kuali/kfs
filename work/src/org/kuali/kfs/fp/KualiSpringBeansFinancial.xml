@@ -389,7 +389,7 @@
 	</bean>
 	
 	<!-- validations -->
-	<import resource="document/validation/configuration/FinancialValidation.xml" />
+	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
 	<import resource="document/validation/configuration/BudgetAdjustmentValidation.xml" />
 	<import resource="document/validation/configuration/TransferOfFundsValidation.xml" />

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="InternalBilling-capitalObjectValidation" class="org.kuali.module.financial.document.validation.impl.InternalBillingCapitalObjectValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="InternalBilling-accountingLineAmountNonZeroValidation" class="org.kuali.module.financial.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
+	
+	<bean id="TransferOfFunds-transferTotalsBalanceValidation" class="org.kuali.module.financial.document.validation.impl.TransferOfFundsTransferTotalsBalancedValidation" abstract="true">
+		<property name="transferOfFundsService" ref="transferOfFundsService" />
+	</bean>
+	
+	<bean id="TransferOfFunds-fundGroupsBalancedValidation" class="org.kuali.module.financial.document.validation.impl.TransferOfFundsFundGroupsBalancedValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="TransferOfFunds-objectSubTypeValueAllowedValidation" class="org.kuali.module.financial.document.validation.impl.TransferOfFundsObjectSubTypeValueAllowedValidation">
+		<property name="transferOfFundsService" ref="transferOfFundsService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="responsibleProperty" value="financialObjectCode" />
+		<property name="propertyPath" value="objectCode.financialObjectSubTypeCode" />
+		<property name="parameterToCheckAgainst" value="OBJECT_SUB_TYPES" />
+	</bean>
+	
+	<bean id="TransferOfFunds-objectCodeValueAllowedValidation" class="org.kuali.module.financial.document.validation.impl.TransferOfFundsObjectCodeValueAllowedValidation">
+		<property name="debitDeterminerService" ref="debitDeterminerService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="responsibleProperty" value="financialObjectCode" />
+		<property name="propertyPath" value="financialObjectCode" />
+		<property name="parameterToCheckAgainst" value="OBJECT_CODES" />
+	</bean>
+	
+	<bean id="BudgetAdjustment-accountingLineAccountHasRecordingLevelValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLineAccountHasRecordingLevelValidation" abstract="true" />
+	
+	<bean id="BudgetAdjustment-accountingLineAccountIncomeStreamValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLineAccountIncomeStreamValidation" abstract="true" />
+	
+	<bean id="BudgetAdjustment-accountingLineAmountValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLineAmountValidation" abstract="true">
+		<property name="debitDeterminerService" ref="debitDeterminerService" />
+	</bean>
+	
+	<bean id="BudgetAdjustment-accountingLineBaseAmountValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLineBaseAmountValidation" abstract="true">
+		<property name="fiscalYearFunctionControlService" ref="fiscalYearFunctionControlService" />
+	</bean>
+	
+	<bean id="BudgetAdjustment-accountingLineMonthlyLinesValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLineMonthlyLinesValidation" abstract="true" />
+	
+	<bean id="BudgetAdjustment-accountingLinesRequiredForRoutingValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLinesRequiredForRoutingValidation" abstract="true" />
+	
+	<bean id="BudgetAdjustment-accountingLineTotalsUnchangedValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentAccountingLineTotalsUnchangedValidation" abstract="true" />
+	
+	<bean id="BudgetAdjustment-documentBalancedValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentDocumentBalancedValidation" abstract="true" />
+	
+	<bean id="BudgetAdjustment-fundGroupAdjustmentRestrictionValidation" class="org.kuali.module.financial.document.validation.impl.BudgetAdjustmentFundGroupAdjustmentRestrictionValidation" abstract="true">
+		<property name="accountingLineRuleHelperService" ref="accountingLineRuleHelperService" />
+	</bean>
+
+	<bean id="AuxiliaryVoucher-accountingLineAmountValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherAccountingLineAmountValidation" abstract="true" />
+	
+	<bean id="AuxiliaryVoucher-reversalDateValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherReversalDateValidation" abstract="true" />
+	
+	<bean id="AuxiliaryVoucher-accountingLineObjectSubTypeAndLevelValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherAccountingLineObjectSubTypeAndLevelValidation" abstract="true">
+		<property name="objectTypeService" ref="objectTypeService" />
+	</bean>
+	
+	<bean id="AuxiliaryVoucher-accountingPeriodAllowedByParameterValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherAccountingPeriodAllowedByParameterValidation" abstract="true">
+		<property name="accountingPeriodService" ref="accountingPeriodService" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="AuxiliaryVoucher-accountingPeriodWithinGracePeriodValdation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation" abstract="true">
+		<property name="accountingPeriodService" ref="accountingPeriodService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="universityDateService" ref="universityDateService" />
+	</bean>
+	
+	<bean id="AuxiliaryVoucher-accountingPeriodOpenValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherAccountingPeriodOpenValidation" abstract="true">
+		<property name="accountingPeriodService" ref="accountingPeriodService" />
+	</bean>
+	
+	<bean id="AuxiliaryVoucher-recodeAccountingPeriodValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherRecodeAccountingPeriodValidation" abstract="true">
+		<property name="accountingPeriodService" ref="accountingPeriodService" />
+	</bean>
+	
+	<bean id="AuxiliaryVoucher-accountingDocumentSingleChartValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherSingleChartUsedValidation" abstract="true" />
+	
+	<bean id="AuxliaryVoucher-accountingDocumentSingleSubFundValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherSingleSubFundValidation" abstract="true" />
+	
+	<bean id="AuxiliaryVoucher-accountingLinesBalanceValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherAccountingLinesBalanceValidation" abstract="true" />
+	
+	<bean id="AuxiliaryVoucher-generalLedgerPendingEntriesBalanceValidation" class="org.kuali.module.financial.document.validation.impl.AuxiliaryVoucherGeneralLedgerPendingEntriesBalanceValdiation" abstract="true">
+		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+	</bean>
+	
+	<bean id="CashReceiptFamily-accountingLineAmountValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptFamilyAccountingLineAmountValidation" abstract="true" />
+	
+	<bean id="CashReceiptFamily-documentTotalValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptFamilyDocumentTotalValidation" abstract="true" />
+	
+	<bean id="CashReceiptFamily-accountingLineTotalValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptFamilyAccountingLineTotalValidation" abstract="true" />
+	
+	<bean id="CashReceipt-checkAmountNotZeroValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptCheckAmountNotZeroValidation" abstract="true" />
+	
+	<bean id="CashReceipt-checkAmountPositiveValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptCheckAmountPositiveValidation" abstract="true" />
+	
+	<bean id="CashReceipt-cashDrawerOpenValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptCashDrawerOpenValidation" abstract="true">
+		<property name="cashDrawerService" ref="cashDrawerService" />
+		<property name="cashReceiptService" ref="cashReceiptService" />
+	</bean>
+	
+	<bean id="CashReceipt-accountAndObjectValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptAccountAndObjectCodeValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="CashReceipt-cashTotalsValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptCashTotalsValidation" abstract="true">
+		<property name="cashReceiptService" ref="cashReceiptService" />
+	</bean>	
+	
+</beans>

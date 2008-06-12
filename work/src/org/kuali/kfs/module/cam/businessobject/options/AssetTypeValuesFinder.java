@@ -17,13 +17,13 @@ package org.kuali.module.cams.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.module.cams.bo.AssetType;
 
 /**
@@ -44,7 +44,10 @@ public class AssetTypeValuesFinder extends KeyValuesBase {
         for (Object code : codes) {
             AssetType at = (AssetType) code;
             labels.add(new KeyLabelPair(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
-         }
+        }
+
+        // sort alphabetically by asset type description
+        DynamicCollectionComparator.sort(labels, "label");
 
         return labels;
     }

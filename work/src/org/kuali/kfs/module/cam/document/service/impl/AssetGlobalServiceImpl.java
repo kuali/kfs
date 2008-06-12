@@ -39,17 +39,12 @@ import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
 import org.kuali.module.cams.service.AssetGlobalService;
 import org.kuali.module.cams.service.AssetObjectCodeService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetGlobalServiceImpl implements AssetGlobalService {
@@ -117,7 +112,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     AssetObjectCodeService assetObjectCodeService;
     BusinessObjectService businessObjectService;
     AssetPaymentService assetPaymentService;
-    
+
     private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
 
     public ParameterService getParameterService() {
@@ -131,7 +126,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
 
     /**
-     * Gets the assetObjectCodeService attribute. 
+     * Gets the assetObjectCodeService attribute.
+     * 
      * @return Returns the assetObjectCodeService.
      */
     public AssetObjectCodeService getAssetObjectCodeService() {
@@ -141,6 +137,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Sets the assetObjectCodeService attribute value.
+     * 
      * @param assetObjectCodeService The assetObjectCodeService to set.
      */
     public void setAssetObjectCodeService(AssetObjectCodeService assetObjectCodeService) {
@@ -149,7 +146,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
 
     /**
-     * Gets the assetPaymentService attribute. 
+     * Gets the assetPaymentService attribute.
+     * 
      * @return Returns the assetPaymentService.
      */
     public AssetPaymentService getAssetPaymentService() {
@@ -159,6 +157,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Sets the assetPaymentService attribute value.
+     * 
      * @param assetPaymentService The assetPaymentService to set.
      */
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
@@ -167,7 +166,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     * 
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -177,6 +177,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -185,7 +186,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
 
     /**
-     * Gets the universityDateService attribute. 
+     * Gets the universityDateService attribute.
+     * 
      * @return Returns the universityDateService.
      */
     public UniversityDateService getUniversityDateService() {
@@ -195,6 +197,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Sets the universityDateService attribute value.
+     * 
      * @param universityDateService The universityDateService to set.
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
@@ -206,15 +209,15 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         int numberOfTotalAsset = 0;
-        
-        for (AssetGlobalDetail assetSharedDetail:assetGlobal.getAssetSharedDetails()) {
+
+        for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
             numberOfTotalAsset += assetSharedDetail.getAssetGlobalUniqueDetails().size();
         }
 
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
             totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
         }
-        
+
         if (numberOfTotalAsset != 0) {
             return totalAmount.divide(new KualiDecimal(numberOfTotalAsset));
         }
@@ -244,7 +247,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
         return totalNonFederal;
     }
-    
+
     /**
      * 
      * @see org.kuali.module.cams.service.AssetRetirementService#createGLPostables(org.kuali.module.cams.bo.AssetRetirementGlobal,
@@ -268,7 +271,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
         return success;
     }
-    
+
     /**
      * 
      * Generate a collection of Postables for each payment.
@@ -393,5 +396,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
 
         return plantFundAccount;
+    }
+
+    public boolean isCapitablObjectCode(ObjectCode objectCode) {
+        return ObjectUtils.isNotNull(objectCode) && StringUtils.isNotBlank(objectCode.getFinancialObjectSubTypeCode()) && Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
     }
 }

@@ -35,7 +35,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -44,7 +43,6 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.module.cams.service.AssetGlobalService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetService;
@@ -58,8 +56,6 @@ import org.kuali.module.gl.bo.UniversityDate;
  * Rule implementation for Asset Global document.
  */
 public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
-    // TODO: SYSTEM PARAMETER
-    private static final String CAPITAL_OBJECT_SUB_TYPES = "CM;CF;CO;C1;C2;UC;UF;UO;AM;BD;BF;BI;ES;IF;LA;LE;LI;LF;LR;BR;BY;BX";
 
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
@@ -229,7 +225,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePostedDate(assetPaymentDetail);
         }
 
-        
+
         // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
@@ -237,7 +233,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-        
+
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
 
         success &= validateObjectSubTypeCode(assetGlobal, assetPaymentDetail);
@@ -313,13 +309,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
         boolean valid = true;
         // Check Object Code: Capital object code shall not be used for a non-capital asset.
-        if (!isCapitalStatus(assetGlobal) && isCapitablObjectCode(objectCode)) {
+        if (!isCapitalStatus(assetGlobal) && assetGlobalService.isCapitablObjectCode(objectCode)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED);
             valid = false;
         }
 
         // The acquisition type code of (C, F, G, N, P, S, T) requires a capital object code.
-        if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode()) && !isCapitablObjectCode(objectCode)) {
+        if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode()) && !assetGlobalService.isCapitablObjectCode(objectCode)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_REQUIRED);
             valid = false;
         }
@@ -332,7 +328,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     private boolean isCapitablObjectCode(ObjectCode objectCode) {
-        return ObjectUtils.isNotNull(objectCode) && StringUtils.isNotBlank(objectCode.getFinancialObjectSubTypeCode()) && Arrays.asList(CAPITAL_OBJECT_SUB_TYPES.split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
+        return ObjectUtils.isNotNull(objectCode) && StringUtils.isNotBlank(objectCode.getFinancialObjectSubTypeCode()) && Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
     }
 
     @Override
@@ -381,12 +377,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal, AssetPaymentDetail newLine) {
         boolean valid = true;
         List<String> objectSubTypeList = new ArrayList<String>();
-        
+
         // build object sub type list
         if (ObjectUtils.isNotNull(newLine.getObjectCode())) {
             objectSubTypeList.add(newLine.getObjectCode().getFinancialObjectSubTypeCode());
         }
-        
+
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
             if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
@@ -432,36 +428,35 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         success &= validatePaymentCollection(assetGlobal);
-        
+
         // System shall not generate any GL entries for acquisition type code new
-       /*
-        if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
-            // create poster
-            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader());
-            // create postables
-            if (!(success = assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
-                return success;
-            }
-            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
-            }
-            else {
-                assetGlobalGlPoster.getPendingEntries().clear();
-            }
-        }
-        */
+        /*
+         * if ((success & super.processCustomSaveDocumentBusinessRules(document)) &&
+         * !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) { // create poster
+         * AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new
+         * AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader()); // create postables if (!(success =
+         * assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
+         * putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER,
+         * CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE); return success; } if
+         * (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+         * assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries()); } else {
+         * assetGlobalGlPoster.getPendingEntries().clear(); } }
+         */
         return success;
     }
 
-    
-    
+
     private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
         boolean success = true;
-
+        int index = 0;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + index + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
             success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
+            GlobalVariables.getErrorMap().remove(errorPath);
+            index++;
         }
+
         return success;
     }
 

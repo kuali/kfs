@@ -71,6 +71,10 @@ public class CamsConstants {
         public static final String CAPITALIZATION_LIMIT_AMOUNT = "CAPITALIZATION_LIMIT_AMOUNT";
         public static final String DEFAULT_FABRICATION_ASSET_TYPE_CODE = "DEFAULT_FABRICATION_ASSET_TYPE_CODE";
         public static final String CAPITAL_OBJECT_SUB_TYPE_CODES="CAPITAL_OBJECT_SUB_TYPES";
+        public static final String DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE = "DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE";
+        public static final String MERGE_SEPARATE_RETIREMENT_REASONS = "MERGE_SEPARATE_RETIREMENT_REASONS";
+        public static final String RAZE_RETIREMENT_REASONS = "RAZE_RETIREMENT_REASONS";
+        public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
     }
 
     public static class Report {
@@ -113,6 +117,9 @@ public class CamsConstants {
         public static final String WORKGROUP_CM_SUPER_USERS = "CM_SUPER_USERS";
         public static final String WORKGROUP_CM_BARCODE_USERS = "CM_BARCODE_USERS";
         public static final String WORKGROUP_CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS = "CM_CAPITAL_ASSET_BUILDER_ADMINISTRATORS";
+        public static final String WORKGROUP_MULTIPLE_ASSET_RETIREMENT_WORKGROUP = "MULTIPLE_ASSET_RETIREMENT_WORKGROUP";
+        public static final String WORKGROUP_MERGE_SEPARATE_WORKGROUP = "MERGE_SEPARATE_WORKGROUP";
+        public static final String WORKGROUP_RAZE_WORKGROUP = "RAZE_WORKGROUP";
     }
 
     public static class InventoryStatusCode {
@@ -147,15 +154,6 @@ public class CamsConstants {
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
-    }
-
-    public static class AssetRetirementReasonCodeGroup {
-        // TODO: system parameters??
-        public static final String ALLOWED_FOR_ANY_KUALI_USERS = "1;2;;3;4;5;6;7;8;9;A";
-        public static final String ALLOWED_FOR_CM_ASSET_MERGE_SEPARATE_USERS = "M;S";
-        public static final String DISALLOWED_FOR_CM_ADD_PAYMENT_USERS = "R";
-        public static final String DISALLOWED_FOR_ANY_USERS = "B;D;F;S";
-        public static final String SINGLE_RETIRED_ASSET = "1;2;;3;4;5;6;7;8;9;A";
     }
 
     public static class AssetRetirementReasonCode {
@@ -202,7 +200,6 @@ public class CamsConstants {
     public static final String ASSET_TYPE_1000 = "1000";
     public static final String ASSET_TYPE_40000 = "40000";
 
-    // TODO: replaced by System parameter
     public static class DepreciationConvention {
         public static final String CREATE_DATE = "CD";
         public static final String HALF_YEAR = "HY";

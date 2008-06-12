@@ -15,46 +15,56 @@
  */
 package org.kuali.module.cams.service;
 
-import java.util.List;
-
-import org.kuali.module.cams.bo.Asset;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
+import org.kuali.module.chart.bo.ObjectCode;
 
 
 /**
  * The interface defines methods for Asset Document
  */
 public interface AssetGlobalService {
-	/**
-     *
+    /**
+     * 
      * To calculate the total payment amounts for each asset.
+     * 
      * @param assetGlobal
      * @return
      */
     KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal);
-    
+
     /**
      * 
      * This method checks if member exists in the given group.
+     * 
      * @param groupName
      * @param memberName
      * @return
      */
     boolean existsInGroup(String groupName, String memberName);
-    
+
     /**
      * 
      * To calculate the total non federal contribution payment amounts for each asset.
+     * 
      * @param assetGlobal
-     * @return 
+     * @return
      */
     KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal);
-    
+
     /**
      * Creates GL Postables
      */
     boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster);
+
+
+    /**
+     * 
+     * To check if the objectCode can derive a capital asset by its object sub type code.
+     * 
+     * @param objectCode
+     * @return
+     */
+    boolean isCapitablObjectCode(ObjectCode objectCode);
 }

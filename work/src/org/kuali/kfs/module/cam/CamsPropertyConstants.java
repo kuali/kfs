@@ -305,5 +305,9 @@ public class CamsPropertyConstants {
         public static final String CAPITALIZATION_FINANCIAL_OBJECT = "capitalizationFinancialObject";
         public static final String ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT = "accumulatedDepreciationFinancialObject";
     }
+    
+    public static class AssetRetirementReason {
+        public static String RETIREMENT_REASON_CODE = "retirementReasonCode";
+    }
 }
 

@@ -119,7 +119,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             // Set for document number and  document type code
             if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
-                assetPaymentDetail.setDocumentNumber(assetGlobal.getDocumentNumber());
+                assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
             }
         }
@@ -182,20 +182,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             }
         }
         computeDepreciationDate(assetGlobal);
-        setPrimaryDepreciationAmount(assetGlobal);
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAssetGlobalDetails(newDetails);
+        assetGlobal.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(assetGlobal));
     }
 
-    private void setPrimaryDepreciationAmount(AssetGlobal assetGlobal) {
-        KualiDecimal primaryDepreciationPaymentAmount = assetGlobalService.totalNonFederalPaymentByAsset(assetGlobal);
         
-        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            assetPaymentDetail.setPrimaryDepreciationPaymentAmount(primaryDepreciationPaymentAmount);
-        }
-        
-    }
 
     private void computeDepreciationDate(AssetGlobal assetGlobal) {
         Date inServiceDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();

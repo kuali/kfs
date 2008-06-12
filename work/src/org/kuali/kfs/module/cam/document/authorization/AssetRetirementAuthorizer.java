@@ -17,24 +17,27 @@ package org.kuali.module.cams.document.authorization;
 
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.bo.AssetRetirementReason;
 import org.kuali.module.cams.service.AssetRetirementService;
-import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -43,6 +46,7 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
+    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
 
     /**
@@ -73,21 +77,23 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
         DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
         String reasonCode = assetRetirementGlobal.getRetirementReasonCode();
+        Map<String, Object> pkMap = new HashMap<String, Object>();
 
-        if (assetRetirementService.isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.DISALLOWED_FOR_ANY_USERS, reasonCode)) {
+        pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
+
+        AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObjectService.findByPrimaryKey(AssetRetirementReason.class, pkMap);
+        if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
             hideActions(actionFlags);
             GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
         }
-        else if (!assetRetirementService.isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.ALLOWED_FOR_ANY_KUALI_USERS, reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+        else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
             // Retirement Reason Code is restricted for use depending on the user group
-            if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADD_PAYMENT_USERS) && assetRetirementService.isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.DISALLOWED_FOR_CM_ADD_PAYMENT_USERS, reasonCode)) {
-                hideActions(actionFlags);
-                GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
-            }
-            else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADD_PAYMENT_USERS) && user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS) && !assetRetirementService.isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.ALLOWED_FOR_CM_ASSET_MERGE_SEPARATE_USERS, reasonCode)) {
-                hideActions(actionFlags);
-                GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
-            }
+            hideActions(actionFlags);
+            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
+        }
+        else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
+            hideActions(actionFlags);
+            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
         }
         return actionFlags;
     }

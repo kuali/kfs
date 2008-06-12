@@ -21,15 +21,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -89,7 +93,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 postable.setOffset(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetRetirementGlobal.LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION);
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
-                postable.setFinancialObjectCode(DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
+                postable.setFinancialObjectCode(SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE).trim());
                 postable.setObjectCode(getOffsetFinancialObject(assetPayment.getAsset()));
             };
 
@@ -103,15 +107,19 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         abstract boolean isObjectCodeExists(AssetObjectCode assetObjectCode);
     }
 
-    // TODO: replaced by system parameters
-    public static final String MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES = "CM;CF;C1;C2;UC;UF;BR;BY";
-    public static final String NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES = "AM;BD;BF;BI;CP;ES;IF;LA;LE;LI;LF;LR";
-    public static final String DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE = "4998";
+    private UniversityDateService universityDateService;
+    private AssetObjectCodeService assetObjectCodeService;
+    private BusinessObjectService businessObjectService;
+    private AssetPaymentService assetPaymentService;
+    private ParameterService parameterService;
 
-    UniversityDateService universityDateService;
-    AssetObjectCodeService assetObjectCodeService;
-    BusinessObjectService businessObjectService;
-    AssetPaymentService assetPaymentService;
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
     public UniversityDateService getUniversityDateService() {
         return universityDateService;
@@ -255,8 +263,8 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @see org.kuali.module.cams.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
      */
     public boolean isAllowedRetireMultipleAssets(String retirementReasonCode) {
-        // TODO: Replaced by system parameters
-        return !isRetirementReasonCodeInGroup(CamsConstants.AssetRetirementReasonCodeGroup.SINGLE_RETIRED_ASSET, retirementReasonCode);
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        return currentUser.isMember(CamsConstants.Workgroups.WORKGROUP_MULTIPLE_ASSET_RETIREMENT_WORKGROUP);
     }
 
     /**
@@ -366,13 +374,15 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
     static private ObjectCode getOffsetFinancialObject(Asset asset) {
         Map pkMap = new HashMap();
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String gainDispositionObjectCode = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
         pkMap.put("universityFiscalYear", universityDateService.getCurrentFiscalYear());
         pkMap.put("chartOfAccountsCode", asset.getOrganizationOwnerChartOfAccountsCode());
-        pkMap.put("financialObjectCode", DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
+        pkMap.put("financialObjectCode", gainDispositionObjectCode);
         ObjectCode offsetFinancialObject = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pkMap);
 
         if (ObjectUtils.isNull(offsetFinancialObject)) {
-            throw new ReferentialIntegrityException("Object code is not defined for this universityFiscalYear=" + universityDateService.getCurrentFiscalYear() + ", chartOfAccountsCode=" + asset.getOrganizationOwnerChartOfAccountsCode() + ", financialObjectCode=" + DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
+            throw new ReferentialIntegrityException("Object code is not defined for this universityFiscalYear=" + universityDateService.getCurrentFiscalYear() + ", chartOfAccountsCode=" + asset.getOrganizationOwnerChartOfAccountsCode() + ", financialObjectCode=" + gainDispositionObjectCode);
         }
 
         return offsetFinancialObject;
@@ -397,10 +407,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             String financialObjectSubTypeCode = payment.getFinancialObject().getFinancialObjectSubTypeCode();
 
             if (StringUtils.isNotBlank(financialObjectSubTypeCode)) {
-                if (Arrays.asList(MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES.split(";")).contains(financialObjectSubTypeCode)) {
+                if (Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).split(";")).contains(financialObjectSubTypeCode)) {
                     plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
                 }
-                else if (Arrays.asList(NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES.split(";")).contains(financialObjectSubTypeCode)) {
+                else if (Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).split(";")).contains(financialObjectSubTypeCode)) {
                     plantFundAccount = asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
                 }
             }

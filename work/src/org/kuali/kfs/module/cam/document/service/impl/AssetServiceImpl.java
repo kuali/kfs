@@ -235,7 +235,7 @@ public class AssetServiceImpl implements AssetService {
             return true;
         }
 
-        List<String> subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+        List<String> subTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
         String firstObjectSubType = (String) financialObjectSubTypeCode.get(0);
         List<String> validObjectSubTypes = new ArrayList<String>();
 

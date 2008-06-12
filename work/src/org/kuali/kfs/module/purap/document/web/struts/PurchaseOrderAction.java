@@ -69,6 +69,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
+import org.kuali.module.purap.rules.PurchaseOrderDocumentRule;
 import org.kuali.module.purap.service.FaxService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -577,13 +578,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 remainingPOItems.add(item);
             }
         }
-        // This checks a business rule.  Should it be moved into the rule class?
-        if (movingPOItems.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE);
-            poToSplit.setPendingSplit(true);
-        }
-        else if (remainingPOItems.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN);
+        // Check business rules before splitting.
+        if (!SpringContext.getBean(PurchaseOrderService.class).checkSplitRules(poToSplit)) {
             poToSplit.setPendingSplit(true);
         }
         else {

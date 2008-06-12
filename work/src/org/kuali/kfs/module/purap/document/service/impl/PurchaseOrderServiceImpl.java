@@ -73,12 +73,11 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
-import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.rule.event.SplitPurchaseOrderEvent;
 import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PrintService;
@@ -1236,7 +1235,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         return itemAdded;
     }
-
+    
     public boolean isNewUnorderedItem(PurchaseOrderItem poItem){
         
         boolean itemAdded = false;
@@ -1339,4 +1338,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return valid;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#checkSplitRules(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public boolean checkSplitRules(PurchaseOrderDocument document) {
+        if (kualiRuleService.applyRules(new SplitPurchaseOrderEvent(document))) {
+            return true;
+        }
+        return false;
+    }
 }

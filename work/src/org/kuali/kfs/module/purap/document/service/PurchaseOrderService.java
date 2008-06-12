@@ -312,6 +312,14 @@ public interface PurchaseOrderService {
     public VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po);
     
     public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType);
+    
+    /**
+     * Checks business rules which apply when a PO is being split.
+     * 
+     * @param document  A PurchaseOrderDocument (the original before splitting)
+     * @return          True if the original document passes all the split valiations.
+     */
+    public boolean checkSplitRules(PurchaseOrderDocument document);
 
     /**
      * Determines if a purchase order item is new unordered item. 

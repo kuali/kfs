@@ -24,6 +24,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -45,7 +46,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.rule.PurchaseOrderSplitRule;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorConstants.VendorTypes;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -55,7 +56,7 @@ import org.kuali.module.vendor.service.VendorService;
 /**
  * Business rule(s) applicable to Purchase Order document.
  */
-public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
+public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implements PurchaseOrderSplitRule {
 
     /**
      * Overrides the method in PurchasingDocumentRuleBase class in order to add validation for the Vendor Stipulation Tab. Tab
@@ -357,5 +358,28 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     protected boolean commodityCodeIsRequired() {
         return SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
     }
-
+    
+    public boolean validateSplit(PurchaseOrderDocument po) {
+        boolean valid = true;
+        List<PurchaseOrderItem> items = (List<PurchaseOrderItem>)po.getItems();
+        TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        for (PurchaseOrderItem item : items) {
+            if(item.isMovingToSplit()) {
+                movingPOItems.add(item);
+            }          
+            else {
+                remainingPOItems.add(item);
+            }
+        }
+        if (movingPOItems.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE);
+            valid &= false;
+        }
+        else if (remainingPOItems.isEmpty()) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN);
+            valid &= false;
+        }
+        return valid;
+    }
 }

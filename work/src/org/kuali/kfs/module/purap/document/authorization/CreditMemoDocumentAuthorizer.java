@@ -116,7 +116,8 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             flags.setCanCancel(false);
         }
         else {
-            if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS)) {
+            String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+            if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS) && user.isMember(apGroup)) {
                 flags.setCanSave(true);
             }
             else {

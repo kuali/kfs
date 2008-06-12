@@ -27,8 +27,11 @@ import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
@@ -138,7 +141,9 @@ public class CreditMemoForm extends AccountsPayableFormBase {
                 }
 
                 // add the calculate button
-                if ( SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cmDocument) == false ) {
+                String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+                boolean isApUser = GlobalVariables.getUserSession().getFinancialSystemUser().isMember(apGroup);
+                if ( SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cmDocument) == false && isApUser ) {
                     addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
                 }
             }

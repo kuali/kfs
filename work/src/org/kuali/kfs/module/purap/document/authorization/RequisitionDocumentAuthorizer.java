@@ -33,10 +33,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * Document Authorizer for the Requisition document.
@@ -67,6 +69,12 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {
                 editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
+            }
+            
+            //users can edit the posting year if within a given amount of time set in a parameter
+            if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
+                    PurapConstants.RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode())) {
+                editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
             }
         }
 

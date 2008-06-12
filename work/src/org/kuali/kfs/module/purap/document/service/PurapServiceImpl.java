@@ -17,6 +17,7 @@ package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -43,8 +44,10 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
@@ -56,6 +59,7 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurapItemOperations;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -67,15 +71,16 @@ public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
-    private ParameterService parameterService;
-    private DocumentService documentService;
     private DataDictionaryService dataDictionaryService;
-    private VendorService vendorService;
+    private DateTimeService dateTimeService;
+    private DocumentService documentService;
+    private NoteService noteService;
+    private ParameterService parameterService;
     private PersistenceService persistenceService;
     private PurchaseOrderService purchaseOrderService;
-    private NoteService noteService;
-
+    private UniversityDateService universityDateService;
+    private VendorService vendorService;
+    
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -116,6 +121,9 @@ public class PurapServiceImpl implements PurapService {
         this.noteService = noteService;
     }
 
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
     /**
      * @see org.kuali.module.purap.service.PurapService#updateStatus(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
@@ -567,7 +575,6 @@ public class PurapServiceImpl implements PurapService {
         }
     }
     
-    
     public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
         try {
@@ -583,4 +590,43 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurapService#allowEncumberNextFiscalYear()
+     */
+    public boolean allowEncumberNextFiscalYear() {
+        LOG.debug("allowEncumberNextFiscalYear() started");
+
+        java.util.Date today = dateTimeService.getCurrentDate();
+        java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
+        int allowEncumberNext = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_ENCUMBER_NEXT_YEAR_DAYS)));
+        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
+
+        if (ObjectUtils.isNotNull(closingDate) && ObjectUtils.isNotNull(today) && ObjectUtils.isNotNull(allowEncumberNext)) {
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+            LOG.debug("allowEncumberNextFiscalYear() today = " + format.format(today.getTime()) + "; encumber next FY range = " + allowEncumberNext + " - " + format.format(closingDate.getTime()));
+
+            if (allowEncumberNext >= diffTodayClosing && diffTodayClosing >= KualiDecimal.ZERO.intValue()) {
+                LOG.debug("allowEncumberNextFiscalYear() encumber next FY allowed; return true.");
+                return true;
+            }
+        }
+        LOG.debug("allowEncumberNextFiscalYear() encumber next FY not allowed; return false.");
+        return false;
     }
+
+    /**
+     * @see org.kuali.module.purap.service.PurapService#getAllowedFiscalYears()
+     */
+    public List<Integer> getAllowedFiscalYears() {
+        List allowedYears = new ArrayList();
+        Integer currentFY = universityDateService.getCurrentFiscalYear();
+        allowedYears.add(currentFY);
+        if (allowEncumberNextFiscalYear()) {
+            allowedYears.add(currentFY + 1);
+        }
+        return allowedYears;
+    }
+
+    
+
+}

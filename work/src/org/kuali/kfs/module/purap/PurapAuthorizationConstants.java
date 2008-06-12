@@ -23,6 +23,7 @@ import org.kuali.core.authorization.AuthorizationConstants;
 public class PurapAuthorizationConstants extends AuthorizationConstants {
 
     public static class RequisitionEditMode extends EditMode {
+        public static final String ALLOW_POSTING_YEAR_ENTRY = "allowPostingYearEntry";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String LOCK_CONTENT_ENTRY = "lockContentEntry";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
@@ -32,6 +33,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
     }
 
     public static class PurchaseOrderEditMode extends EditMode {
+        public static final String ALLOW_POSTING_YEAR_ENTRY = "allowPostingYearEntry";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String LOCK_INTERNAL_PURCHASING_ENTRY = "lockInternalPurchasingEntry";
         public static final String DISPLAY_RETRANSMIT_TAB = "displayRetransmitTab";

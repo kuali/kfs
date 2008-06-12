@@ -181,4 +181,22 @@ public interface PurapService {
      * @return
      */
     public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName);
+    
+    /**
+     * Returns true if the current date falls within the allowed range to encumber in the next fiscal year.
+     * 
+     * @return
+     */
+    public boolean allowEncumberNextFiscalYear();
+
+    /**
+    * Returns a list of fiscal years that can be selected from on the document (built for Requisition and Purchase Order).  Typically
+    * only the current year is returned.  However, if the current date falls within the allowed range to encumber in the next fiscal year, the 
+    * current year and the next current year is returned.
+    * 
+    * @return List<Integer>
+    */
+   public List<Integer> getAllowedFiscalYears();
+   
+
 }

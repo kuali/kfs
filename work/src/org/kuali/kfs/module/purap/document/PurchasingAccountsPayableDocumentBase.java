@@ -382,6 +382,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
+     * Overriding the parent method so that we can just set the posting year without the other stuff that the parent does to the
+     * accounting period. We only store the posting year on the doc and don't want the other stuff.
+     * 
+     * @see org.kuali.kfs.document.LedgerPostingDocumentBase#setPostingYear(java.lang.Integer)
+     */
+    @Override
+    public void setPostingYear(Integer postingYear) {
+        this.postingYear = postingYear;
+    }
+
+    /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
      */
     @Override

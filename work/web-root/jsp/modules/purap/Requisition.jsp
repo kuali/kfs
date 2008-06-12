@@ -30,7 +30,7 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
-        fiscalYearReadOnly="true"
+        fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
         postingYearAttributes="${DataDictionary.RequisitionDocument.attributes}" >
 
     	<purap:purapDocumentDetail

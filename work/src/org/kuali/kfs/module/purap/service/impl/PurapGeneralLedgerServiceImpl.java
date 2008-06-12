@@ -21,12 +21,15 @@ import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
 import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD;
 import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.kfs.KFSConstants.MONTH1;
 import static org.kuali.module.purap.PurapConstants.HUNDRED;
 import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,10 +42,14 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.ParameterEvaluator;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.service.ObjectCodeService;
@@ -50,7 +57,9 @@ import org.kuali.module.chart.service.SubObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.ItemType;
@@ -76,8 +85,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    private KualiConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
+    private ParameterService parameterService;
     private PurapAccountingService purapAccountingService;
     private PurchaseOrderService purchaseOrderService;
     private UniversityDateService universityDateService;
@@ -92,21 +101,84 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     public void customizeGeneralLedgerPendingEntry(PurchasingAccountsPayableDocument purapDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, Integer referenceDocumentNumber, String debitCreditCode, String docType, boolean isEncumbrance) {
         LOG.debug("customizeGeneralLedgerPendingEntry() started");
 
-        // USE CURRENT; don't use FY on doc in case it's a prior year
-        UniversityDate uDate = universityDateService.getCurrentUniversityDate();
-        explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
-        explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
-
         explicitEntry.setDocumentNumber(purapDocument.getDocumentNumber());
         explicitEntry.setTransactionLedgerEntryDescription(entryDescription(purapDocument.getVendorName()));
         explicitEntry.setFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
 
+        // Always make the referring document the PO for all PURAP docs except for CM against a vendor.
+        // This is required for encumbrance entries. It's not required for actual/liability
+        // entries, but it makes things easier to deal with. If vendor, leave referring stuff blank.
         if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
             explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber.toString());
             explicitEntry.setReferenceFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
             explicitEntry.setReferenceFinancialSystemOriginationCode(PURAP_ORIGIN_CODE);
         }
 
+        // DEFAULT TO USE CURRENT; don't use FY on doc in case it's a prior year
+        UniversityDate uDate = universityDateService.getCurrentUniversityDate();
+        explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear());
+        explicitEntry.setUniversityFiscalPeriodCode(uDate.getUniversityFiscalAccountingPeriod());
+        
+        if (PurapDocTypeCodes.PO_DOCUMENT.equals(docType)) {
+            if (purapDocument.getPostingYear().compareTo(uDate.getUniversityFiscalYear()) > 0) {
+                // USE NEXT AS SET ON PO; POs can be forward dated to not encumber until next fiscal year
+                explicitEntry.setUniversityFiscalYear(purapDocument.getPostingYear());
+                explicitEntry.setUniversityFiscalPeriodCode(MONTH1);
+            }
+        }
+        else if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
+            PaymentRequestDocument preq = (PaymentRequestDocument) purapDocument;
+
+            // PREQs created in the previous fiscal year get backdated if we're at the beginning of the new fiscal year (i.e. prior to first closing)
+            int allowBackpost = (Integer.parseInt(parameterService.getParameterValue(PaymentRequestDocument.class, PurapRuleConstants.ALLOW_BACKPOST_DAYS)));
+
+            Calendar today = dateTimeService.getCurrentCalendar();
+            Integer currentFY = uDate.getUniversityFiscalYear();
+            Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(currentFY - 1);
+            Calendar priorClosingDate = Calendar.getInstance();
+            priorClosingDate.setTime(priorClosingDateTemp);
+
+            Calendar allowBackpostDate = Calendar.getInstance();
+            allowBackpostDate.setTime(priorClosingDate.getTime());
+            allowBackpostDate.add(Calendar.DATE, allowBackpost);
+
+            Calendar preqInvoiceDate = Calendar.getInstance();
+            preqInvoiceDate.setTime(preq.getInvoiceDate());
+
+            if (today.after(priorClosingDate) && today.before(allowBackpostDate) && (preqInvoiceDate.before(priorClosingDate) || preqInvoiceDate.equals(priorClosingDate))) {
+                LOG.debug("createGlPendingTransaction() within range to allow backpost; posting entry to period 12 of previous FY");
+                explicitEntry.setUniversityFiscalYear(currentFY - 1);
+                explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH12);
+            }
+
+            // if alternate payee is paid for escrow payment, send alternate vendor name in GL desc
+            if (preq.getAlternateVendorHeaderGeneratedIdentifier() != null && 
+                    preq.getAlternateVendorDetailAssignedIdentifier() != null && 
+                    preq.getVendorHeaderGeneratedIdentifier().compareTo(preq.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && 
+                    preq.getVendorDetailAssignedIdentifier().compareTo(preq.getAlternateVendorDetailAssignedIdentifier()) == 0) {
+                explicitEntry.setTransactionLedgerEntryDescription(entryDescription(preq.getPurchaseOrderDocument().getAlternateVendorName()));
+            }
+
+        }
+        else if (PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(docType)) {
+            CreditMemoDocument cm = (CreditMemoDocument) purapDocument;
+            if (cm.isSourceDocumentPaymentRequest()) {
+                // if CM is off of PREQ, use vendor name associated with PREQ (primary or alternate)
+                PaymentRequestDocument cmPR = cm.getPaymentRequestDocument();
+                PurchaseOrderDocument cmPO = cm.getPurchaseOrderDocument();
+                // if alternate payee is paid for escrow payment, send alternate vendor name in GL desc
+                if (cmPR.getAlternateVendorHeaderGeneratedIdentifier() != null && 
+                        cmPR.getAlternateVendorDetailAssignedIdentifier() != null && 
+                        cmPR.getVendorHeaderGeneratedIdentifier().compareTo(cmPR.getAlternateVendorHeaderGeneratedIdentifier()) == 0 && 
+                        cmPR.getVendorDetailAssignedIdentifier().compareTo(cmPR.getAlternateVendorDetailAssignedIdentifier()) == 0) {
+                    explicitEntry.setTransactionLedgerEntryDescription(entryDescription(cmPO.getAlternateVendorName()));
+                }
+            }
+        }
+        else {
+            throw new IllegalArgumentException("purapDocument (doc #" + purapDocument.getDocumentNumber() + ") is invalid");
+        }
+        
         ObjectCode objectCode = objectCodeService.getByPrimaryId(explicitEntry.getUniversityFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialObjectCode());
         if (ObjectUtils.isNotNull(objectCode)) {
             explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -1404,10 +1476,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         this.purapAccountingService = purapAccountingService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
@@ -1422,6 +1490,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
     public void setSubObjectCodeService(SubObjectCodeService subObjectCodeService) {
         this.subObjectCodeService = subObjectCodeService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
 }

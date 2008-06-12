@@ -74,49 +74,21 @@
     </bean>
     
 	<bean id="pdpExtractService" class="org.kuali.module.purap.service.impl.PdpExtractServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
-		</property>
-		<property name="paymentRequestService">
-			<ref bean="paymentRequestService"/>
-		</property>
-		<property name="paymentFileService">
-			<ref bean="pdpPaymentFileService"/>
-		</property>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="paymentRequestService" ref="paymentRequestService"/>
+		<property name="paymentFileService" ref="pdpPaymentFileService"/>
 		<property name="parameterService" ref="parameterService" />
-		<property name="customerProfileService">
-			<ref bean="pdpCustomerProfileService"/>
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService"/>
-		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService"/>
-		</property>
-		<property name="paymentGroupService">
-			<ref bean="pdpPaymentGroupService"/>
-		</property>
-		<property name="paymentDetailService">
-			<ref bean="pdpPaymentDetailService"/>
-		</property>
-		<property name="creditMemoService">
-			<ref bean="creditMemoService"/>
-		</property>
-		<property name="referenceService">
-			<ref bean="pdpReferenceService"/>
-		</property>
-		<property name="documentService">
-			<ref bean="documentService"/>
-		</property>
-	    <property name="mailService">
-	    	<ref bean="mailService"/>
-	    </property>
-    	<property name="environmentService">
-    		<ref bean="pdpEnvironmentService"/>
-    	</property>
-        <property name="purapRunDateService">
-        	<ref bean="purapRunDateService" />
-        </property>
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="universalUserService" ref="universalUserService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
+		<property name="creditMemoService" ref="creditMemoService"/>
+		<property name="referenceService" ref="pdpReferenceService"/>
+		<property name="documentService" ref="documentService"/>
+	    <property name="mailService" ref="mailService"/>
+    	<property name="environmentService" ref="pdpEnvironmentService"/>
+        <property name="purapRunDateService" ref="purapRunDateService" />
 	</bean>
 
 	<bean id="pdpEnvironmentService" class="org.kuali.module.pdp.service.impl.EnvironmentServiceImpl">
@@ -125,23 +97,26 @@
 
 	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
 		<property name="documentService" ref="documentService"/>
 		<property name="requisitionDao" ref="requisitionDao"/>
+        <property name="parameterService" ref="parameterService"/>
     	<property name="purapService" ref="purapService"/>
     	<property name="ruleService" ref="kualiRuleService"/>
-    	<property name="parameterService" ref="parameterService"/>
+        <property name="universityDateService" ref="universityDateService"/>
 	</bean>
 
     <bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
         <property name="businessObjectService" ref="businessObjectService"/>
-        <property name="dateTimeService" ref="dateTimeService"/>
-        <property name="parameterService" ref="parameterService"/>
-        <property name="documentService" ref="documentService"/>
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
-        <property name="vendorService" ref="vendorService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="documentService" ref="documentService"/>
+        <property name="noteService" ref="noteService"/>
+        <property name="parameterService" ref="parameterService"/>
         <property name="persistenceService" ref="persistenceService"/>
         <property name="purchaseOrderService" ref="purchaseOrderService"/>
-        <property name="noteService" ref="noteService"/>
+        <property name="universityDateService" ref="universityDateService"/>
+        <property name="vendorService" ref="vendorService"/>
     </bean>
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">
@@ -154,13 +129,13 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="kualiRuleService" ref="kualiRuleService"/>
+        <property name="objectCodeService" ref="objectCodeService"/>
+        <property name="parameterService" ref="parameterService"/>
         <property name="purapAccountingService" ref="purapAccountingService"/>
         <property name="purchaseOrderService" ref="purchaseOrderService"/>
-        <property name="universityDateService" ref="universityDateService"/>
-        <property name="objectCodeService" ref="objectCodeService"/>
         <property name="subObjectCodeService" ref="subObjectCodeService"/>
+        <property name="universityDateService" ref="universityDateService"/>
     </bean>
     
 	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">
@@ -169,88 +144,38 @@
 	</bean>
 
     <bean id="accountsPayableService" class="org.kuali.module.purap.service.impl.AccountsPayableServiceImpl">
-    	<property name="purapAccountingService">
-            <ref bean="purapAccountingService" />
-        </property>
-        <property name="purapGeneralLedgerService">
-            <ref bean="purapGeneralLedgerService" />
-        </property>	
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-    	<property name="purapService">
-			<ref bean="purapService" />
-		</property>        
-    	<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>        
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>   
-        <property name="purchaseOrderService">
-            <ref bean="purchaseOrderService" />
-        </property>    
-        <property name="accountService">
-            <ref bean="accountService" />
-        </property>                
+    	<property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="purapGeneralLedgerService" ref="purapGeneralLedgerService" />
+        <property name="documentService" ref="documentService" />
+    	<property name="purapService" ref="purapService" />
+    	<property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="accountService" ref="accountService" />
     </bean>
 
     <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
-    	<property name="dateTimeService">
-    		<ref bean="dateTimeService" />
-    	</property>
-        <property name="purapAccountingService">
-            <ref bean="purapAccountingService" />
-        </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="purapRunDateService">
-        	<ref bean="purapRunDateService" />
-        </property>
+    	<property name="dateTimeService" ref="dateTimeService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="purapRunDateService" ref="purapRunDateService" />
     </bean>
     
     <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="paymentRequestDao">
-			<ref bean="paymentRequestDao" />
-		</property>
-        <property name="documentService">
-			<ref bean="documentService" />
-		</property>
-        <property name="purapService">
-            <ref bean="purapService" />
-        </property>
-        <property name="noteService">
-            <ref bean="noteService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>	        
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="paymentRequestDao" ref="paymentRequestDao" />
+        <property name="documentService" ref="documentService" />
+        <property name="purapService" ref="purapService" />
+        <property name="noteService" ref="noteService" />
+        <property name="parameterService" ref="parameterService" />
         <property name="configurationService" ref="kualiConfigurationService" />
-        <property name="negativePaymentRequestApprovalLimitService">
-            <ref bean="negativePaymentRequestApprovalLimitService" />
-        </property>	               
-        <property name="purapAccountingService">
-            <ref bean="purapAccountingService" />
-        </property>	        
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>	        
-        <property name="purapWorkflowIntegrationService">
-            <ref bean="purapWorkflowIntegrationService" />
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>        
-        <property name="vendorService">
-            <ref bean="vendorService" />
-        </property>     
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>        
+        <property name="negativePaymentRequestApprovalLimitService" ref="negativePaymentRequestApprovalLimitService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="vendorService" ref="vendorService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
         <!-- property name="accountsPayableService">
             <ref bean="accountsPayableService" />
         </property -->

@@ -63,7 +63,7 @@
 		<c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
 			<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		    	includePostingYear="true"
-		        fiscalYearReadOnly="true"
+                fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
 		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
 		
 		        <purap:purapDocumentDetail

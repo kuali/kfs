@@ -34,12 +34,14 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * Document Authorizer for the PO document.
@@ -83,8 +85,17 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
 
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) d;
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
+            //users cannot edit vendor name if the vendor has been selected from the database
             if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_VENDOR_ENTRY, "TRUE");
+            }
+
+            //users can edit the posting year if within a given amount of time set in a parameter
+            if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
+                    (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
+                    PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) ||
+                    PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()))) {
+                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
             }
         }
 

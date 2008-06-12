@@ -155,6 +155,11 @@
   <bean id="RequisitionDocument-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="postingYear" />
     <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurapFiscalYearValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
   <bean id="RequisitionDocument-vendorNumber" parent="RequisitionDocument-vendorNumber-parentBean" />
 

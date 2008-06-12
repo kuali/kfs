@@ -15,18 +15,21 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.RequisitionItem;
@@ -52,11 +55,13 @@ public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
     private DocumentService documentService;
-    private PurapService purapService;
-    private RequisitionDao requisitionDao;
     private KualiRuleService ruleService;
     private ParameterService parameterService;
+    private PurapService purapService;
+    private RequisitionDao requisitionDao;
+    private UniversityDateService universityDateService;
 
 
     /**
@@ -199,7 +204,31 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (StringUtils.isNotBlank(commodityCodesReason)) {
                 return commodityCodesReason;    
             }
+
+//TODO RELEASE 3 - Discounts and trade-ins
+//          if (EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getCode()) || EpicConstants.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getCode())) {
+//              if ((item.getUnitPrice() != null) && ((zero.compareTo(item.getUnitPrice())) != 0)) {
+//                  // discount or trade-in item has unit price that is not empty or zero
+//                  return "Requisition contains a " + item.getItemType().getDescription() + " item, so it does not qualify as an APO.";
+//              }
+//          }
+//TODO RELEASE 3 - Capital Asset Codes
+//          if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
+//              for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+//                  RequisitionAccount account = (RequisitionAccount) iterator.next();
+//                  ObjectCode code =  objectCodeService.getByPrimaryId(requisition.getPostingYear(), account.getChartOfAccountsCode(), account.getFinancialObjectCode());
+//                  if (EpicConstants.FIS_CAPITAL_ASSET_OBJECT_LEVEL_CODE.equals(code.getFinancialObjectLevelCode())) {
+//                      return "Standard requisition with a capital asset object code.";
+//                  }
+//              }//endfor accounts
+//          }
+
         }// endfor items
+
+// TODO RELEASE 3 - need to implement validateCapitalASsetNumbersForAPO
+//    if( !validateCapitalAssetNumbersForAPO( requisition ) ) {
+//        return "Requisition did not pass CAMS validation.";
+//    }
 
         if (StringUtils.isNotEmpty(requisition.getRecurringPaymentTypeCode())) {
 
@@ -223,6 +252,20 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition has failed Capital Asset rules.";
         }
         
+        Date today = dateTimeService.getCurrentDate();
+        Integer currentFY = universityDateService.getCurrentFiscalYear();
+        Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
+        int allowApoDate = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS)));
+        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
+        LOG.debug("isApo() req FY = " + requisition.getPostingYear() + " and currentFY = " + currentFY);
+        LOG.debug("isApo() today = " + dateTimeService.toDateString(today) + ", allowApoDate = " + allowApoDate + " and diffTodayClosing = " + diffTodayClosing);
+
+        if (requisition.getPostingYear().compareTo(currentFY) > 0 && 
+                allowApoDate <= diffTodayClosing && 
+                diffTodayClosing >= KualiDecimal.ZERO.intValue()) {
+            return "Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.";
+        }
+
         return "";
     }
     
@@ -295,5 +338,13 @@ public class RequisitionServiceImpl implements RequisitionService {
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 }

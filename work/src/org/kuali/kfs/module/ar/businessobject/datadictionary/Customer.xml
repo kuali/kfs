@@ -600,6 +600,8 @@
 										<bean parent="FieldDefinition"
 											p:attributeName="customerAddressInternationalProvinceName" />	
 										<bean parent="FieldDefinition"
+											p:attributeName="customerInternationalMailCode" />
+										<bean parent="FieldDefinition"
 											p:attributeName="customerCountryCode" />
 										<bean parent="FieldDefinition"
 											p:attributeName="customerEmailAddress" />

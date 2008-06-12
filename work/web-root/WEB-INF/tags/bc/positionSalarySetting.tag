@@ -15,7 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
+<%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
+
 <c:set var="tableWidth" value="98%"/>
 
 <html:hidden property="returnAnchor" />
@@ -49,7 +50,8 @@
         		
     <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
-	
+		<c:set var="isVacant" value="${fundingLine.emplid eq KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}" />
+		
 	    <c:set var="subTabTitle" value="${fundingLine.chartOfAccountsCode}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.accountNumber}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.subAccountNumber}"/>
@@ -59,7 +61,7 @@
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${subTabTitle}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true">    		
-	    		<c:if test="${fundingLine.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
+	    		<c:if test="${not isVacant}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
 						title="Vacate Salary Setting Line ${status.index}"

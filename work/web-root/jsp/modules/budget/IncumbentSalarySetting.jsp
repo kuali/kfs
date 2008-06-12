@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
+
 <c:if test="${KualiForm.orgSalSetClose}">
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetIncumbentSalarySetting" renderMultipart="false"
@@ -33,23 +35,22 @@
     transactionalDocument="false"
 	>
 
-<%--
-	<kul:hiddenDocumentFields
-		isFinancialDocument="false"
-		isTransactionalDocument="false" />
---%>
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>
 
-    <bc:incumbentSalarySetting />
+    <bc:incumbentSalarySetting readOnly="${readOnly}"/>
+    
 	<kul:panelFooter />
 
     <div id="globalbuttons" class="globalbuttons">
-        <c:if test="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}">
-	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
+        <c:if test="${not readOnly}">
+	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 
+	        	styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
 	    </c:if>
-        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
+	    
+        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
+        	styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
     </div>
 
 <%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>

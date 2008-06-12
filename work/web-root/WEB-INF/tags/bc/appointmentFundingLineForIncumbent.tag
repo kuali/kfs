@@ -22,6 +22,7 @@
 <%@ attribute name="lineIndex" required="false" description="The index of the funding line"%>
 <%@ attribute name="hasBeenAdded" required="false" description="determine if the current funding line has been added"%>
 <%@ attribute name="countOfMajorColumns" required="true" description="the number of major columns "%>
+<%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -62,21 +63,17 @@
 	</tr>
 	
 	<tr> 
-	  	<bc:pbglLineDataCell dataCellCssClass="datacell"
-	    	accountingLine="${fundingLine}"
-	      	cellProperty="${fundingLineName}.appointmentFundingDeleteIndicator"
-		    attributes="${pbcafAttributes}"
-		    field="appointmentFundingDeleteIndicator"
+	  	<bc:pbglLineDataCell dataCellCssClass="datacell" dataFieldCssClass="nobord"
+	    	accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
+		    field="appointmentFundingDeleteIndicator" readOnly="${!hasBeenAdded}"
 		    fieldAlign="center"
-		    readOnly="${!hasBeenAdded}"
-		    rowSpan="1 "dataFieldCssClass="nobord"
 		    anchor="salaryexistingLineLineAnchor${lineIndex}" />
 		      
 		 <bc:pbglLineDataCell dataCellCssClass="datacell"
-		    accountingLine="${fundingLineName}"
+		    accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
 		    field="chartOfAccountsCode"
 		    detailField="chartOfAccounts.finChartOfAccountDescription" detailFunction="loadChartInfo"
-		    attributes="${pbcafAttributes}" lookup="true" inquiry="true"
+		    lookup="true" inquiry="true"
 		    boClassSimpleName="Chart"
 		    readOnly="${hasBeenAdded}"
 		    displayHidden="false"
@@ -145,7 +142,7 @@
             accountingLine="${fundingLineName}"
             field="positionNumber" detailFunction="loadPositionInfo"
             detailField="budgetConstructionPosition.positionDescription"
-            attributes="${pbcafAttributes}" inquiry="true"
+            attributes="${pbcafAttributes}" inquiry="true" lookup="true" 
             boClassSimpleName="BudgetConstructionPosition"
             boPackageName="org.kuali.module.budget.bo"
             readOnly="${hasBeenAdded}"
@@ -154,21 +151,21 @@
             accountingLineValuesMap="${fundingLine.valuesMap}"/>
 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-            cellProperty="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths"
+            accountingLine="${fundingLineName}.budgetConstructionPosition"
            	field="iuNormalWorkMonths"
            	attributes="${positionAttributes}"
            	readOnly="true"
            	displayHidden="false"/>
         
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-            cellProperty="${fundingLineName}.budgetConstructionPosition.iuPayMonths"
+            accountingLine="${fundingLineName}.budgetConstructionPosition"
            	field="iuPayMonths"
            	attributes="${positionAttributes}"
            	readOnly="true"
            	displayHidden="false"/>
            	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-            cellProperty="${fundingLineName}.budgetConstructionPosition.positionFullTimeEquivalency"
+            accountingLine="${fundingLineName}.budgetConstructionPosition"
            	field="positionFullTimeEquivalency"
            	attributes="${positionAttributes}"
            	readOnly="true"
@@ -177,14 +174,14 @@
 		<c:choose>
 			<c:when test="${hasBeenAdded && KualiForm.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">	 		        
 		        <bc:pbglLineDataCell dataCellCssClass="datacell"
-		           	cellProperty="${fundingLineName}.budgetConstructionAdministrativePost.administrativePost"
+		           	accountingLine="${fundingLineName}.budgetConstructionAdministrativePost"
 		           	field="administrativePost"
 		           	attributes="${adminPostAttributes}"
 		           	readOnly="true"
 		           	displayHidden="false" /> 	         
 		   	</c:when>
 	   		<c:otherwise>
-		       <td class="datacell">--</td>
+		       <td class="datacell"></td>
 		    </c:otherwise>
 		</c:choose>
 	</tr>
@@ -192,7 +189,8 @@
 	<tr id="${fundingLineName}">
 		<td colspan="${colspan}" class="infoline" style="border-bottom: none;">
 			<center><br/>
-			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" lineIndex="${lineIndex}"/>
+			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" 
+				lineIndex="${lineIndex}" readOnly="${readOnly}"/>
 			<br/></center>
 		</td>            
 	</tr>

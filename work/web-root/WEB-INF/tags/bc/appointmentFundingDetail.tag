@@ -20,12 +20,11 @@
 			  description="The funding line object containing the data being displayed"%>
 <%@ attribute name="fundingLineName" required="true" description="The name  of the funding line"%>
 <%@ attribute name="lineIndex" required="false" description="The index of the funding line"%>
+<%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
 
 <c:set var="reasonAttributes" value="${DataDictionary['BudgetConstructionAppointmentFundingReason'].attributes}" />
 <c:set var="bcsfAttributes"	value="${DataDictionary['BudgetConstructionCalculatedSalaryFoundationTracker'].attributes}" />
 <c:set var="pbcafAttributes" value="${DataDictionary['PendingBudgetConstructionAppointmentFunding'].attributes}" />
-
-<c:set var="readOnly" value="false" />
 
 <table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>

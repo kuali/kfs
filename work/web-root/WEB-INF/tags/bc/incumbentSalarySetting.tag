@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
+
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
 <html:hidden property="backLocation" />
@@ -26,8 +28,6 @@
 <html:hidden property="financialSubObjectCode" />
 <html:hidden property="emplid" />
 <html:hidden property="budgetByAccountMode" />
-
-<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
 <kul:tabTop tabTitle="Incumbent" defaultOpen="true">
 	<div class="tab-container" align=center>
@@ -48,6 +48,7 @@
         		
     <c:forEach items="${KualiForm.budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 		<c:set var="fundingLineName" value="budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
+		<c:set var="isVacant" value="${fundingLine.emplid eq KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}" />
 	
 	    <c:set var="subTabTitle" value="${fundingLine.chartOfAccountsCode}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.accountNumber}"/>
@@ -57,8 +58,10 @@
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.positionNumber}"/>    
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${subTabTitle}" >
-	    	<bc:appointmentFundingLineForIncumbent fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" countOfMajorColumns="11" lineIndex="${status.index}" hasBeenAdded = "true">    		
-	    		<c:if test="${emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
+	    	<bc:appointmentFundingLineForIncumbent fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" countOfMajorColumns="11" 
+	    		lineIndex="${status.index}" hasBeenAdded="true" readOnly="${readOnly}">    		
+	    		
+	    		<c:if test="${not isVacant}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
 						title="Vacate Salary Setting Line ${status.index}"

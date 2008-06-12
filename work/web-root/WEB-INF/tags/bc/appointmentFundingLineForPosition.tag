@@ -22,6 +22,7 @@
 <%@ attribute name="lineIndex" required="false" description="The index of the funding line"%>
 <%@ attribute name="hasBeenAdded" required="false" description="determine if the current funding line has been added"%>
 <%@ attribute name="countOfMajorColumns" required="true" description="the number of major columns "%>
+<%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -148,7 +149,7 @@
 			accountingLine="${fundingLineName}"
 			field="emplid" detailFunction="loadEmplInfo"
 			detailField="budgetConstructionIntendedIncumbent.personName"
-			attributes="${pbcafAttributes}" inquiry="${doLookupOrInquiry}"
+			attributes="${pbcafAttributes}" inquiry="${doLookupOrInquiry}" lookup="true"
 			boClassSimpleName="BudgetConstructionIntendedIncumbent"
 			boPackageName="org.kuali.module.budget.bo"
 			readOnly="${hasBeenAdded}"
@@ -175,7 +176,8 @@
 	<tr id="${fundingLineName}">
 		<td colspan="${colspan}" class="infoline" style="border-bottom: none;">
 			<center><br/>
-			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" lineIndex="${lineIndex}"/>
+			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" 
+				lineIndex="${lineIndex}" readOnly="${readOnly}"/>
 			<br/></center>
 		</td>            
 	</tr>

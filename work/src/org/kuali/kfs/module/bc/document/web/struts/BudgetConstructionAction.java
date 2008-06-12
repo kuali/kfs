@@ -388,13 +388,21 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performMonthlyBudget(boolean isRevenue, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
-        // TODO do validate, save, etc first then goto the monthly screen or redisplay if errors
+        // validate, save, etc first then goto the monthly screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
-        // TODO for now just save
-        documentService.updateDocument(bcDocument);
+        if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
+          BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+          budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+          budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+          budgetConstructionForm.initializePersistedRequestAmounts();
+
+          // repop and refresh refs - esp monthly so jsp can properly display state
+          budgetConstructionForm.populatePBGLLines();
+
+      }
 
         PendingBudgetConstructionGeneralLedger pbglLine;
         if (isRevenue) {
@@ -436,16 +444,19 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
-        // TODO do validate, save, etc first then goto the SalarySetting screen or redisplay if errors
+        // validate, save, etc first then goto the SalarySetting screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-            // TODO for now just save eventually should validate and save like reports
-            documentService.updateDocument(bcDocument);
+            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+            budgetConstructionForm.initializePersistedRequestAmounts();
 
+            // repop and refresh refs - esp monthly so jsp can properly display state
+            budgetConstructionForm.populatePBGLLines();
 
         }
         PendingBudgetConstructionGeneralLedger pbglLine;
@@ -495,8 +506,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewRevenueLine();
 
-        // TODO still need to flesh out business rules
-        // this assumes populate retrieves needed ref objects used in applying business rules
         boolean rulePassed = true;
 
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_REVENUE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, true));
@@ -535,8 +544,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewExpenditureLine();
 
-        // TODO still need to flesh out business rules
-        // this assumes populate retrieves needed ref objects used in applying business rules
         boolean rulePassed = true;
 
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_EXPENDITURE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, false));
@@ -889,7 +896,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-        budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+        // validate and save without checking monthly RI since the spread will keep things consistent
+        if (isRevenue){
+            budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
+        }
+        else {
+            budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
+        }
         budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         tForm.initializePersistedRequestAmounts();
 
@@ -929,6 +942,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
         
+        // validate and save without checking monthly RI since the delete will make RI check moot
         if (isRevenue){
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
         }

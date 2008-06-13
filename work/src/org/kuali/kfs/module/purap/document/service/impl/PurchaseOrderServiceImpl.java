@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -683,7 +684,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List, java.lang.String, boolean)
      */
-    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes) {
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes, String splitNoteText) {
         
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);        
         if (ObjectUtils.isNull(currentDocument)) {
@@ -716,13 +717,27 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 newDocument.setItems(newPOItems);
                 newDocument.renumberItems(0);
                 
-                List<Note> notes = currentDocument.getBoNotes();
-                Note lastNote = notes.get(notes.size() - 1);
-                notes.remove(lastNote);
                 if (copyNotes) {
-                    newDocument.setBoNotes(notes);
+                    // Copy the old notes, except for the one that contains the split note text.
+                    List<Note> notes = (List<Note>)currentDocument.getBoNotes();
+                    int noteLength = notes.size();
+                    if (noteLength > 0) {
+                        notes.subList(noteLength - 1, noteLength).clear();
+                        for(Note note : notes) {
+                            String noteText = note.getNoteText();
+                            Note newNote = new Note();
+                            newNote.setNoteText(noteText);
+                            try {
+                                newNote = noteService.createNote(newNote, newDocument);
+                            }
+                            catch (Exception e) {
+                                throw new RuntimeException();
+                            }                           
+                            newDocument.addNote(newNote);
+                        }
+                    }
                 }
-                String splitNoteText = lastNote.getNoteText();
+                // Modify the split note text and add the note.
                 splitNoteText = splitNoteText.substring(splitNoteText.indexOf(":") + 1);
                 splitNoteText = PurapConstants.PODocumentsStrings.SPLIT_NOTE_PREFIX_NEW_DOC + currentDocument.getPurapDocumentIdentifier() + " : " + splitNoteText;
                 Note splitNote = new Note();
@@ -731,7 +746,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     splitNote = noteService.createNote(splitNote,newDocument);
                 }
                 catch (Exception e) {
-                    throw new RuntimeException("Cannot create note.");
+                    throw new RuntimeException();
                 }
                 newDocument.addNote(splitNote);
                 

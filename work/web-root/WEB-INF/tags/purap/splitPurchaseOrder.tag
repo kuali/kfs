@@ -21,6 +21,8 @@
               description="The DataDictionary entry containing attributes for item's fields." %>
               
 <c:set var="additionalChargesExist" value="${KualiForm.document.additionalChargesExist}" />
+
+<html:hidden property="splitNoteText"/>
               
 <kul:tabTop tabTitle="Split a PO" defaultOpen="true" tabErrorKey="${PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS}">
 

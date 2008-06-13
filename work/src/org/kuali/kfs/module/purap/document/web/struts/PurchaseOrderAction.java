@@ -311,7 +311,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     }
                 }
             }
-            // below used as placeholder to allow code to specify actionForward to return if not a 'success question'
+            // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             ActionForward returnActionForward = null;
             if (!po.isPendingActionIndicator()) {
                 /*
@@ -356,25 +356,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     throw new ValidationException("errors occurred during new PO creation");
                 }
                 
-                String previousDocumentId = kualiDocumentFormBase.getDocId();
-                if (!documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {                   
-                    // assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
+                if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
+                    // Save adding the note for after the items are picked.
+                    ((PurchaseOrderForm)kualiDocumentFormBase).setSplitNoteText(noteText);
+                }
+                else {
+                    String previousDocumentId = kualiDocumentFormBase.getDocId();
+                    // Assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
                     kualiDocumentFormBase.setDocument(po);
                     kualiDocumentFormBase.setDocId(po.getDocumentNumber());
                     kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                }
 
-                Note newNote = new Note();
-                if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    noteText = noteText + " (Previous Document Id is " + previousDocumentId + ")";
+                    Note newNote = new Note();
+                    if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                        noteText = noteText + " (Previous Document Id is " + previousDocumentId + ")";
+                    }
+                    newNote.setNoteText(noteText);
+                    newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                    kualiDocumentFormBase.setNewNote(newNote);
+                    // see KULPURAP-1984 for an explanation of why this is required and another way to do it.
+                    kualiDocumentFormBase.setAttachmentFile(new BlankFormFile());
+    
+                    insertBONote(mapping, kualiDocumentFormBase, request, response);
                 }
-                newNote.setNoteText(noteText);
-                newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                kualiDocumentFormBase.setNewNote(newNote);
-                // see KULPURAP-1984 for an explanation of why this is required and another way to do it.
-                kualiDocumentFormBase.setAttachmentFile(new BlankFormFile());
-
-                insertBONote(mapping, kualiDocumentFormBase, request, response);
                 if (StringUtils.isNotEmpty(messageType)) {
                     GlobalVariables.getMessageList().add(messageType);
                 }
@@ -563,39 +567,50 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward continuePurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
         LOG.debug("Continue Purchase Order Split started");
         
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderForm purchaseOrderForm = (PurchaseOrderForm) form;
         // This PO does not contain all data, but enough for our purposes; it has been reloaded with only the Split PO tab showing.
-        PurchaseOrderDocument poToSplit = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument poToSplit = (PurchaseOrderDocument) purchaseOrderForm.getDocument();
         boolean copyNotes = poToSplit.isCopyingNotesWhenSplitting();
-        List<PurchaseOrderItem> items = (List<PurchaseOrderItem>)poToSplit.getItems();
-        TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-        TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-        for (PurchaseOrderItem item : items) {
-            if(item.isMovingToSplit()) {
-                movingPOItems.add(item);
-            }          
-            else {
-                remainingPOItems.add(item);
-            }
-        }
+
         // Check business rules before splitting.
         if (!SpringContext.getBean(PurchaseOrderService.class).checkSplitRules(poToSplit)) {
             poToSplit.setPendingSplit(true);
         }
         else {
-            // Fetch the whole PO from the database.
+            TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+            TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+            for (PurchaseOrderItem item : (List<PurchaseOrderItem>)poToSplit.getItems()) {
+                if(item.isMovingToSplit()) {
+                    movingPOItems.add(item);
+                }          
+                else {
+                    remainingPOItems.add(item);
+                }
+            }
+            
+            // Fetch the whole PO from the database, and reset and renumber the items on it.
             poToSplit = (PurchaseOrderDocument)SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poToSplit.getPurapDocumentIdentifier());
             poToSplit.setItems(remainingPOItems);
             poToSplit.renumberItems(0);
+            
+            // Add the note that would normally have gone in after the confirmation page.         
+            String noteText = purchaseOrderForm.getSplitNoteText();          
+            Note newNote = new Note();
+            newNote.setNoteText(noteText);
+            newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+            purchaseOrderForm.setNewNote(newNote);
+            purchaseOrderForm.setAttachmentFile(new BlankFormFile());
+            insertBONote(mapping, purchaseOrderForm, request, response);
+            
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(poToSplit);
             
-            PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit.getDocumentNumber(),copyNotes);
+            PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit.getDocumentNumber(), copyNotes, noteText);
             
-            kualiDocumentFormBase.setDocument(splitPO);
-            kualiDocumentFormBase.setDocId(splitPO.getDocumentNumber());
-            kualiDocumentFormBase.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            purchaseOrderForm.setDocument(splitPO);
+            purchaseOrderForm.setDocId(splitPO.getDocumentNumber());
+            purchaseOrderForm.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentType());
             try {
-                loadDocument(kualiDocumentFormBase);
+                loadDocument(purchaseOrderForm);
             }
             catch (WorkflowException we) {
                 throw new RuntimeException(we);

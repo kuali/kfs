@@ -55,6 +55,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
+    
+    private String splitNoteText;
 
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
@@ -261,7 +263,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         
         //if (auth.canSplitPo()){
-        //   ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
+        //    ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
         //    extraButtons.add(splitPoButton);
         //}
         
@@ -407,5 +409,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setAuth(PurchaseOrderDocumentActionAuthorizer auth) {
         this.auth = auth;
     }
-    
+
+    public String getSplitNoteText() {
+        return splitNoteText;
+    }
+
+    public void setSplitNoteText(String splitNoteText) {
+        this.splitNoteText = splitNoteText;
+    }  
 }

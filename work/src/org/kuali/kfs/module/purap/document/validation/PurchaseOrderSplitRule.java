@@ -17,8 +17,8 @@ package org.kuali.module.purap.rule;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
-public interface PurchaseOrderSplitRule {
+public interface PurchaseOrderSplitRule<P extends PurchaseOrderDocument> {
     
-    public boolean validateSplit(PurchaseOrderDocument document);
+    public boolean validateSplit(P document);
 
 }

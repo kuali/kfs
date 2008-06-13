@@ -94,11 +94,12 @@ public interface PurchaseOrderService {
      * new Split PO is to contain.
      * 
      * @param newPOItems        The List<PurchaseOrderItem> of the items that the new Split PO is to contain
-     * @param documentNumber    The PO ID of the 
-     * @param copyNotes
-     * @return
+     * @param documentNumber    The PO ID of the document 
+     * @param copyNotes         A boolean.  True if notes are to be copied from the old document to the new.
+     * @param splitNoteText     A String containing the text of the note to be added to the old document.
+     * @return  A PurchaseOrderSplitDocument containing the given list of items
      */
-    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes);
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes, String splitNoteText);
 
     /**
      * Obtains the internal purchasing dollar limit amount for a purchase order document.
@@ -317,7 +318,7 @@ public interface PurchaseOrderService {
      * Checks business rules which apply when a PO is being split.
      * 
      * @param document  A PurchaseOrderDocument (the original before splitting)
-     * @return          True if the original document passes all the split valiations.
+     * @return          True if the original document passes all the split validations.
      */
     public boolean checkSplitRules(PurchaseOrderDocument document);
 

@@ -132,6 +132,25 @@
 	
 	<bean id="CashReceipt-cashTotalsValidation" class="org.kuali.module.financial.document.validation.impl.CashReceiptCashTotalsValidation" abstract="true">
 		<property name="cashReceiptService" ref="cashReceiptService" />
-	</bean>	
+	</bean>
 	
+	<bean id="JournalVoucher-accountingLineAmountValidation" class="org.kuali.module.financial.document.validation.impl.JournalVoucherAccountingLineAmountValidation" abstract="true" />
+	
+	<bean id="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" class="org.kuali.module.financial.document.validation.impl.JournalVoucherAccountingLineExternalEncumbranceReferenceValidation" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+	
+	<bean id="JournalVoucher-accountingLineObjectTypeValueAllowedValidation" class="org.kuali.module.financial.document.validation.impl.JournalVoucherAccountingLineObjectTypeValueAllowedValidation" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+	
+	<bean id="JournalVoucher-accountingPeriodValidation" class="org.kuali.module.financial.document.validation.impl.JournalVoucherAccountingPeriodValidation" abstract="true">	
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+	
+	<bean id="JournalVoucher-balanceTypeValidation" class="org.kuali.module.financial.document.validation.impl.JournalVoucherBalanceTypeValidation" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+	
+	<bean id="JournalVoucher-reversalDateValidation" class="org.kuali.module.financial.document.validation.impl.JournalVoucherReversalDateValidation" abstract="true" />
 </beans>

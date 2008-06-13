@@ -20,7 +20,7 @@
     </property>
     <property name="documentTypeName" value="JournalVoucherDocument" />
     <property name="documentClass" value="org.kuali.module.financial.document.JournalVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.JournalVoucherDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer" />
     <property name="documentTypeCode" value="JV" />
     <property name="allowsCopy" value="true" />
@@ -46,6 +46,7 @@
         <ref bean="JournalVoucherDocument-balanceTypeCode" />
       </list>
     </property>
+    <property name="validationMap" ref="JournalVoucherDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -89,7 +90,6 @@
 
 <!-- Exported Workflow Properties -->
 
-
   <bean id="JournalVoucherDocument-workflowProperties" parent="JournalVoucherDocument-workflowProperties-parentBean" />
 
   <bean id="JournalVoucherDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
@@ -106,6 +106,49 @@
           </property>
         </bean>
       </list>
+    </property>
+  </bean>
+  
+  <!-- validations -->
+  
+  <bean id="JournalVoucherDocument-validations" parent="JournalVoucherDocument-validations-parentBean" />
+  
+  <bean id="JournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<value>JournalVoucher-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedSaveDocumentEvent</value></key>
+				<value>JournalVoucher-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<value>JournalVoucher-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>JournalVoucher-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<value>JournalVoucher-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>JournalVoucher-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>JournalVoucher-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>JournalVoucher-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
     </property>
   </bean>
 </beans>

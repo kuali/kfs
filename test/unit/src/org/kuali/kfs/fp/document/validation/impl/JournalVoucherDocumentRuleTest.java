@@ -18,8 +18,6 @@ package org.kuali.module.financial.rules;
 import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.getBusinessRule;
-import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
-import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
@@ -42,6 +40,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSi
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -56,6 +55,9 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
+import org.kuali.kfs.validation.AccountingLineValueAllowedValidation;
+import org.kuali.kfs.validation.AccountingLineValuesAllowedValidationHutch;
+import org.kuali.kfs.validation.Validation;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
@@ -169,15 +171,15 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
+        testAddAccountingLineRule_IsObjectTypeAllowed(getInvalidObjectTypeSourceLine(), false);
     }
 
     public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectTypeAllowed(getValidObjectTypeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectCodeAllowed(getValidObjectCodeSourceLine(), true);
     }
 
     public void testAddAccountingLine_Valid() throws Exception {
@@ -299,5 +301,36 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         return buildDocument();
     }
 
-
+    private void testAddAccountingLineRule_IsObjectTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        JournalVoucherDocument document = buildDocument();
+        AccountingLineValuesAllowedValidationHutch hutch = (AccountingLineValuesAllowedValidationHutch)validations.get("JournalVoucher-accountingLineValuesAllowedValidation");
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)hutch.getObjectTypeAllowedValidation();
+        if (validation != null) {
+            validation.setAccountingDocumentForValidation(document);
+            validation.setAccountingLineForValidation(accountingLine);
+            result = validation.validate(null);
+        } else {
+            result = true;
+        }
+        assertEquals(expected, result);
+    }
+    
+    private boolean testAddAccountingLineRule_IsObjectCodeAllowed(AccountingLine accountingLine, boolean expected) throws Exception {
+        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
+        boolean result = true;
+        JournalVoucherDocument document = buildDocument();
+        AccountingLineValuesAllowedValidationHutch hutch = (AccountingLineValuesAllowedValidationHutch)validations.get("JournalVoucher-accountingLineValuesAllowedValidation");
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)hutch.getObjectCodeAllowedValidation();
+        if (validation != null) {
+            validation.setAccountingDocumentForValidation(document);
+            validation.setAccountingLineForValidation(accountingLine);
+            result = validation.validate(null);
+        } else {
+            result = true;
+        }
+        
+        return result;
+    }
 }

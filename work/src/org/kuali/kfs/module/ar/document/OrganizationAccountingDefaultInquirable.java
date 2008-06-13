@@ -42,6 +42,7 @@ public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
     /**
      * @see org.kuali.core.inquiry.KualiInquirableImpl#getSections(org.kuali.core.bo.BusinessObject)
      */
+    @SuppressWarnings("unchecked")
     public List<Section> getSections(BusinessObject bo) {
 
         List<Section> sections = new ArrayList<Section>();

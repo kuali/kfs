@@ -34,6 +34,7 @@ public class PaymentMediumValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
         List<PaymentMedium> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PaymentMedium.class);
         List<KeyLabelPair> keyValues = new ArrayList();

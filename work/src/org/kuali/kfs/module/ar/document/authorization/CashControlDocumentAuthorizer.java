@@ -133,6 +133,7 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map getEditMode(Document d, UniversalUser u) {
         Map editMode = super.getEditMode(d, u);
         CashControlDocument cashControlDocument = (CashControlDocument) d;

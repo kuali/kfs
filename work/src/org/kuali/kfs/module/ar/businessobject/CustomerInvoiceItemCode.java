@@ -547,6 +547,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
+    @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);

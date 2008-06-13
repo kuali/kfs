@@ -425,6 +425,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @param detail
      * @return
      */
+    @SuppressWarnings("unchecked")
     protected boolean isValidUnitOfMeasure(CustomerInvoiceDetail detail) {
 
         if (StringUtils.isNotEmpty(detail.getInvoiceItemUnitOfMeasureCode())) {

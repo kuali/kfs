@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.InvoicePaidApplied;
+import org.kuali.module.ar.bo.NonInvoicedDistribution;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.InvoicePaidAppliedService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -31,7 +33,18 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
 
     private BusinessObjectService businessObjectService;
     private UniversityDateService universityDateService;
-    
+
+    /**
+     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     */
+    @SuppressWarnings("unchecked")
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+        Map criteria = new HashMap();
+        criteria.put("invoiceItemNumber", customerInvoiceDetail.getSequenceNumber());
+        criteria.put("financialDocumentReferenceInvoiceNumber", customerInvoiceDetail.getDocumentNumber());
+        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+    }
+
     /**
      * @see org.kuali.module.ar.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
      */
@@ -70,7 +83,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
      */
     public boolean doesInvoiceHaveAppliedAmounts(CustomerInvoiceDocument document) {
 
-        HashMap criteria = new HashMap();
+        HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("financialDocumentReferenceInvoiceNumber", document.getDocumentNumber());
         
         Collection<InvoicePaidApplied> results = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
@@ -82,6 +95,22 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
         }
         return false;
     }    
+
+    /**
+     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForInvoice(java.lang.String)
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("documentNumber", documentNumber);
+        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(CustomerInvoiceDocument invoice) {
+        return getInvoicePaidAppliedsForInvoice(invoice.getDocumentNumber());
+    }
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;

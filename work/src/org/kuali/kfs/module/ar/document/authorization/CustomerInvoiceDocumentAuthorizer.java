@@ -49,6 +49,7 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
      *      org.kuali.core.bo.user.KualiUser, java.util.List, java.util.List)
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         

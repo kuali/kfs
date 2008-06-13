@@ -26,6 +26,9 @@ import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 
 public class CustomerInvoiceDocumentPreRules extends PreRulesContinuationBase {
 
+    /**
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     @Override
     public boolean doRules(Document document) {
 
@@ -35,7 +38,12 @@ public class CustomerInvoiceDocumentPreRules extends PreRulesContinuationBase {
         
         return true;
     }
-    
+
+    /**
+     * @param service
+     * @param document
+     */
+    @SuppressWarnings("unchecked")
     private void updateCustomerInvoiceDetails(CustomerInvoiceDetailService service, CustomerInvoiceDocument document){
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = document.getSourceAccountingLines().iterator(); i.hasNext(); ){

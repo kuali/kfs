@@ -28,6 +28,7 @@ public class PrintInvoiceOptionsValuesFinder extends KeyValuesBase{
         /**
          * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
          */
+    @SuppressWarnings("unchecked")
         public List<KeyLabelPair> getKeyValues() {
             
             List<PrintInvoiceOptions> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PrintInvoiceOptions.class);

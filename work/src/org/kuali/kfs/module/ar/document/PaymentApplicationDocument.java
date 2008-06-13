@@ -33,7 +33,7 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     private Collection<NonInvoiced> nonInvoicedPayments;
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
-    private Collection<NonAppliedHolding> nonAppliedHoldings;
+    private NonAppliedHolding nonAppliedHolding;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     
     public PaymentApplicationDocument() {
@@ -42,7 +42,6 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
         this.nonInvoicedPayments = new ArrayList<NonInvoiced>();
         this.nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
         this.nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
-        this.nonAppliedHoldings = new ArrayList<NonAppliedHolding>();
     }
 
     /**
@@ -87,12 +86,12 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
         this.nonAppliedDistributions = nonAppliedDistributions;
     }
 
-    public Collection<NonAppliedHolding> getNonAppliedHoldings() {
-        return nonAppliedHoldings;
+    public NonAppliedHolding getNonAppliedHolding() {
+        return nonAppliedHolding;
     }
 
-    public void setNonAppliedHoldings(Collection<NonAppliedHolding> nonAppliedHoldings) {
-        this.nonAppliedHoldings = nonAppliedHoldings;
+    public void setNonAppliedHolding(NonAppliedHolding nonAppliedHolding) {
+        this.nonAppliedHolding = nonAppliedHolding;
     }
 
     public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {

@@ -17,7 +17,10 @@ package org.kuali.module.ar.service;
 
 import java.util.Collection;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.ar.bo.Customer;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.NonInvoicedDistribution;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerInvoiceDocumentService {
@@ -28,13 +31,11 @@ public interface CustomerInvoiceDocumentService {
      */
     public void setupDefaultValuesForNewCustomerInvoiceDocument( CustomerInvoiceDocument document );
     
-    
     /**
      * This method sets up default values for customer invoice document when copied.
      * @param customerInvoiceDocument
      */
     public void setupDefaultValuesForCopiedCustomerInvoiceDocument( CustomerInvoiceDocument customerInvoiceDocument );
-    
     
     /**
      * If the customer number and address identifiers are present, display customer information
@@ -45,7 +46,19 @@ public interface CustomerInvoiceDocumentService {
      * @param customerNumber
      * @return
      */
-    public Collection<CustomerInvoiceDocument> getInvoicesByCustomerNumber(String customerNumber);
+    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByCustomerNumber(String customerNumber);
+    
+    /**
+     * @param customerInvoiceDocumentNumber
+     * @return
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
+    
+    /**
+     * @param customerInvoiceDocument
+     * @return
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
     
     /**
      * @param invoiceNumber
@@ -70,5 +83,65 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber);
+    
+    /**
+     * @param documentNumber
+     * @return
+     */
+//    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber);
+    
+    /**
+     * @param documentNumber
+     * @return
+     */
+    public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber);
+
+    /**
+     * @param documentNumber
+     * @return
+     */
+    public KualiDecimal getNonInvoicedTotalForInvoice(String documentNumber);
+
+    /**
+     * @param invoice
+     * @return
+     */
+    public KualiDecimal getNonInvoicedTotalForInvoice(CustomerInvoiceDocument invoice);
+    
+    /**
+     * @param documentNumber
+     * @return
+     */
+    public KualiDecimal getPaidAppliedTotalForInvoice(String documentNumber);
+    
+    /**
+     * @param invoice
+     * @return
+     */
+    public KualiDecimal getPaidAppliedTotalForInvoice(CustomerInvoiceDocument invoice);
+
+    /**
+     * @param invoice
+     * @return
+     */
+    public KualiDecimal getBalanceForCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
+    
+    /**
+     * @param customerInvoiceDocumentNumber
+     * @return
+     */
+    public KualiDecimal getBalanceForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
+    
+    /**
+     * @param invoice
+     * @return
+     */
+    public KualiDecimal getTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument invoice);
+    
+    /**
+     * @param customerInvoiceDocumentNumgber
+     * @return
+     */
+    public KualiDecimal getTotalAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
     
 }

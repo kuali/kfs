@@ -35,6 +35,7 @@ public class OrganizationAccountingDefaultValueFinderBase {
      * Constructs a OrganizationAccountingDefaultValueFinderBase.  Sets the OrganizationAccountingDefault BO based on current
      * year, current users chart of account code, and current users organization code
      */
+    @SuppressWarnings("unchecked")
     public OrganizationAccountingDefaultValueFinderBase(){        
         Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);

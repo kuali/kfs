@@ -29,6 +29,7 @@ public class CustomerAddressTypeValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
 
         List<CustomerAddressType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(CustomerAddressType.class);

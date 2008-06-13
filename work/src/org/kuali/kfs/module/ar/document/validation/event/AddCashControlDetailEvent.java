@@ -27,10 +27,12 @@ public final class AddCashControlDetailEvent extends CashControlDetailEventBase 
         super("Adding cash control detail to document " + getDocumentId(document), errorPathPrefix, document, cashControlDetail);
     }
 
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AddCashControlDetailRule.class;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddCashControlDetailRule) rule).processAddCashControlDetailBusinessRules((TransactionalDocument) getDocument(), getCashControlDetail());
     }

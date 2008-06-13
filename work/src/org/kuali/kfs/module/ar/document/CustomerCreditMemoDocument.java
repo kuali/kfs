@@ -30,22 +30,24 @@ import org.kuali.module.ar.service.CustomerInvoiceDetailService;
  */
 // public class CustomerCreditMemoDocument extends AccountingDocumentBase {
 public class CustomerCreditMemoDocument extends TransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
-
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
-
+    
     private String statusCode;
+    
+    private String documentNumber;
     private Integer postingYear;
     private String financialDocumentReferenceInvoiceNumber;
-
+    
     private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
     private KualiDecimal crmTotalTaxAmount = KualiDecimal.ZERO;
     private KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
-
+    
     private Integer invOutstandingDays;
 
     private CustomerInvoiceDocument invoice;
     private List<CustomerCreditMemoDetail> creditMemoDetails;
-
+    
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
 
     public CustomerCreditMemoDocument() {
@@ -88,7 +90,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
 
         this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
     }
-
+    
     /**
      * Gets the invoice attribute.
      * @return Returns the invoice.
@@ -108,7 +110,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     public void setInvoice(CustomerInvoiceDocument invoice) {
         this.invoice = invoice;
     }
-
+    
     /**
      * Gets the statusCode attribute.
      * @return Returns the statusCode.
@@ -118,13 +120,13 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     }
 
     /**
-     * Sets the statusCode attribute value. 
+     * Sets the statusCode attribute value.
      * @param statusCode The statusCode to set.
      */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-
+    
     /**
      * Gets the postingYear attribute. 
      * @return Returns the postingYear.
@@ -134,13 +136,13 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     }
 
     /**
-     * Sets the postingYear attribute value. 
+     * Sets the postingYear attribute value.
      * @param postingYear The postingYear to set.
      */
     public void setPostingYear(Integer postingYear) {
         this.postingYear = postingYear;
     }
-
+    
     /**
      * Initializes the values for a new document.
      */
@@ -166,7 +168,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     public KualiDecimal getCrmTotalAmount() {
         return crmTotalAmount;
     }
-
+    
     /**
      * This method returns the crmTotalAmount as a currency formatted string.
      * @return String
@@ -190,7 +192,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     public KualiDecimal getCrmTotalItemAmount() {
         return crmTotalItemAmount;
     }
-
+    
     /**
      * This method returns the crmTotalItemAmount as a currency formatted string.
      * @return String
@@ -214,9 +216,10 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     public KualiDecimal getCrmTotalTaxAmount() {
         return crmTotalTaxAmount;
     }
-
+    
     /**
-     * This method returns the crmTotalTaxAmount as a currency formatted string. 
+     * This method returns the crmTotalTaxAmount as a currency formatted string.
+     * 
      * @return String
      */
     public String getCurrencyFormattedCrmTotalTaxAmount() {
@@ -251,9 +254,10 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     public void setInvOutstandingDays(Integer invOutstandingDays) {
         this.invOutstandingDays = invOutstandingDays;
     }
-
+    
     /**
      * This method gets the glpes
+     * 
      * @return a list of glpes
      */
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
@@ -262,6 +266,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
 
     /**
      * This method sets the glpes
+     * 
      * @return a list of glpes
      */
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
@@ -272,35 +277,35 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
         KualiDecimal stateTaxRate = invoice.getStateTaxPercent();
         KualiDecimal localTaxRate = invoice.getLocalTaxPercent();
         KualiDecimal taxRate;
-
+        
         if (ObjectUtils.isNull(stateTaxRate))
             stateTaxRate = KualiDecimal.ZERO;
-
+        
         if (ObjectUtils.isNull(localTaxRate))
             localTaxRate = KualiDecimal.ZERO;
-
+        
         taxRate = stateTaxRate.add(localTaxRate);
-
+        
         return taxRate;
     }
-
+    
     public void recalculateTotalsBasedOnChangedItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail) {
         KualiDecimal duplicateCreditMemoItemTotalAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
         KualiDecimal creditMemoItemTotalAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-
+        
         // substract the 'old' item amount, tax amount, and total amount accordingly from totals
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount))
             prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
 
         recalculateTotals(creditMemoItemTotalAmount);
-
+        
         // update duplicate credit memo item amount with 'new' value
         customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemTotalAmount);
     }
-
+    
     public void recalculateTotals(CustomerCreditMemoDetail customerCreditMemoDetail) {
         KualiDecimal duplicateCreditMemoItemTotalAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
-
+        
         // substract the 'old' item amount, tax amount, and total amount accordingly from totals
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount)) {
             prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
@@ -311,26 +316,26 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     private void prepareTotalsForUpdate(KualiDecimal oldItemAmount) {
         KualiDecimal taxRate = getTaxRate();
         KualiDecimal oldItemTaxAmount = oldItemAmount.multiply(taxRate);
-
+        
         crmTotalItemAmount = crmTotalItemAmount.subtract(oldItemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.subtract(oldItemTaxAmount);
         crmTotalAmount = crmTotalAmount.subtract(oldItemAmount.add(oldItemTaxAmount));
     }
-
-    public void resetTotals() {
+    
+    public void resetTotals(){
         crmTotalItemAmount = KualiDecimal.ZERO;
         crmTotalTaxAmount = KualiDecimal.ZERO;
         crmTotalAmount = KualiDecimal.ZERO;
     }
-
+    
     public void recalculateTotals(KualiDecimal itemAmount) {
         KualiDecimal taxRate = getTaxRate();
-
+        
         crmTotalItemAmount = crmTotalItemAmount.add(itemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.add(itemAmount.multiply(taxRate));
         crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
     }
-
+    
     /*
      * populate customer credit memo details based on the invoice info
      */
@@ -406,16 +411,16 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
         // TODO
         return success;
     }
-
+    
     // TODO
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO
+        //TODO
         return false;
     }
-
+     
     /**
      * Returns a document header associated with this general ledger posting helper 
      * @return a document header
@@ -423,7 +428,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
     public DocumentHeader getDocumentHeader() {
         return documentHeader;
     }
-
+        
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
      */
@@ -431,14 +436,14 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
 
     }
-
+    
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
-
+            
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
@@ -446,21 +451,21 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
         generalLedgerPendingEntries.add(entry);
 
     }
-
+        
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
-
+    
     // TODO
     public String getFinancialDocumentTypeCode() {
         // TODO Auto-generated method stub
         return null;
     }
-
-    // TODO
+     
+    // TODO 
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,

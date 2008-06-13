@@ -30,10 +30,12 @@ public class RecalculateCustomerCreditMemoDetailEvent extends CustomerCreditMemo
         this.customerCreditMemoDetail = customerCreditMemoDetail;
     }
     
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return RecalculateCustomerCreditMemoDetailRule.class;
     }
     
+    @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((RecalculateCustomerCreditMemoDetailRule) rule).processRecalculateCustomerCreditMemoDetailRules((TransactionalDocument)document, customerCreditMemoDetail);
     }

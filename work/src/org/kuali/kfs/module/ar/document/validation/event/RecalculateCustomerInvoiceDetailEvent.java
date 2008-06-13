@@ -28,10 +28,12 @@ public class RecalculateCustomerInvoiceDetailEvent extends CustomerInvoiceDetail
         // TODO Auto-generated constructor stub
     }
 
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return RecalculateCustomerInvoiceDetailRule.class;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((RecalculateCustomerInvoiceDetailRule) rule).processRecalculateCustomerInvoiceDetailRules((AccountingDocument)getDocument(), getCustomerInvoiceDetail());
     }

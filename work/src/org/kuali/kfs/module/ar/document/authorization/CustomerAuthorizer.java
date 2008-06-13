@@ -66,6 +66,7 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, UniversalUser user) {
         Map editModes = super.getEditMode(document, user);
 

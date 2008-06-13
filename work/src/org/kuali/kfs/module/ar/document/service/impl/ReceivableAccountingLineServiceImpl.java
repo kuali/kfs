@@ -35,6 +35,10 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
 
+    /**
+     * @see org.kuali.module.ar.service.ReceivableAccountingLineService#setReceivableAccountingLineForCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     */
+    @SuppressWarnings("unchecked")
     public void setReceivableAccountingLineForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
 
         Integer currentUniverisityFiscalYear = universityDateService.getCurrentFiscalYear();

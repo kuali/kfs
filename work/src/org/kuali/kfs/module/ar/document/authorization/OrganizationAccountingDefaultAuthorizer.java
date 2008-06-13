@@ -38,6 +38,7 @@ public class OrganizationAccountingDefaultAuthorizer extends MaintenanceDocument
     
     
     @Override
+    @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, UniversalUser user) {
         Map editModes = new HashMap();
      //   try {

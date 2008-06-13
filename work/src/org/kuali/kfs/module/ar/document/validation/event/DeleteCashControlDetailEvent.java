@@ -28,10 +28,12 @@ public class DeleteCashControlDetailEvent extends CashControlDetailEventBase {
         super("Deleteing cash control detail to document " + getDocumentId(document), errorPathPrefix, document, cashControlDetail);
     }
 
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return DeleteCashControlDetailRule.class;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((DeleteCashControlDetailRule) rule).processDeleteCashControlDetailBusinessRules((TransactionalDocument) getDocument(), getCashControlDetail());
     }

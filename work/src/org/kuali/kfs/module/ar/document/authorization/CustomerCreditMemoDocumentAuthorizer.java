@@ -36,6 +36,7 @@ public class CustomerCreditMemoDocumentAuthorizer extends TransactionalDocumentA
 
     
     @Override
+    @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, UniversalUser user) {
         
         Map<String,String> editModeMap = super.getEditMode(document, user);

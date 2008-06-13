@@ -37,6 +37,7 @@ public class GenerateReferenceDocumentEvent extends KualiDocumentEventBase {
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return GenerateReferenceDocumentRule.class;
     }
@@ -44,6 +45,7 @@ public class GenerateReferenceDocumentEvent extends KualiDocumentEventBase {
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
+    @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((GenerateReferenceDocumentRule) rule).processGenerateReferenceDocumentBusinessRules((TransactionalDocument) getDocument());
     }

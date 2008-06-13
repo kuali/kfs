@@ -15,9 +15,11 @@
  */
 package org.kuali.module.ar.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.InvoicePaidApplied;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 public interface InvoicePaidAppliedService {
@@ -39,4 +41,22 @@ public interface InvoicePaidAppliedService {
      */
     public boolean doesInvoiceHaveAppliedAmounts(CustomerInvoiceDocument document);
 
+    /**
+     * @param documentNumber
+     * @return
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber);
+
+    /**
+     * @param documentNumber
+     * @return
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(CustomerInvoiceDocument invoice);
+    
+    /**
+     * @param customerInvoiceDetail
+     * @return
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
+    
 }

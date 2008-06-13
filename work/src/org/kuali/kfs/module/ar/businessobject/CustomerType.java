@@ -88,6 +88,7 @@ public class CustomerType extends PersistableBusinessObjectBase implements Inact
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
+    @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("customerTypeCode", this.customerTypeCode);

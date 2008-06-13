@@ -111,7 +111,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber) {
-        return customerInvoiceDocumentService.getInvoicesByCustomerNumber(customerNumber);
+        return customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
     }
 
 }

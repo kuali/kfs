@@ -227,9 +227,16 @@
 			        <tr>
 			          <td colspan='2' class='tab-subhead'>
 			            Invoices
-			            <select>
+			            <select name="selectedInvoiceDocumentNumber">
 			            	<c:forEach items="${KualiForm.invoices}" var="invoice">
-			            		<option><c:out value="${invoice.documentNumber}" /></option>
+			            		<c:choose>
+				            		<c:when test="${invoice.documentNumber eq KualiForm.selectedInvoiceDocumentNumber}">
+					            		<option selected><c:out value="${invoice.documentNumber}" /></option>
+				            		</c:when>
+				            		<c:otherwise>
+					            		<option><c:out value="${invoice.documentNumber}" /></option>
+				            		</c:otherwise>
+			            		</c:choose>
 			            	</c:forEach>
 			            </select>
 			            <input type='submit' value='Go To Invoice'>
@@ -251,30 +258,27 @@
 			          <td colspan='2'>
 			            <table width='100%' cellpadding='0' cellspacing='0' class='datatable'>
 			              <tr>
-			                <th>Sequence</th>
 			                <th>Invoice Number</th>
 			                <th>Invoice Header/Custom Name</th>
 			                <th>Balance/Total</th>
 			                <th>Apply Amount</th>
 			              </tr>
 			              <tr>
-			                <td>01</td>
-			                <td>AB1234567</td>
+			                <td>${KualiForm.selectedInvoiceDocumentNumber}</td>
 			                <td><input type='text' value='${KualiForm.selectedInvoiceDocument.accountsReceivableDocumentHeader.financialDocumentExplanationText}'></td>
-			                <td><input type='text' value=''></td>
+			                <td><input type='text' value='${KualiForm.balanceForSelectedInvoiceDocument}'></td>
 			                <td rowspan='2'><input type='text' value=''/></td>
 			              </tr>
 			              <tr>
 			                <td>&nbsp;</td>
-			                <td>&nbsp;</td>
-			                <td><input type='text' value='ABBOTT NORTHWESTERN H'></td>
-			                <td><input type='text' value='115.00'></td>
+			                <td><input type='text' value='${KualiForm.selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName}'></td>
+			                <td><input type='text' value='${KualiForm.totalAmountForSelectedInvoiceDocument}'></td>
 			              </tr>
 			              <tr>
-			                <td colspan='5' class='tab-subhead'>Invoice Detail</td>
+			                <td colspan='4' class='tab-subhead'>Invoice Detail</td>
 			              </tr>
 			              <tr>
-			                <td colspan='5'>
+			                <td colspan='4'>
 			                  <table width='100%' cellpadding='0' cellspacing='0' class='datatable'>
 			                    <tr>
 			                      <th>&nbsp;</th>
@@ -285,29 +289,22 @@
 			                      <th>Dtl Balance</th>
 			                      <th>Apply Amount</th>
 			                    </tr>
-			                    <tr>
-			                      <td><input type='text' size='2' value='1'></td>
-			                      <td>BL</td>
-			                      <td>1043200</td>
-			                      <td><input type='text' value='Seminar for Nurse'></td>
-			                      <td><input type='text' value='100.00'></td>
-			                      <td><input type='text' value='100.00'></td>
-			                      <td><input type='text' value=''></td>
-			                    </tr>
-			                    <tr>
-			                      <td><input type='text' size='2' value='2'></td>
-			                      <td>BL</td>
-			                      <td>1043200</td>
-			                      <td><input type='text' value='Books for Seminar'></td>
-			                      <td><input type='text' value='15.00'></td>
-			                      <td><input type='text' value='15.00'></td>
-			                      <td><input type='text' value=''></td>
-			                    </tr>
+			                    <c:forEach items="${KualiForm.customerInvoiceDetailsForSelectedCustomerInvoiceDocument}" var="customerInvoiceDetail">
+				                    <tr>
+				                      <td><input type='text' size='2' value='${customerInvoiceDetail.sequenceNumber}'></td>
+				                      <td>${customerInvoiceDetail.chartOfAccountsCode}</td>
+				                      <td>${customerInvoiceDetail.accountNumber}</td>
+				                      <td><input type='text' value='${customerInvoiceDetail.invoiceItemDescription}'></td>
+				                      <td><input type='text' value='${customerInvoiceDetail.amount}'></td>
+				                      <td><input type='text' value='${customerInvoiceDetail.balance}'></td>
+				                      <td><input type='text' value='${customerInvoiceDetail.appliedAmount}'></td>
+				                    </tr>
+			                    </c:forEach>
 			                  </table>
 			                </td>
 			              </tr>
 			              <tr>
-			              	<td style='text-align: right;' colspan='5'>
+			              	<td style='text-align: right;' colspan='4'>
 				              	<input type='text' value='Apply Amounts to Invoice' />
 			              	</td>
 			              </tr>

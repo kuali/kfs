@@ -15,11 +15,12 @@
  */
 package org.kuali.module.ar.service;
 
+import java.util.Collection;
+
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.InvoicePaidApplied;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.impl.CustomerInvoiceDetailServiceImpl;
-import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This class provides services related to the customer invoice document
@@ -129,4 +130,58 @@ public interface CustomerInvoiceDetailService {
      * @param customerInvoiceDetail
      */
     public void prepareCustomerInvoiceDetailForAdd( CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument );
+
+    /**
+     * @param customerInvoiceDocument
+     * @return
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(CustomerInvoiceDocument customerInvoiceDocument);
+    
+    /**
+     * @param customerInvoiceDocumentNumber
+     * @return
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber);
+    
+    /**
+     * @param detail
+     * @return
+     */
+    public KualiDecimal getBalanceForCustomerInvoiceDetail(CustomerInvoiceDetail detail);
+    
+    /**
+     * @param customerInvoiceDocumentNumber
+     * @param sequenceNumber
+     * @return
+     */
+    public KualiDecimal getBalanceForCustomerInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber);
+
+    /**
+     * Calculate the total amount applied to this CustomerInvoiceDetail
+     * 
+     * @param invoiceDetail
+     * @return
+     */
+    public KualiDecimal getAppliedAmountForInvoiceDetail(CustomerInvoiceDetail invoiceDetail);
+
+    /**
+     * @param customerInvoiceDocumentNumber
+     * @param sequenceNumber
+     * @return
+     */
+    public KualiDecimal getAppliedAmountForInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber);
+
+    /**
+     * @param customerInvoiceDetail
+     * @return
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail);
+
+    /**
+     * @param documentNumber
+     * @param sequenceNumber
+     * @return
+     */
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(String documentNumber, Integer sequenceNumber);
+    
 }

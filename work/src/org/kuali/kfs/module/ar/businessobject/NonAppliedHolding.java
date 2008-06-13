@@ -17,11 +17,11 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 	private KualiDecimal financialDocumentLineAmount;
 	private String customerNumber;
 
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Customer customer;
-    private DocumentHeader documentHeader;
+    // MAYBE TAKE THIS OUT
+    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
-    List<NonAppliedDistribution> nonAppliedDistributions;
+    private List<NonAppliedDistribution> nonAppliedDistributions;
     
 	/**
 	 * Default constructor.
@@ -133,23 +133,6 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-    /**
-     * Gets the documentHeader attribute. 
-     * @return Returns the documentHeader.
-     */
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    /**
-     * Sets the documentHeader attribute value.
-     * @param documentHeader The documentHeader to set.
-     * @deprecated
-     */
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }    
     
 	/**
      * Gets the nonAppliedDistributions attribute. 

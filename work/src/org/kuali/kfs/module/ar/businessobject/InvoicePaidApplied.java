@@ -239,6 +239,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
+    @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);

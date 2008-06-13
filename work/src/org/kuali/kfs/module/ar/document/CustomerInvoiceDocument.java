@@ -86,7 +86,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
     
-    
 	/**
 	 * Default constructor.
 	 */
@@ -877,6 +876,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
+    @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);
@@ -913,7 +913,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
-    public Class getSourceAccountingLineClass() {
+    public Class<CustomerInvoiceDetail> getSourceAccountingLineClass() {
         return CustomerInvoiceDetail.class;
     }
     
@@ -1030,6 +1030,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      * 
      * @return Map
      */
+    @SuppressWarnings("unchecked")
     public Map getValuesMap() {
         Map valuesMap = new HashMap();
 
@@ -1087,6 +1088,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     /**
      * This method...
      */
+    @SuppressWarnings("unchecked")
     public void negateCustomerInvoiceDetailUnitPrices(){
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
@@ -1100,6 +1102,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      * This method returns true if invoice document has at least one discount line
      * @return
      */
+    @SuppressWarnings("unchecked")
     public boolean hasAtLeastOneDiscount(){
         
         CustomerInvoiceDetail customerInvoiceDetail;
@@ -1117,6 +1120,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      * @param sequenceNumber
      * @return
      */
+    @SuppressWarnings("unchecked")
     public boolean isDiscountLineBasedOnSequenceNumber(Integer sequenceNumber){
         if( ObjectUtils.isNull(sequenceNumber)){
             return false;
@@ -1141,6 +1145,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      * @param sequenceNumber
      * @return
      */
+    @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getParentLineBasedOnDiscountSequenceNumber(Integer discountSequenceNumber){
         
         if( ObjectUtils.isNull(discountSequenceNumber)){
@@ -1162,6 +1167,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     /**
      * This method is called on CustomerInvoiceDocumentAction.execute() to set isDiscount to true if it truly is a discount line
      */
+    @SuppressWarnings("unchecked")
     public void updateDiscountAndParentLineReferences(){
         
         CustomerInvoiceDetail discount;

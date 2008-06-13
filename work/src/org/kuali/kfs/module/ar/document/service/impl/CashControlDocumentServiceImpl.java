@@ -72,7 +72,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // set the non applied holding
         NonAppliedHolding nonAppliedHolding = new NonAppliedHolding();
         nonAppliedHolding.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
-        doc.getNonAppliedHoldings().add(nonAppliedHolding);
+        doc.setNonAppliedHolding(nonAppliedHolding);
 
         // the line amount for the new PaymentApplicationDocument should be the line amount in the new cash control detail
         doc.getDocumentHeader().setFinancialDocumentTotalAmount(cashControlDetail.getFinancialDocumentLineAmount());

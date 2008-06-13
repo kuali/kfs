@@ -33,6 +33,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class CustomerMaintenableImpl extends KualiMaintainableImpl {
 
     @Override
+    @SuppressWarnings("unchecked")
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterPost(document, parameters);
 

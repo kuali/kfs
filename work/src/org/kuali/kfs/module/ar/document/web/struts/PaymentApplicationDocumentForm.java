@@ -22,12 +22,15 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.bo.Customer;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.NonAppliedHolding;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
 import org.kuali.module.ar.service.CustomerService;
 
@@ -38,14 +41,14 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     private Collection<NonAppliedHolding> nonAppliedHoldings;
     
     private CustomerService customerService;
-    private CustomerInvoiceDocumentService invoiceService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private BusinessObjectService businessObjectService;
 
     public PaymentApplicationDocumentForm() {
         super();
         setDocument(new PaymentApplicationDocument());
         customerService = SpringContext.getBean(CustomerService.class);
-        invoiceService  = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         nonAppliedHoldings = new ArrayList<NonAppliedHolding>();
     }
@@ -66,7 +69,7 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
         if(null != customerNumber) {
             customer = customerService.getByPrimaryKey(this.customerNumber);
         } else if(null != selectedInvoiceDocumentNumber) {
-            customer = invoiceService.getCustomerByInvoiceDocumentNumber(this.selectedInvoiceDocumentNumber);
+            customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(this.selectedInvoiceDocumentNumber);
         }
         
         return customer;
@@ -79,7 +82,7 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
         CustomerInvoiceDocument invoice = null;
         
         if(null != this.selectedInvoiceDocumentNumber) {
-            invoice = invoiceService.getInvoiceByInvoiceDocumentNumber(selectedInvoiceDocumentNumber);
+            invoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(selectedInvoiceDocumentNumber);
         } else {
             Collection<CustomerInvoiceDocument> invoices = getInvoices();
             if(null != invoices) {
@@ -88,6 +91,25 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
         }
         
         return invoice;
+    }
+    
+    /**
+     * @return
+     */
+    public KualiDecimal getSelectedInvoiceTotalAmount() {
+        return getInvoiceTotalAmount(getSelectedInvoiceDocumentNumber());
+    }
+
+    /**
+     * @param invoiceDocumentNumber
+     * @return
+     */
+    private KualiDecimal getInvoiceTotalAmount(String invoiceDocumentNumber) {
+        // TODO Fill in logic.
+        
+        
+        
+        return null;
     }
     
     /**
@@ -163,6 +185,7 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
      * @param refresh
      * @return
      */
+    @SuppressWarnings("unchecked")
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(boolean refresh) {
         
         if(refresh || nonAppliedHoldings.isEmpty()) {
@@ -172,6 +195,27 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
         }
         
         return nonAppliedHoldings;
+    }
+
+    /**
+     * @return
+     */
+    public KualiDecimal getTotalAmountForSelectedInvoiceDocument() {
+        return customerInvoiceDocumentService.getTotalAmountForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+    }
+    
+    /**
+     * @return
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForSelectedCustomerInvoiceDocument() {
+        return customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+    }
+    
+    /**
+     * @return
+     */
+    public KualiDecimal getBalanceForSelectedInvoiceDocument() {
+        return customerInvoiceDocumentService.getBalanceForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
     }
     
     /**
@@ -190,6 +234,14 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     }
 
     public String getSelectedInvoiceDocumentNumber() {
+        
+        if(null == selectedInvoiceDocumentNumber) {
+            Collection<CustomerInvoiceDocument> invoices = getInvoices();
+            if(null != invoices) {
+                selectedInvoiceDocumentNumber = invoices.iterator().next().getDocumentNumber();
+            }
+        }
+        
         return selectedInvoiceDocumentNumber;
     }
 

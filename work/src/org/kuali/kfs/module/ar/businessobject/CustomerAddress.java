@@ -362,6 +362,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("customerNumber", this.customerNumber);

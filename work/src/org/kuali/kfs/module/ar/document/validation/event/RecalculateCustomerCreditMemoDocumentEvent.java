@@ -30,10 +30,12 @@ public class RecalculateCustomerCreditMemoDocumentEvent extends KualiDocumentEve
         this.printErrMsgFlag = printErrMsgFlag;
     }    
     
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return RecalculateCustomerCreditMemoDocumentRule.class;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((RecalculateCustomerCreditMemoDocumentRule) rule).processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument)document,printErrMsgFlag);
     }

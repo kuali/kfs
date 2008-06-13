@@ -32,6 +32,7 @@ public class OrganizationAccountingDefaultMaintainableImpl extends KualiMaintain
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationAccountingDefault.class);
     
     @Override
+    @SuppressWarnings("unchecked")
     public List getSections(Maintainable oldMaintainable) {
 
         List<Section> sections = super.getSections(oldMaintainable);

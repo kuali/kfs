@@ -26,6 +26,7 @@ import org.kuali.module.ar.bo.Customer;
 
 public class CustomerValuesFinder extends KeyValuesBase {
 
+    @SuppressWarnings("unchecked")
     public List getKeyValues() {
 
         List<Customer> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(Customer.class);

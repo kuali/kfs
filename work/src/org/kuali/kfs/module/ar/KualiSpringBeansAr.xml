@@ -92,7 +92,10 @@
 		</property>		
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>				
+		</property>
+		<property name="invoicePaidAppliedService">
+			<ref bean="invoicePaidAppliedService"/>
+		</property>
 	</bean>	
 	
 	<bean id="customerCreditMemoDetailService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDetailServiceImpl"/>
@@ -152,7 +155,25 @@
 		<property name="customerAddressService">
 			<ref bean="customerAddressService" />
 		</property>									
+		<property name="invoicePaidAppliedService">
+			<ref bean="invoicePaidAppliedService"/>
+		</property>
+		<property name="customerInvoiceDetailService">
+			<ref bean="customerInvoiceDetailService" />
+		</property>
 	</bean>	
+	
+	<bean id="nonInvoicedDistributionService" class="org.kuali.module.ar.service.impl.NonInvoicedDistributionServiceImpl">
+		<property name="nonInvoicedDistributionDao">
+			<ref bean="nonInvoicedDistributionDao"/>
+		</property>
+	</bean>
+	
+	<bean id="nonInvoicedDistributionDao" class="org.kuali.module.ar.dao.ojb.NonInvoicedDistributionDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+	</bean>
 	
     <bean id="customerAddressService" class="org.kuali.module.ar.service.impl.CustomerAddressServiceImpl">
 		<property name="businessObjectService">

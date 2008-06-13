@@ -2,15 +2,14 @@ package org.kuali.module.ar.bo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 
@@ -42,6 +41,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     
     private CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail;
     private CustomerInvoiceDetail discountCustomerInvoiceDetail;
+    private Collection<InvoicePaidApplied> invoicePaidApplieds;
 
     /**
      * Default constructor.
@@ -50,6 +50,25 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         super();
     }
 
+    public KualiDecimal getBalance() {
+        return getAmount().subtract(getAppliedAmount());
+    }
+    
+    public KualiDecimal getAppliedAmount() {
+        KualiDecimal total = new KualiDecimal(0);
+        
+        for(InvoicePaidApplied paidApplied : getInvoicePaidApplieds()) {
+            total = total.add(paidApplied.getInvoiceItemAppliedAmount());
+        }
+        
+        return total;
+    }
+
+    public Collection<InvoicePaidApplied> getInvoicePaidApplieds() {
+        return SpringContext.getBean(CustomerInvoiceDetailService.class).getInvoicePaidAppliedsForInvoiceDetail(this);
+    }
+
+    public void setInvoicePaidApplieds(Collection<InvoicePaidApplied> invoicePaidApplieds) {}
 
     /**
      * Gets the accountsReceivableObjectCode attribute.
@@ -296,6 +315,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", getDocumentNumber());

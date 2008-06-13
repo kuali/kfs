@@ -17,23 +17,36 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.TransientBusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * Holds information about a budget lock.
  */
-public class BudgetConstructionLockSummary extends TransientBusinessObjectBase {
+public class BudgetConstructionLockSummary extends PersistableBusinessObjectBase {
     private String lockType;
     private String lockUserId;
-
     private String documentNumber;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
-
     private String positionNumber;
     private String positionDescription;
+
+    private UniversalUser lockUser;
+    private Chart chart;
+    private Account account;
+    private SubAccount subAccount;
+    private BudgetConstructionPosition budgetConstructionPosition;
+    private Options options;
 
     /**
      * Default Constructor.
@@ -202,6 +215,123 @@ public class BudgetConstructionLockSummary extends TransientBusinessObjectBase {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the lockUser attribute.
+     * 
+     * @return Returns the lockUser.
+     */
+    public UniversalUser getLockUser() {
+        if (lockUserId != null) {
+            try {
+                lockUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(lockUserId);
+            }
+            catch (UserNotFoundException e) {
+                throw new RuntimeException("Could not find lock user " + lockUserId);
+            }
+        }
+
+        return lockUser;
+    }
+
+    /**
+     * Sets the lockUser attribute value.
+     * 
+     * @param lockUser The lockUser to set.
+     */
+    public void setLockUser(UniversalUser lockUser) {
+        this.lockUser = lockUser;
+    }
+
+    /**
+     * Gets the chart attribute.
+     * 
+     * @return Returns the chart.
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute value.
+     * 
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * 
+     * @param account The account to set.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the subAccount attribute.
+     * 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * 
+     * @param subAccount The subAccount to set.
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the budgetConstructionPosition attribute.
+     * 
+     * @return Returns the budgetConstructionPosition.
+     */
+    public BudgetConstructionPosition getBudgetConstructionPosition() {
+        return budgetConstructionPosition;
+    }
+
+    /**
+     * Sets the budgetConstructionPosition attribute value.
+     * 
+     * @param budgetConstructionPosition The budgetConstructionPosition to set.
+     */
+    public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
+        this.budgetConstructionPosition = budgetConstructionPosition;
+    }
+
+    /**
+     * Gets the options attribute.
+     * 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * 
+     * @param options The options to set.
+     */
+    public void setOptions(Options options) {
+        this.options = options;
     }
 
     /**

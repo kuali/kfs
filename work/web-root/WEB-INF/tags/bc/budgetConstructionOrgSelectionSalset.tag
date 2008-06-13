@@ -26,7 +26,7 @@
                 <td>Show Position Pick List </td>
                 <td width="200">
                   <div align="center">
-                     <html:image property="methodToCall.performPositionPick" src="${ConfigProperties.externalizable.images.url}tinybutton-posnsalset.gif" title="Position Pick" alt="Position Pick" styleClass="tinybutton" />
+                     <html:image property="methodToCall.performPositionPick" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Position Pick" alt="Position Pick" styleClass="tinybutton" />
                   </div>
                 </td>
              </tr>
@@ -34,7 +34,7 @@
                 <td>Show Incumbent Pick List </td>
                 <td width="200">
                   <div align="center">
-                     <html:image property="methodToCall.performIncumbentPick" src="${ConfigProperties.externalizable.images.url}tinybutton-incmbntsalset.gif" title="Incumbent Pick" alt="Incumbent Pick" styleClass="tinybutton" />
+                     <html:image property="methodToCall.performIncumbentPick" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Incumbent Pick" alt="Incumbent Pick" styleClass="tinybutton" />
                   </div>
                 </td>
              </tr>            

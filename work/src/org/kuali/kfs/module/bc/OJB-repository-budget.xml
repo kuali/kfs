@@ -1869,4 +1869,36 @@
         <foreignkey field-ref="hrmsCompany" />
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionLockSummary" table="FOO">
+	<field-descriptor name="lockType" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="lockUserId" column="FOO" jdbc-type="DATE" primarykey="true"/>
+	<field-descriptor name="documentNumber" column="FOO" jdbc-type="VARCHAR" />
+	<field-descriptor name="universityFiscalYear" column="FOO" jdbc-type="INTEGER" primarykey="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="accountNumber" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="subAccountNumber" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="positionNumber" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="positionDescription" column="FOO" jdbc-type="VARCHAR"/>	
+    
+	<reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="budgetConstructionPosition" class-ref="org.kuali.module.budget.bo.BudgetConstructionPosition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>	
+</class-descriptor>
 </descriptor-repository>

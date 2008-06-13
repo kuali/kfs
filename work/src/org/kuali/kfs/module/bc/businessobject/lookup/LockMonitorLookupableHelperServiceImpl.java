@@ -22,13 +22,18 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -36,12 +41,14 @@ import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.service.LockService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Implements custom search routine to find the current budget locks and build up the result List. Set an unlock URL for each lock.
  */
 public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    KualiConfigurationService kualiConfigurationService;
+    private KualiConfigurationService kualiConfigurationService;
+    private UniversalUserService universalUserService;
 
     /**
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -53,14 +60,16 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
 
         List<BudgetConstructionLockSummary> results = new ArrayList<BudgetConstructionLockSummary>();
+     
+        // get universal identifier from network id
         String lockUserID = fieldValues.get(BCPropertyConstants.LOCK_USER_ID);
+        String lockUnivId = getUniversalIdFromNetworkID(lockUserID);
 
-        getAccountLocks(results, lockUserID);
-        getTransactionLocks(results, lockUserID);
-        getOrphanFundingLocks(results, lockUserID);
-        getPositionFundingLocks(results, lockUserID);
-        getOrphanPositionLocks(results, lockUserID);
-
+        getAccountLocks(results, lockUnivId);
+        getTransactionLocks(results, lockUnivId);
+        getOrphanFundingLocks(results, lockUnivId);
+        getPositionFundingLocks(results, lockUnivId);
+        getOrphanPositionLocks(results, lockUnivId);
 
         return new CollectionIncomplete(results, new Long(0));
     }
@@ -70,12 +79,12 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param results - result list to add lock summaries
      */
-    protected void getAccountLocks(List<BudgetConstructionLockSummary> results, String lockUserId) {
-        List<BudgetConstructionHeader> accountLocks = SpringContext.getBean(LockService.class).getAllAccountLocks(lockUserId);
+    protected void getAccountLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
+        List<BudgetConstructionHeader> accountLocks = SpringContext.getBean(LockService.class).getAllAccountLocks(lockUnivId);
         for (BudgetConstructionHeader header : accountLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.ACCOUNT_LOCK);
-            lockSummary.setLockUserId(header.getBudgetLockUserIdentifier());
+            lockSummary.setLockUserId(header.getBudgetLockUser().getPersonUserIdentifier());
 
             lockSummary.setDocumentNumber(header.getDocumentNumber());
             lockSummary.setUniversityFiscalYear(header.getUniversityFiscalYear());
@@ -92,12 +101,12 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param results - result list to add lock summaries
      */
-    protected void getTransactionLocks(List<BudgetConstructionLockSummary> results, String lockUserId) {
-        List<BudgetConstructionHeader> transLocks = SpringContext.getBean(LockService.class).getAllTransactionLocks(lockUserId);
+    protected void getTransactionLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
+        List<BudgetConstructionHeader> transLocks = SpringContext.getBean(LockService.class).getAllTransactionLocks(lockUnivId);
         for (BudgetConstructionHeader header : transLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.TRANSACTION_LOCK);
-            lockSummary.setLockUserId(header.getBudgetTransactionLockUserIdentifier());
+            lockSummary.setLockUserId(header.getBudgetTransactionLockUser().getPersonUserIdentifier());
 
             lockSummary.setDocumentNumber(header.getDocumentNumber());
             lockSummary.setUniversityFiscalYear(header.getUniversityFiscalYear());
@@ -115,12 +124,12 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param results - result list to add lock summaries
      */
-    protected void getOrphanFundingLocks(List<BudgetConstructionLockSummary> results, String lockUserId) {
-        List<BudgetConstructionFundingLock> fundingLocks = SpringContext.getBean(LockService.class).getOrphanedFundingLocks(lockUserId);
+    protected void getOrphanFundingLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
+        List<BudgetConstructionFundingLock> fundingLocks = SpringContext.getBean(LockService.class).getOrphanedFundingLocks(lockUnivId);
         for (BudgetConstructionFundingLock fundingLock : fundingLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.FUNDING_LOCK);
-            lockSummary.setLockUserId(fundingLock.getAppointmentFundingLockUserId());
+            lockSummary.setLockUserId(fundingLock.getAppointmentFundingLockUser().getPersonUserIdentifier());
 
             lockSummary.setUniversityFiscalYear(fundingLock.getUniversityFiscalYear());
             lockSummary.setChartOfAccountsCode(fundingLock.getChartOfAccountsCode());
@@ -136,12 +145,12 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param results - result list to add lock summaries
      */
-    protected void getPositionFundingLocks(List<BudgetConstructionLockSummary> results, String lockUserId) {
-        List<PendingBudgetConstructionAppointmentFunding> positionFundingLocks = SpringContext.getBean(LockService.class).getAllPositionFundingLocks(lockUserId);
+    protected void getPositionFundingLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
+        List<PendingBudgetConstructionAppointmentFunding> positionFundingLocks = SpringContext.getBean(LockService.class).getAllPositionFundingLocks(lockUnivId);
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : positionFundingLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.POSITION_FUNDING_LOCK);
-            lockSummary.setLockUserId(appointmentFunding.getBudgetConstructionPosition().getPositionLockUserIdentifier());
+            lockSummary.setLockUserId(appointmentFunding.getBudgetConstructionPosition().getPositionLockUser().getPersonUserIdentifier());
 
             lockSummary.setUniversityFiscalYear(appointmentFunding.getUniversityFiscalYear());
             lockSummary.setChartOfAccountsCode(appointmentFunding.getChartOfAccountsCode());
@@ -161,12 +170,12 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param results - result list to add lock summaries
      */
-    protected void getOrphanPositionLocks(List<BudgetConstructionLockSummary> results, String lockUserId) {
-        List<BudgetConstructionPosition> positionLocks = SpringContext.getBean(LockService.class).getOrphanedPositionLocks(lockUserId);
+    protected void getOrphanPositionLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
+        List<BudgetConstructionPosition> positionLocks = SpringContext.getBean(LockService.class).getOrphanedPositionLocks(lockUnivId);
         for (BudgetConstructionPosition position : positionLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.POSITION_LOCK);
-            lockSummary.setLockUserId(position.getPositionLockUserIdentifier());
+            lockSummary.setLockUserId(position.getPositionLockUser().getPersonUserIdentifier());
 
             lockSummary.setUniversityFiscalYear(position.getUniversityFiscalYear());
             lockSummary.setPositionNumber(position.getPositionNumber());
@@ -197,6 +206,28 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         return buttonSubmit;
     }
+    
+    /**
+     * Uses UniversalUserService to retrieve user object associated with the given network id (if not blank) and then
+     * returns universal id. Add error to GlobalVariables if the user was not found.
+     * 
+     * @param networkID - network id for the user to find
+     * @return universal id for the user or null if not found or the network id was blank
+     */
+    protected String getUniversalIdFromNetworkID(String networkID) {
+        String universalId = null;
+        if (StringUtils.isNotBlank(networkID)) {
+            try {
+                UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId(networkID);
+                universalId = user.getPersonUniversalIdentifier();
+            }
+            catch (UserNotFoundException e) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_LOCK_INVALID_USER, networkID);
+            }
+        }
+        
+        return universalId;
+    }
 
     /**
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.core.bo.BusinessObject, java.util.Map, java.lang.String)
@@ -217,6 +248,22 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
 
     /**
+     * Since this lookupable is called by the budget lookup action, the context will be KFS, not Rice. So the generated inquiries
+     * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
+     * around the issue.
+     * 
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     *      java.lang.String)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        String inquiryUrl = super.getInquiryUrl(bo, propertyName);
+        inquiryUrl = StringUtils.replace(inquiryUrl, KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION);
+
+        return inquiryUrl;
+    }
+
+    /**
      * Sets the kualiConfigurationService attribute value.
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
@@ -225,4 +272,13 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    /**
+     * Sets the universalUserService attribute value.
+     * 
+     * @param universalUserService The universalUserService to set.
+     */
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
+    }
+    
 }

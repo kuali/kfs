@@ -53,7 +53,7 @@
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
-		tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
+		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS}">
 		<div class="tab-container" align=center>
 		<div class="h2-container">
 		<h2>Ledger Balance Importing</h2>

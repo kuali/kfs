@@ -29,12 +29,14 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 public class ReportControlListBuildHelper {
     private BuildState currentState;
     private BuildState requestedState;
+    private boolean forceRebuild;
 
     /**
      * Constructs a ReportControlListBuildHelper.java.
      */
     public ReportControlListBuildHelper() {
         super();
+        forceRebuild = false;
     }
 
     /**
@@ -45,13 +47,13 @@ public class ReportControlListBuildHelper {
     public boolean isBuildNeeded() {
         boolean buildNeeded = false;
 
-        if (this.getCurrentState() == null && this.getRequestedState() != null) {
+        if (this.isForceRebuild()) {
             buildNeeded = true;
         }
-        else if (this.getRequestedState() == null) {
-            buildNeeded = false;
+        else if (this.getCurrentState() == null && this.getRequestedState() != null) {
+            buildNeeded = true;
         }
-        else if (!this.getCurrentState().equals(this.getRequestedState())) {
+        else if (this.getRequestedState() != null && !this.getCurrentState().equals(this.getRequestedState())) {
             buildNeeded = true;
         }
 
@@ -71,7 +73,7 @@ public class ReportControlListBuildHelper {
     }
 
     /**
-     * Called when the control list has been built that satisfieds the requested state. Will set current state to the requested
+     * Called when the control list has been built that satisfies the requested state. Will set current state to the requested
      * state then empty the requested state.
      */
     public void requestBuildComplete() {
@@ -85,6 +87,7 @@ public class ReportControlListBuildHelper {
             this.getCurrentState().setBuildMode(this.getRequestedState().getBuildMode());
 
             this.setRequestedState(null);
+            this.setForceRebuild(false);
         }
         else {
             throw new RuntimeException("Requested state does not exist. Control list build state has been lost.");
@@ -219,18 +222,18 @@ public class ReportControlListBuildHelper {
             for (BudgetConstructionPullup pullup : currentOrgs) {
                 currentOrgSet.add(pullup.getChartOfAccountsCode() + pullup.getOrganizationCode());
             }
-            
+
             for (BudgetConstructionPullup pullup : requestedOrgs) {
                 if (!currentOrgSet.contains(pullup.getChartOfAccountsCode() + pullup.getOrganizationCode())) {
                     return false;
                 }
                 currentOrgSet.remove(pullup.getChartOfAccountsCode() + pullup.getOrganizationCode());
             }
-            
+
             if (!currentOrgSet.isEmpty()) {
                 return false;
             }
-            
+
             return true;
         }
     }
@@ -269,6 +272,24 @@ public class ReportControlListBuildHelper {
      */
     public void setRequestedState(BuildState requestedState) {
         this.requestedState = requestedState;
+    }
+
+    /**
+     * Gets the forceRebuild attribute.
+     * 
+     * @return Returns the forceRebuild.
+     */
+    public boolean isForceRebuild() {
+        return forceRebuild;
+    }
+
+    /**
+     * Sets the forceRebuild attribute value.
+     * 
+     * @param forceRebuild The forceRebuild to set.
+     */
+    public void setForceRebuild(boolean forceRebuild) {
+        this.forceRebuild = forceRebuild;
     }
 
 }

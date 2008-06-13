@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -174,8 +175,18 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
 
             // build question text (contains error messages found)
             String message = "";
-            for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
-                message += kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+            if (GlobalVariables.getErrorMap().containsKey(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
+                for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
+                    message += kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    message += MessageFormat.format(message, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
+                }
+            }
+            
+            if (GlobalVariables.getErrorMap().containsKey(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
+                for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
+                    message += kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    message += MessageFormat.format(message, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
+                }
             }
             message += " " + kualiConfigurationService.getPropertyString(LaborKeyConstants.EFFORT_VALIDATION_OVERRIDE_MESSAGE);
 

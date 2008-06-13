@@ -22,6 +22,21 @@
         <ref bean="BudgetConstructionLockSummary-subAccountNumber" />
         <ref bean="BudgetConstructionLockSummary-positionNumber" />
         <ref bean="BudgetConstructionLockSummary-positionDescription" />
+        <ref bean="BudgetConstructionLockSummary-lockUser.personUserIdentifier" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="lockUser" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="lockUserId"
+                    p:targetName="personUserIdentifier" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
@@ -71,6 +86,11 @@
   <bean id="BudgetConstructionLockSummary-positionNumber" parent="BudgetConstructionPosition-positionNumber-parentBean" />  
   <bean id="BudgetConstructionLockSummary-positionDescription" parent="BudgetConstructionPosition-positionDescription-parentBean" />
   
+  <bean id="BudgetConstructionLockSummary-lockUser.personUserIdentifier" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="lockUser.personUserIdentifier" />
+    <property name="label" value="Lock User Id" />
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
   <bean id="BudgetConstructionLockSummary-lookupDefinition" parent="BudgetConstructionLockSummary-lookupDefinition-parentBean" />
@@ -94,7 +114,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="lockType" />
         <bean parent="FieldDefinition"
-              p:attributeName="lockUserId" />
+              p:attributeName="lockUser.personUserIdentifier" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"

@@ -47,6 +47,7 @@ import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.service.PermissionService;
+import org.kuali.module.budget.util.ReportControlListBuildHelper;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
 import org.kuali.module.chart.service.OrganizationService;
 
@@ -66,6 +67,14 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        
+        // set force rebuild on report build helper so each time we go out of report screen and come back the list will be rebuilt
+        ReportControlListBuildHelper buildHelper = (ReportControlListBuildHelper) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.CONTROL_BUILD_HELPER_SESSION_NAME);
+        if (buildHelper == null) {
+            buildHelper = new ReportControlListBuildHelper();
+        }
+        buildHelper.setForceRebuild(true);
+        GlobalVariables.getUserSession().addObject(BCConstants.Report.CONTROL_BUILD_HELPER_SESSION_NAME, buildHelper);
 
         // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
         // since BC sets locks up front, but need to verify this

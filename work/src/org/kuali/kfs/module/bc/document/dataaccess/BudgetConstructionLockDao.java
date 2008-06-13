@@ -30,42 +30,42 @@ public interface BudgetConstructionLockDao {
     /**
      * Retrieves all current account locks for the given user (or all locks if user is null/empty).
      * 
-     * @param lockUserId - user id that will be used in lock query
+     * @param lockUnivId - universal id that will be used in lock query
      * @return budget headers that are locked
      */
-    public List<BudgetConstructionHeader> getAllAccountLocks(String lockUserId);
+    public List<BudgetConstructionHeader> getAllAccountLocks(String lockUnivId);
 
     /**
      * Retrieves all current transaction locks for the given user (or all locks if user is null/empty).
      * 
-     * @param lockUserId - user id that will be used in lock query
+     * @param lockUnivId - universal id that will be used in lock query
      * @return budget headers that are locked
      */
-    public List<BudgetConstructionHeader> getAllTransactionLocks(String lockUserId);
+    public List<BudgetConstructionHeader> getAllTransactionLocks(String lockUnivId);
 
     /**
      * Retrieves all funding locks that do not have a corresponding position lock for the given user (or all locks if user is
      * null/empty).
      * 
-     * @param lockUserId - user id that will be used in lock query
+     * @param lockUnivId - universal id that will be used in lock query
      * @return funding locks records
      */
-    public List<BudgetConstructionFundingLock> getOrphanedFundingLocks(String lockUserId);
+    public List<BudgetConstructionFundingLock> getOrphanedFundingLocks(String lockUnivId);
 
     /**
      * Retrieves all current position/funding locks for the given user (or all locks if user is null/empty).
      * 
-     * @param lockUserId - user id that will be used in lock query
+     * @param lockUnivId - universal id that will be used in lock query
      * @return position/funding records that are locked.
      */
-    public List<PendingBudgetConstructionAppointmentFunding> getAllPositionFundingLocks(String lockUserId);
+    public List<PendingBudgetConstructionAppointmentFunding> getAllPositionFundingLocks(String lockUnivId);
 
     /**
      * Retrieves all current position locks without a funding lock for the given user (or all locks if user is null/empty).
      * 
-     * @param lockUserId user id that will be used in lock query
+     * @param lockUnivId universal id that will be used in lock query
      * @return positions that are locked.
      */
-    public List<BudgetConstructionPosition> getOrphanedPositionLocks(String lockUserId);
+    public List<BudgetConstructionPosition> getOrphanedPositionLocks(String lockUnivId);
 
 }

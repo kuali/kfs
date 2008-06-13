@@ -43,11 +43,11 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getAllAccountLocks(java.lang.String)
      */
-    public List<BudgetConstructionHeader> getAllAccountLocks(String lockUserId) {
+    public List<BudgetConstructionHeader> getAllAccountLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
 
-        if (StringUtils.isNotBlank(lockUserId)) {
-            criteria.addEqualTo(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER, lockUserId);
+        if (StringUtils.isNotBlank(lockUnivId)) {
+            criteria.addEqualTo(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER, lockUnivId);
         }
         else {
             criteria.addNotNull(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER);
@@ -65,11 +65,11 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getAllPositionFundingLocks(java.lang.String)
      */
-    public List<PendingBudgetConstructionAppointmentFunding> getAllPositionFundingLocks(String lockUserId) {
+    public List<PendingBudgetConstructionAppointmentFunding> getAllPositionFundingLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
 
-        if (StringUtils.isNotBlank(lockUserId)) {
-            criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_LOCK_USER_ID, lockUserId);
+        if (StringUtils.isNotBlank(lockUnivId)) {
+            criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_LOCK_USER_ID, lockUnivId);
         }
         else {
             criteria.addNotNull(BCPropertyConstants.APPOINTMENT_FUNDING_LOCK_USER_ID);
@@ -101,11 +101,11 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getOrphanedPositionLocks(java.lang.String)
      */
-    public List<BudgetConstructionPosition> getOrphanedPositionLocks(String lockUserId) {
+    public List<BudgetConstructionPosition> getOrphanedPositionLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
 
-        if (StringUtils.isNotBlank(lockUserId)) {
-            criteria.addEqualTo(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER, lockUserId);
+        if (StringUtils.isNotBlank(lockUnivId)) {
+            criteria.addEqualTo(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER, lockUnivId);
         }
         else {
             criteria.addNotNull(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER);
@@ -146,11 +146,11 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getAllTransactionLocks(java.lang.String)
      */
-    public List<BudgetConstructionHeader> getAllTransactionLocks(String lockUserId) {
+    public List<BudgetConstructionHeader> getAllTransactionLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
 
-        if (StringUtils.isNotBlank(lockUserId)) {
-            criteria.addEqualTo(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER, lockUserId);
+        if (StringUtils.isNotBlank(lockUnivId)) {
+            criteria.addEqualTo(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER, lockUnivId);
         }
         else {
             criteria.addNotNull(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER);
@@ -168,11 +168,11 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getOrphanedFundingLocks(java.lang.String)
      */
-    public List<BudgetConstructionFundingLock> getOrphanedFundingLocks(String lockUserId) {
+    public List<BudgetConstructionFundingLock> getOrphanedFundingLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
 
-        if (StringUtils.isNotBlank(lockUserId)) {
-            criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_LOCK_USER_ID, lockUserId);
+        if (StringUtils.isNotBlank(lockUnivId)) {
+            criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_LOCK_USER_ID, lockUnivId);
         }
         else {
             criteria.addNotNull(BCPropertyConstants.APPOINTMENT_FUNDING_LOCK_USER_ID);

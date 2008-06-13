@@ -560,23 +560,23 @@ public class LockServiceImpl implements LockService {
         String lockType = lockSummary.getLockType();
 
         if (BCConstants.LockTypes.ACCOUNT_LOCK.equals(lockType)) {
-            return this.isAccountLockedByUser(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUserId());
+            return this.isAccountLockedByUser(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
 
         if (BCConstants.LockTypes.TRANSACTION_LOCK.equals(lockType)) {
-            return this.isTransactionLockedByUser(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUserId());
+            return this.isTransactionLockedByUser(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
 
         if (BCConstants.LockTypes.FUNDING_LOCK.equals(lockType)) {
-            return this.isFundingLockedByUser(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUserId());
+            return this.isFundingLockedByUser(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
 
         if (BCConstants.LockTypes.POSITION_LOCK.equals(lockType)) {
-            return this.isPositionLockedByUser(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUserId());
+            return this.isPositionLockedByUser(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
         
         if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
-            return this.isPositionFundingLockedByUser(lockSummary.getPositionNumber(), lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUserId());
+            return this.isPositionFundingLockedByUser(lockSummary.getPositionNumber(), lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
 
         return false;
@@ -600,7 +600,7 @@ public class LockServiceImpl implements LockService {
         }
 
         if (BCConstants.LockTypes.FUNDING_LOCK.equals(lockType)) {
-            return this.unlockFunding(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUserId());
+            return this.unlockFunding(lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
         }
 
         if (BCConstants.LockTypes.POSITION_LOCK.equals(lockType)) {
@@ -610,7 +610,7 @@ public class LockServiceImpl implements LockService {
         if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
             BudgetConstructionPosition position = budgetConstructionDao.getByPrimaryId(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear());
             for (PendingBudgetConstructionAppointmentFunding appointmentFunding : position.getPendingBudgetConstructionAppointmentFunding()) {
-                this.unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), position.getPositionLockUserIdentifier());
+                this.unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), lockSummary.getLockUser().getPersonUniversalIdentifier());
             }
             
             return this.unlockPosition(position.getPositionNumber(), position.getUniversityFiscalYear());

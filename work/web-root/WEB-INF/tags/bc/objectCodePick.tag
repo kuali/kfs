@@ -83,7 +83,6 @@
 	</logic:iterate>
 
 	</table>
-	<table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 
 	<c:if test="${!KualiForm.budgetConstructionReportThresholdSettings.lockThreshold}">
 		<bc:thresholdSettings />

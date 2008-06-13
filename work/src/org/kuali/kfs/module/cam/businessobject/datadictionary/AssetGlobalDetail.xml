@@ -115,7 +115,7 @@
   <bean id="AssetGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="campusTagNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus Tag Number" />
+    <property name="label" value="Tag Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >

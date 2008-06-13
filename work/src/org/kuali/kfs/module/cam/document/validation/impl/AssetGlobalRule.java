@@ -35,6 +35,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -43,6 +44,7 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
+import org.kuali.module.cams.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.module.cams.service.AssetGlobalService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.AssetService;
@@ -56,6 +58,8 @@ import org.kuali.module.gl.bo.UniversityDate;
  * Rule implementation for Asset Global document.
  */
 public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
+    // TODO: SYSTEM PARAMETER
+  //  private static final String CAPITAL_OBJECT_SUB_TYPES = "CM;CF;CO;C1;C2;UC;UF;UO;AM;BD;BF;BI;ES;IF;LA;LE;LI;LF;LR;BR;BY;BX";
 
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
@@ -225,7 +229,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePostedDate(assetPaymentDetail);
         }
 
-
+        
         // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
@@ -233,7 +237,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-
+        
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
 
         success &= validateObjectSubTypeCode(assetGlobal, assetPaymentDetail);
@@ -377,12 +381,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal, AssetPaymentDetail newLine) {
         boolean valid = true;
         List<String> objectSubTypeList = new ArrayList<String>();
-
+        
         // build object sub type list
         if (ObjectUtils.isNotNull(newLine.getObjectCode())) {
             objectSubTypeList.add(newLine.getObjectCode().getFinancialObjectSubTypeCode());
         }
-
+        
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
             if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
@@ -428,9 +432,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         success &= validatePaymentCollection(assetGlobal);
-
+        
         // System shall not generate any GL entries for acquisition type code new
-        /*
+                /*
          * if ((success & super.processCustomSaveDocumentBusinessRules(document)) &&
          * !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) { // create poster
          * AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new
@@ -442,10 +446,28 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
          * assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries()); } else {
          * assetGlobalGlPoster.getPendingEntries().clear(); } }
          */
+       /*
+        if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+            // create poster
+            AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader());
+            // create postables
+            if (!(success = assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
+                putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
+                return success;
+            }
+            if (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
+                assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries());
+            }
+            else {
+                assetGlobalGlPoster.getPendingEntries().clear();
+            }
+        }
+        */
         return success;
     }
 
-
+    
+    
     private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
         boolean success = true;
         int index = 0;
@@ -456,7 +478,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().remove(errorPath);
             index++;
         }
-
         return success;
     }
 

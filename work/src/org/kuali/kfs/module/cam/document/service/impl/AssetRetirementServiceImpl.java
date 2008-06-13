@@ -90,7 +90,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         },
         OFFSET_AMOUNT {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
-                postable.setOffset(true);
+                postable.setCapitalizationOffset(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetRetirementGlobal.LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION);
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
                 postable.setFinancialObjectCode(SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE).trim());
@@ -339,7 +339,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         boolean success = true;
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
 
-        AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
+        AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         if (category.isObjectCodeExists(assetObjectCode)) {
             category.setParams(postable, assetPayment, assetObjectCode);
 

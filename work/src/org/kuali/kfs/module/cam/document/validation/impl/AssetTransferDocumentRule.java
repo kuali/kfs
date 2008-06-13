@@ -94,12 +94,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         for (AssetPayment assetPayment : assetPayments) {
             if (SpringContext.getBean(AssetPaymentService.class).isPaymentEligibleForGLPosting(assetPayment) && !assetPayment.getAccountChargeAmount().isZero()) {
                 // validate if asset object code
-                AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
+                AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
                 if (ObjectUtils.isNull(originAssetObjectCode)) {
                     putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
                     valid = false;
                 }
-                AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment);
+                AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
                 if (ObjectUtils.isNull(targetAssetObjectCode)) {
                     putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
                     valid = false;

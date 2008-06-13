@@ -26,5 +26,5 @@ public interface AssetObjectCodeService {
      * @param assetPayment Current Payment Record
      * @return AssetObjectCode
      */
-    AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, AssetPayment assetPayment);
+    AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, String financialObjectSubTypeCode);
 }

@@ -45,7 +45,9 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     private boolean expense;
     private boolean capitalization;
     private boolean accumulatedDepreciation;
-    private boolean offset;
+    private boolean capitalizationOffset;
+    private boolean payment;
+    private boolean paymentOffset;
 
 
     public Account getAccount() {
@@ -267,14 +269,50 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     }
 
 
-    public void setOffset(boolean b) {
-        this.offset = b;
+    public void setCapitalizationOffset(boolean b) {
+        this.capitalizationOffset = b;
 
     }
 
 
-    public boolean isOffset() {
-        return offset;
+    public boolean isCapitalizationOffset() {
+        return capitalizationOffset;
+    }
+
+
+    /**
+     * Gets the payment attribute. 
+     * @return Returns the payment.
+     */
+    public boolean isPayment() {
+        return payment;
+    }
+
+
+    /**
+     * Sets the payment attribute value.
+     * @param payment The payment to set.
+     */
+    public void setPayment(boolean payment) {
+        this.payment = payment;
+    }
+
+
+    /**
+     * Gets the paymentOffset attribute. 
+     * @return Returns the paymentOffset.
+     */
+    public boolean isPaymentOffset() {
+        return paymentOffset;
+    }
+
+
+    /**
+     * Sets the paymentOffset attribute value.
+     * @param paymentOffset The paymentOffset to set.
+     */
+    public void setPaymentOffset(boolean paymentOffset) {
+        this.paymentOffset = paymentOffset;
     }
 
 }

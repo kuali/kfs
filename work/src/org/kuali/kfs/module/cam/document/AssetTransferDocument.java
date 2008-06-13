@@ -447,14 +447,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         // For source account, debit line when capitalization amount is negative or accumulated depreciation is positive or offset
         // amount is positive
         if (srcDetail.isSource()) {
-            if ((srcDetail.isCapitalization() && srcDetail.getAmount().isNegative()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isPositive()) || (srcDetail.isOffset() && srcDetail.getAmount().isPositive())) {
+            if ((srcDetail.isCapitalization() && srcDetail.getAmount().isNegative()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isPositive()) || (srcDetail.isCapitalizationOffset() && srcDetail.getAmount().isPositive())) {
                 isDebit = true;
             }
         }
         // For target account, debit line when capitalization is positive or accumulated depreciation is negative or offset amount
         // is negative
         if (!srcDetail.isSource()) {
-            if ((srcDetail.isCapitalization() && srcDetail.getAmount().isPositive()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isNegative()) || (srcDetail.isOffset() && srcDetail.getAmount().isNegative())) {
+            if ((srcDetail.isCapitalization() && srcDetail.getAmount().isPositive()) || (srcDetail.isAccumulatedDepreciation() && srcDetail.getAmount().isNegative()) || (srcDetail.isCapitalizationOffset() && srcDetail.getAmount().isNegative())) {
                 isDebit = true;
             }
         }

@@ -33,7 +33,7 @@ public class AssetGlobalGeneralLedgerPendingEntrySource extends CamsGeneralLedge
         AssetGlpeSourceDetail assetPostable = (AssetGlpeSourceDetail)postable;
         KualiDecimal amount = assetPostable.getAmount();
         
-        if((assetPostable.isCapitalization() && amount.isNegative()) || (assetPostable.isAccumulatedDepreciation() && amount.isPositive()) || (assetPostable.isOffset() && amount.isPositive())) {
+        if((assetPostable.isCapitalization() && amount.isPositive()) || (assetPostable.isCapitalizationOffset() && amount.isNegative()) || (assetPostable.isPayment() && amount.isPositive()) || (assetPostable.isPaymentOffset() && amount.isNegative())) {
             debit = true;
         }
         return debit;

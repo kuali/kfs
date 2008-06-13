@@ -33,11 +33,11 @@ public class AssetObjectCodeServiceImpl implements AssetObjectCodeService {
      * @see org.kuali.module.cams.service.AssetObjectCodeService#findAssetObjectCode(java.lang.String,
      *      org.kuali.module.cams.bo.AssetPayment)
      */
-    public AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, AssetPayment assetPayment) {
+    public AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, String financialObjectSubTypeCode) {
         Map<String, Object> pkKeys = new HashMap<String, Object>();
         pkKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityDateService().getCurrentFiscalYear());
         pkKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        pkKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        pkKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, financialObjectSubTypeCode);
         return (AssetObjectCode) getBusinessObjectService().findByPrimaryKey(AssetObjectCode.class, pkKeys);
     }
 

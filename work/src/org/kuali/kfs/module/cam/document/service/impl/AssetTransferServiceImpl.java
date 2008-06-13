@@ -74,7 +74,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
                 postable.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
                 postable.setObjectCode(offsetDefinition.getFinancialObject());
-                postable.setOffset(true);
+                postable.setCapitalizationOffset(true);
             };
 
         };
@@ -119,7 +119,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setProjectCode(assetPayment.getProjectCode());
         postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
-        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment);
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);
         LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");

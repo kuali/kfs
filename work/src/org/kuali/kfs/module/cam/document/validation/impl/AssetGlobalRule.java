@@ -405,8 +405,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-        boolean success = super.processCustomSaveDocumentBusinessRules(document);
-        success = validateAccount(assetGlobal);
+        boolean success = true;
+        success &= super.processCustomSaveDocumentBusinessRules(document);
+        success &= validateAccount(assetGlobal);
 
         String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
         String statusCode = assetGlobal.getInventoryStatusCode();
@@ -426,7 +427,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             // check if status code and acquisition type code combination is valid
             success &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, CamsConstants.Parameters.INVALID_ASSET_ACQUISITION_TYPES_BY_ASSET_STATUS, statusCode, acquisitionTypeCode).evaluateAndAddError(AssetGlobal.class, MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
         }
-        success = validateAssetType(assetGlobal);
+        success &= validateAssetType(assetGlobal);
         if (isCapitalStatus(assetGlobal)) {
             success &= validateVendorAndManufacturer(assetGlobal);
         }
@@ -446,12 +447,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
          * assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries()); } else {
          * assetGlobalGlPoster.getPendingEntries().clear(); } }
          */
-       /*
+      
         if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
             // create poster
             AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader());
             // create postables
-            if (!(success = assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
+            if (!(success &= assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
                 putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);
                 return success;
             }
@@ -462,7 +463,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 assetGlobalGlPoster.getPendingEntries().clear();
             }
         }
-        */
+      
         return success;
     }
 

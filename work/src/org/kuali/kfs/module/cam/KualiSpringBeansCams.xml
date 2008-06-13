@@ -280,6 +280,7 @@
 	
 	<bean id="assetGlobalService" class="org.kuali.module.cams.service.impl.AssetGlobalServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />
+    	<property name="assetService" ref="assetService"/>
     	<property name="assetObjectCodeService" ref="assetObjectCodeService"></property>
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />

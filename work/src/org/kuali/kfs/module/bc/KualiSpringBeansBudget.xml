@@ -350,12 +350,12 @@
 	<property name="budgetConstructionLevelSummaryReportDao">
 		<ref bean="budgetConstructionLevelSummaryReportDao" />
 	</property>
-	<property name="budgetConstructionOrganizationReportsService">
-		<ref bean="budgetConstructionOrganizationReportsService" />
-	</property>
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
+    <property name="budgetConstructionReportsServiceHelper">
+    	<ref bean="budgetConstructionReportsServiceHelper" />
+	</property>
 	</bean>
 	
 	<bean id="budgetConstructionObjectSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionObjectSummaryReportServiceImpl">
@@ -392,15 +392,12 @@
 	<property name="budgetConstructionAccountFundingDetailReportDao">
 		<ref bean="budgetConstructionAccountFundingDetailReportDao" />
 	</property>
-	<property name="budgetConstructionOrganizationReportsService">
-		<ref bean="budgetConstructionOrganizationReportsService" />
+	<property name="budgetConstructionReportsServiceHelper">
+		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
-    <property name="businessObjectService">
-		<ref bean="businessObjectService" />
-	</property>
 	</bean>
     
     <bean id="budgetConstructionPositionFundingDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionPositionFundingDetailReportServiceImpl">
@@ -412,7 +409,7 @@
     </property>
     <property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
-		</property>
+	</property>
 	</bean>
     
     <bean id="budgetConstructionMonthSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthSummaryReportServiceImpl">

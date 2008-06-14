@@ -44,6 +44,8 @@ public class BCKeyConstants {
     public static final String ERROR_SALARY_SUM_REQUEST_NOT_EQUAL = "error.budget.salarySumRequestNotEqual";
     
     public static final String ERROR_REPORT_GETTING_CHART_DESCRIPTION = "error.budget.report.gettingChartDescription";
+    public static final String ERROR_REPORT_GETTING_OBJECT_CODE = "error.budget.report.gettingObjectCode";
+    public static final String ERROR_REPORT_GETTING_OBJECT_NAME = "error.budget.report.gettingObjectName";
     public static final String ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION = "error.budget.report.gettingAccountDescription";
     public static final String ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION = "error.budget.report.gettingSubAccountDescription";
     public static final String ERROR_REPORT_GETTING_ORGANIZATION_NAME = "error.budget.report.gettingOrganizationName";

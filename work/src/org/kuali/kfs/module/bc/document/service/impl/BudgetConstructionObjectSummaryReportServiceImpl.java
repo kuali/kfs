@@ -31,9 +31,11 @@ import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionObjectSummary;
 import org.kuali.module.budget.bo.BudgetConstructionOrgObjectSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgObjectSummaryReportTotal;
+import org.kuali.module.budget.bo.BudgetConstructionPositionFunding;
 import org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.module.budget.util.BudgetConstructionReportHelper;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,10 +47,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetConstructionObjectSummaryReportService {
 
     private BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
-    private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     private KualiConfigurationService kualiConfigurationService;
-    private BusinessObjectService businessObjectService;
-
+    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)
      */
@@ -80,28 +81,20 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         // build order list
         List<String> orderList = buildOrderByList();
-        Collection<BudgetConstructionObjectSummary> objectSummaryList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionObjectSummary.class, searchCriteria, orderList);
-
+        Collection<BudgetConstructionObjectSummary> objectSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectSummary.class, personUserIdentifier, buildOrderByList());
 
         // 
-        List listForCalculateLevel = deleteDuplicated((List) objectSummaryList, 1);
-        List listForCalculateCons = deleteDuplicated((List) objectSummaryList, 2);
-        List listForCalculateGexpAndType = deleteDuplicated((List) objectSummaryList, 3);
-        List listForCalculateTotal = deleteDuplicated((List) objectSummaryList, 4);
+        List listForCalculateLevel = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForLevel());
+        List listForCalculateCons = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForCons());
+        List listForCalculateGexpAndType = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForGexpAndType());
+        List listForCalculateTotal = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForTotal());
 
 
         // Calculate Total Section
-        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList;
-        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList;
-        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList;
-        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList;
-
-
-        objectSummaryTotalLevelList = calculateLevelTotal((List) objectSummaryList, listForCalculateLevel);
-        objectSummaryTotalConsList = calculateConsTotal((List) objectSummaryList, listForCalculateCons);
-        objectSummaryTotalGexpAndTypeList = calculateGexpAndTypeTotal((List) objectSummaryList, listForCalculateGexpAndType);
-        objectSummaryTotalList = calculateTotal((List) objectSummaryList, listForCalculateTotal);
-
+        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList = calculateLevelTotal((List) objectSummaryList, listForCalculateLevel);
+        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList = calculateConsTotal((List) objectSummaryList, listForCalculateCons);
+        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList = calculateGexpAndTypeTotal((List) objectSummaryList, listForCalculateGexpAndType);
+        List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList = calculateTotal((List) objectSummaryList, listForCalculateTotal);
 
         for (BudgetConstructionObjectSummary objectSummaryEntry : objectSummaryList) {
             orgObjectSummaryReportEntry = new BudgetConstructionOrgObjectSummaryReport();
@@ -202,24 +195,16 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         // To get ObjectName: There is no universityFiscalyear field in BudgetConstructionObjectSummary,
         // so we can get ObjectName by getting ObjectCode with Primary key.
-        Map<String, Object> searchCriteria = new HashMap<String, Object>();
-
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectSummary.getChartOfAccountsCode());
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectSummary.getFinancialObjectCode());
-
-        ObjectCode objectCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
+        ObjectCode objectCode = budgetConstructionReportsServiceHelper.getObjectCode(universityFiscalYear, objectSummary.getChartOfAccountsCode(), objectSummary.getFinancialObjectCode());
         String objectName = null;
 
         if (objectCode == null) {
-            // TODO Should changed the error message.
-            orgObjectSummaryReportEntry.setFinancialObjectName("error to get blah blah");
+            orgObjectSummaryReportEntry.setFinancialObjectName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_CODE));
         }
         else {
             objectName = objectCode.getFinancialObjectCodeName();
             if (objectName == null) {
-                // TODO Should changed the error message.
-                orgObjectSummaryReportEntry.setFinancialObjectName("error to get blah blah");
+                orgObjectSummaryReportEntry.setFinancialObjectName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_NAME));
             }
             else {
                 orgObjectSummaryReportEntry.setFinancialObjectName(objectName);
@@ -255,7 +240,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     private void buildReportsTotal(BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList) {
 
         for (BudgetConstructionOrgObjectSummaryReportTotal levelTotal : objectSummaryTotalLevelList) {
-            if (isSameObjectSummaryEntryForLevel(objectSummary, levelTotal.getBcos())) {
+            if (BudgetConstructionReportHelper.isSameEntry(objectSummary, levelTotal.getBcos(), fieldsForLevel())) {
                 orgObjectSummaryReportEntry.setTotalLevelDescription(objectSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
 
                 orgObjectSummaryReportEntry.setTotalLevelPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelPositionCsfLeaveFteQuantity(), 2, true));
@@ -272,7 +257,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         }
 
         for (BudgetConstructionOrgObjectSummaryReportTotal consTotal : objectSummaryTotalConsList) {
-            if (isSameObjectSummaryEntryForCons(objectSummary, consTotal.getBcos())) {
+            if (BudgetConstructionReportHelper.isSameEntry(objectSummary, consTotal.getBcos(), fieldsForCons())) {
                 orgObjectSummaryReportEntry.setTotalConsolidationDescription(objectSummary.getFinancialConsolidationObject().getFinConsolidationObjectName());
 
                 orgObjectSummaryReportEntry.setTotalConsolidationPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity(), 2, true));
@@ -289,7 +274,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         }
 
         for (BudgetConstructionOrgObjectSummaryReportTotal gexpAndTypeTotal : objectSummaryTotalGexpAndTypeList) {
-            if (isSameObjectSummaryEntryForGexpAndType(objectSummary, gexpAndTypeTotal.getBcos())) {
+            if (BudgetConstructionReportHelper.isSameEntry(objectSummary, gexpAndTypeTotal.getBcos(), fieldsForGexpAndType())) {
                 // TODO BudgetConstructionReportHelper.setDecimalDigit
                 orgObjectSummaryReportEntry.setGrossFinancialBeginningBalanceLineAmount(gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setGrossAccountLineAnnualBalanceAmount(gexpAndTypeTotal.getGrossAccountLineAnnualBalanceAmount());
@@ -316,7 +301,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         }
 
         for (BudgetConstructionOrgObjectSummaryReportTotal total : objectSummaryTotalList) {
-            if (isSameObjectSummaryEntryForTotal(objectSummary, total.getBcos())) {
+            if (BudgetConstructionReportHelper.isSameEntry(objectSummary, total.getBcos(), fieldsForTotal())) {
                 orgObjectSummaryReportEntry.setTotalSubFundGroupDesc(objectSummary.getSubFundGroup().getSubFundGroupDescription());
                 orgObjectSummaryReportEntry.setRevenueFinancialBeginningBalanceLineAmount(total.getRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setRevenueAccountLineAnnualBalanceAmount(total.getRevenueAccountLineAnnualBalanceAmount());
@@ -355,7 +340,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionObjectSummary simpleBcosEntry : simpleList) {
             BudgetConstructionOrgObjectSummaryReportTotal bcObjectTotal = new BudgetConstructionOrgObjectSummaryReportTotal();
             for (BudgetConstructionObjectSummary bcosListEntry : bcosList) {
-                if (isSameObjectSummaryEntryForLevel(simpleBcosEntry, bcosListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForLevel())) {
                     totalLevelFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     totalLevelAccountLineAnnualBalanceAmount += new Integer(bcosListEntry.getAccountLineAnnualBalanceAmount().intValue());
                     totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity.add(bcosListEntry.getPositionCsfLeaveFteQuantity());
@@ -397,7 +382,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionObjectSummary simpleBcosEntry : simpleList) {
             BudgetConstructionOrgObjectSummaryReportTotal bcObjectTotal = new BudgetConstructionOrgObjectSummaryReportTotal();
             for (BudgetConstructionObjectSummary bcosListEntry : bcosList) {
-                if (isSameObjectSummaryEntryForCons(simpleBcosEntry, bcosListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForCons())) {
                     totalConsolidationFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     totalConsolidationAccountLineAnnualBalanceAmount += new Integer(bcosListEntry.getAccountLineAnnualBalanceAmount().intValue());
                     totalConsolidationPositionCsfLeaveFteQuantity = totalConsolidationPositionCsfLeaveFteQuantity.add(bcosListEntry.getPositionCsfLeaveFteQuantity());
@@ -441,7 +426,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionObjectSummary simpleBcosEntry : simpleList) {
             BudgetConstructionOrgObjectSummaryReportTotal bcObjectTotal = new BudgetConstructionOrgObjectSummaryReportTotal();
             for (BudgetConstructionObjectSummary bcosListEntry : bcosList) {
-                if (isSameObjectSummaryEntryForGexpAndType(simpleBcosEntry, bcosListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForGexpAndType())) {
 
                     typeFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     typeAccountLineAnnualBalanceAmount += new Integer(bcosListEntry.getAccountLineAnnualBalanceAmount().intValue());
@@ -500,7 +485,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionObjectSummary simpleBcosEntry : simpleList) {
             BudgetConstructionOrgObjectSummaryReportTotal bcObjectTotal = new BudgetConstructionOrgObjectSummaryReportTotal();
             for (BudgetConstructionObjectSummary bcosListEntry : bcosList) {
-                if (isSameObjectSummaryEntryForTotal(simpleBcosEntry, bcosListEntry)) {
+                if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForTotal())) {
 
                     if (bcosListEntry.getIncomeExpenseCode().equals("A")) {
                         revenueFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
@@ -541,99 +526,43 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    private boolean isSameObjectSummaryEntryForLevel(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
-        if (isSameObjectSummaryEntryForCons(firstBcos, secondBcos) && firstBcos.getFinancialLevelSortCode().equals(secondBcos.getFinancialLevelSortCode())) {
-            return true;
-        }
-        else
-            return false;
+    private List<String> fieldsForLevel() {
+        List<String> fieldList = new ArrayList();
+        fieldList.addAll(fieldsForCons());
+        fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
+        return fieldList;
     }
 
-
-    private boolean isSameObjectSummaryEntryForCons(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
-        if (isSameObjectSummaryEntryForGexpAndType(firstBcos, secondBcos) && firstBcos.getFinancialConsolidationSortCode().equals(secondBcos.getFinancialConsolidationSortCode())) {
-            return true;
-        }
-        else
-            return false;
+    private List<String> fieldsForCons() {
+        List<String> fieldList = new ArrayList();
+        fieldList.addAll(fieldsForGexpAndType());
+        fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
+        return fieldList;
     }
 
-
-    private boolean isSameObjectSummaryEntryForGexpAndType(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
-        if (isSameObjectSummaryEntryForTotal(firstBcos, secondBcos) && firstBcos.getIncomeExpenseCode().equals(secondBcos.getIncomeExpenseCode())) {
-            return true;
-        }
-
-        else
-            return false;
+    
+    private List<String> fieldsForGexpAndType() {
+        List<String> fieldList = new ArrayList();
+        fieldList.addAll(fieldsForTotal());
+        fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
+        return fieldList;
     }
-
-    private boolean isSameObjectSummaryEntryForTotal(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
-        if (firstBcos.getOrganizationChartOfAccountsCode().equals(secondBcos.getOrganizationChartOfAccountsCode()) && firstBcos.getOrganizationCode().equals(secondBcos.getOrganizationCode()) && firstBcos.getSubFundGroupCode().equals(secondBcos.getSubFundGroupCode()) && firstBcos.getChartOfAccountsCode().equals(secondBcos.getChartOfAccountsCode())) {
-            return true;
-        }
-
-        else
-            return false;
+    
+    
+    private List<String> fieldsForTotal() {
+        List<String> fieldList = new ArrayList();
+        fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+        fieldList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
+        fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        /*fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
+        fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
+        fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
+        fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        */
+        return fieldList;
     }
-
-    /**
-     * Deletes duplicated entry from list
-     * 
-     * @param List list
-     * @return a list that all duplicated entries were deleted
-     */
-    private List deleteDuplicated(List list, int mode) {
-
-        // mode 1 is for getting a list of level
-        // mode 2 is for getting a list of cons
-        // mode 3 is for getting a list of gexp and type
-        // mode 4 is for getting a list of total
-
-        int count = 0;
-        BudgetConstructionObjectSummary objectSummaryEntry = null;
-        BudgetConstructionObjectSummary objectSummaryEntryAux = null;
-        List returnList = new ArrayList();
-        if ((list != null) && (list.size() > 0)) {
-            objectSummaryEntry = (BudgetConstructionObjectSummary) list.get(count);
-            objectSummaryEntryAux = (BudgetConstructionObjectSummary) list.get(count);
-            returnList.add(objectSummaryEntry);
-            count++;
-            while (count < list.size()) {
-                objectSummaryEntry = (BudgetConstructionObjectSummary) list.get(count);
-                switch (mode) {
-                    case 1: {
-                        if (!isSameObjectSummaryEntryForCons(objectSummaryEntry, objectSummaryEntryAux)) {
-                            returnList.add(objectSummaryEntry);
-                            objectSummaryEntryAux = objectSummaryEntry;
-                        }
-                    }
-                    case 2: {
-                        if (!isSameObjectSummaryEntryForLevel(objectSummaryEntry, objectSummaryEntryAux)) {
-                            returnList.add(objectSummaryEntry);
-                            objectSummaryEntryAux = objectSummaryEntry;
-                        }
-                    }
-                    case 3: {
-                        if (!isSameObjectSummaryEntryForGexpAndType(objectSummaryEntry, objectSummaryEntryAux)) {
-                            returnList.add(objectSummaryEntry);
-                            objectSummaryEntryAux = objectSummaryEntry;
-                        }
-                    }
-                    case 4: {
-                        if (!isSameObjectSummaryEntryForTotal(objectSummaryEntry, objectSummaryEntryAux)) {
-                            returnList.add(objectSummaryEntry);
-                            objectSummaryEntryAux = objectSummaryEntry;
-                        }
-                    }
-                }
-                count++;
-            }
-        }
-        return returnList;
-    }
-
-
+    
     /**
      * builds orderByList for sort order.
      * 
@@ -653,15 +582,11 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         return returnList;
     }
 
-    public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
-        this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
-    }
-
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
+        this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }

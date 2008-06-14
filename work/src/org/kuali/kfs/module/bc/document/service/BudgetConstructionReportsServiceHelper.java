@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
 import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
+import org.kuali.module.budget.bo.BudgetConstructionObjectDump;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -44,4 +45,5 @@ public interface BudgetConstructionReportsServiceHelper {
     
     public BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry);
         
+    public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump);
 }

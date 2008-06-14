@@ -30,10 +30,13 @@ import org.kuali.core.util.ObjectUtils;
  */
 public class BudgetConstructionReportHelper {
 
-    public static BigDecimal setDecimalDigit(BigDecimal number, int digit) {
+    public static BigDecimal setDecimalDigit(BigDecimal number, int digit, boolean setNullIndicator) {
         BigDecimal returnNum = BigDecimal.ZERO;
         if (number != null) {
-            number.setScale(digit, BigDecimal.ROUND_HALF_EVEN);
+            if (number.equals(BigDecimal.ZERO) && setNullIndicator){
+                return null;
+            }
+            returnNum = number.setScale(digit, BigDecimal.ROUND_HALF_UP);
         }
         return returnNum;
     }

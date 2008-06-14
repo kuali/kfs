@@ -56,11 +56,11 @@ public class BudgetConstructionOrgLevelSummaryReport {
     private String financialObjectLevelName;
     
     //when the values are zero, below fields should be blank, so make them as string.
-    private String positionCsfLeaveFteQuantity;
-    private String csfFullTimeEmploymentQuantity;
+    private BigDecimal positionCsfLeaveFteQuantity;
+    private BigDecimal csfFullTimeEmploymentQuantity;
     private Integer financialBeginningBalanceLineAmount = new Integer(0);
-    private String appointmentRequestedCsfFteQuantity;
-    private String appointmentRequestedFteQuantity;
+    private BigDecimal appointmentRequestedCsfFteQuantity;
+    private BigDecimal appointmentRequestedFteQuantity;
     private Integer accountLineAnnualBalanceAmount = new Integer(0);
     private Integer amountChange = new Integer(0);
     private BigDecimal percentChange = BigDecimal.ZERO;
@@ -69,11 +69,11 @@ public class BudgetConstructionOrgLevelSummaryReport {
     
     private String totalConsolidationDescription;
     
-    private String totalConsolidationPositionCsfLeaveFteQuantity;
-    private String totalConsolidationPositionCsfFullTimeEmploymentQuantity;
+    private BigDecimal totalConsolidationPositionCsfLeaveFteQuantity;
+    private BigDecimal totalConsolidationPositionCsfFullTimeEmploymentQuantity;
     private Integer totalConsolidationFinancialBeginningBalanceLineAmount;
-    private String totalConsolidationAppointmentRequestedCsfFteQuantity;
-    private String totalConsolidationAppointmentRequestedFteQuantity;
+    private BigDecimal totalConsolidationAppointmentRequestedCsfFteQuantity;
+    private BigDecimal totalConsolidationAppointmentRequestedFteQuantity;
     private Integer totalConsolidationAccountLineAnnualBalanceAmount;
     private Integer totalConsolidationAmountChange;
     private BigDecimal totalConsolidationPercentChange;
@@ -85,11 +85,11 @@ public class BudgetConstructionOrgLevelSummaryReport {
     private BigDecimal grossPercentChange;
     
     private String typeDesc;
-    private String typePositionCsfLeaveFteQuantity;
-    private String typePositionCsfFullTimeEmploymentQuantity;
+    private BigDecimal typePositionCsfLeaveFteQuantity;
+    private BigDecimal typePositionCsfFullTimeEmploymentQuantity;
     private Integer typeFinancialBeginningBalanceLineAmount;
-    private String typeAppointmentRequestedCsfFteQuantity;
-    private String typeAppointmentRequestedFteQuantity;
+    private BigDecimal typeAppointmentRequestedCsfFteQuantity;
+    private BigDecimal typeAppointmentRequestedFteQuantity;
     private Integer typeAccountLineAnnualBalanceAmount;
     private Integer typeAmountChange;
     private BigDecimal typePercentChange;
@@ -516,20 +516,28 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
     }
 
-    public String getAppointmentRequestedCsfFteQuantity() {
+    public BigDecimal getAppointmentRequestedCsfFteQuantity() {
         return appointmentRequestedCsfFteQuantity;
     }
 
-    public void setAppointmentRequestedCsfFteQuantity(String appointmentRequestedCsfFteQuantity) {
+    public void setAppointmentRequestedCsfFteQuantity(BigDecimal appointmentRequestedCsfFteQuantity) {
         this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
     }
 
-    public String getAppointmentRequestedFteQuantity() {
+    public BigDecimal getAppointmentRequestedFteQuantity() {
         return appointmentRequestedFteQuantity;
     }
 
-    public void setAppointmentRequestedFteQuantity(String appointmentRequestedFteQuantity) {
+    public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
         this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
+    }
+
+    public BigDecimal getCsfFullTimeEmploymentQuantity() {
+        return csfFullTimeEmploymentQuantity;
+    }
+
+    public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
+        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
     }
 
     public Integer getDifferenceAccountLineAnnualBalanceAmount() {
@@ -604,6 +612,22 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 
+    public String getFinancialConsolidationSortCode() {
+        return financialConsolidationSortCode;
+    }
+
+    public void setFinancialConsolidationSortCode(String financialConsolidationSortCode) {
+        this.financialConsolidationSortCode = financialConsolidationSortCode;
+    }
+
+    public String getFinancialObjectLevelCode() {
+        return financialObjectLevelCode;
+    }
+
+    public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
+        this.financialObjectLevelCode = financialObjectLevelCode;
+    }
+
     public String getFinancialObjectLevelName() {
         return financialObjectLevelName;
     }
@@ -620,12 +644,36 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.grossAccountLineAnnualBalanceAmount = grossAccountLineAnnualBalanceAmount;
     }
 
+    public Integer getGrossAmountChange() {
+        return grossAmountChange;
+    }
+
+    public void setGrossAmountChange(Integer grossAmountChange) {
+        this.grossAmountChange = grossAmountChange;
+    }
+
+    public String getGrossDescription() {
+        return grossDescription;
+    }
+
+    public void setGrossDescription(String grossDescription) {
+        this.grossDescription = grossDescription;
+    }
+
     public Integer getGrossFinancialBeginningBalanceLineAmount() {
         return grossFinancialBeginningBalanceLineAmount;
     }
 
     public void setGrossFinancialBeginningBalanceLineAmount(Integer grossFinancialBeginningBalanceLineAmount) {
         this.grossFinancialBeginningBalanceLineAmount = grossFinancialBeginningBalanceLineAmount;
+    }
+
+    public BigDecimal getGrossPercentChange() {
+        return grossPercentChange;
+    }
+
+    public void setGrossPercentChange(BigDecimal grossPercentChange) {
+        this.grossPercentChange = grossPercentChange;
     }
 
     public String getHeader2a() {
@@ -652,19 +700,19 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.header40 = header40;
     }
 
-    public String getCsfFullTimeEmploymentQuantity() {
-        return csfFullTimeEmploymentQuantity;
+    public String getIncomeExpenseCode() {
+        return incomeExpenseCode;
     }
 
-    public void setCsfFullTimeEmploymentQuantity(String csfFullTimeEmploymentQuantity) {
-        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
+    public void setIncomeExpenseCode(String incomeExpenseCode) {
+        this.incomeExpenseCode = incomeExpenseCode;
     }
 
-    public String getPositionCsfLeaveFteQuantity() {
+    public BigDecimal getPositionCsfLeaveFteQuantity() {
         return positionCsfLeaveFteQuantity;
     }
 
-    public void setPositionCsfLeaveFteQuantity(String positionCsfLeaveFteQuantity) {
+    public void setPositionCsfLeaveFteQuantity(BigDecimal positionCsfLeaveFteQuantity) {
         this.positionCsfLeaveFteQuantity = positionCsfLeaveFteQuantity;
     }
 
@@ -716,19 +764,19 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.totalConsolidationAmountChange = totalConsolidationAmountChange;
     }
 
-    public String getTotalConsolidationAppointmentRequestedCsfFteQuantity() {
+    public BigDecimal getTotalConsolidationAppointmentRequestedCsfFteQuantity() {
         return totalConsolidationAppointmentRequestedCsfFteQuantity;
     }
 
-    public void setTotalConsolidationAppointmentRequestedCsfFteQuantity(String totalConsolidationAppointmentRequestedCsfFteQuantity) {
+    public void setTotalConsolidationAppointmentRequestedCsfFteQuantity(BigDecimal totalConsolidationAppointmentRequestedCsfFteQuantity) {
         this.totalConsolidationAppointmentRequestedCsfFteQuantity = totalConsolidationAppointmentRequestedCsfFteQuantity;
     }
 
-    public String getTotalConsolidationAppointmentRequestedFteQuantity() {
+    public BigDecimal getTotalConsolidationAppointmentRequestedFteQuantity() {
         return totalConsolidationAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalConsolidationAppointmentRequestedFteQuantity(String totalConsolidationAppointmentRequestedFteQuantity) {
+    public void setTotalConsolidationAppointmentRequestedFteQuantity(BigDecimal totalConsolidationAppointmentRequestedFteQuantity) {
         this.totalConsolidationAppointmentRequestedFteQuantity = totalConsolidationAppointmentRequestedFteQuantity;
     }
 
@@ -756,20 +804,28 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.totalConsolidationPercentChange = totalConsolidationPercentChange;
     }
 
-    public String getTotalConsolidationPositionCsfFullTimeEmploymentQuantity() {
+    public BigDecimal getTotalConsolidationPositionCsfFullTimeEmploymentQuantity() {
         return totalConsolidationPositionCsfFullTimeEmploymentQuantity;
     }
 
-    public void setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(String totalConsolidationPositionCsfFullTimeEmploymentQuantity) {
+    public void setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(BigDecimal totalConsolidationPositionCsfFullTimeEmploymentQuantity) {
         this.totalConsolidationPositionCsfFullTimeEmploymentQuantity = totalConsolidationPositionCsfFullTimeEmploymentQuantity;
     }
 
-    public String getTotalConsolidationPositionCsfLeaveFteQuantity() {
+    public BigDecimal getTotalConsolidationPositionCsfLeaveFteQuantity() {
         return totalConsolidationPositionCsfLeaveFteQuantity;
     }
 
-    public void setTotalConsolidationPositionCsfLeaveFteQuantity(String totalConsolidationPositionCsfLeaveFteQuantity) {
+    public void setTotalConsolidationPositionCsfLeaveFteQuantity(BigDecimal totalConsolidationPositionCsfLeaveFteQuantity) {
         this.totalConsolidationPositionCsfLeaveFteQuantity = totalConsolidationPositionCsfLeaveFteQuantity;
+    }
+
+    public String getTotalSubFundGroupDesc() {
+        return totalSubFundGroupDesc;
+    }
+
+    public void setTotalSubFundGroupDesc(String totalSubFundGroupDesc) {
+        this.totalSubFundGroupDesc = totalSubFundGroupDesc;
     }
 
     public Integer getTypeAccountLineAnnualBalanceAmount() {
@@ -788,19 +844,19 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.typeAmountChange = typeAmountChange;
     }
 
-    public String getTypeAppointmentRequestedCsfFteQuantity() {
+    public BigDecimal getTypeAppointmentRequestedCsfFteQuantity() {
         return typeAppointmentRequestedCsfFteQuantity;
     }
 
-    public void setTypeAppointmentRequestedCsfFteQuantity(String typeAppointmentRequestedCsfFteQuantity) {
+    public void setTypeAppointmentRequestedCsfFteQuantity(BigDecimal typeAppointmentRequestedCsfFteQuantity) {
         this.typeAppointmentRequestedCsfFteQuantity = typeAppointmentRequestedCsfFteQuantity;
     }
 
-    public String getTypeAppointmentRequestedFteQuantity() {
+    public BigDecimal getTypeAppointmentRequestedFteQuantity() {
         return typeAppointmentRequestedFteQuantity;
     }
 
-    public void setTypeAppointmentRequestedFteQuantity(String typeAppointmentRequestedFteQuantity) {
+    public void setTypeAppointmentRequestedFteQuantity(BigDecimal typeAppointmentRequestedFteQuantity) {
         this.typeAppointmentRequestedFteQuantity = typeAppointmentRequestedFteQuantity;
     }
 
@@ -828,76 +884,21 @@ public class BudgetConstructionOrgLevelSummaryReport {
         this.typePercentChange = typePercentChange;
     }
 
-    public String getTypePositionCsfFullTimeEmploymentQuantity() {
+    public BigDecimal getTypePositionCsfFullTimeEmploymentQuantity() {
         return typePositionCsfFullTimeEmploymentQuantity;
     }
 
-    public void setTypePositionCsfFullTimeEmploymentQuantity(String typePositionCsfFullTimeEmploymentQuantity) {
+    public void setTypePositionCsfFullTimeEmploymentQuantity(BigDecimal typePositionCsfFullTimeEmploymentQuantity) {
         this.typePositionCsfFullTimeEmploymentQuantity = typePositionCsfFullTimeEmploymentQuantity;
     }
 
-    public String getTypePositionCsfLeaveFteQuantity() {
+    public BigDecimal getTypePositionCsfLeaveFteQuantity() {
         return typePositionCsfLeaveFteQuantity;
     }
 
-    public void setTypePositionCsfLeaveFteQuantity(String typePositionCsfLeaveFteQuantity) {
+    public void setTypePositionCsfLeaveFteQuantity(BigDecimal typePositionCsfLeaveFteQuantity) {
         this.typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity;
     }
 
-    public String getTotalSubFundGroupDesc() {
-        return totalSubFundGroupDesc;
-    }
-
-    public void setTotalSubFundGroupDesc(String totalSubFundGroupDesc) {
-        this.totalSubFundGroupDesc = totalSubFundGroupDesc;
-    }
-
-    public String getGrossDescription() {
-        return grossDescription;
-    }
-
-    public void setGrossDescription(String grossDescription) {
-        this.grossDescription = grossDescription;
-    }
-
-    public Integer getGrossAmountChange() {
-        return grossAmountChange;
-    }
-
-    public void setGrossAmountChange(Integer grossAmountChange) {
-        this.grossAmountChange = grossAmountChange;
-    }
-
-    public BigDecimal getGrossPercentChange() {
-        return grossPercentChange;
-    }
-
-    public void setGrossPercentChange(BigDecimal grossPercentChange) {
-        this.grossPercentChange = grossPercentChange;
-    }
-
-    public String getFinancialObjectLevelCode() {
-        return financialObjectLevelCode;
-    }
-
-    public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
-        this.financialObjectLevelCode = financialObjectLevelCode;
-    }
-
-    public String getFinancialConsolidationSortCode() {
-        return financialConsolidationSortCode;
-    }
-
-    public void setFinancialConsolidationSortCode(String financialConsolidationSortCode) {
-        this.financialConsolidationSortCode = financialConsolidationSortCode;
-    }
-
-    public String getIncomeExpenseCode() {
-        return incomeExpenseCode;
-    }
-
-    public void setIncomeExpenseCode(String incomeExpenseCode) {
-        this.incomeExpenseCode = incomeExpenseCode;
-    }
-
+   
 }

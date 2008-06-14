@@ -49,7 +49,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String financialObjectCode;
     private String financialObjectCodeName;
     
-    
     private String deleteBox;
     private String personName;
     //from BudgetConstructionIntendedIncumbent
@@ -67,23 +66,23 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     //from BudgetConstructionCalculatedSalaryFoundationTracker
     private BigDecimal csfTimePercent;
     private Integer csfAmount;
-    private String csfFullTimeEmploymentQuantity;
+    private BigDecimal csfFullTimeEmploymentQuantity;
     //from PendingBudgetConstructionAppointmentFunding
     private Integer appointmentFundingMonth;
     private Integer appointmentRequestedAmount;
     private BigDecimal appointmentRequestedTimePercent;
-    private String appointmentRequestedFteQuantity;
+    private BigDecimal appointmentRequestedFteQuantity;
     private String appointmentFundingDurationCode;
     private Integer appointmentRequestedCsfAmount;
     private BigDecimal appointmentRequestedCsfTimePercent;
-    private String appointmentRequestedCsfFteQuantity;
+    private BigDecimal appointmentRequestedCsfFteQuantity;
     private Integer appointmentTotalIntendedAmount;
-    private String appointmentTotalIntendedFteQuantity;
+    private BigDecimal appointmentTotalIntendedFteQuantity;
     private Integer amountChange;
     private BigDecimal percentChange;
     
     //not sure where it is from
-    private String positionFte;
+    private BigDecimal positionFte;
 
     // Total parts
     
@@ -91,8 +90,8 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     
     private Integer totalObjectPositionCsfAmount;
     private Integer totalObjectAppointmentRequestedAmount;
-    private String totalObjectPositionCsfFteQuantity;
-    private String totalObjectAppointmentRequestedFteQuantity;
+    private BigDecimal totalObjectPositionCsfFteQuantity;
+    private BigDecimal totalObjectAppointmentRequestedFteQuantity;
     private Integer totalObjectAmountChange;
     private BigDecimal totalObjectPercentChange;
     
@@ -101,8 +100,8 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     
     private Integer totalAccountPositionCsfAmount;
     private Integer totalAccountAppointmentRequestedAmount;
-    private String totalAccountPositionCsfFteQuantity;
-    private String totalAccountAppointmentRequestedFteQuantity;
+    private BigDecimal totalAccountPositionCsfFteQuantity;
+    private BigDecimal totalAccountAppointmentRequestedFteQuantity;
     private Integer totalAccountAmountChange;
     private BigDecimal totalAccountPercentChange;
         
@@ -359,22 +358,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.orgChartOfAccountsCode = orgChartOfAccountsCode;
     }
 
-    public String getAppointmentRequestedCsfFteQuantity() {
-        return appointmentRequestedCsfFteQuantity;
-    }
-
-    public void setAppointmentRequestedCsfFteQuantity(String appointmentRequestedCsfFteQuantity) {
-        this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
-    }
-
-    public String getAppointmentRequestedFteQuantity() {
-        return appointmentRequestedFteQuantity;
-    }
-
-    public void setAppointmentRequestedFteQuantity(String appointmentRequestedFteQuantity) {
-        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
-    }
-    
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
@@ -447,14 +430,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
     }
 
-    public String getAppointmentTotalIntendedFteQuantity() {
-        return appointmentTotalIntendedFteQuantity;
-    }
-
-    public void setAppointmentTotalIntendedFteQuantity(String appointmentTotalIntendedFteQuantity) {
-        this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
-    }
-
     public Integer getCsfAmount() {
         return csfAmount;
     }
@@ -463,11 +438,35 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.csfAmount = csfAmount;
     }
 
-    public String getCsfFullTimeEmploymentQuantity() {
+    public BigDecimal getAppointmentRequestedCsfFteQuantity() {
+        return appointmentRequestedCsfFteQuantity;
+    }
+
+    public void setAppointmentRequestedCsfFteQuantity(BigDecimal appointmentRequestedCsfFteQuantity) {
+        this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
+    }
+
+    public BigDecimal getAppointmentRequestedFteQuantity() {
+        return appointmentRequestedFteQuantity;
+    }
+
+    public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
+        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
+    }
+
+    public BigDecimal getAppointmentTotalIntendedFteQuantity() {
+        return appointmentTotalIntendedFteQuantity;
+    }
+
+    public void setAppointmentTotalIntendedFteQuantity(BigDecimal appointmentTotalIntendedFteQuantity) {
+        this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
+    }
+
+    public BigDecimal getCsfFullTimeEmploymentQuantity() {
         return csfFullTimeEmploymentQuantity;
     }
 
-    public void setCsfFullTimeEmploymentQuantity(String csfFullTimeEmploymentQuantity) {
+    public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
         this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
     }
 
@@ -551,11 +550,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.totalAccountAppointmentRequestedAmount = totalAccountAppointmentRequestedAmount;
     }
 
-    public String getTotalAccountAppointmentRequestedFteQuantity() {
+    public BigDecimal getTotalAccountAppointmentRequestedFteQuantity() {
         return totalAccountAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalAccountAppointmentRequestedFteQuantity(String totalAccountAppointmentRequestedFteQuantity) {
+    public void setTotalAccountAppointmentRequestedFteQuantity(BigDecimal totalAccountAppointmentRequestedFteQuantity) {
         this.totalAccountAppointmentRequestedFteQuantity = totalAccountAppointmentRequestedFteQuantity;
     }
 
@@ -583,11 +582,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.totalAccountPositionCsfAmount = totalAccountPositionCsfAmount;
     }
 
-    public String getTotalAccountPositionCsfFteQuantity() {
+    public BigDecimal getTotalAccountPositionCsfFteQuantity() {
         return totalAccountPositionCsfFteQuantity;
     }
 
-    public void setTotalAccountPositionCsfFteQuantity(String totalAccountPositionCsfFteQuantity) {
+    public void setTotalAccountPositionCsfFteQuantity(BigDecimal totalAccountPositionCsfFteQuantity) {
         this.totalAccountPositionCsfFteQuantity = totalAccountPositionCsfFteQuantity;
     }
 
@@ -607,11 +606,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.totalObjectAppointmentRequestedAmount = totalObjectAppointmentRequestedAmount;
     }
 
-    public String getTotalObjectAppointmentRequestedFteQuantity() {
+    public BigDecimal getTotalObjectAppointmentRequestedFteQuantity() {
         return totalObjectAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalObjectAppointmentRequestedFteQuantity(String totalObjectAppointmentRequestedFteQuantity) {
+    public void setTotalObjectAppointmentRequestedFteQuantity(BigDecimal totalObjectAppointmentRequestedFteQuantity) {
         this.totalObjectAppointmentRequestedFteQuantity = totalObjectAppointmentRequestedFteQuantity;
     }
 
@@ -639,11 +638,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.totalObjectPositionCsfAmount = totalObjectPositionCsfAmount;
     }
 
-    public String getTotalObjectPositionCsfFteQuantity() {
+    public BigDecimal getTotalObjectPositionCsfFteQuantity() {
         return totalObjectPositionCsfFteQuantity;
     }
 
-    public void setTotalObjectPositionCsfFteQuantity(String totalObjectPositionCsfFteQuantity) {
+    public void setTotalObjectPositionCsfFteQuantity(BigDecimal totalObjectPositionCsfFteQuantity) {
         this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
     }
 
@@ -695,11 +694,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.emplid = emplid;
     }
 
-    public String getPositionFte() {
+    public BigDecimal getPositionFte() {
         return positionFte;
     }
 
-    public void setPositionFte(String positionFte) {
+    public void setPositionFte(BigDecimal positionFte) {
         this.positionFte = positionFte;
     }
 

@@ -32,11 +32,9 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     private BigDecimal totalConsolidationAppointmentRequestedCsfFteQuantity;
     private BigDecimal totalConsolidationAppointmentRequestedFteQuantity;
     private Integer totalConsolidationAccountLineAnnualBalanceAmount;
-    private Integer totalConsolidationAmountChange;
 
     private Integer grossFinancialBeginningBalanceLineAmount;
     private Integer grossAccountLineAnnualBalanceAmount;
-    private Integer grossAmountChange;
 
     private BigDecimal typePositionCsfLeaveFteQuantity;
     private BigDecimal typePositionCsfFullTimeEmploymentQuantity;
@@ -44,19 +42,15 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     private BigDecimal typeAppointmentRequestedCsfFteQuantity;
     private BigDecimal typeAppointmentRequestedFteQuantity;
     private Integer typeAccountLineAnnualBalanceAmount;
-    private Integer typeAmountChange;
 
     private Integer revenueFinancialBeginningBalanceLineAmount;
     private Integer revenueAccountLineAnnualBalanceAmount;
-    private Integer revenueAmountChange;
 
     private Integer expenditureFinancialBeginningBalanceLineAmount;
     private Integer expenditureAccountLineAnnualBalanceAmount;
-    private Integer expenditureAmountChange;
 
     private Integer differenceFinancialBeginningBalanceLineAmount;
     private Integer differenceAccountLineAnnualBalanceAmount;
-    private Integer differenceAmountChange;
 
     public BudgetConstructionLevelSummary getBcls() {
         return bcls;
@@ -70,12 +64,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setDifferenceAccountLineAnnualBalanceAmount(Integer differenceAccountLineAnnualBalanceAmount) {
         this.differenceAccountLineAnnualBalanceAmount = differenceAccountLineAnnualBalanceAmount;
     }
-    public Integer getDifferenceAmountChange() {
-        return differenceAmountChange;
-    }
-    public void setDifferenceAmountChange(Integer differenceAmountChange) {
-        this.differenceAmountChange = differenceAmountChange;
-    }
     public Integer getDifferenceFinancialBeginningBalanceLineAmount() {
         return differenceFinancialBeginningBalanceLineAmount;
     }
@@ -87,12 +75,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     }
     public void setExpenditureAccountLineAnnualBalanceAmount(Integer expenditureAccountLineAnnualBalanceAmount) {
         this.expenditureAccountLineAnnualBalanceAmount = expenditureAccountLineAnnualBalanceAmount;
-    }
-    public Integer getExpenditureAmountChange() {
-        return expenditureAmountChange;
-    }
-    public void setExpenditureAmountChange(Integer expenditureAmountChange) {
-        this.expenditureAmountChange = expenditureAmountChange;
     }
     public Integer getExpenditureFinancialBeginningBalanceLineAmount() {
         return expenditureFinancialBeginningBalanceLineAmount;
@@ -118,12 +100,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setRevenueAccountLineAnnualBalanceAmount(Integer revenueAccountLineAnnualBalanceAmount) {
         this.revenueAccountLineAnnualBalanceAmount = revenueAccountLineAnnualBalanceAmount;
     }
-    public Integer getRevenueAmountChange() {
-        return revenueAmountChange;
-    }
-    public void setRevenueAmountChange(Integer revenueAmountChange) {
-        this.revenueAmountChange = revenueAmountChange;
-    }
     public Integer getRevenueFinancialBeginningBalanceLineAmount() {
         return revenueFinancialBeginningBalanceLineAmount;
     }
@@ -135,12 +111,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     }
     public void setTotalConsolidationAccountLineAnnualBalanceAmount(Integer totalConsolidationAccountLineAnnualBalanceAmount) {
         this.totalConsolidationAccountLineAnnualBalanceAmount = totalConsolidationAccountLineAnnualBalanceAmount;
-    }
-    public Integer getTotalConsolidationAmountChange() {
-        return totalConsolidationAmountChange;
-    }
-    public void setTotalConsolidationAmountChange(Integer totalConsolidationAmountChange) {
-        this.totalConsolidationAmountChange = totalConsolidationAmountChange;
     }
     public BigDecimal getTotalConsolidationAppointmentRequestedCsfFteQuantity() {
         return totalConsolidationAppointmentRequestedCsfFteQuantity;
@@ -178,12 +148,6 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     public void setTypeAccountLineAnnualBalanceAmount(Integer typeAccountLineAnnualBalanceAmount) {
         this.typeAccountLineAnnualBalanceAmount = typeAccountLineAnnualBalanceAmount;
     }
-    public Integer getTypeAmountChange() {
-        return typeAmountChange;
-    }
-    public void setTypeAmountChange(Integer typeAmountChange) {
-        this.typeAmountChange = typeAmountChange;
-    }
     public BigDecimal getTypeAppointmentRequestedCsfFteQuantity() {
         return typeAppointmentRequestedCsfFteQuantity;
     }
@@ -213,11 +177,5 @@ public class BudgetConstructionOrgLevelSummaryReportTotal {
     }
     public void setTypePositionCsfLeaveFteQuantity(BigDecimal typePositionCsfLeaveFteQuantity) {
         this.typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity;
-    }
-    public Integer getGrossAmountChange() {
-        return grossAmountChange;
-    }
-    public void setGrossAmountChange(Integer grossAmountChange) {
-        this.grossAmountChange = grossAmountChange;
     }
 }

@@ -52,29 +52,29 @@
 	<field name="financialConsolidationSortCode" class="java.lang.String"/>
 	<field name="financialLevelSortCode" class="java.lang.String"/>
 	<field name="financialObjectName" class="java.lang.String"/>
-	<field name="positionCsfLeaveFteQuantity" class="java.lang.String"/>
-	<field name="csfFullTimeEmploymentQuantity" class="java.lang.String"/>
+	<field name="positionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
+	<field name="csfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
 	<field name="financialBeginningBalanceLineAmount" class="java.lang.Integer"/>
-	<field name="appointmentRequestedCsfFteQuantity" class="java.lang.String"/>
-	<field name="appointmentRequestedFteQuantity" class="java.lang.String"/>
+	<field name="appointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
+	<field name="appointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="accountLineAnnualBalanceAmount" class="java.lang.Integer"/>
 	<field name="amountChange" class="java.lang.Integer"/>
 	<field name="percentChange" class="java.math.BigDecimal"/>
 	<field name="totalLevelDescription" class="java.lang.String"/>
-	<field name="totalLevelPositionCsfLeaveFteQuantity" class="java.lang.String"/>
-	<field name="totalLevelPositionCsfFullTimeEmploymentQuantity" class="java.lang.String"/>
+	<field name="totalLevelPositionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
+	<field name="totalLevelPositionCsfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
 	<field name="totalLevelFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
-	<field name="totalLevelAppointmentRequestedCsfFteQuantity" class="java.lang.String"/>
-	<field name="totalLevelAppointmentRequestedFteQuantity" class="java.lang.String"/>
+	<field name="totalLevelAppointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
+	<field name="totalLevelAppointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalLevelAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
 	<field name="totalLevelAmountChange" class="java.lang.Integer"/>
 	<field name="totalLevelPercentChange" class="java.math.BigDecimal"/>
 	<field name="totalConsolidationDescription" class="java.lang.String"/>
-	<field name="totalConsolidationPositionCsfLeaveFteQuantity" class="java.lang.String"/>
-	<field name="totalConsolidationPositionCsfFullTimeEmploymentQuantity" class="java.lang.String"/>
+	<field name="totalConsolidationPositionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
+	<field name="totalConsolidationPositionCsfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
 	<field name="totalConsolidationFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
-	<field name="totalConsolidationAppointmentRequestedCsfFteQuantity" class="java.lang.String"/>
-	<field name="totalConsolidationAppointmentRequestedFteQuantity" class="java.lang.String"/>
+	<field name="totalConsolidationAppointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
+	<field name="totalConsolidationAppointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalConsolidationAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
 	<field name="totalConsolidationAmountChange" class="java.lang.Integer"/>
 	<field name="totalConsolidationPercentChange" class="java.math.BigDecimal"/>
@@ -84,11 +84,11 @@
 	<field name="grossAmountChange" class="java.lang.Integer"/>
 	<field name="grossPercentChange" class="java.math.BigDecimal"/>
 	<field name="typeDesc" class="java.lang.String"/>
-	<field name="typePositionCsfLeaveFteQuantity" class="java.lang.String"/>
-	<field name="typePositionCsfFullTimeEmploymentQuantity" class="java.lang.String"/>
+	<field name="typePositionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
+	<field name="typePositionCsfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
 	<field name="typeFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
-	<field name="typeAppointmentRequestedCsfFteQuantity" class="java.lang.String"/>
-	<field name="typeAppointmentRequestedFteQuantity" class="java.lang.String"/>
+	<field name="typeAppointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
+	<field name="typeAppointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
 	<field name="typeAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
 	<field name="typeAmountChange" class="java.lang.Integer"/>
 	<field name="typePercentChange" class="java.math.BigDecimal"/>
@@ -761,7 +761,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{typePositionCsfLeaveFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{typePositionCsfLeaveFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -778,7 +778,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{typePositionCsfFullTimeEmploymentQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{typePositionCsfFullTimeEmploymentQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -812,7 +812,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{typeAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{typeAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -829,7 +829,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{typeAppointmentRequestedFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{typeAppointmentRequestedFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -880,7 +880,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalConsolidationAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalConsolidationAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
 				</textField>
 			</band>
 			</groupFooter>
@@ -976,7 +976,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalConsolidationPositionCsfLeaveFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalConsolidationPositionCsfLeaveFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -993,7 +993,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalConsolidationPositionCsfFullTimeEmploymentQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalConsolidationPositionCsfFullTimeEmploymentQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1027,7 +1027,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalConsolidationAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalConsolidationAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1044,7 +1044,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalConsolidationAppointmentRequestedFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalConsolidationAppointmentRequestedFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1210,7 +1210,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalLevelPositionCsfLeaveFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalLevelPositionCsfLeaveFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1227,7 +1227,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalLevelPositionCsfFullTimeEmploymentQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalLevelPositionCsfFullTimeEmploymentQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1261,7 +1261,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalLevelAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalLevelAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1278,7 +1278,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalLevelAppointmentRequestedFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{totalLevelAppointmentRequestedFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2142,7 +2142,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{positionCsfLeaveFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{positionCsfLeaveFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2176,7 +2176,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{csfFullTimeEmploymentQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{csfFullTimeEmploymentQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2193,7 +2193,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{appointmentRequestedCsfFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{appointmentRequestedCsfFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -2227,7 +2227,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{appointmentRequestedFteQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{appointmentRequestedFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

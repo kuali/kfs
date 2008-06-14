@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
 import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
 import org.kuali.module.budget.bo.BudgetConstructionMonthSummary;
+import org.kuali.module.budget.bo.BudgetConstructionObjectDump;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
@@ -99,6 +101,23 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
         return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
     }
+    
+    public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, budgetConstructionObjectDump.getChartOfAccountsCode());
+        searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionObjectDump.getAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionObjectDump.getSubAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, budgetConstructionObjectDump.getFinancialObjectCode());
+        
+        List<String> orderList = new ArrayList();
+        orderList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        orderList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        orderList.add(KFSPropertyConstants.POSITION_NUMBER);
+        orderList.add(KFSPropertyConstants.EMPLID);
+        return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(PendingBudgetConstructionAppointmentFunding.class, searchCriteria, orderList);
+    }
+
 
 
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {

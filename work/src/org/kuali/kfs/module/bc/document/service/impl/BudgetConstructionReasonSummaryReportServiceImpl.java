@@ -438,13 +438,13 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
                 if(csfPayMonths == 0){
                     resCsfAmount = 0;
                 } else {
-                    resCsfAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(resCsfAmount).multiply((new BigDecimal(salaryPayMonth / csfPayMonths))), 0).intValue();
+                    resCsfAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(resCsfAmount).multiply((new BigDecimal(salaryPayMonth / csfPayMonths))), 0, false).intValue();
                 }
             }
             csfAmount = resCsfAmount;
             amountChange = salaryAmount - csfAmount;
             if (csfAmount != 0){
-                percentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((amountChange / csfAmount) * 100), 0);
+                percentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((amountChange / csfAmount) * 100), 0, false);
             }
             if (curToInt != 0 && curToInt != -1 && curToInt != salaryAmount.intValue() || curFteInt != 0 && curFteInt != -1.00 && curFteInt != salaryFte.doubleValue()){
                 tiFlag = BCConstants.Report.PLUS;
@@ -462,7 +462,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             budgetConstructionOrgReasonSummaryReportTotal.setPersonSalaryNormalMonths(salaryNormalMonths);
             budgetConstructionOrgReasonSummaryReportTotal.setPersonSalaryAmount(salaryAmount);
             budgetConstructionOrgReasonSummaryReportTotal.setPersonSalaryPercent(salaryPercent);
-            budgetConstructionOrgReasonSummaryReportTotal.setPersonSalaryFte(BudgetConstructionReportHelper.setDecimalDigit(salaryFte, 5));
+            budgetConstructionOrgReasonSummaryReportTotal.setPersonSalaryFte(BudgetConstructionReportHelper.setDecimalDigit(salaryFte, 5, true));
             budgetConstructionOrgReasonSummaryReportTotal.setPersonTiFlag(tiFlag);
             budgetConstructionOrgReasonSummaryReportTotal.setPersonAmountChange(amountChange);
             budgetConstructionOrgReasonSummaryReportTotal.setPersonPercentChange(percentChange);
@@ -517,15 +517,15 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             }
             //calculate average and change
             if(!newFte.equals(BigDecimal.ZERO)) {
-                newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(newTotalAmount / newFte.intValue()), 0).intValue();
+                newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(newTotalAmount / newFte.intValue()), 0, false).intValue();
             }
             if (!conFte.equals(BigDecimal.ZERO)) {
-                conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(conTotalBaseAmount / conFte.intValue()), 0).intValue();
-                conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(conTotalRequestAmount / conFte.intValue()), 0).intValue();
+                conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(conTotalBaseAmount / conFte.intValue()), 0, false).intValue();
+                conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal(conTotalRequestAmount / conFte.intValue()), 0, false).intValue();
             }
             conAveragechange = conAverageRequestAmount - conAverageBaseAmount;
             if (conAverageBaseAmount != 0) {
-                conPercentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((conAveragechange / conAverageBaseAmount) * 100), 1);
+                conPercentChange = BudgetConstructionReportHelper.setDecimalDigit(new BigDecimal((conAveragechange / conAverageBaseAmount) * 100), 1, false);
             }
             budgetConstructionOrgReasonSummaryReportTotal.setBudgetConstructionSalaryFunding(totalOrgEntry);
             budgetConstructionOrgReasonSummaryReportTotal.setNewFte(newFte);

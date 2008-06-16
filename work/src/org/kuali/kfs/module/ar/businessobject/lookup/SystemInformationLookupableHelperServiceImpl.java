@@ -27,12 +27,13 @@ public class SystemInformationLookupableHelperServiceImpl extends KualiLookupabl
     /**
      * Override to add the lockboxNumber to the return keys
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getReturnKeys()
+     * 
+     * TODO If this method isn't going to be used anymore, this should be removed.
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List getReturnKeys() {
         List returnKeys = super.getReturnKeys();
-        returnKeys.add("lockboxNumber");
+        //returnKeys.add("lockboxNumber");
         return returnKeys;
     }
     

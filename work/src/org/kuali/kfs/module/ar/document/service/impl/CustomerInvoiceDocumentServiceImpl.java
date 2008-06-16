@@ -32,6 +32,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.FinancialSystemUserService;

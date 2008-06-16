@@ -45,17 +45,17 @@ public class OrganizationOptionsAuthorizer extends MaintenanceDocumentAuthorizer
         
         String nameEditable = service.getParameterValue(OrganizationOptions.class, "REMIT_TO_NAME_EDITABLE_IND");
         if (nameEditable.equalsIgnoreCase("N")) {
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
         
         String addressEditable = service.getParameterValue(OrganizationOptions.class, "REMIT_TO_ADDRESS_EDITABLE_IND");
         if (addressEditable.equalsIgnoreCase("N")) {
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_REMIT_TO_CITY_NAME);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_REMIT_TO_STATE_CODE);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsConstants.ORGANIZATION_REMIT_TO_ZIP_CODE);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_CITY_NAME);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_STATE_CODE);
+            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ZIP_CODE);
         }
     }
 }

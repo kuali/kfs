@@ -174,7 +174,8 @@ public class ArConstants {
         public static final String BILL_TO_ADDRESS_IDENTIFIER = "customerBillToAddressIdentifier";
     }
 
-    public static class OrganizationOptionsConstants {
+    public static class OrganizationOptionsFields {
+        public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
         public static final String ORGANIZATION_CHECK_PAYABLE_TO_NAME = "organizationCheckPayableToName";
         public static final String ORGANIZATION_REMIT_TO_ADDRESS_NAME = "organizationRemitToAddressName";
         public static final String ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS = "organizationRemitToLine1StreetAddress";
@@ -183,6 +184,11 @@ public class ArConstants {
         public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
         public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
     }
+    
+    public static class OrganizationOptionsErrors {
+        public static final String SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG = "error.document.organizationOptions.sysInfoDoesNotExistForProcessingChartAndOrg";
+    }    
+    
 
     public static class OrganizationAccountingDefaultFields {
         public static final String WRITE_OFF_OBJECT_CODE = "writeoffObjectCode";

@@ -17,6 +17,7 @@ package org.kuali.module.ar.service.impl;
 
 import java.util.Collection;
 
+import org.kuali.kfs.annotation.NonTransactional;
 import org.kuali.module.ar.bo.NonInvoicedDistribution;
 import org.kuali.module.ar.dao.NonInvoicedDistributionDao;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
@@ -28,6 +29,7 @@ public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributi
     /**
      * @see org.kuali.module.ar.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
+    @NonTransactional
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber) {
         return nonInvoicedDistributionDao.getNonInvoicedDistributionsForInvoice(documentNumber);
     }
@@ -35,6 +37,7 @@ public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributi
     /**
      * @see org.kuali.module.ar.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
      */
+    @NonTransactional
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(CustomerInvoiceDocument invoice) {
         return getNonInvoicedDistributionsForInvoice(invoice.getDocumentNumber());
     }
@@ -42,6 +45,7 @@ public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributi
     /**
      * @param nonInvoicedDistributionDao
      */
+    @NonTransactional
     public void setNonInvoicedDistributionDao(NonInvoicedDistributionDao nonInvoicedDistributionDao) {
         this.nonInvoicedDistributionDao = nonInvoicedDistributionDao;
     }

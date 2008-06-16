@@ -68,6 +68,10 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="universityFiscalYearObject"
               p:attributeToHighlightOnFail="universityFiscalYear" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="financialDocumentInitiator"
+              p:activeIndicatorAttributeName="activeForAnyModule"
+              p:attributeToHighlightOnFail="financialDocumentInitiator.personUserIdentifier" />              
       </list>
     </property>
     <property name="lockingKeys" >
@@ -111,7 +115,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="universityFiscalYear"
-              p:required="true" />
+              p:required="true"/>
         <bean parent="MaintainableFieldDefinition"
               p:name="universityFederalEmployerIdentificationNumber"
               p:required="true" />              
@@ -123,9 +127,16 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiatorIdentifier"
-              p:defaultValueFinderClass="org.kuali.module.cg.lookup.valuefinder.CurrentSessionUserValueFinder" />
+              p:defaultValue="KULUSER" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="lockboxNumber" />
+              p:name="financialDocumentInitiator.personUserIdentifier"
+              p:required="true"
+              p:defaultValue="KULUSER" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialDocumentInitiator.personName" />              
+        <bean parent="MaintainableFieldDefinition"
+              p:name="lockboxNumber"
+              p:required="true"  />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />	
       </list>
@@ -139,9 +150,12 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="creditCardObjectCode" />
+              p:name="creditCardObjectCode"
+              p:required="true"
+              />
         <bean parent="MaintainableFieldDefinition"
-              p:name="discountObjectCode" />
+              p:name="discountObjectCode"
+              p:required="true" />
       </list>
     </property>
   </bean>
@@ -153,13 +167,16 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="universityClearingChartOfAccountsCode" />
+              p:name="universityClearingChartOfAccountsCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="universityClearingAccountNumber" />
+              p:name="universityClearingAccountNumber"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="universityClearingSubAccountNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="universityClearingObjectCode" />
+              p:name="universityClearingObjectCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="universityClearingSubObjectCode" />
       </list>
@@ -175,13 +192,16 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="wireChartOfAccountsCode" />
+              p:name="wireChartOfAccountsCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="wireAccountNumber" />
+              p:name="wireAccountNumber"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="wireSubAccountNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="wireObjectCode" />
+              p:name="wireObjectCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="wireSubObjectCode" />
       </list>
@@ -197,19 +217,25 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationCheckPayableToName" />
+              p:name="organizationCheckPayableToName"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationRemitToAddressName" />
+              p:name="organizationRemitToAddressName"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationRemitToLine1StreetAddress" />
+              p:name="organizationRemitToLine1StreetAddress"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToLine2StreetAddress" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationRemitToCityName" />
+              p:name="organizationRemitToCityName"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationRemitToStateCode" />
+              p:name="organizationRemitToStateCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationRemitToZipCode" />
+              p:name="organizationRemitToZipCode"
+              p:required="true" />
       </list>
     </property>
   </bean>

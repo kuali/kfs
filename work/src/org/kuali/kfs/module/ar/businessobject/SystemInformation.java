@@ -3,7 +3,10 @@ package org.kuali.module.ar.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.bo.State;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -65,8 +68,18 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private SubAccount wireSubAccount;
     private ObjectCode wireObject;
     private SubObjCd wireSubObject;
+    private UniversalUser financialDocumentInitiator;
     
-	/**
+	public UniversalUser getFinancialDocumentInitiator() {
+	    financialDocumentInitiator = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
+        return financialDocumentInitiator;
+    }
+
+    public void setFinancialDocumentInitiator(UniversalUser financialDocumentInitiator) {
+        this.financialDocumentInitiator = financialDocumentInitiator;
+    }
+
+    /**
 	 * Default constructor.
 	 */
 	public SystemInformation() {

@@ -37,7 +37,7 @@ public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        LOG.info("LEO - getFieldAuthorizations CALLED....");
+        LOG.info("AssetGlobalAuthorizer.getFieldAuthorizations CALLED....");
         
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetGlobal assetGlobal = (AssetGlobal)document.getNewMaintainableObject().getBusinessObject();
@@ -45,15 +45,15 @@ public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
         // get AssetPaymentDetail BO
         //AssetPaymentDetail assetPaymentDetails = (AssetPaymentDetail) assetGlobal.getAssetPaymentDetails();
 
-        setFieldsReadOnlyAccessMode(auths, user);
+        //setFieldsReadOnlyAccessMode(auths, user);
         
-        LOG.info("LEO - getFieldAuthorizations FINISHED....");
+        LOG.info("AssetGlobalAuthorizer.getFieldAuthorizations FINISHED....");
         return auths;
     }
     
     
     private void setFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, UniversalUser user) {
-        LOG.info("  LEO - setFieldsReadOnlyAccessMode CALLED....");
+        LOG.info("  AssetGlobalAuthorizer.setFieldsReadOnlyAccessMode CALLED....");
         // Global Details
         auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS);
         auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER);
@@ -75,9 +75,10 @@ public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
         //auths.addReadonlyAuthField(CamsPropertyConstants.AssetLocationGlobal.);
         
         // Payment Details
-        //LOG.info("  LEO - setFieldsReadOnlyAccessMode paymentDetail = '" + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE + "'");
-        auths.addReadonlyAuthField("AssetPaymentDetail." + CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE);
-        auths.addReadonlyAuthField("AssetPaymentDetail." + CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER);
+        LOG.info("  AssetGlobalAuthorizer.setFieldsReadOnlyAccessMode paymentDetail = '" + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE + "'");
+        LOG.info("  AssetGlobalAuthorizer.setFieldsReadOnlyAccessMode paymentDetail = '" + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER + "'");
+        LOG.info("  AssetGlobalAuthorizer.setFieldsReadOnlyAccessMode paymentDetail = '" + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER + "'");
+        
         /*
         auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE);
         auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER);
@@ -96,7 +97,7 @@ public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
         auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.AMOUNT);
         */
         
-        LOG.info("  LEO - setFieldsReadOnlyAccessMode FINISHED....");
+        LOG.info("  AssetGlobalAuthorizer.setFieldsReadOnlyAccessMode FINISHED....");
     }
     
     /**
@@ -107,8 +108,6 @@ public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetGlobal assetGlobal = (AssetGlobal) document.getDocumentBusinessObject();
-        
-        
 
         return actionFlags;
     }

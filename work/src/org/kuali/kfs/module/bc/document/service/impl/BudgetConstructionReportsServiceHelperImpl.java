@@ -29,6 +29,8 @@ import org.kuali.module.budget.bo.BudgetConstructionMonthSummary;
 import org.kuali.module.budget.bo.BudgetConstructionObjectDump;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.BudgetConstructionSalaryFunding;
+import org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
@@ -100,6 +102,14 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
         return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
+    }
+    
+    public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String personUserIdentifier, BudgetConstructionSalaryFunding salaryFunding){
+        
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.EMPLID, salaryFunding.getEmplid());
+        return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
     }
     
     public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump) {

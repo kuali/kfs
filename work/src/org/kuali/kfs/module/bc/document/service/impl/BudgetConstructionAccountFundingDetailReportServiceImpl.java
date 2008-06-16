@@ -55,7 +55,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
     BudgetConstructionAccountFundingDetailReportDao budgetConstructionAccountFundingDetailReportDao;
     BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     KualiConfigurationService kualiConfigurationService;
-    
+
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
      */
@@ -72,14 +72,14 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         List<BudgetConstructionOrgAccountFundingDetailReportTotal> orgAccountFundingDetailReportTotalList;
         BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry;
         Collection<BudgetConstructionObjectDump> accountFundingDetailList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectDump.class, personUserIdentifier, buildOrderByList());
-        
+
         Map appointmentFundingEntireMap = new HashMap();
         for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
             appointmentFundingEntireMap.put(accountFundingDetailEntry, budgetConstructionReportsServiceHelper.getPendingBudgetConstructionAppointmentFundingList(universityFiscalYear, accountFundingDetailEntry));
         }
-        
+
         String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(personUserIdentifier);
-         
+
         List<BudgetConstructionObjectDump> listForCalculateTotalObject = BudgetConstructionReportHelper.deleteDuplicated((List) accountFundingDetailList, fieldsForObject());
         List<BudgetConstructionObjectDump> listForCalculateTotalAccount = BudgetConstructionReportHelper.deleteDuplicated((List) accountFundingDetailList, fieldsForAccount());
 
@@ -173,20 +173,32 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         // group
         orgAccountFundingDetailReportEntry.setSubAccountNumber(accountFundingDetail.getSubAccountNumber() + accountFundingDetail.getAccountNumber());
         orgAccountFundingDetailReportEntry.setObjectCodes(objectCodes);
+
         
-        String accountNumberName = "";
-        String subAccountNumberName = "";
-        //set accountNumber and name, subAccountNumber and name
+        String subAccountName = "";
+        String subAccountNumberAndName = "";
+        String divider = "";
+        // set accountNumber and name, subAccountNumber and name
         if (accountFundingDetail.getAccount() != null) {
-            accountNumberName = accountFundingDetail.getAccountNumber() + " " + accountFundingDetail.getAccount().getAccountName();
+            orgAccountFundingDetailReportEntry.setAccountNumberAndName(accountFundingDetail.getAccountNumber() + " " + accountFundingDetail.getAccount().getAccountName());
+            orgAccountFundingDetailReportEntry.setAccountName(accountFundingDetail.getAccount().getAccountName());
         }
-        try {
-            if (accountFundingDetail.getSubAccount() != null) {
-                subAccountNumberName = accountFundingDetail.getSubAccount().getSubAccountNumber() + " " + accountFundingDetail.getSubAccount().getSubAccountName();
-            } 
-        } 
-        catch (PersistenceBrokerException e) {}
-        orgAccountFundingDetailReportEntry.setNumberAndNameForAccountSubAccount(accountNumberName + " / " + subAccountNumberName);
+        
+        if (!accountFundingDetail.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)){
+            divider = BCConstants.Report.DIVIDER;
+            try {
+                subAccountName = accountFundingDetail.getSubAccount().getSubAccountName();
+                subAccountNumberAndName = accountFundingDetail.getSubAccount().getSubAccountNumber() + " " + accountFundingDetail.getSubAccount().getSubAccountName();
+            }
+            catch (PersistenceBrokerException e) {
+                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                subAccountNumberAndName = subAccountName;
+            }
+        }
+        orgAccountFundingDetailReportEntry.setSubAccountName(subAccountName);
+        orgAccountFundingDetailReportEntry.setSubAccountNumberAndName(subAccountNumberAndName);
+        orgAccountFundingDetailReportEntry.setDivider(divider);
+        
     }
 
 
@@ -206,12 +218,14 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         if (budgetConstructionIntendedIncumbent != null) {
             if (budgetConstructionIntendedIncumbent.getPersonName() == null) {
                 orgAccountFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
-            }else {
+            }
+            else {
                 orgAccountFundingDetailReportEntry.setPersonName(budgetConstructionIntendedIncumbent.getPersonName());
             }
 
             orgAccountFundingDetailReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
-        } else {
+        }
+        else {
             orgAccountFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
             orgAccountFundingDetailReportEntry.setIuClassificationLevel(BCConstants.Report.BLANK);
         }
@@ -229,27 +243,31 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
             orgAccountFundingDetailReportEntry.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
             orgAccountFundingDetailReportEntry.setPositionStandardHoursDefault(budgetConstructionPosition.getPositionStandardHoursDefault());
         }
-        if (appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().size() > 0 ) {
+        if (appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().size() > 0) {
             BudgetConstructionCalculatedSalaryFoundationTracker budgetConstructionCalculatedSalaryFoundationTracker = appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0);
             orgAccountFundingDetailReportEntry.setCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(budgetConstructionCalculatedSalaryFoundationTracker.getCsfTimePercent(), 2, false));
             orgAccountFundingDetailReportEntry.setCsfAmount(new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
             orgAccountFundingDetailReportEntry.setCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity(), 5, true));
-            
-            //calculate amountChange and percentChange
+
+            // calculate amountChange and percentChange
+            Integer amountChange = new Integer(0);
+            BigDecimal percentChange = BigDecimal.ZERO;
             if (appointmentFundingEntry.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
-                Integer amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
-                orgAccountFundingDetailReportEntry.setAmountChange(amountChange);
-                orgAccountFundingDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
+                amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
+                percentChange = BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue());
             }
+            orgAccountFundingDetailReportEntry.setAmountChange(amountChange);
+            orgAccountFundingDetailReportEntry.setPercentChange(percentChange);
         }
-        
+
         if (appointmentFundingEntry != null) {
-            if (appointmentFundingEntry.getFinancialSubObjectCode().equals(BCConstants.Report.BLANK_SUB_OBJECT_CODE)){
+            if (appointmentFundingEntry.getFinancialSubObjectCode().equals(BCConstants.Report.BLANK_SUB_OBJECT_CODE)) {
                 orgAccountFundingDetailReportEntry.setFinancialSubObjectCode(BCConstants.Report.BLANK);
-            } else {
+            }
+            else {
                 orgAccountFundingDetailReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
             }
-            
+
             orgAccountFundingDetailReportEntry.setAppointmentFundingMonth(appointmentFundingEntry.getAppointmentFundingMonth());
             orgAccountFundingDetailReportEntry.setAppointmentRequestedAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedAmount().intValue()));
             orgAccountFundingDetailReportEntry.setAppointmentRequestedTimePercent(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentRequestedTimePercent(), 2, true));
@@ -265,11 +283,12 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
             // group
             orgAccountFundingDetailReportEntry.setEmplid(appointmentFundingEntry.getEmplid());
         }
-        
-        
-        if (appointmentFundingEntry.isAppointmentFundingDeleteIndicator()){
+
+
+        if (appointmentFundingEntry.isAppointmentFundingDeleteIndicator()) {
             orgAccountFundingDetailReportEntry.setDeleteBox(BCConstants.Report.DELETE_MARK);
-        } else {
+        }
+        else {
             orgAccountFundingDetailReportEntry.setDeleteBox(BCConstants.Report.BLANK);
         }
     }
@@ -293,17 +312,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         for (BudgetConstructionOrgAccountFundingDetailReportTotal fundingDetailTotalAccountEntry : fundingDetailTotalAccount) {
             if (BudgetConstructionReportHelper.isSameEntry(fundingDetailTotalAccountEntry.getBudgetConstructionObjectDump(), accountFundingDetail, fieldsForAccount())) {
-                if (accountFundingDetail.getAccount() != null) {
-                    orgAccountFundingDetailReportEntry.setTotalAccountname(accountFundingDetail.getAccount().getAccountName());
-                }
-                try {
-                    if (accountFundingDetail.getSubAccount() != null) {
-                        orgAccountFundingDetailReportEntry.setTotalSubAccountname(accountFundingDetail.getSubAccount().getSubAccountName());
-                    }
-                }
-                catch (PersistenceBrokerException e) {
-                    orgAccountFundingDetailReportEntry.setTotalSubAccountname("Error Getting sub-account description");
-                }
+
                 orgAccountFundingDetailReportEntry.setTotalAccountPositionCsfAmount(fundingDetailTotalAccountEntry.getTotalAccountPositionCsfAmount());
                 orgAccountFundingDetailReportEntry.setTotalAccountAppointmentRequestedAmount(fundingDetailTotalAccountEntry.getTotalAccountAppointmentRequestedAmount());
                 orgAccountFundingDetailReportEntry.setTotalAccountPositionCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalAccountEntry.getTotalAccountPositionCsfFteQuantity(), 5, true));
@@ -334,7 +343,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
             Collection<PendingBudgetConstructionAppointmentFunding> accountFundingCollection = new ArrayList();
             accountFundingCollection = (Collection<PendingBudgetConstructionAppointmentFunding>) appointmentFundingEntireMap.get(budgetConstructionObjectDump);
             for (PendingBudgetConstructionAppointmentFunding accountFundingEntry : accountFundingCollection) {
-                if (accountFundingEntry.getBcnCalculatedSalaryFoundationTracker().size() > 0 ) {
+                if (accountFundingEntry.getBcnCalculatedSalaryFoundationTracker().size() > 0) {
                     BudgetConstructionCalculatedSalaryFoundationTracker calculatedSalaryFoundationTracker = accountFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0);
                     totalObjectPositionCsfAmount = totalObjectPositionCsfAmount + new Integer(calculatedSalaryFoundationTracker.getCsfAmount().intValue());
                     totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity.add(calculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity());
@@ -407,7 +416,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         return fieldList;
     }
-    
+
     private List<String> fieldsForAccount() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
@@ -436,7 +445,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         returnList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         return returnList;
     }
-    
+
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }

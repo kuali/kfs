@@ -73,14 +73,6 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      */
     public Collection<BudgetConstructionOrgObjectSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
         Collection<BudgetConstructionOrgObjectSummaryReport> reportSet = new ArrayList();
-
-        BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry;
-        // build searchCriteria
-        Map<String, Object> searchCriteria = new HashMap<String, Object>();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-
-        // build order list
-        List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionObjectSummary> objectSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectSummary.class, personUserIdentifier, buildOrderByList());
 
         // 
@@ -89,7 +81,6 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         List listForCalculateGexpAndType = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForGexpAndType());
         List listForCalculateTotal = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForTotal());
 
-
         // Calculate Total Section
         List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList = calculateLevelTotal((List) objectSummaryList, listForCalculateLevel);
         List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList = calculateConsTotal((List) objectSummaryList, listForCalculateCons);
@@ -97,7 +88,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList = calculateTotal((List) objectSummaryList, listForCalculateTotal);
 
         for (BudgetConstructionObjectSummary objectSummaryEntry : objectSummaryList) {
-            orgObjectSummaryReportEntry = new BudgetConstructionOrgObjectSummaryReport();
+            BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry = new BudgetConstructionOrgObjectSummaryReport();
             buildReportsHeader(universityFiscalYear, orgObjectSummaryReportEntry, objectSummaryEntry);
             buildReportsBody(universityFiscalYear, orgObjectSummaryReportEntry, objectSummaryEntry);
             buildReportsTotal(orgObjectSummaryReportEntry, objectSummaryEntry, objectSummaryTotalLevelList, objectSummaryTotalConsList, objectSummaryTotalGexpAndTypeList, objectSummaryTotalList);

@@ -65,7 +65,7 @@ public class BudgetConstructionOrgSalarySummaryReport {
     // from PendingBudgetConstructionAppointmentFunding
     private String appointmentFundingDurationCode;
     private Integer appointmentTotalIntendedAmount;
-    private String appointmentTotalIntendedFteQuantity;
+    private BigDecimal appointmentTotalIntendedFteQuantity;
     private Integer salaryMonths;
     private Integer salaryAmount;
     private BigDecimal percentAmount;
@@ -76,7 +76,7 @@ public class BudgetConstructionOrgSalarySummaryReport {
     private BigDecimal percentChange;
 
     // not sure where it is from
-    private String positionFte;
+    private BigDecimal positionFte;
 
     // Total parts
     //  person
@@ -267,11 +267,11 @@ public class BudgetConstructionOrgSalarySummaryReport {
         this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
     }
 
-    public String getAppointmentTotalIntendedFteQuantity() {
+    public BigDecimal getAppointmentTotalIntendedFteQuantity() {
         return appointmentTotalIntendedFteQuantity;
     }
 
-    public void setAppointmentTotalIntendedFteQuantity(String appointmentTotalIntendedFteQuantity) {
+    public void setAppointmentTotalIntendedFteQuantity(BigDecimal appointmentTotalIntendedFteQuantity) {
         this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
     }
 
@@ -371,11 +371,11 @@ public class BudgetConstructionOrgSalarySummaryReport {
         this.emplid = emplid;
     }
 
-    public String getPositionFte() {
+    public BigDecimal getPositionFte() {
         return positionFte;
     }
 
-    public void setPositionFte(String positionFte) {
+    public void setPositionFte(BigDecimal positionFte) {
         this.positionFte = positionFte;
     }
 

@@ -111,7 +111,13 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         String accountName = pendingAppointmentFunding.getAccount().getAccountName();
         String fundGroupCode = pendingAppointmentFunding.getAccount().getSubFundGroup().getFundGroupCode();
         String fundGroupName = pendingAppointmentFunding.getAccount().getSubFundGroup().getFundGroup().getName();
-        String subAccountName = pendingAppointmentFunding.getSubAccount().getSubAccountName();
+        String subAccountName = null;
+        try {
+            subAccountName = pendingAppointmentFunding.getSubAccount().getSubAccountName();
+        }
+        catch (PersistenceBrokerException e) {
+        }
+        
 
         if (orgName == null) {
             accountSalaryDetailReport.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
@@ -166,20 +172,32 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
         // from PendingBudgetConstructionAppointmentFunding
         accountMonthlyDetailReport.setFinancialSubObjectCode(pendingAppointmentFunding.getFinancialSubObjectCode());
-        accountMonthlyDetailReport.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
+        
+        // from BudgetConstructionIntendedIncumbent
+        if (budgetConstructionIntendedIncumbent != null){
+            accountMonthlyDetailReport.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
+        }
+        
         // from BudgetConstructionAdministrativePost
-        accountMonthlyDetailReport.setAdministrativePost(budgetConstructionAdministrativePost.getAdministrativePost());
+        if (budgetConstructionAdministrativePost != null){
+            accountMonthlyDetailReport.setAdministrativePost(budgetConstructionAdministrativePost.getAdministrativePost());
+        }
+        
 
         // from BudgetConstructionPosition
-        accountMonthlyDetailReport.setPositionNumber(budgetConstructionPosition.getPositionNumber());
-        accountMonthlyDetailReport.setPositionSalaryPlanDefault(budgetConstructionPosition.getPositionSalaryPlanDefault());
-        accountMonthlyDetailReport.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
-        accountMonthlyDetailReport.setNormalWorkMonthsAndiuPayMonths(budgetConstructionPosition.getIuNormalWorkMonths() + "/" + budgetConstructionPosition.getIuPayMonths());
-
+        if (budgetConstructionPosition != null){
+            accountMonthlyDetailReport.setPositionNumber(budgetConstructionPosition.getPositionNumber());
+            accountMonthlyDetailReport.setPositionSalaryPlanDefault(budgetConstructionPosition.getPositionSalaryPlanDefault());
+            accountMonthlyDetailReport.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
+            accountMonthlyDetailReport.setNormalWorkMonthsAndiuPayMonths(budgetConstructionPosition.getIuNormalWorkMonths() + "/" + budgetConstructionPosition.getIuPayMonths());
+        }
+        
         // from BudgetConstructionCalculatedSalaryFoundationTracker
-        accountMonthlyDetailReport.setPositionCsfAmount(new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
-        accountMonthlyDetailReport.setPositionCsfFullTimeEmploymentQuantity(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity());
-        accountMonthlyDetailReport.setPositionCsfFundingStatusCode(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFundingStatusCode());
+        if (budgetConstructionCalculatedSalaryFoundationTracker != null){
+            accountMonthlyDetailReport.setPositionCsfAmount(new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
+            accountMonthlyDetailReport.setPositionCsfFullTimeEmploymentQuantity(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity());
+            accountMonthlyDetailReport.setPositionCsfFundingStatusCode(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFundingStatusCode());
+        }
 
         // from PendingBudgetConstructionAppointmentFunding
         accountMonthlyDetailReport.setAppointmentFundingMonth(pendingAppointmentFunding.getAppointmentFundingMonth());
@@ -252,8 +270,9 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         BigDecimal totalRequestFte = BigDecimal.ZERO;
 
 
-        BudgetConstructionAccountSalaryDetailReportTotal budgetConstructionAccountSalaryDetailReportTotal = new BudgetConstructionAccountSalaryDetailReportTotal();
+        
         for (PendingBudgetConstructionAppointmentFunding totalEntry : listForTotal) {
+            BudgetConstructionAccountSalaryDetailReportTotal budgetConstructionAccountSalaryDetailReportTotal = new BudgetConstructionAccountSalaryDetailReportTotal();
             for (PendingBudgetConstructionAppointmentFunding appointmentFundingEntry : pendingAppointmentFundingList) {
                 if (BudgetConstructionReportHelper.isSameEntry(totalEntry, appointmentFundingEntry, fieldsForTotal())) {
                     totalBaseAmount = totalBaseAmount + new Integer(appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount().intValue());

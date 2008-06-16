@@ -62,7 +62,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 postable.setPayment(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_PAYMENT);
                 postable.setFinancialObjectCode(assetPaymentDetail.getFinancialObjectCode());
-                //postable.setObjectCode(assetPaymentDetail.getObjectCode());
+                postable.setObjectCode(assetPaymentDetail.getObjectCode());
             };
 
         },
@@ -71,7 +71,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 postable.setPaymentOffset(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_PAYMENT_OFFSET);
                 postable.setFinancialObjectCode(acquisitionType.getIncomeAssetObjectCode());
-                //postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
+                postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
             };
 
         },
@@ -80,7 +80,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 postable.setCapitalization(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_CAPITALIZATION);
                 postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
-                //postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
+                postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
             };
 
         },
@@ -89,7 +89,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 postable.setCapitalizationOffset(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_CAPITALIZATION_OFFSET);
                 postable.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-                //postable.setObjectCode(offsetDefinition.getFinancialObject());
+                postable.setObjectCode(offsetDefinition.getFinancialObject());
             };
 
         };
@@ -130,16 +130,15 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         postable.setAmount(assetPaymentDetail.getAmount());
         postable.setAccountNumber(plantAccount.getAccountNumber());
         postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-        String organizationOwnerChartOfAccountsCode = null;
-        postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
+        postable.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
         postable.setProjectCode(assetPaymentDetail.getProjectCode());
         postable.setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
-        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
-        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         document.refreshReferenceObject("acquisitionType");
         amountCategory.setParams(postable, assetPaymentDetail, assetObjectCode, offsetDefinition, document.getAcquisitionType());
         LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
@@ -157,9 +156,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
             List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
             assetGlobal.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
-            AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode());
             AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
-            firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+            firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
             String finObjectSubTypeCode = firstAssetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode();
             boolean movableAsset = getAssetService().isMovableFinancialObjectSubtypeCode(finObjectSubTypeCode);
 
@@ -176,7 +174,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 }
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
                     if (isPaymentEligibleForGLPosting(assetPaymentDetail)) {
-                        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+                        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
                         if (ObjectUtils.isNotNull(assetPaymentDetail.getFinancialObjectCode())) {
                             KualiDecimal accountChargeAmount = assetPaymentDetail.getAmount();
                             if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
@@ -361,7 +359,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     private Account getPlantFundAccount(AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         Account plantFundAccount = null;
 
-        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
 
         if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && ObjectUtils.isNotNull(assetGlobal.getOrganizationOwnerAccount())) {
@@ -415,7 +413,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentFederalContribution(org.kuali.module.cams.bo.AssetPaymentDetail)
      */
     public boolean isPaymentFederalContribution(AssetPaymentDetail assetPaymentDetail) {
-        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
             return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
         }

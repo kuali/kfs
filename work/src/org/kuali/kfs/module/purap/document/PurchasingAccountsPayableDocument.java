@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
@@ -35,6 +37,21 @@ import org.kuali.module.vendor.bo.VendorDetail;
  * Interface for Purchasing-Accounts Payable Documents.
  */
 public interface PurchasingAccountsPayableDocument extends AccountingDocument, PurapItemOperations {
+
+    /**
+     * Returns true if posting year on document is set to use NEXT fiscal year. If set to anything besides NEXT, then return false.
+     * 
+     * @return boolean
+     */
+    public boolean isPostingYearNext();
+
+    /**
+     * If posting year on document is set to use NEXT fiscal year, then return NEXT. If set to anything besides NEXT, then return
+     * CURRENT fiscal year.  This is assuming that the system does not allow the user to set a posting year beyond NEXT. 
+     * 
+     * @return Integer
+     */
+    public Integer getPostingYearNextOrCurrent();
 
     /**
      * Returns the Item Class.

@@ -36,6 +36,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
@@ -102,6 +103,26 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         items = new TypedArrayList(getItemClass());
     }
 
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#isPostingYearNext()
+     */
+    public boolean isPostingYearNext() {
+        Integer currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        return (getPostingYear().compareTo(currentFY) > 0);
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPostingYearNextOrCurrent()
+     */
+    public Integer getPostingYearNextOrCurrent() {
+        if (isPostingYearNext()) {
+            //FY is set to next; use it
+            return getPostingYear();
+        }
+        //FY is NOT set to next; use CURRENT
+        return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+    }
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
      */

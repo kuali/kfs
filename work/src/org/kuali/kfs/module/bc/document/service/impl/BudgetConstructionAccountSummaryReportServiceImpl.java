@@ -275,25 +275,24 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
                 orgAccountSummaryReportEntry.setTotalNetTransferReqAmount(bcasTotalEntry.getTotalNetTransferReqAmount());
 
                 orgAccountSummaryReportEntry.setTotalRevenueAmountChange(orgAccountSummaryReportEntry.getTotalRevenueReqAmount() - orgAccountSummaryReportEntry.getTotalRevenueBaseAmount());
-
                 percentChange = BudgetConstructionReportHelper.calculatePercent(orgAccountSummaryReportEntry.getTotalRevenueAmountChange(), orgAccountSummaryReportEntry.getTotalRevenueBaseAmount());
                 orgAccountSummaryReportEntry.setTotalRevenuePercentChange(percentChange);
-                orgAccountSummaryReportEntry.setTotalGrossAmountChange(orgAccountSummaryReportEntry.getTotalGrossReqAmount() - orgAccountSummaryReportEntry.getTotalGrossBaseAmount());
 
+                orgAccountSummaryReportEntry.setTotalGrossAmountChange(orgAccountSummaryReportEntry.getTotalGrossReqAmount() - orgAccountSummaryReportEntry.getTotalGrossBaseAmount());
                 percentChange = BudgetConstructionReportHelper.calculatePercent(orgAccountSummaryReportEntry.getTotalGrossAmountChange(), orgAccountSummaryReportEntry.getTotalGrossBaseAmount());
                 orgAccountSummaryReportEntry.setTotalGrossPercentChange(percentChange);
+                
                 orgAccountSummaryReportEntry.setTotalTransferAmountChange(orgAccountSummaryReportEntry.getTotalTransferInReqAmount() - orgAccountSummaryReportEntry.getTotalTransferInBaseAmount());
-
                 percentChange = BudgetConstructionReportHelper.calculatePercent(orgAccountSummaryReportEntry.getTotalTransferAmountChange(), orgAccountSummaryReportEntry.getTotalTransferInBaseAmount());
                 orgAccountSummaryReportEntry.setTotalTransferInPercentChange(percentChange);
 
+                orgAccountSummaryReportEntry.setTotalNetTransferAmountChange(orgAccountSummaryReportEntry.getTotalNetTransferReqAmount() - orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount());
                 percentChange = BudgetConstructionReportHelper.calculatePercent(orgAccountSummaryReportEntry.getTotalNetTransferAmountChange(), orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount());
                 orgAccountSummaryReportEntry.setTotalNetTransferPercentChange(percentChange);
-
+                
                 orgAccountSummaryReportEntry.setRevExpDifferenceBaseAmount(orgAccountSummaryReportEntry.getTotalRevenueBaseAmount() - orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount());
                 orgAccountSummaryReportEntry.setRevExpDifferenceReqAmount(orgAccountSummaryReportEntry.getTotalRevenueReqAmount() - orgAccountSummaryReportEntry.getTotalNetTransferReqAmount());
                 orgAccountSummaryReportEntry.setRevExpDifferenceAmountChange(orgAccountSummaryReportEntry.getRevExpDifferenceReqAmount() - orgAccountSummaryReportEntry.getRevExpDifferenceBaseAmount());
-
                 percentChange = BudgetConstructionReportHelper.calculatePercent(orgAccountSummaryReportEntry.getRevExpDifferenceAmountChange(), orgAccountSummaryReportEntry.getRevExpDifferenceBaseAmount());
                 orgAccountSummaryReportEntry.setRevExpDifferencePercentChange(percentChange);
             }

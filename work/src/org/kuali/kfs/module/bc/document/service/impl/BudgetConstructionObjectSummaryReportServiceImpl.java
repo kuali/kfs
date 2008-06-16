@@ -159,7 +159,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgObjectSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
         orgObjectSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
-        orgObjectSummaryReportEntry.setHeader1("Object Level Name");
+        orgObjectSummaryReportEntry.setHeader1("Object Name");
         orgObjectSummaryReportEntry.setHeader2a("Lv. FTE");
         orgObjectSummaryReportEntry.setHeader2("FTE");
         orgObjectSummaryReportEntry.setHeader3("Amount");
@@ -184,6 +184,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      */
     private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
 
+        orgObjectSummaryReportEntry.setFinancialObjectCode(objectSummary.getFinancialObjectCode());
         // To get ObjectName: There is no universityFiscalyear field in BudgetConstructionObjectSummary,
         // so we can get ObjectName by getting ObjectCode with Primary key.
         ObjectCode objectCode = budgetConstructionReportsServiceHelper.getObjectCode(universityFiscalYear, objectSummary.getChartOfAccountsCode(), objectSummary.getFinancialObjectCode());

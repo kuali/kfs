@@ -55,6 +55,7 @@ public class BudgetConstructionOrgObjectSummaryReport {
     private String financialLevelSortCode;
     
     // Body parts
+    private String financialObjectCode;
     private String financialObjectName;
     
     //when the values are zero, below fields should be blank, so make them as string.
@@ -991,6 +992,14 @@ public class BudgetConstructionOrgObjectSummaryReport {
 
     public void setTypePositionCsfLeaveFteQuantity(BigDecimal typePositionCsfLeaveFteQuantity) {
         this.typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity;
+    }
+
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
     }
 
    }

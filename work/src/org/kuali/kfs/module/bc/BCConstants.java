@@ -215,7 +215,9 @@ public class BCConstants extends JSTLConstants {
         public final static String VACANT = "VACANT";
         public final static String BLANK_SUB_OBJECT_CODE = "---";
         public final static String BLANK = "";
-        public final static String DELETE_MARK = "*"; 
+        public final static String DASHES_SUB_ACCOUNT_CODE = "-----";
+        public final static String DELETE_MARK = "*";
+        public final static String DIVIDER = "/";
         public final static String REVENUE = "REVENUE";
         public final static String EXPENDITURE = "EXPENDITURE";
         public final static String CONSOLIIDATED = "Consolidated";

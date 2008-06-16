@@ -51,6 +51,7 @@
 	<field name="incomeExpenseCode" class="java.lang.String"/>
 	<field name="financialConsolidationSortCode" class="java.lang.String"/>
 	<field name="financialLevelSortCode" class="java.lang.String"/>
+	<field name="financialObjectCode" class="java.lang.String"/>
 	<field name="financialObjectName" class="java.lang.String"/>
 	<field name="positionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
 	<field name="csfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
@@ -117,7 +118,7 @@
 			<band height="67"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="32"
+						x="20"
 						y="2"
 						width="66"
 						height="12"
@@ -134,7 +135,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="99"
+						x="87"
 						y="2"
 						width="157"
 						height="12"
@@ -236,7 +237,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
+						x="101"
 						y="15"
 						width="157"
 						height="12"
@@ -476,7 +477,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
+						x="101"
 						y="28"
 						width="157"
 						height="12"
@@ -504,7 +505,7 @@
 			<band height="42"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="32"
+						x="39"
 						y="4"
 						width="66"
 						height="12"
@@ -524,7 +525,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="99"
+						x="106"
 						y="4"
 						width="157"
 						height="12"
@@ -680,7 +681,7 @@
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="32"
+						x="39"
 						y="17"
 						width="66"
 						height="12"
@@ -697,7 +698,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="99"
+						x="106"
 						y="17"
 						width="157"
 						height="12"
@@ -895,7 +896,7 @@
 			<band height="23"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="32"
+						x="28"
 						y="6"
 						width="66"
 						height="12"
@@ -912,7 +913,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="99"
+						x="95"
 						y="6"
 						width="157"
 						height="12"
@@ -1129,7 +1130,7 @@
 			<band height="21"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="32"
+						x="19"
 						y="7"
 						width="66"
 						height="12"
@@ -1146,7 +1147,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="99"
+						x="86"
 						y="7"
 						width="157"
 						height="12"
@@ -2078,7 +2079,7 @@
 			<band height="15"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="9"
+						x="45"
 						y="0"
 						width="183"
 						height="12"
@@ -2245,6 +2246,23 @@
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{amountChange}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="9"
+						y="0"
+						width="35"
+						height="12"
+						key="textField-155"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{financialObjectCode}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

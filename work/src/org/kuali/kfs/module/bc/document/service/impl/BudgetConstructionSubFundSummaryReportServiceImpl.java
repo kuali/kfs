@@ -44,9 +44,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionSubFundSummaryReportServiceImpl implements BudgetConstructionSubFundSummaryReportService {
 
-    BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
-    KualiConfigurationService kualiConfigurationService;
-    BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    private BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
+    private KualiConfigurationService kualiConfigurationService;
+    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    private boolean trExist = false;
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
@@ -155,7 +156,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * @param subFundSummary
      */
     public void buildReportsBody(BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummary) {
-        boolean trExist = false;
+        
         // build income expense description
         if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
             orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_REVENUE));

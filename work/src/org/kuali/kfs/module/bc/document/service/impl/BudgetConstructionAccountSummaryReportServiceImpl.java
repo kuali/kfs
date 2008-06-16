@@ -43,9 +43,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionAccountSummaryReportServiceImpl implements BudgetConstructionAccountSummaryReportService {
 
-    BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
-    KualiConfigurationService kualiConfigurationService;
-    BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    private BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
+    private KualiConfigurationService kualiConfigurationService;
+    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    private boolean trExist = false;
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
@@ -116,7 +117,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, boolean consolidated) {
+    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, boolean consolidated) {
         String orgChartDesc = accountSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = accountSummary.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = accountSummary.getOrganization().getOrganizationName();
@@ -188,10 +189,10 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    public void buildReportsBody(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
+    private void buildReportsBody(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
         orgAccountSummaryReportEntry.setAccountNumber(accountSummary.getAccountNumber());
         orgAccountSummaryReportEntry.setSubAccountNumber(accountSummary.getSubAccountNumber());
-        boolean trExist = false;
+        
         if (accountSummary.getSubAccountNumber().equals("-----")) {
             if (accountSummary.getAccount().getAccountName() == null) {
                 orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
@@ -258,7 +259,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @param BudgetConstructionAccountSummary bcas
      * @param List reportTotalList
      */
-    public void buildReportsTotal(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, List reportTotalList) {
+    private void buildReportsTotal(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, List reportTotalList) {
         Iterator totalListIter = reportTotalList.iterator();
         while (totalListIter.hasNext()) {
             BudgetConstructionOrgAccountSummaryReportTotal bcasTotalEntry = (BudgetConstructionOrgAccountSummaryReportTotal) totalListIter.next();
@@ -305,7 +306,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @param List bcasList
      * @param List simpleList
      */
-    public List calculateTotal(List bcasList, List simpleList) {
+    private List calculateTotal(List bcasList, List simpleList) {
 
         Integer totalRevenueBaseAmount = 0;
         Integer totalGrossBaseAmount = 0;

@@ -38,7 +38,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String baseFy;
     private String reqFy;
     private String objectCodes;
-    private String numberAndNameForAccountSubAccount;
+    private String accountName;
+    private String subAccountName;
+    private String accountNumberAndName; 
+    private String subAccountNumberAndName;
+    private String divider;
     
     // Groups
     private String accountNumber;
@@ -94,9 +98,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private BigDecimal totalObjectAppointmentRequestedFteQuantity;
     private Integer totalObjectAmountChange;
     private BigDecimal totalObjectPercentChange;
-    
-    private String totalAccountname;
-    private String totalSubAccountname;
     
     private Integer totalAccountPositionCsfAmount;
     private Integer totalAccountAppointmentRequestedAmount;
@@ -558,14 +559,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.totalAccountAppointmentRequestedFteQuantity = totalAccountAppointmentRequestedFteQuantity;
     }
 
-    public String getTotalAccountname() {
-        return totalAccountname;
-    }
-
-    public void setTotalAccountname(String totalAccountname) {
-        this.totalAccountname = totalAccountname;
-    }
-
     public BigDecimal getTotalAccountPercentChange() {
         return totalAccountPercentChange;
     }
@@ -644,14 +637,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
 
     public void setTotalObjectPositionCsfFteQuantity(BigDecimal totalObjectPositionCsfFteQuantity) {
         this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
-    }
-
-    public String getTotalSubAccountname() {
-        return totalSubAccountname;
-    }
-
-    public void setTotalSubAccountname(String totalSubAccountname) {
-        this.totalSubAccountname = totalSubAccountname;
     }
 
     public String getPersonName() {
@@ -734,13 +719,43 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.objectCodes = objectCodes;
     }
 
-    public String getNumberAndNameForAccountSubAccount() {
-        return numberAndNameForAccountSubAccount;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setNumberAndNameForAccountSubAccount(String numberAndNameForAccountSubAccount) {
-        this.numberAndNameForAccountSubAccount = numberAndNameForAccountSubAccount;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
+    public String getSubAccountName() {
+        return subAccountName;
+    }
 
+    public void setSubAccountName(String subAccountName) {
+        this.subAccountName = subAccountName;
+    }
+
+    public String getAccountNumberAndName() {
+        return accountNumberAndName;
+    }
+
+    public void setAccountNumberAndName(String accountNumberAndName) {
+        this.accountNumberAndName = accountNumberAndName;
+    }
+
+    public String getSubAccountNumberAndName() {
+        return subAccountNumberAndName;
+    }
+
+    public void setSubAccountNumberAndName(String subAccountNumberAndName) {
+        this.subAccountNumberAndName = subAccountNumberAndName;
+    }
+
+    public String getDivider() {
+        return divider;
+    }
+
+    public void setDivider(String divider) {
+        this.divider = divider;
+    }
 }

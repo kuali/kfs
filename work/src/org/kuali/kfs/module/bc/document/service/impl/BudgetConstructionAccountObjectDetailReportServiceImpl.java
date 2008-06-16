@@ -52,21 +52,23 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     private KualiConfigurationService kualiConfigurationService;
     private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     private BusinessObjectService businessObjectService;
+
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
     public void updateAccountObjectDetailReport(String personUserIdentifier, boolean consolidated) {
-        if (consolidated){
+        if (consolidated) {
             budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectConsolidatedTable(personUserIdentifier);
-        } else {
+        }
+        else {
             budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectDetailTable(personUserIdentifier);
         }
     }
-   
-    public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear,  String personUserIdentifier){
+
+    public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidated) {
         Collection<BudgetConstructionOrgAccountObjectDetailReport> reportSet = new ArrayList();
         Collection<BudgetConstructionAccountBalance> accountObjectDetailList;
-        
+
         // build searchCriteria
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
@@ -75,7 +77,6 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         List<String> orderList = buildOrderByList();
         accountObjectDetailList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionAccountBalance.class, searchCriteria, orderList);
 
-        
 
         // BudgetConstructionReportHelper.deleteDuplicated((List) positionFundingDetailList, fieldsForSubFundTotal())
         List listForCalculateObject = BudgetConstructionReportHelper.deleteDuplicated((List) accountObjectDetailList, fieldsForObject());
@@ -90,7 +91,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalGexpAndTypeList;
         List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailAccountTotalList;
         List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailSubFundTotalList;
-        
+
         accountObjectDetailTotalObjectList = calculateObjectTotal((List) accountObjectDetailList, listForCalculateObject);
         accountObjectDetailTotalLevelList = calculateLevelTotal((List) accountObjectDetailList, listForCalculateLevel);
         accountObjectDetailTotalGexpAndTypeList = calculateGexpAndTypeTotal((List) accountObjectDetailList, listForCalculateGexpAndType);
@@ -99,27 +100,24 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         for (BudgetConstructionAccountBalance accountObjectDetailEntry : accountObjectDetailList) {
             BudgetConstructionOrgAccountObjectDetailReport accountObjectDetailReport = new BudgetConstructionOrgAccountObjectDetailReport();
-            buildReportsHeader(universityFiscalYear, accountObjectDetailReport, accountObjectDetailEntry);
+            buildReportsHeader(universityFiscalYear, accountObjectDetailReport, accountObjectDetailEntry, consolidated);
             buildReportsBody(universityFiscalYear, accountObjectDetailReport, accountObjectDetailEntry);
             buildReportsTotal(accountObjectDetailReport, accountObjectDetailEntry, accountObjectDetailTotalObjectList, accountObjectDetailTotalLevelList, accountObjectDetailTotalGexpAndTypeList, accountObjectDetailAccountTotalList, accountObjectDetailSubFundTotalList);
             reportSet.add(accountObjectDetailReport);
         }
         return reportSet;
     }
-    
-    
-    
-    
-    
+
+
     /**
      * builds report Header
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
+    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance, boolean consolidated) {
         String orgChartDesc = accountBalance.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = accountBalance.getChartOfAccounts().getFinChartOfAccountDescription();
-        String orgName ="";
+        String orgName = "";
         try {
             orgName = accountBalance.getOrganization().getOrganizationName();
         }
@@ -186,48 +184,81 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         orgAccountObjectDetailReportEntry.setHeader4("Amount");
         orgAccountObjectDetailReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgAccountObjectDetailReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgAccountObjectDetailReportEntry.setConsHdr("");
+        if (consolidated) {
+            orgAccountObjectDetailReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
+        }
+        else {
+            orgAccountObjectDetailReportEntry.setConsHdr(BCConstants.Report.BLANK);
+        }
+
+        orgAccountObjectDetailReportEntry.setAccountNumber(accountBalance.getAccountNumber());
+        String accountName = accountBalance.getAccount().getAccountName();
+        if (accountName == null) {
+            orgAccountObjectDetailReportEntry.setAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
+        }
+        else {
+            orgAccountObjectDetailReportEntry.setAccountName(accountName);
+        }
+
+        orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber());
+        //TODO: ask to Gary or Jerry about persistenceBreakerexception
+        String subAccountName = "";
+        try {
+            subAccountName = accountBalance.getSubAccount().getSubAccountName();
+        }
+        catch (Exception e) {
+
+        }
+
+        if (subAccountName == null) {
+            orgAccountObjectDetailReportEntry.setSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
+        }
+        else {
+            orgAccountObjectDetailReportEntry.setSubAccountName(subAccountName);
+        }
+
 
         // For group
         orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber() + accountBalance.getAccountNumber());
         orgAccountObjectDetailReportEntry.setFinancialObjectCode(accountBalance.getFinancialObjectCode());
         orgAccountObjectDetailReportEntry.setFinancialSubObjectCode(accountBalance.getFinancialSubObjectCode());
-        //orgAccountObjectDetailReportEntry.setFinancialObjectLevelCode(accountBalance.getFinancialObjectLevelCode());
+        // orgAccountObjectDetailReportEntry.setFinancialObjectLevelCode(accountBalance.getFinancialObjectLevelCode());
         orgAccountObjectDetailReportEntry.setIncomeExpenseCode(accountBalance.getIncomeExpenseCode());
-        //orgAccountObjectDetailReportEntry.setFinancialConsolidationSortCode(accountBalance.getFinancialConsolidationSortCode());
+        // orgAccountObjectDetailReportEntry.setFinancialConsolidationSortCode(accountBalance.getFinancialConsolidationSortCode());
         orgAccountObjectDetailReportEntry.setFinancialLevelSortCode(accountBalance.getFinancialLevelSortCode());
-        
+
         // page break
-        
-        //page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
+
+        // page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
         orgAccountObjectDetailReportEntry.setPageBreak(accountBalance.getOrganizationChartOfAccountsCode() + accountBalance.getOrganizationCode() + accountBalance.getSubFundGroupCode());
+
+
     }
 
-    
-    
+
     /**
      * builds report body
      * 
      * @param BudgetConstructionLevelSummary bcas
      */
     private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
-        
+        // TODO: Use BudgetConstructionReportHelper
         orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialObject().getFinancialObjectCodeName());
-        
+
         if (accountBalance.getPositionCsfLeaveFteQuantity() != null && !accountBalance.getPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setPositionCsfLeaveFteQuantity(accountBalance.getPositionCsfLeaveFteQuantity().setScale(2).toString());
+            orgAccountObjectDetailReportEntry.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionCsfLeaveFteQuantity(), 2, true));
         }
 
         if (accountBalance.getPositionFullTimeEquivalencyQuantity() != null && !accountBalance.getPositionFullTimeEquivalencyQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setPositionFullTimeEquivalencyQuantity(accountBalance.getPositionFullTimeEquivalencyQuantity().setScale(2).toString());
+            orgAccountObjectDetailReportEntry.setPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionFullTimeEquivalencyQuantity(), 2, true));
         }
 
         if (accountBalance.getAppointmentRequestedCsfFteQuantity() != null && !accountBalance.getAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setAppointmentRequestedCsfFteQuantity(accountBalance.getAppointmentRequestedCsfFteQuantity().setScale(2).toString());
+            orgAccountObjectDetailReportEntry.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getAppointmentRequestedCsfFteQuantity(), 2, true));
         }
 
         if (accountBalance.getAppointmentRequestedFteQuantity() != null && !accountBalance.getAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setAppointmentRequestedFteQuantity(accountBalance.getAppointmentRequestedFteQuantity().setScale(2).toString());
+            orgAccountObjectDetailReportEntry.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getAppointmentRequestedFteQuantity(), 2, true));
         }
 
         if (accountBalance.getAccountLineAnnualBalanceAmount() != null) {
@@ -243,84 +274,60 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             orgAccountObjectDetailReportEntry.setAmountChange(new Integer(changeAmount));
         }
         orgAccountObjectDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(orgAccountObjectDetailReportEntry.getAmountChange(), orgAccountObjectDetailReportEntry.getFinancialBeginningBalanceLineAmount()));
-            
+
 
     }
 
-    
+
     /**
      * builds report total
-     * 
      */
 
-    private void buildReportsTotal(BudgetConstructionOrgAccountObjectDetailReport orgObjectSummaryReportEntry, BudgetConstructionAccountBalance accountBalance,
-            List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalObjectList,
-            List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalLevelList, 
-            List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalGexpAndTypeList, 
-            List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailAccountTotalList,
-            List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailSubFundTotalList) {
-        
+    private void buildReportsTotal(BudgetConstructionOrgAccountObjectDetailReport orgObjectSummaryReportEntry, BudgetConstructionAccountBalance accountBalance, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalObjectList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalLevelList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalGexpAndTypeList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailAccountTotalList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailSubFundTotalList) {
+
         for (BudgetConstructionOrgAccountObjectDetailReportTotal objectTotal : accountObjectDetailTotalObjectList) {
             if (BudgetConstructionReportHelper.isSameEntry(accountBalance, objectTotal.getBudgetConstructionAccountBalance(), fieldsForObject())) {
                 orgObjectSummaryReportEntry.setTotalObjectDescription(accountBalance.getFinancialObject().getFinancialObjectCodeName());
 
-                // The total part shouldn't have null value, so just checking '0'
-                if (!objectTotal.getTotalObjectPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalObjectPositionCsfLeaveFteQuantity(objectTotal.getTotalObjectPositionCsfLeaveFteQuantity().setScale(2).toString());
-                }
-                if (!objectTotal.getTotalObjectPositionFullTimeEquivalencyQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalObjectPositionFullTimeEquivalencyQuantity(objectTotal.getTotalObjectPositionFullTimeEquivalencyQuantity().setScale(2).toString());
-                }
+                orgObjectSummaryReportEntry.setTotalObjectPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectPositionCsfLeaveFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setTotalObjectPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectPositionFullTimeEquivalencyQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setTotalObjectFinancialBeginningBalanceLineAmount(objectTotal.getTotalObjectFinancialBeginningBalanceLineAmount());
-
-                if (!objectTotal.getTotalObjectAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalObjectAppointmentRequestedCsfFteQuantity(objectTotal.getTotalObjectAppointmentRequestedCsfFteQuantity().setScale(2).toString());
-                }
-                if (!objectTotal.getTotalObjectAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalObjectAppointmentRequestedFteQuantity(objectTotal.getTotalObjectAppointmentRequestedFteQuantity().setScale(2).toString());
-                }
+                orgObjectSummaryReportEntry.setTotalObjectAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectAppointmentRequestedCsfFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setTotalObjectAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectAppointmentRequestedFteQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setTotalObjectAccountLineAnnualBalanceAmount(objectTotal.getTotalObjectAccountLineAnnualBalanceAmount());
 
-                orgObjectSummaryReportEntry.setTotalObjectAmountChange(objectTotal.getTotalObjectAmountChange());
-                orgObjectSummaryReportEntry.setTotalObjectPercentChange(BudgetConstructionReportHelper.calculatePercent(objectTotal.getTotalObjectAmountChange(), objectTotal.getTotalObjectFinancialBeginningBalanceLineAmount()));
+                Integer totalObjectAmountChange = objectTotal.getTotalObjectAccountLineAnnualBalanceAmount() - objectTotal.getTotalObjectFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setTotalObjectAmountChange(totalObjectAmountChange);
+                orgObjectSummaryReportEntry.setTotalObjectPercentChange(BudgetConstructionReportHelper.calculatePercent(totalObjectAmountChange, objectTotal.getTotalObjectFinancialBeginningBalanceLineAmount()));
             }
         }
-        
+
         for (BudgetConstructionOrgAccountObjectDetailReportTotal levelTotal : accountObjectDetailTotalLevelList) {
             if (BudgetConstructionReportHelper.isSameEntry(accountBalance, levelTotal.getBudgetConstructionAccountBalance(), fieldsForLevel())) {
                 orgObjectSummaryReportEntry.setTotalLevelDescription(accountBalance.getFinancialObjectLevel().getFinancialObjectLevelName());
 
-                // The total part shouldn't have null value, so just checking '0'
-                if (!levelTotal.getTotalLevelPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalLevelPositionCsfLeaveFteQuantity(levelTotal.getTotalLevelPositionCsfLeaveFteQuantity().setScale(2).toString());
-                }
-                if (!levelTotal.getTotalLevelPositionFullTimeEquivalencyQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalLevelPositionFullTimeEquivalencyQuantity(levelTotal.getTotalLevelPositionFullTimeEquivalencyQuantity().setScale(2).toString());
-                }
+                orgObjectSummaryReportEntry.setTotalLevelPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelPositionCsfLeaveFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setTotalLevelPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelPositionFullTimeEquivalencyQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setTotalLevelFinancialBeginningBalanceLineAmount(levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount());
-
-                if (!levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalLevelAppointmentRequestedCsfFteQuantity(levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity().setScale(2).toString());
-                }
-                if (!levelTotal.getTotalLevelAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTotalLevelAppointmentRequestedFteQuantity(levelTotal.getTotalLevelAppointmentRequestedFteQuantity().setScale(2).toString());
-                }
+                orgObjectSummaryReportEntry.setTotalLevelAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setTotalLevelAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelAppointmentRequestedFteQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setTotalLevelAccountLineAnnualBalanceAmount(levelTotal.getTotalLevelAccountLineAnnualBalanceAmount());
 
-                orgObjectSummaryReportEntry.setTotalLevelAmountChange(levelTotal.getTotalLevelAmountChange());
-                orgObjectSummaryReportEntry.setTotalLevelPercentChange(BudgetConstructionReportHelper.calculatePercent(levelTotal.getTotalLevelAmountChange(), levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount()));
-
+                Integer totalLevelAmountChange = levelTotal.getTotalLevelAccountLineAnnualBalanceAmount() - levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setTotalLevelAmountChange(totalLevelAmountChange);
+                orgObjectSummaryReportEntry.setTotalLevelPercentChange(BudgetConstructionReportHelper.calculatePercent(totalLevelAmountChange, levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount()));
             }
         }
-        
+
 
         for (BudgetConstructionOrgAccountObjectDetailReportTotal gexpAndTypeTotal : accountObjectDetailTotalGexpAndTypeList) {
             if (BudgetConstructionReportHelper.isSameEntry(accountBalance, gexpAndTypeTotal.getBudgetConstructionAccountBalance(), fieldsForGexpAndType())) {
 
                 orgObjectSummaryReportEntry.setGrossFinancialBeginningBalanceLineAmount(gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setGrossAccountLineAnnualBalanceAmount(gexpAndTypeTotal.getGrossAccountLineAnnualBalanceAmount());
-                orgObjectSummaryReportEntry.setGrossAmountChange(gexpAndTypeTotal.getGrossAmountChange());
-                orgObjectSummaryReportEntry.setGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(gexpAndTypeTotal.getGrossAmountChange(), gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount()));
+                Integer grossAmountChange = gexpAndTypeTotal.getGrossAccountLineAnnualBalanceAmount() - gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setGrossAmountChange(grossAmountChange);
+                orgObjectSummaryReportEntry.setGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(grossAmountChange, gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount()));
 
                 if (accountBalance.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
                     orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
@@ -329,76 +336,133 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                     orgObjectSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
                 }
 
-                if (!gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity().setScale(2).toString());
-                }
-                if (!gexpAndTypeTotal.getTypePositionFullTimeEquivalencyQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTypePositionFullTimeEquivalencyQuantity(gexpAndTypeTotal.getTypePositionFullTimeEquivalencyQuantity().setScale(2).toString());
-                }
+                orgObjectSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setTypePositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionFullTimeEquivalencyQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setTypeFinancialBeginningBalanceLineAmount(gexpAndTypeTotal.getTypeFinancialBeginningBalanceLineAmount());
-
-                if (!gexpAndTypeTotal.getTypeAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTypeAppointmentRequestedCsfFteQuantity(gexpAndTypeTotal.getTypeAppointmentRequestedCsfFteQuantity().setScale(2).toString());
-                }
-                if (!gexpAndTypeTotal.getTypeAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgObjectSummaryReportEntry.setTypeAppointmentRequestedFteQuantity(gexpAndTypeTotal.getTypeAppointmentRequestedFteQuantity().setScale(2).toString());
-                }
+                orgObjectSummaryReportEntry.setTypeAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypeAppointmentRequestedCsfFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setTypeAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypeAppointmentRequestedFteQuantity(), 2, true));
 
                 orgObjectSummaryReportEntry.setTypeAccountLineAnnualBalanceAmount(gexpAndTypeTotal.getTypeAccountLineAnnualBalanceAmount());
-                orgObjectSummaryReportEntry.setTypeAmountChange(gexpAndTypeTotal.getTypeAmountChange());
-                orgObjectSummaryReportEntry.setTypePercentChange(BudgetConstructionReportHelper.calculatePercent(gexpAndTypeTotal.getTypeAmountChange(), gexpAndTypeTotal.getTypeFinancialBeginningBalanceLineAmount()));
+                Integer typeAmountChange = gexpAndTypeTotal.getTypeAccountLineAnnualBalanceAmount() - gexpAndTypeTotal.getTypeFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setTypeAmountChange(typeAmountChange);
+                orgObjectSummaryReportEntry.setTypePercentChange(BudgetConstructionReportHelper.calculatePercent(typeAmountChange, gexpAndTypeTotal.getTypeFinancialBeginningBalanceLineAmount()));
             }
         }
 
         for (BudgetConstructionOrgAccountObjectDetailReportTotal accountTotal : accountObjectDetailAccountTotalList) {
             if (BudgetConstructionReportHelper.isSameEntry(accountBalance, accountTotal.getBudgetConstructionAccountBalance(), fieldsForAccountTotal())) {
+
+                if (orgObjectSummaryReportEntry.getSubAccountName().equals(BCConstants.Report.BLANK)) {
+                    orgObjectSummaryReportEntry.setAccountNameForAccountTotal(orgObjectSummaryReportEntry.getAccountName());
+                }
+                else {
+                    orgObjectSummaryReportEntry.setAccountNameForAccountTotal(orgObjectSummaryReportEntry.getSubAccountName());
+                }
+                
+                orgObjectSummaryReportEntry.setAccountPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountPositionCsfLeaveFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setAccountPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountPositionFullTimeEquivalencyQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setAccountAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountAppointmentRequestedCsfFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setAccountAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountAppointmentRequestedFteQuantity(), 2, true));
                 
                 orgObjectSummaryReportEntry.setAccountRevenueFinancialBeginningBalanceLineAmount(accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setAccountRevenueAccountLineAnnualBalanceAmount(accountTotal.getAccountRevenueAccountLineAnnualBalanceAmount());
+
+                Integer accountRevenueAmountChange = accountTotal.getAccountRevenueAccountLineAnnualBalanceAmount() - accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setAccountRevenueAmountChange(accountRevenueAmountChange);
+                orgObjectSummaryReportEntry.setAccountRevenuePercentChange(BudgetConstructionReportHelper.calculatePercent(accountRevenueAmountChange, accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount()));
+
+                Integer accountGrossFinancialBeginningBalanceLineAmount = accountTotal.getAccountExpenditureFinancialBeginningBalanceLineAmount() - accountTotal.getAccountTrnfrInFinancialBeginningBalanceLineAmount();
+                Integer accountGrossAccountLineAnnualBalanceAmount = accountTotal.getAccountExpenditureAccountLineAnnualBalanceAmount() - accountTotal.getAccountTrnfrInAccountLineAnnualBalanceAmount();
+                orgObjectSummaryReportEntry.setAccountGrossFinancialBeginningBalanceLineAmount(accountGrossFinancialBeginningBalanceLineAmount);
+                orgObjectSummaryReportEntry.setAccountGrossAccountLineAnnualBalanceAmount(accountGrossAccountLineAnnualBalanceAmount);
+                Integer accountGrossAmountChange = accountGrossAccountLineAnnualBalanceAmount - accountGrossFinancialBeginningBalanceLineAmount;
+                orgObjectSummaryReportEntry.setAccountGrossAmountChange(accountGrossAmountChange);
+                orgObjectSummaryReportEntry.setAccountGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(accountGrossAmountChange, accountGrossFinancialBeginningBalanceLineAmount));
+
+                orgObjectSummaryReportEntry.setAccountTrnfrInFinancialBeginningBalanceLineAmount(accountTotal.getAccountTrnfrInFinancialBeginningBalanceLineAmount());
+                orgObjectSummaryReportEntry.setAccountTrnfrInAccountLineAnnualBalanceAmount(accountTotal.getAccountTrnfrInAccountLineAnnualBalanceAmount());
+
+                Integer accountTrnfrInAmountChange = accountTotal.getAccountTrnfrInAccountLineAnnualBalanceAmount() - accountTotal.getAccountTrnfrInFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setAccountTrnfrInAmountChange(accountTrnfrInAmountChange);
+                orgObjectSummaryReportEntry.setAccountTrnfrInPercentChange(BudgetConstructionReportHelper.calculatePercent(accountTrnfrInAmountChange, accountTotal.getAccountTrnfrInFinancialBeginningBalanceLineAmount()));
+
                 orgObjectSummaryReportEntry.setAccountExpenditureFinancialBeginningBalanceLineAmount(accountTotal.getAccountExpenditureFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setAccountExpenditureAccountLineAnnualBalanceAmount(accountTotal.getAccountExpenditureAccountLineAnnualBalanceAmount());
 
-                orgObjectSummaryReportEntry.setAccountRevenueAmountChange(accountTotal.getAccountRevenueAmountChange());
-                orgObjectSummaryReportEntry.setAccountRevenuePercentChange(BudgetConstructionReportHelper.calculatePercent(accountTotal.getAccountRevenueAmountChange(), accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount()));
+                Integer accountExpenditureAmountChange = accountTotal.getAccountExpenditureAccountLineAnnualBalanceAmount() - accountTotal.getAccountExpenditureFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setAccountExpenditureAmountChange(accountExpenditureAmountChange);
+                orgObjectSummaryReportEntry.setAccountExpenditurePercentChange(BudgetConstructionReportHelper.calculatePercent(accountExpenditureAmountChange, accountTotal.getAccountExpenditureFinancialBeginningBalanceLineAmount()));
 
-                orgObjectSummaryReportEntry.setAccountExpenditureAmountChange(accountTotal.getAccountExpenditureAmountChange());
-                orgObjectSummaryReportEntry.setAccountExpenditurePercentChange(BudgetConstructionReportHelper.calculatePercent(accountTotal.getAccountExpenditureAmountChange(), accountTotal.getAccountExpenditureFinancialBeginningBalanceLineAmount()));
+                Integer accountDifferenceFinancialBeginningBalanceLineAmount = accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount() - accountTotal.getAccountExpenditureFinancialBeginningBalanceLineAmount();
+                Integer accountDifferenceAccountLineAnnualBalanceAmount = accountTotal.getAccountRevenueAccountLineAnnualBalanceAmount() - accountTotal.getAccountExpenditureAccountLineAnnualBalanceAmount();
 
-                orgObjectSummaryReportEntry.setAccountDifferenceFinancialBeginningBalanceLineAmount(accountTotal.getAccountDifferenceFinancialBeginningBalanceLineAmount());
-                orgObjectSummaryReportEntry.setAccountDifferenceAccountLineAnnualBalanceAmount(accountTotal.getAccountDifferenceAccountLineAnnualBalanceAmount());
+                orgObjectSummaryReportEntry.setAccountDifferenceFinancialBeginningBalanceLineAmount(accountDifferenceFinancialBeginningBalanceLineAmount);
+                orgObjectSummaryReportEntry.setAccountDifferenceAccountLineAnnualBalanceAmount(accountDifferenceAccountLineAnnualBalanceAmount);
 
-                orgObjectSummaryReportEntry.setAccountDifferenceAmountChange(accountTotal.getAccountDifferenceAmountChange());
-                orgObjectSummaryReportEntry.setAccountDifferencePercentChange(BudgetConstructionReportHelper.calculatePercent(accountTotal.getAccountDifferenceAmountChange(), accountTotal.getAccountDifferenceFinancialBeginningBalanceLineAmount()));
+                orgObjectSummaryReportEntry.setAccountDifferenceFinancialBeginningBalanceLineAmount(accountDifferenceFinancialBeginningBalanceLineAmount);
+                orgObjectSummaryReportEntry.setAccountDifferenceAccountLineAnnualBalanceAmount(accountDifferenceAccountLineAnnualBalanceAmount);
+
+                Integer accountDifferenceAmountChange = accountDifferenceAccountLineAnnualBalanceAmount - accountDifferenceFinancialBeginningBalanceLineAmount;
+                orgObjectSummaryReportEntry.setAccountDifferenceAmountChange(accountDifferenceAmountChange);
+                orgObjectSummaryReportEntry.setAccountDifferencePercentChange(BudgetConstructionReportHelper.calculatePercent(accountDifferenceAmountChange, accountDifferenceFinancialBeginningBalanceLineAmount));
             }
         }
 
-        
         for (BudgetConstructionOrgAccountObjectDetailReportTotal subFundTotal : accountObjectDetailSubFundTotalList) {
             if (BudgetConstructionReportHelper.isSameEntry(accountBalance, subFundTotal.getBudgetConstructionAccountBalance(), fieldsForSubFundTotal())) {
+
+                orgObjectSummaryReportEntry.setSubFundPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundPositionCsfLeaveFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setSubFundPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundPositionFullTimeEquivalencyQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setSubFundAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundAppointmentRequestedCsfFteQuantity(), 2, true));
+                orgObjectSummaryReportEntry.setSubFundAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundAppointmentRequestedFteQuantity(), 2, true));
                 
                 orgObjectSummaryReportEntry.setSubFundRevenueFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setSubFundRevenueAccountLineAnnualBalanceAmount(subFundTotal.getSubFundRevenueAccountLineAnnualBalanceAmount());
+
+                Integer subFundRevenueAmountChange = subFundTotal.getSubFundRevenueAccountLineAnnualBalanceAmount() - subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setSubFundRevenueAmountChange(subFundRevenueAmountChange);
+                orgObjectSummaryReportEntry.setSubFundRevenuePercentChange(BudgetConstructionReportHelper.calculatePercent(subFundRevenueAmountChange, subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount()));
+
+                Integer subFundGrossFinancialBeginningBalanceLineAmount = subFundTotal.getSubFundExpenditureFinancialBeginningBalanceLineAmount() - subFundTotal.getSubFundTrnfrInFinancialBeginningBalanceLineAmount();
+                Integer subFundGrossAccountLineAnnualBalanceAmount = subFundTotal.getSubFundExpenditureAccountLineAnnualBalanceAmount() - subFundTotal.getSubFundTrnfrInAccountLineAnnualBalanceAmount();
+                orgObjectSummaryReportEntry.setSubFundGrossFinancialBeginningBalanceLineAmount(subFundGrossFinancialBeginningBalanceLineAmount);
+                orgObjectSummaryReportEntry.setSubFundGrossAccountLineAnnualBalanceAmount(subFundGrossAccountLineAnnualBalanceAmount);
+                Integer subFundGrossAmountChange = subFundGrossAccountLineAnnualBalanceAmount - subFundGrossFinancialBeginningBalanceLineAmount;
+                orgObjectSummaryReportEntry.setSubFundGrossAmountChange(subFundGrossAmountChange);
+                orgObjectSummaryReportEntry.setSubFundGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(subFundGrossAmountChange, subFundGrossFinancialBeginningBalanceLineAmount));
+
+                orgObjectSummaryReportEntry.setSubFundTrnfrInFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundTrnfrInFinancialBeginningBalanceLineAmount());
+                orgObjectSummaryReportEntry.setSubFundTrnfrInAccountLineAnnualBalanceAmount(subFundTotal.getSubFundTrnfrInAccountLineAnnualBalanceAmount());
+
+                Integer subFundTrnfrInAmountChange = subFundTotal.getSubFundTrnfrInAccountLineAnnualBalanceAmount() - subFundTotal.getSubFundTrnfrInFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setSubFundTrnfrInAmountChange(subFundTrnfrInAmountChange);
+                orgObjectSummaryReportEntry.setSubFundTrnfrInPercentChange(BudgetConstructionReportHelper.calculatePercent(subFundTrnfrInAmountChange, subFundTotal.getSubFundTrnfrInFinancialBeginningBalanceLineAmount()));
+
                 orgObjectSummaryReportEntry.setSubFundExpenditureFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundExpenditureFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setSubFundExpenditureAccountLineAnnualBalanceAmount(subFundTotal.getSubFundExpenditureAccountLineAnnualBalanceAmount());
 
-                orgObjectSummaryReportEntry.setSubFundRevenueAmountChange(subFundTotal.getSubFundRevenueAmountChange());
-                orgObjectSummaryReportEntry.setSubFundRevenuePercentChange(BudgetConstructionReportHelper.calculatePercent(subFundTotal.getSubFundRevenueAmountChange(), subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount()));
+                Integer subFundExpenditureAmountChange = subFundTotal.getSubFundExpenditureAccountLineAnnualBalanceAmount() - subFundTotal.getSubFundExpenditureFinancialBeginningBalanceLineAmount();
+                orgObjectSummaryReportEntry.setSubFundExpenditureAmountChange(subFundExpenditureAmountChange);
+                orgObjectSummaryReportEntry.setSubFundExpenditurePercentChange(BudgetConstructionReportHelper.calculatePercent(subFundExpenditureAmountChange, subFundTotal.getSubFundExpenditureFinancialBeginningBalanceLineAmount()));
 
-                orgObjectSummaryReportEntry.setSubFundExpenditureAmountChange(subFundTotal.getSubFundExpenditureAmountChange());
-                orgObjectSummaryReportEntry.setSubFundExpenditurePercentChange(BudgetConstructionReportHelper.calculatePercent(subFundTotal.getSubFundExpenditureAmountChange(), subFundTotal.getSubFundExpenditureFinancialBeginningBalanceLineAmount()));
+                Integer subFundDifferenceFinancialBeginningBalanceLineAmount = subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount() - subFundTotal.getSubFundExpenditureFinancialBeginningBalanceLineAmount();
+                Integer subFundDifferenceAccountLineAnnualBalanceAmount = subFundTotal.getSubFundRevenueAccountLineAnnualBalanceAmount() - subFundTotal.getSubFundExpenditureAccountLineAnnualBalanceAmount();
 
-                orgObjectSummaryReportEntry.setSubFundDifferenceFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundDifferenceFinancialBeginningBalanceLineAmount());
-                orgObjectSummaryReportEntry.setSubFundDifferenceAccountLineAnnualBalanceAmount(subFundTotal.getSubFundDifferenceAccountLineAnnualBalanceAmount());
+                orgObjectSummaryReportEntry.setSubFundDifferenceFinancialBeginningBalanceLineAmount(subFundDifferenceFinancialBeginningBalanceLineAmount);
+                orgObjectSummaryReportEntry.setSubFundDifferenceAccountLineAnnualBalanceAmount(subFundDifferenceAccountLineAnnualBalanceAmount);
 
-                orgObjectSummaryReportEntry.setSubFundDifferenceAmountChange(subFundTotal.getSubFundDifferenceAmountChange());
-                orgObjectSummaryReportEntry.setSubFundDifferencePercentChange(BudgetConstructionReportHelper.calculatePercent(subFundTotal.getSubFundDifferenceAmountChange(), subFundTotal.getSubFundDifferenceFinancialBeginningBalanceLineAmount()));
+                orgObjectSummaryReportEntry.setSubFundDifferenceFinancialBeginningBalanceLineAmount(subFundDifferenceFinancialBeginningBalanceLineAmount);
+                orgObjectSummaryReportEntry.setSubFundDifferenceAccountLineAnnualBalanceAmount(subFundDifferenceAccountLineAnnualBalanceAmount);
+
+                Integer subFundDifferenceAmountChange = subFundDifferenceAccountLineAnnualBalanceAmount - subFundDifferenceFinancialBeginningBalanceLineAmount;
+                orgObjectSummaryReportEntry.setSubFundDifferenceAmountChange(subFundDifferenceAmountChange);
+                orgObjectSummaryReportEntry.setSubFundDifferencePercentChange(BudgetConstructionReportHelper.calculatePercent(subFundDifferenceAmountChange, subFundDifferenceFinancialBeginningBalanceLineAmount));
             }
         }
 
-     
+
     }
-    
-    
+
     private List calculateObjectTotal(List<BudgetConstructionAccountBalance> bcosList, List<BudgetConstructionAccountBalance> simpleList) {
 
         BigDecimal totalObjectPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
@@ -407,13 +471,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         BigDecimal totalObjectAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
         BigDecimal totalObjectAppointmentRequestedFteQuantity = BigDecimal.ZERO;
         Integer totalObjectAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer totalObjectAmountChange = new Integer(0);
-        BigDecimal totalObjectPercentChange = BigDecimal.ZERO;
-        
+
         List returnList = new ArrayList();
-        
+
         for (BudgetConstructionAccountBalance simpleBcosEntry : simpleList) {
-            
+
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcosListEntry : bcosList) {
                 if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForObject())) {
@@ -433,8 +495,6 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             bcObjectTotal.setTotalObjectAppointmentRequestedFteQuantity(totalObjectAppointmentRequestedFteQuantity);
             bcObjectTotal.setTotalObjectAccountLineAnnualBalanceAmount(totalObjectAccountLineAnnualBalanceAmount);
 
-            totalObjectAmountChange = totalObjectAccountLineAnnualBalanceAmount - totalObjectFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setTotalObjectAmountChange(totalObjectAmountChange);
             returnList.add(bcObjectTotal);
 
             totalObjectPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
@@ -443,14 +503,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             totalObjectAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
             totalObjectAppointmentRequestedFteQuantity = BigDecimal.ZERO;
             totalObjectAccountLineAnnualBalanceAmount = new Integer(0);
-            totalObjectAmountChange = new Integer(0);
-            totalObjectPercentChange = BigDecimal.ZERO;
-
         }
         return returnList;
-        
+
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -463,13 +520,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         BigDecimal totalLevelAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
         BigDecimal totalLevelAppointmentRequestedFteQuantity = BigDecimal.ZERO;
         Integer totalLevelAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer totalLevelAmountChange = new Integer(0);
-        BigDecimal totalLevelPercentChange = BigDecimal.ZERO;
-        
+
         List returnList = new ArrayList();
-        
+
         for (BudgetConstructionAccountBalance simpleBcosEntry : simpleList) {
-            
+
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcosListEntry : bcosList) {
                 if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcosListEntry, fieldsForLevel())) {
@@ -488,9 +543,6 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             bcObjectTotal.setTotalLevelAppointmentRequestedCsfFteQuantity(totalLevelAppointmentRequestedCsfFteQuantity);
             bcObjectTotal.setTotalLevelAppointmentRequestedFteQuantity(totalLevelAppointmentRequestedFteQuantity);
             bcObjectTotal.setTotalLevelAccountLineAnnualBalanceAmount(totalLevelAccountLineAnnualBalanceAmount);
-            totalLevelAmountChange = totalLevelAccountLineAnnualBalanceAmount - totalLevelFinancialBeginningBalanceLineAmount;
-
-            bcObjectTotal.setTotalLevelAmountChange(totalLevelAmountChange);
 
             returnList.add(bcObjectTotal);
 
@@ -500,21 +552,15 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             totalLevelAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
             totalLevelAppointmentRequestedFteQuantity = BigDecimal.ZERO;
             totalLevelAccountLineAnnualBalanceAmount = new Integer(0);
-            totalLevelAmountChange = new Integer(0);
-            totalLevelPercentChange = BigDecimal.ZERO;
-
         }
         return returnList;
-        
     }
 
-    
+
     private List calculateGexpAndTypeTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
 
         Integer grossFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer grossAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer grossAmountChange = new Integer(0);
-        BigDecimal grossPercentChange = BigDecimal.ZERO;
 
         BigDecimal typePositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal typePositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
@@ -522,8 +568,6 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         BigDecimal typeAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
         BigDecimal typeAppointmentRequestedFteQuantity = BigDecimal.ZERO;
         Integer typeAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer typeAmountChange = new Integer(0);
-        BigDecimal typePercentChange = BigDecimal.ZERO;
 
         List returnList = new ArrayList();
         for (BudgetConstructionAccountBalance simpleBcosEntry : simpleList) {
@@ -548,8 +592,6 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
             bcObjectTotal.setGrossFinancialBeginningBalanceLineAmount(grossFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setGrossAccountLineAnnualBalanceAmount(grossAccountLineAnnualBalanceAmount);
-            grossAmountChange = grossAccountLineAnnualBalanceAmount - grossFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setGrossAmountChange(grossAmountChange);
 
             bcObjectTotal.setTypePositionCsfLeaveFteQuantity(typePositionCsfLeaveFteQuantity);
             bcObjectTotal.setTypePositionFullTimeEquivalencyQuantity(typePositionFullTimeEquivalencyQuantity);
@@ -558,15 +600,9 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             bcObjectTotal.setTypeAppointmentRequestedFteQuantity(typeAppointmentRequestedFteQuantity);
             bcObjectTotal.setTypeAccountLineAnnualBalanceAmount(typeAccountLineAnnualBalanceAmount);
 
-            typeAmountChange = typeAccountLineAnnualBalanceAmount - typeFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setTypeAmountChange(typeAmountChange);
-
-            
             returnList.add(bcObjectTotal);
             grossFinancialBeginningBalanceLineAmount = new Integer(0);
             grossAccountLineAnnualBalanceAmount = new Integer(0);
-            grossAmountChange = new Integer(0);
-            grossPercentChange = BigDecimal.ZERO;
 
             typePositionCsfLeaveFteQuantity = BigDecimal.ZERO;
             typePositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
@@ -574,29 +610,22 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             typeAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
             typeAppointmentRequestedFteQuantity = BigDecimal.ZERO;
             typeAccountLineAnnualBalanceAmount = new Integer(0);
-            typeAmountChange = new Integer(0);
-            typePercentChange = BigDecimal.ZERO;
         }
-
         return returnList;
     }
 
     private List calculateAccountTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
-        
+        BigDecimal accountPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
+        BigDecimal accountPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
+        BigDecimal accountAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
+        BigDecimal accountAppointmentRequestedFteQuantity = BigDecimal.ZERO;
+
         Integer accountRevenueFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer accountRevenueAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer accountRevenueAmountChange = new Integer(0);
-        BigDecimal accountRevenuePercentChange = BigDecimal.ZERO;
-
+        Integer accountTrnfrInFinancialBeginningBalanceLineAmount = new Integer(0);
+        Integer accountTrnfrInAccountLineAnnualBalanceAmount = new Integer(0);
         Integer accountExpenditureFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer accountExpenditureAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer accountExpenditureAmountChange = new Integer(0);
-        BigDecimal accountExpenditurePercentChange = BigDecimal.ZERO;
-
-        Integer accountDifferenceFinancialBeginningBalanceLineAmount = new Integer(0);
-        Integer accountDifferenceAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer accountDifferenceAmountChange = new Integer(0);
-        BigDecimal accountDifferencePercentChange = BigDecimal.ZERO;
 
         List returnList = new ArrayList();
 
@@ -604,6 +633,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcabListEntry : bcabList) {
                 if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcabListEntry, fieldsForAccountTotal())) {
+
+                    accountPositionCsfLeaveFteQuantity = accountPositionCsfLeaveFteQuantity.add(bcabListEntry.getPositionCsfLeaveFteQuantity());
+                    accountPositionFullTimeEquivalencyQuantity = accountPositionFullTimeEquivalencyQuantity.add(bcabListEntry.getPositionFullTimeEquivalencyQuantity());
+                    accountAppointmentRequestedCsfFteQuantity = accountAppointmentRequestedCsfFteQuantity.add(bcabListEntry.getAppointmentRequestedCsfFteQuantity());
+                    accountAppointmentRequestedFteQuantity = accountAppointmentRequestedFteQuantity.add(bcabListEntry.getAppointmentRequestedFteQuantity());
 
                     if (bcabListEntry.getIncomeExpenseCode().equals("A")) {
                         accountRevenueFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
@@ -613,71 +647,56 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                         accountExpenditureFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                         accountExpenditureAccountLineAnnualBalanceAmount += new Integer(bcabListEntry.getAccountLineAnnualBalanceAmount().intValue());
                     }
+
+                    if (bcabListEntry.getIncomeExpenseCode().equals("B")) {
+                        if (bcabListEntry.getFinancialObjectLevelCode().equals("CORI") || bcabListEntry.getFinancialObjectLevelCode().equals("TRIN")) {
+                            accountTrnfrInFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
+                            accountTrnfrInAccountLineAnnualBalanceAmount += new Integer(bcabListEntry.getAccountLineAnnualBalanceAmount().intValue());
+                        }
+                    }
                 }
             }
 
             bcObjectTotal.setBudgetConstructionAccountBalance(simpleBcosEntry);
 
+            bcObjectTotal.setAccountPositionCsfLeaveFteQuantity(accountPositionCsfLeaveFteQuantity);
+            bcObjectTotal.setAccountPositionFullTimeEquivalencyQuantity(accountPositionFullTimeEquivalencyQuantity);
+            bcObjectTotal.setAccountAppointmentRequestedCsfFteQuantity(accountAppointmentRequestedCsfFteQuantity);
+            bcObjectTotal.setAccountAppointmentRequestedFteQuantity(accountAppointmentRequestedFteQuantity);
+
             bcObjectTotal.setAccountRevenueFinancialBeginningBalanceLineAmount(accountRevenueFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setAccountRevenueAccountLineAnnualBalanceAmount(accountRevenueAccountLineAnnualBalanceAmount);
-
-            accountRevenueAmountChange = accountRevenueAccountLineAnnualBalanceAmount - accountRevenueFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setAccountRevenueAmountChange(accountRevenueAmountChange);
-
+            bcObjectTotal.setAccountTrnfrInFinancialBeginningBalanceLineAmount(accountTrnfrInFinancialBeginningBalanceLineAmount);
+            bcObjectTotal.setAccountTrnfrInAccountLineAnnualBalanceAmount(accountTrnfrInAccountLineAnnualBalanceAmount);
             bcObjectTotal.setAccountExpenditureFinancialBeginningBalanceLineAmount(accountExpenditureFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setAccountExpenditureAccountLineAnnualBalanceAmount(accountExpenditureAccountLineAnnualBalanceAmount);
 
-            accountExpenditureAmountChange = accountExpenditureAccountLineAnnualBalanceAmount - accountExpenditureFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setAccountExpenditureAmountChange(accountExpenditureAmountChange);
 
-            accountDifferenceFinancialBeginningBalanceLineAmount = accountRevenueFinancialBeginningBalanceLineAmount - accountExpenditureFinancialBeginningBalanceLineAmount;
-            accountDifferenceAccountLineAnnualBalanceAmount = accountRevenueAccountLineAnnualBalanceAmount - accountExpenditureAccountLineAnnualBalanceAmount;
-            bcObjectTotal.setAccountDifferenceFinancialBeginningBalanceLineAmount(accountDifferenceFinancialBeginningBalanceLineAmount);
-            bcObjectTotal.setAccountDifferenceAccountLineAnnualBalanceAmount(accountDifferenceAccountLineAnnualBalanceAmount);
-
-            accountDifferenceAmountChange = accountDifferenceAccountLineAnnualBalanceAmount - accountDifferenceFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setAccountDifferenceAmountChange(accountDifferenceAmountChange);
             returnList.add(bcObjectTotal);
 
             accountRevenueFinancialBeginningBalanceLineAmount = new Integer(0);
             accountRevenueAccountLineAnnualBalanceAmount = new Integer(0);
-            accountRevenueAmountChange = new Integer(0);
-            accountRevenuePercentChange = BigDecimal.ZERO;
 
             accountExpenditureFinancialBeginningBalanceLineAmount = new Integer(0);
             accountExpenditureAccountLineAnnualBalanceAmount = new Integer(0);
-            accountExpenditureAmountChange = new Integer(0);
-            accountExpenditurePercentChange = BigDecimal.ZERO;
-
-            accountDifferenceFinancialBeginningBalanceLineAmount = new Integer(0);
-            accountDifferenceAccountLineAnnualBalanceAmount = new Integer(0);
-            accountDifferenceAmountChange = new Integer(0);
-            accountDifferencePercentChange = BigDecimal.ZERO;
         }
-
-        
         return returnList;
     }
 
-    
 
-    
     private List calculateSubFundTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
+
+        BigDecimal subFundPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
+        BigDecimal subFundPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
+        BigDecimal subFundAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
+        BigDecimal subFundAppointmentRequestedFteQuantity = BigDecimal.ZERO;
 
         Integer subFundRevenueFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer subFundRevenueAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer subFundRevenueAmountChange = new Integer(0);
-        BigDecimal subFundRevenuePercentChange = BigDecimal.ZERO;
-
+        Integer subFundTrnfrInFinancialBeginningBalanceLineAmount = new Integer(0);
+        Integer subFundTrnfrInAccountLineAnnualBalanceAmount = new Integer(0);
         Integer subFundExpenditureFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer subFundExpenditureAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer subFundExpenditureAmountChange = new Integer(0);
-        BigDecimal subFundExpenditurePercentChange = BigDecimal.ZERO;
-
-        Integer subFundDifferenceFinancialBeginningBalanceLineAmount = new Integer(0);
-        Integer subFundDifferenceAccountLineAnnualBalanceAmount = new Integer(0);
-        Integer subFundDifferenceAmountChange = new Integer(0);
-        BigDecimal subFundDifferencePercentChange = BigDecimal.ZERO;
 
         List returnList = new ArrayList();
 
@@ -685,6 +704,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             BudgetConstructionOrgAccountObjectDetailReportTotal bcObjectTotal = new BudgetConstructionOrgAccountObjectDetailReportTotal();
             for (BudgetConstructionAccountBalance bcabListEntry : bcabList) {
                 if (BudgetConstructionReportHelper.isSameEntry(simpleBcosEntry, bcabListEntry, fieldsForSubFundTotal())) {
+
+                    subFundPositionCsfLeaveFteQuantity = subFundPositionCsfLeaveFteQuantity.add(bcabListEntry.getPositionCsfLeaveFteQuantity());
+                    subFundPositionFullTimeEquivalencyQuantity = subFundPositionFullTimeEquivalencyQuantity.add(bcabListEntry.getPositionFullTimeEquivalencyQuantity());
+                    subFundAppointmentRequestedCsfFteQuantity = subFundAppointmentRequestedCsfFteQuantity.add(bcabListEntry.getAppointmentRequestedCsfFteQuantity());
+                    subFundAppointmentRequestedFteQuantity = subFundAppointmentRequestedFteQuantity.add(bcabListEntry.getAppointmentRequestedFteQuantity());
 
                     if (bcabListEntry.getIncomeExpenseCode().equals("A")) {
                         subFundRevenueFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
@@ -694,56 +718,49 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                         subFundExpenditureFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                         subFundExpenditureAccountLineAnnualBalanceAmount += new Integer(bcabListEntry.getAccountLineAnnualBalanceAmount().intValue());
                     }
+
+                    if (bcabListEntry.getIncomeExpenseCode().equals("B")) {
+                        if (bcabListEntry.getFinancialObjectLevelCode().equals("CORI") || bcabListEntry.getFinancialObjectLevelCode().equals("TRIN")) {
+                            subFundTrnfrInFinancialBeginningBalanceLineAmount += new Integer(bcabListEntry.getFinancialBeginningBalanceLineAmount().intValue());
+                            subFundTrnfrInAccountLineAnnualBalanceAmount += new Integer(bcabListEntry.getAccountLineAnnualBalanceAmount().intValue());
+                        }
+                    }
                 }
             }
 
             bcObjectTotal.setBudgetConstructionAccountBalance(simpleBcosEntry);
 
+            bcObjectTotal.setSubFundPositionCsfLeaveFteQuantity(subFundPositionCsfLeaveFteQuantity);
+            bcObjectTotal.setSubFundPositionFullTimeEquivalencyQuantity(subFundPositionFullTimeEquivalencyQuantity);
+            bcObjectTotal.setSubFundAppointmentRequestedCsfFteQuantity(subFundAppointmentRequestedCsfFteQuantity);
+            bcObjectTotal.setSubFundAppointmentRequestedFteQuantity(subFundAppointmentRequestedFteQuantity);
+
             bcObjectTotal.setSubFundRevenueFinancialBeginningBalanceLineAmount(subFundRevenueFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setSubFundRevenueAccountLineAnnualBalanceAmount(subFundRevenueAccountLineAnnualBalanceAmount);
 
-            subFundRevenueAmountChange = subFundRevenueAccountLineAnnualBalanceAmount - subFundRevenueFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setSubFundRevenueAmountChange(subFundRevenueAmountChange);
+            bcObjectTotal.setSubFundTrnfrInFinancialBeginningBalanceLineAmount(subFundTrnfrInFinancialBeginningBalanceLineAmount);
+            bcObjectTotal.setSubFundTrnfrInAccountLineAnnualBalanceAmount(subFundTrnfrInAccountLineAnnualBalanceAmount);
 
             bcObjectTotal.setSubFundExpenditureFinancialBeginningBalanceLineAmount(subFundExpenditureFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setSubFundExpenditureAccountLineAnnualBalanceAmount(subFundExpenditureAccountLineAnnualBalanceAmount);
 
-            subFundExpenditureAmountChange = subFundExpenditureAccountLineAnnualBalanceAmount - subFundExpenditureFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setSubFundExpenditureAmountChange(subFundExpenditureAmountChange);
-
-            
-            subFundDifferenceFinancialBeginningBalanceLineAmount = subFundRevenueFinancialBeginningBalanceLineAmount - subFundExpenditureFinancialBeginningBalanceLineAmount;
-            subFundDifferenceAccountLineAnnualBalanceAmount = subFundRevenueAccountLineAnnualBalanceAmount - subFundExpenditureAccountLineAnnualBalanceAmount;
-            bcObjectTotal.setSubFundDifferenceFinancialBeginningBalanceLineAmount(subFundDifferenceFinancialBeginningBalanceLineAmount);
-            bcObjectTotal.setSubFundDifferenceAccountLineAnnualBalanceAmount(subFundDifferenceAccountLineAnnualBalanceAmount);
-
-            subFundDifferenceAmountChange = subFundDifferenceAccountLineAnnualBalanceAmount - subFundDifferenceFinancialBeginningBalanceLineAmount;
-            bcObjectTotal.setSubFundDifferenceAmountChange(subFundDifferenceAmountChange);
 
             returnList.add(bcObjectTotal);
 
             subFundRevenueFinancialBeginningBalanceLineAmount = new Integer(0);
             subFundRevenueAccountLineAnnualBalanceAmount = new Integer(0);
-            subFundRevenueAmountChange = new Integer(0);
-            subFundRevenuePercentChange = BigDecimal.ZERO;
 
             subFundExpenditureFinancialBeginningBalanceLineAmount = new Integer(0);
             subFundExpenditureAccountLineAnnualBalanceAmount = new Integer(0);
-            subFundExpenditureAmountChange = new Integer(0);
-            subFundExpenditurePercentChange = BigDecimal.ZERO;
 
-            subFundDifferenceFinancialBeginningBalanceLineAmount = new Integer(0);
-            subFundDifferenceAccountLineAnnualBalanceAmount = new Integer(0);
-            subFundDifferenceAmountChange = new Integer(0);
-            subFundDifferencePercentChange = BigDecimal.ZERO;
         }
         return returnList;
     }
-    
-    
-    
+
+
     /**
      * builds list of fields for comparing entry of Object
+     * 
      * @return List<String>
      */
     private List<String> fieldsForObject() {
@@ -752,10 +769,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         fieldList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         return fieldList;
-    }    
-    
+    }
+
     /**
      * builds list of fields for comparing entry of Level
+     * 
      * @return List<String>
      */
     private List<String> fieldsForLevel() {
@@ -763,10 +781,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         fieldList.addAll(fieldsForGexpAndType());
         fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
         return fieldList;
-    }    
+    }
 
     /**
      * builds list of fields for comparing entry of GexpAndType
+     * 
      * @return List<String>
      */
     private List<String> fieldsForGexpAndType() {
@@ -775,63 +794,36 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
         return fieldList;
     }
-    
+
     /**
      * builds list of fields for comparing entry of AccountTotal
+     * 
      * @return List<String>
      */
     private List<String> fieldsForAccountTotal() {
         List<String> fieldList = new ArrayList();
-        //fieldList.addAll(fieldsForSubFundTotal());
+        // fieldList.addAll(fieldsForSubFundTotal());
         fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         fieldList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         return fieldList;
     }
-    
+
     /**
      * builds list of fields for comparing entry of SubFundTotal total
+     * 
      * @return List<String>
      */
     private List<String> fieldsForSubFundTotal() {
         List<String> fieldList = new ArrayList();
-        
+
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);
         fieldList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
         return fieldList;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);

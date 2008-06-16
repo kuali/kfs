@@ -179,7 +179,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
             orgAccountSummaryReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
         }
         else {
-            orgAccountSummaryReportEntry.setConsHdr("");
+            orgAccountSummaryReportEntry.setConsHdr(BCConstants.Report.BLANK);
         }
     }
 

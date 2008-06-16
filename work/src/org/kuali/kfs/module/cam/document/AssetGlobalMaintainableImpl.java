@@ -63,10 +63,21 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
 
-        // For separate an asset this gets the appropriate code
+        // TODO once the we define the source capital asset referenceObject in OJB, we can use this code.
+        //assetGlobal.refreshReferenceObject("asset");
+        //assetGlobal.setSeparateSourceCapitalAsset(asset);
+
+        // separate an asset - get capital asset number
+        String[] separateSourceCapitalAssetNumber = parameters.get(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER);
+        //LOG.info("AssetGlobalMaintainableImpl.processAfterNew separateSourceCapitalAssetNumber = '" + separateSourceCapitalAssetNumber[0].toString() + "'");
+        if (separateSourceCapitalAssetNumber != null) {
+            assetGlobal.setSeparateSourceCapitalAssetNumber(Long.parseLong(separateSourceCapitalAssetNumber[0].toString()));
+        }
+        // separate an asset - get doc type code
         String[] financialDocumentTypeCode = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        if (ObjectUtils.isNotNull(financialDocumentTypeCode)) {
-            assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0]);
+        //LOG.info("AssetGlobalMaintainableImpl.processAfterNew financialDocumentTypeCode = '" + financialDocumentTypeCode[0].toString() + "'");
+        if (financialDocumentTypeCode != null) {
+            assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0].toString());
         }
 
         super.processAfterNew(document, parameters);

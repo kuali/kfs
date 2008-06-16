@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -55,10 +53,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String organizationOwnerChartOfAccountsCode;
     private String organizationOwnerAccountNumber;
     private String agencyNumber;
-    private Integer financialDocumentNextLineNumber;    
+    private Integer financialDocumentNextLineNumber;
+    private Asset separateSourceCapitalAsset;
     
-    
-    // Not Presisted
+    // Not Persisted
     private Date lastInventoryDate;
     private Agency agency;
     private UniversalUser assetRepresentative;
@@ -74,6 +72,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     // field is here so that AssetLookupableHelperServiceImpl can pass action information
     private String financialDocumentTypeCode;
+    private Long separateSourceCapitalAssetNumber;
     
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     
@@ -936,5 +935,37 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
         this.generalLedgerPendingEntries = generalLedgerPendingEntries;
+    }
+
+    /**
+     * Gets the separateSourceCapitalAsset attribute. 
+     * @return Returns the separateSourceCapitalAsset.
+     */
+    public Asset getSeparateSourceCapitalAsset() {
+        return separateSourceCapitalAsset;
+    }
+
+    /**
+     * Sets the separateSourceCapitalAsset attribute value.
+     * @param separateSourceCapitalAsset The separateSourceCapitalAsset to set.
+     */
+    public void setSeparateSourceCapitalAsset(Asset separateSourceCapitalAsset) {
+        this.separateSourceCapitalAsset = separateSourceCapitalAsset;
+    }
+
+    /**
+     * Gets the separateSourceCapitalAssetNumber attribute. 
+     * @return Returns the separateSourceCapitalAssetNumber.
+     */
+    public Long getSeparateSourceCapitalAssetNumber() {
+        return separateSourceCapitalAssetNumber;
+    }
+
+    /**
+     * Sets the separateSourceCapitalAssetNumber attribute value.
+     * @param separateSourceCapitalAssetNumber The separateSourceCapitalAssetNumber to set.
+     */
+    public void setSeparateSourceCapitalAssetNumber(Long separateSourceCapitalAssetNumber) {
+        this.separateSourceCapitalAssetNumber = separateSourceCapitalAssetNumber;
     }
 }

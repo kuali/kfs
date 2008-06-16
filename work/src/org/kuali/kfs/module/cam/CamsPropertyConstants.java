@@ -269,6 +269,7 @@ public class CamsPropertyConstants {
         public static final String ASSET_PAYMENT_DETAILS = "assetPaymentDetails";
         public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
         public static final String VERSION_NUMBER = "versionNumber";
+        public static final String SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER = "separateSourceCapitalAssetNumber";
     }
 
     public static class AssetGlobalDetail {

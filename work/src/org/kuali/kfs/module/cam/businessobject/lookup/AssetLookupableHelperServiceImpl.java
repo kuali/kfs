@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.lookup;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.core.bo.BusinessObject;
@@ -32,6 +34,7 @@ import org.kuali.module.cams.service.AssetService;
  * This class overrids the base getActionUrls method
  */
 public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
     AssetService assetService;
 
     /**
@@ -87,14 +90,14 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     private String getSeparateUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
-        
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
         
-        // Asset PK
-        parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-
+        // Asset PK - constant will later be in OJB
+        parameters.put(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        //parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        
         // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
         parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypeCodes.ASSET_SEPERATE);
 

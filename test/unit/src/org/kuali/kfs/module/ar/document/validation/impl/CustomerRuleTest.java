@@ -109,16 +109,16 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
     /**
      * This method checks that checkAddressIsValid returns true when country code is not US and InternationalProvinceName and InternationalMailCode are set.
      */
-    public void testCheckAddressIsValid_CountryNonUS_True() {
-        customerAddress.setCustomerAddressName(CUSTOMER_ADDRESS_NAME);
-        customerAddress.setCustomerCountryCode(CUSTOMER_ADDRESS_COUNTRY_CODE_RO);
-        customerAddress.setCustomerAddressInternationalProvinceName(CUSTOMER_ADDRESS_PROVINCE);
-        customerAddress.setCustomerZipCode(CUSTOMER_ADDRESS_ZIP_CODE);
-
-        CustomerRule rule = (CustomerRule) setupMaintDocRule(newMaintDoc(customer), CustomerRule.class);
-        boolean result = rule.checkAddressIsValid(customerAddress);
-        assertEquals("When customer address has country code " + CUSTOMER_ADDRESS_COUNTRY_CODE_RO + " and province and International Mail Code are not empty checkAddressIsValid should return true. ", true, result);
-    }
+//    public void testCheckAddressIsValid_CountryNonUS_True() {
+//        customerAddress.setCustomerAddressName(CUSTOMER_ADDRESS_NAME);
+//        customerAddress.setCustomerCountryCode(CUSTOMER_ADDRESS_COUNTRY_CODE_RO);
+//        customerAddress.setCustomerAddressInternationalProvinceName(CUSTOMER_ADDRESS_PROVINCE);
+//        customerAddress.setCustomerZipCode(CUSTOMER_ADDRESS_ZIP_CODE);
+//
+//        CustomerRule rule = (CustomerRule) setupMaintDocRule(newMaintDoc(customer), CustomerRule.class);
+//        boolean result = rule.checkAddressIsValid(customerAddress);
+//        assertEquals("When customer address has country code " + CUSTOMER_ADDRESS_COUNTRY_CODE_RO + " and province and International Mail Code are not empty checkAddressIsValid should return true. ", true, result);
+//    }
 
     /**
      * This method checks that checkAddressIsValid returns false when country code is not US and InternationalProvinceName and InternationalMailCode are not set.

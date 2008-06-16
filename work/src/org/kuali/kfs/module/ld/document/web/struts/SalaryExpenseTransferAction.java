@@ -177,15 +177,15 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
             String message = "";
             if (GlobalVariables.getErrorMap().containsKey(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
                 for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
-                    message += kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
-                    message += MessageFormat.format(message, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
+                    String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    message += MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }
             
             if (GlobalVariables.getErrorMap().containsKey(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
                 for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
-                    message += kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
-                    message += MessageFormat.format(message, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
+                    String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
+                    message += MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }
             message += " " + kualiConfigurationService.getPropertyString(LaborKeyConstants.EFFORT_VALIDATION_OVERRIDE_MESSAGE);

@@ -266,7 +266,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
                 break;
             case ACCOUNT_OBJECT_DETAIL_REPORT:
                 SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).updateAccountObjectDetailReport(personUserIdentifier, runConsolidated);
-                reportData = SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).buildReports(universityFiscalYear, personUserIdentifier, runConsolidated);
                 break;
             case ACCOUNT_FUNDING_DETAIL_REPORT:
                 SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).updateAccountFundingDetailTable(personUserIdentifier);

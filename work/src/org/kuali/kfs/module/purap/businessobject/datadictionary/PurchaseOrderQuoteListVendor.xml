@@ -20,6 +20,7 @@
         <ref bean="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" />
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator" />
         <ref bean="PurchaseOrderQuoteListVendor-versionNumber" />
       </list>
@@ -49,6 +50,13 @@
       <bean parent="LookupReadonlyControlDefinition" />
     </property>
   </bean>
+  
+    <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+    <property name="name" value="vendorDetail.vendorNumber" />
+  </bean>
+  
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator" parent="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator-parentBean" />
 
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator-parentBean" abstract="true" parent="VendorDetail-activeIndicator">
@@ -69,7 +77,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Vendors" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

@@ -87,7 +87,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
+          <property name="title" value="Quote List" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -95,6 +95,37 @@
                     p:attributeName="purchaseOrderQuoteListName" />
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerCode" />
+            </list>
+          </property>
+        </bean>
+        
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Vendors" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="quoteListVendors" />
+                <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" />
+                <property name="numberOfColumns" value="1" />
+                <property name="summaryTitle" value="Vendor" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="vendorDetail.vendorName" />   
+                    <bean parent="FieldDefinition"
+                          p:attributeName="vendorDetail.vendorNumber" />                             
+                    <bean parent="FieldDefinition"
+                          p:attributeName="vendorDetail.activeIndicator" />                                                          
+                  </list>
+                </property>
+                <property name="summaryFields">
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="vendorDetail.vendorNumber" />
+                  </list>
+                </property>
+              </bean>
             </list>
           </property>
         </bean>

@@ -64,7 +64,8 @@
 <%@ attribute name="inquiry" required="false"
               description="Boolean indicating whether this cell should have an inquiry link if it's writable.
               If true, the boClassSimpleName attribute at least is also required." %>
-
+<%@ attribute name="csfInquiry" required="false"
+              description="If true, a custom csf inquiry is used" %>
 <%@ attribute name="boClassSimpleName" required="false"
               description="The simple name of the business object class to perform a lookup or inquiry.
               This does not include the package name." %>
@@ -170,6 +171,9 @@
             <c:set var="onblur" value=""/>
         </c:otherwise>
     </c:choose>
+    <c:if test="${csfInquiry == 'true'}">
+    	<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
+    </c:if>
     <kul:htmlControlAttribute
         property="${cellProperty}"
         attributeEntry="${attributes[field]}"
@@ -190,7 +194,10 @@
             inquiryExtraKeyValues="${inquiryExtraKeyValues}"
             formattedNumberValue="${formattedNumberValue}"
             />
-    </kul:htmlControlAttribute>${fieldTrailerValue}
+    </kul:htmlControlAttribute>
+    <c:if test="${csfInquiry == 'true'}">
+    	</a>
+    </c:if>${fieldTrailerValue}
 
     <%-- lookup control --%>
     <c:if test="${!readOnly}">

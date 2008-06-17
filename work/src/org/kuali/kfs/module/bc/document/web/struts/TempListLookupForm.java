@@ -32,6 +32,9 @@ public class TempListLookupForm extends LookupForm {
     private boolean reportConsolidation;
     private boolean showInitialResults;
     private int tempListLookupMode;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
     private List<String> messages;
 
     /**
@@ -206,6 +209,30 @@ public class TempListLookupForm extends LookupForm {
             setMessages(new ArrayList<String>());
         }
         getMessages().add(message);
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
     }
 
 }

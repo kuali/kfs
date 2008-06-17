@@ -158,7 +158,7 @@
 			<c:when test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
 				<bc:pbglLineDataCell dataCellCssClass="datacell" 
 					accountingLine="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0]"
-					attributes="${pbcafAttributes}" field="csfAmount" inquiry="true"
+					attributes="${pbcafAttributes}" field="csfAmount" csfInquiry="true"
 					lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,financialSubObjectCode,positionNumber,emplid" 
 					boClassSimpleName="BudgetConstructionCalculatedSalaryFoundationTracker"
 					boPackageName="org.kuali.module.budget.bo" 

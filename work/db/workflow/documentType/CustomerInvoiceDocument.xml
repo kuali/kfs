@@ -13,13 +13,40 @@
       <active>true</active>
       <attributes>
         <attribute>
+          <name>KualiCustomerInvoiceDocSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocSearchResultProcessor</name>
+        </attribute>       
+        <attribute>
           <name>KualiCustomerInvoiceDocumentCustomerNumber</name>
         </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocumentBillingCOA</name>
+        </attribute>          
         <attribute>
           <name>KualiCustomerInvoiceDocumentBillingOrganization</name>
         </attribute>
         <attribute>
+          <name>KualiCustomerInvoiceDocumentProcessingCOA</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocumentProcessingOrganization</name>
+        </attribute>
+        <attribute>
           <name>KualiCustomerInvoiceDocumentAccount</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocumentOrganizationInvoiceNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocumentCustomerPurchaseOrderNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocumentItemCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerInvoiceDocumentInvoiceAmount</name>
         </attribute>
       </attributes>
       <policies>

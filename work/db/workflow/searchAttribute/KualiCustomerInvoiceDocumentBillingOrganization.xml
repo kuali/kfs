@@ -8,14 +8,14 @@
       <description>Attribute to identify the Billing Organization of the Customer Invoice Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="organizationCode" title="kuali_dd_label(Org)">
+        <fieldDef name="billedByOrganizationCode" title="kuali_dd_label(CustomerInvoiceDocument)">
           <display>
             <type>text</type>
           </display>
           <searchDefinition allowWildcards="true" caseSensitive="false" />
           <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/billedByOrganization/organizationCode')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/billedByOrganizationCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

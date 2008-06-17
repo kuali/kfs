@@ -39,6 +39,7 @@ import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
 import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
@@ -107,6 +108,7 @@ public class CertificationReportAction extends EffortCertificationAction {
             this.resetPersistedFields(newDetailLine);
             detailLines.add(newDetailLine);
             certificationReportForm.setNewDetailLine(certificationReportForm.createNewDetailLine());
+            GlobalVariables.getMessageList().add(EffortKeyConstants.MESSAGE_RECALCULATE_SALARY_AMOUNT);
         }
         else {
             EffortCertificationDetailLineOverride.processForOutput(newDetailLine);

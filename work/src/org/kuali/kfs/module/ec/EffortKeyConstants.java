@@ -68,6 +68,7 @@ public class EffortKeyConstants {
     public static final String MESSAGE_NUM_CERTIFICATION_RECORDS_WRITTEN = "message.effort.report.numOfCertificationRecordsWritten";
     public static final String MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = "message.effort.report.numOfDetailLineBuildRecordsWritten";
     public static final String MESSAGE_NUM_EMPLOYEES_SELECTED = "message.effort.report.numOfEmployeesSelected";
+    public static final String MESSAGE_RECALCULATE_SALARY_AMOUNT = "message.effort.report.recalculateSalaryAmount";
     
     public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
 }

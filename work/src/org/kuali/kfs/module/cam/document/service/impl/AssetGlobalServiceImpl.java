@@ -165,7 +165,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 Account srcPlantAcct = null;
                 // TODO: needed ??
                 OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetGlobal.getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
-
+                firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
+                if (ObjectUtils.isNull(firstAssetPaymentDetail.getAccount())){
+                    return false;
+                }
                 if (movableAsset) {
                     srcPlantAcct = firstAssetPaymentDetail.getAccount().getOrganization().getOrganizationPlantAccount();
                 }

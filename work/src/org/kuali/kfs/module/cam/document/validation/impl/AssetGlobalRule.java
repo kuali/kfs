@@ -17,8 +17,8 @@ package org.kuali.module.cams.rules;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -51,15 +51,12 @@ import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetLocationService.LocationField;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
  * Rule implementation for Asset Global document.
  */
 public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
-    // TODO: SYSTEM PARAMETER
-  //  private static final String CAPITAL_OBJECT_SUB_TYPES = "CM;CF;CO;C1;C2;UC;UF;UO;AM;BD;BF;BI;ES;IF;LA;LE;LI;LF;LR;BR;BY;BX";
 
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
@@ -76,7 +73,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         LOCATION_FIELD_MAP.put(LocationField.LOCATION_TAB_KEY, CamsPropertyConstants.AssetGlobalDetail.VERSION_NUM);
     }
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-    private static UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -155,7 +151,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    // TODO: Is this needed any more or not (we are deleting assetHeader)?
+    /**
+     * This explicit check needs to be done, else DB constraint will fail when "SAVE" button is clicked with invalid chart and
+     * account values
+     * 
+     * @param assetGlobal Asset Global
+     * @return true if values are valid
+     */
     private boolean checkReferenceExists(AssetGlobal assetGlobal) {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerChartOfAccountsCode())) {
@@ -189,7 +191,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean success = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-        int pos = assetGlobal.getAssetSharedDetails().size() - 1;
+        List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
+        int pos = assetSharedDetails.size() - 1;
         if (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS.equals(collectionName)) {
             // handle location information
             AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) line;
@@ -199,8 +202,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         else if ((CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + pos + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equals(collectionName)) {
             // handle unique information
             AssetGlobalDetail assetUniqueDetail = (AssetGlobalDetail) line;
-            if (StringUtils.isNotBlank(assetUniqueDetail.getCampusTagNumber())) {
-                success &= validateTagDuplication(assetUniqueDetail.getCampusTagNumber());
+            String campusTagNumber = assetUniqueDetail.getCampusTagNumber();
+            if (StringUtils.isNotBlank(campusTagNumber)) {
+                success = validateTagDuplication(assetSharedDetails, campusTagNumber);
             }
         }
         else if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equals(collectionName)) {
@@ -209,6 +213,67 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
 
+        }
+        return success;
+    }
+
+
+    private boolean validateTagDuplication(List<AssetGlobalDetail> assetSharedDetails, String campusTagNumber) {
+        boolean success = true;
+        for (AssetGlobalDetail assetSharedDetail : assetSharedDetails) {
+            List<AssetGlobalDetail> assetGlobalUniqueDetails = assetSharedDetail.getAssetGlobalUniqueDetails();
+            for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
+                if (campusTagNumber.equalsIgnoreCase(assetSharedUniqueDetail.getCampusTagNumber())) {
+                    success &= false;
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                }
+            }
+        }
+        if (success) {
+            List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
+            if (!tagMatches.isEmpty()) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                success &= false;
+            }
+        }
+        return success;
+    }
+
+    private boolean validateTagDuplication(List<AssetGlobalDetail> assetSharedDetails) {
+        HashSet<String> assetTags = new HashSet<String>();
+        boolean success = true;
+        int parentIndex = -1;
+        int childIndex = -1;
+        for (AssetGlobalDetail assetSharedDetail : assetSharedDetails) {
+            parentIndex++;
+            List<AssetGlobalDetail> assetGlobalUniqueDetails = assetSharedDetail.getAssetGlobalUniqueDetails();
+            for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
+                childIndex++;
+                String campusTagNumber = assetSharedUniqueDetail.getCampusTagNumber();
+                if (StringUtils.isNotBlank(campusTagNumber) && !assetTags.add(campusTagNumber)) {
+                    success &= false;
+                    String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + parentIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + childIndex + "]";
+                    GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+
+                }
+            }
+            childIndex = -1;
+            for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
+                childIndex++;
+                String campusTagNumber = assetSharedUniqueDetail.getCampusTagNumber();
+                if (StringUtils.isNotBlank(campusTagNumber)) {
+                    List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
+                    if (!tagMatches.isEmpty()) {
+                        success &= false;
+                        String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + parentIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + childIndex + "]";
+                        GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                        GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                        GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                    }
+                }
+            }
         }
         return success;
     }
@@ -229,7 +294,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePostedDate(assetPaymentDetail);
         }
 
-        
+
         // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
@@ -237,7 +302,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-        
+
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
 
         success &= validateObjectSubTypeCode(assetGlobal, assetPaymentDetail);
@@ -246,7 +311,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method check the required fields for acquisition type New .
      * 
      * @param assetPaymentDetail
@@ -279,16 +343,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (universityDate == null) {
             throw new ValidationException("University has not defined for date - " + assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
         }
-        else {
-            assetPaymentDetail.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
-            assetPaymentDetail.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
-        }
+        assetPaymentDetail.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
+        assetPaymentDetail.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
 
         return valid;
     }
 
     /**
-     * 
      * Check document type code is set to the desired value when acquisition type code is non-new.
      * 
      * @param documentTypeCode
@@ -331,15 +392,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return ObjectUtils.isNull(account) || account.isAccountClosedIndicator() || account.isExpired();
     }
 
-    private boolean isCapitablObjectCode(ObjectCode objectCode) {
-        return ObjectUtils.isNotNull(objectCode) && StringUtils.isNotBlank(objectCode.getFinancialObjectSubTypeCode()) && Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
-    }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
+        List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
-        if (assetGlobal.getAssetSharedDetails().isEmpty() || assetGlobal.getAssetSharedDetails().get(0).getAssetGlobalUniqueDetails().isEmpty()) {
+        if (assetSharedDetails.isEmpty() || assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
             // at least one asset should be added
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_ASSET_REQUIRED);
             success &= false;
@@ -365,13 +424,29 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX);
             success = false;
         }
+        success = validateLocationCollection(assetGlobal, assetSharedDetails);
+        success = validateTagDuplication(assetSharedDetails);
+        return success;
+    }
 
+
+    private boolean validateLocationCollection(AssetGlobal assetGlobal, List<AssetGlobalDetail> assetSharedDetails) {
+        boolean success = true;
+        // for each shared location info, validate
+        boolean isCapitalAsset = isCapitalStatus(assetGlobal);
+        int index = 0;
+        for (AssetGlobalDetail assetLocationDetail : assetSharedDetails) {
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + index + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            success = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetLocationDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            index++;
+        }
         return success;
     }
 
 
     /**
-     * 
      * Validate all object sub type codes are from the same group.
      * 
      * @param assetGlobal
@@ -381,12 +456,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal, AssetPaymentDetail newLine) {
         boolean valid = true;
         List<String> objectSubTypeList = new ArrayList<String>();
-        
+
         // build object sub type list
         if (ObjectUtils.isNotNull(newLine.getObjectCode())) {
             objectSubTypeList.add(newLine.getObjectCode().getFinancialObjectSubTypeCode());
         }
-        
+
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
             if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
@@ -433,9 +508,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         success &= validatePaymentCollection(assetGlobal);
-        
+
         // System shall not generate any GL entries for acquisition type code new
-                /*
+        /*
          * if ((success & super.processCustomSaveDocumentBusinessRules(document)) &&
          * !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) { // create poster
          * AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new
@@ -447,7 +522,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
          * assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries()); } else {
          * assetGlobalGlPoster.getPendingEntries().clear(); } }
          */
-      
+
         if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
             // create poster
             AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader());
@@ -463,12 +538,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 assetGlobalGlPoster.getPendingEntries().clear();
             }
         }
-      
+
         return success;
     }
 
-    
-    
+
     private boolean validatePaymentCollection(AssetGlobal assetGlobal) {
         boolean success = true;
         int index = 0;
@@ -543,14 +617,5 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    private boolean validateTagDuplication(String campusTagNumber) {
-        // find all assets matching this tag number
-        List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
-        if (!tagMatches.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
-            return false;
-        }
-        return true;
-    }
 
 }

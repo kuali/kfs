@@ -167,10 +167,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
                 OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetGlobal.getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
 
                 if (movableAsset) {
-                    srcPlantAcct = assetGlobal.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+                    srcPlantAcct = firstAssetPaymentDetail.getAccount().getOrganization().getOrganizationPlantAccount();
                 }
                 else {
-                    srcPlantAcct = assetGlobal.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+                    srcPlantAcct = firstAssetPaymentDetail.getAccount().getOrganization().getCampusPlantAccount();
                 }
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
                     if (isPaymentEligibleForGLPosting(assetPaymentDetail)) {
@@ -326,29 +326,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return totalNonFederal;
     }
 
-
-    /**
-     * Get the offset Object Code.
-     * 
-     * @param asset
-     * @return
-     */
-    static private ObjectCode getOffsetFinancialObject(Asset asset) {
-        Map pkMap = new HashMap();
-        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-        pkMap.put("universityFiscalYear", universityDateService.getCurrentFiscalYear());
-        pkMap.put("chartOfAccountsCode", asset.getOrganizationOwnerChartOfAccountsCode());
-        pkMap.put("financialObjectCode", DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
-        ObjectCode offsetFinancialObject = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pkMap);
-
-        if (ObjectUtils.isNull(offsetFinancialObject)) {
-            throw new ReferentialIntegrityException("Object code is not defined for this universityFiscalYear=" + universityDateService.getCurrentFiscalYear() + ", chartOfAccountsCode=" + asset.getOrganizationOwnerChartOfAccountsCode() + ", financialObjectCode=" + DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE);
-        }
-
-        return offsetFinancialObject;
-    }
-
-
+   
     /**
      * Get the corresponding Plant Fund Account object based on the payment's financialObjectSubTypeCode.
      * 

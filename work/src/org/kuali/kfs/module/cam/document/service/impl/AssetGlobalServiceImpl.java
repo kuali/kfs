@@ -310,7 +310,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         int numberOfAssets = assetGlobal.getAssetGlobalDetails().size();
 
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES, assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode()) != null) {
+            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
                 totalNonFederal = totalNonFederal.add(assetPaymentDetail.getAmount());
             }
         }

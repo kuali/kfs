@@ -27,7 +27,6 @@ public class AssetGlobalGeneralLedgerPendingEntrySource extends CamsGeneralLedge
         super(documentHeader);
     }
     
-//TODO: Change this logic:
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         boolean debit = false;
         AssetGlpeSourceDetail assetPostable = (AssetGlpeSourceDetail)postable;

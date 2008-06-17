@@ -510,19 +510,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         success &= validatePaymentCollection(assetGlobal);
 
         // System shall not generate any GL entries for acquisition type code new
-        /*
-         * if ((success & super.processCustomSaveDocumentBusinessRules(document)) &&
-         * !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) { // create poster
-         * AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new
-         * AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader()); // create postables if (!(success =
-         * assetGlobalService.createGLPostables(assetGlobal, assetGlobalGlPoster))) {
-         * putFieldError(CamsPropertyConstants.AssetGlobal.VERSION_NUMBER,
-         * CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE); return success; } if
-         * (SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetGlobalGlPoster)) {
-         * assetGlobal.setGeneralLedgerPendingEntries(assetGlobalGlPoster.getPendingEntries()); } else {
-         * assetGlobalGlPoster.getPendingEntries().clear(); } }
-         */
-
         if ((success & super.processCustomSaveDocumentBusinessRules(document)) && !CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
             // create poster
             AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource(document.getDocumentHeader());

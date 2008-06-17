@@ -65,7 +65,7 @@ public class BudgetConstructionOrgReasonSummaryReport {
     // from PendingBudgetConstructionAppointmentFunding
     private String appointmentFundingDurationCode;
     private Integer appointmentTotalIntendedAmount;
-    private String appointmentTotalIntendedFteQuantity;
+    private BigDecimal appointmentTotalIntendedFteQuantity;
     private Integer salaryMonths;
     private Integer salaryAmount;
     private BigDecimal percentAmount;
@@ -74,9 +74,12 @@ public class BudgetConstructionOrgReasonSummaryReport {
 
     private Integer amountChange;
     private BigDecimal percentChange;
+    
+    private Integer appointmentFundingReasonAmount;
+    private String appointmentFundingReasonDescription;
 
     // not sure where it is from
-    private String positionFte;
+    private BigDecimal positionFte;
 
     // Total parts
     // person
@@ -267,11 +270,11 @@ public class BudgetConstructionOrgReasonSummaryReport {
         this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
     }
 
-    public String getAppointmentTotalIntendedFteQuantity() {
+    public BigDecimal getAppointmentTotalIntendedFteQuantity() {
         return appointmentTotalIntendedFteQuantity;
     }
 
-    public void setAppointmentTotalIntendedFteQuantity(String appointmentTotalIntendedFteQuantity) {
+    public void setAppointmentTotalIntendedFteQuantity(BigDecimal appointmentTotalIntendedFteQuantity) {
         this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
     }
 
@@ -371,11 +374,11 @@ public class BudgetConstructionOrgReasonSummaryReport {
         this.emplid = emplid;
     }
 
-    public String getPositionFte() {
+    public BigDecimal getPositionFte() {
         return positionFte;
     }
 
-    public void setPositionFte(String positionFte) {
+    public void setPositionFte(BigDecimal positionFte) {
         this.positionFte = positionFte;
     }
 
@@ -641,6 +644,22 @@ public class BudgetConstructionOrgReasonSummaryReport {
 
     public void setThresholdOrReason(String thresholdOrReason) {
         this.thresholdOrReason = thresholdOrReason;
+    }
+
+    public Integer getAppointmentFundingReasonAmount() {
+        return appointmentFundingReasonAmount;
+    }
+
+    public void setAppointmentFundingReasonAmount(Integer appointmentFundingReasonAmount) {
+        this.appointmentFundingReasonAmount = appointmentFundingReasonAmount;
+    }
+
+    public String getAppointmentFundingReasonDescription() {
+        return appointmentFundingReasonDescription;
+    }
+
+    public void setAppointmentFundingReasonDescription(String appointmentFundingReasonDescription) {
+        this.appointmentFundingReasonDescription = appointmentFundingReasonDescription;
     }
 
 }

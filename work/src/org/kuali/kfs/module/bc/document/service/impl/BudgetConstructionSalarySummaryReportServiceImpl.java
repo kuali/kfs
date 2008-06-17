@@ -535,10 +535,13 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      */
     public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
-        returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
-        returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
-        returnList.add(KFSPropertyConstants.PERSON_NAME);
-        returnList.add(KFSPropertyConstants.EMPLID);
+        returnList.add(KFSPropertyConstants.POSITION_NUMBER);
+        returnList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        returnList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         return returnList;
     }
 

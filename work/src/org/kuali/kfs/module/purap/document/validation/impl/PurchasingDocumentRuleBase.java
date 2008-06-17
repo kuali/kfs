@@ -45,6 +45,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -587,8 +588,21 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
             valid &= false;
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
 
+        //checks for when FY is set to next FY
+        if (purDocument.isPostingYearNext()) {
+            Integer currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+            Date closingDate = SpringContext.getBean(UniversityDateService.class).getLastDateOfFiscalYear(currentFY);
+
+            //if recurring payment begin dates entered, begin date must be > closing date
+            if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) &&
+                   purDocument.getPurchaseOrderBeginDate().before(closingDate)) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_NEXT_FY_BEGIN_DATE_INVALID);
+                valid &= false;
+            }
+        }
+
+        GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
         return valid;
     }
 

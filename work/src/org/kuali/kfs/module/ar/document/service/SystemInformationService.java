@@ -18,8 +18,6 @@ package org.kuali.module.ar.service;
 import org.kuali.module.ar.bo.SystemInformation;
 
 public interface SystemInformationService {
-
-    public SystemInformation getByPrimaryKey(Integer fiscalYear, String chartCode, String orgCode);
     
     public SystemInformation getByLockboxNumber(String lockboxNumber);
     

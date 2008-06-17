@@ -21,16 +21,6 @@ public interface SystemInformationDao {
     
     /**
      * Retrieves an OrganizationOptions object by primary key.
-     * @param univFiscalYear - part of composite key
-     * @param chartOfAccountsCode - part of composite key
-     * @param organizationCode - part of composite key
-     * @return SystemInformation
-     */
-    public SystemInformation getByPrimaryId(Integer univFiscalYear, String chartOfAccountsCode, String organizationCode);
-
-    
-    /**
-     * Retrieves an OrganizationOptions object by primary key.
      * 
      * @param LockboxNumber 
      * @return SystemInformation

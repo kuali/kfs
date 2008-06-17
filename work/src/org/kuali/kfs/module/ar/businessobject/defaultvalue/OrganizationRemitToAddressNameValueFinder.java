@@ -27,7 +27,7 @@ public class OrganizationRemitToAddressNameValueFinder extends SystemInformation
      */
     public String getValue() {
         
-        return (sysInfo != null)? sysInfo.getOrganizationRemitToAddressName() : "";
+        return (systemInformation != null)? systemInformation.getOrganizationRemitToAddressName() : "";
     }
 
 }

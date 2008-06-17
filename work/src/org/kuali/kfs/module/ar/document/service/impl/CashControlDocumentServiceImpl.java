@@ -15,6 +15,9 @@
  */
 package org.kuali.module.ar.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -27,6 +30,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
@@ -135,7 +139,12 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         String processingOrganizationCode = accountsReceivableDocumentHeader.getProcessingOrganizationCode();
 
         // get system information by processing chart of accounts and organization
-        SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, processingChartOfAccountCode, processingOrganizationCode);
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", currentFiscalYear);
+        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
+        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        
         // if there is no system information for this processing chart of accounts and organization return false; glpes cannot be
         // created
         if (ObjectUtils.isNull(systemInformation)) {
@@ -174,7 +183,11 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         String processingOrganizationCode = accountsReceivableDocumentHeader.getProcessingOrganizationCode();
 
         // get system information by processing chart of acccounts and organization
-        SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, processingChartOfAccountCode, processingOrganizationCode);
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", currentFiscalYear);
+        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
+        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information set up for this processing chart of accounts and organization return false, glpes
         // cannot be created
@@ -219,7 +232,11 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         String processingOrganizationCode = accountsReceivableDocumentHeader.getProcessingOrganizationCode();
 
         // get system information by processing chart of accounts and organization code
-        SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, processingChartOfAccountCode, processingOrganizationCode);
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", currentFiscalYear);
+        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
+        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         // if no system information is set up for this processing chart of accounts and organization code return false, the glpes
         // cannot be created
@@ -254,7 +271,11 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         String chartOfAccountsCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
-        SystemInformation systemInformation = systemInformationService.getByPrimaryKey(currentFiscalYear, chartOfAccountsCode, processingOrgCode);
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", currentFiscalYear);
+        criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
+        criteria.put("processingOrganizationCode", processingOrgCode);
+        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         return (systemInformation == null) ? null : systemInformation.getLockboxNumber();
 

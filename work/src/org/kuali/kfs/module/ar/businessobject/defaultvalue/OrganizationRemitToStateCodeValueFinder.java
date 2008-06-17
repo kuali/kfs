@@ -27,7 +27,7 @@ public class OrganizationRemitToStateCodeValueFinder extends SystemInformationVa
      */
     public String getValue() {
         
-        return (sysInfo != null)? sysInfo.getOrganizationRemitToStateCode() : "";
+        return (systemInformation != null)? systemInformation.getOrganizationRemitToStateCode() : "";
     }
 
 }

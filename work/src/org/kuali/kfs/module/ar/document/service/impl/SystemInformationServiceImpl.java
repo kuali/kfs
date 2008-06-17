@@ -27,12 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SystemInformationServiceImpl implements SystemInformationService {
 
     private SystemInformationDao systemInformationDao;  
-    /**
-     * @see org.kuali.module.ar.service.SystemInformationService#getByPrimaryKey(java.lang.Integer, java.lang.String, java.lang.String)
-     */
-    public SystemInformation getByPrimaryKey(Integer univFiscalYear, String chartOfAccountsCode, String organizationCode) {
-       return systemInformationDao.getByPrimaryId(univFiscalYear, chartOfAccountsCode, organizationCode);
-    }
  
     public SystemInformation getByLockboxNumber(String lockboxNumber) {
         return systemInformationDao.getByLockboxNumber(lockboxNumber);

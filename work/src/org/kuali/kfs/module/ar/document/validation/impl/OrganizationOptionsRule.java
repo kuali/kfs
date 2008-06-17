@@ -15,9 +15,13 @@
  */
 package org.kuali.module.ar.rules;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
@@ -67,14 +71,18 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     public boolean doesSystemInformationExistForProcessingChartAngOrg(OrganizationOptions organizationOptions){
         boolean success = true;
         
-        Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        String chartOfAccountsCode = organizationOptions.getProcessingChartOfAccountCode();
-        String organizationCode = organizationOptions.getOrganizationCode();
+        String processingChartOfAccountCode = organizationOptions.getProcessingChartOfAccountCode();
+        String processingOrganizationCode = organizationOptions.getProcessingOrganizationCode();
         
-        SystemInformation systemInformation = SpringContext.getBean(SystemInformationService.class).getByPrimaryKey(currentFiscalYear, chartOfAccountsCode, organizationCode);
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
+        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        
+        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
         
         if( ObjectUtils.isNull(systemInformation) ){
-            putFieldError(ArConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[]{ chartOfAccountsCode, organizationCode } );
+            putFieldError(ArConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[]{ processingChartOfAccountCode, processingOrganizationCode } );
             success = false;
         }
         return success;

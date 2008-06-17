@@ -27,7 +27,7 @@ public class OrganizationRemitToLine1AddressValueFinder extends SystemInformatio
      */
     public String getValue() {
         
-        return (sysInfo != null)? sysInfo.getOrganizationRemitToLine1StreetAddress() : "";
+        return (systemInformation != null)? systemInformation.getOrganizationRemitToLine1StreetAddress() : "";
     }
 
 }

@@ -15,28 +15,33 @@
  */
 package org.kuali.module.ar.lookup.valuefinder;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.bo.SystemInformation;
-import org.kuali.module.ar.service.SystemInformationService;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class SystemInformationValueFinderBase {
     
-    protected SystemInformation sysInfo;
+    protected SystemInformation systemInformation;
 
     /**
      * Constructs a SystemInformationValueFinderBase.  Sets the SystemInformation BO based on current
      * year, current users chart of account code, and current users organization code
      */
     public SystemInformationValueFinderBase(){
-        SystemInformationService service = (SpringContext.getBean(SystemInformationService.class));
         
-        Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
-        sysInfo = service.getByPrimaryKey(currentUniversityFiscalYear, chartUser.getChartOfAccountsCode(), chartUser.getOrganizationCode());
+        
+        Map criteria = new HashMap();
+        criteria.put("universityFiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+        criteria.put("processingChartOfAccountCode", chartUser.getChartOfAccountsCode());
+        criteria.put("processingOrganizationCode", chartUser.getOrganizationCode());
+        systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
     }
 }

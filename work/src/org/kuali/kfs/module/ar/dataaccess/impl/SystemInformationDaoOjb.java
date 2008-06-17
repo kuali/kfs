@@ -25,21 +25,6 @@ public class SystemInformationDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SystemInformationDaoOjb.class);
 
-    /**
-     * @see org.kuali.module.ar.dao.OrganizationOptionsDao#getByPrimaryId(java.lang.String, java.lang.String)
-     */
-    public SystemInformation getByPrimaryId(Integer univFiscalYear, String chartOfAccountsCode, String organizationCode) {
-        LOG.debug("getByPrimaryId() started"); 
-
-        Criteria criteria = new Criteria();
-        
-        criteria.addEqualTo("universityFiscalYear", univFiscalYear);
-        criteria.addEqualTo("processingChartOfAccountCode", chartOfAccountsCode);
-        criteria.addEqualTo("processingOrganizationCode", organizationCode);
-
-        return (SystemInformation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemInformation.class, criteria));
-    }
-
     public SystemInformation getByLockboxNumber(String lockboxNumber) {
         LOG.debug("getByLockboxNumber() started");
         

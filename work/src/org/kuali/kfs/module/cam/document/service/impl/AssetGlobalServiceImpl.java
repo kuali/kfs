@@ -99,11 +99,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         // abstract boolean isObjectCodeExists(AssetObjectCode assetObjectCode);
     }
 
-    // TODO: replaced by system parameters
-    public static final String MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES = "CM;CF;C1;C2;UC;UF;BR;BY";
-    public static final String NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES = "AM;BD;BF;BI;CP;ES;IF;LA;LE;LI;LF;LR";
-    public static final String DEFAULT_GAIN_LOSS_DISPOSITION_FINANCIAL_OBJECT_CODE = "4998";
-
     private ParameterService parameterService;
     private AssetService assetService;
     private UniversityDateService universityDateService;
@@ -163,7 +158,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
             if (isGLPostable(assetGlobal, movableAsset)) {
                 Account srcPlantAcct = null;
-                // TODO: needed ??
                 OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetGlobal.getOrganizationOwnerChartOfAccountsCode(), CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
                 firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
                 if (ObjectUtils.isNull(firstAssetPaymentDetail.getAccount())){
@@ -347,10 +341,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
             String financialObjectSubTypeCode = assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode();
 
             if (StringUtils.isNotBlank(financialObjectSubTypeCode)) {
-                if (Arrays.asList(MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES.split(";")).contains(financialObjectSubTypeCode)) {
+                if (Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).split(";")).contains(financialObjectSubTypeCode)) {    
                     plantFundAccount = assetGlobal.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
                 }
-                else if (Arrays.asList(NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES.split(";")).contains(financialObjectSubTypeCode)) {
+                else if (Arrays.asList(parameterService.getParameterValue(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).split(";")).contains(financialObjectSubTypeCode)) {
                     plantFundAccount = assetGlobal.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
                 }
             }

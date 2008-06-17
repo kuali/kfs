@@ -109,7 +109,7 @@ public class ReportExportServiceImpl implements ReportExportService {
         
         StringBuilder results = new StringBuilder();
         
-        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(personUniversalIdentifier);;
+        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(personUniversalIdentifier);
         for (BudgetConstructionAccountDump accountRecord : accountDumpRecords) {
             List<PendingBudgetConstructionGeneralLedger> pendingEntryList = getPendingBudgetConstructionGeneralLedgerRecords(accountRecord);
             

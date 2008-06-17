@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCustomerInvoiceDocumentOrganizationInvoiceNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Customer Invoice Document Organization Invoice Number</label>
+      <description>Attribute to identify the Organization Invoice Number of the Customer Invoice Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="organizationInvoiceNumber" title="kuali_dd_label(CustomerInvoiceDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <quickfinder appliesTo="OrganizationInvoiceNumber" draw="true" service="workflow-org.kuali.module.ar.bo.Customer-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/organizationInvoiceNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

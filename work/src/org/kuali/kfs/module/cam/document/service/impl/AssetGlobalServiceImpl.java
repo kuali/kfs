@@ -95,8 +95,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         };
 
         abstract void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType);
-
-        // abstract boolean isObjectCodeExists(AssetObjectCode assetObjectCode);
     }
 
     private ParameterService parameterService;
@@ -360,7 +358,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentEligibleForGLPosting(org.kuali.module.cams.bo.AssetPaymentDetail)
      */
-    public boolean isPaymentEligibleForGLPosting(AssetPaymentDetail assetPaymentDetail) {
+    private boolean isPaymentEligibleForGLPosting(AssetPaymentDetail assetPaymentDetail) {
         boolean isEligible = true;
         // Financial object code is currently active
         isEligible &= isPaymentFinancialObjectActive(assetPaymentDetail);
@@ -372,7 +370,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentFinancialObjectActive(org.kuali.module.cams.bo.AssetPaymentDetail)
      */
-    public boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
+    private boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
         ObjectCode financialObjectCode = new ObjectCode();
         financialObjectCode.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
         financialObjectCode.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
@@ -387,7 +385,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentFederalContribution(org.kuali.module.cams.bo.AssetPaymentDetail)
      */
-    public boolean isPaymentFederalContribution(AssetPaymentDetail assetPaymentDetail) {
+    private boolean isPaymentFederalContribution(AssetPaymentDetail assetPaymentDetail) {
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
         if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
             return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());

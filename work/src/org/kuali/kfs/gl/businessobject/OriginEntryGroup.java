@@ -16,6 +16,7 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -135,4 +136,39 @@ public class OriginEntryGroup extends PersistableBusinessObjectBase {
     public void setValid(Boolean valid) {
         this.valid = valid;
     }
+    
+    /**
+     * An implementation of Comparator which compares origin entry groups by their source attribute
+     */
+    public static class GroupTypeComparator implements Comparator {
+        /**
+         * Constructs a GroupTypeComparator instance
+         */
+        public GroupTypeComparator() {
+        }
+
+        /**
+         * Compares origin entry groups based on the alphabeticality of their source attributes
+         * 
+         * @param c1 the first origin entry group to compare
+         * @param c2 the origin entry group compared to
+         * @return a negative if c1's source is less than c2's, 0 if they are equal, a positive if c1's source is greater than c2's
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(Object c1, Object c2) {
+
+            OriginEntryGroup oeg1 = (OriginEntryGroup) c1;
+            OriginEntryGroup oeg2 = (OriginEntryGroup) c2;
+
+            String sort1 = oeg1.getSourceCode();
+            String sort2 = oeg2.getSourceCode();
+
+            int c = sort1.compareTo(sort2);
+            if (c != 0) {
+                return c;
+            }
+            return oeg1.getId().compareTo(oeg2.getId());
+        }
+    }
+
 }

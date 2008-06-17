@@ -18,6 +18,7 @@ package org.kuali.module.gl.bo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -248,5 +249,35 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
             m.put("correctionChangeGroupLineNumber", this.correctionChangeGroupLineNumber.toString());
         }
         return m;
+    }
+    
+    /**
+     * A comparator that compares to GLCP correction change groups based on their group line numbers
+     * within the GLCP document
+     */
+    public static class CorrectionGroupLineNumberComparator implements Comparator {
+
+        /**
+         * Constructs a CorrectionGroupLineNumberComparator instance
+         */
+        public CorrectionGroupLineNumberComparator() {
+        }
+
+        /**
+         * Compares two CorrectionChangeGroups based on thier line numbers within a GLCP document
+         *
+         * @param c1 a correction change group to compare
+         * @param c2 another correction change group to compare the first one to
+         * @return a negative integer if c1 has a lower line number than c2, 0 if the two line numbers are equal, a positive number if c1 has a greater line number than c2 
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(Object c1, Object c2) {
+
+            CorrectionChangeGroup ccg1 = (CorrectionChangeGroup) c1;
+            CorrectionChangeGroup ccg2 = (CorrectionChangeGroup) c2;
+
+            return ccg1.getCorrectionChangeGroupLineNumber().compareTo(ccg2.getCorrectionChangeGroupLineNumber());
+        }
+
     }
 }

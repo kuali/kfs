@@ -25,7 +25,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.web.optionfinder.OEGTypeComparator;
 
 /**
  * Entries Finder for Processing Correction Labor Group. Returns a list of correction groups with a process flag set to yes key
@@ -41,7 +40,7 @@ public class ProcessingCorrectionLaborGroupEntriesFinder extends KeyValuesBase {
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
         List<OriginEntryGroup> sortedGroupList = (List<OriginEntryGroup>) groupList;
-        OEGTypeComparator oegTypeComparator = new OEGTypeComparator();
+        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
         Collections.sort(sortedGroupList, oegTypeComparator);
 
         for (OriginEntryGroup oeg : sortedGroupList) {

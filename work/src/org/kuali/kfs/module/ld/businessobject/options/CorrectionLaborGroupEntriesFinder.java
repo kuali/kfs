@@ -26,7 +26,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.web.optionfinder.OEGTypeComparator;
 
 /**
  * Entries Finder for Labor Balance Type Code. Returns a list of key values of Labor Origin Entry Groups for LLCP.
@@ -41,7 +40,7 @@ public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
         List<OriginEntryGroup> sortedGroupList = (List) groupList;
-        OEGTypeComparator oegTypeComparator = new OEGTypeComparator();
+        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
         Collections.sort(sortedGroupList, oegTypeComparator);
 
         String groupException = "";

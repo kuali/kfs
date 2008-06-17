@@ -48,7 +48,7 @@ public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
 
         List<OriginEntryGroup> sortedGroupList = (List<OriginEntryGroup>) groupList;
 
-        OEGTypeComparator oegTypeComparator = new OEGTypeComparator();
+        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
         Collections.sort(sortedGroupList, oegTypeComparator);
 
         for (OriginEntryGroup oeg : sortedGroupList) {

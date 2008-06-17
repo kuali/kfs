@@ -48,7 +48,7 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
 
         List<OriginEntryGroup> sortedGroupList = (List) groupList;
 
-        OEGTypeComparator oegTypeComparator = new OEGTypeComparator();
+        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
         Collections.sort(sortedGroupList, oegTypeComparator);
 
         String groupException = "";

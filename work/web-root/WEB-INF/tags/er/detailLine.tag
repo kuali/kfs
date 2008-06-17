@@ -100,9 +100,8 @@
 			relationshipMetadata = "${relationshipMetadata[fieldName]}"
 			onblur="${onblur}" readOnly="${not editable}" readOnlySection="${readOnlySection}"/>			
 		
-		<c:if test="${editable && fn:contains(fieldName, 'accountNumber') && detailLine.accountExpiredOverrideNeeded}">
-			<br/>
-			<er:expiredAccountOverride detailLineFormName="${detailLineFormName}" attributes="${attributes}" />
+		<c:if test="${fn:contains(fieldName, 'accountNumber') && detailLine.accountExpiredOverrideNeeded && detailLine.newLineIndicator}">
+			<er:expiredAccountOverride detailLineFormName="${detailLineFormName}" attributes="${attributes}" readOnly="${not editable}" />
 		</c:if>
 	</td>
 </c:forTokens>

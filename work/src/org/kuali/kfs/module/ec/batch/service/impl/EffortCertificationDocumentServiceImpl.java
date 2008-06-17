@@ -45,6 +45,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
+import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -327,7 +328,10 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param accountingLine the accounting line needed to be populated
      */
     private void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
-        accountingLine.setOverrideCode(AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED);
+        if(detailLine.isAccountExpiredOverride()) {
+            AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);      
+            accountingLine.setOverrideCode(override.getCode());
+        }
         
         accountingLine.setChartOfAccountsCode(detailLine.getChartOfAccountsCode());
         accountingLine.setAccountNumber(detailLine.getAccountNumber());

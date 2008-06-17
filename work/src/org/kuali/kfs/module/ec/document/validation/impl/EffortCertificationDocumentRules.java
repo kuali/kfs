@@ -93,15 +93,16 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (EffortCertificationDocumentRuleUtil.hasClosedAccount(detailLine)) {
-            reportError(KFSPropertyConstants.ACCOUNT, EffortKeyConstants.ERROR_ACCOUNT_CLOSED);
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_ACCOUNT_CLOSED);
             return false;
         }
 
+        LOG.info("======>" + EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine) + " : " + detailLine.getOverrideCode());
         if (detailLine.isNewLineIndicator() && !EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
             Account account = detailLine.getAccount();
             Account continuation = account.getContinuationAccount();
             
-            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber());            
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber());            
             return false;
         }
 
@@ -288,11 +289,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         // if the formats of the fields are correct, check if there exist the references of a set of specified fields
         boolean hasValidReference = true;
         if (hasValidFormat) {
-            hasValidReference &= accountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
-            hasValidReference &= accountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
 
             if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber())) {
-                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS);
+                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
             }
         }
 

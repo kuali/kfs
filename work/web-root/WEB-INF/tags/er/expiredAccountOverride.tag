@@ -22,21 +22,30 @@
 	description="The name  of the detail line"%>              
 <%@ attribute name="attributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for all detail line fields."%>
+<%@ attribute name="readOnly" required="false"
+	description="determine whether the expired account override is read-only or not"%>		
 
 <c:set var="accountExpiredOverride" value="accountExpiredOverride" />
 <c:set var="accountExpiredOverrideNeeded" value="accountExpiredOverrideNeeded" />
 			  
 <span class="nowrap" style="font-weight: normal">
-	<kul:htmlAttributeLabel 
-		attributeEntry="${attributes[accountExpiredOverride]}"
-		useShortLabel="true" 
-		forceRequired="true" />
-            
-    <kul:htmlControlAttribute
-		property="${detailLineFormName}.${accountExpiredOverride}"
-		attributeEntry="${attributes[accountExpiredOverride]}"
-		readOnly="false"
-		readOnlyBody="false"/>
+	<c:choose>
+		<c:when test="${readOnly}">
+			<html:hidden property="${detailLineFormName}.${accountExpiredOverride}" />
+		</c:when>
+		<c:otherwise>
+			<kul:htmlAttributeLabel 
+				attributeEntry="${attributes[accountExpiredOverride]}"
+				useShortLabel="true" 
+				forceRequired="true" />
+		            
+		    <kul:htmlControlAttribute
+				property="${detailLineFormName}.${accountExpiredOverride}"
+				attributeEntry="${attributes[accountExpiredOverride]}"
+				readOnly="false"
+				readOnlyBody="false"/>
+		</c:otherwise>
+	</c:choose>
 	
 	<html:hidden property="${detailLineFormName}.${accountExpiredOverrideNeeded}" />					
 </span>			

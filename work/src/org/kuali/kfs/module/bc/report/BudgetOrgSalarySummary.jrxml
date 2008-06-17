@@ -546,7 +546,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="703"
-						y="2"
+						y="8"
 						width="54"
 						height="12"
 						key="textField-252"/>
@@ -563,7 +563,7 @@
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="764"
-						y="2"
+						y="8"
 						width="39"
 						height="12"
 						key="textField-253"/>
@@ -580,7 +580,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="803"
-						y="2"
+						y="8"
 						width="14"
 						height="12"
 						key="textField-254"/>
@@ -820,9 +820,9 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="504"
+						x="505"
 						y="7"
-						width="45"
+						width="41"
 						height="0"
 						key="line-107"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -1093,7 +1093,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="705"
-						y="140"
+						y="141"
 						width="60"
 						height="0"
 						key="line-5"/>
@@ -1101,9 +1101,9 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="764"
-						y="140"
-						width="54"
+						x="766"
+						y="141"
+						width="52"
 						height="0"
 						key="line-6"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -1405,7 +1405,7 @@
 					<reportElement
 						x="262"
 						y="141"
-						width="21"
+						width="22"
 						height="1"
 						key="line-82"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -1779,7 +1779,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="203"
-						y="112"
+						y="113"
 						width="25"
 						height="1"
 						key="line-99"/>
@@ -1788,7 +1788,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="9"
-						y="112"
+						y="113"
 						width="188"
 						height="1"
 						key="line-100"/>
@@ -2015,7 +2015,7 @@
 						key="textField-217"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{deleteBox}]]></textFieldExpression>
 				</textField>

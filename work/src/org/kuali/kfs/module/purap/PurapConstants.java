@@ -328,6 +328,8 @@ public class PurapConstants extends JSTLConstants {
         public static final String SPLIT_ADDL_CHARGES_WARNING_LABEL = "WARNING";
         public static final String SPLIT_ADDL_CHARGES_WARNING = "* ADDITIONAL CHARGES EXIST *";
         public static final String SPLIT_NOTE_TEXT = "splitNoteText";
+        public static final String ITEMS_MOVING_TO_SPLIT = "movingPOItems";
+        public static final String ITEMS_REMAINING = "remainingPOItems";
 
         public static final String CONFIRM_AWARD_QUESTION = "POConfirmAward";
         public static final String CONFIRM_AWARD_RETURN = "completeQuote";

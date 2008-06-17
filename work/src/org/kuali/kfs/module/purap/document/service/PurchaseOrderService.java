@@ -17,6 +17,7 @@ package org.kuali.module.purap.service;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
@@ -329,4 +330,14 @@ public interface PurchaseOrderService {
      * @return
      */
     public boolean isNewUnorderedItem(PurchaseOrderItem poItem);
+    
+    /**
+     * Used to provide sublists of the list of the original PO's items according to whether they
+     * are marked to be moved or not.  Retrieving the item from the hash with the key of 'movingPOItems'
+     * will retrieve those Items which should move, using 'remainingPOItems'.
+     * 
+     * @param items     A List<PurchaseOrderItem> from the original PO of a Split.
+     * @return          A HashMap<String, List<PurchaseOrderItem>> of categorized lists of items
+     */
+    public HashMap<String, List<PurchaseOrderItem>> categorizeItemsForSplit(List<PurchaseOrderItem> items);
 }

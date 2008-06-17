@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,6 +48,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.PurchaseOrderSplitRule;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorConstants.VendorTypes;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -359,19 +361,14 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
         return SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
     }
     
+    /**
+     * @see org.kuali.module.purap.rule.PurchaseOrderSplitRule#validateSplit(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
     public boolean validateSplit(PurchaseOrderDocument po) {
         boolean valid = true;
-        List<PurchaseOrderItem> items = (List<PurchaseOrderItem>)po.getItems();
-        TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-        TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-        for (PurchaseOrderItem item : items) {
-            if(item.isMovingToSplit()) {
-                movingPOItems.add(item);
-            }          
-            else {
-                remainingPOItems.add(item);
-            }
-        }
+        HashMap<String, List<PurchaseOrderItem>> categorizedItems = SpringContext.getBean(PurchaseOrderService.class).categorizeItemsForSplit((List<PurchaseOrderItem>)po.getItems());
+        List<PurchaseOrderItem> movingPOItems = categorizedItems.get(PODocumentsStrings.ITEMS_MOVING_TO_SPLIT);
+        List<PurchaseOrderItem> remainingPOItems = categorizedItems.get(PODocumentsStrings.ITEMS_REMAINING);
         if (movingPOItems.isEmpty()) {
             GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE);
             valid &= false;

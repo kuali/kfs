@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,6 +62,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -715,6 +715,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 
                 // Add in and renumber the items that the new document should have.
                 newDocument.setItems(newPOItems);
+                SpringContext.getBean(PurapService.class).addBelowLineItems(newDocument);
                 newDocument.renumberItems(0);
                 
                 if (copyNotes) {
@@ -775,6 +776,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
     
+    /**
+     * Gets a set of classes to exclude from those whose fields will be copied during a copy operation from one Document to
+     * another.
+     * 
+     * @return A Set<Class> 
+     */
     private Set<Class> getClassesToExcludeFromCopy() {
         Set<Class> classesToExclude = new HashSet<Class>();
         Class sourceObjectClass = DocumentBase.class;
@@ -1361,5 +1368,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#categorizeItemsForSplit(java.util.List)
+     */
+    public HashMap<String, List<PurchaseOrderItem>> categorizeItemsForSplit(List<PurchaseOrderItem> items) {
+        HashMap<String, List<PurchaseOrderItem>> movingOrNot =  new HashMap<String, List<PurchaseOrderItem>>(3);
+        List<PurchaseOrderItem> movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        List<PurchaseOrderItem> remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        for (PurchaseOrderItem item : items) {
+            if(item.isMovingToSplit()) {
+                movingPOItems.add(item);
+            }          
+            else {
+                remainingPOItems.add(item);
+            }
+        }
+        movingOrNot.put(PODocumentsStrings.ITEMS_MOVING_TO_SPLIT, movingPOItems);
+        movingOrNot.put(PODocumentsStrings.ITEMS_REMAINING, remainingPOItems);
+        return movingOrNot;
     }
 }

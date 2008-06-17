@@ -19,6 +19,12 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 public interface PurchaseOrderSplitRule<P extends PurchaseOrderDocument> {
     
+    /**
+     * Applies rules for validation of the Split of PO and PO child documents
+     * 
+     * @param document  A PurchaseOrderDocument (or one of its children)
+     * @return      True if all relevant validation rules are passed.
+     */
     public boolean validateSplit(P document);
 
 }

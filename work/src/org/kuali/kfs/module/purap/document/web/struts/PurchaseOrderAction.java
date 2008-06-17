@@ -45,7 +45,6 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.BlankFormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -53,7 +52,6 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -69,7 +67,6 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
-import org.kuali.module.purap.rules.PurchaseOrderDocumentRule;
 import org.kuali.module.purap.service.FaxService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -532,13 +529,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     /**
+     * Invoked to initiate the splitting of a Purchase Order.  Displays a question page to ask for a reason and confirmation
+     * of the user's desire to split the Purchase Order, and, if confirmed, a page on which the Split PO tab only is showing, 
+     * and the items to move to the new PO are chosen. If that is done, and the user continues, a new Split Purchase Order document 
+     * will be created, with the chosen items.  That same set of items will be deleted from the original Purchase Order.
      * 
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
      * @throws Exception
      * @see org.kuali.module.purap.document.PurchaseOrderSplitDocument
      */
@@ -555,13 +555,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     /**
+     * Invoked when only the Split Purchase Order tab is showing to continue the process of splitting the PO, once items are chosen
+     * to be moved to the new PO.
      * 
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
      * @throws Exception
      */
     public ActionForward continuePurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
@@ -577,16 +578,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             poToSplit.setPendingSplit(true);
         }
         else {
-            TypedArrayList movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-            TypedArrayList remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
-            for (PurchaseOrderItem item : (List<PurchaseOrderItem>)poToSplit.getItems()) {
-                if(item.isMovingToSplit()) {
-                    movingPOItems.add(item);
-                }          
-                else {
-                    remainingPOItems.add(item);
-                }
-            }
+            HashMap<String, List<PurchaseOrderItem>> categorizedItems = SpringContext.getBean(PurchaseOrderService.class).categorizeItemsForSplit((List<PurchaseOrderItem>)poToSplit.getItems());
+            List<PurchaseOrderItem> movingPOItems = categorizedItems.get(PODocumentsStrings.ITEMS_MOVING_TO_SPLIT);
+            List<PurchaseOrderItem> remainingPOItems = categorizedItems.get(PODocumentsStrings.ITEMS_REMAINING);
             
             // Fetch the whole PO from the database, and reset and renumber the items on it.
             poToSplit = (PurchaseOrderDocument)SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poToSplit.getPurapDocumentIdentifier());
@@ -621,13 +615,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     /**
+     * Invoked from the page on which the Split PO tab is showing to cancel the splitting of the PO and return it to its original state.
      * 
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
      * @throws Exception
      */
     public ActionForward cancelPurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

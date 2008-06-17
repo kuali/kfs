@@ -270,6 +270,7 @@ public class BCConstants extends JSTLConstants {
         public final static int ACCOUNT_SELECT_ABOVE_POV = 3;
         public final static int ACCOUNT_SELECT_BUDGETED_DOCUMENTS = 4;
         public final static int LOCK_MONITOR = 5;
+        public final static int CSF_TRACKER_POSITION_LOOKUP = 6;
     }
 
     public enum RequestImportFileType {

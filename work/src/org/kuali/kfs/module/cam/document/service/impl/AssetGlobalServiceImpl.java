@@ -147,7 +147,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         // Create GL entries only for capital assets
         if (!CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode) && !assetGlobal.getAssetPaymentDetails().isEmpty()) {
             List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
-            assetGlobal.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
             AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
             firstAssetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);

@@ -151,35 +151,25 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
         }
         return false;
     }
-
+    
     /**
-     * This class, a simple closure, decides if an account belongs in the editableAccounts map or not: if it does not exist, or if
-     * the account is editable, it will go into the map.
+     * Determines if the line is editable; if so, it adds the line to the editableAccounts map
+     * @param line the line to determine editability of
+     * @param currentUser the current session user to check permissions for
+     * @param accountService the accountService
+     * @return true if the line is editable, false otherwise 
      */
-    private class AccountResponsibilityClosure implements Closure {
-        private Map editableAccounts;
-        private UniversalUser currentUser;
-        private AccountService accountService;
-
-        public AccountResponsibilityClosure(Map editableAccounts, UniversalUser currentUser, AccountService accountService) {;
-            this.editableAccounts = editableAccounts;
-            this.currentUser = currentUser;
-            this.accountService = accountService;
-        }
-
-        public void execute(Object input) {
-            AccountingLine acctLine = (AccountingLine) input;
-            Account acct = accountService.getByPrimaryId(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber());
-            if (ObjectUtils.isNotNull(acct)) {
-                if (accountService.hasResponsibilityOnAccount(currentUser, acct)) {
-                    editableAccounts.put(acctLine.getAccountKey(), acct);
-                }
-            }
-            else {
-                editableAccounts.put(acctLine.getAccountKey(), acctLine.getAccountKey());
+    private boolean determineLineEditability(AccountingLine line, UniversalUser currentUser, AccountService accountService) {
+        Account acct = accountService.getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
+        if (ObjectUtils.isNotNull(acct)) {
+            if (accountService.hasResponsibilityOnAccount(currentUser, acct)) {
+                return true;
             }
         }
-
+        else {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -190,13 +180,22 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
 
         Map editableAccounts = new HashMap();
         AccountingDocument acctDoc = (AccountingDocument) document;
-        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringContext.getBean(AccountService.class));
+        AccountService accountService = SpringContext.getBean(AccountService.class);
 
         // for every source accounting line, decide if account should be in map
-        CollectionUtils.forAllDo(acctDoc.getSourceAccountingLines(), accountResponsibilityClosure);
+        for (Object acctLineAsObj: acctDoc.getSourceAccountingLines()) {
+            if (determineLineEditability((AccountingLine)acctLineAsObj, user, accountService)) {
+                editableAccounts.put(((AccountingLine)acctLineAsObj).getAccountKey(), "TRUE");
+            }
+        }
 
         // for every target accounting line, decide if account should be in map
-        CollectionUtils.forAllDo(acctDoc.getTargetAccountingLines(), accountResponsibilityClosure);
+        for (Object acctLineAsObj: acctDoc.getTargetAccountingLines()) {
+            AccountingLine acctLine = (AccountingLine)acctLineAsObj;
+            if (determineLineEditability((AccountingLine)acctLineAsObj, user, accountService)) {
+                editableAccounts.put(((AccountingLine)acctLineAsObj).getAccountKey(), "TRUE");
+            }
+        }
 
         return editableAccounts;
     }
@@ -207,9 +206,13 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
      */
     public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
         Map editableAccounts = new HashMap();
-        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringContext.getBean(AccountService.class));
-
-        CollectionUtils.forAllDo(lines, accountResponsibilityClosure);
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        
+        for (AccountingLine line: lines) {
+            if (determineLineEditability(line, user, accountService)) {
+                editableAccounts.put(line.getAccountKey(), "TRUE");
+            }
+        }
 
         return editableAccounts;
     }

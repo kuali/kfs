@@ -29,7 +29,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>PA_PURCHASE_ORDER_HOLD_USERS</value>
+              <value>SY_MAINTENANCE_USERS</value>
             </set>
           </property>
         </bean>

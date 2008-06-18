@@ -56,9 +56,7 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="acquisitionType"
               p:attributeToHighlightOnFail="acquisitionTypeCode" />     
-        <bean parent="ReferenceDefinition"
-              p:attributeName="agency"
-              p:attributeToHighlightOnFail="agencyNumber" />
+        
       </list>
     </property>
     <property name="lockingKeys" >

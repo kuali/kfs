@@ -101,6 +101,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateAccount();
             valid &= validateLocation();
             valid &= validateFabricationDetails();
+            valid &= validateAgencyNumber();
         }
         else {
             setAssetComponentNumbers(newAsset);
@@ -116,7 +117,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
             equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
 
-            valid &= validateAccount();
             valid = processAssetValidation(document);
             valid &= validateWarrantyInformation(newAsset);
 
@@ -172,6 +172,15 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    private boolean validateAgencyNumber() {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(newAsset.getAgency())) {
+            // Agency number does not exist
+            putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.AGENCY_NUMBER_NOT_EXIST);
+            valid &= false;
+        }
+        return valid;
+    }
 
     private void setAssetComponentNumbers(Asset asset) {
 
@@ -202,7 +211,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
             valid &= validateInventoryStatusCode();
         }
+        
+//      validate Organization Owner Account Number
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getOrganizationOwnerAccountNumber(), newAsset.getOrganizationOwnerAccountNumber())) {
+            valid &= validateAccount();
+        }
 
+//      validate Agency Number (Owner)
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getAgencyNumber(), newAsset.getAgencyNumber())) {
+            valid &= validateAgencyNumber();
+        }
+
+        
         // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVendorName();

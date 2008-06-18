@@ -7,4 +7,5 @@
     <bean id="KFS_MaintenanceDocumentEntry"
         class="org.kuali.kfs.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true"
     />
+    <bean id="TransactionalDocumentEntry" abstract="true" class="org.kuali.kfs.datadictionary.KFSTransactionalDocumentEntry" />
 </beans>

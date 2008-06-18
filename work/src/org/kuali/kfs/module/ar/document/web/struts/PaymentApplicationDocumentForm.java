@@ -78,6 +78,13 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     /**
      * @return
      */
+    public KualiDecimal getAmountAppliedDirectlyToInvoice() {
+        return customerInvoiceDocumentService.getTotalAmountForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+    }
+    
+    /**
+     * @return
+     */
     public CustomerInvoiceDocument getSelectedInvoiceDocument() {
         CustomerInvoiceDocument invoice = null;
         

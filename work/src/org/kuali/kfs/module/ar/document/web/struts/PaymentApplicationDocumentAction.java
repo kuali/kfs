@@ -58,6 +58,12 @@ public class PaymentApplicationDocumentAction extends KualiAccountingDocumentAct
         return super.execute(mapping, form, request, response);
     }
 
+    public ActionForward goToInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
+        pform.setSelectedInvoiceDocumentNumber(request.getParameter("goToInvoiceDocumentNumber"));
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     public ActionForward setCustomer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
         Collection<NonAppliedHolding> holdings = pform.getNonAppliedHoldingsForCustomer();

@@ -227,7 +227,7 @@
 			        <tr>
 			          <td colspan='2' class='tab-subhead'>
 			            Invoices
-			            <select name="selectedInvoiceDocumentNumber">
+			            <select name="goToInvoiceDocumentNumber">
 			            	<c:forEach items="${KualiForm.invoices}" var="invoice">
 			            		<c:choose>
 				            		<c:when test="${invoice.documentNumber eq KualiForm.selectedInvoiceDocumentNumber}">
@@ -239,7 +239,11 @@
 			            		</c:choose>
 			            	</c:forEach>
 			            </select>
-			            <input type='submit' value='Go To Invoice'>
+						<html:image property="methodToCall.goToInvoice"
+							src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+							alt="Go To Invoice"
+							title="Go To Invoice"
+							styleClass="tinybutton" />
 			          </td>
 			        </tr>
 			        <tr>
@@ -267,7 +271,7 @@
 			                <td>${KualiForm.selectedInvoiceDocumentNumber}</td>
 			                <td><input type='text' value='${KualiForm.selectedInvoiceDocument.accountsReceivableDocumentHeader.financialDocumentExplanationText}'></td>
 			                <td><input type='text' value='${KualiForm.balanceForSelectedInvoiceDocument}'></td>
-			                <td rowspan='2'><input type='text' value=''/></td>
+			                <td rowspan='2' style='vertical-align: top;'><input type='text' value='${KualiForm.amountAppliedDirectlyToInvoice}'/></td>
 			              </tr>
 			              <tr>
 			                <td>&nbsp;</td>

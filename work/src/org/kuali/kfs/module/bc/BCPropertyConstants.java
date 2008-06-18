@@ -34,4 +34,6 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_FUNDING_LOCK_USER_ID = "appointmentFundingLockUserId";
     public static final String BUDGET_CONSTRUCTION_POSITION = "budgetConstructionPosition";
     public static final String BUDGET_CONSTRUCTION_FUNDING_LOCKS = "budgetConstructionFundingLocks";
+    // budget construction pending appointment funding
+    public static final String APPOINTMENT_FUNDING_DELETE_INDICATOR = "appointmentFundingDeleteIndicator";
 }

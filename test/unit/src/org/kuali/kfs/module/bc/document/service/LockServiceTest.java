@@ -15,16 +15,27 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
 
+
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.financial.bo.FiscalYearFunctionControl;
+import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
@@ -39,6 +50,66 @@ import org.kuali.test.ConfigureContext;
 @ConfigureContext
 public class LockServiceTest extends KualiTestBase {
 
+    private LockService lockService;
+    private BudgetConstructionDaoOjb bcHeaderDao;
+
+    private DocumentHeader docHeader;
+    private BudgetConstructionHeader bcHeader;
+    private BudgetConstructionHeader bcHeaderTwo;
+    private BudgetConstructionPosition bcPosition;
+    private PendingBudgetConstructionAppointmentFunding bcAFunding;
+    private BudgetConstructionLockStatus bcLockStatus;
+    private LockStatus lockStatus;
+    private SortedSet<BudgetConstructionFundingLock> fundingLocks;
+    Iterator<BudgetConstructionFundingLock> fundingIter;
+    private BudgetConstructionFundingLock fundingLock;
+    
+    private static boolean dataExists;
+
+    /*
+     *   these values are filled in from the database, taking the first row that comes along.
+     *   these fields are also static, so we don't have to return to the database for each of the tests.
+     *   therefore, it follows that deleting data from the database while the tests are running could result
+     *   in failed tests, even though nothing is wrong with the code itself.
+     */
+    private String fdocNumber;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    private String emplid;
+    private Integer universityFiscalYear;
+    private String positionNumber;
+    private  String pUIdOne = "3670600494"; // MCGUIRE
+    private  String pUIdTwo = "6162502038"; // KHUNTLEY
+    boolean posExist = false;
+    boolean hdrExist = false;
+    boolean docHdrExist = false;
+    boolean bcafExist = false;
+    
+    // set up some data for the tests.
+    // we will run everything in one test method, so this only needs to be done once
+    public void setUp()
+    {
+      // get the services we need 
+      lockService = SpringContext.getBean(LockService.class);
+      bcHeaderDao = new BudgetConstructionDaoOjb();
+      // find a test fiscal year 
+      universityFiscalYear = setTestFiscalYear(); 
+      dataExists = (universityFiscalYear != 0);
+      // find a test funding row for this fiscal year. 
+      // (rely on short circuit evaluation)
+      dataExists = (dataExists) && (setTestFunding());
+      // finally, get the parent document for this funding and position
+      dataExists = (dataExists) && (setTestDocumentNumber());
+    } 
+    
+    public void tearDown()
+    {
+        
+    }
+
     private boolean runTests() { // change this to return false to prevent running tests
         return false;
     }
@@ -46,149 +117,35 @@ public class LockServiceTest extends KualiTestBase {
     @ConfigureContext(shouldCommitTransactions = true)
     public void testOne() {
 
-        LockService lockService;
-        DocumentHeader docHeader;
-        BudgetConstructionDaoOjb bcHeaderDao;
-        BudgetConstructionHeader bcHeader;
-        BudgetConstructionHeader bcHeaderTwo;
-        BudgetConstructionPosition bcPosition;
-        PendingBudgetConstructionAppointmentFunding bcAFunding;
-        BudgetConstructionLockStatus bcLockStatus;
-        LockStatus lockStatus;
-        SortedSet<BudgetConstructionFundingLock> fundingLocks;
-        Iterator<BudgetConstructionFundingLock> fundingIter;
-        BudgetConstructionFundingLock fundingLock;
-
-        String fdocNumber = "1111111111";
-        Integer orgLevelCode = new Integer(0);
-        String chartOfAccountsCode = "UA";
-        String accountNumber = "1912201";
-        String subAccountNumber = "-----";
-        String financialObjectCode = "2400";
-        String financialSubObjectCode = "---";
-        String emplid = "1111111111";
-        Integer universityFiscalYear = new Integer(2007);
-        String positionNumber = "00013304";
-        String positionDesc = "DATABASE MGR.";
-        String pUIdOne = "3670600494"; // MCGUIRE
-        String pUIdTwo = "6162502038"; // KHUNTLEY
-        boolean posExist = false;
-        boolean hdrExist = false;
-        boolean docHdrExist = false;
-        boolean bcafExist = false;
 
 
         if (!runTests())
             return;
 
-        // do some setup and initialize the state of things
-        lockService = SpringContext.getBean(LockService.class);
-        bcHeaderDao = new BudgetConstructionDaoOjb();
-
-        docHeader = null;
-        Map dockey = new HashMap();
-        dockey.put("documentNumber", fdocNumber);
-        docHeader = (DocumentHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentHeader.class, dockey);
-        if (docHeader == null) {
-            docHeader = new DocumentHeader();
-            docHeader.setDocumentNumber(fdocNumber);
-            SpringContext.getBean(BusinessObjectService.class).save(docHeader);
-        }
-        else {
-            docHdrExist = true;
-        }
-
-        bcHeader = null;
-        bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        if (bcHeader == null) {
-            bcHeader = new BudgetConstructionHeader();
-            bcHeader.setDocumentNumber(fdocNumber);
-            bcHeader.setAccountNumber(accountNumber);
-            bcHeader.setSubAccountNumber(subAccountNumber);
-            bcHeader.setChartOfAccountsCode(chartOfAccountsCode);
-            bcHeader.setOrganizationLevelCode(orgLevelCode);
-            bcHeader.setUniversityFiscalYear(universityFiscalYear);
-            bcHeaderDao.saveBudgetConstructionHeader(bcHeader);
-        }
-        else {
-            hdrExist = true;
-            lockService.unlockAccount(bcHeader);
-            lockService.unlockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        }
-        bcHeader = null;
-        bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        assertTrue(bcHeader.getAccountNumber().equals(accountNumber));
-
-
-        bcPosition = null;
-        bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
-        if (bcPosition == null) {
-            bcPosition = new BudgetConstructionPosition();
-            bcPosition.setPositionNumber(positionNumber);
-            bcPosition.setUniversityFiscalYear(universityFiscalYear);
-            bcPosition.setPositionDescription(positionDesc);
-            bcHeaderDao.saveBudgetConstructionPosition(bcPosition);
-        }
-        else {
-            posExist = true;
-            lockService.unlockPosition(positionNumber, universityFiscalYear);
-        }
-        bcPosition = null;
-        bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
-        assertTrue(bcPosition.getPositionNumber().equals(positionNumber));
-
-
-        bcAFunding = null;
-        HashMap map = new HashMap();
-        map.put("universityFiscalYear", universityFiscalYear);
-        map.put("chartOfAccountsCode", chartOfAccountsCode);
-        map.put("accountNumber", accountNumber);
-        map.put("subAccountNumber", subAccountNumber);
-        map.put("financialObjectCode", financialObjectCode);
-        map.put("financialSubObjectCode", financialSubObjectCode);
-        map.put("positionNumber", positionNumber);
-        map.put("emplid", emplid);
-        bcAFunding = (PendingBudgetConstructionAppointmentFunding) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PendingBudgetConstructionAppointmentFunding.class, map);
-        if (bcAFunding == null) {
-            bcAFunding = new PendingBudgetConstructionAppointmentFunding();
-            bcAFunding.setUniversityFiscalYear(universityFiscalYear);
-            bcAFunding.setChartOfAccountsCode(chartOfAccountsCode);
-            bcAFunding.setAccountNumber(accountNumber);
-            bcAFunding.setSubAccountNumber(subAccountNumber);
-            bcAFunding.setFinancialObjectCode(financialObjectCode);
-            bcAFunding.setFinancialSubObjectCode(financialSubObjectCode);
-            bcAFunding.setPositionNumber(positionNumber);
-            bcAFunding.setEmplid(emplid);
-            SpringContext.getBean(BusinessObjectService.class).save(bcAFunding);
-        }
-        else {
-            bcafExist = true;
-        }
-
-        // make sure funding locks we intend to use aren't there
-        lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdOne);
-        lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdTwo);
-
+        //
+        // (the tests below will check that the unlock activity here took effect). 
+        clearTestRowLocks();
+        
         // trivial account lock/unlock
-        assertFalse(lockService.isAccountLocked(bcHeader));
+        assertFalse("test header was unlocked on initialization", lockService.isAccountLocked(bcHeader));
         bcLockStatus = lockService.lockAccount(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isAccountLocked(bcHeader));
+        assertTrue("account lock attempt on header succeeded", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("test header has an account lock", lockService.isAccountLocked(bcHeader));
         bcLockStatus = lockService.lockAccount(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("test header locked successfully on second attempt", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         lockService.unlockAccount(bcHeader);
-        assertFalse(lockService.isAccountLocked(bcHeader));
+        assertFalse("unlock attempt on test header succeeded--no lock found", lockService.isAccountLocked(bcHeader));
 
         // account lock attempt with account lock set by other
         bcLockStatus = lockService.lockAccount(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isAccountLocked(bcHeader));
-        bcHeaderTwo = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        assertTrue(bcHeaderTwo.getAccountNumber().equals(accountNumber));
+        assertTrue("initial header lock by "+pUIdOne+" succeeded", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("header locked by "+pUIdOne, lockService.isAccountLocked(bcHeader));
+        // bcHeaderTwo is a different object representing the same budget construction header
+        assertTrue("two objects pointing to the same header have the same account", bcHeaderTwo.getAccountNumber().equals(accountNumber));
         bcLockStatus = lockService.lockAccount(bcHeaderTwo, pUIdTwo);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
-        assertTrue(bcLockStatus.getAccountLockOwner().equals(pUIdOne));
-        assertTrue(lockService.isAccountLocked(bcHeaderTwo));
+        assertTrue(pUIdTwo+" could not get a  lock on header already locked by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
+        assertTrue("lock is owned by "+pUIdOne, bcLockStatus.getAccountLockOwner().equals(pUIdOne));
+        assertTrue(pUIdTwo+"'s pointer to the test header row shows a lock", lockService.isAccountLocked(bcHeaderTwo));
 
         // funding lock attempt with account lock set in previous test
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
@@ -206,9 +163,9 @@ public class LockServiceTest extends KualiTestBase {
 
         // trivial funding lock/unlock
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+" obtained a funding lock", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+"'s lock shows a locked status", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdTwo);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         assertFalse(lockService.getFundingLocks(bcHeader).isEmpty());
@@ -228,7 +185,7 @@ public class LockServiceTest extends KualiTestBase {
 
         // account lock attempt with funding locks set
         // one funding lock has an associated position lock, the other is an orphan
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
@@ -251,28 +208,28 @@ public class LockServiceTest extends KualiTestBase {
         lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
         assertTrue(lockStatus == LockStatus.SUCCESS);
         assertTrue(lockService.getFundingLocks(bcHeader).isEmpty());
-        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear());
+        lockStatus = lockService.unlockPosition(positionNumber, universityFiscalYear);
         assertTrue(lockStatus == LockStatus.SUCCESS);
 
         // trivial position lock/unlock
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
-        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear());
+        assertTrue(lockService.isPositionLocked(positionNumber, universityFiscalYear));
+        lockStatus = lockService.unlockPosition(positionNumber, universityFiscalYear);
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
+        assertFalse(lockService.isPositionLocked(positionNumber, universityFiscalYear));
 
         // position lock attempt with position lock by other
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdTwo);
+        bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdTwo);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
-        assertTrue(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
-        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear());
+        assertTrue(lockService.isPositionLocked(positionNumber, universityFiscalYear));
+        lockStatus = lockService.unlockPosition(positionNumber, universityFiscalYear);
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
+        assertFalse(lockService.isPositionLocked(positionNumber, universityFiscalYear));
 
         // trivial transaction lock/unlock
         // this test bcHeader, but the application will probably derive the params from BCAppointmentFunding
@@ -299,20 +256,109 @@ public class LockServiceTest extends KualiTestBase {
         assertTrue(lockStatus == LockStatus.SUCCESS);
         assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
 
-        // remove test objects from the database if they didn't exist
-        if (!hdrExist) {
-            bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-            bcHeaderDao.getPersistenceBrokerTemplate().delete(bcHeader);
-        }
-        if (!docHdrExist) {
-            SpringContext.getBean(BusinessObjectService.class).delete(docHeader);
-        }
-        if (!posExist) {
-            bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
-            bcHeaderDao.getPersistenceBrokerTemplate().delete(bcPosition);
-        }
-        if (!bcafExist) {
-            SpringContext.getBean(BusinessObjectService.class).delete(bcAFunding);
-        }
     }
+
+    private boolean setTestDocumentNumber()
+    {
+        boolean returnValue = false;
+        // use the accounting key to find the document number associated with this funding
+        HashMap<String,Object> fieldValues = new HashMap<String,Object>(4);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,universityFiscalYear);
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,chartOfAccountsCode);
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER,accountNumber);
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER,subAccountNumber);
+        Collection<BudgetConstructionHeader> bcDocuments = SpringContext.getBean(BusinessObjectService.class).findMatching(BudgetConstructionHeader.class,fieldValues);
+        // here there should only be one row
+        Iterator<BudgetConstructionHeader> bcHeaderRows = bcDocuments.iterator();
+        while (bcHeaderRows.hasNext())
+        {
+            BudgetConstructionHeader bcHeaderRow = bcHeaderRows.next();
+            fdocNumber = bcHeaderRow.getDocumentNumber();
+            returnValue = true;
+            // save the header that we've chosen
+            bcHeader = bcHeaderRow;
+            // get a new object which represents the same budget construction header
+            bcHeaderTwo = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+            while (bcHeaderRows.hasNext())
+            {
+                bcHeaderRows.next();
+            }
+        }
+        return returnValue;
+    }
+    
+    private Integer setTestFiscalYear()
+    {
+        Integer fiscalYear = new Integer(0);
+        // find a fiscal year for which there is active budget construction data.
+        HashMap<String,Object> fieldValues = new HashMap<String,Object>(2);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR,new Boolean(true));
+        Collection<FiscalYearFunctionControl> returnedYears = SpringContext.getBean(BusinessObjectService.class).findMatching(FiscalYearFunctionControl.class,fieldValues);
+        // there should be only one, but who knows with test data involved--we'll take the fiscal year from the first one
+        Iterator<FiscalYearFunctionControl> activeYears = returnedYears.iterator();
+        if (activeYears.hasNext())
+        {
+            fiscalYear = activeYears.next().getUniversityFiscalYear();
+            // just run the iterator out, to be tidy
+            while (activeYears.hasNext())
+            {
+                activeYears.next();
+            }
+        }
+        return fiscalYear;
+    }
+    
+    private boolean setTestFunding()
+    {
+        boolean returnValue = false;
+        // all we need is a single funding line (not deleted, not vacant) for a real person
+        // but we'll apparently have to get them all and just take the first one
+        HashMap<String,Object> fieldValues = new HashMap<String,Object>(2);
+        fieldValues.put(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR,new Boolean(false));
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,universityFiscalYear);
+        // get the complete set of rows and look for the first one that does not have a vacant EMPLID
+        Collection<PendingBudgetConstructionAppointmentFunding> resultSet = SpringContext.getBean(BusinessObjectService.class).findMatching(PendingBudgetConstructionAppointmentFunding.class,fieldValues);
+        Iterator<PendingBudgetConstructionAppointmentFunding> fundingRows = resultSet.iterator();
+        while (fundingRows.hasNext())
+        {
+            PendingBudgetConstructionAppointmentFunding fundingRow = fundingRows.next();
+            if (!fundingRow.getEmplid().equals(BCConstants.VACANT_EMPLID))
+            {
+                returnValue = true;
+                // set all the test funding values from this row
+                chartOfAccountsCode = fundingRow.getChartOfAccountsCode();
+                accountNumber = fundingRow.getAccountNumber();
+                subAccountNumber = fundingRow.getSubAccountNumber();
+                financialObjectCode = fundingRow.getFinancialObjectCode();
+                financialSubObjectCode = fundingRow.getFinancialSubObjectCode();
+                emplid = fundingRow.getEmplid();
+                positionNumber = fundingRow.getPositionNumber();
+                // save the row we've selected
+                bcAFunding = fundingRow;
+                // run out the iterator
+                while (fundingRows.hasNext())
+                {
+                    fundingRows.next();
+                }
+            }
+        }
+        return returnValue;
+    }
+    
+    @ConfigureContext(shouldCommitTransactions = true)
+    private void clearTestRowLocks()
+    {
+        // clear all the locks on the test rows used in this TestCase
+        // make sure there are no locks or transaction locks in our test header
+        lockService.unlockAccount(bcHeader);
+        lockService.unlockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        // make sure the position we intend to use is unlocked
+        lockService.unlockPosition(positionNumber, universityFiscalYear);
+        // make sure funding locks we intend to use aren't there
+        lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdOne);
+        lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdTwo);
+    }
+    
 }
+

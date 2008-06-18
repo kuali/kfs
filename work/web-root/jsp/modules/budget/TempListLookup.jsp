@@ -144,28 +144,30 @@
 				
 			</table>
 			</div>
-			<br>
-			<table bgcolor="#C0C0C0" cellpadding="30" >
-				
-				<tr>
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.universityFiscalYear}" /></b>
-							<kul:htmlControlAttribute property="universityFiscalYear" readOnly="true" attributeEntry="${csfTrackerAttributes.universityFiscalYear}"/>
-					</td> 
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.chartOfAccountsCode}" /></b>
-						<kul:htmlControlAttribute property="chartOfAccountsCode" readOnly="true" attributeEntry="${csfTrackerAttributes.chartOfAccountsCode}"/>
-					</td>
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.accountNumber}" /></b>
-						<kul:htmlControlAttribute property="accountNumber" readOnly="true" attributeEntry="${csfTrackerAttributes.accountNumber}"/>
-					</td>
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.subAccountNumber}" /></b>
-						<kul:htmlControlAttribute property="subAccountNumber" readOnly="true" attributeEntry="${csfTrackerAttributes.subAccountNumber}"/>
-					</td>
-				<tr>
-			</table>
+			<c:if test="${KualiForm.tempListLookupMode == 6}" >
+				<br>
+				<table bgcolor="#C0C0C0" cellpadding="30" >
+					
+					<tr>
+						<td> 
+							<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.universityFiscalYear}" /></b>
+								<kul:htmlControlAttribute property="universityFiscalYear" readOnly="true" attributeEntry="${csfTrackerAttributes.universityFiscalYear}"/>
+						</td> 
+						<td> 
+							<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.chartOfAccountsCode}" /></b>
+							<kul:htmlControlAttribute property="chartOfAccountsCode" readOnly="true" attributeEntry="${csfTrackerAttributes.chartOfAccountsCode}"/>
+						</td>
+						<td> 
+							<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.accountNumber}" /></b>
+							<kul:htmlControlAttribute property="accountNumber" readOnly="true" attributeEntry="${csfTrackerAttributes.accountNumber}"/>
+						</td>
+						<td> 
+							<b><kul:htmlAttributeLabel attributeEntry="${csfTrackerAttributes.subAccountNumber}" /></b>
+							<kul:htmlControlAttribute property="subAccountNumber" readOnly="true" attributeEntry="${csfTrackerAttributes.subAccountNumber}"/>
+						</td>
+					<tr>
+				</table>
+			</c:if>
 			<br>
 			<br>
 			<div class="right"><logic-el:present name="KualiForm"

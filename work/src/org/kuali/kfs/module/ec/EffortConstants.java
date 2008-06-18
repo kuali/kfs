@@ -114,8 +114,20 @@ public class EffortConstants extends JSTLConstants {
         consolidationFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         consolidationFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         consolidationFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        consolidationFields.add(EffortPropertyConstants.NEW_LINE_INDICATOR);
 
         return consolidationFields;
     }
+    
+    public static final List<String> DETAIL_LINES_GROUPING_FILEDS = getDetailLinesGroupingFields();
+    private static final List<String> getDetailLinesGroupingFields() {
+        List<String> groupingFields = new ArrayList<String>();
+        groupingFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupingFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        groupingFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupingFields.add(EffortPropertyConstants.NEW_LINE_INDICATOR);
+
+        return groupingFields;
+    }
+    
+    public static final String SORT_DETAIL_LINE_BY_COLUMN_METHOD_NAME = "sortDetailLineByColumn";
 }

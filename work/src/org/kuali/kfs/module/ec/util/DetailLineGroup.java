@@ -174,7 +174,7 @@ public class DetailLineGroup {
      * @return a single string built from the keys of the given detail line
      */
     public static String getKeysAsString(EffortCertificationDetail line) {
-        return ObjectUtil.concatPropertyAsString(line, EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+        return ObjectUtil.concatPropertyAsString(line, EffortConstants.DETAIL_LINES_GROUPING_FILEDS);
     }
 
     /**

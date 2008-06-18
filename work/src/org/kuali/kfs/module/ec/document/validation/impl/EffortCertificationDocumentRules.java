@@ -97,7 +97,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        LOG.info("======>" + EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine) + " : " + detailLine.getOverrideCode());
         if (detailLine.isNewLineIndicator() && !EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
             Account account = detailLine.getAccount();
             Account continuation = account.getContinuationAccount();

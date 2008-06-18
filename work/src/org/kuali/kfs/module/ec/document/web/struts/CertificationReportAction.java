@@ -34,12 +34,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
 import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
@@ -92,21 +92,25 @@ public class CertificationReportAction extends EffortCertificationAction {
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
 
-        EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
+        EffortCertificationDetail workingDetailLine = new EffortCertificationDetail();
+        ObjectUtil.buildObject(workingDetailLine, newDetailLine);
+
+        EffortCertificationDocumentRuleUtil.applyDefaultValues(workingDetailLine);
 
         if (newDetailLine.isAccountExpiredOverride()) {
+            this.updateDetailLineOverrideCode(workingDetailLine);
             this.updateDetailLineOverrideCode(newDetailLine);
         }
 
         // check business rules
-        boolean isValid = this.invokeRules(new AddDetailLineEvent("", EffortPropertyConstants.EFFORT_CERTIFICATION_DOCUMENT_NEW_LINE, effortDocument, newDetailLine));
+        boolean isValid = this.invokeRules(new AddDetailLineEvent("", EffortPropertyConstants.EFFORT_CERTIFICATION_DOCUMENT_NEW_LINE, effortDocument, workingDetailLine));
         if (isValid) {
-            if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(newDetailLine)) {
-                EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
+            if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(workingDetailLine)) {
+                EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(workingDetailLine);
             }
 
-            this.resetPersistedFields(newDetailLine);
-            detailLines.add(newDetailLine);
+            this.resetPersistedFields(workingDetailLine);
+            detailLines.add(workingDetailLine);
             certificationReportForm.setNewDetailLine(certificationReportForm.createNewDetailLine());
         }
         else {
@@ -167,18 +171,16 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EffortCertificationForm effortForm = (EffortCertificationForm) form;
-        EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
-        List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+        CertificationReportForm certificationReportForm = (CertificationReportForm) form;
 
-        for (EffortCertificationDetail detailLine : detailLines) {
+        for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {
             detailLine.refresh();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /** 
+    /**
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -199,7 +201,8 @@ public class CertificationReportAction extends EffortCertificationAction {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
 
         String methodToCallAttribute = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String sortColumn = StringUtils.substringBetween(methodToCallAttribute, "sortDetailLineByColumn.", ".");
+        String sortMethodName = EffortConstants.SORT_DETAIL_LINE_BY_COLUMN_METHOD_NAME + ".";
+        String sortColumn = StringUtils.substringBetween(methodToCallAttribute, sortMethodName, ".");
 
         this.toggleSortOrder(certificationReportForm);
         this.sortDetailLine(certificationReportForm, certificationReportForm.getDetailLines(), sortColumn);
@@ -224,17 +227,17 @@ public class CertificationReportAction extends EffortCertificationAction {
         int lineToRecalculateIndex = this.getSelectedLine(request);
         EffortCertificationDetail lineToRecalculate = summarizedDetailLines.get(lineToRecalculateIndex);
         lineToRecalculate.recalculatePayrollAmount(totalPayrollAmount);
-        
-        String groupId = lineToRecalculate.getGroupId();        
+
+        String groupId = lineToRecalculate.getGroupId();
         List<EffortCertificationDetail> detailLines = certificationReportForm.getDetailLines();
         List<EffortCertificationDetail> detailLinesToRecalculate = this.findDetailLinesInGroup(detailLines, groupId);
-        for(EffortCertificationDetail line : detailLinesToRecalculate) {
-            ObjectUtil.buildObject(line, lineToRecalculate, EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+        for (EffortCertificationDetail line : detailLinesToRecalculate) {
+            ObjectUtil.buildObject(line, lineToRecalculate, EffortConstants.DETAIL_LINES_GROUPING_FILEDS);
         }
 
         // rebuild the detail line groups from the detail lines of the current document
         Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines());
-        DetailLineGroup detailLineGroup = this.getDetailLineGroupByDetailLine(detailLineGroupMap, lineToRecalculate);
+        DetailLineGroup detailLineGroup = detailLineGroupMap.get(DetailLineGroup.getKeysAsString(lineToRecalculate));
         this.updateDetailLineGroup(detailLineGroup, lineToRecalculate, totalPayrollAmount);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -265,7 +268,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         int lineToRecalculateIndex = this.getSelectedLine(request);
         EffortCertificationDetail lineToDelete = summarizedDetailLines.get(lineToRecalculateIndex);
         summarizedDetailLines.remove(lineToDelete);
-        
+
         String groupId = lineToDelete.getGroupId();
         List<EffortCertificationDetail> detailLines = certificationReportForm.getDetailLines();
         List<EffortCertificationDetail> detailLinesToDelete = this.findDetailLinesInGroup(detailLines, groupId);
@@ -285,7 +288,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationDetail lineToRevert = summarizedDetailLines.get(lineToRevertIndex);
 
         Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines());
-        DetailLineGroup detailLineGroup = this.getDetailLineGroupByDetailLine(detailLineGroupMap, lineToRevert);
+        DetailLineGroup detailLineGroup = detailLineGroupMap.get(DetailLineGroup.getKeysAsString(lineToRevert));
         List<EffortCertificationDetail> detailLinesInGroup = detailLineGroup.getDetailLines();
 
         List<EffortCertificationDetail> detailLines = certificationReportForm.getDetailLines();
@@ -299,26 +302,21 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * find the detail line group through the given detail line
+     * find the detail lines belonging to the given group from the given detail lines
      * 
-     * @param detailLineGroupMap the given detail line group map
-     * @param detailLine the given detail line
-     * @return the detail line group
+     * @param detailLines the given detail lines
+     * @param groupId the given group id
+     * @return the detail lines belonging to the given group
      */
-    private DetailLineGroup getDetailLineGroupByDetailLine(Map<String, DetailLineGroup> detailLineGroupMap, EffortCertificationDetail detailLine) {
-        String keysAsString = ObjectUtil.concatPropertyAsString(detailLine, EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
-        return detailLineGroupMap.get(keysAsString);
-    }
-    
-    private List<EffortCertificationDetail> findDetailLinesInGroup(List<EffortCertificationDetail> detailLines, String groupId){
+    private List<EffortCertificationDetail> findDetailLinesInGroup(List<EffortCertificationDetail> detailLines, String groupId) {
         List<EffortCertificationDetail> detailLinesInGroup = new ArrayList<EffortCertificationDetail>();
-        
-        for(EffortCertificationDetail line : detailLines) {
-            if(StringUtils.equals(groupId, line.getGroupId())) {            
+
+        for (EffortCertificationDetail line : detailLines) {
+            if (StringUtils.equals(groupId, line.getGroupId())) {
                 detailLinesInGroup.add(line);
             }
         }
-        
+
         return detailLinesInGroup;
     }
 
@@ -359,7 +357,7 @@ public class CertificationReportAction extends EffortCertificationAction {
             detailLine.recalculatePayrollAmount(totalPayrollAmount);
 
             // rebuild the detail line groups from the detail lines of the current document
-            DetailLineGroup detailLineGroup = this.getDetailLineGroupByDetailLine(detailLineGroupMap, detailLine);
+            DetailLineGroup detailLineGroup = detailLineGroupMap.get(DetailLineGroup.getKeysAsString(detailLine));
             this.updateDetailLineGroup(detailLineGroup, detailLine, totalPayrollAmount);
         }
     }
@@ -372,33 +370,39 @@ public class CertificationReportAction extends EffortCertificationAction {
     private void updateDetailLinesFromSummaryLines(CertificationReportForm certificationReportForm) {
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) certificationReportForm.getDocument();
         List<EffortCertificationDetail> detailLines = certificationReportForm.getDetailLines();
-        KualiDecimal totalPayrollAmount = effortDocument.getTotalOriginalPayrollAmount();
-
         List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
+
         for (EffortCertificationDetail detailLine : summarizedDetailLines) {
-            String groupId = detailLine.getGroupId();        
-            
-            List<EffortCertificationDetail> detailLinesToRecalculate = this.findDetailLinesInGroup(detailLines, groupId);
-            for(EffortCertificationDetail line : detailLinesToRecalculate) {
-                ObjectUtil.buildObject(line, detailLine, EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
+            if (!detailLine.isNewLineIndicator()) {
+                continue;
+            }
+
+            if (detailLine.isAccountExpiredOverride()) {
+                detailLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+                this.updateDetailLineOverrideCode(detailLine);
+            }
+
+            List<EffortCertificationDetail> detailLinesToUpdate = this.findDetailLinesInGroup(detailLines, detailLine.getGroupId());
+            for (EffortCertificationDetail line : detailLinesToUpdate) {
+                ObjectUtil.buildObject(line, detailLine, EffortConstants.DETAIL_LINES_GROUPING_FILEDS);
+
+                line.setAccountExpiredOverride(detailLine.isAccountExpiredOverride());
+                line.setAccountExpiredOverrideNeeded(detailLine.isAccountExpiredOverrideNeeded());
+                line.setOverrideCode(detailLine.getOverrideCode());
             }
         }
-        
-        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines());
-        for (EffortCertificationDetail detailLine : summarizedDetailLines) {            
+
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(detailLines);
+        KualiDecimal totalPayrollAmount = effortDocument.getTotalOriginalPayrollAmount();
+        for (EffortCertificationDetail detailLine : summarizedDetailLines) {
             // rebuild the detail line groups from the detail lines of the current document
             detailLine.setGroupId(DetailLineGroup.getKeysAsString(detailLine));
-            DetailLineGroup detailLineGroup = this.getDetailLineGroupByDetailLine(detailLineGroupMap, detailLine);
+            DetailLineGroup detailLineGroup = detailLineGroupMap.get(DetailLineGroup.getKeysAsString(detailLine));
             this.updateDetailLineGroup(detailLineGroup, detailLine, totalPayrollAmount);
-            
-            if(detailLine.isNewLineIndicator()) {
-                this.updateDetailLineOverrideCode(detailLine);
-                EffortCertificationDetailLineOverride.processForOutput(detailLine);
-                detailLine.refreshReferenceObject("account");
-                LOG.info("======" + detailLine.getAccount());
-                LOG.info("======" + detailLine.getOverrideCode() + " : " + detailLine.isAccountExpiredOverrideNeeded() + " : " + detailLine.isAccountExpiredOverride());
-            }
         }
+
+        this.processDetailLineOverrides(detailLines);
+        this.processDetailLineOverrides(summarizedDetailLines);
     }
 
     /**
@@ -412,11 +416,6 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationDetail summaryLine = detailLineGroup.getSummaryDetailLine();
         summaryLine.setEffortCertificationUpdatedOverallPercent(detailLine.getEffortCertificationUpdatedOverallPercent());
         summaryLine.setEffortCertificationPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
-        
-        if(summaryLine.isNewLineIndicator()) {
-            this.updateDetailLineOverrideCode(summaryLine);
-            EffortCertificationDetailLineOverride.processForOutput(summaryLine);
-        }
 
         detailLineGroup.updateDetailLineEffortPercent();
         detailLineGroup.updateDetailLinePayrollAmount();

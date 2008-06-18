@@ -83,9 +83,14 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
 
     // generate a set of balance summary reports for actual, budget and encumbrance balances
     private void generateBalanceSummaryReports(Integer fiscalYear, Date runDate) {
-        String reportsDirectory = ReportRegistry.getReportsDirectory();
-        Options options = optionsService.getOptions(fiscalYear);
+        Options options = optionsService.getOptions(fiscalYear);       
+        if(options == null) {
+            LOG.fatal("The data for " + fiscalYear + "have NOT been setup.");
+            return;
+        }
 
+        String reportsDirectory = ReportRegistry.getReportsDirectory();
+        
         List<String> actualsBalanceTypes = this.getActualBalanceTypes(fiscalYear);
         laborReportService.generateMonthlyBalanceSummaryReport(fiscalYear, actualsBalanceTypes, ReportRegistry.LABOR_ACTUAL_BALANCE_SUMMARY, reportsDirectory, runDate);
 

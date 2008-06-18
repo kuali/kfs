@@ -627,6 +627,17 @@ public class PurapServiceImpl implements PurapService {
         return allowedYears;
     }
 
-    
+    /**
+     * @see org.kuali.module.purap.service.PurapService#isTodayWithinApoAllowedRange()
+     */
+    public boolean isTodayWithinApoAllowedRange() {
+        java.util.Date today = dateTimeService.getCurrentDate();
+        Integer currentFY = universityDateService.getCurrentFiscalYear();
+        java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
+        int allowApoDate = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS)));
+        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
+
+        return diffTodayClosing <= allowApoDate;
+    }
 
 }

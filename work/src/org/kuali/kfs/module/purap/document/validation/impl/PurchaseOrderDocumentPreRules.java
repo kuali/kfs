@@ -26,15 +26,14 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * Business Prerules applicable to purchase order document.
@@ -60,12 +59,28 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
             preRulesOK &= confirmNotToExceedOverride(purchaseOrderDocument);
         }
 
+        if (isDocumentInStateToReceiveNextFyWarning(purchaseOrderDocument) && 
+                (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.PO_NEXT_FY_WARNING))) {
+            preRulesOK &= confirmNextFYPriorToApoAllowedDate(purchaseOrderDocument);
+        }
+
         //only run rule if status is amendment        
         if ( isAmendmentStatus(purchaseOrderDocument) ){
             preRulesOK &= validateReceivingRequiredIndicator(purchaseOrderDocument) ;
         }
         
         return preRulesOK;
+    }
+
+    /**
+     * Give next FY warning if the PO status is "In Process" or "Awaiting Purchasing Review"
+     * 
+     * @param poDocument
+     * @return boolean
+     */
+    private boolean isDocumentInStateToReceiveNextFyWarning(PurchaseOrderDocument poDocument){
+        return (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
+                PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()));
     }
 
     private boolean isAmendmentStatus(PurchaseOrderDocument purchaseOrderDocument){
@@ -80,6 +95,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         
         return isAmendmentStatus;
     }
+
     /**
      * The receiving required indicator can only be set to Yes if there are no
      * outstanding payment requests.
@@ -121,7 +137,6 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         // If the total exceeds the limit, ask for confirmation.
         if (!validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purchaseOrderDocument)) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED);
-
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION, questionText);
 
             // Set a marker to record that this method has been used.
@@ -131,7 +146,6 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
 
             if (!confirmOverride) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);
-
                 return false;
             }
         }
@@ -157,6 +171,35 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         }
 
         return valid;
+    }
+
+    /**
+     * If the PO is set to encumber in the next fiscal year and the PO is created before the APO allowed date, then give the user a
+     * warning that this might be a mistake. Prompt the user for confirmation that the year is set correctly both at submit and upon
+     * approval at the Purchasing Internal Review route level.
+     * 
+     * @param purchaseOrderDocument The current PurchaseOrderDocument
+     * @return True if the user wants to continue with PO routing; False to send the user back to the PO for editing.
+     */
+    private boolean confirmNextFYPriorToApoAllowedDate(PurchaseOrderDocument poDocument) {
+
+        // If the FY is set to NEXT and today is not within APO allowed range, ask for confirmation to continue
+        if (poDocument.isPostingYearNext() && !SpringContext.getBean(PurapService.class).isTodayWithinApoAllowedRange()) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENCUMBER_NEXT_FY);
+            boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_NEXT_FY_WARNING, questionText);
+
+            // Set a marker to record that this method has been used.
+            if (confirmOverride && StringUtils.isBlank(event.getQuestionContext())) {
+                event.setQuestionContext(PurapConstants.PO_NEXT_FY_WARNING);
+            }
+
+            if (!confirmOverride) {
+                event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

@@ -252,17 +252,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition has failed Capital Asset rules.";
         }
         
-        Date today = dateTimeService.getCurrentDate();
-        Integer currentFY = universityDateService.getCurrentFiscalYear();
-        Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
-        int allowApoDate = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS)));
-        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
-        LOG.debug("isApo() req FY = " + requisition.getPostingYear() + " and currentFY = " + currentFY);
-        LOG.debug("isApo() today = " + dateTimeService.toDateString(today) + ", allowApoDate = " + allowApoDate + " and diffTodayClosing = " + diffTodayClosing);
-
-        if (requisition.getPostingYear().compareTo(currentFY) > 0 && 
-                allowApoDate <= diffTodayClosing && 
-                diffTodayClosing >= KualiDecimal.ZERO.intValue()) {
+        if (requisition.isPostingYearNext() && !purapService.isTodayWithinApoAllowedRange()) {
             return "Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.";
         }
 

@@ -190,13 +190,20 @@ public interface PurapService {
     public boolean allowEncumberNextFiscalYear();
 
     /**
-    * Returns a list of fiscal years that can be selected from on the document (built for Requisition and Purchase Order).  Typically
-    * only the current year is returned.  However, if the current date falls within the allowed range to encumber in the next fiscal year, the 
-    * current year and the next current year is returned.
-    * 
-    * @return List<Integer>
-    */
+     * Returns a list of fiscal years that can be selected from on the document (built for Requisition and Purchase Order).
+     * Typically only the current year is returned. However, if the current date falls within the allowed range to encumber in the
+     * next fiscal year, the current year and the next current year is returned.
+     * 
+     * @return List<Integer>
+     */
    public List<Integer> getAllowedFiscalYears();
    
+   /**
+    * Returns true if today is within the APO allowed date range. If the difference between today and this years closing date is
+    * less than or equal to the number of days allowed for APO.
+    * 
+    * @return boolean
+    */
+   public boolean isTodayWithinApoAllowedRange();
 
 }

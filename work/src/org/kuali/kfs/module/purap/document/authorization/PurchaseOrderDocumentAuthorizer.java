@@ -90,12 +90,16 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_VENDOR_ENTRY, "TRUE");
             }
 
-            //users can edit the posting year if within a given amount of time set in a parameter
-            if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                    (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
-                    PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) ||
-                    PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()))) {
-                editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
+            //if not B2B, users can edit the posting year if within a given amount of time set in a parameter
+            if (!PurapConstants.RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+                if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
+                        (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
+                        PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) ||
+                        PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) ||
+                        PurapConstants.PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) ||
+                        PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()))) {
+                    editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
+                }
             }
         }
 

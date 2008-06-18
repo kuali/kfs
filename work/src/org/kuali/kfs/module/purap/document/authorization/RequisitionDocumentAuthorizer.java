@@ -71,10 +71,14 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                 editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
             }
             
-            //users can edit the posting year if within a given amount of time set in a parameter
-            if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                    PurapConstants.RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode())) {
-                editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
+            //if not a B2B REQ, users can edit the posting year if within a given amount of time set in a parameter
+            if (!PurapConstants.RequisitionSources.B2B.equals(reqDocument.getRequisitionSourceCode())) {
+                if (SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
+                        (PurapConstants.RequisitionStatuses.IN_PROCESS.equals(reqDocument.getStatusCode()) ||
+                         PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW.equals(reqDocument.getStatusCode()) ||
+                         PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW.equals(reqDocument.getStatusCode()))) {
+                    editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
+                }
             }
         }
 

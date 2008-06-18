@@ -31,7 +31,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>SY_MAINTENANCE_USERS</value>
+              <value>kualiUniversalGroup</value>
             </set>
           </property>
         </bean>

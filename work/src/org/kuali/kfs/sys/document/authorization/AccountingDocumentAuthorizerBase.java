@@ -161,14 +161,8 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
      */
     private boolean determineLineEditability(AccountingLine line, UniversalUser currentUser, AccountService accountService) {
         Account acct = accountService.getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
-        if (ObjectUtils.isNotNull(acct)) {
-            if (accountService.hasResponsibilityOnAccount(currentUser, acct)) {
-                return true;
-            }
-        }
-        else {
-            return true;
-        }
+        if (ObjectUtils.isNull(acct)) return true;
+        if (accountService.hasResponsibilityOnAccount(currentUser, acct)) return true;
         return false;
     }
 

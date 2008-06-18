@@ -98,7 +98,7 @@
     </c:forEach>
     
     <c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}" />
-    <c:set var="columnCountUntilAmount" value="${6 + (includeObjectTypeCode ? 1 : 0) + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
+    <c:set var="columnCountUntilAmount" value="${7 + (includeObjectTypeCode ? 1 : 0) + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
     <c:set var="arrHideFields" value="${fn:split(hideFields,',') }" />
     <c:set var="numHideFields" value="${fn:length(numHideFields) }" />
     <%-- add extra columns count for the "Action" button and/or dual amounts --%>

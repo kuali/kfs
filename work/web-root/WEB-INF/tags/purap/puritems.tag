@@ -56,7 +56,7 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<c:if test="${(fullEntryMode or amendmentEntry)}">
 			<tr>
-				<td colspan="6" class="subhead"><span class="subhead-left">Add Item</span></td>
+				<td colspan="7" class="subhead"><span class="subhead-left">Add Item</span></td>
 				<td colspan="5" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
 					<SCRIPT type="text/javascript">
                 		<!--
@@ -173,7 +173,7 @@
 
 
 		<tr>
-			<th height=30 colspan="11">
+			<th height=30 colspan="12">
 			    <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" 
 			        itemAttributes="${itemAttributes}"/>
 		    </th>
@@ -182,7 +182,7 @@
 
 		<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 		<tr>
-			<td colspan="11" class="subhead">
+			<td colspan="12" class="subhead">
 			    <span class="subhead-left">Current Items</span>
 			</td>
 		</tr>
@@ -200,7 +200,7 @@
 
 		<c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
 			<tr>
-				<th height=30 colspan="11">No items added to document</th>
+				<th height=30 colspan="12">No items added to document</th>
 			</tr>
 		</c:if>
 
@@ -239,7 +239,7 @@
 				<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 				<tr>
-					<td colspan="11" class="tab-subhead" style="border-right: none;">
+					<td colspan="12" class="tab-subhead" style="border-right: none;">
 					    Item ${ctr+1}
 					</td>
 				</tr>
@@ -485,18 +485,18 @@
 		</logic:iterate>
 
 		<tr>
-			<th height=30 colspan="11">&nbsp;</th>
+			<th height=30 colspan="12">&nbsp;</th>
 		</tr>
 
 		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="${extraHiddenItemFields}" descriptionFirst="${isATypeofPurDoc}"/>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<th height=30 colspan="11">&nbsp;</th>
+			<th height=30 colspan="12">&nbsp;</th>
 		</tr>
 
 		<tr>
-			<td colspan="11" class="subhead">
+			<td colspan="12" class="subhead">
                 <span class="subhead-left">Totals</span>
                 <span class="subhead-right">&nbsp;</span>
             </td>

@@ -131,18 +131,17 @@
 <c:set var="optionalFieldCount"
 	value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}" />
 <c:set var="columnCountUntilAmount"
-	value="${8
-                                        + (includeObjectTypeCode ? 1 : 0)
-                                        + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
+	value="${8 + (includeObjectTypeCode ? 1 : 0)
+               + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
 
 <c:set var="arrHideFields" value="${fn:split(hideFields,',') }" />
 <c:set var="numHideFields" value="${fn:length(numHideFields) }" />
 <%-- add extra columns count for the "Action" button and/or dual amounts --%>
 <c:set var="columnCount"
 	value="${columnCountUntilAmount
-                                        + (debitCreditAmount || currentBaseAmount ? 2 : 1)
-                                        - (not empty hideFields ? 0 : numHideFields)
-                                        + (empty editingMode['viewOnly'] ? 1 : 0)}" />
+               + (debitCreditAmount || currentBaseAmount ? 2 : 1)
+               - (not empty hideFields ? 0 : numHideFields)
+               + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 
 <%@ include
 	file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag"%>

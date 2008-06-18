@@ -77,7 +77,7 @@
 <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <tr>
-	<td colspan="11" class="subhead">
+	<td colspan="12" class="subhead">
 		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
 		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
@@ -96,7 +96,7 @@
 
 <!-- 
 <tr>
-	<td colspan="11" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
+	<td colspan="12" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
 -->
 
@@ -142,7 +142,7 @@
   			  </c:if>
 		</c:if>
 		<tr>
-			<td colspan="11" class="tab-subhead" style="border-right: none;">
+			<td colspan="12" class="tab-subhead" style="border-right: none;">
 			<kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemTypeCode}"
 				property="document.item[${ctr}].itemType.itemTypeDescription"

@@ -57,6 +57,7 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     private String financialBalanceTypeCode;
     private String financialObjectTypeCode;
 
+    private boolean hideAdjustmentMeasurement = true;
     private String adjustmentMeasurement;
     private KualiDecimal adjustmentAmount;
 
@@ -74,6 +75,8 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
         super.populate(request);
 
         this.populateBCAFLines();
+
+        this.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
     }
 
     /**
@@ -88,6 +91,7 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
      */
     private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         appointmentFunding.refreshNonUpdateableReferences();
+        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
     }
 
     /**
@@ -370,5 +374,21 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
      */
     public void setAdjustmentAmount(KualiDecimal adjustmentAmount) {
         this.adjustmentAmount = adjustmentAmount;
+    }
+
+    /**
+     * Gets the hideAdjustmentMeasurement attribute. 
+     * @return Returns the hideAdjustmentMeasurement.
+     */
+    public boolean isHideAdjustmentMeasurement() {
+        return hideAdjustmentMeasurement;
+    }
+
+    /**
+     * Sets the hideAdjustmentMeasurement attribute value.
+     * @param hideAdjustmentMeasurement The hideAdjustmentMeasurement to set.
+     */
+    public void setHideAdjustmentMeasurement(boolean hideAdjustmentMeasurement) {
+        this.hideAdjustmentMeasurement = hideAdjustmentMeasurement;
     }
 }

@@ -172,7 +172,7 @@
            	displayHidden="false"/>           	
            		
 		<c:choose>
-			<c:when test="${hasBeenAdded && KualiForm.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">	 		        
+			<c:when test="${hasBeenAdded && KualiForm.emplid ne BCConstants.VACANT_EMPLID}">	 		        
 		        <bc:pbglLineDataCell dataCellCssClass="datacell"
 		           	accountingLine="${fundingLineName}.budgetConstructionAdministrativePost"
 		           	field="administrativePost"

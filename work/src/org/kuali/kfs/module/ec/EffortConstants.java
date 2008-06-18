@@ -114,6 +114,7 @@ public class EffortConstants extends JSTLConstants {
         consolidationFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         consolidationFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         consolidationFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        consolidationFields.add(EffortPropertyConstants.NEW_LINE_INDICATOR);
 
         return consolidationFields;
     }

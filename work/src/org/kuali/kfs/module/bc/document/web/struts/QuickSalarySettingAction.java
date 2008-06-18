@@ -58,10 +58,8 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {       
         ActionForward forward = super.execute(mapping, form, request, response);
-
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
         // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
         // since BC sets locks up front, but need to verify this
@@ -69,8 +67,6 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         // TODO should probably use service locator and call
         // DocumentAuthorizer documentAuthorizer =
         // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
-        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
-        salarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
 
         return forward;
     }
@@ -191,6 +187,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         // associated the vacant funding line with current salary setting expansion
         SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = salarySettingService.vacateAppointmentFunding(appointmentFunding);
+
         if (vacantAppointmentFunding != null) {
             appointmentFundings.add(indexOfSelectedLine + 1, vacantAppointmentFunding);
         }
@@ -225,11 +222,11 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
         KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
         String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
+        
+        Object fullEntryEditMode = salarySettingForm.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY);
+        boolean isEditable = fullEntryEditMode != null && Boolean.parseBoolean(fullEntryEditMode.toString());
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            Object fullEntryEditMode = salarySettingForm.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY);
-            boolean isEditable = fullEntryEditMode != null && Boolean.parseBoolean(fullEntryEditMode.toString());
-
             if (isEditable) {
                 appointmentFunding.setAdjustmentAmount(adjustmentAmount);
                 appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
@@ -257,6 +254,18 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         String salarySettingURL = this.buildSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
 
         return new ActionForward(salarySettingURL, true);
+    }
+    
+    /**
+     * perform salary setting by position with the specified funding line
+     */
+    public ActionForward toggleAdjustmentMeasurement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+        
+        boolean currentStatus = salarySettingForm.isHideAdjustmentMeasurement();
+        salarySettingForm.setHideAdjustmentMeasurement(!currentStatus);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     // adjust the requested salary amount of the given appointment funding line

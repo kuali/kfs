@@ -126,7 +126,7 @@
     <property name="name" value="csfFullTimeEmploymentQuantity" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="CSF Full Time Employment Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="shortLabel" value="CSF FTE" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -144,7 +144,7 @@
     <property name="name" value="csfFundingStatusCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="CSF Funding Status Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="CSF Status" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -162,7 +162,7 @@
     <property name="name" value="csfTimePercent" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="CSF Time Percent" />
-    <property name="shortLabel" value="Percent" />
+    <property name="shortLabel" value="Time Percent" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -180,7 +180,7 @@
     <property name="name" value="earnCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Earn Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Earn Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -409,7 +409,7 @@
     </property>
     <property name="resultFields" >
       <list>
-      	<bean parent="FieldDefinition"
+        <bean parent="FieldDefinition"
               p:attributeName="effectiveDate" />
         <!-- bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" /-->

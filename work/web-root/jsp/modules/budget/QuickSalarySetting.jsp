@@ -16,9 +16,14 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
+<c:set var="readOnly" value="false"/>
 
 <kul:page showDocumentInfo="false" docTitle="Quick Salary Setting" transactionalDocument="false"
 	htmlFormAction="budgetQuickSalarySetting" renderMultipart="true" showTabButtons="true">
+	
+	<c:forEach items="${KualiForm.editingMode}" var="mode">
+  		<html:hidden property="editingMode(${mode.key})"/>
+	</c:forEach>
     
 	<kul:tabTop tabTitle="Quick Salary Setting" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS}">
 		<div class="tab-container" align=center>
@@ -26,7 +31,7 @@
 			
 			<br/>
 						
-			<bc:expenditureSalaryLineDetails/>
+			<bc:expenditureSalaryLineDetails readOnly="${readOnly}"/>
 		</div>
 	</kul:tabTop>
 

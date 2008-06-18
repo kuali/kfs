@@ -56,8 +56,11 @@ public class DetailLineGroup {
         summaryDetailLine = new EffortCertificationDetail();
 
         if (newDetailLine != null) {
+            String groupId = getKeysAsString(newDetailLine);
             ObjectUtil.buildObject(summaryDetailLine, newDetailLine);
-            this.addNewLineIntoGroup(newDetailLine);
+            summaryDetailLine.setGroupId(groupId);
+            
+            this.addNewLineIntoGroup(newDetailLine, groupId);
         }
 
         summaryDetailLine.setFinancialObjectCode(null);
@@ -74,7 +77,7 @@ public class DetailLineGroup {
             delegateDetailLine.setEffortCertificationUpdatedOverallPercent(effortPercent);
         }
     }
-    
+
     /**
      * update the effort percents of the detail lines if the effort on the summary line has been changed
      */
@@ -83,59 +86,59 @@ public class DetailLineGroup {
 
         List<EffortCertificationDetail> detailLines = this.getDetailLines();
         DynamicCollectionComparator.sort(detailLines, SortOrder.DESC, EffortPropertyConstants.PERSISED_PAYROLL_AMOUNT);
-        
-        // restore the intial effort percents before update the detail lines 
-        for(EffortCertificationDetail detailLine: detailLines) {
+
+        // restore the intial effort percents before update the detail lines
+        for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.setEffortCertificationUpdatedOverallPercent(detailLine.getPersistedEffortPercent());
         }
-        
-        for(EffortCertificationDetail detailLine: detailLines) {
-            if(totalDifference == 0) {
+
+        for (EffortCertificationDetail detailLine : detailLines) {
+            if (totalDifference == 0) {
                 break;
             }
-            
-            int currentPercent = detailLine.getPersistedEffortPercent();            
+
+            int currentPercent = detailLine.getPersistedEffortPercent();
             int currentDifference = currentPercent + totalDifference;
-            boolean needUpdateMultipleLines = (currentDifference < 0);   
-            
+            boolean needUpdateMultipleLines = (currentDifference < 0);
+
             int effortPercent = needUpdateMultipleLines ? 0 : currentDifference;
             detailLine.setEffortCertificationUpdatedOverallPercent(effortPercent);
-            
+
             totalDifference = needUpdateMultipleLines ? currentDifference : 0;
-        }     
+        }
     }
-    
+
     /**
      * update the payroll amounts of the detail lines if the payroll amount on the summary line has been changed
      */
     public void updateDetailLinePayrollAmount() {
         KualiDecimal totalDifference = this.getPayrollAmountChanged();
-        if(totalDifference.isZero()) {
+        if (totalDifference.isZero()) {
             return;
         }
 
         List<EffortCertificationDetail> detailLines = this.getDetailLines();
         DynamicCollectionComparator.sort(detailLines, SortOrder.DESC, EffortPropertyConstants.PERSISED_PAYROLL_AMOUNT);
-        
-        // restore the intial payroll amounts before update the detail lines 
-        for(EffortCertificationDetail detailLine: detailLines) {
+
+        // restore the intial payroll amounts before update the detail lines
+        for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.setEffortCertificationPayrollAmount(detailLine.getPersistedPayrollAmount());
         }
-        
-        for(EffortCertificationDetail detailLine: detailLines) {
-            if(totalDifference.isZero()) {
+
+        for (EffortCertificationDetail detailLine : detailLines) {
+            if (totalDifference.isZero()) {
                 break;
             }
-            
-            KualiDecimal currentAmount = detailLine.getPersistedPayrollAmount();            
+
+            KualiDecimal currentAmount = detailLine.getPersistedPayrollAmount();
             KualiDecimal currentDifference = currentAmount.add(totalDifference);
-            boolean needUpdateMultipleLines = currentDifference.isNegative();   
-            
+            boolean needUpdateMultipleLines = currentDifference.isNegative();
+
             KualiDecimal payrollAmount = needUpdateMultipleLines ? KualiDecimal.ZERO : currentDifference;
             detailLine.setEffortCertificationPayrollAmount(payrollAmount);
-            
+
             totalDifference = needUpdateMultipleLines ? currentDifference : KualiDecimal.ZERO;
-        }     
+        }
     }
 
     /**
@@ -145,23 +148,33 @@ public class DetailLineGroup {
      * @param keyFields the given key fields
      * @return the groups of detail lines
      */
-    public static Map<String, DetailLineGroup> groupDetailLines(List<EffortCertificationDetail> detailLines, List<String> keyFields) {
+    public static Map<String, DetailLineGroup> groupDetailLines(List<EffortCertificationDetail> detailLines) {
         Map<String, DetailLineGroup> detailLineGroupMap = new HashMap<String, DetailLineGroup>();
 
         for (EffortCertificationDetail line : detailLines) {
-            String keysAsString = ObjectUtil.concatPropertyAsString(line, keyFields);
+            String groupId = getKeysAsString(line);
 
-            if (detailLineGroupMap.containsKey(keysAsString)) {
-                DetailLineGroup group = detailLineGroupMap.get(keysAsString);
-                group.addNewLineIntoGroup(line);
+            if (detailLineGroupMap.containsKey(groupId)) {
+                DetailLineGroup group = detailLineGroupMap.get(groupId);
+                group.addNewLineIntoGroup(line, groupId);
             }
             else {
                 DetailLineGroup group = new DetailLineGroup(line);
-                detailLineGroupMap.put(keysAsString, group);
+                detailLineGroupMap.put(groupId, group);
             }
         }
 
         return detailLineGroupMap;
+    }
+
+    /**
+     * concat the keys of the given detail line as a single string
+     * 
+     * @param line the given detail line
+     * @return a single string built from the keys of the given detail line
+     */
+    public static String getKeysAsString(EffortCertificationDetail line) {
+        return ObjectUtil.concatPropertyAsString(line, EffortConstants.DETAIL_LINES_CONSOLIDATION_FILEDS);
     }
 
     /**
@@ -175,7 +188,7 @@ public class DetailLineGroup {
 
         return updatedEffortPercent - currentEffortPercent;
     }
-    
+
     /**
      * get the difference between the updated payroll amount and the current payroll amount
      * 
@@ -193,11 +206,13 @@ public class DetailLineGroup {
      * 
      * @param line the new detail line
      */
-    private void addNewLineIntoGroup(EffortCertificationDetail newDetailLine) {
+    private void addNewLineIntoGroup(EffortCertificationDetail newDetailLine, String groupId) {
         if (detailLines.contains(newDetailLine)) {
             return;
         }
-
+        
+        newDetailLine.setGroupId(groupId);
+        
         detailLines.add(newDetailLine);
         delegateDetailLine = this.getDetailLineWithMaxPayrollAmount(detailLines);
 
@@ -213,7 +228,7 @@ public class DetailLineGroup {
 
         Integer effortPercent = EffortCertificationDetail.getTotalEffortPercent(detailLines);
         summaryDetailLine.setEffortCertificationUpdatedOverallPercent(effortPercent);
-        
+
         Integer persistedEffortPercent = EffortCertificationDetail.getTotalPersistedEffortPercent(detailLines);
         summaryDetailLine.setPersistedEffortPercent(persistedEffortPercent);
 
@@ -222,7 +237,7 @@ public class DetailLineGroup {
 
         KualiDecimal payrollAmount = EffortCertificationDetail.getTotalPayrollAmount(detailLines);
         summaryDetailLine.setEffortCertificationPayrollAmount(payrollAmount);
-        
+
         KualiDecimal persistedPayrollAmount = EffortCertificationDetail.getTotalPersistedPayrollAmount(detailLines);
         summaryDetailLine.setPersistedPayrollAmount(persistedPayrollAmount);
     }

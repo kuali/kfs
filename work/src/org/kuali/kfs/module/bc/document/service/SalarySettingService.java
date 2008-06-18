@@ -16,6 +16,8 @@
 package org.kuali.module.budget.service;
 
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.bo.SalarySettingExpansion;
 
 /**
  * This class defines methods a Salary Setting Service must provide The Salary Setting Service supports functionality associated
@@ -61,4 +63,11 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      */
     public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * update the given salary setting expansion with the requested amount posted from the associated funding lines
+     * 
+     * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
+     */
+    public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion);
 }

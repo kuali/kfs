@@ -37,7 +37,7 @@
 	</div>
 </kul:tabTop>
     
-<kul:tab tabTitle="Position Funding" defaultOpen="false" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
+<kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">
         
 	<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
@@ -50,7 +50,7 @@
         		
     <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
-		<c:set var="isVacant" value="${fundingLine.emplid eq KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}" />
+		<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
 		
 	    <c:set var="subTabTitle" value="${fundingLine.chartOfAccountsCode}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.accountNumber}"/>

@@ -59,4 +59,5 @@ public class EffortPropertyConstants {
 
     public static final String PERSISED_PAYROLL_AMOUNT = "persistedPayrollAmount";
     public static final String PERSISED_EFFORT_PERCENT = "persistedEffortPercent";
+    public static final String NEW_LINE_INDICATOR = "newLineIndicator";
 }

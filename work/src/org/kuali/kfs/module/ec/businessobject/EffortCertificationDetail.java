@@ -70,6 +70,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     // holds last saved updated payroll amount so business rule can check if it has been updated at the route level
     private KualiDecimal persistedPayrollAmount;
     private Integer persistedEffortPercent;
+    private String groupId;
 
     private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
@@ -880,5 +881,21 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setPersistedEffortPercent(Integer persistedEffortPercent) {
         this.persistedEffortPercent = persistedEffortPercent;
+    }
+
+    /**
+     * Gets the groupId attribute. 
+     * @return Returns the groupId.
+     */
+    public String getGroupId() {
+        return groupId;
+    }
+
+    /**
+     * Sets the groupId attribute value.
+     * @param groupId The groupId to set.
+     */
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

@@ -16,10 +16,13 @@
 package org.kuali.module.budget.service.impl;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -30,8 +33,11 @@ import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.bo.SalarySettingExpansion;
 import org.kuali.module.budget.service.SalarySettingService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,10 +125,62 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         if (csfAmount.isNonZero()) {
             KualiDecimal percent = appointmentFunding.getAdjustmentAmount();
             BigDecimal adjustedAmount = csfAmount.multiply(percent).divide(KFSConstants.ONE_HUNDRED);
-            
+
             KualiInteger appointmentRequestedAmount = new KualiInteger(adjustedAmount).add(csfAmount);
             appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
         }
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.SalarySettingService#updateSalarySettingExpansion(org.kuali.module.budget.bo.SalarySettingExpansion)
+     */
+    public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
+        KualiInteger requestedAmountTotal = salarySettingExpansion.getAppointmentRequestedAmountTotal();
+
+        if (requestedAmountTotal != null) {
+            KualiInteger annualBalanceAmount = salarySettingExpansion.getAccountLineAnnualBalanceAmount();
+            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+
+            KualiInteger changes = (annualBalanceAmount != null) ? annualBalanceAmount.subtract(requestedAmountTotal) : requestedAmountTotal;
+
+            BigInteger countOfMonth = BigInteger.valueOf(BCConstants.BC_MONTHLY_AMOUNTS.size());
+            BigInteger[] distribution = changes.bigIntegerValue().divideAndRemainder(countOfMonth);
+
+            KualiInteger monthlyDistribution = new KualiInteger(distribution[0]);
+            int remainder = distribution[1].intValue();
+
+            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+
+            List<BudgetConstructionMonthly> MonthlyGLRecords = salarySettingExpansion.getBudgetConstructionMonthly();
+            for (BudgetConstructionMonthly monthlyGLRecord : MonthlyGLRecords) {
+               this.updateMonthlyAmounts(monthlyGLRecord, monthlyDistribution, remainder);
+            }
+        }
+
+    }
+
+    private void updateMonthlyAmounts(BudgetConstructionMonthly monthlyGLRecord, KualiInteger monthlyDistribution, int remainder) {
+        int indexOfMonth = 1;
+        for (String[] monthlyAmountFieldPair : BCConstants.BC_MONTHLY_AMOUNTS) {
+            String monthlyAmountField = monthlyAmountFieldPair[0];
+            if (PropertyUtils.isReadable(monthlyGLRecord, monthlyAmountField) && PropertyUtils.isWriteable(monthlyGLRecord, monthlyAmountField)) {
+                try {
+                    KualiInteger currentLineAmount = (KualiInteger) PropertyUtils.getProperty(monthlyGLRecord, monthlyAmountField);
+                    KualiInteger newMonthlyAmount = this.getNewMonthlyAmount(currentLineAmount, monthlyDistribution, indexOfMonth++, remainder);
+
+                    PropertyUtils.setProperty(monthlyGLRecord, monthlyAmountField, newMonthlyAmount);
+                }
+                catch (Exception e) {
+                    LOG.debug(e);
+                }
+            }
+        }
+    }
+
+    private KualiInteger getNewMonthlyAmount(KualiInteger currentLineAmount, KualiInteger addition, int indexOfMonth, int remainder) {
+        KualiInteger newMonthlyAmount = currentLineAmount.add(addition);
+
+        return remainder < indexOfMonth ? newMonthlyAmount : newMonthlyAmount.add(new KualiInteger(1));
     }
 
     /**

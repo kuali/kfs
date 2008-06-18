@@ -27,6 +27,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.budget.util.SalarySettingCalculator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -817,6 +819,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         }
 
         return bcnCalculatedSalaryFoundationTracker.get(0);
+    }
+
+    /**
+     * Gets the vacatable attribute. 
+     * @return Returns the vacatable.
+     */
+    public boolean isVacatable() {
+        return SpringContext.getBean(SalarySettingService.class).canBeVacant(this);
     }
 
     /**

@@ -100,7 +100,7 @@ public class DetailLineGroupTest extends KualiTestBase {
 
         int numberOfDetails = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DETAILS)));
         List<EffortCertificationDetail> detailLines = this.buildDetailLines(testTarget, EffortTestDataPropertyConstants.DETAIL, numberOfDetails);
-        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(detailLines, consolidationKeyFields);
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(detailLines);
         
         int numOfExpectedGroups = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_GROUPS)));
         assertTrue(numOfExpectedGroups == detailLineGroupMap.size());
@@ -129,7 +129,7 @@ public class DetailLineGroupTest extends KualiTestBase {
 
         int numberOfDetails = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DETAILS)));
         List<EffortCertificationDetail> detailLines = this.buildDetailLines(testTarget, EffortTestDataPropertyConstants.DETAIL, numberOfDetails);
-        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(detailLines, consolidationKeyFields);
+        Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(detailLines);
         
         int numOfExpectedGroups = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_GROUPS)));
         assertTrue(numOfExpectedGroups == detailLineGroupMap.size());

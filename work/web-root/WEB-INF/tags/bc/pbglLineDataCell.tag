@@ -25,6 +25,7 @@
 <%@ attribute name="attributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for the field in this cell." %>
 <%@ attribute name="readOnly" required="true" %>
+<%@ attribute name="disabled" required="false" %>
 
 <%@ attribute name="fieldAlign" required="false"
               description="div alignment. default is align=left" %>
@@ -180,6 +181,7 @@
         onblur="${onblur}"
         readOnly="${readOnly}"
         readOnlyBody="true"
+        disabled="${disabled}"
         styleClass="${dataFieldCssClass}"
         >
         <bc:pbglLineReadOnlyCellProperty

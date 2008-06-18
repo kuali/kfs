@@ -73,7 +73,7 @@
     <property name="name" value="appointmentFundingDeleteIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Delete Indicator" />
-    <property name="shortLabel" value="Delete" />
+    <property name="shortLabel" value="Del" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
@@ -131,7 +131,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="17" />
+            p:size="10" />
     </property>
     <property name="summary" value="appointmentRequestedAmount" />
     <property name="description" value="appointmentRequestedAmount description..." />
@@ -167,7 +167,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="17" />
+            p:size="10" />
     </property>
     <property name="summary" value="appointmentRequestedCsfAmount" />
     <property name="description" value="appointmentRequestedCsfAmount description..." />
@@ -221,7 +221,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="11" />
+            p:size="8" />
     </property>
     <property name="summary" value="appointmentRequestedFteQuantity" />
     <property name="description" value="appointmentRequestedFteQuantity description..." />
@@ -275,7 +275,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="17" />
+            p:size="10" />
     </property>
     <property name="summary" value="appointmentTotalIntendedAmount" />
     <property name="description" value="appointmentTotalIntendedAmount description..." />
@@ -470,7 +470,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="5" />
+            p:size="10" />
     </property>
     <property name="summary" value="adjustmentAmount" />
     <property name="description" value="adjustmentAmount description..." />

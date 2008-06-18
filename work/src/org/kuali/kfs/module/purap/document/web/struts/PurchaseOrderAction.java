@@ -258,7 +258,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         try {
             KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
-            // Start in logic for confirming the close.
+            // Start in logic for confirming the proposed operation.
             if (ObjectUtils.isNull(question)) {
                 String message = "";
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
@@ -545,13 +545,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward splitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Split PO started");
         String operation = "Split ";
-
-        // Extract the PO id for the note prefix.
-        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)poForm.getDocument();
-        String poID = poDocument.getDocumentNumber();
         
-        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.SPLIT_QUESTION, PODocumentsStrings.SPLIT_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT, PODocumentsStrings.SPLIT_NOTE_PREFIX_OLD_DOC, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT, operation);
+        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.SPLIT_QUESTION, PODocumentsStrings.SPLIT_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT,PODocumentsStrings.SPLIT_NOTE_PREFIX_OLD_DOC,PurapKeyConstants.PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT,operation);
     }
     
     /**

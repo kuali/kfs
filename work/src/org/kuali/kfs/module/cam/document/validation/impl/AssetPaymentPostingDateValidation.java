@@ -35,6 +35,9 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 
+/**
+ * This class validates asset payment posting date
+ */
 public class AssetPaymentPostingDateValidation extends GenericValidation {
 
     private AccountingLine accountingLineForValidation;
@@ -44,6 +47,11 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
     private UniversityDateService universityDateService;
 
 
+    /**
+     * Validates asset payment posting date
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();

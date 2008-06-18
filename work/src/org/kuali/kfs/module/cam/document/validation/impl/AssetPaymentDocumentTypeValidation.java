@@ -31,6 +31,9 @@ import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 
+/**
+ * This class validates payment financial document type code
+ */
 public class AssetPaymentDocumentTypeValidation extends GenericValidation {
     private AccountingLine accountingLineForValidation;
     private BusinessObjectService businessObjectService;
@@ -44,6 +47,11 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
         this.accountingLineForValidation = accountingLineForValidation;
     }
 
+    /**
+     * Validates financial document type code
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;

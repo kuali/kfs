@@ -30,6 +30,9 @@ import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.gl.bo.UniversityDate;
 
+/**
+ * This class validates Fiscal Period
+ */
 public class AssetPaymentFiscalPeriodValidation extends GenericValidation {
 
     private BusinessObjectService businessObjectService;
@@ -45,6 +48,11 @@ public class AssetPaymentFiscalPeriodValidation extends GenericValidation {
         this.accountingLineForValidation = accountingLineForValidation;
     }
 
+    /**
+     * Validates fiscal period given for the payment
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();

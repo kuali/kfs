@@ -24,9 +24,17 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 
+/**
+ * This class validates asset zero amount condition
+ */
 public class AssetPaymentZeroAmountValidation extends GenericValidation {
     private AccountingLine accountingLineForValidation;
 
+    /**
+     * Asset payment amount should be a non-zero value
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         KualiDecimal amount = accountingLineForValidation.getAmount();
         if (amount.isZero()) {

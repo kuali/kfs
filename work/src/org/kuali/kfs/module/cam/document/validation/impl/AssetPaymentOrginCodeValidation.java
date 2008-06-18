@@ -28,12 +28,20 @@ import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 
+/**
+ * This class validates asset payment document origin code
+ */
 public class AssetPaymentOrginCodeValidation extends GenericValidation {
 
     private OriginationCodeService originationCodeService;
     private DataDictionaryService dataDictionaryService;
     private AccountingLine accountingLineForValidation;
 
+    /**
+     * Validates origin code
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;

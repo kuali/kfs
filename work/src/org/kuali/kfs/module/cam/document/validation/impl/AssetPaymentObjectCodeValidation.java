@@ -28,12 +28,20 @@ import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 
+/**
+ * This class validates object sub type code for the financial object for which payment is being made
+ */
 public class AssetPaymentObjectCodeValidation extends GenericValidation {
     private AssetService assetService;
     private ParameterService parameterService;
 
     private AccountingLine accountingLineForValidation;
 
+    /**
+     * Validate financial object sub type code validation, it should be of type capital asset.
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;

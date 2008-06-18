@@ -20,10 +20,18 @@ import org.kuali.kfs.validation.GenericValidation;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 
+/**
+ * This class validates if asset is locked by other document, if so return false
+ */
 public class AssetPaymentLockValidation extends GenericValidation {
 
     private AssetService assetService;
 
+    /**
+     * Validates asset to ensure it is not locked by any other document
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentDocument.getCapitalAssetNumber())) {

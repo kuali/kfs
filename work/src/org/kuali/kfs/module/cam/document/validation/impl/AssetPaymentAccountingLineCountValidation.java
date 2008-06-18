@@ -23,8 +23,16 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AttributedDocumentEvent;
 import org.kuali.kfs.validation.GenericValidation;
 
+/**
+ * This class validates to make sure that at least one payment line is available for the document
+ */
 public class AssetPaymentAccountingLineCountValidation extends GenericValidation {
 
+    /**
+     * Validate accounting line count to ensure minimum of one line
+     * 
+     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         AccountingDocument accountingDocument = (AccountingDocument) event.getDocument();

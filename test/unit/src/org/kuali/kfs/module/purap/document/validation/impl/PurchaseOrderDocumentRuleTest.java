@@ -27,6 +27,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
 import org.kuali.module.purap.fixtures.ItemAccountsFixture;
 import org.kuali.module.purap.fixtures.ItemTypesFixture;
+import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
@@ -125,5 +126,26 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         stipulations.add(stip);
         po.setPurchaseOrderVendorStipulations(stipulations);
         assertFalse(rule.processVendorStipulationValidation(po));
+    }
+    
+    /*
+     * Tests of validateSplit
+     */
+    public void testValidateSplit_OneMovingOneRemaining() {
+        po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        ((PurchaseOrderItem)po.getItems().get(0)).setMovingToSplit(true);
+        assertTrue(rule.validateSplit(po));
+    }
+    
+    public void testValidateSplit_NoneMovingTwoRemaining() {
+        po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        assertFalse(rule.validateSplit(po));
+    }
+    
+    public void testValidateSplit_TwoMovingNoneRemaining() {
+        po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        ((PurchaseOrderItem)po.getItems().get(0)).setMovingToSplit(true);
+        ((PurchaseOrderItem)po.getItems().get(1)).setMovingToSplit(true);
+        assertFalse(rule.validateSplit(po));
     }
 }

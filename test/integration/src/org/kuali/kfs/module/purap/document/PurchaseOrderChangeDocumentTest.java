@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -25,14 +26,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
+import org.kuali.module.purap.fixtures.PurApItemFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
+import org.kuali.module.purap.fixtures.PurchaseOrderItemFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.suite.RelatesTo;
@@ -115,6 +120,39 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
         catch (ValidationException ve) {
             throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+        }
+    }
+    
+    private void createAndSavePOSplitDocument(List<PurchaseOrderItem> newPOItems, boolean copyNotes, String splitNoteText) throws Exception {
+        try {
+            poTest.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
+            poChange = poService.createAndSavePurchaseOrderSplitDocument(
+                    newPOItems, poTest.getDocumentNumber(), copyNotes, splitNoteText);
+            poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());            
+        }
+        catch (ValidationException ve) {
+            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+        }
+    }
+    
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    public void testSplitPurchaseOrder() throws Exception {
+        List<PurchaseOrderItem> items = new TypedArrayList(PurchaseOrderItem.class);        
+        items.add((PurchaseOrderItem)PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_2.createPurchaseOrderItem(PurApItemFixture.BASIC_QTY_ITEM_2));
+        createAndSavePOSplitDocument(items, true, "Reason for splitting.");
+        // Proving that most things other than items are the same.
+        assertMatchChangePO(poTest, poChange);
+        assertTrue(poTest.getPurapDocumentIdentifier().compareTo(poChange.getPurapDocumentIdentifier()) < 0);
+        // Neither the original nor the resulting PO may have no items.
+        assertFalse(poChange.getItems().size() == 1);
+        assertFalse(poTest.getItems().size() == 1);
+        List<PurchaseOrderItem> splitPOItems = (List<PurchaseOrderItem>)poChange.getItems();
+        // Check renumbering.
+        int i = 0;
+        for (PurchaseOrderItem splitPOItem : splitPOItems ) {
+            if (splitPOItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    assertTrue(splitPOItem.getItemLineNumber().intValue() == ++i);
+            }
         }
     }
     
@@ -344,5 +382,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         Assert.assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
         Assert.assertEquals(doc1.getPurchaseOrderLastTransmitDate(), doc2.getPurchaseOrderLastTransmitDate());        
     }
+    
+
 
 }

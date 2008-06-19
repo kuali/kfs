@@ -102,9 +102,9 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
                     setOperatingModeTitle("BC Pull Up Organization Selection");
                     setOperatingModePullFlagLabel("Pull Up Type");
                     getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
+                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
                     getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
                     getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
-                    getPullFlagKeyLabels().add(new KeyLabelPair(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
                     break;
                 case PUSHDOWN:
                     setOperatingModeTitle("BC Push Down Organization Selection");

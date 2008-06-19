@@ -189,6 +189,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCancelAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(

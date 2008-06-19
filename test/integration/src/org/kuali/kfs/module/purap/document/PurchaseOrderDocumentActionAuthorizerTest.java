@@ -77,7 +77,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
     public final void testValidForPrintingRetransmitNonAPO() throws Exception {
         Map editMode = new HashMap();
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
@@ -102,7 +102,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
     public final void testValidForPrintingRetransmitAPO() throws Exception {
         Map editMode = new HashMap();
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);

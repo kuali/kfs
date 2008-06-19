@@ -685,7 +685,7 @@
     <bean id="budgetConstructionHumanResourcesPayrollInterfaceDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc">
     </bean>
 
-    <bean id="generalLedgerBudgetLoadDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">
+    <bean id="generalLedgerBudgetLoadDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">
         <property name="homeOriginationService">
             <ref bean="homeOriginationService"/>
         </property>
@@ -785,4 +785,5 @@
 			<ref bean="budgetConstructionDao" />
 		</property>  
     </bean>
+	
 </beans>

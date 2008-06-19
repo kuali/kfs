@@ -40,7 +40,7 @@ import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
+import org.kuali.module.budget.dao.BudgetConstructionDao;
 import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
 import org.kuali.test.ConfigureContext;
 
@@ -51,7 +51,7 @@ import org.kuali.test.ConfigureContext;
 public class LockServiceTest extends KualiTestBase {
 
     private LockService lockService;
-    private BudgetConstructionDaoOjb bcHeaderDao;
+    private BudgetConstructionDao bcHeaderDao;
 
     private DocumentHeader docHeader;
     private BudgetConstructionHeader bcHeader;
@@ -94,7 +94,7 @@ public class LockServiceTest extends KualiTestBase {
     {
       // get the services we need 
       lockService = SpringContext.getBean(LockService.class);
-      bcHeaderDao = new BudgetConstructionDaoOjb();
+      bcHeaderDao = SpringContext.getBean(BudgetConstructionDao.class);
       // find a test fiscal year 
       universityFiscalYear = setTestFiscalYear(); 
       dataExists = (universityFiscalYear != 0);
@@ -107,11 +107,11 @@ public class LockServiceTest extends KualiTestBase {
     
     public void tearDown()
     {
-        
+        clearTestRowLocks();
     }
 
     private boolean runTests() { // change this to return false to prevent running tests
-        return false;
+        return true;
     }
 
     @ConfigureContext(shouldCommitTransactions = true)
@@ -141,47 +141,49 @@ public class LockServiceTest extends KualiTestBase {
         assertTrue("initial header lock by "+pUIdOne+" succeeded", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         assertTrue("header locked by "+pUIdOne, lockService.isAccountLocked(bcHeader));
         // bcHeaderTwo is a different object representing the same budget construction header
+        // it must be fetched AFTER the object is locked
+        bcHeaderTwo = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         assertTrue("two objects pointing to the same header have the same account", bcHeaderTwo.getAccountNumber().equals(accountNumber));
         bcLockStatus = lockService.lockAccount(bcHeaderTwo, pUIdTwo);
-        assertTrue(pUIdTwo+" could not get a  lock on header already locked by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
+        assertTrue(pUIdTwo+" could not get a lock on header already locked by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
         assertTrue("lock is owned by "+pUIdOne, bcLockStatus.getAccountLockOwner().equals(pUIdOne));
         assertTrue(pUIdTwo+"'s pointer to the test header row shows a lock", lockService.isAccountLocked(bcHeaderTwo));
 
         // funding lock attempt with account lock set in previous test
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
-        assertTrue(lockService.getFundingLocks(bcHeader).isEmpty());
+        assertTrue("failed funding lock attempt on a header with an existing acccount lock", bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
+        assertTrue("no funding locks exist after failed attempt", lockService.getFundingLocks(bcHeader).isEmpty());
 
         // account unlock by other - needs account lock in previous test
         // this tests opimistic lock exception catch
         // this configuration of the test must run in a test method that
         // is annotated as ShouldCommitTransactions
         lockService.unlockAccount(bcHeaderTwo);
-        assertFalse(lockService.isAccountLocked(bcHeaderTwo));
-        assertTrue(lockService.unlockAccount(bcHeader) == LockStatus.OPTIMISTIC_EX);
-        assertFalse(lockService.isAccountLocked(bcHeader));
+        assertFalse("account was unlocked successfully",lockService.isAccountLocked(bcHeaderTwo));
+        assertTrue("unlock with a different object against the same row triggers an OJB optimistic lock exception", lockService.unlockAccount(bcHeader) == LockStatus.OPTIMISTIC_EX);
+        assertFalse("the account is still unlocked", lockService.isAccountLocked(bcHeader));
 
         // trivial funding lock/unlock
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
         assertTrue(pUIdOne+" obtained a funding lock", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
-        assertTrue(pUIdOne+"'s lock shows a locked status", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+"'s re-attempt to fetch the same lock also succeeded", bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdTwo);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertFalse(lockService.getFundingLocks(bcHeader).isEmpty());
+        assertTrue(pUIdTwo+" can also get a funding lock for the same accounting key",bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertFalse("the set of funding locks for this accounting key is not empty", lockService.getFundingLocks(bcHeader).isEmpty());
         fundingLocks = lockService.getFundingLocks(bcHeader);
         fundingIter = fundingLocks.iterator();
         assertTrue(fundingIter.hasNext());
         fundingLock = fundingIter.next();
-        assertTrue(fundingLock.getPositionNumber().equals("NotFnd"));
+        assertTrue("the first funding lock is by accounting key, not by position",fundingLock.getPositionNumber().equals("NotFnd"));
         assertTrue(fundingIter.hasNext());
         fundingLock = fundingIter.next();
-        assertTrue(fundingLock.getPositionNumber().equals("NotFnd"));
+        assertTrue("the second funding lock is also not by position", fundingLock.getPositionNumber().equals("NotFnd"));
         lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
-        assertTrue(lockStatus == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+"'s funding lock was successfully removed", lockStatus == LockStatus.SUCCESS);
         lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
-        assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertTrue(lockService.getFundingLocks(bcHeader).isEmpty());
+        assertTrue(pUIdTwo+"'s funding lock was successfully removed", lockStatus == LockStatus.SUCCESS);
+        assertTrue("there are no remaining funding locks for this accounting key", lockService.getFundingLocks(bcHeader).isEmpty());
 
         // account lock attempt with funding locks set
         // one funding lock has an associated position lock, the other is an orphan
@@ -277,8 +279,6 @@ public class LockServiceTest extends KualiTestBase {
             returnValue = true;
             // save the header that we've chosen
             bcHeader = bcHeaderRow;
-            // get a new object which represents the same budget construction header
-            bcHeaderTwo = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
             while (bcHeaderRows.hasNext())
             {
                 bcHeaderRows.next();

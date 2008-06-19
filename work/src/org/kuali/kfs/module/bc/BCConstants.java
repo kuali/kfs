@@ -385,4 +385,7 @@ public class BCConstants extends JSTLConstants {
     public static final String TEMP_LIST_UNLOCK_METHOD = "unlock";
     public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
     public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
+
+    //TODO: determine whether this need to be put into system parameter
+    public static final String HOURLY_PAY_TYPE_CODE = "B";
 }

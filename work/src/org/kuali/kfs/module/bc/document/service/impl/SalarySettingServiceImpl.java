@@ -17,12 +17,14 @@ package org.kuali.module.budget.service.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -39,6 +41,8 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.bo.SalarySettingExpansion;
 import org.kuali.module.budget.service.SalarySettingService;
+import org.kuali.module.integration.bo.LaborLedgerObject;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -50,6 +54,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
+    private LaborModuleService laborModuleService;
 
     /**
      * @see org.kuali.module.budget.service.SalarySettingService#getDisabled()
@@ -62,11 +67,30 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // BCConstants.DISABLE_SALARY_SETTING_FLAG);
 
     }
+    
+    /**
+     * @see org.kuali.module.budget.service.SalarySettingService#isHourlyPaid(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
+     */
+    public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger) {
+        Integer fiscalYear = pendingBudgetConstructionGeneralLedger.getUniversityFiscalYear();
+        String chartOfAccountsCode = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode();
+        String objectCode = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode();   
+        
+        LaborLedgerObject laborLedgerObject = laborModuleService.retrieveLaborLedgerObject(fiscalYear, chartOfAccountsCode, objectCode);
+        
+        if(laborLedgerObject == null) {
+            return false;
+        }
+        
+        return StringUtils.equals(laborLedgerObject.getFinancialObjectPayTypeCode(), BCConstants.HOURLY_PAY_TYPE_CODE);
+    }
 
     /**
      * @see org.kuali.module.budget.service.SalarySettingService#canBeVacant(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean canBeVacant(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("canBeVacant() start");
+        
         // the given funding line cannot be a vacant line
         String emplid = appointmentFunding.getEmplid();
         if (BCConstants.VACANT_EMPLID.equals(emplid)) {
@@ -130,55 +154,113 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
         }
     }
+    
+    /**
+     * @see org.kuali.module.budget.service.SalarySettingService#saveSalarySetting(org.kuali.module.budget.bo.SalarySettingExpansion)
+     */
+    public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion) { 
+        LOG.info("saveSalarySetting() start");
+        
+        KualiInteger requestedAmountTotal = salarySettingExpansion.getAppointmentRequestedAmountTotal();
+        KualiInteger changes = KualiInteger.ZERO;
+        
+        if (requestedAmountTotal != null) {
+            KualiInteger annualBalanceAmount = salarySettingExpansion.getAccountLineAnnualBalanceAmount();
+            changes = (annualBalanceAmount != null) ? requestedAmountTotal.subtract(annualBalanceAmount) : requestedAmountTotal;
+        }
+             
+        if(changes.isNonZero()) { 
+            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+            businessObjectService.save(salarySettingExpansion);
+            
+            List<BudgetConstructionMonthly> budgetConstructionMonthly = this.updateMonthlyAmounts(salarySettingExpansion, changes);
+            businessObjectService.save(budgetConstructionMonthly);
+        } 
+    }
 
     /**
      * @see org.kuali.module.budget.service.SalarySettingService#updateSalarySettingExpansion(org.kuali.module.budget.bo.SalarySettingExpansion)
      */
+    @SuppressWarnings("deprecation")
     public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
         KualiInteger requestedAmountTotal = salarySettingExpansion.getAppointmentRequestedAmountTotal();
-
+        KualiInteger changes = KualiInteger.ZERO;
+        
         if (requestedAmountTotal != null) {
             KualiInteger annualBalanceAmount = salarySettingExpansion.getAccountLineAnnualBalanceAmount();
-            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
-
-            KualiInteger changes = (annualBalanceAmount != null) ? annualBalanceAmount.subtract(requestedAmountTotal) : requestedAmountTotal;
-
-            BigInteger countOfMonth = BigInteger.valueOf(BCConstants.BC_MONTHLY_AMOUNTS.size());
-            BigInteger[] distribution = changes.bigIntegerValue().divideAndRemainder(countOfMonth);
-
-            KualiInteger monthlyDistribution = new KualiInteger(distribution[0]);
-            int remainder = distribution[1].intValue();
-
-            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
-
-            List<BudgetConstructionMonthly> MonthlyGLRecords = salarySettingExpansion.getBudgetConstructionMonthly();
-            for (BudgetConstructionMonthly monthlyGLRecord : MonthlyGLRecords) {
-               this.updateMonthlyAmounts(monthlyGLRecord, monthlyDistribution, remainder);
-            }
+            changes = (annualBalanceAmount != null) ? annualBalanceAmount.subtract(requestedAmountTotal) : requestedAmountTotal;
         }
-
+             
+        if(changes.isNonZero()) {            
+            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+            salarySettingExpansion.setBudgetConstructionMonthly(this.updateMonthlyAmounts(salarySettingExpansion, changes));
+        }
     }
 
-    private void updateMonthlyAmounts(BudgetConstructionMonthly monthlyGLRecord, KualiInteger monthlyDistribution, int remainder) {
+    /**
+     * adjust existing monthly request amounts using an even spread of the changes
+     * 
+     * @param pendingBudgetConstructionGeneralLedger the given pending Budget Construction General Ledger record
+     * @param changes the given changes that will be used to adjust monthly request amounts using an even spread
+     */
+    private List<BudgetConstructionMonthly> updateMonthlyAmounts(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, KualiInteger changes) {
+        BigInteger countOfMonth = BigInteger.valueOf(BCConstants.BC_MONTHLY_AMOUNTS.size());
+        BigInteger[] distribution = changes.bigIntegerValue().divideAndRemainder(countOfMonth);
+
+        KualiInteger monthlyAdjustment = new KualiInteger(distribution[0]);
+        int remainder = distribution[1].intValue();
+
+        Map<String, Object> keyMap = pendingBudgetConstructionGeneralLedger.buildPrimaryKeyMap();
+        Collection<BudgetConstructionMonthly> monthlyGLRecordsCollection = businessObjectService.findMatching(BudgetConstructionMonthly.class, keyMap); 
+        
+        List<BudgetConstructionMonthly> monthlyGLRecords = new ArrayList<BudgetConstructionMonthly>();
+        for (BudgetConstructionMonthly monthlyGLRecord : monthlyGLRecordsCollection) {
+            this.updateMonthlyAmounts(monthlyGLRecord, monthlyAdjustment, remainder);
+            monthlyGLRecords.add(monthlyGLRecord);
+        }
+        
+        return monthlyGLRecords;
+    }
+
+    /**
+     * update the monthly amounts of the given monthly GL record with the given amount
+     * 
+     * @param monthlyGLRecord the given montly GL record that will be updated
+     * @param adjustment the amount used to adjust the monthly amounts
+     * @param remainder the sulpus that can be used to adjust the monthly amounts util it is used up
+     */
+    private void updateMonthlyAmounts(BudgetConstructionMonthly monthlyGLRecord, KualiInteger adjustment, int remainder) {
         int indexOfMonth = 1;
         for (String[] monthlyAmountFieldPair : BCConstants.BC_MONTHLY_AMOUNTS) {
             String monthlyAmountField = monthlyAmountFieldPair[0];
             if (PropertyUtils.isReadable(monthlyGLRecord, monthlyAmountField) && PropertyUtils.isWriteable(monthlyGLRecord, monthlyAmountField)) {
                 try {
-                    KualiInteger currentLineAmount = (KualiInteger) PropertyUtils.getProperty(monthlyGLRecord, monthlyAmountField);
-                    KualiInteger newMonthlyAmount = this.getNewMonthlyAmount(currentLineAmount, monthlyDistribution, indexOfMonth++, remainder);
+                    KualiInteger currentMonthlyAmount = (KualiInteger) PropertyUtils.getProperty(monthlyGLRecord, monthlyAmountField);
+                    KualiInteger newMonthlyAmount = this.getNewMonthlyAmount(currentMonthlyAmount, adjustment, indexOfMonth++, remainder);
 
                     PropertyUtils.setProperty(monthlyGLRecord, monthlyAmountField, newMonthlyAmount);
                 }
                 catch (Exception e) {
-                    LOG.debug(e);
+                    LOG.fatal("Cannot update the monthly amount." + e);
+                    throw new RuntimeException("Cannot update the monthly amount." + e);
                 }
             }
         }
     }
 
-    private KualiInteger getNewMonthlyAmount(KualiInteger currentLineAmount, KualiInteger addition, int indexOfMonth, int remainder) {
-        KualiInteger newMonthlyAmount = currentLineAmount.add(addition);
+    /**
+     * calculate the new monthly amount based on the given information
+     * 
+     * @param currentMonthlyAmount the current monthly amount
+     * @param adjustment the given adjustment that will be added into currentLineAmount
+     * @param indexOfMonth the traversing index of the current month, which is used to determine whether current monthly amount can
+     *        get additional adjustment from surplus amount
+     * @param remainder the sulpus that can be used to adjust the monthly amounts util it is used up. If the surplus is greater than
+     *        indexOfMonth, the monthly amount can increase by 1.
+     * @return the new monthly amount calculated from the given information
+     */
+    private KualiInteger getNewMonthlyAmount(KualiInteger currentMonthlyAmount, KualiInteger adjustment, int indexOfMonth, int remainder) {
+        KualiInteger newMonthlyAmount = currentMonthlyAmount.add(adjustment);
 
         return remainder < indexOfMonth ? newMonthlyAmount : newMonthlyAmount.add(new KualiInteger(1));
     }
@@ -194,12 +276,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return KualiInteger.ZERO;
         }
 
-        List<BudgetConstructionCalculatedSalaryFoundationTracker> csfTracker = appointmentFunding.getBcnCalculatedSalaryFoundationTracker();
-        if (csfTracker == null || csfTracker.isEmpty()) {
+        BudgetConstructionCalculatedSalaryFoundationTracker csfTracker = appointmentFunding.getEffectiveCSFTracker();
+        if (csfTracker == null) {
             return KualiInteger.ZERO;
         }
 
-        return csfTracker.get(0).getCsfAmount();
+        return csfTracker.getCsfAmount();
     }
 
     /**
@@ -276,5 +358,13 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the laborModuleService attribute value.
+     * @param laborModuleService The laborModuleService to set.
+     */
+    public void setLaborModuleService(LaborModuleService laborModuleService) {
+        this.laborModuleService = laborModuleService;
     }
 }

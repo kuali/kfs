@@ -79,7 +79,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     public PendingBudgetConstructionGeneralLedger() {
         super();
-        
+
         budgetConstructionMonthly = new TypedArrayList(BudgetConstructionMonthly.class);
     }
 
@@ -91,7 +91,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     public KualiDecimal getPercentChange() {
         KualiInteger baseAmount = this.getFinancialBeginningBalanceLineAmount();
         KualiInteger requestedAmount = this.getAccountLineAnnualBalanceAmount();
-        
+
         return SalarySettingCalculator.getPercentChange(baseAmount, requestedAmount);
     }
 
@@ -281,7 +281,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return Returns the accountLineAnnualBalanceAmount.
      */
     public KualiInteger getAccountLineAnnualBalanceAmount() {
-        if (accountLineAnnualBalanceAmount == null){
+        if (accountLineAnnualBalanceAmount == null) {
             accountLineAnnualBalanceAmount = KualiInteger.ZERO;
         }
         return accountLineAnnualBalanceAmount;
@@ -297,7 +297,8 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     }
 
     /**
-     * Gets the persistedAccountLineAnnualBalanceAmount attribute. 
+     * Gets the persistedAccountLineAnnualBalanceAmount attribute.
+     * 
      * @return Returns the persistedAccountLineAnnualBalanceAmount.
      */
     public KualiInteger getPersistedAccountLineAnnualBalanceAmount() {
@@ -306,6 +307,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     /**
      * Sets the persistedAccountLineAnnualBalanceAmount attribute value.
+     * 
      * @param persistedAccountLineAnnualBalanceAmount The persistedAccountLineAnnualBalanceAmount to set.
      */
     public void setPersistedAccountLineAnnualBalanceAmount(KualiInteger persistedAccountLineAnnualBalanceAmount) {
@@ -543,29 +545,29 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
         this.positionObjectBenefit = positionObjectBenefit;
     }
 
-
     /**
-     * Gets the pendingBudgetConstructionAppointmentFundingExists attribute. 
+     * Gets the pendingBudgetConstructionAppointmentFundingExists attribute.
+     * 
      * @return Returns the pendingBudgetConstructionAppointmentFundingExists.
      */
     public boolean isPendingBudgetConstructionAppointmentFundingExists() {
         pendingBudgetConstructionAppointmentFundingExists = false;
-        
-        if (this.laborObject != null){
-            if (this.getLaborObject().isDetailPositionRequiredIndicator()){
-                Map fieldValues = new HashMap();
-                fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-                fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-                fieldValues.put("accountNumber", getAccountNumber());
-                fieldValues.put("subAccountNumber", getSubAccountNumber());
-                fieldValues.put("financialObjectCode", getFinancialObjectCode());
-                fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-                int recCount = SpringContext.getBean(BusinessObjectService.class).countMatching(PendingBudgetConstructionAppointmentFunding.class ,fieldValues);
-                if (recCount != 0){
-                    pendingBudgetConstructionAppointmentFundingExists = true;
-                }
-            }
+
+        if (this.getLaborObject() != null && this.getLaborObject().isDetailPositionRequiredIndicator()) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+
+            fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+            fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+            fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, getFinancialObjectCode());
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, getFinancialSubObjectCode());
+
+            int recCount = SpringContext.getBean(BusinessObjectService.class).countMatching(PendingBudgetConstructionAppointmentFunding.class, fieldValues);
+
+            pendingBudgetConstructionAppointmentFundingExists = (recCount > 0) ? true : false;
         }
+
         return pendingBudgetConstructionAppointmentFundingExists;
     }
 
@@ -574,17 +576,20 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+
         if (this.universityFiscalYear != null) {
-            m.put("universityFiscalYear", this.universityFiscalYear.toString());
+            m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear.toString());
         }
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("subAccountNumber", this.subAccountNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("financialSubObjectCode", this.financialSubObjectCode);
-        m.put("financialBalanceTypeCode", this.financialBalanceTypeCode);
-        m.put("financialObjectTypeCode", this.financialObjectTypeCode);
+
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
+        m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
+        m.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.getSubAccountNumber());
+        m.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
+        m.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, this.getFinancialSubObjectCode());
+        m.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getFinancialBalanceTypeCode());
+        m.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, this.getFinancialObjectTypeCode());
+
         return m;
     }
 
@@ -593,20 +598,30 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * 
      * @return Map
      */
-    public Map getValuesMap() {
-        Map simpleValues = new HashMap();
-
-        simpleValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
-        simpleValues.put("universityFiscalYear", getUniversityFiscalYear());
-        simpleValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-        simpleValues.put("accountNumber", getAccountNumber());
-        simpleValues.put("subAccountNumber", getSubAccountNumber());
-        simpleValues.put("financialObjectCode", getFinancialObjectCode());
-        simpleValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-        simpleValues.put("financialBalanceTypeCode", getFinancialBalanceTypeCode());
-        simpleValues.put("financialObjectTypeCode", getFinancialObjectTypeCode());
+    public Map<String, Object> getValuesMap() {
+        Map<String, Object> simpleValues = this.buildPrimaryKeyMap();
 
         return simpleValues;
     }
 
+    /**
+     * build the primary key map with the field names as the map keys and the field values as the map values
+     * 
+     * @return the primary key map with the field names as the map keys and the field values as the map values
+     */
+    public Map<String, Object> buildPrimaryKeyMap() {
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+
+        keyMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        keyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getUniversityFiscalYear());
+        keyMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
+        keyMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
+        keyMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.getSubAccountNumber());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, this.getFinancialSubObjectCode());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getFinancialBalanceTypeCode());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, this.getFinancialObjectTypeCode());
+
+        return keyMap;
+    }
 }

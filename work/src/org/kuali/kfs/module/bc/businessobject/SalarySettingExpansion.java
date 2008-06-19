@@ -17,11 +17,16 @@
 package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.budget.util.SalarySettingCalculator;
 
 
@@ -155,6 +160,15 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     @Deprecated
     public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * determine whehter the salary is paid at hourly rate
+     * 
+     * @return true if the salary is paid at hourly rate; otherwise, false
+     */
+    public boolean isHourlyPaid() {
+        return SpringContext.getBean(SalarySettingService.class).isHourlyPaid(this);
     }
 
     /**

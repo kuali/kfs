@@ -40,7 +40,7 @@
     <div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" 
-	        	styleClass="globalbuttons" property="methodToCall.returnToCaller" title="save" alt="save"/>
+	        	styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
 	    </c:if>
 	    
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 

@@ -35,6 +35,14 @@ public interface SalarySettingService {
     public boolean isSalarySettingDisabled();
 
     /**
+     * determine whehter the salary is paid at hourly rate
+     * 
+     * @param pendingBudgetConstructionGeneralLedger the given pending Budget construction general ledger entry
+     * @return true if the salary is paid at hourly rate; otherwise, false
+     */
+    public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger);
+
+    /**
      * determine whehter the given appointment funding can be vacated
      * 
      * @param appointmentFunding the given appointment funding
@@ -63,11 +71,18 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      */
     public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * update the given salary setting expansion with the requested amount posted from the associated funding lines
      * 
      * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
      */
     public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion);
+
+    /**
+     * save the salary setting and its associated budget construction monthly and appointment funding
+     * 
+     * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
+     */
+    public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion);
 }

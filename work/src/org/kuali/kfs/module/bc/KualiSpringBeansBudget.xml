@@ -150,6 +150,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="laborModuleService">
+			<ref bean="laborModuleService" />
+		</property>		
 	</bean>
 
 	<bean id="benefitsCalculationService" class="org.kuali.module.budget.service.impl.BenefitsCalculationServiceImpl">

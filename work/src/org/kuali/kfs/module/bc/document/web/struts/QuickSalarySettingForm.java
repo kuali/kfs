@@ -15,23 +15,19 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
-import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.SalarySettingExpansion;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
@@ -40,7 +36,7 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
 public class QuickSalarySettingForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingForm.class);
 
-    private SalarySettingExpansion pendingBudgetConstructionGeneralLedger;
+    private SalarySettingExpansion salarySettingExpansion;
 
     // TODO probably need to push these and some url parms to new superclass BCExpansionForm??
     private boolean hideDetails = false;
@@ -64,7 +60,7 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     public QuickSalarySettingForm() {
         super();
         LOG.debug("creating SalarySettingForm");
-        setPendingBudgetConstructionGeneralLedger(new SalarySettingExpansion());
+        setSalarySettingExpansion(new SalarySettingExpansion());
     }
 
     /**
@@ -84,6 +80,10 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
      * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
      */
     public void populateBCAFLines() {
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            this.populateBCAFLine(appointmentFunding);
+        }
     }
 
     /**
@@ -92,6 +92,8 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         appointmentFunding.refreshNonUpdateableReferences();
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
+        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
+        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
     }
 
     /**
@@ -287,21 +289,21 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the pendingBudgetConstructionGeneralLedger attribute.
+     * Gets the salarySettingExpansion attribute.
      * 
-     * @return Returns the pendingBudgetConstructionGeneralLedger.
+     * @return Returns the salarySettingExpansion.
      */
-    public SalarySettingExpansion getPendingBudgetConstructionGeneralLedger() {
-        return pendingBudgetConstructionGeneralLedger;
+    public SalarySettingExpansion getSalarySettingExpansion() {
+        return salarySettingExpansion;
     }
 
     /**
-     * Sets the pendingBudgetConstructionGeneralLedger attribute value.
+     * Sets the salarySettingExpansion attribute value.
      * 
-     * @param pendingBudgetConstructionGeneralLedger The pendingBudgetConstructionGeneralLedger to set.
+     * @param salarySettingExpansion The salarySettingExpansion to set.
      */
-    public void setPendingBudgetConstructionGeneralLedger(SalarySettingExpansion pendingBudgetConstructionGeneralLedger) {
-        this.pendingBudgetConstructionGeneralLedger = pendingBudgetConstructionGeneralLedger;
+    public void setSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
+        this.salarySettingExpansion = salarySettingExpansion;
     }
 
     /**
@@ -377,7 +379,8 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the hideAdjustmentMeasurement attribute. 
+     * Gets the hideAdjustmentMeasurement attribute.
+     * 
      * @return Returns the hideAdjustmentMeasurement.
      */
     public boolean isHideAdjustmentMeasurement() {
@@ -386,9 +389,26 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
 
     /**
      * Sets the hideAdjustmentMeasurement attribute value.
+     * 
      * @param hideAdjustmentMeasurement The hideAdjustmentMeasurement to set.
      */
     public void setHideAdjustmentMeasurement(boolean hideAdjustmentMeasurement) {
         this.hideAdjustmentMeasurement = hideAdjustmentMeasurement;
+    }
+    
+    public Map<String, Object> getKeyMapOfSalarySettingExpension(){
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        
+        keyMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        keyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getUniversityFiscalYear());
+        keyMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
+        keyMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
+        keyMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.getSubAccountNumber());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, this.getFinancialSubObjectCode());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getFinancialBalanceTypeCode());
+        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, this.getFinancialObjectTypeCode());
+        
+        return keyMap;
     }
 }

@@ -17,7 +17,6 @@ package org.kuali.module.budget.web.struts.action;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,15 +35,13 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.budget.web.struts.form.DetailSalarySettingForm;
@@ -130,7 +127,7 @@ public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
             ActionForward saveAction = this.save(mapping, form, request, response);
 
-            GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         }
 
         // return to caller if the current salary setting is in the budget by account mode
@@ -212,13 +209,13 @@ public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
     }
 
     /**
-     * delete the selected salary setting line 
+     * delete the selected salary setting line
      */
     public ActionForward purgeSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
-        
+
         // remove the slected line
         int indexOfSelectedLine = this.getSelectedLine(request);
         appointmentFundings.remove(indexOfSelectedLine);
@@ -255,7 +252,7 @@ public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
             salarySettingService.adjustRequestedSalaryByAmount(appointmentFunding);
         }
     }
-     
+
     /**
      * sets the default fields not setable by the user for added lines and any other required initialization
      * 
@@ -263,24 +260,24 @@ public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
      */
     protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-        
+
         appointmentFunding.setUniversityFiscalYear(salarySettingForm.getUniversityFiscalYear());
-        
+
         appointmentFunding.setAppointmentFundingDeleteIndicator(false);
         appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
-        
+
         appointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
         appointmentFunding.setAppointmentRequestedTimePercent(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
         appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-        
+
         appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
         appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-        
+
         appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
-        
+
         return appointmentFunding;
     }
 }

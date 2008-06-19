@@ -37,28 +37,30 @@ import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.SalarySettingExpansion;
-import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.service.SalarySettingService;
 import org.kuali.module.budget.web.struts.form.QuickSalarySettingForm;
 
 public class QuickSalarySettingAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingAction.class);
 
+    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {       
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
@@ -100,7 +102,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         if (StringUtils.equals(BCConstants.INCUMBENT_SALARY_SETTING_REFRESH_CALLER, refreshCaller)) {
             // TODO do things specific to returning from Position Salary Setting
         }
-        
+
         salarySettingForm.populateBCAFLines();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -122,52 +124,23 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward performAdjustmentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        QuickSalarySettingForm tForm = (QuickSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Incumbent Salary Setting");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public ActionForward performIncumbentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        QuickSalarySettingForm tForm = (QuickSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Incumbent Salary Setting");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
     /**
      * load the quick salary setting screen
      */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
-        // use the passed url parms to get the record from DB
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, salarySettingForm.getDocumentNumber());
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, salarySettingForm.getUniversityFiscalYear());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
-        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, salarySettingForm.getFinancialBalanceTypeCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, salarySettingForm.getFinancialObjectTypeCode());
+        // use the passed url parms to get the record from DB        
+        Map<String, Object> keyMap = salarySettingForm.getKeyMapOfSalarySettingExpension();
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        SalarySettingExpansion pendingBudgetConstructionGeneralLedger = (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
+        SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, keyMap);
 
-        if (pendingBudgetConstructionGeneralLedger == null) {
+        if (salarySettingExpansion == null) {
             // TODO need to figure out what to do (if anything) under edit and view mode cases
             // probably nothing, the create new by incumbent or position links would still be shown in edit mode
         }
 
-        salarySettingForm.setPendingBudgetConstructionGeneralLedger(pendingBudgetConstructionGeneralLedger);
-
-        // refresh references and recalulate the totals of the appointment funding lines
-        salarySettingForm.populateBCAFLines();
+        salarySettingForm.setSalarySettingExpansion(salarySettingExpansion);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -177,7 +150,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
      */
     public ActionForward vacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
 
         // retrieve the selected funding line
         int indexOfSelectedLine = this.getSelectedLine(request);
@@ -185,7 +158,6 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
 
         // associated the vacant funding line with current salary setting expansion
-        SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = salarySettingService.vacateAppointmentFunding(appointmentFunding);
 
         if (vacantAppointmentFunding != null) {
@@ -200,7 +172,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
      */
     public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
 
         // retrieve the selected funding line
         int indexOfSelectedLine = this.getSelectedLine(request);
@@ -217,12 +189,12 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
      */
     public ActionForward adjustAllSalarySettingLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
         KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
         String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
-        
+
         Object fullEntryEditMode = salarySettingForm.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY);
         boolean isEditable = fullEntryEditMode != null && Boolean.parseBoolean(fullEntryEditMode.toString());
 
@@ -255,23 +227,35 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
 
         return new ActionForward(salarySettingURL, true);
     }
-    
+
     /**
      * perform salary setting by position with the specified funding line
      */
     public ActionForward toggleAdjustmentMeasurement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        
+
         boolean currentStatus = salarySettingForm.isHideAdjustmentMeasurement();
         salarySettingForm.setHideAdjustmentMeasurement(!currentStatus);
-        
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * save the changes for salary setting
+     */
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
+
+        salarySettingService.saveSalarySetting(salarySettingExpansion);
+        salarySettingExpansion.refresh();
+
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     // adjust the requested salary amount of the given appointment funding line
     private void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-
         String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
         if (BCConstants.SalaryAdjustmentMeasurement.PERCENT.measurement.equals(adjustmentMeasurement)) {
             salarySettingService.adjustRequestedSalaryByPercent(appointmentFunding);
@@ -284,7 +268,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
     // build the URL for the specified salary setting method
     private String buildSalarySettingURL(ActionMapping mapping, ActionForm form, HttpServletRequest request, String salarySettingAction) {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getPendingBudgetConstructionGeneralLedger();
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
 
         Map<String, String> salarySettingMethodAction = this.getSalarySettingMethodActionInfo();
 

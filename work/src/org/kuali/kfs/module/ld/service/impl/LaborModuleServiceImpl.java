@@ -262,7 +262,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
 
-        Map searchCriteria = new HashMap();
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);

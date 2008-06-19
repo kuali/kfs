@@ -21,7 +21,9 @@
 <c:set var="bccsftAttributes" value="${DataDictionary['BudgetConstructionCalculatedSalaryFoundationTracker'].attributes}" />
 <c:set var="pbcafAttributes" value="${DataDictionary['PendingBudgetConstructionAppointmentFunding'].attributes}" />
 <c:set var="bcpAttributes" value="${DataDictionary['BudgetConstructionPosition'].attributes}" />
-<c:set var="fundingPropertyName" value="pendingBudgetConstructionGeneralLedger.pendingBudgetConstructionAppointmentFunding"/>
+<c:set var="fundingPropertyName" value="salarySettingExpansion.pendingBudgetConstructionAppointmentFunding"/>
+<c:set var="isHourlyPaid" value="${KualiForm.salarySettingExpansion.hourlyPaid}" />
+<c:set var="numOfColumsRemoved" value="${isHourlyPaid ? 0 : 1 }" />
 	
 <div class="h2-container">
 	<h2><span class="subhead-left"><span class="tabtable1-left">Salary Line Detail</span></span></h2>
@@ -44,8 +46,8 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentFundingDeleteIndicator}"/>
 				
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.positionNumber}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${bciiAttributes.personName}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${bciiAttributes.iuClassificationLevel}" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.emplid}" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${bciiAttributes.iuClassificationLevel}"/>
 		
 		<kul:htmlAttributeHeaderCell attributeEntry="${bcpAttributes.positionSalaryPlanDefault}" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${bcpAttributes.positionGradeDefault}" />
@@ -56,15 +58,19 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${bccsftAttributes.csfFullTimeEmploymentQuantity}" />
 		
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentFundingMonth}" />
-		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentRequestedPayRate}" />
+		
+		<c:if test="${isHourlyPaid}">
+			<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentRequestedPayRate}" />
+		</c:if>
+		
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentRequestedAmount}" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentRequestedFteQuantity}" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.percentChange}" />
 		
 		<kul:htmlAttributeHeaderCell literalLabel="Actions"/>		
 	</tr>
-	
-	<c:forEach items="${KualiForm.pendingBudgetConstructionGeneralLedger.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
+
+	<c:forEach items="${KualiForm.salarySettingExpansion.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 	<c:set var="fundingLineName" value="${fundingPropertyName}[${status.index}]"/>	
 	<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
 	<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly}" />
@@ -107,12 +113,9 @@
 					boPackageName="org.kuali.module.budget.bo"
 					readOnly="true"	displayHidden="false"
 					lookupOrInquiryKeys="emplid" rowSpan="${rowspan}" 
-					accountingLineValuesMap="${fundingLine.valuesMap}"/>					
-
-			<%-- Classification Level --%>
-				<bc:pbglLineDataCell dataCellCssClass="datacell" 
-					accountingLine="${fundingLineName}.budgetConstructionIntendedIncumbent"	attributes="${bciiAttributes}" 
-					field="iuClassificationLevel" fieldAlign="left" readOnly="true" rowSpan="${rowspan}" />
+					accountingLineValuesMap="${fundingLine.valuesMap}"/>	
+					
+				<td class="datacell" rowspan="${rowspan}">${fundingLine.budgetConstructionIntendedIncumbent.iuClassificationLevel}</td>						
 			</c:when>
 			<c:otherwise>
 				<bc:pbglLineDataCell dataCellCssClass="datacell" 
@@ -126,71 +129,34 @@
 		</c:choose>
 		
 		<%-- Salary Plan Default --%>
-		<c:choose>
-			<c:when test="${!empty fundingLine.budgetConstructionPosition.positionSalaryPlanDefault}">
-				<bc:pbglLineDataCell dataCellCssClass="datacell" 
-					accountingLine="${fundingLineName}.budgetConstructionPosition"
-					attributes="${bcpAttributes}" field="positionSalaryPlanDefault"
-					fieldAlign="left" readOnly="true" rowSpan="${rowspan}" />
-			</c:when>
-			<c:otherwise>
-				<td rowSpan="${rowspan}">&nbsp;</td>
-			</c:otherwise>
-		</c:choose>
+		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.positionSalaryPlanDefault}</td>
 
 		<%-- Position Grade Default --%>
-		<c:choose>
-			<c:when test="${!empty fundingLine.budgetConstructionPosition.positionGradeDefault}">
-
-				<bc:pbglLineDataCell dataCellCssClass="infocell" 
-					accountingLine="${fundingLineName}.budgetConstructionPosition" 
-					attributes="${bcpAttributes}" field="positionGradeDefault" fieldAlign="left"
-					readOnly="true" rowSpan="${rowspan}" />
-			</c:when>
-			<c:otherwise>
-				<td rowSpan="${rowspan}">&nbsp;</td>
-			</c:otherwise>
-		</c:choose>
+		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.positionGradeDefault}</td>
 
 		<%-- IU Normal Work Months --%>
-		<bc:pbglLineDataCell dataCellCssClass="infocell" 
-			accountingLine="${fundingLineName}.budgetConstructionPosition" 
-			attributes="${bcpAttributes}" field="iuNormalWorkMonths" fieldAlign="right"
-			readOnly="true" rowSpan="${rowspan}" />
+		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.iuNormalWorkMonths}</td>
 
 		<%-- IU Pay Months --%>
-		<bc:pbglLineDataCell dataCellCssClass="datacell" 
-			accountingLine="${fundingLineName}.budgetConstructionPosition"
-			attributes="${bcpAttributes}" field="iuPayMonths" fieldAlign="right" readOnly="true" rowSpan="${rowspan}" />
+		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.iuPayMonths}</td>
 				
 		<%-- csf Amount --%>
 		<c:choose>
-			<c:when test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
-				<bc:pbglLineDataCell dataCellCssClass="datacell" 
-					accountingLine="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0]"
-					attributes="${pbcafAttributes}" field="csfAmount" csfInquiry="true"
-					lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,financialSubObjectCode,positionNumber,emplid" 
-					boClassSimpleName="BudgetConstructionCalculatedSalaryFoundationTracker"
-					boPackageName="org.kuali.module.budget.bo" 
-					accountingLineValuesMap="${fundingLine.valuesMap}" fieldAlign="right" readOnly="true" />
+			<c:when test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">	
+				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfAmount}" 
+					var="formattedCsfAmount" type="number" groupingUsed="true"/>		
+				<td class="datacell" style="text-align: right;">
+					<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
+    					${formattedCsfAmount}
+    				</a>
+    			</td>
+				
+				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
+					var="formattedCsfFTE" type="number" groupingUsed="true" minFractionDigits="4" />
+				<td class="datacell" style="text-align: right;">${formattedCsfFTE}</td>
 			</c:when>
 			<c:otherwise>
 				<td>&nbsp;</td>
-			</c:otherwise>
-		</c:choose>
-
-		<!-- csf Full Time Employment Quantity -->
-		<c:choose>
-			<c:when test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
-				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
-					var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="4" />
-								
-				<bc:pbglLineDataCell dataCellCssClass="datacell" 
-					accountingLine="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0]" 
-					attributes="${bccsftAttributes}" field="csfFullTimeEmploymentQuantity" fieldAlign="right" 
-					formattedNumberValue="${formattedNumber}" readOnly="true" dataFieldCssClass="amount" />
-			</c:when>
-			<c:otherwise>
 				<td>&nbsp;</td>
 			</c:otherwise>
 		</c:choose>
@@ -201,13 +167,15 @@
 			attributes="${pbcafAttributes}" field="appointmentFundingMonth" fieldAlign="right" readOnly="true" />
 			
 		<!-- appointment requested hourly rate -->
-        <fmt:formatNumber value="${fundingLine.appointmentRequestedPayRate}" 
-        	var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="2" />	
-
-		<bc:pbglLineDataCell dataCellCssClass="datacell" 
-			accountingLine="${fundingLineName}"	attributes="${pbcafAttributes}" 
-			field="appointmentRequestedPayRate" fieldAlign="right"
-			formattedNumberValue="${formattedNumber}" readOnly="${readOnly}" dataFieldCssClass="amount" />			
+		<c:if test="${isHourlyPaid}">
+	        <fmt:formatNumber value="${fundingLine.appointmentRequestedPayRate}" 
+	        	var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="2" />	
+	
+			<bc:pbglLineDataCell dataCellCssClass="datacell" 
+				accountingLine="${fundingLineName}"	attributes="${pbcafAttributes}" 
+				field="appointmentRequestedPayRate" fieldAlign="right"
+				formattedNumberValue="${formattedNumber}" readOnly="${readOnly}" dataFieldCssClass="amount" />
+		</c:if>		
 
 		<%-- Appointment Requested Amount --%>
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 
@@ -230,7 +198,7 @@
 			accountingLine="${fundingLineName}"
 			attributes="${pbcafAttributes}" field="percentChange" fieldAlign="right" readOnly="true" />
 
-		<td class="datacell" rowspan="${rowspan}" nowrap>
+		<td class="datacell" rowspan="${rowspan}" style="white-space: nowrap;">
 			<c:if test="${not readOnly}">
 				<html:image 
 					property="methodToCall.performPositionSalarySetting.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
@@ -259,7 +227,7 @@
 	
 	<c:if test="${not hidePercentAdjustment}">
 	<tr>
-		<td colspan ="7" class="infoline"><center>
+		<td colspan ="${7 - numOfColumsRemoved}" class="infoline"><center>
 			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
@@ -275,19 +243,19 @@
 		<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="Total:" horizontal="true" />
 	
 	    <bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1"
-	    	cellProperty="pendingBudgetConstructionGeneralLedger.csfAmountTotal" />
+	    	cellProperty="salarySettingExpansion.csfAmountTotal" />
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="pendingBudgetConstructionGeneralLedger.csfFullTimeEmploymentQuantityTotal" />
+			cellProperty="salarySettingExpansion.csfFullTimeEmploymentQuantityTotal" />
 	
-		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="3" 
-			cellProperty="pendingBudgetConstructionGeneralLedger.appointmentRequestedAmountTotal" />
-	
-		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="pendingBudgetConstructionGeneralLedger.appointmentRequestedFteQuantityTotal" />
+		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="${3 - numOfColumsRemoved}" 
+			cellProperty="salarySettingExpansion.appointmentRequestedAmountTotal" />
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="pendingBudgetConstructionGeneralLedger.percentChangeTotal" />
+			cellProperty="salarySettingExpansion.appointmentRequestedFteQuantityTotal" />
+	
+		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
+			cellProperty="salarySettingExpansion.percentChangeTotal" />
 		
 		<kul:htmlAttributeHeaderCell />
 	</tr>
@@ -296,22 +264,22 @@
 		<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="Expenditure Line Base:" horizontal="true" />
 	
 	    <bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1"
-	    	cellProperty="pendingBudgetConstructionGeneralLedger.financialBeginningBalanceLineAmount" />
+	    	cellProperty="salarySettingExpansion.financialBeginningBalanceLineAmount" />
 	
 		<kul:htmlAttributeHeaderCell nowrap="true" literalLabel="Req:" horizontal="true" />
 	
-		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="3" 
-			cellProperty="pendingBudgetConstructionGeneralLedger.appointmentRequestedAmountTotal" />
+		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="${3 - numOfColumsRemoved}"  
+			cellProperty="salarySettingExpansion.accountLineAnnualBalanceAmount" />
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="2" 
-			cellProperty="pendingBudgetConstructionGeneralLedger.percentChangeTotal" />
+			cellProperty="salarySettingExpansion.percentChangeTotal" />
 		
 		<kul:htmlAttributeHeaderCell />
 	</tr>
 	
 	<c:if test="${not readOnly}">
 	<tr>
-		<td colspan="16">
+		<td colspan="${16 - numOfColumsRemoved}">
 			<div class="h2-container" style="width: 100%;"><h2>Global Percent Adjustment</h2></div>
 		</td>
 	</tr>
@@ -319,7 +287,7 @@
 	<tr>
 		<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="" horizontal="true" />
 	
-	    <td colspan ="7"><center>
+	    <td colspan ="${7 - numOfColumsRemoved}"><center>
 			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 				adjustmentMeasurementFieldName="adjustmentMeasurement" 
 				adjustmentAmountFieldName="adjustmentAmount"

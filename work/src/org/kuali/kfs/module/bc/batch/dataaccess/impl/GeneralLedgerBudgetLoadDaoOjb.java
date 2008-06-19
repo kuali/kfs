@@ -42,7 +42,9 @@ import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.dao.ojb.BudgetConstructionBatchHelperDaoOjb;
 import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
+
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.HomeOriginationService;
@@ -53,7 +55,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 
-public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerBudgetLoadDao {
+public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GeneralLedgerBudgetLoadDao {
 
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerBudgetLoadDaoOjb.class);
@@ -658,26 +660,6 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          this.homeOriginationService = homeOriginationService;
      }
      
-    
-    /****************************************************************************************************************
-     *                                                 Utility methods                                              *                         
-     ****************************************************************************************************************/
-
-    /**
-     * This method determines the capacity of the hash based on the item count returned by the query
-     * 
-     * @param queryID
-     * @return hash capacity based on query result set size
-     */
-    private Integer hashCapacity(ReportQueryByCriteria queryID) {
-        // this corresponds to a load factor of a little more than the default load factor
-        // of .75
-        // (a rehash supposedly occurs when the actual number of elements exceeds
-        // hashcapacity*(load factor). we want to avoid a rehash)
-        // N rows < .75*capacity ==> capacity > 4N/3 or 1.3333N We add a little slop.
-        Integer actualCount = new Integer(getPersistenceBrokerTemplate().getCount(queryID));
-        return ((Integer) ((Double) (actualCount.floatValue() * (1.45))).intValue());
-    }
   
     /*****************************************************************************************************************
      *   @@TODO:  these are test methods--remove them                                                                *

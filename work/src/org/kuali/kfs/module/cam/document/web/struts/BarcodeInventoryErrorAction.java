@@ -148,7 +148,7 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         
         int indexOfLineToDelete = getLineToDelete(request);
         
-        BarcodeInventoryErrorDetail inventoryUploadErrorDetail = inventoryUploadErrorDocument.getInventoryUploadErrorDetail(indexOfLineToDelete);
+        BarcodeInventoryErrorDetail inventoryUploadErrorDetail = inventoryUploadErrorDocument.getBarcodeInventoryErrorDetail(indexOfLineToDelete);
         DocumentService documentService = KNSServiceLocator.getDocumentService();
 
         inventoryUploadErrorDocument.deleteCashControlDetail(indexOfLineToDelete);

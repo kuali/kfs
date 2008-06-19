@@ -96,6 +96,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         Properties parameters = new Properties();
         parameters.put(KNSConstants.PARAMETER_DOC_ID, blockingDocId);
         parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+        
         String blockingUrl = UrlFactory.parameterizeUrl(
                 SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY)
                 + "/" + KNSConstants.DOC_HANDLER_ACTION, parameters);

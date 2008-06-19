@@ -251,31 +251,28 @@
     </bean>
     
 <!-- Asset Bar Code inventory batch job -->
-	<bean id="assetBarCodeInventoryLoadService" class="org.kuali.module.cams.service.impl.AssetBarCodeInventoryLoadServiceImpl">
+	<bean id="assetBarcodeInventoryLoadService" class="org.kuali.module.cams.service.impl.AssetBarcodeInventoryLoadServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<!-- property name="batchInputFileService">
-			<ref bean="batchInputFileService" />
-		</property>
-		<property name="assetBarCodeInventoryInputFileType">
-			<ref bean="assetBarCodeInventoryInputFileType" />
-		</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>		
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>					
 	</bean>
 
-	<bean id="assetBarCodeInventoryInputFileType" class="org.kuali.module.cams.batch.barcode.AssetBarCodeInventoryInputFileType"> 
+	<bean id="assetBarcodeInventoryInputFileType" class="org.kuali.module.cams.batch.barcode.AssetBarcodeInventoryInputFileType"> 
 	    <property name="directoryPath">
 	       <value>${staging.directory}/CM_BARCODE</value>
 	    </property>
-	    <!-- property name="fileExtension">
-	       <value>csv</value>
-	    </property>
-	    <property name="dateTimeService">
-	       <ref bean="dateTimeService"/>
-	    </property-->
 	</bean>
 	
 	<bean id="assetGlobalService" class="org.kuali.module.cams.service.impl.AssetGlobalServiceImpl">

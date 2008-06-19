@@ -17,7 +17,7 @@
 
 <kul:page showDocumentInfo="false"
 	headerTitle="Batch File Set Upload" docTitle="" renderMultipart="true"
-	transactionalDocument="false" htmlFormAction="batchUploadBarCodeInventoryFile" errorKey="foo">
+	transactionalDocument="false" htmlFormAction="uploadBarcodeInventoryFile" errorKey="foo">
 	<html:hidden property="batchUpload.batchInputTypeName" />
 	
     <c:set var="batchUploadAttributes" value="${DataDictionary.BatchUpload.attributes}" />

@@ -119,6 +119,7 @@
         <form-bean name="AssetPaymentForm" type="org.kuali.module.cams.web.struts.form.AssetPaymentForm" />  
         <form-bean name="AssetTransferForm" type="org.kuali.module.cams.web.struts.form.AssetTransferForm" />
         <form-bean name="EquipmentLoanOrReturnForm" type="org.kuali.module.cams.web.struts.form.EquipmentLoanOrReturnForm" />
+        <form-bean name="BarcodeInventoryErrorForm" type="org.kuali.module.cams.web.struts.form.BarcodeInventoryErrorForm" />  
         
         <!-- Effort Certification Bean Definitions -->
         <form-bean name="EffortCertificationForm" type="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />
@@ -206,14 +207,7 @@
     	   <forward name="basic" path="/jsp/modules/ar/{1}.jsp" />
   		</action>
 
-		<!-- Capital Assets mappings -->
-        <!-- DELETE ME !!!! action path="/batchUploadFileSet" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/kfs/KualiBatchInputFileSet.jsp" />
-        </action-->
-
-        <!-- action path="/batchUploadBarCodeInventoryFile" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.cams.web.struts.action.AssetBarCodeInventoryInputFileAction"-->
-        <action path="/batchUploadBarCodeInventoryFile" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.cams.web.struts.action.AssetBarCodeInventoryInputFileAction">
+        <action path="/uploadBarcodeInventoryFile" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.cams.web.struts.action.AssetBarCodeInventoryInputFileAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/cams/BatchUploadBarCodeInventory.jsp" />
         </action>

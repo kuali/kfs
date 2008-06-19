@@ -254,8 +254,8 @@
   <bean id="BarcodeInventoryErrorDetail-uploadScanTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="uploadScanTimestamp" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Upload Scan Timestamp" />
-    <property name="shortLabel" value="Timestamp" />
+    <property name="label" value="Inventory Date" />
+    <property name="shortLabel" value="Inventory Date" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />

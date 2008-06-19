@@ -134,24 +134,7 @@
     <property name="summary" value="expenditureFinancialSystemOriginationCode" />
     <property name="description" value="expenditureFinancialSystemOriginationCode description..." />
   </bean>
-  <!-- bean id="AssetPaymentDetail-sequenceNumber" parent="AssetPaymentDetail-sequenceNumber-parentBean" />
 
-  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sequenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Line Number" />
-    <property name="shortLabel" value="Line#" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="sequenceNumber" />
-    <property name="description" value="LineNumber description..." />
-  </bean-->
   <bean id="AssetPaymentDetail-financialDocumentOverrideCode" parent="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" />
 
   <bean id="AssetPaymentDetail-financialDocumentOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">

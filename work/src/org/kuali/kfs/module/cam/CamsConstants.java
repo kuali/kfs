@@ -210,7 +210,7 @@ public class CamsConstants {
     public static final String ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetPaymentDifferentObjectSubTypeQuestion";
 
     public static class BarCodeInventory {
-        public static final String FILE_TYPE_INDENTIFIER = "assetBarCodeInventoryInputFileType";
+        public static final String FILE_TYPE_INDENTIFIER = "assetBarcodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";
         public static final String DATA_FILE_EXTENSION = ".csv";
         public static final String DONE_FILE_EXTENSION = ".done";

@@ -29,6 +29,7 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_IN_SERVICE_DATE = "error.invalid.in.service.date";
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
+    
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
 
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
@@ -47,7 +48,7 @@ public class CamsKeyConstants {
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST = "error.asset.fabrication.completionDate.past";
     public static final String ERROR_CAPITAL_ASSET_TYPE_CODE_FABRICATION = "error.asset.fabrication.assetType.invalid";
     public static final String AGENCY_NUMBER_NOT_EXIST = "error.asset.agency.number.not.exist";
-
+    
     public static class Depreciation {
         public static final String NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND = "error.batch.depreciation.assetsNotFound";
         public static final String ERROR_WHEN_CALCULATING_BASE_AMOUNT = "error.batch.depreciation.baseAmountCalculationError";
@@ -139,7 +140,10 @@ public class CamsKeyConstants {
     }
 
     public static class BarCodeInventory {
-        public static final String TITLE_BAR_CODE_INVENTORY = "message.batchUpload.title.barCodeInventory";
+        public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";
+        public static final String MESSAGE_UPLOAD_RECCOUNT="message.upload.record.count";
+        public static final String MESSAGE_UPLOAD_ERROR_RECCOUNT="message.upload.record.error.count";
+        public static final String MESSAGE_DOCUMENT_URL="message.upload.document.barcodeInventory";        
     }
 
     public static class EquipmentLoanOrReturn {

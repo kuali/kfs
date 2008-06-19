@@ -14,7 +14,8 @@ import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
 public class BarcodeInventoryErrorDocument extends TransactionalDocumentBase {
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
-    private DocumentHeader documentHeader;
+    
+	private DocumentHeader documentHeader;
     private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
     
 	/**
@@ -85,24 +86,16 @@ public class BarcodeInventoryErrorDocument extends TransactionalDocumentBase {
 		this.documentHeader = documentHeader;
 	}
 
-    /**
-     * Gets the inventoryUploadErrorDetails attribute. 
-     * @return Returns the inventoryUploadErrorDetails.
-     */
-    public List<BarcodeInventoryErrorDetail> getInventoryUploadErrorDetail() {
+    public List<BarcodeInventoryErrorDetail> getBarcodeInventoryErrorDetail() {
         return barcodeInventoryErrorDetail;
     }
 
-    /**
-     * Sets the inventoryUploadErrorDetails attribute value.
-     * @param inventoryUploadErrorDetails The inventoryUploadErrorDetails to set.
-     */
-    public void setInventoryUploadErrorDetail(List<BarcodeInventoryErrorDetail> inventoryUploadErrorDetails) {
-        this.barcodeInventoryErrorDetail = inventoryUploadErrorDetails;
+    public void setBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) {
+        this.barcodeInventoryErrorDetail = barcodeInventoryErrorDetails;
     }
 
  
-    public BarcodeInventoryErrorDetail getInventoryUploadErrorDetail(int index) {
+    public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
         if (index >= barcodeInventoryErrorDetail.size()) {
             for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {
                 barcodeInventoryErrorDetail.add(new BarcodeInventoryErrorDetail());

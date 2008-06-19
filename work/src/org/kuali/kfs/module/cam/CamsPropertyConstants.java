@@ -301,13 +301,34 @@ public class CamsPropertyConstants {
     public static class AssetPaymentDocument {
         public static final String ASSET = "asset";
     }
-
+    
     public static class AssetObjectCode {
         public static final String CAPITALIZATION_FINANCIAL_OBJECT = "capitalizationFinancialObject";
         public static final String ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT = "accumulatedDepreciationFinancialObject";
     }
-
+    
     public static class AssetRetirementReason {
         public static String RETIREMENT_REASON_CODE = "retirementReasonCode";
     }
+
+    public static class BarcodeInventory {
+        public static String ASSET_TAG_NUMBER="assetTagNumber"; 
+        public static String UPLOAD_SCAN_INDICATOR="uploadScanIndicator"; 
+        public static String INVENTORY_DATE="uploadScanTimestamp"; 
+        public static String CAMPUS_CODE="campusCode"; 
+        public static String BUILDING_CODE="buildingCode"; 
+        public static String BUILDING_ROOM_NUMBER="buildingRoomNumber"; 
+        public static String BUILDING_SUBROOM_NUMBER="buildingSubRoomNumber"; 
+        public static String ASSET_CONDITION_CODE="assetConditionCode";
+        
+        public static String CAMPUS_REFERENCE="campus";
+        public static String BUILDING_REFERENCE="building";
+        public static String BUILDING_ROOM_REFERENCE="buildingRoom";
+        public static String CONDITION_REFERENCE="condition";
+        
+        
+        
+    }
+
 }
+

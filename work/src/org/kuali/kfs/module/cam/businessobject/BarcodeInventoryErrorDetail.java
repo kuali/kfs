@@ -6,7 +6,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-
+import org.kuali.core.bo.Campus;
+import org.kuali.kfs.bo.Room;
+import org.kuali.kfs.bo.Building;
+import org.kuali.module.cams.bo.AssetCondition;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -26,7 +29,13 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 	private String buildingRoomNumber;
 	private String buildingSubRoomNumber;
 	private String assetConditionCode;
-
+	
+	//References
+	private Campus campus;
+	private Room buildingRoom;
+	private Building building;
+	private AssetCondition condition;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -316,5 +325,37 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
             m.put("uploadRowNumber", this.uploadRowNumber.toString());
         }
 	    return m;
+    }
+
+    public Campus getCampus() {
+        return campus;
+    }
+
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+
+    public Room getBuildingRoom() {
+        return buildingRoom;
+    }
+
+    public void setBuildingRoom(Room buildingRoom) {
+        this.buildingRoom = buildingRoom;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public AssetCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(AssetCondition condition) {
+        this.condition = condition;
     }
 }

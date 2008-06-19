@@ -701,11 +701,11 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="uploaderUniversalIdentifier" column="AST_UPLDR_UNVL_ID" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 
-	<collection-descriptor name="barcodeInventoryErrorDetail" element-class-ref="org.kuali.module.cams.bo.BarcodeInventoryErrorDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<collection-descriptor name="barcodeInventoryErrorDetail" element-class-ref="org.kuali.module.cams.bo.BarcodeInventoryErrorDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
         <orderby name="uploadRowNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -727,6 +727,21 @@
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="assetConditionCode" column="CPTLAST_COND_CD" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="campusCode" />
+		<foreignkey field-ref="buildingCode" />
+	</reference-descriptor>
+	<reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.bo.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="campusCode" />
+		<foreignkey field-ref="buildingCode" />
+		<foreignkey field-ref="buildingRoomNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="condition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="assetConditionCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetComponent" table="CM_AST_COMPONENT_T">

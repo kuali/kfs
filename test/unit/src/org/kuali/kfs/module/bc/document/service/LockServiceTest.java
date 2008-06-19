@@ -83,15 +83,13 @@ public class LockServiceTest extends KualiTestBase {
     private String positionNumber;
     private  String pUIdOne = "3670600494"; // MCGUIRE
     private  String pUIdTwo = "6162502038"; // KHUNTLEY
-    boolean posExist = false;
-    boolean hdrExist = false;
-    boolean docHdrExist = false;
-    boolean bcafExist = false;
     
     // set up some data for the tests.
     // we will run everything in one test method, so this only needs to be done once
-    public void setUp()
+    @Override
+    public void setUp() throws Exception
     {
+      super.setUp();  
       // get the services we need 
       lockService = SpringContext.getBean(LockService.class);
       bcHeaderDao = SpringContext.getBean(BudgetConstructionDao.class);
@@ -105,9 +103,11 @@ public class LockServiceTest extends KualiTestBase {
       dataExists = (dataExists) && (setTestDocumentNumber());
     } 
     
-    public void tearDown()
+    @Override
+    public void tearDown() throws Exception
     {
         clearTestRowLocks();
+        super.tearDown();
     }
 
     private boolean runTests() { // change this to return false to prevent running tests
@@ -125,6 +125,9 @@ public class LockServiceTest extends KualiTestBase {
         //
         // (the tests below will check that the unlock activity here took effect). 
         clearTestRowLocks();
+        
+        // make sure that test data was found
+        assertTrue("suitable test data exists in the database",dataExists);
         
         // trivial account lock/unlock
         assertFalse("test header was unlocked on initialization", lockService.isAccountLocked(bcHeader));
@@ -188,75 +191,75 @@ public class LockServiceTest extends KualiTestBase {
         // account lock attempt with funding locks set
         // one funding lock has an associated position lock, the other is an orphan
         bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+" successfully obtained a position lock",bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+" successfully obtained a funding lock on an account funding the position",bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdTwo);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertFalse(lockService.getFundingLocks(bcHeader).isEmpty());
+        assertTrue(pUIdTwo+" successfully obtained an orphan funding lock--no position lock is involved",bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertFalse("the funding lock table has rows for the account specified by this header",lockService.getFundingLocks(bcHeader).isEmpty());
         bcLockStatus = lockService.lockAccount(bcHeaderTwo, pUIdTwo);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND);
-        assertFalse(bcLockStatus.getFundingLocks().isEmpty());
+        assertTrue(pUIdTwo+" cannot lock an accounting key for which this user has a funding lock",bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND);
+        assertFalse("there are no funding locks involving this accounting key",bcLockStatus.getFundingLocks().isEmpty());
         fundingIter = bcLockStatus.getFundingLocks().iterator();
-        assertTrue(fundingIter.hasNext());
+        assertTrue("an orphan funding lock exists",fundingIter.hasNext());
         fundingLock = fundingIter.next();
-        assertTrue(fundingLock.getPositionNumber().equals("NotFnd")); // orphan
-        assertTrue(fundingIter.hasNext());
+        assertTrue("funding lock is marked as an orphan",fundingLock.getPositionNumber().equals("NotFnd")); // orphan
+        assertTrue("a funding lock exists with an associated position",fundingIter.hasNext());
         fundingLock = fundingIter.next();
-        assertTrue(fundingLock.getPositionNumber().equals(positionNumber)); // associated position
-        assertFalse(lockService.isAccountLocked(bcHeaderTwo));
+        assertTrue(positionNumber+" has a funding lock",fundingLock.getPositionNumber().equals(positionNumber)); // associated position
+        assertFalse(pUIdTwo+" does not have an account lock",lockService.isAccountLocked(bcHeaderTwo));
         lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
-        assertTrue(lockStatus == LockStatus.SUCCESS);
+        assertTrue(pUIdOne+" successfully released a funding lock", lockStatus == LockStatus.SUCCESS);
         lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
-        assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertTrue(lockService.getFundingLocks(bcHeader).isEmpty());
+        assertTrue(pUIdTwo+" successfully released a funding lock",lockStatus == LockStatus.SUCCESS);
+        assertTrue("no funding locks are left",lockService.getFundingLocks(bcHeader).isEmpty());
         lockStatus = lockService.unlockPosition(positionNumber, universityFiscalYear);
-        assertTrue(lockStatus == LockStatus.SUCCESS);
+        assertTrue(positionNumber+" lock was released successfully", lockStatus == LockStatus.SUCCESS);
 
         // trivial position lock/unlock
         bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("position lock: lock obtained by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isPositionLocked(positionNumber, universityFiscalYear));
+        assertTrue("position lock: successful re-lock attempt by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("position lock: "+positionNumber+" is locked", lockService.isPositionLocked(positionNumber, universityFiscalYear));
         lockStatus = lockService.unlockPosition(positionNumber, universityFiscalYear);
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isPositionLocked(positionNumber, universityFiscalYear));
+        assertFalse("position lock: "+positionNumber+" successfully unlocked", lockService.isPositionLocked(positionNumber, universityFiscalYear));
 
         // position lock attempt with position lock by other
         bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("position lock conflict: position lock obtained by "+pUIdOne,bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockPosition(positionNumber, universityFiscalYear, pUIdTwo);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
-        assertTrue(lockService.isPositionLocked(positionNumber, universityFiscalYear));
+        assertTrue("position lock conflict: position lock denied to "+pUIdTwo, bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
+        assertTrue("position lock conflict: position is still locked",lockService.isPositionLocked(positionNumber, universityFiscalYear));
         lockStatus = lockService.unlockPosition(positionNumber, universityFiscalYear);
-        assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isPositionLocked(positionNumber, universityFiscalYear));
+        assertTrue("position lock conflict: position lock successfully released", lockStatus == LockStatus.SUCCESS);
+        assertFalse("position lock conflict: no positions locks remain", lockService.isPositionLocked(positionNumber, universityFiscalYear));
 
         // trivial transaction lock/unlock
         // this test bcHeader, but the application will probably derive the params from BCAppointmentFunding
         lockService.unlockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
-        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertFalse("transaction lock: no current locks", lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
         bcLockStatus = lockService.lockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertTrue("transaction lock: obtained by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("transaction lock: in effect", lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
         lockStatus = lockService.unlockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
-        assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertTrue("transaction lock: successfully released by "+pUIdOne, lockStatus == LockStatus.SUCCESS);
+        assertFalse("transaction lock: no longer in effect", lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
 
         // transaction lock attempt with transaction lock by other
         // this test uses bcHeader, but the application will probably derive the params from BCAppointmentFunding
-        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertFalse("conflicting transaction lock: current locks", lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
         bcLockStatus = lockService.lockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertTrue("conflicting transaction lock: lock obtained by "+pUIdOne, bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
+        assertTrue("conflicting transaction lock: transaction lock is in effect", lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
         bcLockStatus = lockService.lockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
-        assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
-        assertTrue(bcLockStatus.getTransactionLockOwner().equals(pUIdOne));
-        assertTrue(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertTrue("conflicting transaction lock: "+pUIdTwo+" could not get the same transaction lock", bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
+        assertTrue("conflicting transaction lock: lock is owned by "+pUIdOne, bcLockStatus.getTransactionLockOwner().equals(pUIdOne));
+        assertTrue("conflicting transaction lock: still locked by "+pUIdOne,lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
         lockStatus = lockService.unlockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
-        assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        assertTrue("conflicting transaction lock: lock removed by "+pUIdOne, lockStatus == LockStatus.SUCCESS);
+        assertFalse("conflicting transaction lock: transaction locks still exist", lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
 
     }
 

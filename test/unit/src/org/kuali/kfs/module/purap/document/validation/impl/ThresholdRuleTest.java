@@ -15,7 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.test.fixtures.UserNameFixture.PARKE;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@ConfigureContext(session = PARKE)
+@ConfigureContext(session = KHUNTLEY)
 public class ThresholdRuleTest extends PurapRuleTestBase {
     
     private ThresholdRule thresholdRule;

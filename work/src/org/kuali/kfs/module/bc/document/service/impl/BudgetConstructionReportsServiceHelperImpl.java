@@ -77,8 +77,13 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         searchCriteria.put(KFSPropertyConstants.SELECT_FLAG, 1);
         Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         String objectCodes = "";
+        int count = 0; 
         for (BudgetConstructionObjectPick objectPick : objectPickList) {
-            objectCodes += objectPick.getFinancialObjectCode() + " ";
+            count += 1;
+            objectCodes += objectPick.getFinancialObjectCode();
+            if (count < objectPickList.size()){
+                objectCodes += ", ";
+            }
         }
         return objectCodes;
     }

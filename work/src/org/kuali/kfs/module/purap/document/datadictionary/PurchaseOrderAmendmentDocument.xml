@@ -18,6 +18,7 @@
     <property name="documentTypeName" value="PurchaseOrderAmendmentDocument" />
     <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderAmendmentDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderAmendmentDocumentRule" />
+    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.PurchaseOrderAmendmentDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderAmendmentDocumentAuthorizer" />
     <property name="documentTypeCode" value="POA" />
     <property name="workflowProperties" >

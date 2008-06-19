@@ -58,20 +58,15 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION)) {
             preRulesOK &= confirmNotToExceedOverride(purchaseOrderDocument);
         }
-
+        
         if (isDocumentInStateToReceiveNextFyWarning(purchaseOrderDocument) && 
                 (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.PO_NEXT_FY_WARNING))) {
             preRulesOK &= confirmNextFYPriorToApoAllowedDate(purchaseOrderDocument);
         }
-
-        //only run rule if status is amendment        
-        if ( isAmendmentStatus(purchaseOrderDocument) ){
-            preRulesOK &= validateReceivingRequiredIndicator(purchaseOrderDocument) ;
-        }
         
         return preRulesOK;
     }
-
+    
     /**
      * Give next FY warning if the PO status is "In Process" or "Awaiting Purchasing Review"
      * 
@@ -83,47 +78,6 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
                 PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()));
     }
 
-    private boolean isAmendmentStatus(PurchaseOrderDocument purchaseOrderDocument){
-        
-        boolean isAmendmentStatus = false;
-        
-        KualiWorkflowDocument workflowDocument = purchaseOrderDocument.getDocumentHeader().getWorkflowDocument();
-        if (purchaseOrderDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS) && 
-            (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) ) {
-            isAmendmentStatus = true;
-        }
-        
-        return isAmendmentStatus;
-    }
-
-    /**
-     * The receiving required indicator can only be set to Yes if there are no
-     * outstanding payment requests.
-     * 
-     * @param purchaseOrderDocument
-     * @return
-     */
-    private boolean validateReceivingRequiredIndicator(PurchaseOrderDocument purchaseOrderDocument){
-        
-        boolean valid = true;
-
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.clearErrorPath();
-        errorMap.addToErrorPath(KFSConstants.DOCUMENT_ERRORS);
-
-        if( purchaseOrderDocument.isReceivingDocumentRequiredIndicator() && 
-            SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(purchaseOrderDocument.getPurapDocumentIdentifier()) ){
-            
-            //set receiving required indicator back to no and add errors
-            purchaseOrderDocument.setReceivingDocumentRequiredIndicator(false);
-            event.setActionForwardName(KFSConstants.MAPPING_BASIC);            
-            errorMap.putError(PurapPropertyConstants.RECEIVING_DOCUMENT_REQUIRED_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_RECEIVING_DOC_REQUIRED_ID_PENDING_PREQ);
-            valid = false;
-        }
-        
-        return valid;
-    }
-    
     /**
      * Checks whether the 'Not-to-exceed' amount has been exceeded by the purchase order total dollar limit. If so, it
      * prompts the user for confirmation.
@@ -137,6 +91,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         // If the total exceeds the limit, ask for confirmation.
         if (!validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purchaseOrderDocument)) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED);
+
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.PO_OVERRIDE_NOT_TO_EXCEED_QUESTION, questionText);
 
             // Set a marker to record that this method has been used.
@@ -146,6 +101,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
 
             if (!confirmOverride) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+
                 return false;
             }
         }
@@ -191,8 +147,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
             // Set a marker to record that this method has been used.
             if (confirmOverride && StringUtils.isBlank(event.getQuestionContext())) {
                 event.setQuestionContext(PurapConstants.PO_NEXT_FY_WARNING);
-            }
-
+}
             if (!confirmOverride) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);
                 return false;

@@ -39,8 +39,8 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
@@ -342,6 +342,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
     }
 
+    /**
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return RequisitionAccount.class;
+    } 
+    
     public String getVendorPaymentTermsCode() {
         if (getVendorContract() != null) {
             return getVendorContract().getVendorPaymentTermsCode();

@@ -213,6 +213,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return PurchaseOrderAccount.class;
+    } 
+    
+    /**
      * Returns the first PO item's first accounting line (assuming the item list is sequentially ordered).
      * 
      * @return - The first accounting line of the first PO item.

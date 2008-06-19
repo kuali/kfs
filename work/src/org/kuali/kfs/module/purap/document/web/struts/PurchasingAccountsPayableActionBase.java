@@ -15,6 +15,11 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -31,14 +38,17 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.exceptions.AccountingLineParserException;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurApAccountingLineParser;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
@@ -125,6 +135,44 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         purapForm.refreshAccountSummmary();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#uploadAccountingLines(boolean,org.apache.struts.action.ActionForm)
+     */
+    @Override
+    protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
+        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase)purapForm.getFinancialDocument();
+        PurApAccountingLineParser accountingLineParser = (PurApAccountingLineParser)purapDocument.getAccountingLineParser();
+        List importedLines = null;
+        String errorPathPrefix = "accountDistributionnewSourceLine";
+
+        // import the lines
+        try {
+            if (isSource) {
+                //errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
+                FormFile sourceFile = purapForm.getSourceFile();
+                checkUploadFile(sourceFile);
+                importedLines = accountingLineParser.importSourceAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), purapDocument);
+            }
+        }
+        catch (AccountingLineParserException e) {
+            GlobalVariables.getErrorMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
+        }
+
+        // add to list those lines successfully imported
+        if (importedLines != null) {
+            for (Iterator iter = importedLines.iterator(); iter.hasNext();) {
+                PurApAccountingLine importedLine = (PurApAccountingLine) iter.next();
+                boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPathPrefix, purapForm.getDocument(), (AccountingLine) importedLine));
+                if (rulePassed) {
+                    // add accountingLine
+                    SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(importedLine);
+                    ((PurchasingFormBase)purapForm).addAccountDistributionsourceAccountingLine(importedLine);
+                }
+            }
+        }
+    }    
 
     /**
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,
@@ -150,7 +198,8 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
                 errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
                 rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
             }
-            else {
+            else if (itemIndex == -2){
+                //corrected: itemIndex == -2 is the only case for distribute account
                 //This is the case when we're inserting an accounting line for distribute account.
                 line = ((PurchasingFormBase)purapForm).getAccountDistributionnewSourceLine();
                 errorPrefix = "accountDistributionnewSourceLine";
@@ -165,7 +214,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
                     // clear the temp account
                     item.resetAccount();
                 }
-                else {
+                else if (itemIndex == -2) {
                     //this is the case for distribute account
                     ((PurchasingFormBase)purapForm).addAccountDistributionsourceAccountingLine(line);
                 }

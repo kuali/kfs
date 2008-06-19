@@ -905,6 +905,7 @@ public class KFSPropertyConstants {
     public static final String PAY_PERIOD_END_DATE = "payPeriodEndDate";
     public static final String PENDING_ACCT_SUFFICIENT_FUNDS_INDICATOR = "pendingAcctSufficientFundsIndicator";
     public static final String PENDING_ENTRY_OPTION = "pendingEntryOption";
+    public static final String PERCENT = "accountLinePercent";
     public static final String PER_DIEM_COUNTRY_NAME = "perDiemCountryName";
     public static final String PER_DIEM_COUNTRY_TEXT = "perDiemCountryText";
     public static final String PER_DIEM_END_DATE_TIME = "perDiemEndDateTime";

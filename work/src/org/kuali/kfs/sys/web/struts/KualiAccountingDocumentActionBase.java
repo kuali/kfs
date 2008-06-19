@@ -652,7 +652,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         }
     }
 
-    private void checkUploadFile(FormFile file) {
+    protected void checkUploadFile(FormFile file) {
         if (file == null) {
             throw new AccountingLineParserException("invalid (null) upload file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
         }

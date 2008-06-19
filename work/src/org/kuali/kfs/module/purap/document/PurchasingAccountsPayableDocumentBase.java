@@ -31,6 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -40,6 +41,8 @@ import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.ItemType;
+import org.kuali.module.purap.bo.PurApAccountingLineBase;
+import org.kuali.module.purap.bo.PurApAccountingLineParser;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.service.PurapAccountingService;
@@ -122,6 +125,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         //FY is NOT set to next; use CURRENT
         return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }
+    
+    /**
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return PurApAccountingLineBase.class;
+    }    
     
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
@@ -249,6 +260,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new PurApAccountingLineParser();
+    }
+    
+    /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()
      */
     @Override
@@ -277,7 +296,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return currentSourceLines;
     }
-
+    
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
      */

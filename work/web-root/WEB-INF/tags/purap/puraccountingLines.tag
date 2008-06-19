@@ -86,6 +86,8 @@
 	description="Should the default Financial Transactions Accounting Line tags be used?"%>
 <%@ attribute name="groupsOverride" required="false" fragment="true"
 	description="Fragment of code to override the default accountingline groups"%>
+<%@ attribute name="importRowOverride" required="false" fragment="true"
+              description="Encapsulates a fragment of code that passed in through the body that overrides how rows are imported." %>	
 <%@ attribute name="accountPrefix" required="false"
 	description="an optional prefix to specify a different location for acocunting lines rather
               than just on the document."%>
@@ -139,9 +141,9 @@
 <%-- add extra columns count for the "Action" button and/or dual amounts --%>
 <c:set var="columnCount"
 	value="${columnCountUntilAmount
-               + (debitCreditAmount || currentBaseAmount ? 2 : 1)
-               - (not empty hideFields ? 0 : numHideFields)
-               + (empty editingMode['viewOnly'] ? 1 : 0)}" />
+                                        + (debitCreditAmount || currentBaseAmount ? 2 : 1)
+                                        - (not empty hideFields ? 0 : numHideFields)
+                                        + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 
 <%@ include
 	file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag"%>
@@ -163,14 +165,12 @@
 				displayMonthlyAmounts="${displayMonthlyAmounts}"
 				forcedReadOnlyFields="${forcedReadOnlyFields}"
 				accountingLineAttributes="${accountingLineAttributes}"
-				accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}"
-				hideFields="${hideFields}"
+				accountPrefix="${accountPrefix}" importRowOverride="${importRowOverride}" 
+				hideTotalLine="${hideTotalLine}" hideFields="${hideFields}"
 				suppressBaseline="${suppressBaseline}"
 				accountingAddLineIndex="${accountingAddLineIndex}" 
 				nestedIndex="true">
-				<jsp:attribute name="importRowOverride">
-				</jsp:attribute>
-				</fin:accountingLineGroup>
+			</fin:accountingLineGroup>
 			<c:if test="${!sourceAccountingLinesOnly}">
 				<fin:accountingLineGroup isSource="false"
 					columnCountUntilAmount="${columnCountUntilAmount}"
@@ -187,13 +187,11 @@
 					displayMonthlyAmounts="${displayMonthlyAmounts}"
 					forcedReadOnlyFields="${forcedReadOnlyFields}"
 					accountingLineAttributes="${accountingLineAttributes}"
-					accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}"
-					hideFields="${hideFields}"
+					accountPrefix="${accountPrefix}" importRowOverride="${importRowOverride}" 
+					hideTotalLine="${hideTotalLine}" hideFields="${hideFields}"
 					suppressBaseline="${suppressBaseline}"
 					nestedIndex="true">
-					<jsp:attribute name="importRowOverride">
-					</jsp:attribute>
-					</fin:accountingLineGroup>
+				</fin:accountingLineGroup>
 			</c:if>
 		</table>
 	</c:if> <c:if test="${!empty groupsOverride}">

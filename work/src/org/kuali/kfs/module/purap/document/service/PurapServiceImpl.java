@@ -635,7 +635,7 @@ public class PurapServiceImpl implements PurapService {
         Integer currentFY = universityDateService.getCurrentFiscalYear();
         java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
         int allowApoDate = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS)));
-        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
+        int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, true);
 
         return diffTodayClosing <= allowApoDate;
     }

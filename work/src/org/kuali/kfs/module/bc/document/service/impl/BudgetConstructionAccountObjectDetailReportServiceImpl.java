@@ -34,7 +34,6 @@ import org.kuali.module.budget.bo.BudgetConstructionObjectSummary;
 import org.kuali.module.budget.bo.BudgetConstructionOrgAccountObjectDetailReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgAccountObjectDetailReportTotal;
 
-
 import org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao;
 import org.kuali.module.budget.service.BudgetConstructionAccountObjectDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
@@ -201,7 +200,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber());
-        //TODO: ask to Gary or Jerry about persistenceBreakerexception
+        // TODO: ask to Gary or Jerry about persistenceBreakerexception
         String subAccountName = "";
         try {
             subAccountName = accountBalance.getSubAccount().getSubAccountName();
@@ -242,42 +241,24 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * @param BudgetConstructionLevelSummary bcas
      */
     private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
-        // TODO: Use BudgetConstructionReportHelper
         orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialObject().getFinancialObjectCodeName());
 
-        if (accountBalance.getPositionCsfLeaveFteQuantity() != null && !accountBalance.getPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionCsfLeaveFteQuantity(), 2, true));
-        }
+        orgAccountObjectDetailReportEntry.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionCsfLeaveFteQuantity(), 2, true));
 
-        if (accountBalance.getPositionFullTimeEquivalencyQuantity() != null && !accountBalance.getPositionFullTimeEquivalencyQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionFullTimeEquivalencyQuantity(), 2, true));
-        }
+        orgAccountObjectDetailReportEntry.setPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionFullTimeEquivalencyQuantity(), 2, true));
 
-        if (accountBalance.getAppointmentRequestedCsfFteQuantity() != null && !accountBalance.getAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getAppointmentRequestedCsfFteQuantity(), 2, true));
-        }
+        orgAccountObjectDetailReportEntry.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getAppointmentRequestedCsfFteQuantity(), 2, true));
 
-        if (accountBalance.getAppointmentRequestedFteQuantity() != null && !accountBalance.getAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-            orgAccountObjectDetailReportEntry.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getAppointmentRequestedFteQuantity(), 2, true));
-        }
+        orgAccountObjectDetailReportEntry.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getAppointmentRequestedFteQuantity(), 2, true));
 
-        if (accountBalance.getAccountLineAnnualBalanceAmount() != null) {
-            orgAccountObjectDetailReportEntry.setAccountLineAnnualBalanceAmount(new Integer(accountBalance.getAccountLineAnnualBalanceAmount().intValue()));
-        }
+        orgAccountObjectDetailReportEntry.setAccountLineAnnualBalanceAmount(BudgetConstructionReportHelper.convertKualiInteger(accountBalance.getAccountLineAnnualBalanceAmount()));
 
-        if (accountBalance.getFinancialBeginningBalanceLineAmount() != null) {
-            orgAccountObjectDetailReportEntry.setFinancialBeginningBalanceLineAmount(new Integer(accountBalance.getFinancialBeginningBalanceLineAmount().intValue()));
-        }
+        orgAccountObjectDetailReportEntry.setFinancialBeginningBalanceLineAmount(BudgetConstructionReportHelper.convertKualiInteger(accountBalance.getFinancialBeginningBalanceLineAmount()));
 
-        if (accountBalance.getAccountLineAnnualBalanceAmount() != null && accountBalance.getFinancialBeginningBalanceLineAmount() != null) {
-            int changeAmount = accountBalance.getAccountLineAnnualBalanceAmount().subtract(accountBalance.getFinancialBeginningBalanceLineAmount()).intValue();
-            orgAccountObjectDetailReportEntry.setAmountChange(new Integer(changeAmount));
-        }
+        Integer changeAmount = BudgetConstructionReportHelper.convertKualiInteger(accountBalance.getAccountLineAnnualBalanceAmount()) - BudgetConstructionReportHelper.convertKualiInteger(accountBalance.getFinancialBeginningBalanceLineAmount());
+        orgAccountObjectDetailReportEntry.setAmountChange(changeAmount);
         orgAccountObjectDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(orgAccountObjectDetailReportEntry.getAmountChange(), orgAccountObjectDetailReportEntry.getFinancialBeginningBalanceLineAmount()));
-
-
     }
-
 
     /**
      * builds report total
@@ -358,12 +339,12 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                 else {
                     orgObjectSummaryReportEntry.setAccountNameForAccountTotal(orgObjectSummaryReportEntry.getSubAccountName());
                 }
-                
+
                 orgObjectSummaryReportEntry.setAccountPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountPositionCsfLeaveFteQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setAccountPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountPositionFullTimeEquivalencyQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setAccountAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountAppointmentRequestedCsfFteQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setAccountAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountTotal.getAccountAppointmentRequestedFteQuantity(), 2, true));
-                
+
                 orgObjectSummaryReportEntry.setAccountRevenueFinancialBeginningBalanceLineAmount(accountTotal.getAccountRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setAccountRevenueAccountLineAnnualBalanceAmount(accountTotal.getAccountRevenueAccountLineAnnualBalanceAmount());
 
@@ -415,7 +396,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                 orgObjectSummaryReportEntry.setSubFundPositionFullTimeEquivalencyQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundPositionFullTimeEquivalencyQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setSubFundAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundAppointmentRequestedCsfFteQuantity(), 2, true));
                 orgObjectSummaryReportEntry.setSubFundAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(subFundTotal.getSubFundAppointmentRequestedFteQuantity(), 2, true));
-                
+
                 orgObjectSummaryReportEntry.setSubFundRevenueFinancialBeginningBalanceLineAmount(subFundTotal.getSubFundRevenueFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setSubFundRevenueAccountLineAnnualBalanceAmount(subFundTotal.getSubFundRevenueAccountLineAnnualBalanceAmount());
 

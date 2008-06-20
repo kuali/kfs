@@ -79,7 +79,7 @@
         <ref bean="Asset-campusCode" />
         <ref bean="Asset-buildingCode" />
         <ref bean="Asset-buildingRoomNumber" />
-        <ref bean="Asset-assetOrganization.organizationTagNumber" />
+        <ref bean="Asset-assetOrganization.organizationTagNumber" /> 
         <ref bean="Asset-assetOrganization.organizationText" />
         <ref bean="Asset-assetOrganization.organizationAssetTypeIdentifier" />
         <ref bean="Asset-assetOrganization.versionNumber" />
@@ -972,6 +972,7 @@
   <bean id="Asset-assetOrganization.organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText">
     <property name="name" value="assetOrganization.organizationText" />
   </bean>
+
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier" parent="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" />
 
   <bean id="Asset-assetOrganization.organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AssetOrganization-organizationAssetTypeIdentifier">
@@ -2099,6 +2100,9 @@
               p:attributeName="oldTagNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="assetOrganization.organizationTagNumber"
+              p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetOrganization.organizationText"
               p:noLookup="true" />
         <bean parent="FieldDefinition"
               p:attributeName="governmentTagNumber" />

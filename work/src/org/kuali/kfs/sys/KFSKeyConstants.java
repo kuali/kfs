@@ -446,6 +446,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING = "error.document.noDocumentationNoteMissing";
     public static final String ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING = "error.document.specialHandlingNoteMissing";
     public static final String ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING = "error.document.exceptionAttachedNoteMissing";
+    public static final String ERROR_DV_PAYEE_SELECTION_EMPTY = "error.document.payeeSelectionEmpty";
     public static final String ERROR_DV_PAYEE_CITY_NAME = "error.document.payee.cityName";
     public static final String ERROR_DV_PAYEE_STATE_CODE = "error.document.payee.stateCode";
     public static final String ERROR_DV_PAYEE_ZIP_CODE = "error.document.payee.zipCode";

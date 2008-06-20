@@ -81,6 +81,7 @@
    		<form-bean name="OrganizationReportSelectionForm" type="org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm" />
    		<form-bean name="ReportExportForm" type="org.kuali.module.budget.web.struts.form.ReportExportForm" />
    		<form-bean name="ReportRunnerForm" type="org.kuali.module.budget.web.struts.form.ReportRunnerForm" />
+   		<form-bean name="PayrateImportExportForm" type="org.kuali.module.budget.web.struts.form.PayrateImportExportForm" />
    		
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />

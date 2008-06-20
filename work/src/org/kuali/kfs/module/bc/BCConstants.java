@@ -60,7 +60,8 @@ public class BCConstants extends JSTLConstants {
     public static final String REPORT_EXPORT_ACTION = "budgetReportExport.do";
     public static final String REPORT_EXPORT_PATH = "budgetReportExport";
     public static final String REQUEST_IMPORT_ACTION = "budgetBudgetConstructionRequestImport.do";
-
+    public static final String PAYRATE_IMPORT_EXPORT_ACTION = "budgetPayrateImportExport.do";
+    
     public static final String REQUEST_IMPORT_REFRESH_CALLER = BudgetConstructionRequestImportAction.class.getName();
     public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
     

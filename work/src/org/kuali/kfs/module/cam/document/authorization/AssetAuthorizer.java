@@ -98,20 +98,18 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      */
     private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
 
-        if (ObjectUtils.isNotNull(asset.getCampusTagNumber()) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-            // Set the Tag Number as view only if the asset is tagged and the user is none of CAMS Administration group nor
-            // CM_ASSET_MERGE_SEPARATE_USERS
+        if (ObjectUtils.isNotNull(asset.getCampusTagNumber())) {
+            // Set the Tag Number as view only if the asset is tagged
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
-
-
-            if (assetService.isAssetTaggedInPriorFiscalYear(asset)) {
-                // Set the Asset Type Code & Asset Description if it was tagged in prior FY and the user is none of CAMS
-                // Administration group nor CM_ASSET_MERGE_SEPARATE_USERS
-                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
-                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
-            }
+        }
+        if (assetService.isAssetTaggedInPriorFiscalYear(asset) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+            // Set the Asset Type Code & Asset Description if it was tagged in prior FY and the user is none of CAMS
+            // Administration group nor CM_ASSET_MERGE_SEPARATE_USERS
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
         }
     }
+
 
     private void hidePaymentSequence(MaintenanceDocumentAuthorizations auths, Asset asset) {
         int size = asset.getAssetPayments().size();

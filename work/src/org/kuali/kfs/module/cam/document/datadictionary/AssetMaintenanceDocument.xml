@@ -232,7 +232,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationText"
               p:overrideFieldConversions="organizationText:assetOrganization.organizationText"
-              p:overrideLookupClass="org.kuali.module.cams.bo.AssetOrganization"
               />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationTagNumber" />

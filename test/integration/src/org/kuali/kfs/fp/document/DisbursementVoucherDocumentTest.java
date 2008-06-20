@@ -64,11 +64,12 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private static final String ORG_REVIEW = "Org Review";
     private static final String CAMPUS_CODE = "Campus Code";
 
-    public final void testConvertIntoCopy_clear_additionalCodeInvalidPayee() throws Exception {
+    public final void testConvertIntoCopy_clear_additionalCodeInvalidVendor() throws Exception {
         GlobalVariables.setMessageList(new ArrayList());
         DisbursementVoucherDocument dvParameter = (DisbursementVoucherDocument) getDocumentParameterFixture();
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) getDocumentParameterFixture();
-        document.getDvPayeeDetail().setDisbVchrPayeeIdNumber("1234");
+        document.getDvPayeeDetail().setDisbVchrPayeeIdNumber("1234-0");
+        document.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode("V");
         document.toCopy();
 
         // the dvParameter doc number needs to be resynced
@@ -76,12 +77,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         dvParameter.setDisbVchrContactPhoneNumber("");
         dvParameter.setDisbVchrContactEmailId("");
         dvParameter.getDvPayeeDetail().setDisbVchrPayeePersonName("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeeCityName("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
         dvParameter.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
         dvParameter.setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
         dvParameter.setDisbVchrPayeeTaxControlCode("");
@@ -160,12 +155,14 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private Document getDocumentParameterFixture() throws Exception {
         DisbursementVoucherDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         DisbursementVoucherPayeeDetail payeeDetail = new DisbursementVoucherPayeeDetail();
-        payeeDetail.setDisbVchrPayeeIdNumber("P000178071");
+        payeeDetail.setDisbVchrPayeeIdNumber("1000-0");
+        payeeDetail.setDisbursementVoucherPayeeTypeCode("V");
+        payeeDetail.setDisbVchrPayeeLine1Addr("100 Main St");
+        payeeDetail.setDisbVchrPayeeCityName("Bloomington");
+        payeeDetail.setDisbVchrPayeeCountryCode("US");
+        payeeDetail.setDisbVchrVendorDetailAssignedIdNumber("0");
         payeeDetail.setDisbVchrPayeePersonName("Jerry Neal");
-        payeeDetail.setDisbVchrPayeeLine1Addr("Poplars 423");
-        payeeDetail.setDisbVchrPayeeCountryCode("UK");
         payeeDetail.setDisbVchrPaymentReasonCode("B");
-        payeeDetail.setDisbursementVoucherPayeeTypeCode("P");
         payeeDetail.setDocumentNumber(document.getDocumentNumber());
         // payee detail
         document.setDvPayeeDetail(payeeDetail);
@@ -220,8 +217,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private void assertPayeeDetail(DisbursementVoucherPayeeDetail d1, DisbursementVoucherPayeeDetail d2) {
         Assert.assertEquals(d1.getDisbVchrPayeeIdNumber(), d2.getDisbVchrPayeeIdNumber());
         Assert.assertEquals(d1.getDisbVchrPayeePersonName(), d2.getDisbVchrPayeePersonName());
-        Assert.assertEquals(d1.getDisbVchrPayeeLine1Addr(), d2.getDisbVchrPayeeLine1Addr());
-        Assert.assertEquals(d1.getDisbVchrPayeeCountryCode(), d2.getDisbVchrPayeeCountryCode());
         Assert.assertEquals(d1.getDisbVchrPaymentReasonCode(), d2.getDisbVchrPaymentReasonCode());
     }
 

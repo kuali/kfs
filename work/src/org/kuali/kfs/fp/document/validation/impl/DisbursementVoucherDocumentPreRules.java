@@ -70,7 +70,7 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      * @param dvDocument submitted disbursement voucher document
      */
     private void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
-        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitLine1Addr())) {
+        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingLine1Addr())) {
             dvDocument.setDisbVchrSpecialHandlingCode(true);
         }
     }

@@ -281,7 +281,7 @@
   </bean>
   <bean id="PayeeAchAccount-disbVchrPayeeIdNumber" parent="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" />
 
-  <bean id="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" abstract="true" parent="Payee-payeeIdNumber">
+  <bean id="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" abstract="true" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber">
     <property name="name" value="disbVchrPayeeIdNumber" />
     <property name="label" value="Disbursement Voucher Payee ID" />
   </bean>

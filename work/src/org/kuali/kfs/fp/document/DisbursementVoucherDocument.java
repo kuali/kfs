@@ -24,7 +24,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -35,10 +34,10 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -66,7 +65,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
-import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder;
@@ -75,6 +73,10 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -108,6 +110,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private Date paidDate;
     private Date cancelDate;
 
+    private boolean payeeAssigned = false;
+    
     private DocumentHeader financialDocument;
     private DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
     private DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
@@ -137,7 +141,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     @Override
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
-        List<GeneralLedgerPendingEntry> ples = new ArrayList();
+        List<GeneralLedgerPendingEntry> ples = new ArrayList<GeneralLedgerPendingEntry>();
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         FlexibleOffsetAccountService flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
@@ -734,7 +738,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * Adds a dv pre paid registran line
+     * Adds a dv pre-paid registrant line
      * 
      * @param line
      */
@@ -753,6 +757,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return new PaymentMethodValuesFinder().getKeyLabel(disbVchrPaymentMethodCode);
     }
 
+    /**
+     * 
+     * This method...
+     * @param method
+     * @deprecated This method should not be used.  There is no private attribute to store this value.
+     * The associated getter retrieves the value remotely.  
+     */
     public void setDisbVchrPaymentMethodName(String method) {
     }
 
@@ -765,33 +776,57 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return new DisbursementVoucherDocumentationLocationValuesFinder().getKeyLabel(disbursementVoucherDocumentationLocationCode);
     }
 
+    /**
+     * 
+     * This method...
+     * @param name
+     * @deprecated This method should not be used.  There is no private attribute to store this value.
+     * The associated getter retrieves the value remotely.  
+     */
     public void setDisbursementVoucherDocumentationLocationName(String name) {
     }
 
     /**
-     * Convenience method to set dv payee detail fields based on a given Payee.
+     * Convenience method to set dv payee detail fields based on a given vendor.
      * 
-     * @param payee
+     * @param vendor
      */
-    public void templatePayee(Payee payee) {
-        if (payee == null) {
+    public void templatePayee(VendorDetail vendor, VendorAddress vendorAddress) {
+        if (vendor == null) {
             return;
         }
 
-        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE);
-        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(payee.getPayeeIdNumber());
-        this.getDvPayeeDetail().setDisbVchrPayeePersonName(payee.getPayeePersonName());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(payee.getPayeeLine1Addr());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(payee.getPayeeLine2Addr());
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName(payee.getPayeeCityName());
-        this.getDvPayeeDetail().setDisbVchrPayeeStateCode(payee.getPayeeStateCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeZipCode(payee.getPayeeZipCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(payee.getPayeeCountryCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(payee.isPayeeEmployeeCode());
-        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(payee.isAlienPaymentCode());
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR);
+        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(vendor.getVendorNumber());
+        this.getDvPayeeDetail().setDisbVchrPayeePersonName(vendor.getVendorName());
+        
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
 
-        this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
-        this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
+        if(ObjectUtils.isNull(vendorAddress) || ObjectUtils.isNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
+            for(VendorAddress addr : vendor.getVendorAddresses()) {
+                if(addr.isVendorDefaultAddressIndicator()) {
+                    vendorAddress = addr;
+                    break;
+                }
+            }
+        }
+
+        if(ObjectUtils.isNotNull(vendorAddress) && ObjectUtils.isNotNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(vendorAddress.getVendorAddressGeneratedIdentifier().toString());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(vendorAddress.getVendorLine1Address());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(vendorAddress.getVendorLine2Address());
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName(vendorAddress.getVendorCityName());
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(vendorAddress.getVendorStateCode());
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode(vendorAddress.getVendorZipCode());
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(vendorAddress.getVendorCountryCode());
+        }
+
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
+        this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(VendorConstants.VendorTypes.SUBJECT_PAYMENT.equals(vendor.getVendorHeader().getVendorTypeCode()));
+
+        this.getDvPayeeDetail().setHasMultipleVendorAddresses(1 < vendor.getVendorAddresses().size());
+        
+        this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator();
     }
 
     /**
@@ -807,13 +842,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getCampusCode() + "-" + employee.getPrimaryDepartmentCode());
+        
+        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getPersonCampusAddress());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampus().getCampusName() + " CAMPUS");
+        this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
-        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
+
+        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
 
         this.disbVchrPayeeTaxControlCode = "";
@@ -850,6 +887,31 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
     }
 
+    /**
+     * This method is overridden to populate some local variables that are not persisted to the database.  These values 
+     * need to be computed and saved to the DV Payee Detail BO so they can be serialized to XML for routing.  Some of 
+     * the routing rules rely on these variables.
+     * 
+     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        DisbursementVoucherPayeeDetail payeeDetail = getDvPayeeDetail();
+        
+        if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
+            payeeDetail.setDisbVchrAlienPaymentCode(SpringContext.getBean(VendorService.class).isVendorForeign(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
+            payeeDetail.setDisbVchrPayeeEmployeeCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
+            payeeDetail.setDvPayeeSubjectPaymentCode(SpringContext.getBean(VendorService.class).isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
+        }
+        else if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
+            payeeDetail.setDisbVchrAlienPaymentCode(false); // TODO We're assuming that an employee cannot be foreign, right?
+            payeeDetail.setDisbVchrPayeeEmployeeCode(true); // If dv payee type is Employee, then flag should be true... obviously!!
+//            payeeDetail.setDvPayeeSubjectPaymentCode("");
+        }
+            
+        super.populateDocumentForRouting(); // Call last, serializes to XML        
+    }
+    
     /**
      * Clears information that might have been entered for sub tables, but because of changes to the document is longer needed and
      * should not be persisted.
@@ -891,13 +953,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         setDisbVchrContactPhoneNumber("");
         setDisbVchrContactEmailId("");
         getDvPayeeDetail().setDisbVchrPayeePersonName("");
+
         getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
         getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
         getDvPayeeDetail().setDisbVchrPayeeCityName("");
         getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         getDvPayeeDetail().setDisbVchrPayeeZipCode("");
         getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
-        getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+        
         setDisbVchrPayeeTaxControlCode("");
 
         // clear nra
@@ -907,44 +970,30 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         // clear waive wire
         getDvWireTransfer().setDisbursementVoucherWireTransferFeeWaiverIndicator(false);
 
-        // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.
-        if (getDvPayeeDetail().isPayee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
-            Payee payee = new Payee();
-            payee.setPayeeIdNumber(getDvPayeeDetail().getDisbVchrPayeeIdNumber());
-            Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(payee);
-            payee = (Payee) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Payee.class, keys);
-            if (payee == null) {
+        // check vendor id number to see if still valid, if so retrieve their last information and set in the detail inform.
+        if (!StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
+            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), dvPayeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
+            VendorAddress vendorAddress = new VendorAddress();
+            vendorAddress.setVendorAddressGeneratedIdentifier(dvPayeeDetail.getDisbVchrVendorAddressIdNumberAsInteger());
+            vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
+            
+            if (vendorDetail == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
                 GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
             else {
-                templatePayee(payee);
+                templatePayee(vendorDetail, vendorAddress);
             }
         }
-
-        // employee
-        if (getDvPayeeDetail().isEmployee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
-            UniversalUser employee = new UniversalUser();
-            employee.setPersonUniversalIdentifier(getDvPayeeDetail().getDisbVchrPayeeIdNumber());
-            employee = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
-            if (employee == null) {
-                getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
-                GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
-            }
-            else {
-                templateEmployee(employee);
-            }
-        }
-
-
     }
 
     /**
-     * generic, shared logic used to iniate a dv document
+     * generic, shared logic used to initiate a dv document
      */
     public void initiateDocument() {
         FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         setDisbVchrContactPersonName(currentUser.getPersonName());
+        setDisbVchrContactPhoneNumber(currentUser.getPersonLocalPhoneNumber());
         ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(currentUser,KFSConstants.Modules.CHART);
         if ( chartOrg != null && chartOrg.getOrganization() != null ) {
             setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
@@ -1000,7 +1049,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
     
     /**
-     * Rerturns true if accounting line debit
+     * Returns true if accounting line debit
      * 
      * @param financialDocument submitted accounting document
      * @param accountingLine accounting line in accounting document
@@ -1192,5 +1241,32 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         return wireCharge;
+    }
+
+
+    /**
+     * Gets the payeeAssigned attribute. 
+     * 
+     * This method returns a flag that is used to indicate if the payee type and value has been set on the DV.
+     * This value is used to determine the correct page that should be loaded by the DV flow.
+     * 
+     * @return Returns the payeeAssigned.
+     */
+    public boolean isPayeeAssigned() {
+        // If value is false, check state of document.  We should assume payee is assigned if document has been saved.
+        // Otherwise, value will be set during creation process.
+        if(!payeeAssigned) {
+            payeeAssigned = !this.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+        }
+        return payeeAssigned;
+    }
+
+
+    /**
+     * Sets the payeeAssigned attribute value.
+     * @param payeeAssigned The payeeAssigned to set.
+     */
+    public void setPayeeAssigned(boolean payeeAssigned) {
+        this.payeeAssigned = payeeAssigned;
     }
 }

@@ -19,66 +19,55 @@
 	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
     <div class="h2-container">
-                <h2>Payee Information</h2>
-              </div>
+        <h2>Payee Information</h2>
+    </div>
 	<table cellpadding=0 class="datatable" summary="Payee Section">
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/></div></th>
               <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
-                <c:if test="${fullEntryMode}">
-                  <kul:lookup boClassName="org.kuali.module.financial.bo.Payee" fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber"/>
-                </c:if>
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbursementVoucherPayeeTypeCode}" property="document.dvPayeeDetail.disbursementVoucherPayeeTypeCode" extraReadOnlyProperty="document.dvPayeeDetail.disbursementVoucherPayeeTypeName" readOnly="${!fullEntryMode}"/>
+                &nbsp;(${KualiForm.document.dvPayeeDetail.disbursementVoucherPayeeTypeName})
+				<html:hidden property="document.dvPayeeDetail.disbursementVoucherPayeeTypeCode" />
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeCityName}"/>
-                  <c:if test="${fullEntryMode}">
-                      <br> *required for US
-                  </c:if>
+              <th align=right valign=middle class="bord-l-b"><div align="right">City:
               </div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeCityName}" property="document.dvPayeeDetail.disbVchrPayeeCityName" readOnly="${!fullEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeCityName}" property="document.dvPayeeDetail.disbVchrPayeeCityName" readOnly="${!payeeEntryMode}"/>
               </td>
             </tr>
             
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeePersonName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeePersonName}" property="document.dvPayeeDetail.disbVchrPayeePersonName" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeePersonName}" property="document.dvPayeeDetail.disbVchrPayeePersonName" readOnly="true"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeStateCode}"/>
-                  <c:if test="${fullEntryMode}">
-                      <br> *required for US
-                  </c:if>
+              <th align=right valign=middle class="bord-l-b"><div align="right">State:
               </div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeStateCode}" property="document.dvPayeeDetail.disbVchrPayeeStateCode" readOnly="${!fullEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeStateCode}" property="document.dvPayeeDetail.disbVchrPayeeStateCode" readOnly="${!payeeEntryMode}"/>
               </td>
             </tr>
             
             <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeLine1Addr}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right">Address Line 1:</div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeLine1Addr}" property="document.dvPayeeDetail.disbVchrPayeeLine1Addr" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeLine1Addr}" property="document.dvPayeeDetail.disbVchrPayeeLine1Addr" readOnly="${!payeeEntryMode}"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}"/>
-                  <c:if test="${fullEntryMode}">
-                      <br> *required for US
-                  </c:if> 
+              <th align=right valign=middle class="bord-l-b"><div align="right">Zip Code:
               </div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}" property="document.dvPayeeDetail.disbVchrPayeeZipCode" readOnly="${!fullEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}" property="document.dvPayeeDetail.disbVchrPayeeZipCode" readOnly="${!payeeEntryMode}"/>
               </td>
             </tr>
             
             <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeLine2Addr}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right">Address Line 2:</div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeLine2Addr}" property="document.dvPayeeDetail.disbVchrPayeeLine2Addr" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeLine2Addr}" property="document.dvPayeeDetail.disbVchrPayeeLine2Addr" readOnly="${!payeeEntryMode}"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeCountryCode}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right">Country:</div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeCountryCode}" property="document.dvPayeeDetail.disbVchrPayeeCountryCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeCountryCode}" property="document.dvPayeeDetail.disbVchrPayeeCountryCode" readOnly="${!payeeEntryMode}"/>  
               </td>
             </tr>
      </table>

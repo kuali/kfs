@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -57,7 +58,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
 
         flags.setCanBlanketApprove(false); // this is never allowed on a DV document
 
-        flags.setCanErrorCorrect(false); // CR, DV, andd PCDO don't allow error correction
+        flags.setCanErrorCorrect(false); // CR, DV, and PCDO don't allow error correction
 
         return flags;
     }
@@ -70,8 +71,23 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
-        if (((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && workflowDocument.userIsInitiator(user)) || (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested() && isSpecialRouting(document, user))) {
-            setDVWorkgroupEditModes(editModeMap, document, user);
+        
+        DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) document;
+        
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && workflowDocument.userIsInitiator(user)) {
+            editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE, "TRUE");
+        } else if(workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
+            if(editModeMap.containsKey(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY)) {
+                editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE, "TRUE");
+            } else {
+                List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
+                    editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE, "TRUE");
+                }
+            }
+            if(isSpecialRouting(document, user)) {
+                setDVWorkgroupEditModes(editModeMap, document, user);
+            }
         }
 
         return editModeMap;

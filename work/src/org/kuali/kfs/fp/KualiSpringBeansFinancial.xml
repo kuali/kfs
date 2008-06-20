@@ -47,13 +47,13 @@
 		</property>
 	</bean>
 
-    <bean id="financialModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.module.financial.authorization.FinancialModuleAuthorizer">
+    <bean id="financialModuleAuthorizer" parent="financialSystemModuleAuthorizer">
         <property name="packagePrefixes">
-            <list>
+			<list>
                 <value>org.kuali.module.financial.</value>
-            </list>
-        </property>
-    </bean>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb" />
 	
@@ -96,6 +96,18 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherPayeeService" class="org.kuali.module.financial.service.impl.DisbursementVoucherPayeeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
 

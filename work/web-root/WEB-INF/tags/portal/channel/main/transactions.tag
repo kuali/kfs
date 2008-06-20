@@ -37,7 +37,7 @@
         <li><portal:portalLink displayTitle="true" title="Budget Adjustment" url="financialBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=BudgetAdjustmentDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Cash Receipt" url="financialCashReceipt.do?methodToCall=docHandler&command=initiate&docTypeName=CashReceiptDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Credit Card Receipt" url="financialCreditCardReceipt.do?methodToCall=docHandler&command=initiate&docTypeName=CreditCardReceiptDocument" /></li>
-        <li><portal:portalLink displayTitle="true" title="Disbursement Voucher" url="financialDisbursementVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=DisbursementVoucherDocument" /></li>
+        <li><portal:portalLink displayTitle="true" title="Disbursement Voucher" url="financialDisbursementVoucherInit.do?methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Distribution of Income and Expense" url="financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=DistributionOfIncomeAndExpenseDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="General Error Correction" url="financialGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GeneralErrorCorrectionDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Indirect Cost Adjustment" url="financialIndirectCostAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=IndirectCostAdjustmentDocument" /></li>

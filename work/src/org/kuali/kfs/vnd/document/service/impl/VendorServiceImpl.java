@@ -54,10 +54,18 @@ public class VendorServiceImpl implements VendorService {
     private UniversalUserService universalUserService;
     private PersistenceService persistenceService;
 
+    /**
+     * 
+     * @see org.kuali.module.vendor.service.VendorService#saveVendorHeader(org.kuali.module.vendor.bo.VendorDetail)
+     */
     public void saveVendorHeader(VendorDetail vendorDetail) {
         businessObjectService.save(vendorDetail.getVendorHeader());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.vendor.service.VendorService#getVendorDetail(java.lang.Integer, java.lang.Integer)
+     */
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId) {
         LOG.debug("Entering getVendorDetail for headerId:" + headerId + ", detailId:" + detailId);
         Map keys = new HashMap();
@@ -292,19 +300,67 @@ public class VendorServiceImpl implements VendorService {
         }
         return vendorToUse.getVendorHeader().getVendorForeignIndicator();
     }
+    
+    /**
+     * 
+     * @see org.kuali.module.vendor.service.VendorService#isSubjectPaymentVendor(java.lang.Integer)
+     */
+    public boolean isSubjectPaymentVendor(Integer vendorHeaderGeneratedIdentifier) {
+        VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
+        if (ObjectUtils.isNull(vendorToUse)) {
+            String errorMsg = "Vendor with header generated id '" + vendorHeaderGeneratedIdentifier + "' cannot be found in the system";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+        return VendorConstants.VendorTypes.SUBJECT_PAYMENT.equals(vendorToUse.getVendorHeader().getVendorTypeCode());
+    }
 
+    /**
+     * 
+     * @see org.kuali.module.vendor.service.VendorService#isRevolvingFundCodeVendor(java.lang.Integer)
+     */
+    public boolean isRevolvingFundCodeVendor(Integer vendorHeaderGeneratedIdentifier) {
+        VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
+        if (ObjectUtils.isNull(vendorToUse)) {
+            String errorMsg = "Vendor with header generated id '" + vendorHeaderGeneratedIdentifier + "' cannot be found in the system";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+        return VendorConstants.VendorTypes.REVOLVING_FUND.equals(vendorToUse.getVendorHeader().getVendorTypeCode());
+    }
+
+    /**
+     * 
+     * This method...
+     * @param universalUserService
+     */
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }
 
+    /**
+     * 
+     * This method...
+     * @param boService
+     */
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
 
+    /**
+     * 
+     * This method...
+     * @param documentService
+     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
+    /**
+     * 
+     * This method...
+     * @param persistenceService
+     */
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
     }

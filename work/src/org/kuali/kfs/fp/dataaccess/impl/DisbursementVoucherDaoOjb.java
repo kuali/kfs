@@ -20,10 +20,11 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.financial.bo.Payee;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.module.financial.dao.DisbursementVoucherDao;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implements DisbursementVoucherDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDaoOjb.class);
@@ -60,14 +61,28 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getPayee(java.lang.String)
+     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getVendor(java.lang.String, java.lang.String)
      */
-    public Payee getPayee(String payeeId) {
-        LOG.debug("getPayee() started");
+    public VendorDetail getVendor(String vendorHeaderId, String vendorDetailId) {
+        LOG.debug("getVendor() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("payeeIdNumber", payeeId);
+        criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderId);
+        criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailId);
 
-        return (Payee) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Payee.class, criteria));
+        return (VendorDetail) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(VendorDetail.class, criteria));
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getEmployee(java.lang.String)
+     */
+    public FinancialSystemUser getEmployee(String uuid) {
+        LOG.debug("getEmployee() started");
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("personUniversalIdentifier", uuid);
+        
+        return (FinancialSystemUser) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(FinancialSystemUser.class, criteria));
     }
 }

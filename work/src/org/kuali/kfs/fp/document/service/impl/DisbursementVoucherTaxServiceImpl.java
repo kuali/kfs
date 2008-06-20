@@ -42,11 +42,11 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
-import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
  * This is the default implementation of the DisbursementVoucherExtractService interface.
@@ -93,71 +93,30 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
-     * This method retrieves the payee identification code for the payee found who has a matching tax id and tax payer type 
+     * This method retrieves the vendor identification code for the vendor found who has a matching tax id and tax payer type 
      * code.
      * 
-     * @param taxIDNumber The tax id number used to retrieve the associated payee.
-     * @param taxPayerTypeCode The tax payer type code used to retrieve the associated payee.  See the TAX_TYPE_* constants defined in 
+     * @param taxIDNumber The tax id number used to retrieve the associated vendor.
+     * @param taxPayerTypeCode The tax payer type code used to retrieve the associated vendor.  See the TAX_TYPE_* constants defined in 
      *                         DisbursementVoucherRuleConstants for examples of valid tax type codes.
-     * @return The id of the payee found matching the tax id and type code provided.  Null if no matching payee is found.
+     * @return The id of the vendor found matching the tax id and type code provided.  Null if no matching vendor is found.
      * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPayeeNumber(java.lang.String, java.lang.String)
      */
-    public String getPayeeId(String taxIDNumber, String taxPayerTypeCode) {
-        String payeeId = null;
+    public String getVendorId(String taxIDNumber, String taxPayerTypeCode) {
+        String vendorId = null;
 
         Map taxIDCrit = new HashMap();
         taxIDCrit.put("taxIdNumber", taxIDNumber);
         taxIDCrit.put("taxpayerTypeCode", taxPayerTypeCode);
-        Collection<Payee> foundPayees = businessObjectService.findMatching(Payee.class, taxIDCrit);
+        Collection<VendorDetail> foundPayees = businessObjectService.findMatching(VendorDetail.class, taxIDCrit);
 
         if (!foundPayees.isEmpty()) {
-            Payee payee = (Payee) foundPayees.iterator().next();
-            payeeId = payee.getPayeeIdNumber();
+            VendorDetail vendor = (VendorDetail) foundPayees.iterator().next();
+            vendorId = vendor.getVendorHeaderGeneratedIdentifier().toString();
         }
 
-        return payeeId;
-    }
-
-    /**
-     * This method is not currently implemented.  This method will be implemented once the EPIC vendor system in integrated 
-     * into Kuali.  Until then, this method will always return null and should not be used.
-     * 
-     * @param taxIDNumber The tax id number used to retrieve the associated vendor.
-     * @param taxPayerTypeCode The tax payer type code used to retrieve the associated vendor.
-     * @return Always returns null.  
-     * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getVendorNumber(java.lang.String, java.lang.String)
-     * @deprecated This method is not currently implemented and should not be called until it is fully implemented.
-     */
-    public String getVendorId(String taxIDNumber, String taxPayerTypeCode) {
-        String vendorId = null;
-        // TODO: implement once EPIC is integrated
         return vendorId;
-    }
-
-    /**
-     * This method retrieves the pending payee id based on the tax id and payer type code provided.  
-     * 
-     * @param taxIDNumber The tax id number used to retrieve the matching pending payee.
-     * @param taxPayerTypeCode The tax payer type code used to retrieve the matching pending payee.
-     * @return The id of the pending payee matching the values given or null if no matching payee is found.
-     * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPendingPayeeNumber(java.lang.String, java.lang.String)
-     * @see org.kuali.core.service.MaintenanceDocumentService#getPendingObjects(Class)
-     */
-    public String getPendingPayeeId(String taxIDNumber, String taxPayerTypeCode) {
-        String pendingPayeeId = null;
-
-        List<Payee> pendingPayees = maintenanceDocumentService.getPendingObjects(Payee.class);
-
-        for (Payee pendingPayee : pendingPayees) {
-            if (taxIDNumber.equals(pendingPayee.getTaxIdNumber()) && taxPayerTypeCode.equals(pendingPayee.getTaxpayerTypeCode())) {
-                pendingPayeeId = pendingPayee.getPayeeIdNumber();
-            }
-        }
-
-        return pendingPayeeId;
     }
 
     /**
@@ -400,8 +359,8 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
     /**
      * This method retrieves the non-resident alien (NRA) tax amount using the disbursement voucher given to calculate the 
-     * amount.  If the payee is not a non-resident alien or they are and there is no gross up code set, the amount returned 
-     * will be zero.  If the payee is a non-resident alien and gross up has been set, the amount is calculated by 
+     * amount.  If the vendor is not a non-resident alien or they are and there is no gross up code set, the amount returned 
+     * will be zero.  If the vendor is a non-resident alien and gross up has been set, the amount is calculated by 
      * retrieving all the source accounting lines for the disbursement voucher provided and summing the amounts of all the 
      * lines that are NRA tax lines.  
      * 
@@ -441,7 +400,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * The following steps are taken to validate the disbursement voucher given:
      * - Set all percentages (ie. federal, state) to zero if their current value is null.
      * - Call DisbursementVoucherDocumentRule.validateNonResidentAlienInformation to perform more in-depth validation.
-     * - The payee for the disbursement voucher given is a non-resident alien.
+     * - The vendor for the disbursement voucher given is a non-resident alien.
      * - No reference document exists for the assigned DisbursementVoucherNonResidentAlienTax attribute of the voucher given.
      * - There is at least one source accounting line to generate the tax line from.
      * - Both the state and federal tax percentages are greater than zero.
@@ -476,7 +435,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             return false;
         }
 
-        /* make sure payee is nra */
+        /* make sure vendor is nra */
         if (!document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
             errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_NOT_NRA);
             return false;

@@ -16,15 +16,20 @@
 package org.kuali.module.financial.lookup.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.PaymentReasonCode;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.module.financial.web.struts.form.DisbursementVoucherForm;
 
 /**
  * This class returns list of payment reason value pairs.
@@ -35,12 +40,29 @@ public class PaymentReasonValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentReasonCode.class, KFSPropertyConstants.NAME, true);
-        List keyValues = new ArrayList();
+        // Retrieve all the payment reason codes
+        List<PaymentReasonCode> boList = (List<PaymentReasonCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentReasonCode.class, KFSPropertyConstants.NAME, true);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            PaymentReasonCode element = (PaymentReasonCode) iter.next();
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getCode() + " - " + element.getName()));
+
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) GlobalVariables.getKualiForm();
+        DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        // If the payee type is an employee, remove all the vendor specific payment reasons from the collection
+        if(StringUtils.equals(dvDoc.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+            List<String> employeeCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
+            for (PaymentReasonCode element : boList) {
+                if(employeeCodes.contains(element.getCode())) {
+                    keyValues.add(new KeyLabelPair(element.getCode(), element.getCodeAndDescription()));
+                }
+            }
+        } else { // Remove all the employee specific payment reasons
+            List<String> vendorCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR);
+            for (PaymentReasonCode element : boList) {
+                if(vendorCodes.contains(element.getCode())) {
+                    keyValues.add(new KeyLabelPair(element.getCode(), element.getCodeAndDescription()));
+                }
+            }
         }
 
         return keyValues;

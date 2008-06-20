@@ -39,24 +39,6 @@ public interface DisbursementVoucherTaxService {
     public String getVendorId(String taxIDNumber, String taxpayerTypeCode);
 
     /**
-     * Returns the pending payee id number whose tax number matches the number passed in, or null if no payee is found.
-     * 
-     * @param taxIDNumber A pending payee tax id number.
-     * @param taxpayerTypeCode A pending payee tax payer type code.
-     * @return The id of the pending payee found with a matching tax id number and payer type code, or null if no payee is found.
-     */
-    public String getPendingPayeeId(String taxIDNumber, String taxpayerTypeCode);
-
-    /**
-     * Returns the payee id number whose tax number matches the number passed in, or null if no payee is found.
-     * 
-     * @param taxIDNumber A payee tax id number.
-     * @param taxpayerTypeCode A payee tax payer type code.
-     * @return The id of the payee found with a matching tax id number and payer type code, or null if no payee is found.
-     */
-    public String getPayeeId(String taxIDNumber, String taxpayerTypeCode);
-
-    /**
      * Returns the employee id number whose tax number matches the number passed in, or null if no employee is found.
      * 
      * @param taxIDNumber A vendor tax id number.

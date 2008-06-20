@@ -29,7 +29,6 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static String PAYMENT_METHOD_DRAFT = "F";
 
     // payee types
-    public static final String DV_PAYEE_TYPE_PAYEE = "P";
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
 

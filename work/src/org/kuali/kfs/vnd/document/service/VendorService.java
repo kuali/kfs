@@ -142,4 +142,23 @@ public interface VendorService {
      *         foreign vendor
      */
     public boolean isVendorForeign(Integer vendorHeaderGeneratedIdentifier);
+
+    /**
+     * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code> is a subject payment vendor
+     * by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorTypeCode()} to see if it equals "SP".
+     * 
+     * @param vendorHeaderGeneratedIdentifier The Header Id in Integer form
+     * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and has a vendor type code of "SP"
+     */
+    public boolean isSubjectPaymentVendor(Integer vendorHeaderGeneratedIdentifier);
+
+    /**
+     * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code> is a revolving fund code vendor
+     * by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorTypeCode()} to see if it equals "RF".
+     * 
+     * @param vendorHeaderGeneratedIdentifier The Header Id in Integer form
+     * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and has a vendor type code of "RF"
+     */
+    public boolean isRevolvingFundCodeVendor(Integer vendorHeaderGeneratedIdentifier);
+        
 }

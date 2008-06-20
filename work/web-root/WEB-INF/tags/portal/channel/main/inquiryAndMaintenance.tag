@@ -40,7 +40,6 @@
     <strong>Financial Processing</strong><br />
 	<ul class="chan">
 	    <li><portal:portalLink displayTitle="true" title="Disbursement Voucher Travel Company" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelCompanyCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-	    <li><portal:portalLink displayTitle="true" title="Payee" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.Payee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>
 
     <strong>Post-Award</strong><br />

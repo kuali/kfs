@@ -23,35 +23,35 @@
 </div>
 	<table cellpadding=0 class="datatable" summary="Special Handling Section">          
             <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right">* <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitPersonName}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitPersonName}" property="document.dvPayeeDetail.disbVchrRemitPersonName" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingPersonName" readOnly="${!fullEntryMode}"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitCityName}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitCityName}" property="document.dvPayeeDetail.disbVchrRemitCityName" readOnly="${!fullEntryMode}"/>  
-              </td>
-            </tr>
-            
-            <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right">* <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitLine1Addr}"/></div></th>
-              <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitLine1Addr}" property="document.dvPayeeDetail.disbVchrRemitLine1Addr" readOnly="${!fullEntryMode}"/>  
-              </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitStateCode}"/></div></th>
-              <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitStateCode}" property="document.dvPayeeDetail.disbVchrRemitStateCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCityName" readOnly="${!fullEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitLine2Addr}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitLine2Addr}" property="document.dvPayeeDetail.disbVchrRemitLine2Addr" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine1Addr" readOnly="${!fullEntryMode}"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitZipCode}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitZipCode}" property="document.dvPayeeDetail.disbVchrRemitZipCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingStateCode" readOnly="${!fullEntryMode}"/>  
+              </td>
+            </tr>
+            
+            <tr>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}"/></div></th>
+              <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine2Addr" readOnly="${!fullEntryMode}"/>  
+              </td>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}"/></div></th>
+              <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingZipCode" readOnly="${!fullEntryMode}"/>  
               </td>
             </tr>
             
@@ -59,9 +59,9 @@
               <th align=right valign=middle class="bord-l-b"></th>
               <td align=left valign=middle class="datacell">
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrRemitCountryCode}"/></div></th>
+              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrRemitCountryCode}" property="document.dvPayeeDetail.disbVchrRemitCountryCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCountryCode" readOnly="${!fullEntryMode}"/>  
               </td>
             </tr>
      </table>

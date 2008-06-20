@@ -42,21 +42,21 @@
 	<c:if test="${!empty KualiForm.editingMode['adminEntry']}">
 		<c:set var="adminEntryMode" value="true" scope="request" />
 	</c:if>
+	<c:if test="${!empty KualiForm.editingMode['payeeEntry']}">
+		<c:set var="payeeEntryMode" value="true" scope="request" />
+	</c:if>
 
 	<kfs:hiddenDocumentFields />
 
 	<html:hidden property="document.dvPayeeDetail.documentNumber" />
 	<html:hidden property="document.dvPayeeDetail.versionNumber" />
-	<html:hidden
-		property="document.dvNonEmployeeTravel.documentNumber" />
+	<html:hidden property="document.dvNonEmployeeTravel.documentNumber" />
 	<html:hidden property="document.dvNonEmployeeTravel.versionNumber" />
-	<html:hidden
-		property="document.dvPreConferenceDetail.documentNumber" />
+	<html:hidden property="document.dvPreConferenceDetail.documentNumber" />
 	<html:hidden property="document.dvPreConferenceDetail.versionNumber" />
 	<html:hidden property="document.dvWireTransfer.documentNumber" />
 	<html:hidden property="document.dvWireTransfer.versionNumber" />
-	<html:hidden
-		property="document.dvNonResidentAlienTax.documentNumber" />
+	<html:hidden property="document.dvNonResidentAlienTax.documentNumber" />
 	<html:hidden property="document.dvNonResidentAlienTax.versionNumber" />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -85,7 +85,7 @@
 
 	<dv:dvPrePaidTravel />
   
-  <dv:dvPDPStatus />
+    <dv:dvPDPStatus />
 
 	<gl:generalLedgerPendingEntries />
 
@@ -96,7 +96,7 @@
 	<kul:routeLog />
 
 	<kul:panelFooter />
-
+	
 	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 

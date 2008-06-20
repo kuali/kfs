@@ -49,7 +49,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.dao.DisbursementVoucherDao;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
@@ -66,6 +65,8 @@ import org.kuali.module.pdp.service.CustomerProfileService;
 import org.kuali.module.pdp.service.PaymentFileService;
 import org.kuali.module.pdp.service.PaymentGroupService;
 import org.kuali.module.pdp.service.ReferenceService;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -126,7 +127,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Unable to find user " + userId);
         }
 
-        // Get a list of campuses that have documents with an A status.
+        // Get a list of campuses that have documents with an 'A' (approved) status.
         Set<String> campusList = getCampusListByDocumentStatusCode("A");
 
         // Process each campus one at a time
@@ -199,13 +200,13 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     /**
      * 
      * This method creates a PaymentGroup from the disbursement voucher and batch provided.  The values provided by the 
-     * disbursement voucher are used to assign appropriate attributes to the payment group, including address and payee detail
+     * disbursement voucher are used to assign appropriate attributes to the payment group, including address and vendor detail
      * information.  
      * 
      * The information added to the payment group includes tax encoding to identify if taxes should be taken out of the 
      * payment.  The tax rules vary depending on the type of individual or entity being paid 
      * 
-     * @param document The document to be used for retrieving the information about the payee being paid.
+     * @param document The document to be used for retrieving the information about the vendor being paid.
      * @param batch The batch that the payment group will be associated with.
      * @return A PaymentGroup object fully populated with all the values necessary to make a payment.
      */
@@ -220,51 +221,66 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();
 
-        if (pd.isVendor()) {
-            // TODO Write this when Vendor support is added
+        // If the payee is an employee, set these flags accordingly
+        if ((StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR) &&
+            SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) ||
+            StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+                pg.setEmployeeIndicator(Boolean.TRUE);
+                pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
 
+                // All payments are taxable except research participant, rental & royalties
+                pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
+        } else { // Payee is not an employee
+            // Assume it is not taxable until proven otherwise
+            pg.setTaxablePayment(Boolean.FALSE);
+    
             // These are taxable
+            VendorDetail vendDetail = SpringContext.getBean(VendorService.class).getVendorDetail(pd.getDisbVchrVendorHeaderIdNumberAsInteger(), pd.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
+            String vndrOwnrCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
+            String vndrOwnrCatCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
+            String payReasonCode = pd.getDisbVchrPaymentReasonCode();
+            
             // ((VH.vndr_ownr_cd IN ('NP', 'FC')
             // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd IS NULL))
             // AND PD.dv_pmt_reas_cd IN ('H', 'J'))
+            if((("NP".equals(vndrOwnrCode) || "FC".equals(vndrOwnrCode)) || 
+               ("CP".equals(vndrOwnrCode) && StringUtils.isBlank(vndrOwnrCatCode))) &&
+               ("H".equals(payReasonCode) || "J".equals(payReasonCode))) {
+                pg.setTaxablePayment(Boolean.TRUE);
+            }
+
             // OR
             // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H')
             // AND PD.dv_pmt_reas_cd IN ('C', 'E', 'H', 'L', 'J'))
+            else if(("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode)) &&
+                    ("C".equals(payReasonCode) || "E".equals(payReasonCode) || 
+                     "H".equals(payReasonCode) || "L".equals(payReasonCode) || 
+                     "J".equals(payReasonCode))) {
+                pg.setTaxablePayment(Boolean.TRUE);
+            }                
+            
             // OR
             // ((VH.vndr_ownr_cd IN ('NR', 'ID', 'PT')
             // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H'))
             // AND PD.dv_pmt_reas_cd IN ('A', 'C', 'E', 'H', 'R', 'T', 'X', 'Y', 'L', 'J'))
+            else if((("NR".equals(vndrOwnrCode) || "ID".equals(vndrOwnrCode) || "PT".equals(vndrOwnrCode)) || 
+                    ("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode))) &&
+                    ("A".equals(payReasonCode) || "C".equals(payReasonCode) || 
+                     "E".equals(payReasonCode) || "H".equals(payReasonCode) || 
+                     "R".equals(payReasonCode) || "T".equals(payReasonCode) || 
+                     "X".equals(payReasonCode) || "Y".equals(payReasonCode) || 
+                     "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
+                pg.setTaxablePayment(Boolean.TRUE);
+            }
+            
             // OR
             // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'L')
             // AND PD.dv_pmt_reas_cd IN ('A', 'E', 'H', 'R', 'T', 'X', 'L', 'J')))
-            pg.setTaxablePayment(Boolean.FALSE);
-        }
-        else if (pd.isEmployee()) {
-            pg.setEmployeeIndicator(Boolean.TRUE);
-            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
-
-            // All payments are taxable except research participant, rental & royalties
-            pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
-        }
-        else if (pd.isPayee()) {
-            pg.setEmployeeIndicator(Boolean.FALSE);
-            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.PAYEE_ID);
-
-            Payee payee = disbursementVoucherDao.getPayee(pd.getDisbVchrPayeeIdNumber());
-            String potc = payee.getPayeeOwnershipTypCd();
-
-            // These determine if it is taxable
-            pg.setTaxablePayment(Boolean.FALSE);
-            if ("C".equals(potc) && "HJ".indexOf(rc) >= 0) {
-                pg.setTaxablePayment(Boolean.TRUE);
-            }
-            if ("M".equals(potc) && "CEHLJ".indexOf(rc) >= 0) {
-                pg.setTaxablePayment(Boolean.TRUE);
-            }
-            if ("IPSH".indexOf(potc) >= 0 && "ACEHRTXYLJ".indexOf(rc) >= 0) {
-                pg.setTaxablePayment(Boolean.TRUE);
-            }
-            if ("L".equals(potc) && "AEHRTXLJ".indexOf(rc) >= 0) {
+            else if(("CP".equals(vndrOwnrCode) && "L".equals(vndrOwnrCatCode)) && 
+                    ("A".equals(payReasonCode) || "X".equals(payReasonCode) || 
+                     "E".equals(payReasonCode) || "H".equals(payReasonCode) || 
+                     "R".equals(payReasonCode) || "T".equals(payReasonCode) || 
+                     "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
         }
@@ -362,45 +378,42 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pnt.setCustomerNoteText("Info: " + document.getDisbVchrContactPersonName() + " " + document.getDisbVchrContactPhoneNumber());
         pd.addNote(pnt);
 
-        String dvRemitPersonName = null;
-        String dvRemitLine1Address = null;
-        String dvRemitLine2Address = null;
-        String dvRemitCity = null;
-        String dvRemitState = null;
-        String dvRemitZip = null;
+        String dvSpecialHandlingPersonName = null;
+        String dvSpecialHandlingLine1Address = null;
+        String dvSpecialHandlingLine2Address = null;
+        String dvSpecialHandlingCity = null;
+        String dvSpecialHandlingState = null;
+        String dvSpecialHandlingZip = null;
 
-        if (dvpd.isPayee()) {
-            Payee payee = disbursementVoucherDao.getPayee(dvpd.getDisbVchrPayeeIdNumber());
-            dvRemitPersonName = payee.getPayeePersonName();
-            dvRemitLine1Address = payee.getPayeeLine1Addr();
-            dvRemitLine2Address = payee.getPayeeLine2Addr();
-            dvRemitCity = payee.getPayeeCityName();
-            dvRemitState = payee.getPayeeStateCode();
-            dvRemitZip = payee.getPayeeZipCode();
-        }
+        dvSpecialHandlingPersonName = dvpd.getDisbVchrSpecialHandlingPersonName();
+        dvSpecialHandlingLine1Address = dvpd.getDisbVchrSpecialHandlingLine1Addr();
+        dvSpecialHandlingLine2Address = dvpd.getDisbVchrSpecialHandlingLine2Addr();
+        dvSpecialHandlingCity = dvpd.getDisbVchrSpecialHandlingCityName();
+        dvSpecialHandlingState = dvpd.getDisbVchrSpecialHandlingStateCode();
+        dvSpecialHandlingZip = dvpd.getDisbVchrSpecialHandlingZipCode();
 
-        if (StringUtils.isNotEmpty(dvRemitPersonName)) {
+        if (StringUtils.isNotEmpty(dvSpecialHandlingPersonName)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
-            pnt.setCustomerNoteText("Send Check To: " + dvRemitPersonName);
+            pnt.setCustomerNoteText("Send Check To: " + dvSpecialHandlingPersonName);
             pd.addNote(pnt);
         }
-        if (StringUtils.isNotEmpty(dvRemitLine1Address)) {
+        if (StringUtils.isNotEmpty(dvSpecialHandlingLine1Address)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
-            pnt.setCustomerNoteText(dvRemitLine1Address);
+            pnt.setCustomerNoteText(dvSpecialHandlingLine1Address);
             pd.addNote(pnt);
         }
-        if (StringUtils.isNotEmpty(dvRemitLine2Address)) {
+        if (StringUtils.isNotEmpty(dvSpecialHandlingLine2Address)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
-            pnt.setCustomerNoteText(dvRemitLine2Address);
+            pnt.setCustomerNoteText(dvSpecialHandlingLine2Address);
             pd.addNote(pnt);
         }
-        if (StringUtils.isNotEmpty(dvRemitCity)) {
+        if (StringUtils.isNotEmpty(dvSpecialHandlingCity)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(line++);
-            pnt.setCustomerNoteText(dvRemitCity + ", " + dvRemitState + " " + dvRemitZip);
+            pnt.setCustomerNoteText(dvSpecialHandlingCity + ", " + dvSpecialHandlingState + " " + dvSpecialHandlingZip);
             pd.addNote(pnt);
         }
         if (document.isDisbVchrAttachmentCode()) {
@@ -526,11 +539,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Set<String> campusSet = new HashSet<String>();
 
-        Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
-        for (Iterator iter = docs.iterator(); iter.hasNext();) {
-            DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
+        for (DisbursementVoucherDocument element : docs) {
 
             String dvdCampusCode = element.getCampusCode();
+            
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
                 List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
@@ -557,9 +570,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
         try {
-            Collection docs = SpringContext.getBean(FinancialSystemDocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
-            for (Iterator iter = docs.iterator(); iter.hasNext();) {
-                DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
+            Collection<DisbursementVoucherDocument> docs = SpringContext.getBean(FinancialSystemDocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
+            for (DisbursementVoucherDocument element : docs) {
     
                 String dvdCampusCode = element.getCampusCode();
     

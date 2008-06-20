@@ -17,8 +17,9 @@ package org.kuali.module.financial.dao;
 
 import java.util.Collection;
 
-import org.kuali.module.financial.bo.Payee;
+import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 public interface DisbursementVoucherDao {
     /**
@@ -45,10 +46,20 @@ public interface DisbursementVoucherDao {
     public Collection getDocumentsByHeaderStatus(String statusCode);
 
     /**
-     * Get a payee using a payee Id
+     * Get a vendor using a vendor Id
      * 
-     * @param payeeId
+     * @param vendorHeaderId
+     * @param vendorDetailId
      * @return
      */
-    public Payee getPayee(String payeeId);
+    public VendorDetail getVendor(String vendorHeaderId, String vendorDetailId);
+    
+    /**
+     * 
+     * This method retrieves an instance of the employee object using the id provided.
+     * @param uuid
+     * @return
+     */
+    public FinancialSystemUser getEmployee(String uuid);
+    
 }

@@ -410,8 +410,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     @Override
     public void refreshNonUpdateableReferences() {
         PurchasingAccountsPayableDocument document = null;
-        if(ObjectUtils.isNotNull(this.getPurapDocument()) &&
-           ObjectUtils.isNull(this.getPurapDocument().getPurapDocumentIdentifier())) {
+        PurchasingAccountsPayableDocument tempDocument = getPurapDocument();
+        Integer tempDocumentIdentifier = tempDocument.getPurapDocumentIdentifier();
+        if(tempDocument != null && tempDocumentIdentifier != null) {
             document = this.getPurapDocument();
         }
         super.refreshNonUpdateableReferences();

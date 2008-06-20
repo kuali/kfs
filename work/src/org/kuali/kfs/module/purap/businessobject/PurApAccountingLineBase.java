@@ -34,6 +34,7 @@ import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.SubObjectCodeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
  * Purap Accounting Line Base Business Object.
@@ -186,19 +187,21 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     protected void updateObjectAndSubObject() {
         //TODO: default to current if there is no purapitem.  This should only happen during creation
         Integer universityFiscalYear = null;
-        if(ObjectUtils.isNotNull(this.getItemIdentifier())) {
-            if(ObjectUtils.isNull(this.getPurApItem())) {
+        Integer tempItemIdentifier = getItemIdentifier();
+        PurApItem tempItem = getPurApItem();
+        PurchasingAccountsPayableDocument tempDocument = tempItem.getPurapDocument();
+        if(tempItemIdentifier != null) {
+            if(tempItem != null) {
                 this.refreshReferenceObject(PurapPropertyConstants.PURAP_ITEM);
-                if(ObjectUtils.isNotNull(this.getPurApItem())) {
-                    if(ObjectUtils.isNull(this.getPurApItem().getPurapDocument())) {
-                        this.getPurApItem().refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
+                if(tempItem != null) {
+                    if(tempDocument != null) {
+                        tempItem.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
                     }
                 }
             }
         }
-        if(ObjectUtils.isNotNull(this.getPurApItem()) &&
-                ObjectUtils.isNotNull(this.getPurApItem().getPurapDocument())) {
-            universityFiscalYear = this.getPurApItem().getPurapDocument().getPostingYearNextOrCurrent();
+        if(tempItem != null && tempDocument != null) {
+            universityFiscalYear = tempDocument.getPostingYearNextOrCurrent();
             setObjectCode(SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getFinancialObjectCode()));
             setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
         }
@@ -224,9 +227,10 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     public void refreshNonUpdateableReferences() {
         //hold onto item reference if there without itemId
         PurApItem item = null;
-        if(ObjectUtils.isNotNull(this.getPurApItem()) &&
-           ObjectUtils.isNull(this.getPurApItem().getItemIdentifier())) {
-            item = this.getPurApItem();
+        PurApItem tempItem = getPurApItem();
+        if(tempItem != null &&
+           tempItem.getItemIdentifier() != null) {
+            item = tempItem;
         }
         super.refreshNonUpdateableReferences();
         if(ObjectUtils.isNotNull(item)) {

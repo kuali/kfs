@@ -189,19 +189,19 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         Integer universityFiscalYear = null;
         Integer tempItemIdentifier = getItemIdentifier();
         PurApItem tempItem = getPurApItem();
-        PurchasingAccountsPayableDocument tempDocument = tempItem.getPurapDocument();
         if(tempItemIdentifier != null) {
             if(tempItem != null) {
                 this.refreshReferenceObject(PurapPropertyConstants.PURAP_ITEM);
                 if(tempItem != null) {
+                    PurchasingAccountsPayableDocument tempDocument = tempItem.getPurapDocument();
                     if(tempDocument != null) {
                         tempItem.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
                     }
                 }
             }
         }
-        if(tempItem != null && tempDocument != null) {
-            universityFiscalYear = tempDocument.getPostingYearNextOrCurrent();
+        if(tempItem != null && tempItem.getPurapDocument() != null) {
+            universityFiscalYear = tempItem.getPurapDocument().getPostingYearNextOrCurrent();
             setObjectCode(SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getFinancialObjectCode()));
             setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
         }

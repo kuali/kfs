@@ -118,23 +118,23 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
 
-    @Override
-    protected void updateObjectAndSubObject() {
-        // do nothing
-        return;
-    }
-
-    @Override
-    protected void updateObjectCode() {
-        // do nothing
-        return;    
-    }
-
-    @Override
-    protected void updateSubObjectCode() {
-        // do nothing
-        return;
-    }
+//    @Override
+//    protected void updateObjectAndSubObject() {
+//        // do nothing
+//        return;
+//    }
+//
+//    @Override
+//    protected void updateObjectCode() {
+//        // do nothing
+//        return;    
+//    }
+//
+//    @Override
+//    protected void updateSubObjectCode() {
+//        // do nothing
+//        return;
+//    }
 
 
     

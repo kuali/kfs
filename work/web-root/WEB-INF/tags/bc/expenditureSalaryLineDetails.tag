@@ -90,6 +90,7 @@
 			<html:hidden property="${fundingLineName}.financialObjectCode" />
 			<html:hidden property="${fundingLineName}.financialSubObjectCode" />
 			<html:hidden property="${fundingLineName}.emplid" />
+			<html:hidden property="${fundingLineName}.appointmentRequestedTimePercent" />
 			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
 			<html:hidden property="${fundingLineName}.versionNumber" />
 		</bc:pbglLineDataCell>

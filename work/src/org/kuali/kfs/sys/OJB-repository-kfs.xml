@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-<class-descriptor class="org.kuali.kfs.bo.FinancialSystemDocumentHeader" table="FS_DOC_HEADER_T">
+<class-descriptor class="org.kuali.kfs.bo.FinancialSystemDocumentHeader" table="FP_DOC_HEADER_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTotalAmount" column="FDOC_TOTAL_AMT" jdbc-type="DECIMAL"
         conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />

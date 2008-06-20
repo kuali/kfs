@@ -181,12 +181,11 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
      * @return boolean indicating if validation succeeded
      */
     protected boolean checkDuplicateTagNumber(Pretag pretag, String tagNumber) {
-        LOG.info("checkForDuplicate called");
         boolean success = true;
 
         for (PretagDetail dtl : pretag.getPretagDetails()) {
             if (dtl.getCampusTagNumber().equals(tagNumber) && dtl.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
+                // putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { tagNumber });
                 success &= false;
             }
@@ -249,7 +248,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     public boolean isCampusTagNumberValid(PretagDetail dtl) {
         boolean success = true;
 
-        if (dtl.isActive()) {
+        if (dtl.isActive() && !dtl.getCampusTagNumber().equalsIgnoreCase("N")) {
             Map tagMap = new HashMap();
             tagMap.put(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
             int matchDetailCount = getMatchDetailCount(tagMap);

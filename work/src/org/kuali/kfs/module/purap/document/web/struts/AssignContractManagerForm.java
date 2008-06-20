@@ -18,7 +18,7 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -26,7 +26,7 @@ import edu.iu.uis.eden.EdenConstants;
 /**
  * Struts Action Form for Contract Manager Assignment Document.
  */
-public class AssignContractManagerForm extends KualiTransactionalDocumentFormBase {
+public class AssignContractManagerForm extends FinancialSystemTransactionalDocumentFormBase {
 
     /**
      * Constructs a AssignContractManagerForm instance

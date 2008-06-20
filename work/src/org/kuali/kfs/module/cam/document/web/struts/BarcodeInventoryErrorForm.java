@@ -15,22 +15,11 @@
  */
 package org.kuali.module.cams.web.struts.form;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.core.document.Document;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
 import org.kuali.module.cams.document.BarcodeInventoryErrorDocument;
-import org.kuali.rice.KNSServiceLocator;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
-public class BarcodeInventoryErrorForm extends KualiTransactionalDocumentFormBase {
+public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
 
     private BarcodeInventoryErrorDetail inventoryUploadErrorDetail;

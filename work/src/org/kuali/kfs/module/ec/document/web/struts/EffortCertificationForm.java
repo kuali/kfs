@@ -32,10 +32,10 @@ import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -52,7 +52,7 @@ import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 /**
  * Action form for Effort Certification Document.
  */
-public class EffortCertificationForm extends KualiTransactionalDocumentFormBase {
+public class EffortCertificationForm extends FinancialSystemTransactionalDocumentFormBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationForm.class);
 
     private EffortCertificationDocument effortCertificationDocument;

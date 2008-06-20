@@ -23,19 +23,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
@@ -46,7 +44,7 @@ import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.kuali.module.budget.service.SalarySettingService;
 
 
-public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
+public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
 
     private PendingBudgetConstructionGeneralLedger newRevenueLine;

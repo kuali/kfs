@@ -15,23 +15,20 @@
  */
 package org.kuali.module.ar.web.struts.form;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 
-public class CustomerCreditMemoDocumentForm extends KualiTransactionalDocumentFormBase {
+public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
    
     public CustomerCreditMemoDocumentForm() {
         super();

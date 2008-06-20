@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.module.cams.document.AssetTransferDocument;
 
-public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
+public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormBase {
     private boolean loanNoteAdded;
 
     public AssetTransferForm() {

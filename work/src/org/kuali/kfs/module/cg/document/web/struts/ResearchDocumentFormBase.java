@@ -17,6 +17,7 @@ package org.kuali.module.kra.web.struts.form;
 
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.document.ResearchDocument;
@@ -29,6 +30,7 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
 
     public ResearchDocumentFormBase() {
         super();
+        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
         newAdHocPerson = new AdhocPerson();
         newAdHocOrg = new AdhocOrg();
     }

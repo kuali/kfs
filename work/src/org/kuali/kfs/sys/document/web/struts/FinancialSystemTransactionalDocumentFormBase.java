@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.form;
+package org.kuali.kfs.web.struts.form;
 
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 
-public class ReceivingFormBase extends FinancialSystemTransactionalDocumentFormBase {
+/**
+ * This class is a Financial System specific transactional document form base
+ */
+public class FinancialSystemTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
 
-    public ReceivingFormBase(){
+    /**
+     * Constructs a FinancialSystemTransactionalDocumentFormBase.java.
+     */
+    public FinancialSystemTransactionalDocumentFormBase() {
         super();
+        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
     }
-    
-    public boolean isStateFinal(){        
-        return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
-    }
+
 }

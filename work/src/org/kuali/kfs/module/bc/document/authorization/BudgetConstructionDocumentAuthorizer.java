@@ -24,8 +24,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
@@ -35,7 +36,7 @@ import org.kuali.module.chart.bo.Org;
 import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
 // public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase {
+public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(BudgetConstructionDocumentAuthorizer.class);
 
     /**
@@ -138,13 +139,13 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         // TODO this needs to call service methods that implements the BC security model
         // TODO instead the form should call the verson of this method that passes in the editmode map, actions are based on that
         // return super.getDocumentActionFlags(document, user);
         LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
 
-        DocumentActionFlags flags = new DocumentActionFlags(); // all flags default to false
+        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
 
         flags.setCanClose(true);
         flags.setCanSave(true);
@@ -163,11 +164,11 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
      * @param editModeMap
      * @return
      */
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user, Map editModeMap) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user, Map editModeMap) {
         
         LOG.debug("calling editMode version of BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
 
-        DocumentActionFlags flags = new DocumentActionFlags(); // all flags default to false
+        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
 
         flags.setCanClose(true);
         if (editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)){

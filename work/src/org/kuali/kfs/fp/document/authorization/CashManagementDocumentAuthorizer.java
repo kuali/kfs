@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
@@ -32,6 +31,8 @@ import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.CashManagementDocument;
@@ -45,7 +46,7 @@ import edu.iu.uis.eden.clientapp.vo.ValidActionsVO;
 /**
  * DocumentAuthorizer containing authorization code for CashManagement documents
  */
-public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
+public class CashManagementDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(CashManagementDocumentAuthorizer.class);
 
     /**
@@ -97,8 +98,8 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         CashManagementDocument cmDoc = (CashManagementDocument) document;
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

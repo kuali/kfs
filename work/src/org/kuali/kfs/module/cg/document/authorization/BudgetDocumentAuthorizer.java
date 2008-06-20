@@ -24,6 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -85,10 +86,10 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
      * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         LOG.debug("calling BudgetDocumentAuthorizer.getDocumentActionFlags");
 
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         flags.setCanAcknowledge(false);
         flags.setCanApprove(false);

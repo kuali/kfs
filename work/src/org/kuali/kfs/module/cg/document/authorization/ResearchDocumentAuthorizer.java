@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.service.AuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
@@ -32,6 +31,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowGroupService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -45,7 +45,7 @@ import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
+public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ResearchDocumentAuthorizer.class);
 
     /**

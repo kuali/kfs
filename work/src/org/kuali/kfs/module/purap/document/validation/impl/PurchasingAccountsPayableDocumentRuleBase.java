@@ -517,6 +517,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
 
     @Override
     protected AccountingLineRuleHelperService getAccountingLineRuleHelperService(AccountingDocument accountingDocument) {
-        return SpringContext.getBean(PurapAccountingLineRuleHelperService.class);
+        PurapAccountingLineRuleHelperService purapAccountingLineRuleHelperService = SpringContext.getBean(PurapAccountingLineRuleHelperService.class);
+        purapAccountingLineRuleHelperService.setDocument((PurchasingAccountsPayableDocument)accountingDocument);
+        return purapAccountingLineRuleHelperService;
     }
 }

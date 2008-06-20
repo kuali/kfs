@@ -217,7 +217,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     @Override
     public Class getSourceAccountingLineClass() {
-        return PurchaseOrderAccount.class;
+      //NOTE: do not do anything with this method as it is used by routing etc!
+        return super.getSourceAccountingLineClass();
     } 
     
     /**

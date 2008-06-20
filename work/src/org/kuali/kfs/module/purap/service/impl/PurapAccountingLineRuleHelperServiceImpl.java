@@ -15,11 +15,32 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.module.chart.service.SubObjectCodeService;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapAccountingLineRuleHelperService;
 
 public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl implements PurapAccountingLineRuleHelperService{
+    private PurchasingAccountsPayableDocument document;
+    
+    
+    
+    public PurchasingAccountsPayableDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(PurchasingAccountsPayableDocument document) {
+        this.document = document;
+    }
 
     /**
      * @see org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.bo.AccountingLine, java.lang.String)
@@ -27,6 +48,60 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
      */
     @Override
     public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.module.chart.bo.ObjectCode, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     */
+    public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
+        
+        String label = getObjectCodeLabel();
+
+        // make sure it exists
+        if (ObjectUtils.isNull(objectCode)) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            return false;
+        }
+        
+        Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
+        ObjectCode objectCodeForValidation = (SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode()));
+//      setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
+            
+
+
+        // check active status
+        if (!objectCodeForValidation.isFinancialObjectActiveCode()) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            return false;
+        }
+
+        return true;
+    }
+    
+    /**
+     * @see org.kuali.kfs.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.module.chart.bo.SubObjCd, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     */
+    public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
+
+
+        String label = getSubObjectCodeLabel();
+
+        // make sure it exists
+        if (ObjectUtils.isNull(subObjectCode)) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            return false;
+        }
+        
+        Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
+        SubObjCd subObjectCodeForValidation = (SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber(), subObjectCode.getFinancialObjectCode(), subObjectCode.getFinancialSubObjectCode()));
+
+
+        // check active flag
+        if (!subObjectCodeForValidation.isFinancialSubObjectActiveIndicator()) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            return false;
+        }
         return true;
     }
 

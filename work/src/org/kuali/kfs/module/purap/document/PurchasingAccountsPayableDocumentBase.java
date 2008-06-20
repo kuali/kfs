@@ -131,7 +131,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public Class getSourceAccountingLineClass() {
-        return PurApAccountingLineBase.class;
+        //NOTE: do not do anything with this method as it is used by routing etc!
+        return super.getSourceAccountingLineClass();
     }    
     
     /**

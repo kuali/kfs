@@ -347,7 +347,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     @Override
     public Class getSourceAccountingLineClass() {
-        return RequisitionAccount.class;
+      //NOTE: do not do anything with this method as it is used by routing etc!
+        return super.getSourceAccountingLineClass();
     } 
     
     public String getVendorPaymentTermsCode() {

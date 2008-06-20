@@ -181,9 +181,9 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreateReceivingLineDocument(po, null);
     }
     
-    public boolean awaitingPurchaseOrderOpen(String documentNumber) {
+    public boolean isAwaitingPurchaseOrderOpen(String documentNumber) {
         //return true if po not in one of these statuses (OPEN|CLOSED|PMTHOLD)
-        return true;
+        return false;
     }
 
     private boolean canCreateReceivingLineDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
@@ -733,5 +733,10 @@ public class ReceivingServiceImpl implements ReceivingService {
         Note noteObj = documentService.createNoteFromDocument(receivingDocument, note);
         documentService.addNoteToDocument(receivingDocument, noteObj);
         noteService.save(noteObj);        
+    }
+    
+    //TODO: Implment method
+    public String getReceivingDeliveryCampusCode(Integer purapIdentifier){
+        return "";
     }
 }

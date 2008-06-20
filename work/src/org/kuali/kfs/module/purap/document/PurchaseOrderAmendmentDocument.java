@@ -30,6 +30,7 @@ import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.ReceivingService;
 
 /**
  * Purchase Order Amendment Document
@@ -38,6 +39,8 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAmendmentDocument.class);
 
     boolean newUnorderedItem; //Used for routing
+    String receivingDeliveryCampusCode; //Used for routing
+    
     /**
      * Default constructor.
      */
@@ -109,17 +112,28 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
        // don't think i should have to override this, but default isn't getting the right PO doc
        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT);
    }
+
    @Override
    public void populateDocumentForRouting() {
        super.populateDocumentForRouting();
        newUnorderedItem = SpringContext.getBean(PurchaseOrderService.class).hasNewUnorderedItem(this);
+       receivingDeliveryCampusCode = SpringContext.getBean(ReceivingService.class).getReceivingDeliveryCampusCode(this.getPurapDocumentIdentifier());
    }
 
-public boolean isNewUnorderedItem() {
-    return newUnorderedItem;
-}
+    public boolean isNewUnorderedItem() {
+        return newUnorderedItem;
+    }
+    
+    public void setNewUnorderedItem(boolean newUnorderedItem) {
+        this.newUnorderedItem = newUnorderedItem;
+    }
 
-public void setNewUnorderedItem(boolean newUnorderedItem) {
-    this.newUnorderedItem = newUnorderedItem;
-}
+    public String getReceivingDeliveryCampusCode() {
+        return receivingDeliveryCampusCode;
+    }
+
+    public void setReceivingDeliveryCampusCode(String receivingDeliveryCampusCode) {
+        this.receivingDeliveryCampusCode = receivingDeliveryCampusCode;
+    }
+        
 }

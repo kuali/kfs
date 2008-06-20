@@ -28,7 +28,7 @@ public class KualiReceivingAwaitingPurchaseOrderOpenAttribute extends AbstractWo
 
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
         String documentNumber = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
-        return SpringContext.getBean(ReceivingService.class).awaitingPurchaseOrderOpen(documentNumber);
+        return SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(documentNumber);
     }
 
 }

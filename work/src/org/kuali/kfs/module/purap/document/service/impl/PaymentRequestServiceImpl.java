@@ -1400,4 +1400,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             saveDocumentWithoutValidation(preqDoc);
         }
     }
+    
+    //TODO: Implement method
+    public boolean isAwaitingReceiving(Integer paymentRequestIdentifier){
+        return false;
+    }
 }

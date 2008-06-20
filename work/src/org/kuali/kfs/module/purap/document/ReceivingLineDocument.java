@@ -13,6 +13,7 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 
 /**
@@ -23,6 +24,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     //Collections
     private List<ReceivingLineItem> items;
 
+    boolean awaitingPurchaseOrderOpen;
     /**
      * Default constructor.
      */
@@ -181,6 +183,20 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
             description = description.substring(0, noteTextMaxLength);
         }
         getDocumentHeader().setDocumentDescription(description);
+    }
+
+    @Override
+    public void populateDocumentForRouting() {
+        super.populateDocumentForRouting();
+        awaitingPurchaseOrderOpen = SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(this.getDocumentNumber());        
+    }
+
+    public boolean isAwaitingPurchaseOrderOpen() {
+        return awaitingPurchaseOrderOpen;
+    }
+
+    public void setAwaitingPurchaseOrderOpen(boolean awaitingPurchaseOrderOpen) {
+        this.awaitingPurchaseOrderOpen = awaitingPurchaseOrderOpen;
     }
 
 }

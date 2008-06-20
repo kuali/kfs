@@ -109,10 +109,11 @@ public interface ReceivingService {
 
     /**
      * returns true if po is not in a status that can allow amendments
+     * 
      * @param documentNumber the doc number
      * @return true if po is not in a status that allows amendments
      */
-    public boolean awaitingPurchaseOrderOpen(String documentNumber);
+    public boolean isAwaitingPurchaseOrderOpen(String documentNumber);
 
     /**
      * 
@@ -135,4 +136,13 @@ public interface ReceivingService {
      * @throws Exception
      */
     public void addNoteToReceivingDocument(ReceivingDocument receivingDocument, String note) throws Exception;
+    
+    /**
+     * Returns a delivery campus code on a receiving document based on the purchase order identifier passed in.
+     * 
+     * @param purapIdentifier
+     * @return
+     */
+    public String getReceivingDeliveryCampusCode(Integer purapIdentifier);
+        
 }

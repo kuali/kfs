@@ -111,7 +111,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
-
+    private boolean awaitingReceiving;
+    
     // REFERENCE OBJECTS
     private PaymentTermType vendorPaymentTerms;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
@@ -148,7 +149,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public void populateDocumentForRouting() {
         this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
-        super.populateDocumentForRouting();
+        this.setAwaitingReceiving(SpringContext.getBean(PaymentRequestService.class).isAwaitingReceiving(this.getPurapDocumentIdentifier()));
+        super.populateDocumentForRouting();                
     }
 
     public Date getInvoiceDate() {
@@ -1006,5 +1008,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         // PREQs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+    }
+
+    public boolean isAwaitingReceiving() {
+        return awaitingReceiving;
+    }
+
+    public void setAwaitingReceiving(boolean awaitingReceiving) {
+        this.awaitingReceiving = awaitingReceiving;
     }
 }

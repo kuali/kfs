@@ -18,6 +18,8 @@ package org.kuali.test.monitor;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocument;
 
 /**
  * DocumentStatusMonitor
@@ -35,8 +37,15 @@ public class DocumentStatusMonitor extends ChangeMonitor {
 
     public boolean valueChanged() throws Exception {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
+        String currentStatus = null;
+        if (d instanceof FinancialSystemTransactionalDocument) {
+            currentStatus = ((FinancialSystemTransactionalDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
+        } else if (d instanceof FinancialSystemMaintenanceDocument) {
+            currentStatus = ((FinancialSystemMaintenanceDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
+        } else {
+            throw new IllegalArgumentException("Document with id " + docHeaderId + " is not an instace of " + FinancialSystemMaintenanceDocument.class + " or " + FinancialSystemTransactionalDocument.class);
+        }
 
-        String currentStatus = d.getDocumentHeader().getFinancialDocumentStatusCode();
         return StringUtils.equals(desiredStatus, currentStatus);
     }
 }

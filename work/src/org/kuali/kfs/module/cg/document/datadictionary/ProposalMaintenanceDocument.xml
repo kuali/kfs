@@ -73,7 +73,7 @@
     </property>
     <property name="documentTypeName" value="ProposalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.cg.rules.ProposalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRPL" />
     <property name="displayTopicFieldInNotes" value="true" />
     <property name="webScriptFiles" >

@@ -23,7 +23,7 @@
  
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
         
-    <kul:hiddenDocumentFields excludePostingYear="true" />
+    <kfs:hiddenDocumentFields excludePostingYear="true" />
 	
 	<purap:hiddenPurapFields includeNonAPFields="false" />
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
@@ -46,7 +46,7 @@
 		  <h3>This Credit Memo has been Held by <c:out value="${KualiForm.document.lastActionPerformedByPersonName}"/></h3>		
 	    </c:if>
 	    
-		<kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" fiscalYearReadOnly="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />
+		<kfs:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" fiscalYearReadOnly="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />
 	        
 		<purap:vendor documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" displayPurchaseOrderFields="false" displayCreditMemoFields="true"/>
 	
@@ -78,6 +78,6 @@
 	
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
 	
-  	<kul:documentControls transactionalDocument="true" extraButtons="${extraButtons}" suppressRoutingControls="${displayInitTab}" />
+  	<kfs:documentControls transactionalDocument="true" extraButtons="${extraButtons}" suppressRoutingControls="${displayInitTab}" />
    
 </kul:documentPage>

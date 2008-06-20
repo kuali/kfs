@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.impl.BusinessObjectServiceImpl;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
@@ -43,7 +43,7 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
             }
         };
         doc.setLoanDate(new java.sql.Date((DateUtils.addDays(new Date(), loanDaysToadd)).getTime()));
-        DocumentHeader header = new DocumentHeader();
+        FinancialSystemDocumentHeader header = new FinancialSystemDocumentHeader();
         header.setFinancialDocumentStatusCode(docStatus);
         doc.setDocumentHeader(header);
         return doc;

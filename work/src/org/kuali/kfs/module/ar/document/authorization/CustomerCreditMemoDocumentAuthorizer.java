@@ -15,16 +15,14 @@
  */
 package org.kuali.module.ar.document.authorization;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArAuthorizationConstants;
 import org.kuali.module.ar.ArConstants;
@@ -32,9 +30,8 @@ import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 //public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-public class CustomerCreditMemoDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
-    
     @Override
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, UniversalUser user) {
@@ -59,8 +56,8 @@ public class CustomerCreditMemoDocumentAuthorizer extends TransactionalDocumentA
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
         if (StringUtils.equals(customerCreditMemoDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {

@@ -16,7 +16,7 @@
 
 package org.kuali.module.financial.document;
 
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;

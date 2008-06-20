@@ -29,9 +29,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -43,10 +40,8 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -372,7 +367,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             // **************************************************************************************************
             // Create a new document header object
             // **************************************************************************************************
-            DocumentHeader documentHeader = new DocumentHeader();
+            FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
             documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
             documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
@@ -381,7 +376,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             documentHeader.setExplanation("");
 
             // TODO set description constants
-            documentHeader.setFinancialDocumentDescription("");
+            documentHeader.setDocumentDescription("");
             documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
 
             barcodeInventoryErrorDocument.setDocumentHeader(documentHeader);

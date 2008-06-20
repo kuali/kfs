@@ -30,7 +30,7 @@
             p:parameterDetailType="BalanceTyp" />
     </property>
     <property name="documentTypeName" value="BalanceTypMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BTYP" />
     <property name="workflowProperties" >
       <ref bean="BalanceTypMaintenanceDocument-workflowProperties" />

@@ -23,8 +23,8 @@
 	htmlFormAction="laborJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:hiddenDocumentFields />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<!-- LABOR JOURNAL VOUCHER SPECIFIC FIELDS -->
 	<kul:tab tabTitle="Labor Distribution Journal Voucher Details" defaultOpen="true"
@@ -168,5 +168,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 </kul:documentPage>

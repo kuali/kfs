@@ -38,7 +38,7 @@
         <html:hidden property="document.subcontractorNextSequenceNumber" />
       </c:when>
       <c:otherwise>
-        <html:hidden property="document.documentHeader.financialDocumentDescription" />
+        <html:hidden property="document.documentHeader.documentDescription" />
       </c:otherwise>
     </c:choose>
 
@@ -46,5 +46,5 @@
     <html:hidden property="document.routingFormBudget.versionNumber" />
     <html:hidden property="document.contractGrantProposal.versionNumber" />
     
-    <kul:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
+    <kfs:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
     

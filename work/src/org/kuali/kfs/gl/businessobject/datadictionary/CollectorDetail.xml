@@ -138,7 +138,8 @@
   </bean>
   <bean id="CollectorDetail-financialDocumentTypeCode" parent="CollectorDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="CollectorDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="CollectorDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
     <property name="shortLabel" value="DocTypCd" />
     <property name="control" >
       <bean parent="TextControlDefinition"

@@ -56,7 +56,7 @@
     <property name="description" value="Document used to create or update Invoice Item Codes" />
     <property name="documentTypeName" value="CustomerInvoiceItemCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerInvoiceItemCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IICO" />
     <property name="authorizations" >
       <list>

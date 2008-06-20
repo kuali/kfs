@@ -55,6 +55,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -565,14 +566,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument newPurchaseOrderChangeDocument = (PurchaseOrderDocument) documentService.getNewDocument(docType);
 
         Set classesToExclude = new HashSet();
-        Class sourceObjectClass = DocumentBase.class;
+        Class sourceObjectClass = FinancialSystemTransactionalDocumentBase.class;
         classesToExclude.add(sourceObjectClass);
         while (sourceObjectClass.getSuperclass() != null) {
             sourceObjectClass = sourceObjectClass.getSuperclass();
             classesToExclude.add(sourceObjectClass);
         }
         PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.UNCOPYABLE_FIELDS_FOR_PO, classesToExclude);
-        newPurchaseOrderChangeDocument.getDocumentHeader().setFinancialDocumentDescription(sourceDocument.getDocumentHeader().getFinancialDocumentDescription());
+        newPurchaseOrderChangeDocument.getDocumentHeader().setDocumentDescription(sourceDocument.getDocumentHeader().getDocumentDescription());
         newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
 
         newPurchaseOrderChangeDocument.setPurchaseOrderCurrentIndicator(false);
@@ -707,7 +708,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 
                 // Copy all fields over from the current document except the items and the above-specified fields.
                 PurApObjectUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);
-                newDocument.getDocumentHeader().setFinancialDocumentDescription(currentDocument.getDocumentHeader().getFinancialDocumentDescription());
+                newDocument.getDocumentHeader().setDocumentDescription(currentDocument.getDocumentHeader().getDocumentDescription());
                 newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());
     
                 newDocument.setPurchaseOrderCurrentIndicator(true);
@@ -866,7 +867,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (newVendorDetail != null) {
                 //spawn a new vendor maintenance document to add the not
                 MaintenanceDocument vendorMaintDoc = (MaintenanceDocument)documentService.getNewDocument("VendorDetailMaintenanceDocument");
-                vendorMaintDoc.getDocumentHeader().setFinancialDocumentDescription("Automatically spawned from PO");
+                vendorMaintDoc.getDocumentHeader().setDocumentDescription("Automatically spawned from PO");
                 vendorMaintDoc.getOldMaintainableObject().setBusinessObject(oldVendorDetail);
                 vendorMaintDoc.getNewMaintainableObject().setBusinessObject(newVendorDetail);
                 vendorMaintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION);

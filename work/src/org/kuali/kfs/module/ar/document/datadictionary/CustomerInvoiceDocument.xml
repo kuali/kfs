@@ -31,7 +31,7 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="CustomerInvoiceDocument-documentHeader.financialDocumentDescription" />
+        <ref bean="CustomerInvoiceDocument-documentHeader.documentDescription" />
         <ref bean="CustomerInvoiceDocument-invoiceHeaderText" />
         <ref bean="CustomerInvoiceDocument-invoiceAttentionLineText" />
         <ref bean="CustomerInvoiceDocument-invoiceDueDate" />
@@ -69,10 +69,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CustomerInvoiceDocument-documentHeader.financialDocumentDescription" parent="CustomerInvoiceDocument-documentHeader.financialDocumentDescription-parentBean" />
+  <bean id="CustomerInvoiceDocument-documentHeader.documentDescription" parent="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" />
 
-  <bean id="CustomerInvoiceDocument-documentHeader.financialDocumentDescription-parentBean" abstract="true" parent="DocumentHeader-financialDocumentDescription">
-    <property name="name" value="documentHeader.financialDocumentDescription" />
+  <bean id="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
+    <property name="name" value="documentHeader.documentDescription" />
   </bean>
   <bean id="CustomerInvoiceDocument-invoiceHeaderText" parent="CustomerInvoiceDocument-invoiceHeaderText-parentBean" />
 

@@ -42,7 +42,7 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
         
         //populate receiving line document from purchase order
         this.setPurchaseOrderIdentifier( rlDoc.getPurchaseOrderIdentifier() );
-        this.getDocumentHeader().setFinancialDocumentDescription( rlDoc.getDocumentHeader().getFinancialDocumentDescription());
+        this.getDocumentHeader().setDocumentDescription( rlDoc.getDocumentHeader().getDocumentDescription());
         this.getDocumentHeader().setOrganizationDocumentNumber( rlDoc.getDocumentHeader().getOrganizationDocumentNumber() );
         this.setAccountsPayablePurchasingDocumentLinkIdentifier( rlDoc.getAccountsPayablePurchasingDocumentLinkIdentifier() );        
         this.setReceivingLineDocumentNumber(rlDoc.getDocumentNumber());

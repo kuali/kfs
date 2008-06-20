@@ -114,7 +114,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getDocumentType(org.kuali.module.gl.bo.OriginEntry)
      */
     public DocumentType getDocumentType(OriginEntry entry) {
-        return lookupReference(entry, DocumentType.class);
+        return lookupReference(entry, DocumentType.class, "documentTypeCode:financialDocumentTypeCode");
     }
 
     /**
@@ -125,7 +125,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.module.gl.bo.OriginEntry)
      */
     public DocumentType getReferenceDocumentType(OriginEntry entry) {
-        return lookupReference(entry, DocumentType.class, "financialDocumentTypeCode:referenceFinancialDocumentTypeCode");
+        return lookupReference(entry, DocumentType.class, "documentTypeCode:referenceFinancialDocumentTypeCode");
     }
 
     /**

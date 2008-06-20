@@ -99,6 +99,8 @@
 
 				<value>documentTypeService</value>
 				<value>documentService</value>
+				<value>documentDao</value>
+				<value>documentHeaderService</value>
 				<value>documentAuthorizationService</value>
 				<value>kualiRuleService</value>
 				<value>postProcessorService</value>
@@ -342,7 +344,6 @@
 				<value>classpath:org/kuali/core/bo/datadictionary/BusinessObjectAttributeEntry.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/Campus.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/CampusType.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/DocumentGroup.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/DocumentHeader.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/DocumentStatus.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/DocumentType.xml</value>
@@ -418,7 +419,7 @@
 
 	<bean id="xmlObjectSerializerService" class="org.kuali.core.service.impl.XmlObjectSerializerServiceImpl"></bean>
 
-	<bean id="documentService" class="org.kuali.core.service.impl.DocumentServiceImpl">
+	<bean id="documentService" class="org.kuali.kfs.service.impl.FinancialSystemDocumentServiceImpl">
 		<property name="documentDao">
 			<ref bean="documentDao" />
 		</property>
@@ -434,8 +435,8 @@
 		<property name="kualiRuleService">
 			<ref bean="kualiRuleService" />
 		</property>
-		<property name="documentHeaderDao">
-			<ref bean="documentHeaderDao" />
+		<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
 		</property>
 		<property name="documentAuthorizationService">
 			<ref bean="documentAuthorizationService" />
@@ -448,6 +449,15 @@
 		</property>
 		<property name="noteService">
 			<ref bean="noteService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+
+	<bean id="documentHeaderService" class="org.kuali.core.service.impl.DocumentHeaderServiceImpl">
+		<property name="documentHeaderDao">
+			<ref bean="documentHeaderDao" />
 		</property>
 	</bean>
 
@@ -734,13 +744,13 @@
 
 	<bean id="confirmationQuestion" class="org.kuali.core.question.ConfirmationQuestion" singleton="false" />
     
-	<bean id="documentDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.DocumentDaoOjb">
+	<bean id="documentDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.FinancialSystemDocumentDaoOjb">
 		<property name="businessObjectDao">
 			<ref bean="businessObjectDao" />
 		</property>
 	</bean>
 
-	<bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.DocumentHeaderDaoOjb" />
+	<bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.FinancialSystemDocumentHeaderDaoOjb" />
 
 	<bean id="lookupDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.LookupDaoOjb">
 		<property name="persistenceStructureService">

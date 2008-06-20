@@ -30,7 +30,7 @@
             p:parameterDetailType="OrgType" />
     </property>
     <property name="documentTypeName" value="OrgTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ORTY" />
     <property name="workflowProperties" >
       <ref bean="OrgTypeMaintenanceDocument-workflowProperties" />

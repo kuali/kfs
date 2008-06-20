@@ -58,7 +58,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
         crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
         crit.addEqualTo(KFSPropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
         crit.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
-        crit.addEqualTo(KFSPropertyConstants.DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
+        crit.addEqualTo(KFSPropertyConstants.ENCUMBRANCE_DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
         crit.addEqualTo(KFSPropertyConstants.ORIGIN_CODE, t.getFinancialSystemOriginationCode());
         crit.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, t.getDocumentNumber());
 
@@ -150,10 +150,10 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
         Criteria criteria = new Criteria();
 
         if (included) {
-            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+            criteria.addEqualTo(KFSPropertyConstants.ENCUMBRANCE_DOCUMENT_TYPE_CODE, documentTypeCode);
         }
         else {
-            criteria.addNotEqualTo(KFSPropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+            criteria.addNotEqualTo(KFSPropertyConstants.ENCUMBRANCE_DOCUMENT_TYPE_CODE, documentTypeCode);
         }
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);

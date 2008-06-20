@@ -23,8 +23,8 @@
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.asset.expectedReturnDate" />
 	<html:hidden property="document.asset.loanReturnDate" />
-	<kul:hiddenDocumentFields isFinancialDocument="false" />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 	
 	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber,document.organizationOwnerChartOfAccountsCode,document.transferOfFundsFinancialDocumentNumber"> 
@@ -207,5 +207,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

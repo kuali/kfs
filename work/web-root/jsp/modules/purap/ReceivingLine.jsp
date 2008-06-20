@@ -20,7 +20,7 @@
     htmlFormAction="purapReceivingLine" renderMultipart="true"
     showTabButtons="true">
     
-    <kul:hiddenDocumentFields isTransactionalDocument="false" />
+    <kfs:hiddenDocumentFields isFinancialDocument="false" />
     		     		
     <c:choose>
     <c:when test="${!empty KualiForm.editingMode['fullEntry']}">
@@ -44,7 +44,7 @@
 	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
 	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
     
-	    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		<purap:receivingVendor
 		    documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
@@ -68,7 +68,7 @@
 	
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
   	
-    <kul:documentControls 
+    <kfs:documentControls 
         transactionalDocument="true" 
         extraButtons="${extraButtons}"
         suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}" />

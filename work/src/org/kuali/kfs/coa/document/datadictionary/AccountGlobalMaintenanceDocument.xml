@@ -60,7 +60,7 @@
     </property>
     <property name="documentTypeName" value="AccountGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.AccountGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GACC" />
     <property name="webScriptFiles" >
       <list>

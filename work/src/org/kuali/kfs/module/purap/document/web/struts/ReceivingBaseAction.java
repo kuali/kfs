@@ -30,15 +30,15 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.util.ReceivingQuestionCallback;
 
-public class ReceivingBaseAction extends KualiTransactionalDocumentActionBase {
+public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentActionBase {
 
     /**
      * A wrapper method which prompts for a reason to hold a payment request or credit memo.

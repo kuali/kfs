@@ -37,7 +37,6 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -45,9 +44,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.service.FinancialSystemDocumentService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.batch.pcard.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.module.financial.batch.pcard.ProcurementCardCreateDocumentsStep;
@@ -76,7 +75,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
+    private FinancialSystemDocumentService documentService;
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
     private WorkflowDocumentService workflowDocumentService;
@@ -190,7 +189,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             // if number of days in route is passed the allowed number, call doc service for super user approve
             if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
                 // update document description to reflect the auto approval
-                pcardDocument.getDocumentHeader().setFinancialDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
+                pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
 
                 try {
                     LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
@@ -283,7 +282,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
 
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
-            pcardDocument.getDocumentHeader().setFinancialDocumentDescription("SYSTEM Generated");
+            pcardDocument.getDocumentHeader().setDocumentDescription("SYSTEM Generated");
 
             // Remove duplicate messages from errorText
             String messages[] = StringUtils.split(errorText, ".");
@@ -640,7 +639,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Gets the documentService attribute.
      * @return Returns the documentService.
      */
-    public DocumentService getDocumentService() {
+    public FinancialSystemDocumentService getDocumentService() {
         return documentService;
     }
 
@@ -648,7 +647,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Sets the documentService attribute.
      * @param documentService The documentService to set.
      */
-    public void setDocumentService(DocumentService documentService) {
+    public void setDocumentService(FinancialSystemDocumentService documentService) {
         this.documentService = documentService;
     }
 

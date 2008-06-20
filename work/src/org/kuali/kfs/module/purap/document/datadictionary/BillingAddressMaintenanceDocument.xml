@@ -28,7 +28,7 @@
             p:parameterDetailType="BillingAddress" />
     </property>
     <property name="documentTypeName" value="BillingAddressMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMBA" />
     <property name="workflowProperties" >
       <ref bean="BillingAddressMaintenanceDocument-workflowProperties" />

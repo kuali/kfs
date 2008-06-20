@@ -22,12 +22,12 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
@@ -36,7 +36,7 @@ import org.kuali.module.ar.util.ARUtil;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.rice.kns.util.KNSConstants;
 
-public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
@@ -87,8 +87,8 @@ public class CustomerAuthorizer extends MaintenanceDocumentAuthorizerBase {
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
 
         MaintenanceDocument maintDocument = (MaintenanceDocument) document;
         String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();

@@ -74,7 +74,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
         }
 
         // add all the pieces
-        document.getDocumentHeader().setFinancialDocumentDescription("test");
+        document.getDocumentHeader().setDocumentDescription("test");
         if (null == oldBo) {
             document.setOldMaintainableObject(new KualiMaintainableImpl());
         }

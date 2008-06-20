@@ -22,11 +22,11 @@
 
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsAssetPayment"  documentTypeName="AssetPaymentDocument" renderMultipart="true"  showTabButtons="true">
 
-    <kul:hiddenDocumentFields />
+    <kfs:hiddenDocumentFields />
   	<html:hidden property="document.capitalAssetNumber"/>
 	<html:hidden property="document.nextCapitalAssetPaymentLineNumber"/>
 
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 	     
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
@@ -43,5 +43,5 @@
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+    <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

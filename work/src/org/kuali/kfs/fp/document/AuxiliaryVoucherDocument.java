@@ -27,9 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;

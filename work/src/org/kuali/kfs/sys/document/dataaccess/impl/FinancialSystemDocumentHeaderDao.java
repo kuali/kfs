@@ -38,4 +38,5 @@ public interface FinancialSystemDocumentHeaderDao extends DocumentHeaderDao {
      * @param documentFinalDate
      */
     public Collection getByDocumentFinalDate(Date documentFinalDate);
+    
 }

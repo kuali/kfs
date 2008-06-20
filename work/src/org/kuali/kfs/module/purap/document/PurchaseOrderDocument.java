@@ -352,7 +352,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
         this.setPurchaseOrderCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
-        this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());
+        this.getDocumentHeader().setDocumentDescription(requisitionDocument.getDocumentHeader().getDocumentDescription());
 
         this.setBillingName(requisitionDocument.getBillingName());
         this.setBillingLine1Address(requisitionDocument.getBillingLine1Address());

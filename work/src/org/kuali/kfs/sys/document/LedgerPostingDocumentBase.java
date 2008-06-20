@@ -33,7 +33,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Base implementation for a ledger posting document.
  */
-public class LedgerPostingDocumentBase extends TransactionalDocumentBase implements LedgerPostingDocument {
+public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
     private Integer tmpPostingYear;
     private String tmpPostingPeriodCode;
 

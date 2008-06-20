@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.TypedArrayList;
@@ -32,6 +31,9 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
@@ -221,7 +223,13 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     public void doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws Exception {
         if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             Document retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
-            if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+            String financialStatusCode = null;
+            if (retrievedDocument instanceof FinancialSystemTransactionalDocument) {
+                financialStatusCode = ((FinancialSystemTransactionalDocument) retrievedDocument).getDocumentHeader().getFinancialDocumentStatusCode();
+            } else if (retrievedDocument instanceof FinancialSystemMaintenanceDocument) {
+                financialStatusCode = ((FinancialSystemMaintenanceDocument) retrievedDocument).getDocumentHeader().getFinancialDocumentStatusCode();
+            }
+            if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(financialStatusCode)) {
                 throw new RuntimeException("KFS document status is out of sync with Workflow document status");
             }
         }

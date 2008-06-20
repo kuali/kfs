@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
@@ -407,7 +406,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void clearInitFields() {
         LOG.debug("clearDocument() started");
         // Clearing document overview fields
-        this.getDocumentHeader().setFinancialDocumentDescription(null);
+        this.getDocumentHeader().setDocumentDescription(null);
         this.getDocumentHeader().setExplanation(null);
         this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
         this.getDocumentHeader().setOrganizationDocumentNumber(null);

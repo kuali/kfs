@@ -92,7 +92,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @param document the cash control document
      */
     private void addDescriptionToDocument(CashControlDocument document) {
-        document.getDocumentHeader().setFinancialDocumentDescription(kualiConfigurationService.getPropertyString(ArConstants.ELECTRONIC_PAYMENT_CLAIM));
+        document.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyString(ArConstants.ELECTRONIC_PAYMENT_CLAIM));
     }
 
     /**

@@ -24,7 +24,6 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
@@ -33,6 +32,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
@@ -42,7 +42,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
 
-public class BudgetConstructionDocument extends TransactionalDocumentBase {
+public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocument.class);
 

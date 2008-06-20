@@ -202,7 +202,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
                 // display it.
                 populatedCoverSheet.setField(DEPOSIT_DATE_FIELD, document.getDepositDate().toString());
             }
-            populatedCoverSheet.setField(DESCRIPTION_FIELD, document.getDocumentHeader().getFinancialDocumentDescription());
+            populatedCoverSheet.setField(DESCRIPTION_FIELD, document.getDocumentHeader().getDocumentDescription());
             populatedCoverSheet.setField(EXPLANATION_FIELD, document.getDocumentHeader().getExplanation());
             populatedCoverSheet.setField(CHECKS_FIELD, document.getTotalCheckAmount().toString());
             populatedCoverSheet.setField(CURRENCY_FIELD, document.getTotalCashAmount().toString());

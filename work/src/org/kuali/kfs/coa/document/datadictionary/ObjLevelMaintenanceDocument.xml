@@ -42,7 +42,7 @@
     </property>
     <property name="documentTypeName" value="ObjLevelMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectLevelRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OBJL" />
     <property name="workflowProperties" >
       <ref bean="ObjLevelMaintenanceDocument-workflowProperties" />

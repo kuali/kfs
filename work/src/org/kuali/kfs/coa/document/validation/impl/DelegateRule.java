@@ -246,7 +246,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         boolean newPrimary;
         boolean newActive;
         boolean blockingDocumentExists;
-        DocumentType documentType;
 
         // exit out immediately if this doc is not requesting a primary route
         newPrimary = newDelegate.isAccountsDelegatePrmrtIndicator();
@@ -258,14 +257,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         newActive = newDelegate.isAccountDelegateActiveIndicator();
         if (!newActive) {
             return success;
-        }
-
-        // exit if document group corresponding to document type = "EX"
-        documentType = newDelegate.getDocumentType();
-        if (ObjectUtils.isNotNull(documentType)) {
-            if ((documentType.getFinancialDocumentGroupCode()).equals("EX")) {
-                return success;
-            }
         }
 
         // if its a new document, we are only interested if they have chosen this one

@@ -393,7 +393,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
 
     private GeneralErrorCorrectionDocument getDocumentParameterNoDescription() throws Exception {
         GeneralErrorCorrectionDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
-        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        document.getDocumentHeader().setDocumentDescription(null);
         return document;
     }
 

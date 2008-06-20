@@ -23,10 +23,10 @@ import java.util.List;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
@@ -38,7 +38,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Research Administration Document Base
  */
-public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements ResearchDocument, Copyable {
+public abstract class ResearchDocumentBase extends FinancialSystemTransactionalDocumentBase implements ResearchDocument, Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentBase.class);
 
     private List<AdhocPerson> adhocPersons;

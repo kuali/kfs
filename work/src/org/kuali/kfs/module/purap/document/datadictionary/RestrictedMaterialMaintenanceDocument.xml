@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Restricted Material" />
     <property name="documentTypeName" value="RestrictedMaterialMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.RestrictedMaterialRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMRM" />
     <property name="workflowProperties" >
       <ref bean="RestrictedMaterialMaintenanceDocument-workflowProperties" />

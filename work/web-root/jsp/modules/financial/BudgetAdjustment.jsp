@@ -19,9 +19,9 @@
 	htmlFormAction="financialBudgetAdjustment" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields excludePostingYear="true" />
+	<kfs:hiddenDocumentFields excludePostingYear="true" />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}"
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
         postingYearOnChange="submitForm()"
         includePostingYearRefresh="true"
@@ -43,6 +43,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

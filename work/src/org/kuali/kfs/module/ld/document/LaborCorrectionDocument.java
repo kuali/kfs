@@ -17,7 +17,7 @@ package org.kuali.module.labor.document;
 
 import java.util.Iterator;
 
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;

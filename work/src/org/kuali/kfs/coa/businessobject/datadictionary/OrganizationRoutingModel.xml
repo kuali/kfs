@@ -59,7 +59,8 @@
 
   <bean id="OrganizationRoutingModel-financialDocumentTypeCode" parent="OrganizationRoutingModel-financialDocumentTypeCode-parentBean" />
 
-  <bean id="OrganizationRoutingModel-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="OrganizationRoutingModel-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="OrganizationRoutingModel-chartOfAccountsCode" parent="OrganizationRoutingModel-chartOfAccountsCode-parentBean" />
 

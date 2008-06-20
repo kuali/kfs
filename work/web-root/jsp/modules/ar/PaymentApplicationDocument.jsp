@@ -26,9 +26,9 @@
   htmlFormAction="arPaymentApplicationDocument" renderMultipart="true"
   showTabButtons="true">
 
-  <kul:hiddenDocumentFields />
+  <kfs:hiddenDocumentFields />
 
-  <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+  <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
   <kul:tab tabTitle="Control Information" defaultOpen="true"
     tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
@@ -497,6 +497,6 @@
 
   <kul:panelFooter />
 
-  <kul:documentControls transactionalDocument="true" />
+  <kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

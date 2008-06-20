@@ -25,6 +25,7 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsConstants;
@@ -83,7 +84,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             // create poster
-            AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource(document.getDocumentHeader());
+            AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader)document.getDocumentHeader());
             // create postables
             if (!(valid = assetRetirementService.createGLPostables(assetRetirementGlobal, assetRetirementGlPoster))) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE);

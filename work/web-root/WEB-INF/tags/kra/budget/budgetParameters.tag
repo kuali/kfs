@@ -24,7 +24,7 @@
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.PARAMETERS_HEADER_TAB}" altText="page help"/>
 </div>
 
-       	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+       	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
         <kra-b:budgetParametersGeneral supportsModular="${supportsModular}" />
 

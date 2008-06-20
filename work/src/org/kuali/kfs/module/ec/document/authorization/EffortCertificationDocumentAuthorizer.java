@@ -20,10 +20,9 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
@@ -31,7 +30,7 @@ import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 /**
  * Document Authorizer for the Effort Certification document.
  */
-public class EffortCertificationDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
 
     /**
@@ -39,13 +38,12 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-        TransactionalDocumentActionFlags documentActionFlags = (TransactionalDocumentActionFlags) flags;
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags documentActionFlags = super.getDocumentActionFlags(document, user);
 
         boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
         if (initiated) {
-            // if the status code is intitiated, then the document should be a recreate document that has not been submitted
+            // if the status code is initiated, then the document should be a recreate document that has not been submitted
             documentActionFlags.setCanBlanketApprove(false);
         }
         else {
@@ -60,7 +58,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         documentActionFlags.setCanCopy(false);
         documentActionFlags.setCanErrorCorrect(false);
 
-        return flags;
+        return documentActionFlags;
     }
 
     /**

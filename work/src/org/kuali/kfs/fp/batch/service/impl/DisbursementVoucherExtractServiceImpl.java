@@ -40,6 +40,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.kfs.service.FinancialSystemDocumentService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -556,24 +557,24 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
         try {
-            Collection docs = SpringContext.getBean(DocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
-        for (Iterator iter = docs.iterator(); iter.hasNext();) {
-            DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
-
-            String dvdCampusCode = element.getCampusCode();
-
-            DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
-            if (dvpd != null) {
-                List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
-                if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
-                    dvdCampusCode = campusCodes.get(0);
+            Collection docs = SpringContext.getBean(FinancialSystemDocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
+            for (Iterator iter = docs.iterator(); iter.hasNext();) {
+                DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
+    
+                String dvdCampusCode = element.getCampusCode();
+    
+                DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
+                if (dvpd != null) {
+                    List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
+                    if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
+                        dvdCampusCode = campusCodes.get(0);
+                    }
+                }
+    
+                if (dvdCampusCode.equals(campusCode)) {
+                    list.add(element);
                 }
             }
-
-            if (dvdCampusCode.equals(campusCode)) {
-                list.add(element);
-            }
-        }
         }
         catch (WorkflowException we) {
             LOG.error("Could not load Disbursement Voucher Documents with status code = "+statusCode+": "+we);

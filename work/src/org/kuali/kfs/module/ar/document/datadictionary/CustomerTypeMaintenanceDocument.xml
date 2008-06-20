@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Customer Type objects" />
     <property name="documentTypeName" value="CustomerTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerTypeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CTY" />
     <property name="authorizations" >
       <list>

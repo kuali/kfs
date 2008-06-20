@@ -28,7 +28,7 @@
             p:parameterDetailType="PurchaseOrderTransmissionMethod" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderTransmissionMethodMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMTM" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderTransmissionMethodMaintenanceDocument-workflowProperties" />

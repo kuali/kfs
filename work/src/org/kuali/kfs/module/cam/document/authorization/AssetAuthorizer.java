@@ -23,11 +23,11 @@ import java.util.List;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -39,7 +39,7 @@ import org.kuali.module.cams.service.AssetService;
 /**
  * AssetAuthorizer for Asset edit.
  */
-public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
@@ -141,8 +141,8 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
 
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
 
         // If asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();

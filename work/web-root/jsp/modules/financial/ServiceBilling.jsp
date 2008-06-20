@@ -20,9 +20,9 @@
 	htmlFormAction="financialServiceBilling" renderMultipart="true"
 	showTabButtons="true">
 	<html:hidden property="document.nextItemLineNumber" />
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		extraSourceRowFields="financialDocumentLineDescription"
@@ -33,6 +33,6 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls
+	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 
@@ -27,7 +27,7 @@ import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
 /**
  * Uses defaults.
  */
-public class EquipmentLoanOrReturnDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class EquipmentLoanOrReturnDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentAuthorizer.class);
 
     /**

@@ -40,7 +40,7 @@
     	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
     </c:if>
     
-    <kul:hiddenDocumentFields excludePostingYear="true" />
+    <kfs:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
     <!-- need this for persistence -->
@@ -61,7 +61,7 @@
         
     <c:if test="${not splittingItemSelectionMode}">
 		<c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
-			<kul:documentOverview editingMode="${KualiForm.editingMode}"
+			<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		    	includePostingYear="true"
                 fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
 		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
@@ -70,13 +70,13 @@
 		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 		            purchaseOrder="true"
 		            detailSectionLabel="Purchase Order Detail" />
-		    </kul:documentOverview>
+		    </kfs:documentOverview>
 		</c:if>
 		 
 		<!--  TODO maybe we ought to rename the accountingLineEditingMode to something more generic -->
 		<c:if test="${! empty KualiForm.editingMode['amendmentEntry']}">
 		 	<c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-		    <kul:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
+		    <kfs:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
 		    	includePostingYear="true"
 		        fiscalYearReadOnly="true"
 		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
@@ -85,7 +85,7 @@
 		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 		            purchaseOrder="true"
 		            detailSectionLabel="Purchase Order Detail" />
-		    </kul:documentOverview>
+		    </kfs:documentOverview>
 		</c:if>
 		    	    
 		<c:if test="${retransmitMode}" >
@@ -152,7 +152,7 @@
 
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
   	
-    <kul:documentControls 
+    <kfs:documentControls 
         transactionalDocument="true" 
         extraButtons="${extraButtons}"
         />

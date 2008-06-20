@@ -46,7 +46,8 @@
   </bean>
   <bean id="OffsetDefinition-financialDocumentTypeCode" parent="OffsetDefinition-financialDocumentTypeCode-parentBean" />
 
-  <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean" />
 

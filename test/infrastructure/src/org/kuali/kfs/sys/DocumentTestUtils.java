@@ -53,7 +53,7 @@ public class DocumentTestUtils {
         document.getDocumentHeader().setExplanation("unit test created document");
 
         DocumentHeader documentHeader = document.getDocumentHeader();
-        documentHeader.setFinancialDocumentDescription("unit test created document");
+        documentHeader.setDocumentDescription("unit test created document");
 
         return document;
     }

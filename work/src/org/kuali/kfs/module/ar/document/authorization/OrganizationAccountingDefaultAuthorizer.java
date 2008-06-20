@@ -22,21 +22,19 @@ import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
-public class OrganizationAccountingDefaultAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    
-    
+public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+
     @Override
     @SuppressWarnings("unchecked")
     public Map getEditMode(Document document, UniversalUser user) {
@@ -54,10 +52,7 @@ public class OrganizationAccountingDefaultAuthorizer extends MaintenanceDocument
         //} catch ()
         return editModes;
     }
-    
-    
-    
-    
+
    /**
     * Checks if the current user is a member of the ar supervisor workgroup.
     * 

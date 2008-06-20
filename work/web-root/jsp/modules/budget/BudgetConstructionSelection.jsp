@@ -46,7 +46,7 @@
 	docTitle="Budget Construction Selection"
     transactionalDocument="false">
 
-<%--	<kul:hiddenDocumentFields /> --%>
+<%--	<kfs:hiddenDocumentFields /> --%>
 
 	<kul:errors keyMatch="budgetConstructionHeader" errorTitle="Errors found in Search Criteria:" />
 	<kul:messages/>

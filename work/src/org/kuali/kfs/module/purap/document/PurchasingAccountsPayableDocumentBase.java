@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.dao.ojb.DocumentDaoOjb;
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;

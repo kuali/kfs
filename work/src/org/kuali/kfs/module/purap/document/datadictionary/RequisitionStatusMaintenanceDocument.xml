@@ -29,7 +29,7 @@
             p:parameterDetailType="RequisitionStatus" />
     </property>
     <property name="documentTypeName" value="RequisitionStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMRS" />
     <property name="workflowProperties" >
       <ref bean="RequisitionStatusMaintenanceDocument-workflowProperties" />

@@ -51,7 +51,7 @@
     <property name="description" value="Document used to create or update Budget Construction Account Reports Maintenance Document objects" />
     <property name="documentTypeName" value="AccountReportsMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.budget.rules.BudgetConstructionAccountReportsRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BCAR" />
     <property name="authorizations" >
       <list>

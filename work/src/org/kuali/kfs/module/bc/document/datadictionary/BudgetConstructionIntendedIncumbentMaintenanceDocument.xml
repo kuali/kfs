@@ -24,7 +24,7 @@
     <property name="summary" value="Budget Construction Intended Incumbent Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Intended Incumbent Maintenance Document objects" />
     <property name="documentTypeName" value="IntendedIncumbentMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IINC" />
     <property name="authorizations" >
       <list>

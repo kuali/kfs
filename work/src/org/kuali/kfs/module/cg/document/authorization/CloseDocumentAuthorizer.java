@@ -15,10 +15,10 @@
  */
 package org.kuali.module.cg.document.authorization;
 
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
 /**
  * Uses defaults.
  */
-public class CloseDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class CloseDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 }

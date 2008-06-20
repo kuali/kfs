@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
@@ -39,6 +38,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.bo.Account;
@@ -133,8 +133,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
 
         // populate the document header of the document
-        DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
-        documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
+        FinancialSystemDocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
+        documentHeader.setDocumentDescription(effortCertificationDocumentBuild.getEmplid());
         documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
 
         return true;

@@ -30,7 +30,7 @@
             p:parameterDetailType="PersonRole" />
     </property>
     <property name="documentTypeName" value="PersonRoleMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRSN" />
     <property name="workflowProperties" >
       <ref bean="PersonRoleMaintenanceDocument-workflowProperties" />

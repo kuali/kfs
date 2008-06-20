@@ -29,7 +29,7 @@
             p:parameterDetailType="CreditMemoStatus" />
     </property>
     <property name="documentTypeName" value="CreditMemoStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCM" />
     <property name="workflowProperties" >
       <ref bean="CreditMemoStatusMaintenanceDocument-workflowProperties" />

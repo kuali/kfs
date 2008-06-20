@@ -28,7 +28,7 @@
             p:parameterDetailType="OwnershipCategory" />
     </property>
     <property name="documentTypeName" value="OwnershipCategoryMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMOC" />
     <property name="workflowProperties" >
       <ref bean="OwnershipCategoryMaintenanceDocument-workflowProperties" />

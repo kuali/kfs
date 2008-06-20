@@ -18,16 +18,14 @@ package org.kuali.module.cams.document.authorization;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetGlobal;
-import org.kuali.module.cams.bo.AssetGlobalDetail;
-import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.rules.AssetLocationGlobalRule;
 
-public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalRule.class);
     
@@ -105,8 +103,8 @@ public class AssetGlobalAuthorizer extends MaintenanceDocumentAuthorizerBase {
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetGlobal assetGlobal = (AssetGlobal) document.getDocumentBusinessObject();
 
         return actionFlags;

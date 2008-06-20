@@ -15,9 +15,9 @@
  */
 package org.kuali.module.financial.document;
 
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;

@@ -24,8 +24,8 @@
 	docTitle="Post-Award Close"
     transactionalDocument="false">
 
-    <kul:hiddenDocumentFields isTransactionalDocument="false" />
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:hiddenDocumentFields isFinancialDocument="false" />
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Close" defaultOpen="true"
              tabErrorKey="document.userInitiatedCloseDate,document.closeOnOrBeforeDate">
         <c:set var="closeAttributes" value="${DataDictionary.Close.attributes}" />
@@ -73,6 +73,6 @@
     <kul:routeLog />
     <kul:panelFooter />
 
-    <kul:documentControls transactionalDocument="true" />
+    <kfs:documentControls transactionalDocument="true" />
 
 </kul:page>

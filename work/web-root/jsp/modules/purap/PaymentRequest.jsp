@@ -26,7 +26,7 @@
  
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
     
-    <kul:hiddenDocumentFields excludePostingYear="true" />
+    <kfs:hiddenDocumentFields excludePostingYear="true" />
 	
 	<!-- purap:hiddenPurapFields / -->
 	<!--  I could not use hiddenPurapFields, because I was not sure if PREQ needs to have a requisitionSourceCode --> 
@@ -64,7 +64,7 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
+	    <kfs:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
 	        fiscalYearReadOnly="true"
 	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" >
@@ -73,7 +73,7 @@
 	    	documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	    	detailSectionLabel="Payment Request Detail"
 	    	paymentRequest="true" />
-	    </kul:documentOverview>
+	    </kfs:documentOverview>
 	</c:if>
     
     <c:if test="${KualiForm.editingMode['displayInitTab']}" > 
@@ -115,7 +115,7 @@
 	
     <kul:panelFooter />
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
-  	<kul:documentControls 
+  	<kfs:documentControls 
         transactionalDocument="true"  
         extraButtons="${extraButtons}"  
         suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}"

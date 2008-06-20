@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
-    <bean id="KFS_MaintenanceDocumentEntry"
+    <bean id="MaintenanceDocumentEntry"
         class="org.kuali.kfs.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true"
     />
     <bean id="TransactionalDocumentEntry" abstract="true" class="org.kuali.kfs.datadictionary.KFSTransactionalDocumentEntry" />

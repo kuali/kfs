@@ -3495,7 +3495,7 @@
     <documentHeader>
       <documentNumber>296582</documentNumber>
       <financialDocumentStatusCode>R</financialDocumentStatusCode>
-      <financialDocumentDescription>apple pie</financialDocumentDescription>
+      <documentDescription>apple pie</documentDescription>
       <financialDocumentTotalAmount>
         <value>3.00</value>
       </financialDocumentTotalAmount>

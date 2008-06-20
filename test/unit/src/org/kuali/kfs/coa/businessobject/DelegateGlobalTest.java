@@ -69,7 +69,7 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         MaintenanceDocument document;
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
-        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        document.getDocumentHeader().setDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -92,7 +92,7 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         MaintenanceDocument document;
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
-        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        document.getDocumentHeader().setDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -151,7 +151,7 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         MaintenanceDocument document;
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
-        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        document.getDocumentHeader().setDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -221,7 +221,7 @@ public class DelegateGlobalTest extends KualiTestBase {
 
         MaintenanceDocument document;
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
-        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        document.getDocumentHeader().setDocumentDescription("blah");
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();

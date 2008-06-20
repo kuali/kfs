@@ -31,7 +31,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
@@ -44,6 +43,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
@@ -504,12 +504,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             // **************************************************************************************************
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Creating document header entry.");
 
-            DocumentHeader documentHeader = new DocumentHeader();
+            FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
             documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
             documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
             documentHeader.setExplanation(CamsConstants.Depreciation.DOCUMENT_DESCRIPTION);
-            documentHeader.setFinancialDocumentDescription(CamsConstants.Depreciation.DOCUMENT_DESCRIPTION);
+            documentHeader.setDocumentDescription(CamsConstants.Depreciation.DOCUMENT_DESCRIPTION);
             documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
 
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Saving document header entry.");

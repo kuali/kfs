@@ -137,7 +137,7 @@ public class BusinessObjectFieldConverter {
         propertyMappingTable.put(KFSPropertyConstants.OBJECT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         propertyMappingTable.put(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        propertyMappingTable.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.ENCUMBRANCE_DOCUMENT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
         propertyMappingTable.put(KFSPropertyConstants.ORIGIN_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
         propertyMappingTable.put(KFSPropertyConstants.DOCUMENT_NUMBER, KFSPropertyConstants.DOCUMENT_NUMBER);
 

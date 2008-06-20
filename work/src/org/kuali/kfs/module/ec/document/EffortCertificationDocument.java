@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -31,11 +30,11 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
-import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.workflow.attribute.GenericRoutingInfo;
 import org.kuali.workflow.attribute.KualiAccountAttribute;
 import org.kuali.workflow.attribute.KualiCGAttribute;
@@ -48,7 +47,7 @@ import org.kuali.workflow.attribute.RoutingData;
 /**
  * Effort Certification Document Class.
  */
-public class EffortCertificationDocument extends TransactionalDocumentBase implements GenericRoutingInfo {
+public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase implements GenericRoutingInfo {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
     private String effortCertificationReportNumber;
@@ -642,10 +641,10 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
     public void populateDocumentForRouting() {
         populateRoutingInfo();
         if (ObjectUtils.isNotNull(getTotalPayrollAmount())) {
-            documentHeader.setFinancialDocumentTotalAmount(getTotalPayrollAmount());
+            getDocumentHeader().setFinancialDocumentTotalAmount(getTotalPayrollAmount());
         }
         else {
-            documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
+            getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
         }
         super.populateDocumentForRouting();
     }

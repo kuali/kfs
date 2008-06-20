@@ -22,8 +22,7 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
@@ -38,11 +37,10 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
-        TransactionalDocumentActionFlags tflags = (TransactionalDocumentActionFlags) flags;
-        tflags.setCanErrorCorrect(false); // CCR, CR, DV, andd PCDO don't allow error correction
+        flags.setCanErrorCorrect(false); // CCR, CR, DV, andd PCDO don't allow error correction
 
         return flags;
     }

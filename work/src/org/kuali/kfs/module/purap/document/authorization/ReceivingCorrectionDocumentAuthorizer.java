@@ -15,39 +15,27 @@
  */
 package org.kuali.module.purap.document.authorization;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.service.PurapService;
 
 /**
  * Document Authorizer for the PREQ document.
  */
-public class ReceivingCorrectionDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class ReceivingCorrectionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,

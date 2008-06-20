@@ -81,7 +81,7 @@
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.vendorName" attributeEntry="${requisitionAttributes.vendorName}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentDescription" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentDescription}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.documentDescription" attributeEntry="${requisitionAttributes.documentHeader.documentDescription}" readOnly="true" />
 		                </td>
 		                <td align=right valign=middle class="datacell">
 		                    <div align="right"><kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" /></div>

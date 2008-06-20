@@ -29,7 +29,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
     public void testCreatePaymentApplicationDocument() throws Exception {
         DocumentService service = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument document = (PaymentApplicationDocument) service.getNewDocument(PaymentApplicationDocument.class);
-        document.getDocumentHeader().setFinancialDocumentDescription("Testing");
+        document.getDocumentHeader().setDocumentDescription("Testing");
         service.saveDocument(document);
     }
     

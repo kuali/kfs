@@ -17,12 +17,12 @@ package org.kuali.module.cg.document;
 
 import java.sql.Date;
 
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 
 /**
  * Instances of CloseDocument indicate dates on which the {@link CloseBatchStep} should be executed.
  */
-public class CloseDocument extends TransactionalDocumentBase {
+public class CloseDocument extends FinancialSystemTransactionalDocumentBase {
 
     private Date userInitiatedCloseDate;
     private Date closeOnOrBeforeDate;

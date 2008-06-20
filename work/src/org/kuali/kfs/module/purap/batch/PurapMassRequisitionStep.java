@@ -89,7 +89,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             // set doc attributes
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
-            documentHeader.setFinancialDocumentDescription("batch created quantity document");
+            documentHeader.setDocumentDescription("batch created quantity document");
             reqDoc.setFundingSourceCode("INST");
             reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
             reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
@@ -168,7 +168,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             // set doc attributes
             reqDoc.getDocumentHeader().setExplanation("batch created non-quantity document");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
-            documentHeader.setFinancialDocumentDescription("batch created non-quantity document");
+            documentHeader.setDocumentDescription("batch created non-quantity document");
             reqDoc.setFundingSourceCode("INST");
             reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
             reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);

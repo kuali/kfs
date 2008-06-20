@@ -26,9 +26,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -42,7 +43,7 @@ import org.kuali.module.cams.service.AssetRetirementService;
 /**
  * AssetAuthorizer for Asset edit.
  */
-public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
@@ -73,8 +74,8 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
         String reasonCode = assetRetirementGlobal.getRetirementReasonCode();
         Map<String, Object> pkMap = new HashMap<String, Object>();

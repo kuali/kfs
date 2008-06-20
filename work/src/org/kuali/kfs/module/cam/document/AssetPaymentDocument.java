@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.rule.event.KualiDocumentEvent;

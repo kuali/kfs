@@ -30,7 +30,7 @@
             p:parameterDetailType="LetterOfCreditFundGroup" />
     </property>
     <property name="documentTypeName" value="LetterOfCreditFundGroupMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="LFGR" />
     <property name="workflowProperties" >
       <ref bean="LetterOfCreditFundGroupMaintenanceDocument-workflowProperties" />

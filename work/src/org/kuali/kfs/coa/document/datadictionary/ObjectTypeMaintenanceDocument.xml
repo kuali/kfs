@@ -31,7 +31,7 @@
     </property>
     <property name="documentTypeName" value="ObjectTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectTypeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OTYP" />
     <property name="workflowProperties" >
       <ref bean="ObjectTypeMaintenanceDocument-workflowProperties" />

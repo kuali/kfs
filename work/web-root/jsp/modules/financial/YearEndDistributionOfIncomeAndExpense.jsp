@@ -21,9 +21,9 @@
 	documentTypeName="YearEndDistributionOfIncomeAndExpenseDocument"
 	renderMultipart="true" showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
@@ -39,7 +39,7 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls
+	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

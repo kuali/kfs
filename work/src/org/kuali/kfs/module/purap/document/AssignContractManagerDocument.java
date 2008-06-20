@@ -22,12 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.util.DynamicCollectionComparator;
 import org.kuali.module.purap.PurapConstants;
@@ -43,7 +43,7 @@ import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class AssignContractManagerDocument extends TransactionalDocumentBase {
+public class AssignContractManagerDocument extends FinancialSystemTransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
     private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList<AssignContractManagerDetail>();

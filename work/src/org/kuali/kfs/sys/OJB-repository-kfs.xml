@@ -14,6 +14,20 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
+<class-descriptor class="org.kuali.kfs.bo.FinancialSystemDocumentHeader" table="FS_DOC_HEADER_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="financialDocumentTotalAmount" column="FDOC_TOTAL_AMT" jdbc-type="DECIMAL"
+        conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentInErrorNumber" column="FDOC_IN_ERR_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="documentFinalDate" column="TEMP_DOC_FNL_DT" jdbc-type="DATE" />
+
+    <!-- The name="super" attribute below is not used to address an actual attribute of the super-class but as a marker keyword defining the JOIN  to the super-class.
+         See OJB documentation: http://db.apache.org/ojb/docu/guides/advanced-technique.html#table-per-subclass -->
+    <reference-descriptor name="super" class-ref="org.kuali.core.bo.DocumentHeader">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+</class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.bo.Building" table="SH_BUILDING_T">
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -448,7 +462,7 @@
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.bo.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -527,7 +541,7 @@
     <field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="paymentClaimStatusCode" column="PMT_CLM_STAT_CD" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="generatingDocumentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="generatingDocumentHeader" class-ref="org.kuali.kfs.bo.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     

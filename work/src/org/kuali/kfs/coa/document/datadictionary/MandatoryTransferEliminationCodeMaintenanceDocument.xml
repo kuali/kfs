@@ -30,7 +30,7 @@
             p:parameterDetailType="MandatoryTransferEliminationCode" />
     </property>
     <property name="documentTypeName" value="MandatoryTransferEliminationCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="MTE" />
     <property name="workflowProperties" >
       <ref bean="MandatoryTransferEliminationCodeMaintenanceDocument-workflowProperties" />

@@ -19,8 +19,8 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Org;
@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * Org/Organization specific authorization rules.
  */
-public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     private static final Logger LOG = Logger.getLogger(OrgDocumentAuthorizer.class);
 

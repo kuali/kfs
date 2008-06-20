@@ -28,14 +28,14 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.FinancialSystemUserService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
@@ -45,12 +45,11 @@ import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CashControlDocumentService;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
+public class CashControlDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)

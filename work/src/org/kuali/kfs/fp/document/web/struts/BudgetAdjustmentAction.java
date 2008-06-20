@@ -38,7 +38,7 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
     /**
      * Do initialization for a new budget adjustment
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -50,7 +50,7 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
     /**
      * Add warning message about copying a document with generated labor benefits.
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#copy(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

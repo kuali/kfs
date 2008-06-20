@@ -47,7 +47,7 @@
     </property>
     <property name="documentTypeName" value="ProjectCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.ProjectCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PROJ" />
     <property name="workflowProperties" >
       <ref bean="ProjectCodeMaintenanceDocument-workflowProperties" />

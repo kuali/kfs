@@ -20,8 +20,8 @@
 	renderMultipart="true" showTabButtons="true">
   <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-  <kul:hiddenDocumentFields isFinancialDocument="false" />
-  <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+  <kfs:hiddenDocumentFields isTransactionalDocument="false" />
+  <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
 
   <html:hidden property="document.correctionChangeGroupNextLineNumber"/>
   <html:hidden property="dataLoadedFlag"/>
@@ -903,5 +903,5 @@
   <kul:adHocRecipients />        
   <kul:routeLog/>
   <kul:panelFooter/>
-  <kul:documentControls transactionalDocument="false" />
+  <kfs:documentControls transactionalDocument="false" />
 </kul:page>

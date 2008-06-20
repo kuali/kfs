@@ -28,7 +28,7 @@
             p:parameterDetailType="ShippingTitle" />
     </property>
     <property name="documentTypeName" value="ShippingTitleMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMST" />
     <property name="workflowProperties" >
       <ref bean="ShippingTitleMaintenanceDocument-workflowProperties" />

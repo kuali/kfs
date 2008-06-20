@@ -20,9 +20,9 @@
       htmlFormAction="purapAssignContractManager" renderMultipart="true"
       showTabButtons="true">
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
-    <kul:hiddenDocumentFields isTransactionalDocument="false" />
+    <kfs:hiddenDocumentFields isFinancialDocument="false" />
 
     <purap:assignContractManager />
 
@@ -34,6 +34,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

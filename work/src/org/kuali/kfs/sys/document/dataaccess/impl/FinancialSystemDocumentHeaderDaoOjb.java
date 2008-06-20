@@ -22,12 +22,12 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.ojb.DocumentHeaderDaoOjb;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.dao.FinancialSystemDocumentHeaderDao;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
- * This class...
+ * This class is the financial system document header dao ojb implementation
  */
 public class FinancialSystemDocumentHeaderDaoOjb extends DocumentHeaderDaoOjb implements FinancialSystemDocumentHeaderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemDocumentHeaderDaoOjb.class);
@@ -56,12 +56,13 @@ public class FinancialSystemDocumentHeaderDaoOjb extends DocumentHeaderDaoOjb im
      */
     public Collection getByDocumentFinalDate(Date documentFinalDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(KNSPropertyConstants.DOCUMENT_FINAL_DATE, documentFinalDate);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_FINAL_DATE, documentFinalDate);
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(getDocumentHeaderBaseClass(), criteria));
     }
     
     public Class getDocumentHeaderBaseClass() {
-        LOG.info("Method getDocumentHeaderBaseClass() returning class " + FinancialSystemDocumentHeader.class.getName());
+        LOG.debug("Method getDocumentHeaderBaseClass() returning class " + FinancialSystemDocumentHeader.class.getName());
         return FinancialSystemDocumentHeader.class;
     }
+
 }

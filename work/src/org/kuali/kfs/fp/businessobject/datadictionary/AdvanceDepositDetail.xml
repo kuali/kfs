@@ -33,7 +33,8 @@
   </bean>
   <bean id="AdvanceDepositDetail-financialDocumentTypeCode" parent="AdvanceDepositDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AdvanceDepositDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="AdvanceDepositDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="AdvanceDepositDetail-financialDocumentColumnTypeCode" parent="AdvanceDepositDetail-financialDocumentColumnTypeCode-parentBean" />
 

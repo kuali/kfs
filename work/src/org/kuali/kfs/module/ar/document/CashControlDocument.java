@@ -5,8 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.AmountTotaling;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
@@ -18,6 +17,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.ElectronicPaymentClaiming;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
@@ -33,7 +33,7 @@ import org.kuali.module.financial.service.UniversityDateService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends TransactionalDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
+public class CashControlDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
 
     private String referenceFinancialDocumentNumber;
     private Integer universityFiscalYear;
@@ -291,7 +291,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
     }
 
     /**
-     * @see org.kuali.core.document.AmountTotaling#getTotalDollarAmount()
+     * @see org.kuali.kfs.document.AmountTotaling#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount() {
         return cashControlTotalAmount;
@@ -372,7 +372,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
             description += ": " + line.getFinancialDocumentLineDescription();
         }
         else {
-            description += ": " + getDocumentHeader().getFinancialDocumentDescription();
+            description += ": " + getDocumentHeader().getDocumentDescription();
         }
 
         if (description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {

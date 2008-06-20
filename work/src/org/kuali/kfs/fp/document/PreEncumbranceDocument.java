@@ -21,9 +21,9 @@ import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;

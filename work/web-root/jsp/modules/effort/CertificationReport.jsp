@@ -43,9 +43,9 @@
     <html:hidden property="document.emplid" />
     <html:hidden property="sortOrder" />
 		 		
-	<kul:hiddenDocumentFields isFinancialDocument="false" />
+	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
 		
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 	<er:reportInformation />
 	
@@ -68,6 +68,6 @@
 	
 	<kul:panelFooter />
 	
-	<kul:documentControls transactionalDocument="${document.transactionalDocument}" />
+	<kfs:documentControls transactionalDocument="${document.transactionalDocument}" />
 
 </kul:documentPage>

@@ -43,7 +43,7 @@
     </property>
     <property name="documentTypeName" value="SubObjCdGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.SubObjCdGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GSOB" />
     <property name="workflowProperties" >
       <ref bean="SubObjCdGlobalMaintenanceDocument-workflowProperties" />

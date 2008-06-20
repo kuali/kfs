@@ -42,7 +42,7 @@
     </property>
     <property name="documentTypeName" value="ServiceBillingControlMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.financial.rules.ServiceBillingControlRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SBC" />
     <property name="workflowProperties" >
       <ref bean="ServiceBillingControlMaintenanceDocument-workflowProperties" />

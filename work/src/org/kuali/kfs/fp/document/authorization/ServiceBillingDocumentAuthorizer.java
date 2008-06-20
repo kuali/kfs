@@ -24,9 +24,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -102,8 +101,8 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        TransactionalDocumentActionFlags flags = (TransactionalDocumentActionFlags) super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         boolean canUseAllIncomeSectionAccountsBool = false;
         if (flags.getCanErrorCorrect() || flags.getCanCopy()) {
             // canUseAllIncomeSectionAccounts may be an expensive operation, so we only invoke it exactly once only if it's

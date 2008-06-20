@@ -53,7 +53,7 @@ import org.kuali.module.financial.web.struts.form.VoucherForm;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
+ * This class piggy backs on all of the functionality in the FinancialSystemTransactionalDocumentActionBase but is necessary for this document
  * type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  */
@@ -147,8 +147,7 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a JV
      * error correction.
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.module.financial.web.struts.action.VoucherAction#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

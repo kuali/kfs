@@ -20,16 +20,16 @@ import java.util.List;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 
 /**
  * To define Actions for EffortCertification document.
  */
-public class EffortCertificationAction extends KualiTransactionalDocumentActionBase {
+public class EffortCertificationAction extends FinancialSystemTransactionalDocumentActionBase {
 
     /**
      * execute the rules associated with the given event

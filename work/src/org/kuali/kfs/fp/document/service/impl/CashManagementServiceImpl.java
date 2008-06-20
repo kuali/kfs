@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
@@ -39,6 +38,7 @@ import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.KFSConstants.CurrencyCoinSources;
 import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.KFSConstants.DocumentStatusCodes;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Bank;
@@ -184,7 +184,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             // create the document
             try {
                 cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
-                cmDoc.getDocumentHeader().setFinancialDocumentDescription(docDescription);
+                cmDoc.getDocumentHeader().setDocumentDescription(docDescription);
                 cmDoc.setWorkgroupName(workgroupName);
                 cmDoc.setCashDrawer(cd);
                 cmDoc.getCurrentTransaction().setWorkgroupName(cmDoc.getWorkgroupName());
@@ -284,7 +284,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         List dccList = new ArrayList();
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            DocumentHeader dh = crDoc.getDocumentHeader();
+            FinancialSystemDocumentHeader dh = crDoc.getDocumentHeader();
 
             String statusCode = isFinalDeposit ? DocumentStatusCodes.CashReceipt.FINAL : DocumentStatusCodes.CashReceipt.INTERIM;
             dh.setFinancialDocumentStatusCode(statusCode);
@@ -526,7 +526,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             // reset each CashReceipt status
             CashReceiptDocument crDoc = crHeader.getCashReceiptDocument();
-            DocumentHeader crdh = crDoc.getDocumentHeader();
+            FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
             crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
             documentService.updateDocument(crDoc);
         }

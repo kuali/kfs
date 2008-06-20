@@ -24,7 +24,7 @@
     <property name="summary" value="Report Type Code Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Type" />
     <property name="documentTypeName" value="EffortCertificationReportTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ARTY" />
     <property name="authorizations" >
       <list>

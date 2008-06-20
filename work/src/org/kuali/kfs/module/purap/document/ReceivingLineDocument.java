@@ -93,7 +93,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
      */
     public void clearInitFields(boolean fromPurchaseOrder) {
         // Clearing document overview fields
-        this.getDocumentHeader().setFinancialDocumentDescription(null);
+        this.getDocumentHeader().setDocumentDescription(null);
         this.getDocumentHeader().setExplanation(null);
         this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
         this.getDocumentHeader().setOrganizationDocumentNumber(null);
@@ -180,7 +180,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }
-        getDocumentHeader().setFinancialDocumentDescription(description);
+        getDocumentHeader().setDocumentDescription(description);
     }
 
 }

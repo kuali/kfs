@@ -30,7 +30,7 @@
     </property>
     <property name="documentTypeName" value="PurchaseOrderQuoteListMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderQuoteListRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMQT" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties" />

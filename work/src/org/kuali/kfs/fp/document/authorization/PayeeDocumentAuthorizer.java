@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 /**
  * Document Authorizer for the Payee maintenance document.
  */
-public class PayeeDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class PayeeDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     /**
      * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,

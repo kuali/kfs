@@ -28,7 +28,7 @@
             p:parameterDetailType="UnitOfMeasure" />
     </property>
     <property name="documentTypeName" value="UnitOfMeasureMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMUM" />
     <property name="authorizations" >
       <list>

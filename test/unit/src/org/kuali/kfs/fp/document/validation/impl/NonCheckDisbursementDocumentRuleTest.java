@@ -250,7 +250,7 @@ public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
 
     private NonCheckDisbursementDocument getDocumentParameterNoDescription() throws Exception {
         NonCheckDisbursementDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), NonCheckDisbursementDocument.class);
-        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        document.getDocumentHeader().setDocumentDescription(null);
         return document;
     }
 

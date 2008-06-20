@@ -18,9 +18,9 @@ package org.kuali.module.financial.document;
 import static org.kuali.kfs.KFSConstants.EMPTY_STRING;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -133,7 +133,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
             description += ": " + postable.getFinancialDocumentLineDescription();
         }
         else {
-            description += ": " + getDocumentHeader().getFinancialDocumentDescription();
+            description += ": " + getDocumentHeader().getDocumentDescription();
         }
 
         if (description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {

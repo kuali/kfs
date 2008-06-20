@@ -31,7 +31,7 @@
             p:parameterDetailType="TravelMileageRate" />
     </property>
     <property name="documentTypeName" value="TravelMileageRateMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVML" />
     <property name="workflowProperties" >
       <ref bean="TravelMileageRateMaintenanceDocument-workflowProperties" />

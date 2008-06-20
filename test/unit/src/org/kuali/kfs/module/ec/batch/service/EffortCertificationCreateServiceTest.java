@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
@@ -257,7 +257,7 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
 
-        DocumentHeader documentHeader = TestDataPreparator.buildTestDataObject(DocumentHeader.class, properties, testTarget + EffortTestDataPropertyConstants.DOCUMENT_HEADER, documentHeaderFieldNames, deliminator);
+        FinancialSystemDocumentHeader documentHeader = TestDataPreparator.buildTestDataObject(FinancialSystemDocumentHeader.class, properties, testTarget + EffortTestDataPropertyConstants.DOCUMENT_HEADER, documentHeaderFieldNames, deliminator);
         documentHeader = TestDataPreparator.persistDataObject(documentHeader);
 
         EffortCertificationDocument document = this.buildDocument(testTarget);

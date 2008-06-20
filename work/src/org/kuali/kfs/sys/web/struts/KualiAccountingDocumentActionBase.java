@@ -38,7 +38,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentTypeService;
@@ -48,7 +47,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
@@ -56,11 +54,13 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
@@ -78,7 +78,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class handles UI actions for all shared methods of financial documents.
  */
-public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumentActionBase {
+public class KualiAccountingDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
 
     /**
@@ -551,7 +551,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             // update the doc total
             AccountingDocument tdoc = (AccountingDocument) financialDocumentForm.getDocument();
             if (tdoc instanceof AmountTotaling)
-                financialDocumentForm.getDocument().getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
+                ((FinancialSystemDocumentHeader)financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
         }
         else {
             // remove from document
@@ -762,7 +762,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
 
             // Update the doc total
             if (tdoc instanceof AmountTotaling)
-                financialDocumentForm.getDocument().getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
+                ((FinancialSystemDocumentHeader)financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
         }
         else {
             // add it to the document

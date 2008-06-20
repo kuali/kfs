@@ -26,7 +26,7 @@
 	documentTypeName="CashReceiptDocument" renderMultipart="true"
 	showTabButtons="true">
 	<cr:printCoverSheet />
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 	<html:hidden property="document.nextCheckSequenceId" />
 	<html:hidden property="document.checkEntryMode" />
   <html:hidden property="document.cashReceiptHeader.documentNumber" />
@@ -48,7 +48,7 @@
 		</div>
 		<br>
 	</c:if>
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">
     <!--
         function submitForm() {
@@ -149,6 +149,6 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls
+	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

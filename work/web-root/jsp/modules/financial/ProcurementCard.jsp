@@ -49,9 +49,9 @@
 	<html:hidden property="document.procurementCardHolder.subAccountNumber" />
 	<html:hidden property="document.procurementCardHolder.versionNumber" />
 
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<fin:procurementCardAccountingLines
 		editingMode="${KualiForm.editingMode}"
@@ -67,6 +67,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

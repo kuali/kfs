@@ -296,7 +296,7 @@ public class LaborPendingEntryConverter {
         pendingEntry.setFinancialDocumentTypeCode(documentTypeCode);
 
         pendingEntry.setDocumentNumber(documentHeader.getDocumentNumber());
-        pendingEntry.setTransactionLedgerEntryDescription(documentHeader.getFinancialDocumentDescription());
+        pendingEntry.setTransactionLedgerEntryDescription(documentHeader.getDocumentDescription());
         pendingEntry.setOrganizationDocumentNumber(documentHeader.getOrganizationDocumentNumber());
 
         return pendingEntry;

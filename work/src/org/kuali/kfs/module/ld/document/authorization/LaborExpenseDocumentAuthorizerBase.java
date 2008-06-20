@@ -17,8 +17,7 @@ package org.kuali.module.labor.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
 /**
@@ -33,8 +32,8 @@ public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthor
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        TransactionalDocumentActionFlags flags = (TransactionalDocumentActionFlags) super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         flags.setCanCopy(false);
         flags.setCanErrorCorrect(false);
 

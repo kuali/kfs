@@ -121,12 +121,12 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         assertTrue(TestDataPreparator.hasSameElements(expectedDocuments, documentList, documentKeyFields));
 
         for (EffortCertificationDocument document : documentList) {
-            assertEquals(document.getDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.ENROUTE);
+            assertEquals(KFSConstants.DocumentStatusCodes.ENROUTE, document.getDocumentHeader().getFinancialDocumentStatusCode());
         }
     }
 
     /**
-     * check if the service can approperiately create and route SET document
+     * check if the service can appropriately create and route SET document
      * 
      * @see effortCertificationDocumentService.generateSalaryExpenseTransferDocument(EffortCertificationDocument)
      */

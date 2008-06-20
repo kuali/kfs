@@ -32,7 +32,7 @@ import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
 
 
 /**
- * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
+ * This class piggy backs on all of the functionality in the FinancialSystemTransactionalDocumentActionBase but is necessary for this document
  * type. The Auxiliary Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  */

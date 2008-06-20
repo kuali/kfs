@@ -15,15 +15,15 @@
  */
 package org.kuali.module.cams.gl;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 
 public class AssetGlobalGeneralLedgerPendingEntrySource extends CamsGeneralLedgerPendingEntrySourceBase {
 
-    public AssetGlobalGeneralLedgerPendingEntrySource(DocumentHeader documentHeader) {
+    public AssetGlobalGeneralLedgerPendingEntrySource(FinancialSystemDocumentHeader documentHeader) {
         super(documentHeader);
     }
     

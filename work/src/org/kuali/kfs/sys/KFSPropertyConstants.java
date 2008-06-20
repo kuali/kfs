@@ -434,14 +434,13 @@ public class KFSPropertyConstants {
     public static final String DOCUMENT = KNSPropertyConstants.DOCUMENT;
     public static final String DOCUMENT_CONTENTS = "documentContents";
     public static final String DOCUMENT_EXPLANATION = KNSPropertyConstants.DOCUMENT_EXPLANATION;
-    public static final String DOCUMENT_FINAL_DATE = KNSPropertyConstants.DOCUMENT_FINAL_DATE;
+    public static final String DOCUMENT_FINAL_DATE = "documentFinalDate";
     public static final String DOCUMENT_HEADER = KNSPropertyConstants.DOCUMENT_HEADER;
     public static final String DOCUMENT_HEADER_ID = "documentHeaderId";
     public static final String DOCUMENT_NUMBER = KNSPropertyConstants.DOCUMENT_NUMBER;
     public static final String DOCUMENT_REVERSAL_DATE = "documentReversalDate";
     public static final String DOCUMENT_TITLE = "documentTitle";
     public static final String DOCUMENT_TYPE = "documentType";
-    public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
     public static final String DOMESTIC_CHARGE_AMT = "domesticChargeAmt";
     public static final String DUMMY_BUSINESS_OBJECT = "dummyBusinessObject";
     public static final String DV_ADMIN_USER = "DVAdminUser";
@@ -480,6 +479,7 @@ public class KFSPropertyConstants {
     public static final String EMPLOYEE_RECORD = "employeeRecord";
     public static final String EMPLOYEE_STATUS_CODE = KNSPropertyConstants.EMPLOYEE_STATUS_CODE;
     public static final String EMPLOYEE_TYPE_CODE = KNSPropertyConstants.EMPLOYEE_TYPE_CODE;
+    public static final String ENCUMBRANCE_DOCUMENT_TYPE_CODE = "documentTypeCode";
     public static final String ENCUMBRANCE_UPDATE_CODE = "encumbranceUpdateCode";
     public static final String ENDOWMENT_INCOME_ACCOUNT = "endowmentIncomeAccount";
     public static final String ENDOWMENT_INCOME_ACCOUNT_NUMBER = "endowmentIncomeAccountNumber";
@@ -568,6 +568,8 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE = "financialDocumentCreditCardTypeCode";
     public static final String FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER = "financialDocumentCreditCardVendorNumber";
     public static final String FINANCIAL_DOCUMENT_DEPOSIT_LINE_NUMBER = "financialDocumentDepositLineNumber";
+    public static final String DOCUMENT_DESCRIPTION = KNSPropertyConstants.DOCUMENT_DESCRIPTION;
+    @Deprecated
     public static final String FINANCIAL_DOCUMENT_DESCRIPTION = "financialDocumentDescription";
     public static final String FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "financialDocumentInErrorNumber";
     public static final String FINANCIAL_DOCUMENT_LINE_DESCRIPTION = "financialDocumentLineDescription";
@@ -591,11 +593,15 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_DOCUMENT_REFERENCE_NBR = "referenceFinancialDocumentNumber";
     public static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";
     public static final String FINANCIAL_DOCUMENT_STATUS = "financialDocumentStatus";
-    public static final String FINANCIAL_DOCUMENT_STATUS_CODE = KNSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE;
+    public static final String FINANCIAL_DOCUMENT_STATUS_CODE = "financialDocumentStatusCode";
     public static final String FINANCIAL_DOCUMENT_STATUS_NAME = "financialDocumentStatusName";
+    public static final String DOCUMENT_TEMPLATE_NUMBER = KNSPropertyConstants.DOCUMENT_TEMPLATE_NUMBER;
+    @Deprecated
     public static final String FINANCIAL_DOCUMENT_TEMPLATE_NUMBER = "financialDocumentTemplateNumber";
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT = "financialDocumentTotalAmount";
-    public static final String FINANCIAL_DOCUMENT_TYPE_CODE = KNSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE;
+    public static final String DOCUMENT_TYPE_CODE = KNSPropertyConstants.DOCUMENT_TYPE_CODE;
+    // below field used by KFS specifically
+    public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     public static final String FINANCIAL_ELIMINATIONS_OBJECT_CODE = "financialEliminationsObjectCode";
     public static final String FINANCIAL_FEDERAL_FUNDED = "financialFederalFunded";
     public static final String FINANCIAL_FEDERAL_FUNDED_CODE = "financialFederalFundedCode";

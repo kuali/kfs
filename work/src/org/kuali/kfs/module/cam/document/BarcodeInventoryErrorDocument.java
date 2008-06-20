@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
 
 
-public class BarcodeInventoryErrorDocument extends TransactionalDocumentBase {
+public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
     
-	private DocumentHeader documentHeader;
     private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
     
 	/**
@@ -64,26 +60,6 @@ public class BarcodeInventoryErrorDocument extends TransactionalDocumentBase {
 	 */
 	public void setUploaderUniversalIdentifier(String uploaderUniversalIdentifier) {
 		this.uploaderUniversalIdentifier = uploaderUniversalIdentifier;
-	}
-
-	/**
-	 * Gets the documentHeader attribute.
-	 * 
-	 * @return Returns the documentHeader
-	 * 
-	 */
-	public DocumentHeader getDocumentHeader() { 
-		return documentHeader;
-	}
-
-	/**
-	 * Sets the documentHeader attribute.
-	 * 
-	 * @param documentHeader The documentHeader to set.
-	 * @deprecated
-	 */
-	public void setDocumentHeader(DocumentHeader documentHeader) {
-		this.documentHeader = documentHeader;
 	}
 
     public List<BarcodeInventoryErrorDetail> getBarcodeInventoryErrorDetail() {

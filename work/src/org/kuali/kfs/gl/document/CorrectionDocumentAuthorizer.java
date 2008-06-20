@@ -20,14 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
+import org.kuali.kfs.document.AmountTotaling;
 
-public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {
+public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentAuthorizer.class);
 
     public CorrectionDocumentAuthorizer() {
@@ -40,9 +41,9 @@ public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         LOG.debug("calling DocumentActionFlags.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
-        DocumentActionFlags flags = new DocumentActionFlags(super.getDocumentActionFlags(document, user));
+        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         // if document implements AmountTotaling interface, then we should display the total
         if (document instanceof AmountTotaling) {
@@ -63,7 +64,7 @@ public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.stateIsCanceled() || (document.getDocumentHeader().getFinancialDocumentInErrorNumber() != null)) {
+        if (workflowDocument.stateIsCanceled() || (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() != null)) {
             editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
         }
         else if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {

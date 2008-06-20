@@ -37,7 +37,7 @@
             p:parameterDetailType="GraduateAssistantRate" />
     </property>
     <property name="documentTypeName" value="GraduateAssistantRateMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GAR" />
     <property name="workflowProperties" >
       <ref bean="GraduateAssistantRateMaintenanceDocument-workflowProperties" />

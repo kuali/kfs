@@ -28,7 +28,7 @@
             p:parameterDetailType="CapitalAssetTransactionType" />
     </property>
     <property name="documentTypeName" value="CapitalAssetTransactionTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMTT" />
     <property name="workflowProperties" >
       <ref bean="CapitalAssetTransactionTypeMaintenanceDocument-workflowProperties" />

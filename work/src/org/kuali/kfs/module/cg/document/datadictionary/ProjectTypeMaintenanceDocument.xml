@@ -30,7 +30,7 @@
             p:parameterDetailType="ProjectType" />
     </property>
     <property name="documentTypeName" value="ProjectTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRJT" />
     <property name="workflowProperties" >
       <ref bean="ProjectTypeMaintenanceDocument-workflowProperties" />

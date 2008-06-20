@@ -30,7 +30,7 @@
             p:parameterDetailType="NonpersonnelCategory" />
     </property>
     <property name="documentTypeName" value="NonpersonnelCategoryMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="NPC" />
     <property name="workflowProperties" >
       <ref bean="NonpersonnelCategoryMaintenanceDocument-workflowProperties" />

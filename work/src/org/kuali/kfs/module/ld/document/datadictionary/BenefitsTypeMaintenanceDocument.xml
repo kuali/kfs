@@ -30,7 +30,7 @@
             p:parameterDetailType="BenefitsType" />
     </property>
     <property name="documentTypeName" value="BenefitsTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BENT" />
     <property name="workflowProperties" >
       <ref bean="BenefitsTypeMaintenanceDocument-workflowProperties" />

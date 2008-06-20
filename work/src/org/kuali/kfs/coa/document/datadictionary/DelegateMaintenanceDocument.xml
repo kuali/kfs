@@ -47,7 +47,7 @@
     </property>
     <property name="documentTypeName" value="DelegateMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.DelegateRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.DelegatePreRules" />
     <property name="documentTypeCode" value="ADEL" />
     <property name="workflowProperties" >

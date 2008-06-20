@@ -39,7 +39,7 @@
     </property>
     <property name="documentTypeName" value="IndirectCostLookupMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.kra.budget.rules.IndirectCostLookupRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IDCL" />
     <property name="workflowProperties" >
       <ref bean="IndirectCostLookupMaintenanceDocument-workflowProperties" />

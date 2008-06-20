@@ -54,6 +54,7 @@ import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * Business rule(s) applicable to Asset Payment.
@@ -129,7 +130,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
         String label;
         if (!StringUtils.isBlank(expenditureFinancialDocumentTypeCode)) {
             Map<String, Object> keyToFind = new HashMap<String, Object>();
-            keyToFind.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
+            keyToFind.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
 
             if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {
                 label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();

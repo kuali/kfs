@@ -28,7 +28,7 @@
             p:parameterDetailType="PaymentTermType" />
     </property>
     <property name="documentTypeName" value="PaymentTermTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMPA" />
     <property name="workflowProperties" >
       <ref bean="PaymentTermTypeMaintenanceDocument-workflowProperties" />

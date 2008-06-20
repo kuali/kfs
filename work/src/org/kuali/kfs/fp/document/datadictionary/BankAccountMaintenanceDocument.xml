@@ -48,7 +48,7 @@
     </property>
     <property name="documentTypeName" value="BankAccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.financial.rules.BankAccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BACC" />
     <property name="workflowProperties" >
       <ref bean="BankAccountMaintenanceDocument-workflowProperties" />

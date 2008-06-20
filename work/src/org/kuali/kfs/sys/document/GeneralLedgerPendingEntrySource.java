@@ -17,9 +17,9 @@ package org.kuali.kfs.document;
 
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 
@@ -51,7 +51,7 @@ public interface GeneralLedgerPendingEntrySource {
      * Returns a document header associated with this general ledger posting helper
      * @return a document header
      */
-    public DocumentHeader getDocumentHeader();
+    public FinancialSystemDocumentHeader getDocumentHeader();
     
     /**
      * Requests that the posting helper removes any general ledger pending entries it might be holding, so that new ones can be generated

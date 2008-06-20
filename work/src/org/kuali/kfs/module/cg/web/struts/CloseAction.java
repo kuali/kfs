@@ -15,7 +15,7 @@
  */
 package org.kuali.module.cg.web.struts.action;
 
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
 
-public class CloseAction extends KualiTransactionalDocumentActionBase {
+public class CloseAction extends FinancialSystemTransactionalDocumentActionBase {
 }

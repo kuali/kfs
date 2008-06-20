@@ -23,9 +23,9 @@
 <c:set var="showDeposits" value="${allowAdditionalDeposits || (!empty KualiForm.document.deposits)}" />
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashManagement" documentTypeName="CashManagementDocument" renderMultipart="true" showTabButtons="true">
-    <kul:hiddenDocumentFields isTransactionalDocument="false"/>
+    <kfs:hiddenDocumentFields isFinancialDocument="false"/>
     
-    <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
     
     <c:if test="${!empty KualiForm.document.checks}">
       <logic:iterate indexId="ctr" name="KualiForm" property="document.checks" id="currentCheck">
@@ -56,5 +56,5 @@
     <kul:routeLog/>
     <kul:panelFooter/>
     
-    <kul:documentControls transactionalDocument="false"/>
+    <kfs:documentControls transactionalDocument="false"/>
 </kul:documentPage>

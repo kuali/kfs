@@ -51,7 +51,7 @@
     </property>
     <property name="documentTypeName" value="OffsetDefinitionMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.OffsetDefinitionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OFSD" />
     <property name="workflowProperties" >
       <ref bean="OffsetDefinitionMaintenanceDocument-workflowProperties" />

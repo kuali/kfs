@@ -17,7 +17,7 @@ package org.kuali.module.kra.document;
 
 import java.util.List;
 
-import org.kuali.core.document.TransactionalDocument;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocument;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
@@ -26,7 +26,7 @@ import org.kuali.module.kra.bo.AdhocWorkgroup;
 /**
  * Research Administration Document Interface
  */
-public interface ResearchDocument extends TransactionalDocument {
+public interface ResearchDocument extends FinancialSystemTransactionalDocument {
     public void initialize();
 
     public List<AdhocPerson> getAdhocPersons();

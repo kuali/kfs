@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectDictionaryService;
@@ -132,7 +133,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
 
         setDocTypeName(discoverDocumentTypeName());
     }
-
+    
     /**
      * Refactored out actually calling the documentAuthorizer methods, since FinancialDocuments call a differently-parameterized
      * version of getEditMode

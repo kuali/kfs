@@ -112,7 +112,8 @@
   </bean>
   <bean id="OriginEntryFull-financialDocumentTypeCode" parent="OriginEntryFull-financialDocumentTypeCode-parentBean" />
 
-  <bean id="OriginEntryFull-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="OriginEntryFull-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
     <property name="shortLabel" value="DocTypCd" />
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -226,7 +227,7 @@
   </bean>
   <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode" parent="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
     <property name="label" value="Reference Document Type Code" />
     <property name="shortLabel" value="RefDocTypCd" />

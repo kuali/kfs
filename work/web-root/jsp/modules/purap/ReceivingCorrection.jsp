@@ -20,7 +20,7 @@
     htmlFormAction="purapReceivingCorrection" renderMultipart="true"
     showTabButtons="true">
 
-    <kul:hiddenDocumentFields isTransactionalDocument="false" />
+    <kfs:hiddenDocumentFields isFinancialDocument="false" />
         
 	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
 	<html:hidden property="document.receivingLineDocumentNumber" />
@@ -29,7 +29,7 @@
     	<c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
     		    
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<purap:receivingVendor
 	    documentAttributes="${DataDictionary.ReceivingCorrectionDocument.attributes}" />
@@ -50,7 +50,7 @@
     		
     <kul:panelFooter />
 	
-  	<kul:documentControls transactionalDocument="true"  />
+  	<kfs:documentControls transactionalDocument="true"  />
     
    
 </kul:documentPage>

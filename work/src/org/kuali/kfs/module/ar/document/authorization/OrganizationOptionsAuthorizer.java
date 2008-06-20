@@ -18,7 +18,7 @@ package org.kuali.module.ar.document.authorization;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
@@ -27,7 +27,7 @@ import org.kuali.module.ar.bo.OrganizationOptions;
 /**
  * This class...
  */
-public class OrganizationOptionsAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {

@@ -30,7 +30,7 @@
             p:parameterDetailType="Cfda" />
     </property>
     <property name="documentTypeName" value="CfdaMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CFDA" />
     <property name="workflowProperties" >
       <ref bean="CfdaMaintenanceDocument-workflowProperties" />

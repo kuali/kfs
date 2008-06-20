@@ -28,7 +28,7 @@
 		<kul:help documentTypeName="${DataDictionary.KualiRoutingFormDocument.documentTypeName}" pageName="Main Page" altText="page help"/>
 	</div>    
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<kra-rf:routingFormMainPageAgencyDeliveryInfo/>
 
@@ -43,7 +43,7 @@
       </tr>
     </table>
 
-    <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+    <kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];

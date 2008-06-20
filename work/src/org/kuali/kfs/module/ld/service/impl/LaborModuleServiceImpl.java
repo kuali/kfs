@@ -115,7 +115,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         document.setTargetAccountingLines(targetAccountingLines);
 
         DocumentHeader documentHeader = document.getDocumentHeader();
-        documentHeader.setFinancialDocumentDescription(documentDescription);
+        documentHeader.setDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
 
         document.prepareForSave();

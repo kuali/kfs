@@ -19,7 +19,7 @@ import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 
 
 /**
- * This class extends the parent KualiTransactionalDocumentActionBase class, which contains all common action methods. Since the TOF
+ * This class extends the parent FinancialSystemTransactionalDocumentActionBase class, which contains all common action methods. Since the TOF
  * follows the basic transactional document pattern, there are no specific actions that it has to implement; however, this empty
  * class is necessary for integrating into the framework.
  */

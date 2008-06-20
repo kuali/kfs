@@ -303,7 +303,7 @@ function loadDocumentTypeInfo(documentTypeCodeFieldName, documentTypeNameFieldNa
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null && typeof data == 'object' ) {
-					setRecipientValue( documentTypeNameFieldName, data.financialDocumentName );
+					setRecipientValue( documentTypeNameFieldName, data.documentName );
 				} else {
 					setRecipientValue( documentTypeNameFieldName, wrapError( "doc type not found" ), true );			
 				}

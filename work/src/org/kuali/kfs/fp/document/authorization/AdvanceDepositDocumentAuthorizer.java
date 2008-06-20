@@ -22,11 +22,11 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
@@ -47,7 +47,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && (document.getDocumentHeader().getFinancialDocumentInErrorNumber() == null)) {
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null)) {
             if (workflowDocument.userIsInitiator(user)) {
                 editMode = KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY;
             }
@@ -66,10 +66,10 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
-        TransactionalDocumentActionFlags tflags = (TransactionalDocumentActionFlags) flags;
+        FinancialSystemTransactionalDocumentActionFlags tflags = flags;
         tflags.setCanErrorCorrect(false); // CCR, AD, CR, DV, andd PCDO don't allow error correction
 
         return flags;

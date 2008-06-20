@@ -28,7 +28,7 @@
             p:parameterDetailType="DeliveryRequiredDateReason" />
     </property>
     <property name="documentTypeName" value="DeliveryRequiredDateReasonMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMDR" />
     <property name="workflowProperties" >
       <ref bean="DeliveryRequiredDateReasonMaintenanceDocument-workflowProperties" />

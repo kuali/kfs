@@ -21,7 +21,7 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 /**
  * This defines methods common for all ledger posting.
  */
-public interface LedgerPostingDocument extends TransactionalDocument {
+public interface LedgerPostingDocument extends FinancialSystemTransactionalDocument {
     /**
      * @return posting year for this document
      */

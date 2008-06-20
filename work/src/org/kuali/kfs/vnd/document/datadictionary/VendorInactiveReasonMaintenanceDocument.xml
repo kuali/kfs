@@ -28,7 +28,7 @@
             p:parameterDetailType="VendorInactiveReason" />
     </property>
     <property name="documentTypeName" value="VendorInactiveReasonMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMIR" />
     <property name="workflowProperties" >
       <ref bean="VendorInactiveReasonMaintenanceDocument-workflowProperties" />

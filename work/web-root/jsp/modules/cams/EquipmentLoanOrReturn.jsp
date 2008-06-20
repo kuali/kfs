@@ -27,9 +27,9 @@
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
-	<kul:hiddenDocumentFields isFinancialDocument="false" />
+	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
 
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 
 	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalUser.personUserIdentifier,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 
@@ -144,6 +144,6 @@
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+    <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

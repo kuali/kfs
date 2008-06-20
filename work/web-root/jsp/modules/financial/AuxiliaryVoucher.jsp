@@ -27,9 +27,9 @@
 		//-->
 	    </SCRIPT>
 
-		<kul:hiddenDocumentFields />
+		<kfs:hiddenDocumentFields />
 
-        <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+        <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
 		<!-- AUXILIARY VOUCHER SPECIFIC FIELDS -->
 		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
 	    	
@@ -132,6 +132,6 @@
 
 		<kul:panelFooter/>
 
-		<kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+		<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

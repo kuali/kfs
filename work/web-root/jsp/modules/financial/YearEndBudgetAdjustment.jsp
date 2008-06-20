@@ -19,9 +19,9 @@
 	htmlFormAction="financialYearEndBudgetAdjustment" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields/>
+	<kfs:hiddenDocumentFields/>
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
@@ -39,6 +39,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

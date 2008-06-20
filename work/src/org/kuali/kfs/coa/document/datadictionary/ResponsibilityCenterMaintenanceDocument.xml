@@ -30,7 +30,7 @@
             p:parameterDetailType="ResponsibilityCenter" />
     </property>
     <property name="documentTypeName" value="ResponsibilityCenterMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="RCEN" />
     <property name="workflowProperties" >
       <ref bean="ResponsibilityCenterMaintenanceDocument-workflowProperties" />

@@ -38,7 +38,7 @@
     </property>
     <property name="documentTypeName" value="AchBankMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.pdp.rules.AchBankRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ABNK" />
     <property name="workflowProperties" >
       <ref bean="AchBankMaintenanceDocument-workflowProperties" />

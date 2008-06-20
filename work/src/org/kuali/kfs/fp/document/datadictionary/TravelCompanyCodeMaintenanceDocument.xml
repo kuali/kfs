@@ -37,7 +37,7 @@
             p:parameterDetailType="TravelCompanyCode" />
     </property>
     <property name="documentTypeName" value="TravelCompanyCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVTC" />
     <property name="workflowProperties" >
       <ref bean="TravelCompanyCodeMaintenanceDocument-workflowProperties" />

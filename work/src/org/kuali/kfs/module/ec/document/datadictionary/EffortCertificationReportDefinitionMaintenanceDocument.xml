@@ -59,7 +59,7 @@
     <property name="description" value="Document used to create or update Effort Certification Report Maintenance Document" />
     <property name="documentTypeName" value="EffortCertificationReportDefinitionMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.effort.rules.EffortCertificationReportDefinitionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.effort.rules.EffortCertificationReportDefinitionMaintenanceDocumentPreRules" />
     <property name="documentTypeCode" value="ARPT" />
     <property name="authorizations" >

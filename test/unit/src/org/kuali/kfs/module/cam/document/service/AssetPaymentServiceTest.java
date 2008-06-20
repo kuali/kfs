@@ -28,16 +28,17 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.cams.document.AssetPaymentDocument;
 import org.kuali.module.cams.fixture.AssetPaymentServiceFixture;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.test.ConfigureContext;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.RicePropertyConstants;
 
 // @ConfigureContext(session = KHUNTLEY)
 @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
@@ -131,7 +132,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
         // ********** Testing data **********************
         key = new HashMap();
-        key.put(RicePropertyConstants.DOCUMENT_NUMBER,document.getDocumentNumber());
+        key.put(KNSPropertyConstants.DOCUMENT_NUMBER,document.getDocumentNumber());
 
         // Checking that total cost was updated in the asset table
         document = (AssetPaymentDocument) businessObjectService.findByPrimaryKey(AssetPaymentDocument.class, key);
@@ -142,7 +143,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
        
         key = new HashMap();
         key.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, document.getAsset().getCapitalAssetNumber());
-        key.put(RicePropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
+        key.put(KNSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         List<AssetPayment> assetPayments = (List<AssetPayment>) businessObjectService.findMatching(AssetPayment.class, key);
 
         // Checking that all rows were saved
@@ -165,12 +166,12 @@ public class AssetPaymentServiceTest extends KualiTestBase {
 
     public DocumentHeader getDocumentHeader() throws Exception {
         KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetPaymentDocument", GlobalVariables.getUserSession().getUniversalUser());
-        DocumentHeader documentHeader = new DocumentHeader();
+        FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setWorkflowDocument(workflowDocument);
         documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
         documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         documentHeader.setExplanation("New asset payment");
-        documentHeader.setFinancialDocumentDescription("New asset payment");
+        documentHeader.setDocumentDescription("New asset payment");
         documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
         return documentHeader;
     }

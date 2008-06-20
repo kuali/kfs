@@ -23,10 +23,10 @@
 	htmlFormAction="financialCreditCardReceipt"
 	documentTypeName="CreditCardReceiptDocument"
 	renderMultipart="true" showTabButtons="true">
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 	<!-- Credit Card Receipt Document Specific Hidden Fields -->
 	<html:hidden property="document.nextCcCrLineNumber" />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">
 	    <!--
 	        function submitForm() {
@@ -44,6 +44,6 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls
+	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

@@ -24,11 +24,11 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<kul:hiddenDocumentFields excludePostingYear="true" />
+	<kfs:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}"
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
         fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
         postingYearAttributes="${DataDictionary.RequisitionDocument.attributes}" >
@@ -37,7 +37,7 @@
 	    	documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
 	    	detailSectionLabel="Requisition Detail"
 	    	editableFundingSource="true" />
-    </kul:documentOverview>
+    </kfs:documentOverview>
 	
     <purap:vendor
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
@@ -80,6 +80,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

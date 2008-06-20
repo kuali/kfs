@@ -14,7 +14,7 @@
           </display>
           <searchDefinition allowWildcards="true" caseSensitive="false" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//documentHeader/financialDocumentDescription')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//documentHeader/documentDescription')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

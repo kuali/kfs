@@ -76,7 +76,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * Customer Invoice Detail (i.e. insertSourceLine) has its values defaulted by
      * CustomerInvoiceDocumentForm.createNewSourceAccountingLine()
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

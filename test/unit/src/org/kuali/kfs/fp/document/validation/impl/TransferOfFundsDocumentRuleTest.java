@@ -501,7 +501,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     private TransferOfFundsDocument getDocumentParameterNoDescription() throws Exception {
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
-        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        document.getDocumentHeader().setDocumentDescription(null);
         return document;
     }
 

@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -82,8 +81,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
      */
     private boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
         assetRetirementDoc.refreshReferenceObject(CamsConstants.AssetRetirementGlobal.DOCUMENT_HEADER);
-        DocumentHeader documentHeader = assetRetirementDoc.getDocumentHeader();
-        if (documentHeader != null && KNSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode())) {
+        if (assetRetirementDoc.getDocumentHeader() != null && KNSConstants.DocumentStatusCodes.APPROVED.equals(assetRetirementDoc.getDocumentHeader().getFinancialDocumentStatusCode())) {
             return true;
         }
         return false;

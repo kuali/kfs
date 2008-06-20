@@ -30,8 +30,8 @@
 	htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
     
-    <kul:hiddenDocumentFields isTransactionalDocument="false" />
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:hiddenDocumentFields isFinancialDocument="false" />
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     
     <c:set var="hiddenFieldNames" value="emplid,universityFiscalYear,effortCertificationReportNumber,effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
 	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
@@ -64,5 +64,5 @@
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kul:documentControls transactionalDocument="false" />
+    <kfs:documentControls transactionalDocument="false" />
 </kul:documentPage>

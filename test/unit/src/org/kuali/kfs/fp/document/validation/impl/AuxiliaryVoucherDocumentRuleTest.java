@@ -213,7 +213,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     private AuxiliaryVoucherDocument createDocumentInvalidDescription() throws Exception {
         AuxiliaryVoucherDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), AuxiliaryVoucherDocument.class);
 
-        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        document.getDocumentHeader().setDocumentDescription(null);
         return document;
     }
 

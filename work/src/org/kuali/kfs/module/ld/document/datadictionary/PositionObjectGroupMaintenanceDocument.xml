@@ -24,7 +24,7 @@
     <property name="summary" value="Position Object Group Code Document" />
     <property name="description" value="Document used to create or update Position Object Group Objects" />
     <property name="documentTypeName" value="PositionObjectGroupMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="POGR" />
     <property name="workflowProperties" >
       <ref bean="PositionObjectGroupMaintenanceDocument-workflowProperties" />

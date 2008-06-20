@@ -24,7 +24,7 @@
     <property name="summary" value="Budget Construction Duration Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Duration Maintenance Document objects" />
     <property name="documentTypeName" value="AppointmentFundingDurationMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DURA" />
     <property name="authorizations" >
       <list>

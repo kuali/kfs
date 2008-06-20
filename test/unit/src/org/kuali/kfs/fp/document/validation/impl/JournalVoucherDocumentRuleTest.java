@@ -258,7 +258,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     private JournalVoucherDocument createDocumentInvalidDescription() throws Exception {
         JournalVoucherDocument retval = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), JournalVoucherDocument.class);
 
-        retval.getDocumentHeader().setFinancialDocumentDescription(new String());
+        retval.getDocumentHeader().setDocumentDescription(new String());
         return retval;
     }
 

@@ -34,6 +34,6 @@
 	
 	<kul:panelFooter />
 	
-	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+	<kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 	
 </kul:documentPage>

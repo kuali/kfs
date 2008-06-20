@@ -24,8 +24,8 @@
 	documentTypeName="JournalVoucherDocument"
 	htmlFormAction="financialJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
-	<kul:hiddenDocumentFields />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:hiddenDocumentFields />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<!-- JOURNAL VOUCHER SPECIFIC FIELDS -->
 	<kul:tab tabTitle="Journal Voucher Details" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EDIT_JOURNAL_VOUCHER_ERRORS}">
@@ -160,5 +160,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 </kul:documentPage>

@@ -93,7 +93,7 @@ public class LockboxServiceImpl implements LockboxService {
 
                 cashControlDocument = (CashControlDocument)KNSServiceLocator.getDocumentService().getNewDocument("CashControlDocument");
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
-                cashControlDocument.getDocumentHeader().setFinancialDocumentDescription("Created by Lockbox " + lockbox.getLockboxNumber());
+                cashControlDocument.getDocumentHeader().setDocumentDescription("Created by Lockbox " + lockbox.getLockboxNumber());
 
                 AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
                 AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();

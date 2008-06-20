@@ -33,7 +33,7 @@
     <property name="description" value="Document used to create or update global location asset document." />
     <property name="documentTypeName" value="AssetLocationGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetLocationGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ALOC" />
     <property name="authorizations" >
       <list>

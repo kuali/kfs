@@ -26,11 +26,9 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.TransactionalDocumentEntry;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DataDictionaryService;
@@ -43,6 +41,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.test.fixtures.UserNameFixture;
@@ -114,8 +113,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     public static void testConvertIntoErrorCorrection_documentAlreadyCorrected(AccountingDocument document, TransactionalDocumentDictionaryService dictionaryService) throws Exception {
 
         if (dictionaryService.getAllowsErrorCorrection(document).booleanValue()) {
-            DocumentHeader header = document.getDocumentHeader();
-            header.setCorrectedByDocumentId("1");
+            document.getDocumentHeader().setCorrectedByDocumentId("1");
 
             boolean failedAsExpected = false;
             try {
@@ -298,7 +296,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
         // collect some preCopy data
         String preCopyId = document.getDocumentNumber();
-        String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
+        String preCopyCopiedFromId = document.getDocumentHeader().getDocumentTemplateNumber();
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
@@ -333,7 +331,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // DocumentNote note = document.getDocumentHeader().getNote(0);
         // assertTrue(note.getFinancialDocumentNoteText().indexOf("copied from") != -1);
         // copiedFrom should be equal to old id
-        String copiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
+        String copiedFromId = document.getDocumentHeader().getDocumentTemplateNumber();
         assertEquals(preCopyId, copiedFromId);
         // accounting lines should be have different docHeaderIds but same
         // amounts

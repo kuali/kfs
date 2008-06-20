@@ -41,6 +41,6 @@
 	
 	<div style="color:green;font-weight:bold"><br/><center>${KualiForm.approvalsMessage}</center></div>
 	
-	<kul:documentControls transactionalDocument="false" suppressRoutingControls="${KualiForm.numAuditErrors != 0}" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+	<kfs:documentControls transactionalDocument="false" suppressRoutingControls="${KualiForm.numAuditErrors != 0}" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 	
 </kul:documentPage>

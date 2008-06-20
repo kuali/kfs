@@ -54,7 +54,7 @@
     </property>
     <property name="documentTypeName" value="SubObjCdMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.SubObjCdRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.SubObjectPreRules" />
     <property name="documentTypeCode" value="SOBJ" />
     <property name="workflowProperties" >

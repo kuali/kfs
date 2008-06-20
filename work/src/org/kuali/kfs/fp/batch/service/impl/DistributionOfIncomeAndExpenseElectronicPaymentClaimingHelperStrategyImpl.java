@@ -125,7 +125,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
     protected void addDescriptionToDocument(DistributionOfIncomeAndExpenseDocument document) {
         String description = parameterService.getParameterValue(DistributionOfIncomeAndExpenseDocument.class, DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DOCUMENT_DESCRIPTION_PARAM_NAME);
         if (description != null) {
-            document.getDocumentHeader().setFinancialDocumentDescription(description);
+            document.getDocumentHeader().setDocumentDescription(description);
         } else {
             throw new RuntimeException("There is evidently no value for Parameter KFS-FP / Distribution of Income and Expense / "+DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DOCUMENT_DESCRIPTION_PARAM_NAME+"; please set a value before claiming Electronic Payments");
         }

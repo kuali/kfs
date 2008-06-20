@@ -6,13 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
@@ -36,7 +36,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private Asset mergedTargetCapitalAsset;
     private AssetRetirementReason retirementReason;
     private AssetStatus inventoryStatus;
-    private DocumentHeader documentHeader;
+    private FinancialSystemDocumentHeader documentHeader;
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
     // non-persistent relation
     private AssetRetirementGlobalDetail sharedRetirementInfo;
@@ -330,11 +330,11 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
 
-    public DocumentHeader getDocumentHeader() {
+    public FinancialSystemDocumentHeader getDocumentHeader() {
         return documentHeader;
     }
 
-    public void setDocumentHeader(DocumentHeader documentHeader) {
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
     }
 

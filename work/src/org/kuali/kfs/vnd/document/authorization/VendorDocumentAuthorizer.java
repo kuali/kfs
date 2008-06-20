@@ -24,12 +24,11 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.MaintenanceDocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
@@ -47,7 +46,7 @@ import org.kuali.module.vendor.util.VendorUtils;
 /**
  * Authorizer class for Vendor maintenance document
  */
-public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     /**
      * By default, there are no restrictions for the fields in the superclass. This method is overridden here to makes all the
@@ -144,8 +143,8 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        MaintenanceDocumentActionFlags docActionFlags = new MaintenanceDocumentActionFlags(super.getDocumentActionFlags(document, user));
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemDocumentActionFlags docActionFlags = super.getDocumentActionFlags(document, user);
         docActionFlags.setCanBlanketApprove(false);
         return docActionFlags;
     }

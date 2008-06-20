@@ -1030,7 +1030,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument, expiredOrClosedAccountList);
 
-        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(createPreqDocumentDescription(paymentRequestDocument.getPurchaseOrderIdentifier(), paymentRequestDocument.getVendorName()));
+        paymentRequestDocument.getDocumentHeader().setDocumentDescription(createPreqDocumentDescription(paymentRequestDocument.getPurchaseOrderIdentifier(), paymentRequestDocument.getVendorName()));
 
         // write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the
         // top of the document
@@ -1266,7 +1266,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         //change document description
-        preq.getDocumentHeader().setFinancialDocumentDescription( createPreqDocumentDescription(preq.getPurchaseOrderIdentifier(), preq.getVendorName()) );
+        preq.getDocumentHeader().setDocumentDescription( createPreqDocumentDescription(preq.getPurchaseOrderIdentifier(), preq.getVendorName()) );
      }
 
     /**

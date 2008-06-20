@@ -20,9 +20,9 @@
 	htmlFormAction="arCustomerInvoiceDocument" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
     <ar:customerInvoiceOrganization documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"  editingMode="${KualiForm.editingMode}"/>	
 	
@@ -95,6 +95,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

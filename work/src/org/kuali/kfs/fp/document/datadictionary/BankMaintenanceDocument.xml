@@ -31,7 +31,7 @@
     </property>
     <property name="documentTypeName" value="BankMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.financial.rules.BankRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BANK" />
     <property name="workflowProperties" >
       <ref bean="BankMaintenanceDocument-workflowProperties" />

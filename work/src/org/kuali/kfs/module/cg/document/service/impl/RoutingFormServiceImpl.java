@@ -292,7 +292,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
 
             proposalMaintenanceDocument.setNewMaintainableObject(proposalMaintainable);
 
-            proposalMaintenanceDocument.getDocumentHeader().setFinancialDocumentDescription("Created from Routing Form " + routingFormDocument.getDocumentNumber());
+            proposalMaintenanceDocument.getDocumentHeader().setDocumentDescription("Created from Routing Form " + routingFormDocument.getDocumentNumber());
 
             documentService.updateDocument(proposalMaintenanceDocument);
 

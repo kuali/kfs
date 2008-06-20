@@ -69,7 +69,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
     }
 
     private void header(Document document) {
-        document.getDocumentHeader().setFinancialDocumentDescription("test");
+        document.getDocumentHeader().setDocumentDescription("test");
     }
 
     private PaymentRequestDocument createBasicDocument() throws WorkflowException {
@@ -105,11 +105,11 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         // paymentRequestDocument.setInvoiceDate(today);
         // UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getKfsUser();
         // paymentRequestDocument.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
-        // paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("test description");
+        // paymentRequestDocument.getDocumentHeader().setDocumentDescription("test description");
 
         // PurchaseOrderDocument purchaseOrderDocument =
         // SpringContext.getBean(DocumentService.class).getNewDocument(PurchaseOrderDocument.class);
-        // purchaseOrderDocument.getDocumentHeader().setFinancialDocumentDescription("test");
+        // purchaseOrderDocument.getDocumentHeader().setDocumentDescription("test");
         // documentService.saveDocument(purchaseOrderDocument);
         //        
         // paymentRequestDocument.setPurchaseOrderDocument(purchaseOrderDocument);

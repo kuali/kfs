@@ -35,9 +35,9 @@
     transactionalDocument="false"
 	>
 
-	<kul:hiddenDocumentFields
-		isFinancialDocument="true"
-		isTransactionalDocument="false" />
+	<kfs:hiddenDocumentFields
+		isFinancialDocument="false"
+		isTransactionalDocument="true" />
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
 	<html-el:hidden name="KualiForm" property="backLocation" />
@@ -49,7 +49,7 @@
 	<html-el:hidden name="KualiForm" property="accountNumber" />
 	<html-el:hidden name="KualiForm" property="subAccountNumber" />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 <%--
 		includePostingYear="true"
         postingYearOnChange="submitForm()"
@@ -68,7 +68,7 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="false"
+	<kfs:documentControls transactionalDocument="false"
 		suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
 <%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>

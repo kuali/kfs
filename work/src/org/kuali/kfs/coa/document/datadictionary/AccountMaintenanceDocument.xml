@@ -105,7 +105,7 @@
     </property>
     <property name="documentTypeName" value="AccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.AccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.AccountPreRules" />
     <property name="documentTypeCode" value="ACCT" />
     <property name="webScriptFiles" >

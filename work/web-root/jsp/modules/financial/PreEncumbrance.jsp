@@ -19,9 +19,9 @@
 	htmlFormAction="financialPreEncumbrance" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:preEncumbranceDetails editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines
 		extraTargetRowFields="referenceNumber"
@@ -32,7 +32,7 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls
+	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

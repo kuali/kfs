@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -62,7 +62,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // put accounting lines into document parameter for later
         JournalVoucherDocument document = (JournalVoucherDocument) getDocumentParameterFixture();
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        document.getDocumentHeader().setFinancialDocumentDescription(StringUtils.abbreviate("Unit Test doc for "+trace[3].getMethodName(), SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getDocumentHeader().getClass(), "financialDocumentDescription")));
+        document.getDocumentHeader().setDocumentDescription(StringUtils.abbreviate("Unit Test doc for "+trace[3].getMethodName(), SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getDocumentHeader().getClass(), "documentDescription")));
         document.getDocumentHeader().setExplanation(StringUtils.abbreviate("Unit test created document for "+trace[3].getClassName()+"."+trace[3].getMethodName(), SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getDocumentHeader().getClass(), "explanation")));
 
         // set accountinglines to document
@@ -91,7 +91,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving copy source document", null);
         // collect some preCopy data
         String preCopyId = document.getDocumentNumber();
-        String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
+        String preCopyCopiedFromId = document.getDocumentHeader().getDocumentTemplateNumber();
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
@@ -122,7 +122,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // DocumentNote note = document.getDocumentHeader().getNote(0);
         // assertTrue(note.getFinancialDocumentNoteText().indexOf("copied from") != -1);
         // copiedFrom should be equal to old id
-        String copiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
+        String copiedFromId = document.getDocumentHeader().getDocumentTemplateNumber();
         assertEquals(preCopyId, copiedFromId);
         // accounting lines should be have different docHeaderIds but same amounts
         List postCopySourceLines = document.getSourceAccountingLines();

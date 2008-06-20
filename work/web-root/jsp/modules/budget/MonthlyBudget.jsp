@@ -24,7 +24,7 @@
     transactionalDocument="false"
 	>
 
-<%--	<kul:hiddenDocumentFields /> --%>
+<%--	<kfs:hiddenDocumentFields /> --%>
     <c:forEach items="${KualiForm.editingMode}" var="mode">
       <html:hidden property="editingMode(${mode.key})"/>
     </c:forEach>

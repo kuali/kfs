@@ -72,7 +72,7 @@
     </property>
     <property name="documentTypeName" value="ChartMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.ChartRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="COAT" />
     <property name="workflowProperties" >
       <ref bean="ChartMaintenanceDocument-workflowProperties" />

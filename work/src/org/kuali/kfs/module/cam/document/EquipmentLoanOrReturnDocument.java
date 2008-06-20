@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceLock;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DateTimeService;
@@ -33,6 +32,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
@@ -40,7 +40,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 
-public class EquipmentLoanOrReturnDocument extends TransactionalDocumentBase {
+public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
 
     private String documentNumber;
     private String campusTagNumber;

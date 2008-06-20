@@ -22,12 +22,12 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.authorization.KfsAuthorizationConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -43,8 +43,8 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        TransactionalDocumentActionFlags flags = new TransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         flags.setCanErrorCorrect(false); // PCDO doesn't allow error correction
 
@@ -76,7 +76,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
         Map editModeMap = new HashMap();
         // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction
         // document, d) it is not an ADHOC request (important so that ADHOC don't get full entry).
-        if (workflowDocument.isApprovalRequested() && activeNodes.contains(RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT) && (document.getDocumentHeader().getFinancialDocumentInErrorNumber() == null) && !document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
+        if (workflowDocument.isApprovalRequested() && activeNodes.contains(RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT) && (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null) && !document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY, "TRUE");
         }
         else {

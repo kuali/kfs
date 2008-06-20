@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -112,7 +111,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         LOG.debug("clearDocument() started");
 
         // Clearing document overview fields
-        getDocumentHeader().setFinancialDocumentDescription(null);
+        getDocumentHeader().setDocumentDescription(null);
         getDocumentHeader().setExplanation(null);
         getDocumentHeader().setFinancialDocumentTotalAmount(null);
         getDocumentHeader().setOrganizationDocumentNumber(null);

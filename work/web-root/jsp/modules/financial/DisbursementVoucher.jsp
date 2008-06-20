@@ -43,7 +43,7 @@
 		<c:set var="adminEntryMode" value="true" scope="request" />
 	</c:if>
 
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
 	<html:hidden property="document.dvPayeeDetail.documentNumber" />
 	<html:hidden property="document.dvPayeeDetail.versionNumber" />
@@ -59,7 +59,7 @@
 		property="document.dvNonResidentAlienTax.documentNumber" />
 	<html:hidden property="document.dvNonResidentAlienTax.versionNumber" />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<dv:dvPayee />
 
@@ -97,7 +97,7 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls
+	<kfs:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

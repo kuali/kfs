@@ -44,7 +44,7 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
     public boolean userMayUseToClaim(UniversalUser claimingUser) {
         boolean userMayUse = super.userMayUseToClaim(claimingUser);
         if (userMayUse) {
-            userMayUse = getDocumentTypeService().getDocumentTypeByName(getClaimingDocumentWorkflowDocumentType()).isFinDocumentTypeActiveIndicator();
+            userMayUse = getDocumentTypeService().getDocumentTypeByName(getClaimingDocumentWorkflowDocumentType()).isDocumentTypeActiveIndicator();
         }
         return userMayUse;
     }

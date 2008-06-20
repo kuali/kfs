@@ -50,7 +50,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         loadDataDictionary();
         List<String> documentTypeCodes = new ArrayList<String>();
         for (DocumentType type : (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
-            documentTypeCodes.add(type.getFinancialDocumentTypeCode());
+            documentTypeCodes.add(type.getDocumentTypeCode());
         }
         // Using HashSet since duplicate objects would otherwise be returned
         HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());

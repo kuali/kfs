@@ -278,7 +278,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setFinancialSubObjectCode(getEntryValue(glpeSourceDetail.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
         explicitEntry.setTransactionEntryOffsetIndicator(false);
         explicitEntry.setTransactionLedgerEntryAmount(glpeSource.getGeneralLedgerPendingEntryAmountForDetail(glpeSourceDetail));
-        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(glpeSourceDetail.getFinancialDocumentLineDescription(), glpeSource.getDocumentHeader().getFinancialDocumentDescription()));
+        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(glpeSourceDetail.getFinancialDocumentLineDescription(), glpeSource.getDocumentHeader().getDocumentDescription()));
         explicitEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
         // classes
         explicitEntry.setUniversityFiscalYear(glpeSource.getPostingYear());

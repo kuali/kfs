@@ -49,8 +49,8 @@
       <html:hidden property="document.approvalObjectCodeBalances(${objCodeBal.key})"/>
     </c:forEach>
     
-    <kul:hiddenDocumentFields />
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    <kfs:hiddenDocumentFields />
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS}">
@@ -194,5 +194,5 @@
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kul:documentControls transactionalDocument="true" />
+    <kfs:documentControls transactionalDocument="true" />
 </kul:documentPage>

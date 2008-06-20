@@ -764,8 +764,8 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborCorrectionDocument document = laborCorrectionForm.getLaborCorrectionDocument();
 
         // Is there a description?
-        if (StringUtils.isEmpty(document.getDocumentHeader().getFinancialDocumentDescription())) {
-            GlobalVariables.getErrorMap().putError("document.documentHeader.financialDocumentDescription", KFSKeyConstants.ERROR_DOCUMENT_NO_DESCRIPTION);
+        if (StringUtils.isEmpty(document.getDocumentHeader().getDocumentDescription())) {
+            GlobalVariables.getErrorMap().putError("document.documentHeader.documentDescription", KFSKeyConstants.ERROR_DOCUMENT_NO_DESCRIPTION);
             return false;
         }
 

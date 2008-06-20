@@ -39,7 +39,7 @@
     </property>
     <property name="documentTypeName" value="ObjectConsMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectConsRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OBJC" />
     <property name="webScriptFiles" >
       <list>

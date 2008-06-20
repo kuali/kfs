@@ -15,14 +15,19 @@
  */
 package org.kuali.kfs.batch;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.dao.FinancialSystemDocumentHeaderDao;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -42,7 +47,8 @@ public class PurgeDocumentContentsStep extends AbstractStep {
         financialDocumentFinalCalendar.add(GregorianCalendar.DAY_OF_YEAR, -numberOfDaysFinal);
         String currentDocumentNumber = null;
         try {
-            Iterator finalDocumentHeaderItr = documentService.getFinalDocumentHeadersByDate(financialDocumentFinalCalendar.getTime()).iterator();
+            Collection finalDocumentHeaders = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getByDocumentFinalDate(new java.sql.Date(financialDocumentFinalCalendar.getTime().getTime()));
+            Iterator finalDocumentHeaderItr = finalDocumentHeaders.iterator();
             while (finalDocumentHeaderItr.hasNext()) {
                 DocumentHeader finalDocumentHeader = (DocumentHeader) finalDocumentHeaderItr.next();
                 currentDocumentNumber = finalDocumentHeader.getDocumentNumber();
@@ -58,6 +64,7 @@ public class PurgeDocumentContentsStep extends AbstractStep {
     public void setFinalDocumentDocumentContent(DocumentHeader finalDocumentHeader) throws WorkflowException {
         // Added the special XML content flag here which indicates to the KEW engine not to execute searchable attribute indexing.
         // This allows for us to clear the content without worrying about losing our search capabilities
+        finalDocumentHeader.setWorkflowDocument(SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(finalDocumentHeader.getDocumentNumber()), GlobalVariables.getUserSession().getUniversalUser()));
         finalDocumentHeader.getWorkflowDocument().setApplicationContent("<final><doNotExecuteSearchableAttributeIndexing/></final>");
         finalDocumentHeader.getWorkflowDocument().saveRoutingData();
     }

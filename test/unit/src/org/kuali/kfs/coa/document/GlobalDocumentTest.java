@@ -109,7 +109,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         Maintainable newMaintainable = document.getNewMaintainableObject();
         DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentNumber();
-        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        document.getDocumentHeader().setDocumentDescription("blah");
 
         System.err.println("DOC_NBR = " + finDocNumber);
 
@@ -162,7 +162,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         Maintainable newMaintainable = document.getNewMaintainableObject();
         DelegateGlobal bo = (DelegateGlobal) newMaintainable.getBusinessObject();
         String finDocNumber = document.getDocumentNumber();
-        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        document.getDocumentHeader().setDocumentDescription("blah");
 
         List<DelegateGlobalDetail> changes = new ArrayList();
 

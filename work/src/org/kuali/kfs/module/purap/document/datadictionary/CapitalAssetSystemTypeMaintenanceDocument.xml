@@ -22,7 +22,7 @@
     <property name="label" value="Capital Asset System Type" />
     <property name="shortLabel" value="Capital Asset System Type" />
     <property name="documentTypeName" value="CapitalAssetSystemTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMSY" />
     <property name="authorizations" >
       <list>

@@ -20,7 +20,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceKeyConstants;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.MaintenanceDocumentDao;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.ValidationException;
@@ -28,6 +27,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.service.DocumentLockingService;
 import org.kuali.rice.KNSServiceLocator;
@@ -123,7 +123,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
     private boolean lockCanBeIgnored(org.kuali.core.document.Document lockedDocument) {
         // TODO: implement real authorization for Maintenance Document Save/Route - KULNRVSYS-948
 
-        DocumentHeader documentHeader = lockedDocument.getDocumentHeader();
+        FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) lockedDocument.getDocumentHeader();
 
         // get the user-id. if no user-id, then we can do this test, so exit
         String userId = GlobalVariables.getUserSession().getNetworkId().trim();

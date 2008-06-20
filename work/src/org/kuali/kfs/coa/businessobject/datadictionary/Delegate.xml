@@ -71,7 +71,8 @@
   </bean>
   <bean id="Delegate-financialDocumentTypeCode" parent="Delegate-financialDocumentTypeCode-parentBean" />
 
-  <bean id="Delegate-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="Delegate-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="Delegate-accountDelegateSystemId" parent="Delegate-accountDelegateSystemId-parentBean" />
 

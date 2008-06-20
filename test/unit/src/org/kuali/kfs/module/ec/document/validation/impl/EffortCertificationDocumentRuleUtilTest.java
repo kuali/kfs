@@ -24,17 +24,15 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
-import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
 
@@ -523,7 +521,7 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
 
-        DocumentHeader documentHeader = TestDataPreparator.buildTestDataObject(DocumentHeader.class, properties, testTarget + EffortTestDataPropertyConstants.DOCUMENT_HEADER, documentHeaderFieldNames, deliminator);
+        FinancialSystemDocumentHeader documentHeader = TestDataPreparator.buildTestDataObject(FinancialSystemDocumentHeader.class, properties, testTarget + EffortTestDataPropertyConstants.DOCUMENT_HEADER, documentHeaderFieldNames, deliminator);
         documentHeader = TestDataPreparator.persistDataObject(documentHeader);
 
         EffortCertificationDocument document = this.buildDocument(testTarget);

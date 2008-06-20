@@ -30,7 +30,7 @@
             p:parameterDetailType="OrganizationReversionCategory" />
     </property>
     <property name="documentTypeName" value="OrganizationReversionCategoryMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ORGC" />
     <property name="workflowProperties" >
       <ref bean="OrganizationReversionCategoryMaintenanceDocument-workflowProperties" />

@@ -22,14 +22,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.document.AmountTotaling;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -48,7 +48,7 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
  * origin entry groups and the origin entries within them.
  * 
  */
-public class CorrectionDocument extends TransactionalDocumentBase implements AmountTotaling {
+public class CorrectionDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or

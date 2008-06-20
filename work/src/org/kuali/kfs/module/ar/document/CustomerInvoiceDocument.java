@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
@@ -897,7 +897,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
      * @return
      */
     public boolean isInvoiceReversal(){
-        return ObjectUtils.isNotNull(documentHeader.getFinancialDocumentInErrorNumber());
+        return ObjectUtils.isNotNull(getDocumentHeader().getFinancialDocumentInErrorNumber());
     }
     
     /**

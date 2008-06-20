@@ -43,8 +43,8 @@
     htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:hiddenDocumentFields />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 	<c:if test="${!readOnly}">
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
@@ -228,5 +228,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 </kul:documentPage>

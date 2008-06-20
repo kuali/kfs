@@ -72,7 +72,7 @@ public class CustomerInvoiceDocumentTestUtil {
         } else {
             document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerInvoiceDocumentFixtures);
         }
-        document.getDocumentHeader().setFinancialDocumentDescription("CREATING TEST CUSTOMER INVOICE DOCUMENT");
+        document.getDocumentHeader().setDocumentDescription("CREATING TEST CUSTOMER INVOICE DOCUMENT");
         
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         documentService.routeDocument(document, null, null);

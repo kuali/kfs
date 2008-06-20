@@ -202,8 +202,8 @@ function checkCheckAllOrNone() {
 						</td>
 						<td>
 						<div align="center"><kul:htmlControlAttribute
-							property="depositableCashReceipt[${ctr}].documentHeader.financialDocumentDescription"
-							attributeEntry="${cashReceiptAttributes.financialDocumentDescription}"
+							property="depositableCashReceipt[${ctr}].documentHeader.documentDescription"
+							attributeEntry="${cashReceiptAttributes.documentDescription}"
 							readOnly="true" /></div>
 						</td>
 						<td>
@@ -293,8 +293,8 @@ function checkCheckAllOrNone() {
 						</td>
 						<td>
 						<div align="center"><kul:htmlControlAttribute
-							property="checkFreeCashReceipt[${ctr}].documentHeader.financialDocumentDescription"
-							attributeEntry="${cashReceiptAttributes.financialDocumentDescription}"
+							property="checkFreeCashReceipt[${ctr}].documentHeader.documentDescription"
+							attributeEntry="${cashReceiptAttributes.documentDescription}"
 							readOnly="true" /></div>
 						</td>
 						<td>

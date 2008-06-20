@@ -20,30 +20,26 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.KFSResourceLoader;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.purap.bo.Carrier;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
-import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.util.PurApRelatedViews;
 import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.rice.resourceloader.ServiceLocator;
-import org.springframework.ui.velocity.SpringResourceLoader;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public abstract class ReceivingDocumentBase extends TransactionalDocumentBase implements ReceivingDocument {
+public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
 
     private String carrierCode;
     private String shipmentPackingSlipNumber;

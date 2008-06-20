@@ -20,11 +20,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
@@ -80,7 +80,7 @@ public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBas
     private Date transactionEntryProcessedTs;
 
     private DocumentType documentType;
-    private DocumentHeader documentHeader;
+    private FinancialSystemDocumentHeader documentHeader;
 
     private Options option;
     private Chart chart;
@@ -479,11 +479,11 @@ public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBas
         this.documentType = documentType;
     }
 
-    public DocumentHeader getDocumentHeader() {
+    public FinancialSystemDocumentHeader getDocumentHeader() {
         return documentHeader;
     }
 
-    public void setDocumentHeader(DocumentHeader documentHeader) {
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
     }
 

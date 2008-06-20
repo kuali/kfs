@@ -27,7 +27,7 @@ import org.kuali.kfs.service.KualiCodeService;
 public class KualiSystemCode extends PersistableBusinessObjectBase implements KualiCode {
 
     static {
-        KualiInquirableImpl.HACK_LIST.add(KualiSystemCode.class);
+        KualiInquirableImpl.SUPER_CLASS_TRANSLATOR_LIST.add(KualiSystemCode.class);
     }
 
     private String code;

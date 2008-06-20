@@ -30,7 +30,7 @@
             p:parameterDetailType="OriginationCode" />
     </property>
     <property name="documentTypeName" value="OriginationCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ORIG" />
     <property name="workflowProperties" >
       <ref bean="OriginationCodeMaintenanceDocument-workflowProperties" />

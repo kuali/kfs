@@ -30,7 +30,7 @@
             p:parameterDetailType="RestrictedStatus" />
     </property>
     <property name="documentTypeName" value="RestrictedStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="RSTA" />
     <property name="workflowProperties" >
       <ref bean="RestrictedStatusMaintenanceDocument-workflowProperties" />

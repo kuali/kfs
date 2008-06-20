@@ -732,7 +732,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status, KualiDecimal checkAmount) throws WorkflowException {
         CashReceiptDocument crDoc = (CashReceiptDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashReceiptDocument.class);
 
-        crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
+        crDoc.getDocumentHeader().setDocumentDescription(description);
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
 
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);

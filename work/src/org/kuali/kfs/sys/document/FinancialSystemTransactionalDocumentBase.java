@@ -15,16 +15,112 @@
  */
 package org.kuali.kfs.document;
 
-import org.kuali.core.document.Copyable;
-import org.kuali.core.document.SessionDocument;
+import org.apache.log4j.Logger;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.dao.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.exception.WorkflowRuntimeException;
 
 /**
  * This class is a KFS specific TransactionalDocumentBase class
  */
-public class FinancialSystemTransactionalDocumentBase extends FinancialSystemDocument implements FinancialSystemTransactionalDocument {
+public class FinancialSystemTransactionalDocumentBase extends TransactionalDocumentBase implements FinancialSystemTransactionalDocument {
+    private static final Logger LOG = Logger.getLogger(FinancialSystemTransactionalDocumentBase.class);
+
+    protected FinancialSystemDocumentHeader documentHeader;
+
+    /**
+     * Constructs a FinancialSystemTransactionalDocumentBase.java.
+     */
+    public FinancialSystemTransactionalDocumentBase() {
+        super();
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#getDocumentHeader()
+     */
+    @Override
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#setDocumentHeader(org.kuali.core.bo.DocumentHeader)
+     */
+    @Override
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        if ((documentHeader != null) && (!FinancialSystemDocumentHeader.class.isAssignableFrom(documentHeader.getClass()))) {
+            throw new IllegalArgumentException("document header of class '" + documentHeader.getClass() + "' is not assignable from financial document header class '" + FinancialSystemDocumentHeader.class + "'");
+        }
+        this.documentHeader = (FinancialSystemDocumentHeader) documentHeader;
+    }
+
+    /**
+     * If the document has a total amount, call method on document to get the total and set in doc header.
+     * 
+     * @see org.kuali.core.document.Document#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+        if (this instanceof AmountTotaling) {
+            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+        }
+    }
+
+    /**
+     * This is the default implementation which ensures that document note attachment references are loaded.
+     * 
+     * @see org.kuali.core.document.Document#processAfterRetrieve()
+     */
+    @Override
+    public void processAfterRetrieve() {
+        // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
+        try {
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
+            if (correctingDocumentHeader != null) {
+                getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
+            }
+        } catch (WorkflowException e) {
+            LOG.error("Received WorkflowException trying to get route header id from workflow document");
+            throw new WorkflowRuntimeException(e);
+        }
+        // set the ad hoc route recipients too, since OJB doesn't maintain that relationship
+        // TODO - see KULNRVSYS-1054
+
+        super.processAfterRetrieve();
+    }
+
+    /**
+     * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
+     * 
+     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.CANCELLED);
+        }
+        else if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.ENROUTE);
+        }
+        if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.DISAPPROVED);
+        }
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.APPROVED);
+        }
+        LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            getDocumentHeader().setDocumentFinalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        }
+    }
 
     /**
      * @see org.kuali.core.document.FinancialSystemTransactionDocument#getAllowsErrorCorrection()
@@ -50,30 +146,6 @@ public class FinancialSystemTransactionalDocumentBase extends FinancialSystemDoc
         setNewDocumentHeader();
         getDocumentHeader().setFinancialDocumentInErrorNumber(sourceDocumentHeaderId);
         addCopyErrorDocumentNote("error-correction for document " + sourceDocumentHeaderId);
-    }
-    
-    /*
-     * Below methods copied from Rice TransactionalDocumentBase class
-     */
-    /**
-     * Checks if copy is set to true in data dictionary and the document instance implements
-     * Copyable.
-     * 
-     * @see org.kuali.core.document.DocumentBase#getAllowsCopy()
-     * @see org.kuali.core.document.TransactionalDocument#getAllowsCopy()
-     */
-    public boolean getAllowsCopy() {
-        return KNSServiceLocator.getTransactionalDocumentDictionaryService().getAllowsCopy(this).booleanValue() && this instanceof Copyable;
-    }
-
-    /**
-     * This method to check whether the document class implements SessionDocument
-     * @see org.kuali.core.document.TransactionalDocument#isSessionDocument()
-     * 
-     * @return
-     */
-    public boolean isSessionDocument() {
-        return SessionDocument.class.isAssignableFrom(this.getClass());
     }
 
 }

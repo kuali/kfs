@@ -20,15 +20,15 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
  */
-public class Close extends TransactionalDocumentBase {
+public class Close extends FinancialSystemTransactionalDocumentBase {
 
     private Date closeOnOrBeforeDate;
     private Date userInitiatedCloseDate;

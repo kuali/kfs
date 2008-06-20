@@ -17,9 +17,9 @@ package org.kuali.module.cams.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -27,7 +27,7 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetService;
 
-public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
@@ -42,8 +42,8 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
      *      <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
         if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {

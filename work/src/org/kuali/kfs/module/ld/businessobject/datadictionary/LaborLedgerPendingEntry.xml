@@ -105,7 +105,8 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode" parent="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
     <property name="required" value="false" />
   </bean>
   <bean id="LaborLedgerPendingEntry-financialObjectCode" parent="LaborLedgerPendingEntry-financialObjectCode-parentBean" />
@@ -212,7 +213,7 @@
   </bean>
   <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode" parent="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
     <property name="label" value="Reference Document Type Code" />
     <property name="shortLabel" value="Ref Doc Type Code" />

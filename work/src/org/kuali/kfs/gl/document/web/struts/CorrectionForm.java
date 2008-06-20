@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -121,8 +121,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
         setDocument(new CorrectionDocument());
 
-        // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
-        setDocumentActionFlags(new TransactionalDocumentActionFlags());
+        // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
+        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
 
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();
@@ -240,8 +240,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
         setDocument(new CorrectionDocument());
 
-        // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
-        setDocumentActionFlags(new TransactionalDocumentActionFlags());
+        // create a blank FinancialSystemTransactionalDocumentActionFlags instance, since form-recreation needs it
+        setDocumentActionFlags(new FinancialSystemTransactionalDocumentActionFlags());
 
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();

@@ -19,8 +19,8 @@
 	htmlFormAction="financialTransferOfFunds" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:hiddenDocumentFields />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
 	<gl:generalLedgerPendingEntries />
@@ -28,6 +28,6 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

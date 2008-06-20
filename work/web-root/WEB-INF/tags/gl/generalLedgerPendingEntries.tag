@@ -107,7 +107,7 @@
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.core.bo.DocumentType" keyValues="financialDocumentTypeCode=${generalLedgerPendingEntry.financialDocumentTypeCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.core.bo.DocumentType" keyValues="documentTypeCode=${generalLedgerPendingEntry.financialDocumentTypeCode}" render="true">
 						<html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].financialDocumentTypeCode" write="true" value="${generalLedgerPendingEntry.financialDocumentTypeCode}" />
 					</kul:inquiry>
 				</td>

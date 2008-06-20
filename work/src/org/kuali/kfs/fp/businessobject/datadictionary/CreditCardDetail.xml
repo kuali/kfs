@@ -32,7 +32,8 @@
   </bean>
   <bean id="CreditCardDetail-financialDocumentTypeCode" parent="CreditCardDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="CreditCardDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-financialDocumentTypeCode">
+  <bean id="CreditCardDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="CreditCardDetail-financialDocumentColumnTypeCode" parent="CreditCardDetail-financialDocumentColumnTypeCode-parentBean" />
 

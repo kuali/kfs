@@ -47,7 +47,7 @@
   </c:if>  
   
   	<p>
-	<kul:documentControls 
+	<kfs:documentControls 
 		transactionalDocument="false" 
 		saveButtonOverride="savePersonnel" 
 		suppressRoutingControls="true"

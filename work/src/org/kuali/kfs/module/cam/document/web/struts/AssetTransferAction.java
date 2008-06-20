@@ -27,8 +27,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -36,7 +36,7 @@ import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.web.struts.form.AssetTransferForm;
 
-public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
+public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
 
     /**

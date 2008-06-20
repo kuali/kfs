@@ -30,7 +30,7 @@
             p:parameterDetailType="BudgetRecordingLevel" />
     </property>
     <property name="documentTypeName" value="BudgetRecordingLevelMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BRL" />
     <property name="workflowProperties" >
       <ref bean="BudgetRecordingLevelMaintenanceDocument-workflowProperties" />

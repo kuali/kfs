@@ -17,14 +17,12 @@ package org.kuali.module.cams.gl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
@@ -35,12 +33,12 @@ import org.kuali.module.financial.service.UniversityDateService;
 public abstract class CamsGeneralLedgerPendingEntrySourceBase implements GeneralLedgerPendingEntrySource {
 
     private List<GeneralLedgerPendingEntry> pendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
-    private DocumentHeader documentHeader;
+    private FinancialSystemDocumentHeader documentHeader;
     private List<GeneralLedgerPendingEntrySourceDetail> postables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     public final static String CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "camsGeneralLedgerPendingEntryGenerationProcess";
 
 
-    public CamsGeneralLedgerPendingEntrySourceBase(DocumentHeader documentHeader) {
+    public CamsGeneralLedgerPendingEntrySourceBase(FinancialSystemDocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
     }
 
@@ -61,7 +59,7 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         return true;
     }
 
-    public DocumentHeader getDocumentHeader() {
+    public FinancialSystemDocumentHeader getDocumentHeader() {
         return documentHeader;
     }
 
@@ -93,7 +91,7 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         this.postables = postables;
     }
 
-    public void setDocumentHeader(DocumentHeader documentHeader) {
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
     }
 

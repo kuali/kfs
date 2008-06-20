@@ -31,7 +31,7 @@ import edu.iu.uis.eden.exception.WorkflowRuntimeException;
  * This class is used by the system to use financial specific objects and data for maintenance documents
  */
 public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase {
-    private static final Logger LOG = Logger.getLogger(FinancialSystemDocument.class);
+    private static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
 
     protected FinancialSystemDocumentHeader documentHeader;
 

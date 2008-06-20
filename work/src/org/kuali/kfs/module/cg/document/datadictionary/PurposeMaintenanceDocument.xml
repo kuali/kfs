@@ -30,7 +30,7 @@
             p:parameterDetailType="Purpose" />
     </property>
     <property name="documentTypeName" value="PurposeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRPS" />
     <property name="workflowProperties" >
       <ref bean="PurposeMaintenanceDocument-workflowProperties" />

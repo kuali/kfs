@@ -2,12 +2,9 @@ package org.kuali.module.ar.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -15,10 +12,12 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
@@ -29,7 +28,7 @@ import org.kuali.module.ar.service.CustomerInvoiceDetailService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 // public class CustomerCreditMemoDocument extends AccountingDocumentBase {
-public class CustomerCreditMemoDocument extends TransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
+public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
     
@@ -425,7 +424,7 @@ public class CustomerCreditMemoDocument extends TransactionalDocumentBase implem
      * Returns a document header associated with this general ledger posting helper 
      * @return a document header
      */
-    public DocumentHeader getDocumentHeader() {
+    public FinancialSystemDocumentHeader getDocumentHeader() {
         return documentHeader;
     }
         

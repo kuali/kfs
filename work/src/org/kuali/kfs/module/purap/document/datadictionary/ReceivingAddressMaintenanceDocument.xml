@@ -34,7 +34,7 @@
     <property name="summary" value="Receiving Address Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create, copy, or modify Receiving Addresses." />
     <property name="documentTypeName" value="ReceivingAddressMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.ReceivingAddressPreRules" />
     <property name="documentTypeCode" value="PMRA" />
     <property name="authorizations" >

@@ -37,7 +37,7 @@
 	
 	<kra-b:budgetParameters />
 
-	<kul:documentControls transactionalDocument="false"
+	<kfs:documentControls transactionalDocument="false"
 		saveButtonOverride="saveParameters" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];

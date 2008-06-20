@@ -37,7 +37,7 @@
             p:parameterDetailType="PostalZipCode" />
     </property>
     <property name="documentTypeName" value="PostalZipCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ZIPC" />
     <property name="workflowProperties" >
       <ref bean="PostalZipCodeMaintenanceDocument-workflowProperties" />

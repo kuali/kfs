@@ -38,7 +38,7 @@
     <property name="summary" value="Report Earn Pay Document" />
     <property name="description" value="Document used to create or update Effort Certification Report Earn Pay Document" />
     <property name="documentTypeName" value="EffortCertificationReportEarnPaygroupMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ARPG" />
     <property name="authorizations" >
       <list>

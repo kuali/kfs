@@ -28,7 +28,7 @@
             p:parameterDetailType="Carrier" />
     </property>
     <property name="documentTypeName" value="CarrierMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCA" />
     <property name="workflowProperties" >
       <ref bean="CarrierMaintenanceDocument-workflowProperties" />

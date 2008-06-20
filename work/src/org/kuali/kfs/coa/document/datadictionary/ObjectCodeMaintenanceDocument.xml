@@ -55,7 +55,7 @@
     </property>
     <property name="documentTypeName" value="ObjectCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.ObjectCodePreRules" />
     <property name="documentTypeCode" value="OBJT" />
     <property name="webScriptFiles" >

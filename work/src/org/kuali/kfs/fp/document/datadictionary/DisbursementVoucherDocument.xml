@@ -41,7 +41,7 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="DisbursementVoucherDocument-documentHeader.financialDocumentDescription" />
+        <ref bean="DisbursementVoucherDocument-documentHeader.documentDescription" />
         <ref bean="DisbursementVoucherDocument-disbVchrContactPersonName" />
         <ref bean="DisbursementVoucherDocument-disbVchrContactPhoneNumber" />
         <ref bean="DisbursementVoucherDocument-disbVchrContactEmailId" />
@@ -70,10 +70,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DisbursementVoucherDocument-documentHeader.financialDocumentDescription" parent="DisbursementVoucherDocument-documentHeader.financialDocumentDescription-parentBean" />
+  <bean id="DisbursementVoucherDocument-documentHeader.documentDescription" parent="DisbursementVoucherDocument-documentHeader.documentDescription-parentBean" />
 
-  <bean id="DisbursementVoucherDocument-documentHeader.financialDocumentDescription-parentBean" abstract="true" parent="DocumentHeader-financialDocumentDescription">
-    <property name="name" value="documentHeader.financialDocumentDescription" />
+  <bean id="DisbursementVoucherDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
+    <property name="name" value="documentHeader.documentDescription" />
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrContactPersonName" parent="DisbursementVoucherDocument-disbVchrContactPersonName-parentBean" />
 

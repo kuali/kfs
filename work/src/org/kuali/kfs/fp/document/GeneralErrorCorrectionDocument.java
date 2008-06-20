@@ -19,9 +19,9 @@ import static org.kuali.kfs.KFSConstants.FROM;
 import static org.kuali.kfs.KFSConstants.TO;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.Correctable;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -148,7 +148,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
             description += ": " + line.getFinancialDocumentLineDescription();
         }
         else {
-            description += ": " + getDocumentHeader().getFinancialDocumentDescription();
+            description += ": " + getDocumentHeader().getDocumentDescription();
         }
 
         if (description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {

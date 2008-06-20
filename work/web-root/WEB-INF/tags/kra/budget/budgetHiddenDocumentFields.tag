@@ -63,7 +63,7 @@
       
       <html:hidden property="document.budget.agencyModularIndicator" />
       
-      <html:hidden property="document.documentHeader.financialDocumentDescription" />
+      <html:hidden property="document.documentHeader.documentDescription" />
       
     </c:if>
     
@@ -71,5 +71,5 @@
     <html:hidden property="document.budget.projectDirectorToBeNamedIndicator" />
     <html:hidden property="auditActivated" />
     
-    <kul:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
+    <kfs:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
     

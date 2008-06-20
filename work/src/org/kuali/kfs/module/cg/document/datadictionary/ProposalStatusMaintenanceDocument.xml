@@ -30,7 +30,7 @@
             p:parameterDetailType="ProposalStatus" />
     </property>
     <property name="documentTypeName" value="ProposalStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRST" />
     <property name="workflowProperties" >
       <ref bean="ProposalStatusMaintenanceDocument-workflowProperties" />

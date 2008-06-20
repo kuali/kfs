@@ -49,7 +49,7 @@
     </property>
     <property name="documentTypeName" value="BenefitsCalculationMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.labor.rules.BenefitsCalculationDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BCAL" />
     <property name="workflowProperties" >
       <ref bean="BenefitsCalculationMaintenanceDocument-workflowProperties" />

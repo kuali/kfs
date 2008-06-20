@@ -67,7 +67,7 @@
     </property>
     <property name="documentTypeName" value="OrganizationReversionMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.OrganizationReversionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.OrganizationReversionPreRules" />
     <property name="documentTypeCode" value="ORGR" />
     <property name="webScriptFiles" >

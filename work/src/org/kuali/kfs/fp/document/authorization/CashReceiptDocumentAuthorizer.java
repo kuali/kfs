@@ -24,11 +24,10 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.util.Timer;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.FinancialSystemUser;
 import org.kuali.kfs.context.SpringContext;
@@ -53,9 +52,9 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
-    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         Timer t0 = new Timer("getDocumentActionFlags");
-        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         // if an approval is requested, check to make sure that the cash drawer is open
         // if it's not, then they should not be able to verify the CR document
@@ -73,8 +72,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
             }
         }
 
-        TransactionalDocumentActionFlags tflags = (TransactionalDocumentActionFlags) flags;
-        tflags.setCanErrorCorrect(false); // CR, DV, andd PCDO don't allow error correction
+        flags.setCanErrorCorrect(false); // CR, DV, andd PCDO don't allow error correction
 
         t0.log();
         return flags;

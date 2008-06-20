@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update asset acquisition objects" />
     <property name="documentTypeName" value="AssetAcquisitionTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ACQT" />
     <property name="authorizations" >
       <list>

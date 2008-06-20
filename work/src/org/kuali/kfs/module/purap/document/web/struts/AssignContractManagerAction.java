@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
@@ -34,7 +34,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Struts Action for Contract Manager Assignment document.
  */
-public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {
+public class AssignContractManagerAction extends FinancialSystemTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
 
     /**
@@ -46,7 +46,7 @@ public class AssignContractManagerAction extends KualiTransactionalDocumentActio
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) kualiDocumentFormBase.getDocument();
-        acmDocument.getDocumentHeader().setFinancialDocumentDescription(PurapConstants.ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC);
+        acmDocument.getDocumentHeader().setDocumentDescription(PurapConstants.ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC);
         acmDocument.populateDocumentWithRequisitions();
     }
     

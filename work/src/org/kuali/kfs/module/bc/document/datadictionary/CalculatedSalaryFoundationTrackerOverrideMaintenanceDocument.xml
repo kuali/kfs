@@ -54,7 +54,7 @@
     <property name="description" value="Document used to create or update Calculated Salary Foundation Tracker Override Maintenance Document objects" />
     <property name="documentTypeName" value="CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.budget.rules.CalculatedSalaryFoundationTrackerOverrideRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CSFO" />
     <property name="authorizations" >
       <list>

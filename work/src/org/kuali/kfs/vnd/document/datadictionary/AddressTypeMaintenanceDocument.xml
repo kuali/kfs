@@ -28,7 +28,7 @@
             p:parameterDetailType="AddressType" />
     </property>
     <property name="documentTypeName" value="AddressTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMAT" />
     <property name="workflowProperties" >
       <ref bean="AddressTypeMaintenanceDocument-workflowProperties" />

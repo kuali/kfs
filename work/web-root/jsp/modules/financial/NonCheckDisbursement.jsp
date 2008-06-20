@@ -20,9 +20,9 @@
 	htmlFormAction="financialNonCheckDisbursement" renderMultipart="true"
 	showTabButtons="true">
 
-	<kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<fin:accountingLines sourceAccountingLinesOnly="true"
 		editingMode="${KualiForm.editingMode}"
@@ -38,6 +38,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

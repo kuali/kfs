@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Threshold" />
     <property name="documentTypeName" value="ThresholdMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.purap.rules.ThresholdRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="THLD" />
     <property name="workflowProperties" >
       <ref bean="ThresholdMaintenanceDocument-workflowProperties" />

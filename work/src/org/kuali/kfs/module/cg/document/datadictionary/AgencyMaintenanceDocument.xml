@@ -39,7 +39,7 @@
     </property>
     <property name="documentTypeName" value="AgencyMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.cg.rules.AgencyRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="AGCY" />
     <property name="workflowProperties" >
       <ref bean="AgencyMaintenanceDocument-workflowProperties" />

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.DateUtils;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.service.impl.ParameterServiceImpl;
 import org.kuali.module.cams.bo.Asset;
@@ -69,7 +69,7 @@ public class RetirementInfoServiceTest extends KualiTestBase {
 
         };
         retirementGlobal.setRetirementDate(new java.sql.Date(DateUtils.addDays(new Date(), daysToAdd).getTime()));
-        DocumentHeader header = new DocumentHeader();
+        FinancialSystemDocumentHeader header = new FinancialSystemDocumentHeader();
         header.setFinancialDocumentStatusCode(docStatus);
         retirementGlobal.setDocumentHeader(header);
         globalDetail.setAssetRetirementGlobal(retirementGlobal);

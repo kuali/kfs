@@ -77,7 +77,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
                 testDocId = createdDoc.getDocumentNumber();
 
                 // populate and save it
-                createdDoc.getDocumentHeader().setFinancialDocumentDescription("created by testKULEDOCS_1401");
+                createdDoc.getDocumentHeader().setDocumentDescription("created by testKULEDOCS_1401");
                 createdDoc.getDocumentHeader().setExplanation("reproducing KULEDOCS_1401");
 
                 createdDoc.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());

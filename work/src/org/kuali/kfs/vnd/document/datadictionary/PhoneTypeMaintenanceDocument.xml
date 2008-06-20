@@ -28,7 +28,7 @@
             p:parameterDetailType="PhoneType" />
     </property>
     <property name="documentTypeName" value="PhoneTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMPT" />
     <property name="workflowProperties" >
       <ref bean="PhoneTypeMaintenanceDocument-workflowProperties" />

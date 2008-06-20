@@ -104,7 +104,7 @@ public class Encumbrance extends PersistableBusinessObjectBase {
         map.put(KFSPropertyConstants.OBJECT_CODE, getObjectCode());
         map.put(KFSPropertyConstants.SUB_OBJECT_CODE, getSubObjectCode());
         map.put(KFSPropertyConstants.BALANCE_TYPE_CODE, getBalanceTypeCode());
-        map.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, getDocumentTypeCode());
+        map.put(KFSPropertyConstants.ENCUMBRANCE_DOCUMENT_TYPE_CODE, getDocumentTypeCode());
         map.put(KFSPropertyConstants.ORIGIN_CODE, getOriginCode());
         map.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         map.put(KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT, getAccountLineEncumbranceAmount());

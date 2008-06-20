@@ -49,7 +49,7 @@
             p:parameterDetailType="IndirectCostRecoveryExclusionAccount" />
     </property>
     <property name="documentTypeName" value="IndirectCostRecoveryExclusionAccountMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.IndirectCostRecoveryExclusionAccountPreRules" />
     <property name="documentTypeCode" value="ICRA" />
     <property name="workflowProperties" >

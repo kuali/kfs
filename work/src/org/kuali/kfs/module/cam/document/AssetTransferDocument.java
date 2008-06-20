@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -187,16 +186,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public String getCampusCode() {
         return campusCode;
-    }
-
-
-    /**
-     * Gets the documentHeader attribute.
-     * 
-     * @return Returns the documentHeader
-     */
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
     }
 
     /**
@@ -553,17 +542,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setCampusCode(String campusCode) {
         this.campusCode = campusCode;
     }
-
-    /**
-     * Sets the documentHeader attribute.
-     * 
-     * @param documentHeader The documentHeader to set.
-     * @deprecated
-     */
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }
-
 
     /**
      * Sets the documentNumber attribute.

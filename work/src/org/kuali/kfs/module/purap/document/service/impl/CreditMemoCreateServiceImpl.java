@@ -302,7 +302,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
             description = description.substring(0, noteTextMaxLength);
         }
 
-        cmDocument.getDocumentHeader().setFinancialDocumentDescription(description);
+        cmDocument.getDocumentHeader().setDocumentDescription(description);
     }
 
     public void setCreditMemoService(CreditMemoService creditMemoService) {

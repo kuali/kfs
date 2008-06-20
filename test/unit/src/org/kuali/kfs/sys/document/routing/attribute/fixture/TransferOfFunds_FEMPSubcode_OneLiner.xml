@@ -1283,7 +1283,7 @@
                 <documentHeader>
                     <documentNumber>162838</documentNumber>
                     <financialDocumentStatusCode>R</financialDocumentStatusCode>
-                    <financialDocumentDescription>test</financialDocumentDescription>
+                    <documentDescription>test</documentDescription>
                     <notes class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
                         <list>
                             <default>

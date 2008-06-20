@@ -28,7 +28,7 @@
             p:parameterDetailType="CampusParameter" />
     </property>
     <property name="documentTypeName" value="CampusParameterMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCP" />
     <property name="workflowProperties" >
       <ref bean="CampusParameterMaintenanceDocument-workflowProperties" />

@@ -34,7 +34,7 @@
     </property>
     <property name="documentTypeName" value="OrganizationRoutingModelNameMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.module.chart.rules.OrganizationRoutingModelRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.OrganizationRoutingModelPreRules" />
     <property name="documentTypeCode" value="GDLM" />
     <property name="workflowProperties" >

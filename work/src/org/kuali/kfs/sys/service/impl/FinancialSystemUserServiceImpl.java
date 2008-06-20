@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RicePropertyConstants;
 import org.kuali.core.KualiModule;
-import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -36,10 +34,10 @@ import org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase;
 import org.kuali.kfs.bo.ChartOrgHolder;
 import org.kuali.kfs.bo.ChartOrgHolderImpl;
 import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.FinancialSystemUserService;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class FinancialSystemUserServiceImpl extends UniversalUserServiceImpl implements FinancialSystemUserService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemUserServiceImpl.class);
@@ -97,7 +95,7 @@ public class FinancialSystemUserServiceImpl extends UniversalUserServiceImpl imp
             return (FinancialSystemUser)user;
         }
         HashMap<String,Object> pk = new HashMap<String, Object>(1);
-        pk.put(RicePropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, user.getPersonUniversalIdentifier());
+        pk.put(KNSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, user.getPersonUniversalIdentifier());
         FinancialSystemUser financialSystemUser = (FinancialSystemUser)getBusinessObjectService().findByPrimaryKey(FinancialSystemUser.class, pk);
         if ( financialSystemUser != null ) {
             // TODO:  replace with UU BO set

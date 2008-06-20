@@ -18,22 +18,15 @@ package org.kuali.module.budget.service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.SortedSet;
 
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
@@ -42,6 +35,7 @@ import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
 import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
+import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -53,7 +47,7 @@ public class LockServiceTest extends KualiTestBase {
     private LockService lockService;
     private BudgetConstructionDao bcHeaderDao;
 
-    private DocumentHeader docHeader;
+    private FinancialSystemDocumentHeader docHeader;
     private BudgetConstructionHeader bcHeader;
     private BudgetConstructionHeader bcHeaderTwo;
     private BudgetConstructionPosition bcPosition;

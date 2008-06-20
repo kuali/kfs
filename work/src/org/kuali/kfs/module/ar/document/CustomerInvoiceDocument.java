@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.kfs.document.Correctable;
+import org.kuali.kfs.document.AmountTotaling;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
@@ -38,7 +39,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDocument extends AccountingDocumentBase implements Copyable, Correctable {
+public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable {
 
     protected Integer nextInvoiceItemNumber;
 	private String invoiceHeaderText;
@@ -71,7 +72,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     private Date printDate;
     private KualiDecimal stateTaxPercent;
     private KualiDecimal localTaxPercent;
-    
+
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
 	private Org billedByOrganization;
@@ -81,11 +82,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     private SubAccount paymentSubAccount;
     private ObjectCode paymentFinancialObject;
     private SubObjCd paymentFinancialSubObject;
-    private ProjectCode paymentProject;   
-    
+    private ProjectCode paymentProject;
+
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
-    
+
 	/**
 	 * Default constructor.
 	 */
@@ -96,19 +97,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the documentNumber attribute.
-	 * 
+	 *
 	 * @return Returns the documentNumber
-	 * 
+	 *
 	 */
-	public String getDocumentNumber() { 
+	public String getDocumentNumber() {
 		return documentNumber;
 	}
 
 	/**
 	 * Sets the documentNumber attribute.
-	 * 
+	 *
 	 * @param documentNumber The documentNumber to set.
-	 * 
+	 *
 	 */
 	public void setDocumentNumber(String documentNumber) {
 		this.documentNumber = documentNumber;
@@ -117,19 +118,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the invoiceHeaderText attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceHeaderText
-	 * 
+	 *
 	 */
-	public String getInvoiceHeaderText() { 
+	public String getInvoiceHeaderText() {
 		return invoiceHeaderText;
 	}
 
 	/**
 	 * Sets the invoiceHeaderText attribute.
-	 * 
+	 *
 	 * @param invoiceHeaderText The invoiceHeaderText to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceHeaderText(String invoiceHeaderText) {
 		this.invoiceHeaderText = invoiceHeaderText;
@@ -138,19 +139,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the invoiceAttentionLineText attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceAttentionLineText
-	 * 
+	 *
 	 */
-	public String getInvoiceAttentionLineText() { 
+	public String getInvoiceAttentionLineText() {
 		return invoiceAttentionLineText;
 	}
 
 	/**
 	 * Sets the invoiceAttentionLineText attribute.
-	 * 
+	 *
 	 * @param invoiceAttentionLineText The invoiceAttentionLineText to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceAttentionLineText(String invoiceAttentionLineText) {
 		this.invoiceAttentionLineText = invoiceAttentionLineText;
@@ -159,19 +160,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the invoiceDueDate attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceDueDate
-	 * 
+	 *
 	 */
-	public Date getInvoiceDueDate() { 
+	public Date getInvoiceDueDate() {
 		return invoiceDueDate;
 	}
 
 	/**
 	 * Sets the invoiceDueDate attribute.
-	 * 
+	 *
 	 * @param invoiceDueDate The invoiceDueDate to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceDueDate(Date invoiceDueDate) {
 		this.invoiceDueDate = invoiceDueDate;
@@ -180,19 +181,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the billingDate attribute.
-	 * 
+	 *
 	 * @return Returns the billingDate
-	 * 
+	 *
 	 */
-	public Date getBillingDate() { 
+	public Date getBillingDate() {
 		return billingDate;
 	}
 
 	/**
 	 * Sets the billingDate attribute.
-	 * 
+	 *
 	 * @param billingDate The billingDate to set.
-	 * 
+	 *
 	 */
 	public void setBillingDate(Date billingDate) {
 		this.billingDate = billingDate;
@@ -201,19 +202,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the invoiceTermsText attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceTermsText
-	 * 
+	 *
 	 */
-	public String getInvoiceTermsText() { 
+	public String getInvoiceTermsText() {
 		return invoiceTermsText;
 	}
 
 	/**
 	 * Sets the invoiceTermsText attribute.
-	 * 
+	 *
 	 * @param invoiceTermsText The invoiceTermsText to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceTermsText(String invoiceTermsText) {
 		this.invoiceTermsText = invoiceTermsText;
@@ -222,19 +223,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the organizationInvoiceNumber attribute.
-	 * 
+	 *
 	 * @return Returns the organizationInvoiceNumber
-	 * 
+	 *
 	 */
-	public String getOrganizationInvoiceNumber() { 
+	public String getOrganizationInvoiceNumber() {
 		return organizationInvoiceNumber;
 	}
 
 	/**
 	 * Sets the organizationInvoiceNumber attribute.
-	 * 
+	 *
 	 * @param organizationInvoiceNumber The organizationInvoiceNumber to set.
-	 * 
+	 *
 	 */
 	public void setOrganizationInvoiceNumber(String organizationInvoiceNumber) {
 		this.organizationInvoiceNumber = organizationInvoiceNumber;
@@ -243,19 +244,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the writeoffIndicator attribute.
-	 * 
+	 *
 	 * @return Returns the writeoffIndicator
-	 * 
+	 *
 	 */
-	public boolean isWriteoffIndicator() { 
+	public boolean isWriteoffIndicator() {
 		return writeoffIndicator;
 	}
 
 	/**
 	 * Sets the writeoffIndicator attribute.
-	 * 
+	 *
 	 * @param writeoffIndicator The writeoffIndicator to set.
-	 * 
+	 *
 	 */
 	public void setWriteoffIndicator(boolean writeoffIndicator) {
 		this.writeoffIndicator = writeoffIndicator;
@@ -264,26 +265,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerPurchaseOrderNumber attribute.
-	 * 
+	 *
 	 * @return Returns the customerPurchaseOrderNumber
-	 * 
+	 *
 	 */
-	public String getCustomerPurchaseOrderNumber() { 
+	public String getCustomerPurchaseOrderNumber() {
 		return customerPurchaseOrderNumber;
 	}
 
 	/**
 	 * Sets the customerPurchaseOrderNumber attribute.
-	 * 
+	 *
 	 * @param customerPurchaseOrderNumber The customerPurchaseOrderNumber to set.
-	 * 
+	 *
 	 */
 	public void setCustomerPurchaseOrderNumber(String customerPurchaseOrderNumber) {
 		this.customerPurchaseOrderNumber = customerPurchaseOrderNumber;
 	}
 
 	/**
-     * Gets the printInvoiceIndicator attribute. 
+     * Gets the printInvoiceIndicator attribute.
      * @return Returns the printInvoiceIndicator.
      */
     public String getPrintInvoiceIndicator() {
@@ -300,19 +301,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
     /**
 	 * Gets the invoiceWriteoffAmount attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceWriteoffAmount
-	 * 
+	 *
 	 */
-	public KualiDecimal getInvoiceWriteoffAmount() { 
+	public KualiDecimal getInvoiceWriteoffAmount() {
 		return invoiceWriteoffAmount;
 	}
 
 	/**
 	 * Sets the invoiceWriteoffAmount attribute.
-	 * 
+	 *
 	 * @param invoiceWriteoffAmount The invoiceWriteoffAmount to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceWriteoffAmount(KualiDecimal invoiceWriteoffAmount) {
 		this.invoiceWriteoffAmount = invoiceWriteoffAmount;
@@ -321,19 +322,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the invoiceDescription attribute.
-	 * 
+	 *
 	 * @return Returns the invoiceDescription
-	 * 
+	 *
 	 */
-	public String getInvoiceDescription() { 
+	public String getInvoiceDescription() {
 		return invoiceDescription;
 	}
 
 	/**
 	 * Sets the invoiceDescription attribute.
-	 * 
+	 *
 	 * @param invoiceDescription The invoiceDescription to set.
-	 * 
+	 *
 	 */
 	public void setInvoiceDescription(String invoiceDescription) {
 		this.invoiceDescription = invoiceDescription;
@@ -342,19 +343,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerPurchaseOrderDate attribute.
-	 * 
+	 *
 	 * @return Returns the customerPurchaseOrderDate
-	 * 
+	 *
 	 */
-	public Date getCustomerPurchaseOrderDate() { 
+	public Date getCustomerPurchaseOrderDate() {
 		return customerPurchaseOrderDate;
 	}
 
 	/**
 	 * Sets the customerPurchaseOrderDate attribute.
-	 * 
+	 *
 	 * @param customerPurchaseOrderDate The customerPurchaseOrderDate to set.
-	 * 
+	 *
 	 */
 	public void setCustomerPurchaseOrderDate(Date customerPurchaseOrderDate) {
 		this.customerPurchaseOrderDate = customerPurchaseOrderDate;
@@ -363,19 +364,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the billByChartOfAccountCode attribute.
-	 * 
+	 *
 	 * @return Returns the billByChartOfAccountCode
-	 * 
+	 *
 	 */
-	public String getBillByChartOfAccountCode() { 
+	public String getBillByChartOfAccountCode() {
 		return billByChartOfAccountCode;
 	}
 
 	/**
 	 * Sets the billByChartOfAccountCode attribute.
-	 * 
+	 *
 	 * @param billByChartOfAccountCode The billByChartOfAccountCode to set.
-	 * 
+	 *
 	 */
 	public void setBillByChartOfAccountCode(String billByChartOfAccountCode) {
 		this.billByChartOfAccountCode = billByChartOfAccountCode;
@@ -384,19 +385,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the billedByOrganizationCode attribute.
-	 * 
+	 *
 	 * @return Returns the billedByOrganizationCode
-	 * 
+	 *
 	 */
-	public String getBilledByOrganizationCode() { 
+	public String getBilledByOrganizationCode() {
 		return billedByOrganizationCode;
 	}
 
 	/**
 	 * Sets the billedByOrganizationCode attribute.
-	 * 
+	 *
 	 * @param billedByOrganizationCode The billedByOrganizationCode to set.
-	 * 
+	 *
 	 */
 	public void setBilledByOrganizationCode(String billedByOrganizationCode) {
 		this.billedByOrganizationCode = billedByOrganizationCode;
@@ -405,19 +406,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerShipToAddressIdentifier attribute.
-	 * 
+	 *
 	 * @return Returns the customerShipToAddressIdentifier
-	 * 
+	 *
 	 */
-	public Integer getCustomerShipToAddressIdentifier() { 
+	public Integer getCustomerShipToAddressIdentifier() {
 		return customerShipToAddressIdentifier;
 	}
 
 	/**
 	 * Sets the customerShipToAddressIdentifier attribute.
-	 * 
+	 *
 	 * @param customerShipToAddressIdentifier The customerShipToAddressIdentifier to set.
-	 * 
+	 *
 	 */
 	public void setCustomerShipToAddressIdentifier(Integer customerShipToAddressIdentifier) {
 		this.customerShipToAddressIdentifier = customerShipToAddressIdentifier;
@@ -426,19 +427,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerBillToAddressIdentifier attribute.
-	 * 
+	 *
 	 * @return Returns the customerBillToAddressIdentifier
-	 * 
+	 *
 	 */
-	public Integer getCustomerBillToAddressIdentifier() { 
+	public Integer getCustomerBillToAddressIdentifier() {
 		return customerBillToAddressIdentifier;
 	}
 
 	/**
 	 * Sets the customerBillToAddressIdentifier attribute.
-	 * 
+	 *
 	 * @param customerBillToAddressIdentifier The customerBillToAddressIdentifier to set.
-	 * 
+	 *
 	 */
 	public void setCustomerBillToAddressIdentifier(Integer customerBillToAddressIdentifier) {
 		this.customerBillToAddressIdentifier = customerBillToAddressIdentifier;
@@ -447,19 +448,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerSpecialProcessingCode attribute.
-	 * 
+	 *
 	 * @return Returns the customerSpecialProcessingCode
-	 * 
+	 *
 	 */
-	public String getCustomerSpecialProcessingCode() { 
+	public String getCustomerSpecialProcessingCode() {
 		return customerSpecialProcessingCode;
 	}
 
 	/**
 	 * Sets the customerSpecialProcessingCode attribute.
-	 * 
+	 *
 	 * @param customerSpecialProcessingCode The customerSpecialProcessingCode to set.
-	 * 
+	 *
 	 */
 	public void setCustomerSpecialProcessingCode(String customerSpecialProcessingCode) {
 		this.customerSpecialProcessingCode = customerSpecialProcessingCode;
@@ -468,19 +469,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerRecordAttachmentIndicator attribute.
-	 * 
+	 *
 	 * @return Returns the customerRecordAttachmentIndicator
-	 * 
+	 *
 	 */
-	public boolean isCustomerRecordAttachmentIndicator() { 
+	public boolean isCustomerRecordAttachmentIndicator() {
 		return customerRecordAttachmentIndicator;
 	}
 
 	/**
 	 * Sets the customerRecordAttachmentIndicator attribute.
-	 * 
+	 *
 	 * @param customerRecordAttachmentIndicator The customerRecordAttachmentIndicator to set.
-	 * 
+	 *
 	 */
 	public void setCustomerRecordAttachmentIndicator(boolean customerRecordAttachmentIndicator) {
 		this.customerRecordAttachmentIndicator = customerRecordAttachmentIndicator;
@@ -489,26 +490,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the openInvoiceIndicator attribute.
-	 * 
+	 *
 	 * @return Returns the openInvoiceIndicator
-	 * 
+	 *
 	 */
-	public boolean isOpenInvoiceIndicator() { 
+	public boolean isOpenInvoiceIndicator() {
 		return openInvoiceIndicator;
 	}
 
 	/**
 	 * Sets the openInvoiceIndicator attribute.
-	 * 
+	 *
 	 * @param openInvoiceIndicator The openInvoiceIndicator to set.
-	 * 
+	 *
 	 */
 	public void setOpenInvoiceIndicator(boolean openInvoiceIndicator) {
 		this.openInvoiceIndicator = openInvoiceIndicator;
 	}
 
 	/**
-     * Gets the paymentAccountNumber attribute. 
+     * Gets the paymentAccountNumber attribute.
      * @return Returns the paymentAccountNumber.
      */
     public String getPaymentAccountNumber() {
@@ -524,7 +525,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentChartOfAccountsCode attribute. 
+     * Gets the paymentChartOfAccountsCode attribute.
      * @return Returns the paymentChartOfAccountsCode.
      */
     public String getPaymentChartOfAccountsCode() {
@@ -540,7 +541,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentFinancialObjectCode attribute. 
+     * Gets the paymentFinancialObjectCode attribute.
      * @return Returns the paymentFinancialObjectCode.
      */
     public String getPaymentFinancialObjectCode() {
@@ -556,7 +557,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentFinancialSubObjectCode attribute. 
+     * Gets the paymentFinancialSubObjectCode attribute.
      * @return Returns the paymentFinancialSubObjectCode.
      */
     public String getPaymentFinancialSubObjectCode() {
@@ -572,7 +573,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentOrganizationReferenceIdentifier attribute. 
+     * Gets the paymentOrganizationReferenceIdentifier attribute.
      * @return Returns the paymentOrganizationReferenceIdentifier.
      */
     public String getPaymentOrganizationReferenceIdentifier() {
@@ -588,7 +589,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentProjectCode attribute. 
+     * Gets the paymentProjectCode attribute.
      * @return Returns the paymentProjectCode.
      */
     public String getPaymentProjectCode() {
@@ -604,7 +605,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentSubAccountNumber attribute. 
+     * Gets the paymentSubAccountNumber attribute.
      * @return Returns the paymentSubAccountNumber.
      */
     public String getPaymentSubAccountNumber() {
@@ -621,26 +622,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
     /**
      * Gets the printDate attribute.
-     * 
+     *
      * @return Returns the printDate
-     * 
+     *
      */
-    public Date getPrintDate() { 
+    public Date getPrintDate() {
         return printDate;
     }
 
     /**
      * Sets the printDate attribute.
-     * 
+     *
      * @param printDate The printDate to set.
-     * 
+     *
      */
     public void setPrintDate(Date printDate) {
         this.printDate = printDate;
-    }    
-    
+    }
+
     /**
-     * Gets the localTaxPercent attribute. 
+     * Gets the localTaxPercent attribute.
      * @return Returns the localTaxPercent.
      */
     public KualiDecimal getLocalTaxPercent() {
@@ -656,7 +657,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the stateTaxPercent attribute. 
+     * Gets the stateTaxPercent attribute.
      * @return Returns the stateTaxPercent.
      */
     public KualiDecimal getStateTaxPercent() {
@@ -673,17 +674,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
     /**
 	 * Gets the accountsReceivableDocumentHeader attribute.
-	 * 
+	 *
 	 * @return Returns the accountsReceivableDocumentHeader
-	 * 
+	 *
 	 */
-	public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() { 
+	public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
 		return accountsReceivableDocumentHeader;
 	}
 
 	/**
 	 * Sets the accountsReceivableDocumentHeader attribute.
-	 * 
+	 *
 	 * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
 	 */
 	public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
@@ -692,17 +693,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the billByChartOfAccount attribute.
-	 * 
+	 *
 	 * @return Returns the billByChartOfAccount
-	 * 
+	 *
 	 */
-	public Chart getBillByChartOfAccount() { 
+	public Chart getBillByChartOfAccount() {
 		return billByChartOfAccount;
 	}
 
 	/**
 	 * Sets the billByChartOfAccount attribute.
-	 * 
+	 *
 	 * @param billByChartOfAccount The billByChartOfAccount to set.
 	 * @deprecated
 	 */
@@ -712,17 +713,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the billedByOrganization attribute.
-	 * 
+	 *
 	 * @return Returns the billedByOrganization
-	 * 
+	 *
 	 */
-	public Org getBilledByOrganization() { 
+	public Org getBilledByOrganization() {
 		return billedByOrganization;
 	}
 
 	/**
 	 * Sets the billedByOrganization attribute.
-	 * 
+	 *
 	 * @param billedByOrganization The billedByOrganization to set.
 	 * @deprecated
 	 */
@@ -732,26 +733,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
 	/**
 	 * Gets the customerSpecialProcessing attribute.
-	 * 
+	 *
 	 * @return Returns the customerSpecialProcessing
-	 * 
+	 *
 	 */
-	public CustomerProcessingType getCustomerSpecialProcessing() { 
+	public CustomerProcessingType getCustomerSpecialProcessing() {
 		return customerSpecialProcessing;
 	}
 
 	/**
 	 * Sets the customerSpecialProcessing attribute.
-	 * 
+	 *
 	 * @param customerSpecialProcessing The customerSpecialProcessing to set.
 	 * @deprecated
 	 */
 	public void setCustomerSpecialProcessing(CustomerProcessingType customerSpecialProcessing) {
 		this.customerSpecialProcessing = customerSpecialProcessing;
 	}
-    
+
 	/**
-     * Gets the paymentAccount attribute. 
+     * Gets the paymentAccount attribute.
      * @return Returns the paymentAccount.
      */
     public Account getPaymentAccount() {
@@ -768,7 +769,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentChartOfAccounts attribute. 
+     * Gets the paymentChartOfAccounts attribute.
      * @return Returns the paymentChartOfAccounts.
      */
     public Chart getPaymentChartOfAccounts() {
@@ -785,7 +786,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentFinancialObject attribute. 
+     * Gets the paymentFinancialObject attribute.
      * @return Returns the paymentFinancialObject.
      */
     public ObjectCode getPaymentFinancialObject() {
@@ -802,7 +803,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentFinancialSubObject attribute. 
+     * Gets the paymentFinancialSubObject attribute.
      * @return Returns the paymentFinancialSubObject.
      */
     public SubObjCd getPaymentFinancialSubObject() {
@@ -819,7 +820,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentProject attribute. 
+     * Gets the paymentProject attribute.
      * @return Returns the paymentProject.
      */
     public ProjectCode getPaymentProject() {
@@ -836,7 +837,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the paymentSubAccount attribute. 
+     * Gets the paymentSubAccount attribute.
      * @return Returns the paymentSubAccount.
      */
     public SubAccount getPaymentSubAccount() {
@@ -851,10 +852,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public void setPaymentSubAccount(SubAccount paymentSubAccount) {
         this.paymentSubAccount = paymentSubAccount;
     }
-    
+
     /**
      * This method returns the billing date for display.  If billing date hasn't been set yet, just display current date
-     * 
+     *
      * @return
      */
     public Date getBillingDateForDisplay() {
@@ -863,22 +864,22 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         } else {
             return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         }
-    }  
-    
+    }
+
     /**
      * This method...
      * @param date
      */
     public void setBillingDateForDisplay(Date date){
         //do nothing
-    }    
+    }
 
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
     @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	    LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
 	    return m;
     }
@@ -890,8 +891,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public void setNextInvoiceItemNumber(Integer nextInvoiceItemNumber) {
         this.nextInvoiceItemNumber = nextInvoiceItemNumber;
     }
-    
-    
+
+
     /**
      * This method returns true if this document is a reversal for another document
      * @return
@@ -899,16 +900,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public boolean isInvoiceReversal(){
         return ObjectUtils.isNotNull(getDocumentHeader().getFinancialDocumentInErrorNumber());
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return ((CustomerInvoiceDetail)postable).isDebit();
     }
-    
+
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
@@ -916,7 +917,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public Class<CustomerInvoiceDetail> getSourceAccountingLineClass() {
         return CustomerInvoiceDetail.class;
     }
-    
+
     /**
      * Ensures that all the accounts receivable object codes are correctly updated
      */
@@ -925,51 +926,51 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             SpringContext.getBean(CustomerInvoiceDetailService.class).updateAccountsReceivableObjectCode(((CustomerInvoiceDetail)e.next()));
         }
     }
-    
+
     /**
      * This method creates the following GLPE's for the invoice
-     * 
+     *
      * 1. Debit to receivable for total line amount ( including sales tax if it exists ).
      * 2. Credit to income based on item price * quantity.
      * 3. Credit to state sales tax account/object code if state sales tax exists.
-     * 4. Credit to district sales tax account/object code if district sales tax exists. 
-     * 
+     * 4. Credit to district sales tax account/object code if district sales tax exists.
+     *
      * @see org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl#processGenerateGeneralLedgerPendingEntries(org.kuali.kfs.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        
+
         // 1. Debit to receivable
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         processReceivableDebitGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
 
         // increment the sequence counter
         sequenceHelper.increment();
-        
+
         // 2. Credit to the income
         explicitEntry = new GeneralLedgerPendingEntry();
         processIncomeCreditGeneralLedgerPendingEntry(sequenceHelper, glpeSourceDetail, explicitEntry);
-        
+
         // increment the sequence counter
         //sequenceHelper.increment();
 
-        // 3. If State Sales Tax exists, credit to sales tax account       
+        // 3. If State Sales Tax exists, credit to sales tax account
         // TODO Sales Tax Service should create the state sales tax GLPEs
         /*
         // increment the sequence counter
         sequenceHelper.increment();
         */
-        
+
         // 4. If District Sales Tax exists, credit to sales tax account
         // TODO District Tax Service should create the state sales tax GLPEs
 
         return true;
     }
-    
-    
+
+
     /**
      * This method creates the receivable GLPE for each invoice detail line.
-     * 
+     *
      * @param poster
      * @param sequenceHelper
      * @param postable
@@ -978,20 +979,20 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     protected void processReceivableDebitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry) {
 
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;
-        
+
         ReceivableCustomerInvoiceDetail receivable = new ReceivableCustomerInvoiceDetail( customerInvoiceDetail, this);
-        
+
         //receivable line is debit if (normal invoice AND not a discount line) OR (reversal AND a discount line)
-        boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) 
+        boolean isDebit = (!isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine())
                             || (isInvoiceReversal() && customerInvoiceDetail.isDiscountLine());
         receivable.setDebit(isDebit);
-        
+
         processExplicitGeneralLedgerPendingEntry(sequenceHelper, receivable, explicitEntry);
     }
-    
+
     /**
      * This method adds pending entry with transaction ledger entry amount set to item price * quantity
-     * 
+     *
      * @param poster
      * @param sequenceHelper
      * @param postable
@@ -1002,21 +1003,21 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;
 
         //income line is debit if (normal invoice AND is a discount line) OR (reversal AND not a discount line)
-        boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) 
+        boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine())
         || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
-        customerInvoiceDetail.setDebit(isDebit);        
-        
+        customerInvoiceDetail.setDebit(isDebit);
+
         // populate the explicit entry
         getGeneralLedgerPendingEntryService().populateExplicitGeneralLedgerPendingEntry(this, glpeSourceDetail, sequenceHelper, explicitEntry);
-        
+
         //modify amount (since income should exclude state and district tax amounts);
         KualiDecimal subTotalAmount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
         explicitEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForDetail(customerInvoiceDetail));
-        
+
         //add pending entry
         addPendingEntry(explicitEntry);
     }
-    
+
     /**
      * Returns an implementation of the GeneralLedgerPendingEntryService
      * @return an implementation of the GeneralLedgerPendingEntryService
@@ -1027,7 +1028,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
-     * 
+     *
      * @return Map
      */
     @SuppressWarnings("unchecked")
@@ -1043,11 +1044,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         valuesMap.put("paymentProjectCode", getPaymentProjectCode());
         return valuesMap;
     }
-    
-    
+
+
     /**
      * When document is processed, set the billingDate to today's date.
-     * 
+     *
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
     @Override
@@ -1055,17 +1056,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
-            
+
             //setup discount line references
             updateDiscountAndParentLineReferences();
-            
+
             //save invoice paid applied lines
             //TODO maybe this should be done somewhere else? should there be a list of discount lines??
             SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidAppliedForDiscounts(getSourceAccountingLines(), this);
-        } 
+        }
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#toCopy()
      */
@@ -1074,7 +1075,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         super.toCopy();
         SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
     }
-    
+
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
      */
@@ -1083,8 +1084,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         super.toErrorCorrection();
         negateCustomerInvoiceDetailUnitPrices();
     }
-    
-    
+
+
     /**
      * This method...
      */
@@ -1095,26 +1096,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
             customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negated());
         }
-        
+
     }
-    
+
     /**
      * This method returns true if invoice document has at least one discount line
      * @return
      */
     @SuppressWarnings("unchecked")
     public boolean hasAtLeastOneDiscount(){
-        
+
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
             if (customerInvoiceDetail.isDiscountLineParent()){
                 return true;
             }
-        }        
+        }
         return false;
     }
-    
+
     /**
      * This method returns true if line number is discount line number based on sequence number
      * @param sequenceNumber
@@ -1125,33 +1126,33 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         if( ObjectUtils.isNull(sequenceNumber)){
             return false;
         }
-        
+
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
             Integer discLineNum = customerInvoiceDetail.getInvoiceItemDiscountLineNumber();
-            
+
             //check if sequence number is referenced as a discount line for another customer invoice detail (i.e. the parent line)
             if( ObjectUtils.isNotNull(discLineNum) && sequenceNumber.equals( customerInvoiceDetail.getInvoiceItemDiscountLineNumber() ) ){
                 return true;
             }
         }
         return false;
-    }  
-    
+    }
+
     /**
      * This method returns parent customer invoice detail based on child discount sequence number
-     * 
+     *
      * @param sequenceNumber
      * @return
      */
     @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getParentLineBasedOnDiscountSequenceNumber(Integer discountSequenceNumber){
-        
+
         if( ObjectUtils.isNull(discountSequenceNumber)){
             return null;
         }
-        
+
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
@@ -1161,19 +1162,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             }
         }
         return null;
-    }        
-    
-    
+    }
+
+
     /**
      * This method is called on CustomerInvoiceDocumentAction.execute() to set isDiscount to true if it truly is a discount line
      */
     @SuppressWarnings("unchecked")
     public void updateDiscountAndParentLineReferences(){
-        
+
         CustomerInvoiceDetail discount;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
             discount = (CustomerInvoiceDetail)i.next();
-            
+
             //get sequence number and check if theres a corresponding parent line for that discount line
             CustomerInvoiceDetail parent = getParentLineBasedOnDiscountSequenceNumber(discount.getSequenceNumber() );
             if( ObjectUtils.isNotNull(parent) ){
@@ -1188,13 +1189,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     /**
      * This method removes the corresponding discount line based on the index of the parent line index.
      * This assumes that the discount line is ALWAYS after the index of the parent line.
-     * 
+     *
      * @param deleteIndex
      */
     public void removeDiscountLineBasedOnParentLineIndex(int parentLineIndex) {
         //get parent line line
         CustomerInvoiceDetail parentLine = (CustomerInvoiceDetail)getSourceAccountingLines().get(parentLineIndex);
-        
+
         //get index for discount line
         int discountLineIndex = -1; //this should ALWAYS get set
         for( int i = 0; i < getSourceAccountingLines().size(); i++ ){
@@ -1222,3 +1223,5 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         this.customerBillToAddress = customerBillToAddress;
     }
 }
+
+

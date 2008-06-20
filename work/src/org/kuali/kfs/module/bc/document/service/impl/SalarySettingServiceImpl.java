@@ -262,7 +262,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private KualiInteger getNewMonthlyAmount(KualiInteger currentMonthlyAmount, KualiInteger adjustment, int indexOfMonth, int remainder) {
         KualiInteger newMonthlyAmount = currentMonthlyAmount.add(adjustment);
 
-        return remainder < indexOfMonth ? newMonthlyAmount : newMonthlyAmount.add(new KualiInteger(1));
+        return remainder < indexOfMonth ? newMonthlyAmount : newMonthlyAmount.add(KFSConstants.ONE);
     }
 
     /**

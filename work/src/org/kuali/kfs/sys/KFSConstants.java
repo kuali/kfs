@@ -1115,6 +1115,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public final static KualiInteger ONE_HUNDRED = new KualiInteger(100);
+    public final static KualiInteger ONE = new KualiInteger(1);
     
     // effort certification period status codes
     public static final class PeriodStatusCodes {

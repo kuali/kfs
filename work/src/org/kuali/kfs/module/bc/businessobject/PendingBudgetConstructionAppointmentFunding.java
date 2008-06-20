@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
@@ -83,6 +85,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
     private String adjustmentMeasurement;
     private KualiDecimal adjustmentAmount;
+    private boolean persistedDeleteIndicator;
+    
 
     /**
      * Default constructor.
@@ -828,6 +832,22 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public boolean isVacatable() {
         return SpringContext.getBean(SalarySettingService.class).canBeVacant(this);
     }
+    
+    /**
+     * Gets the persistedDeleteIndicator attribute. 
+     * @return Returns the persistedDeleteIndicator.
+     */
+    public boolean isPersistedDeleteIndicator() {
+        return persistedDeleteIndicator;
+    }
+
+    /**
+     * Sets the persistedDeleteIndicator attribute value.
+     * @param persistedDeleteIndicator The persistedDeleteIndicator to set.
+     */
+    public void setPersistedDeleteIndicator(boolean persistedDeleteIndicator) {
+        this.persistedDeleteIndicator = persistedDeleteIndicator;
+    }
 
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
@@ -868,5 +888,15 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         map.put(KFSPropertyConstants.EMPLID, getEmplid());
 
         return map;
+    }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+        
+        this.setPersistedDeleteIndicator(this.isAppointmentFundingDeleteIndicator());
     }
 }

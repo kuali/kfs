@@ -22,7 +22,7 @@
 <c:set var="pbcafAttributes" value="${DataDictionary['PendingBudgetConstructionAppointmentFunding'].attributes}" />
 <c:set var="bcpAttributes" value="${DataDictionary['BudgetConstructionPosition'].attributes}" />
 <c:set var="fundingPropertyName" value="salarySettingExpansion.pendingBudgetConstructionAppointmentFunding"/>
-<c:set var="isHourlyPaid" value="${KualiForm.salarySettingExpansion.hourlyPaid}" />
+<c:set var="isHourlyPaid" value="${true or KualiForm.salarySettingExpansion.hourlyPaid}" />
 <c:set var="numOfColumsRemoved" value="${isHourlyPaid ? 0 : 1 }" />
 	
 <div class="h2-container">
@@ -81,7 +81,7 @@
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
 			accountingLine="${fundingLineName}"	attributes="${pbcafAttributes}" 
 			field="appointmentFundingDeleteIndicator"  rowSpan="${rowspan}" readOnly="false"
-			fieldAlign="left" disabled="${readOnly}">
+			fieldAlign="left" disabled="${readOnly || fundingLine.persistedDeleteIndicator}">
 			
 			<html:hidden property="${fundingLineName}.universityFiscalYear" />
 			<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
@@ -89,8 +89,9 @@
 			<html:hidden property="${fundingLineName}.subAccountNumber" />
 			<html:hidden property="${fundingLineName}.financialObjectCode" />
 			<html:hidden property="${fundingLineName}.financialSubObjectCode" />
-			<html:hidden property="${fundingLineName}.versionNumber" />
 			<html:hidden property="${fundingLineName}.emplid" />
+			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
+			<html:hidden property="${fundingLineName}.versionNumber" />
 		</bc:pbglLineDataCell>
 	
 		<%-- Position Number --%>	
@@ -219,7 +220,14 @@
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
 						title="Vacate Salary Setting Line ${status.index}"
-						alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
+						alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />	
+				</c:if>
+				
+				<c:if test="${isHourlyPaid}">	
+					<html:image property="methodToCall.normalizePayRateAndAmount.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" 
+						title="Normalize the hourly rate and annual amount for Salary Setting Line ${status.index}"
+						alt="Normalize the hourly rate and annual amount for Salary Setting Line ${status.index}" styleClass="tinybutton" />
 				</c:if>
 			</c:if>
 		</td>

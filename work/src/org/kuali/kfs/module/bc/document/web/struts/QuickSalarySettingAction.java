@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
@@ -250,6 +252,36 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         salarySettingService.saveSalarySetting(salarySettingExpansion);
         salarySettingExpansion.refresh();
 
+        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * normalize the hourly pay rate and annual pay amount
+     */
+    public ActionForward normalizePayRateAndAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
+
+        // retrieve the selected funding line
+        int indexOfSelectedLine = this.getSelectedLine(request);
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
+        
+        KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
+        if(currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
+            BigDecimal hourlyPayRate = salarySettingService.calculateHourlyPayRate(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
+        }
+        
+        BigDecimal currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
+        if(currentHourlyPayRate != null) {        
+            KualiInteger annualPayAmount = salarySettingService.calculateAnnualPayAmount(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
+        }
+        
+        salarySettingExpansion.refresh();
+        
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

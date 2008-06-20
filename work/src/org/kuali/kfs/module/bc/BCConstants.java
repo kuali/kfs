@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.web.struts.action.BudgetConstructionRequestImportAction;
@@ -386,6 +387,7 @@ public class BCConstants extends JSTLConstants {
     public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
     public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
 
-    //TODO: determine whether this need to be put into system parameter
+    //TODO: determine whether those need to be put into system parameter
     public static final String HOURLY_PAY_TYPE_CODE = "B";
+    public static final KualiInteger TOTAL_WORKING_HOUR_IN_YEAR = new KualiInteger(2080);
 }

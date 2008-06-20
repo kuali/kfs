@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.service;
 
+import java.math.BigDecimal;
+
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.bo.SalarySettingExpansion;
@@ -41,6 +44,30 @@ public interface SalarySettingService {
      * @return true if the salary is paid at hourly rate; otherwise, false
      */
     public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger);
+    
+    /**
+     * calculate the hourly pay rate from the request amount in the given appointment funding
+     * 
+     * @param appointmentFunding the given apporintment funding
+     * @return the hourly pay rate
+     */
+    public BigDecimal calculateHourlyPayRate(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * calculate the annual pay amount from the request pay rate in the given appointment funding
+     * 
+     * @param appointmentFunding the given apporintment funding
+     * @return the annual pay amount
+     */
+    public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * calculate the fte quantity based on the information of the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return the fte quantity calculated from the information of the given appointment funding
+     */
+    public BigDecimal calculateFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * determine whehter the given appointment funding can be vacated

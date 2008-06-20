@@ -8,7 +8,7 @@
       <description>Attribute to identify the Processing Chart of Account of the Customer Invoice Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="documentHeader.processingChartOfAccountCode" title="kuali_dd_label(AccountsReceivableDocumentHeader)">
+        <fieldDef name="processingChartOfAccountCode" title="kuali_dd_label(AccountsReceivableDocumentHeader)">
           <display>
             <type>text</type>
           </display>

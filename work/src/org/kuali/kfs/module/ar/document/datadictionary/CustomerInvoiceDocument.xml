@@ -32,8 +32,6 @@
     <property name="attributes" >
       <list>
         <ref bean="CustomerInvoiceDocument-documentHeader.documentDescription" />
-        <ref bean="CustomerInvoiceDocument-documentHeader.processingChartOfAccountCode" />
-        <ref bean="CustomerInvoiceDocument-documentHeader.processingOrganizationCode" />
         <ref bean="CustomerInvoiceDocument-invoiceHeaderText" />
         <ref bean="CustomerInvoiceDocument-invoiceAttentionLineText" />
         <ref bean="CustomerInvoiceDocument-invoiceDueDate" />
@@ -76,26 +74,6 @@
   <bean id="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
     <property name="name" value="documentHeader.documentDescription" />
   </bean>
-
-  <bean id="CustomerInvoiceDocument-documentHeader.processingChartOfAccountCode" parent="CustomerInvoiceDocument-documentHeader.processingChartOfAccountCode-parentBean" />
-  <bean id="CustomerInvoiceDocument-documentHeader.processingChartOfAccountCode-parentBean" abstract="true" parent="AccountsReceivableDocumentHeader-processingChartOfAccountCode">
-    <property name="name" value="processingChartOfAccountCode" />
-    <property name="label" value="Processing Chart Code" />
-    <property name="shortLabel" value="Processing Chart" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-
-  <bean id="CustomerInvoiceDocument-documentHeader.processingOrganizationCode" parent="CustomerInvoiceDocument-documentHeader.processingOrganizationCode-parentBean" />
-  <bean id="CustomerInvoiceDocument-documentHeader.processingOrganizationCode-parentBean" abstract="true" parent="AccountsReceivableDocumentHeader-processingOrganizationCode">
-    <property name="name" value="processingOrganizationCode" />
-    <property name="label" value="Processing Organization Code" />
-    <property name="shortLabel" value="Processing Org Code" />
-  </bean>
-
   <bean id="CustomerInvoiceDocument-invoiceHeaderText" parent="CustomerInvoiceDocument-invoiceHeaderText-parentBean" />
 
   <bean id="CustomerInvoiceDocument-invoiceHeaderText-parentBean" abstract="true" parent="AttributeDefinition">

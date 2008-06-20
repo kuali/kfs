@@ -47,7 +47,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
 
-    private transient PaymentRequestDocument paymentRequest;
 
     /**
      * Default constructor.
@@ -109,7 +108,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         // set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
-        this.paymentRequest = preq;
+        this.setPurapDocument(preq);
     }
 
     /**
@@ -121,7 +120,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public PurchaseOrderItem getPurchaseOrderItem() {
         if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
             if (ObjectUtils.isNull(this.getPaymentRequest())) {
-                this.refreshReferenceObject(PurapPropertyConstants.PAYMENT_REQUEST);
+                this.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
             }
         }
         // ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and
@@ -237,11 +236,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     public PaymentRequestDocument getPaymentRequest() {
-        return paymentRequest;
+        return super.getPurapDocument();
     }
 
     public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
-        this.paymentRequest = paymentRequest;
+        this.setPurapDocument(paymentRequest);
     }
 
     public void generateAccountListFromPoItemAccounts(List<PurApAccountingLine> accounts) {
@@ -322,7 +321,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         super.afterLookup(persistenceBroker);
         if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
             if (ObjectUtils.isNull(this.getPaymentRequest())) {
-                this.refreshReferenceObject(PurapPropertyConstants.PAYMENT_REQUEST);
+                this.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
             }
         }
     }

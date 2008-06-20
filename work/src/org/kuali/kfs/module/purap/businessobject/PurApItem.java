@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
  * Purap Item Business Object.
@@ -127,5 +128,14 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
     public String getItemIdentifierString();
 
     public PurApSummaryItem getSummaryItem();
-
+    
+    public <T extends PurchasingAccountsPayableDocument> T getPurapDocument();
+    
+    public void setPurapDocument(PurchasingAccountsPayableDocument purapDoc);
+    
+    public Integer getPurapDocumentIdentifier();
+    
+    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier);
+    
+    public void fixAccountReferences();
 }

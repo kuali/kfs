@@ -62,6 +62,8 @@ public enum PurchaseOrderAccountingLineFixture {
      * @param item the specified item.
      */
     public void addTo(PurchaseOrderItem item) {
-        item.getSourceAccountingLines().add(createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture));
+        PurApAccountingLine purApAccountingLine = createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture);
+        purApAccountingLine.setPurApItem(item);
+        item.getSourceAccountingLines().add(purApAccountingLine);
     }
 }

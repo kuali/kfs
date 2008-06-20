@@ -551,7 +551,7 @@ public enum RequisitionDocumentFixture {
         for (RequisitionItemFixture requisitionItemFixture : requisitionItemFixtures) {
             requisitionItemFixture.addTo(doc);
         }
-
+        doc.fixItemReferences();
         return doc;
     }
 

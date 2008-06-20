@@ -769,7 +769,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return boolean false if the account is expired.
      */
     private boolean validateAccountNotExpired(AccountingLine accountingLine) {
-        accountingLine.refreshNonUpdateableReferences();
+        accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         if (accountingLine.getAccount() != null && accountingLine.getAccount().isExpired()) {
 
             return false;

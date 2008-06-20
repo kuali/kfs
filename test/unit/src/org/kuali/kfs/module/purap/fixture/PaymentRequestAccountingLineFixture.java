@@ -52,7 +52,9 @@ public enum PaymentRequestAccountingLineFixture {
     }
 
     public void addTo(PaymentRequestItem item) {
-        item.getSourceAccountingLines().add(createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture));
+        PurApAccountingLine purApAccountingLine = createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture);
+        purApAccountingLine.setPurApItem(item);
+        item.getSourceAccountingLines().add(purApAccountingLine);
     }
 
     /**

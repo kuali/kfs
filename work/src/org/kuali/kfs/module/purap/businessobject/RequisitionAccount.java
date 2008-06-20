@@ -24,20 +24,18 @@ public class RequisitionAccount extends PurApAccountingLineBase {
 
     private static final long serialVersionUID = -8655437895493693864L;
 
-    private RequisitionItem requisitionItem;
-
     public RequisitionItem getRequisitionItem() {
-        return requisitionItem;
+        return super.getPurApItem();
     }
 
     /**
-     * Sets the requisitionItem attribute.
+     * 
      * 
      * @param requisitionItem The requisitionItem to set.
      * @deprecated
      */
     public void setRequisitionItem(RequisitionItem requisitionItem) {
-        this.requisitionItem = requisitionItem;
+        setPurApItem(requisitionItem);
     }
 
 }

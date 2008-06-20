@@ -57,7 +57,9 @@ public class PurapPropertyConstants {
     public static final String GENERAL_LEDGER_PENDING_ENTRIES = "generalLedgerPendingEntries";
 
     // PURCHASING AND ACCOUNTS PAYABLE DOCUMENT BASE
+    public static final String PURAP_DOC = "purapDocument";
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
+    public static final String PURAP_ITEM = "purapItem";
     public static final String OLD_STATUS = "oldStatus";
     public static final String NEW_STATUS = "newStatus";
     public static final String STATUS_CODE = "statusCode";

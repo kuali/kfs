@@ -242,7 +242,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @return boolean true if the account's closed indicator is true and false otherwise.
      */
     private boolean isAccountClosed(AccountingLine accountingLine) {
-        accountingLine.refreshNonUpdateableReferences();
+        accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         if (accountingLine.getAccount() != null && accountingLine.getAccount().isAccountClosedIndicator()) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_REQUISITION_ACCOUNT_CLOSED, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
 

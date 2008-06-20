@@ -31,8 +31,6 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     // private String documentNumber;
     private KualiDecimal itemAccountOutstandingEncumbranceAmount;
 
-    private PurchaseOrderItem purchaseOrderItem;
-
     /**
      * Default constructor.
      */
@@ -70,7 +68,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {
-        return purchaseOrderItem;
+        return super.getPurApItem();
     }
 
     /**
@@ -80,7 +78,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      * @deprecated
      */
     public void setPurchaseOrderItem(PurchaseOrderItem purchaseOrderItem) {
-        this.purchaseOrderItem = purchaseOrderItem;
+        super.setPurApItem(purchaseOrderItem);
     }
 
     /**

@@ -79,6 +79,10 @@ public interface PurApAccountingLine extends AccountingLine {
 
     public void setAlternateAmountForGLEntryCreation(KualiDecimal alternateAmountForGLEntryCreation);
 
+    public <T extends PurApItem> T getPurApItem();
+   
+    public void setPurApItem(PurApItem item);
+    
     public String getString();
 
 }

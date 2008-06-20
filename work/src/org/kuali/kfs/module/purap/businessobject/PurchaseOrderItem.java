@@ -174,14 +174,11 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     public PurchaseOrderDocument getPurchaseOrder() {
-        if (ObjectUtils.isNull(purchaseOrder)) {
-            refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER);
-        }
-        return purchaseOrder;
+        return super.getPurapDocument();
     }
 
     public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
+        setPurapDocument(purchaseOrder);
     }
 
     public String getDocumentNumber() {

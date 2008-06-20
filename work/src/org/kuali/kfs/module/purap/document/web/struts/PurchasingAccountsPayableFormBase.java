@@ -18,6 +18,8 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.AccountingLine;
@@ -26,6 +28,7 @@ import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.util.SummaryAccount;
 
@@ -78,6 +81,14 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
             }
         }
         return accounts;
+    }
+
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        //fix document item/account references if necessary
+        PurchasingAccountsPayableDocument purapDoc = (PurchasingAccountsPayableDocument)this.getDocument();
+        purapDoc.fixItemReferences();
     }
 
     public List<SummaryAccount> getSummaryAccounts() {

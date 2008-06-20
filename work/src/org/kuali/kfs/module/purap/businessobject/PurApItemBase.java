@@ -28,6 +28,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.util.PurApObjectUtils;
 
 /**
@@ -58,6 +59,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
+    
+    private PurchasingAccountsPayableDocument purapDocument;
 
     /**
      * Default constructor.
@@ -311,6 +314,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public void resetAccount() {
         // add a blank accounting line
         PurApAccountingLine purApAccountingLine = getNewAccount();
+        
+        purApAccountingLine.setItemIdentifier(this.itemIdentifier);
+        purApAccountingLine.setPurApItem(this);
+        
         setNewSourceLine(purApAccountingLine);
     }
 
@@ -380,4 +387,39 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return summaryItem;
     }
 
+    public final <T extends PurchasingAccountsPayableDocument> T getPurapDocument() {
+        return (T)purapDocument;
+    }
+
+    public final void setPurapDocument(PurchasingAccountsPayableDocument purapDoc) {
+        this.purapDocument = purapDoc;
+    }
+    
+    /**
+     * fixes item references on accounts
+     * @see org.kuali.module.purap.bo.PurApItem#fixAccountReferences()
+     */
+    public void fixAccountReferences() {
+        if(ObjectUtils.isNull(this.getItemIdentifier())) {
+            for (PurApAccountingLine account : this.getSourceAccountingLines()) {
+                account.setPurApItem(this);
+            }
+        }
+    }
+
+    @Override
+    public void refreshNonUpdateableReferences() {
+        PurchasingAccountsPayableDocument document = null;
+        if(ObjectUtils.isNotNull(this.getPurapDocument()) &&
+           ObjectUtils.isNull(this.getPurapDocument().getPurapDocumentIdentifier())) {
+            document = this.getPurapDocument();
+        }
+        super.refreshNonUpdateableReferences();
+        if(ObjectUtils.isNotNull(document)) {
+            this.setPurapDocument(document);
+        }
+    }
+
+    
+    
 }

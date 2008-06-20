@@ -156,6 +156,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void prepareForSave(KualiDocumentEvent event) {
         customPrepareForSave(event);
         super.prepareForSave(event);
+        fixItemReferences();
     }
 
     /**
@@ -338,6 +339,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
             itemLinePosition = item.getItemLineNumber().intValue() - 1;
         }
+        
+        item.setPurapDocumentIdentifier(this.purapDocumentIdentifier);
+        item.setPurapDocument(this);
+        
         items.add(itemLinePosition, item);
         renumberItems(itemLinePosition);
     }
@@ -748,6 +753,26 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setRelatedViews(PurApRelatedViews relatedViews) {
         this.relatedViews = relatedViews;
+    }
+
+    @Override
+    public void refreshNonUpdateableReferences() {
+
+        super.refreshNonUpdateableReferences();
+        fixItemReferences();
+    }
+
+    /**
+     * This method fixes the item references in this document if it's new
+     */
+    public void fixItemReferences() {
+        //fix item and account references in case this is a new doc (since they will be lost)
+        if(ObjectUtils.isNull(this.purapDocumentIdentifier)) {
+            for (PurApItem item : (List<PurApItem>)this.getItems()) {
+                item.setPurapDocument(this);
+                item.fixAccountReferences();
+            }
+        }
     }
 
 }

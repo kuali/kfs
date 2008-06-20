@@ -26,7 +26,6 @@ import org.kuali.module.purap.util.PurApObjectUtils;
 public class PaymentRequestAccount extends PurApAccountingLineBase {
 
     private KualiDecimal disencumberedAmount = KualiDecimal.ZERO;
-    private PaymentRequestItem paymentRequestItem;
 
     /**
      * Default constructor.
@@ -59,11 +58,11 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
     }
 
     public PaymentRequestItem getPaymentRequestItem() {
-        return paymentRequestItem;
+        return super.getPurApItem();
     }
 
     public void setPaymentRequestItem(PaymentRequestItem paymentRequestItem) {
-        this.paymentRequestItem = paymentRequestItem;
+        super.setPurApItem(paymentRequestItem);
     }
 
     /**

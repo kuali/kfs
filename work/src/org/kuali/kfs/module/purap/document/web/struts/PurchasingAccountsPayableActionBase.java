@@ -36,6 +36,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
@@ -81,19 +82,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         SpringContext.getBean(PurapService.class).sortBelowTheLine(document);
 
         updateBaseline(document, (PurchasingAccountsPayableFormBase) kualiDocumentFormBase);
-    }
-
-    /**
-     * Overrides the superclass method to hide restricted materials 
-     * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase)form;
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
-        return forward;
     }
     
     /**
@@ -379,4 +367,10 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         return super.downloadBOAttachment(mapping, form, request, response);
     }
 
+    @Override
+    protected void processAccountingLineOverrides(List accountingLines) {
+        //do nothing purap handles these differently
+    }
+    
+    
 }

@@ -117,5 +117,25 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
     public void setFinancialDocumentPostingPeriod(AccountingPeriod financialDocumentPostingPeriod) {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
+
+    @Override
+    protected void updateObjectAndSubObject() {
+        // do nothing
+        return;
+    }
+
+    @Override
+    protected void updateObjectCode() {
+        // do nothing
+        return;    
+    }
+
+    @Override
+    protected void updateSubObjectCode() {
+        // do nothing
+        return;
+    }
+
+
     
 }

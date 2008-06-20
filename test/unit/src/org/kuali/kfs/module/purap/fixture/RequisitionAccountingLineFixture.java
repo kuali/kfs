@@ -58,7 +58,10 @@ public enum RequisitionAccountingLineFixture {
     }
 
     public void addTo(RequisitionItem item) {
-        item.getSourceAccountingLines().add(createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture));
+        PurApAccountingLine purApAccountingLine = createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture);
+        //fix item reference
+        purApAccountingLine.setPurApItem(item);
+        item.getSourceAccountingLines().add(purApAccountingLine);
     }
 
     /**

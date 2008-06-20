@@ -237,4 +237,5 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
 
     public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
 
+    public void fixItemReferences();
 }

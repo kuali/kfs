@@ -22,8 +22,6 @@ package org.kuali.module.purap.bo;
  */
 public class CreditMemoAccount extends PurApAccountingLineBase {
 
-    private CreditMemoItem creditMemoItem;
-
     /**
      * Default constructor.
      */
@@ -51,13 +49,13 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
     }
 
     public CreditMemoItem getCreditMemoItem() {
-        return creditMemoItem;
+        return super.getPurApItem();
     }
 
     /**
      * @deprecated
      */
     public void setCreditMemoItem(CreditMemoItem creditMemoItem) {
-        this.creditMemoItem = creditMemoItem;
+        super.setPurApItem(creditMemoItem);
     }
 }

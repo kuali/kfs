@@ -20,19 +20,32 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.module.chart.service.SubObjectCodeService;
+import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.purap.PurapPropertyConstants;
 
 /**
  * Purap Accounting Line Base Business Object.
  */
 public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine, Comparable {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApAccountingLineBase.class);
     protected Integer accountIdentifier;
     private Integer itemIdentifier;
     private BigDecimal accountLinePercent;
     private KualiDecimal alternateAmountForGLEntryCreation; // not stored in DB; needed for disencumbrances and such
+    
+    private PurApItem purapItem;
 
     public Integer getAccountIdentifier() {
         return accountIdentifier;
@@ -163,5 +176,124 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         setAlternateAmountForGLEntryCreation(other.getAlternateAmountForGLEntryCreation());            
  
     }
+ 
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        updateObjectAndSubObject();
+        super.afterLookup(persistenceBroker);
+    }
 
+    protected void updateObjectAndSubObject() {
+        //TODO: default to current if there is no purapitem.  This should only happen during creation
+        Integer universityFiscalYear = null;
+        if(ObjectUtils.isNotNull(this.getItemIdentifier())) {
+            if(ObjectUtils.isNull(this.getPurApItem())) {
+                this.refreshReferenceObject(PurapPropertyConstants.PURAP_ITEM);
+                if(ObjectUtils.isNotNull(this.getPurApItem())) {
+                    if(ObjectUtils.isNull(this.getPurApItem().getPurapDocument())) {
+                        this.getPurApItem().refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
+                    }
+                }
+            }
+        }
+        if(ObjectUtils.isNotNull(this.getPurApItem()) &&
+                ObjectUtils.isNotNull(this.getPurApItem().getPurapDocument())) {
+            universityFiscalYear = this.getPurApItem().getPurapDocument().getPostingYearNextOrCurrent();
+            setObjectCode(SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getFinancialObjectCode()));
+            setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
+        }
+        
+
+    }
+    
+    @Override
+    public void refreshReferenceObject(String referenceObjectName) {
+        boolean skipSuper = false;
+        //don't refresh object code since that is specially handled
+        if(StringUtils.equals(referenceObjectName, KFSPropertyConstants.OBJECT_CODE) ||
+           StringUtils.equals(referenceObjectName, KFSPropertyConstants.SUB_OBJECT_CODE)) {
+            updateObjectAndSubObject();
+            return;
+        }
+        if(!skipSuper){
+            super.refreshReferenceObject(referenceObjectName);
+        }
+    }
+
+    @Override
+    public void refreshNonUpdateableReferences() {
+        //hold onto item reference if there without itemId
+        PurApItem item = null;
+        if(ObjectUtils.isNotNull(this.getPurApItem()) &&
+           ObjectUtils.isNull(this.getPurApItem().getItemIdentifier())) {
+            item = this.getPurApItem();
+        }
+        super.refreshNonUpdateableReferences();
+        if(ObjectUtils.isNotNull(item)) {
+            this.setPurApItem(item);
+        }
+    }
+
+    public <T extends PurApItem> T getPurApItem() {
+        return (T) purapItem;
+    }
+    
+    /**
+     * Sets the requisitionItem attribute.
+     * @deprecated
+     * @param item
+     */
+    public void setPurApItem(PurApItem item) {
+        purapItem = item;
+    }
+
+    @Override
+    public ObjectCode getObjectCode() {
+        updateObjectCode();
+        return super.getObjectCode();
+    }
+
+    /**
+     * This method...
+     */
+    protected void updateObjectCode() {
+        if((ObjectUtils.isNull(super.getObjectCode()) &&
+                ObjectUtils.isNotNull(this.getFinancialObjectCode())) ||
+           (ObjectUtils.isNotNull(super.getObjectCode()) && 
+                   !StringUtils.equals(this.getFinancialObjectCode(), 
+                           super.getObjectCode().getFinancialObjectCode()))) {
+            updateObjectAndSubObject();
+        }
+    }
+
+    @Override
+    public SubObjCd getSubObjectCode() { 
+        updateSubObjectCode();
+        return super.getSubObjectCode();
+    }
+
+    /**
+     * This method...
+     */
+    protected void updateSubObjectCode() {
+        if((ObjectUtils.isNull(super.getSubObjectCode()) &&
+                ObjectUtils.isNotNull(this.getFinancialSubObjectCode())) ||
+           (ObjectUtils.isNotNull(super.getSubObjectCode()) && 
+                   !StringUtils.equals(this.getFinancialSubObjectCode(), 
+                           super.getSubObjectCode().getFinancialSubObjectCode()))) {
+            updateObjectAndSubObject();
+        }
+    }
+
+    @Override
+    public void setObjectCode(ObjectCode objectCode) {
+        // TODO Auto-generated method stub
+        super.setObjectCode(objectCode);
+    }
+
+    @Override
+    public void setSubObjectCode(SubObjCd subObjectCode) {
+        // TODO Auto-generated method stub
+        super.setSubObjectCode(subObjectCode);
+    }
 }

@@ -29,7 +29,6 @@ public class RequisitionItem extends PurchasingItemBase {
     private boolean itemRestrictedIndicator;
     private Integer capitalAssetManagementSystemNumber;
     
-    private RequisitionDocument requisition;
     private RequisitionCapitalAssetSystem capitalAssetManagementSystem;
     
     /**
@@ -63,11 +62,11 @@ public class RequisitionItem extends PurchasingItemBase {
     }    
     
     public RequisitionDocument getRequisition() {
-        return requisition;
+        return super.getPurapDocument();
     }
 
     public void setRequisition(RequisitionDocument requisition) {
-        this.requisition = requisition;
+        setPurapDocument(requisition);
     }
 
     /**

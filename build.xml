@@ -151,7 +151,11 @@
 
 	<target name="clean-local" if="is.local.build" depends="init-property-files">
 		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${external.config.directory}" includes="**/${ant.project.name}/"/>
+			<fileset dir="${base.security.directory}" includes="**/${ant.project.name}/"/>
+			<fileset dir="${base.settings.directory}" includes="**/${ant.project.name}/"/>
+			<fileset dir="${base.logs.directory}" includes="**/${ant.project.name}/"/>
+			<fileset dir="${base.work.directory}" includes="**/${ant.project.name}/"/>
+			<fileset dir="${base.deploy.directory}" includes="**/${ant.project.name}/"/>
 		</delete>
 		<delete failonerror="false">
 			<fileset dir="${appserver.lib.dir}">

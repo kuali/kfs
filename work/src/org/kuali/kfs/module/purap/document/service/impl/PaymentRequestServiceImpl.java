@@ -44,7 +44,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
@@ -88,6 +87,7 @@ import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -1058,7 +1058,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         descr.append(" Vendor: ");
         descr.append(StringUtils.trimToEmpty(vendorName));
 
-        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength >= descr.length()) {
             return descr.toString();
         }

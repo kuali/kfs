@@ -15,17 +15,51 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.module.budget.service.PayrateImportService;
+import org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm;
+import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
+import org.kuali.module.budget.web.struts.form.PayrateImportExportForm;
 
 public class PayrateImportExportAction extends BudgetExpansionAction {
     
     public ActionForward performImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
+        PayrateImportService payrateImportService = SpringContext.getBean(PayrateImportService.class);
+        List<String> messageList = new ArrayList<String>();
+        //TODO: check that budget construction updates are allowed
+        
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
+        
+        boolean isValid = validateFormData(payrateImportExportForm);
+        
+        if (!isValid) {
+            //TODO: add path to constants
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        Date startTime = new Date();
+        messageList.add("Import run started " + dateFormatter.format(startTime));
+        
+        StringBuilder parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -35,5 +69,27 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public boolean validateFormData(PayrateImportExportForm form) {
+        boolean isValid = true;
+        PayrateImportExportForm importForm = (PayrateImportExportForm) form;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        if ( importForm.getFile() == null || importForm.getFile().getFileSize() == 0 ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
+            isValid = false;
+        }
+        if ( importForm.getFile() != null && importForm.getFile().getFileSize() == 0 ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_EMPTY);
+            isValid = false;
+        }
+        if (importForm.getFile() != null && (StringUtils.isBlank(importForm.getFile().getFileName())) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
+            isValid = false;
+        }
+        
+        
+        return isValid;
     }
 }

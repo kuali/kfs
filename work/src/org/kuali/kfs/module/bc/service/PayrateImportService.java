@@ -19,6 +19,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
+
 import com.lowagie.text.DocumentException;
 
 public interface PayrateImportService {
@@ -34,7 +36,7 @@ public interface PayrateImportService {
     /**
      * Processes all payrate holding records
      */
-    public StringBuilder update();
+    public StringBuilder update(Integer budgetYear, UniversalUser user);
     
     /**
      * Generates the log file

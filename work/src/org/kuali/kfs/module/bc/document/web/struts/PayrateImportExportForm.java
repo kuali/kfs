@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import org.apache.struts.upload.FormFile;
+
 public class PayrateImportExportForm extends BudgetExpansionForm {
     
     private String positionUnionCode;
@@ -23,7 +25,16 @@ public class PayrateImportExportForm extends BudgetExpansionForm {
     private String fileName;
     private int importCount;
     private int updateCount;
+    private FormFile file;
     
+    public FormFile getFile() {
+        return file;
+    }
+
+    public void setFile(FormFile file) {
+        this.file = file;
+    }
+
     public String getFileName() {
         return fileName;
     }

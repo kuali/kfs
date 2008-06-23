@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.bo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -27,6 +28,13 @@ public class PayrateImportExport extends TransientBusinessObjectBase {
     private String fileName;
     private int importCount;
     private int updateCount;
+    private String emplid;
+    private String positionNumber;
+    private String personName;
+    private String setidSalary;
+    private String salaryAdministrationPlan;
+    private String grade;
+    private BigDecimal appointmentRequestPayRate;
     
     public String getFileName() {
         return fileName;
@@ -84,6 +92,62 @@ public class PayrateImportExport extends TransientBusinessObjectBase {
         m.put("csfFreezeDate", csfFreezeDate);
         
         return m;
+    }
+
+    public BigDecimal getAppointmentRequestPayRate() {
+        return appointmentRequestPayRate;
+    }
+
+    public void setAppointmentRequestPayRate(BigDecimal appointmentRequestPayRate) {
+        this.appointmentRequestPayRate = appointmentRequestPayRate;
+    }
+
+    public String getEmplid() {
+        return emplid;
+    }
+
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public String getPositionNumber() {
+        return positionNumber;
+    }
+
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
+
+    public String getSalaryAdministrationPlan() {
+        return salaryAdministrationPlan;
+    }
+
+    public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
+        this.salaryAdministrationPlan = salaryAdministrationPlan;
+    }
+
+    public String getSetidSalary() {
+        return setidSalary;
+    }
+
+    public void setSetidSalary(String setidSalary) {
+        this.setidSalary = setidSalary;
     }
 
 }

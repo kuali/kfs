@@ -1359,7 +1359,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
     
     public void processPaymentRequestInReceivingStatus() {
-        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        /**
+         * FIXME:Have to remove the comment once we get the correct status  - vpc
+         */
+//        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        List<PaymentRequestDocument> docs = null;
         if (docs != null) {
             for (PaymentRequestDocument paymentRequestDocument : docs) {
                 processPaymentRequestInReceivingStatus(paymentRequestDocument);
@@ -1376,9 +1380,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         for (PaymentRequestItem preqItem : preqItems) {
             if(!StringUtils.equalsIgnoreCase(preqItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
                     PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
-                    KualiDecimal preqItemQuantity = preqItem.getItemQuantity(); 
-                    KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity();                                
-                    KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity();
+                    KualiDecimal preqItemQuantity = preqItem.getItemQuantity() == null ? KualiDecimal.ZERO : preqItem.getItemQuantity(); 
+                    KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();                                
+                    KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
                     
                     if (preqItemQuantity.isLessEqual((poItemReceivedQty.subtract(
                                                            poItemInvoicedQty.subtract(
@@ -1394,10 +1398,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         if (changeStatus){
             /**
-             * FIXME: Have to change this status - vpc
+             * FIXME: Temp comment. Have to remove this comment once we get the correct status to be added here- vpc
              */
-            purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
-            saveDocumentWithoutValidation(preqDoc);
+//            purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
+//            saveDocumentWithoutValidation(preqDoc);
         }
     }
     

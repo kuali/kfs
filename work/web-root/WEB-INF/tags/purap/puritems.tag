@@ -93,11 +93,11 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
-				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"/></kul:htmlAttributeHeaderCell>
+				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" nowrap="true" />
-				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" /></kul:htmlAttributeHeaderCell>
-				<kul:htmlAttributeHeaderCell nowrap="true"> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" /></kul:htmlAttributeHeaderCell>				
+				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
+				<kul:htmlAttributeHeaderCell nowrap="true"> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" nowrap="true" />
 				<c:if test="${displayRequisitionFields}">
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" nowrap="true" />
@@ -188,12 +188,34 @@
 		</tr>
 
 		<c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
+			<tr>
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
+				<c:if test="${displayRequisitionFields}">
+					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+				</c:if>
+				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
-                    <c:if test="${((documentType != 'PurchaseOrderDocument') && !(fullEntryMode or amendmentEntry))}">
-                        <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
-                    </c:if>
+				    <c:choose>
+                        <c:when test="${((documentType != 'PurchaseOrderDocument') && !(fullEntryMode or amendmentEntry))}">
+                            <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
+                        </c:when>
+                        <c:otherwise>
+                            <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
+                        </c:otherwise>
+                    </c:choose>
                     <kul:htmlAttributeHeaderCell literalLabel="Amount Paid" />
+                </c:if>
+                <c:if test="${!isATypeOfPODoc}">
+                    <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
                 </c:if>
 			</tr>
 		</c:if>

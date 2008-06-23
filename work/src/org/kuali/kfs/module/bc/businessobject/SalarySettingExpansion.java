@@ -56,7 +56,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the appointmentRequestedAmountTotal.
      */
     public KualiInteger getAppointmentRequestedAmountTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedAmountTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -65,7 +65,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the appointmentRequestedFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedFteQuantityTotal() {
-        return SalarySettingCalculator.getAppointmentRequestedFteQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getAppointmentRequestedFteQuantityTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -74,7 +74,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the csfAmountTotal.
      */
     public KualiInteger getCsfAmountTotal() {
-        return SalarySettingCalculator.getCsfAmountTotal(this.getPendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getCsfAmountTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -83,7 +83,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return Returns the csfFullTimeEmploymentQuantityTotal.
      */
     public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
-        return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getPendingBudgetConstructionAppointmentFunding());
+        return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
     }
 
     /**
@@ -169,6 +169,13 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      */
     public boolean isHourlyPaid() {
         return SpringContext.getBean(SalarySettingService.class).isHourlyPaid(this);
+    }
+    
+    /**
+     * @see org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware#getEffectivePendingBudgetConstructionAppointmentFunding()
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getEffectivePendingBudgetConstructionAppointmentFunding() {
+        return SalarySettingCalculator.getEffectiveAppointmentFundings(this.getPendingBudgetConstructionAppointmentFunding());
     }
 
     /**

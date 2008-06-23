@@ -223,10 +223,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             changes = (annualBalanceAmount != null) ? requestedAmountTotal.subtract(annualBalanceAmount) : requestedAmountTotal;
         }
 
-        if (changes.isNonZero()) {
-            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
-            businessObjectService.save(salarySettingExpansion);
+        salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+        businessObjectService.save(salarySettingExpansion);
 
+        if (changes.isNonZero()) {
             List<BudgetConstructionMonthly> budgetConstructionMonthly = this.updateMonthlyAmounts(salarySettingExpansion, changes);
             businessObjectService.save(budgetConstructionMonthly);
         }
@@ -245,8 +245,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             changes = (annualBalanceAmount != null) ? annualBalanceAmount.subtract(requestedAmountTotal) : requestedAmountTotal;
         }
 
-        if (changes.isNonZero()) {
-            salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+        salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
+        
+        if (changes.isNonZero()) {            
             salarySettingExpansion.setBudgetConstructionMonthly(this.updateMonthlyAmounts(salarySettingExpansion, changes));
         }
     }
@@ -367,7 +368,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @return true if there exists at lease one vacant funding line for the given appointment funding; otherwise, return false
      */
     private boolean hasBeenVacated(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        Map<String, String> keyFieldValues = new HashMap<String, String>();
+        Map<String, Object> keyFieldValues = new HashMap<String, Object>();
+        keyFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear());
         keyFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());
         keyFieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());
         keyFieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, appointmentFunding.getSubAccountNumber());
@@ -391,6 +393,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         ObjectUtil.buildObject(vacantAppointmentFunding, appointmentFunding);
         vacantAppointmentFunding.setEmplid(BCConstants.VACANT_EMPLID);
         vacantAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
+        vacantAppointmentFunding.setPersistedDeleteIndicator(false);
         vacantAppointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
 
         return vacantAppointmentFunding;

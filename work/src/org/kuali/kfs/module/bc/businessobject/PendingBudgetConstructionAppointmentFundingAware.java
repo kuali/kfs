@@ -32,4 +32,11 @@ public interface PendingBudgetConstructionAppointmentFundingAware extends Persis
      * @return a collection of PendingBudgetConstructionAppointmentFunding objects
      */
     public List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFunding();
+    
+    /**
+     * get a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
+     * 
+     * @return a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
+     */
+    public List<PendingBudgetConstructionAppointmentFunding> getEffectivePendingBudgetConstructionAppointmentFunding();
 }

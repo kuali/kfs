@@ -16,6 +16,7 @@
 package org.kuali.module.budget.util;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
@@ -244,11 +245,30 @@ public class SalarySettingCalculator {
     }
 
     /**
+     * get a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
+     * 
+     * @param AppointmentFundings the given appointment funding lines
+     * @return a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
+     */
+    public static List<PendingBudgetConstructionAppointmentFunding> getEffectiveAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> AppointmentFundings) {
+        List<PendingBudgetConstructionAppointmentFunding> effectiveAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : AppointmentFundings) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+                effectiveAppointmentFundings.add(appointmentFunding);
+            }
+        }
+
+        return effectiveAppointmentFundings;
+    }
+
+    /**
      * calculate the changing percent between the requested amount and the base amount
      * 
      * @param baseAmount the given base amount
      * @param requestedAmount the requested amount
-     * @return the changing percent between the requested amount and the base amount if both of amounts are numbers; otherwise, return null 
+     * @return the changing percent between the requested amount and the base amount if both of amounts are numbers; otherwise,
+     *         return null
      */
     public static KualiDecimal getPercentChange(KualiInteger baseAmount, KualiInteger requestedAmount) {
         KualiDecimal percentChange = null;

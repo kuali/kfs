@@ -74,14 +74,15 @@
 	<c:set var="fundingLineName" value="${fundingPropertyName}[${status.index}]"/>	
 	<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
 	<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly}" />
+	<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator}"/>
 	<c:set var="rowspan" value="${ hidePercentAdjustment ? 1: 2}"/>
 	
 	<tr>		
 		<%-- Appointment Funding Delete Indicator --%>
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
 			accountingLine="${fundingLineName}"	attributes="${pbcafAttributes}" 
-			field="appointmentFundingDeleteIndicator"  rowSpan="${rowspan}" readOnly="false"
-			fieldAlign="left" disabled="${readOnly || fundingLine.persistedDeleteIndicator}">
+			field="appointmentFundingDeleteIndicator" rowSpan="${rowspan}" readOnly="false"
+			fieldAlign="left" disabled="${notEditable}">
 			
 			<html:hidden property="${fundingLineName}.universityFiscalYear" />
 			<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
@@ -93,6 +94,10 @@
 			<html:hidden property="${fundingLineName}.appointmentRequestedTimePercent" />
 			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
 			<html:hidden property="${fundingLineName}.versionNumber" />
+			
+			<c:if test="${notEditable}">
+				<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
+			</c:if>
 		</bc:pbglLineDataCell>
 	
 		<%-- Position Number --%>	
@@ -176,13 +181,13 @@
 			<bc:pbglLineDataCell dataCellCssClass="datacell" 
 				accountingLine="${fundingLineName}"	attributes="${pbcafAttributes}" 
 				field="appointmentRequestedPayRate" fieldAlign="right"
-				formattedNumberValue="${formattedNumber}" readOnly="${readOnly}" dataFieldCssClass="amount" />
+				formattedNumberValue="${formattedNumber}" readOnly="${notEditable}" dataFieldCssClass="amount"/>
 		</c:if>		
 
 		<%-- Appointment Requested Amount --%>
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 
 			accountingLine="${fundingLineName}" attributes="${pbcafAttributes}" 
-			field="appointmentRequestedAmount" fieldAlign="right" readOnly="${readOnly}"
+			field="appointmentRequestedAmount" fieldAlign="right" readOnly="${notEditable}"
 			rowSpan="1" dataFieldCssClass="amount">
 		</bc:pbglLineDataCell>
 		        				
@@ -224,7 +229,7 @@
 						alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />	
 				</c:if>
 				
-				<c:if test="${isHourlyPaid}">	
+				<c:if test="${isHourlyPaid && not notEditable}">	
 					<html:image property="methodToCall.normalizePayRateAndAmount.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" 
 						title="Normalize the hourly rate and annual amount for Salary Setting Line ${status.index}"
@@ -281,7 +286,7 @@
 			cellProperty="salarySettingExpansion.accountLineAnnualBalanceAmount" />
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="2" 
-			cellProperty="salarySettingExpansion.percentChangeTotal" />
+			cellProperty="salarySettingExpansion.percentChange" />
 		
 		<kul:htmlAttributeHeaderCell />
 	</tr>

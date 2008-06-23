@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,12 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        
+        Enumeration names = request.getAttributeNames();
+        while(names.hasMoreElements()) {
+            String name = (String)names.nextElement();
+            LOG.info(name + ": " + request.getAttribute(name));
+        }
 
         this.populateBCAFLines();
 

@@ -44,6 +44,7 @@ import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLineParser;
@@ -133,12 +134,12 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase)purapForm.getFinancialDocument();
         PurApAccountingLineParser accountingLineParser = (PurApAccountingLineParser)purapDocument.getAccountingLineParser();
         List importedLines = null;
-        String errorPathPrefix = "accountDistributionnewSourceLine";
+        String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapConstants.ITEM_TAB_ERRORS;
+        //String errorPathPrefix = "accountDistributionnewSourceLine";
 
         // import the lines
         try {
             if (isSource) {
-                //errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
                 FormFile sourceFile = purapForm.getSourceFile();
                 checkUploadFile(sourceFile);
                 importedLines = accountingLineParser.importSourceAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), purapDocument);
@@ -152,12 +153,12 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         if (importedLines != null) {
             for (Iterator iter = importedLines.iterator(); iter.hasNext();) {
                 PurApAccountingLine importedLine = (PurApAccountingLine) iter.next();
-                boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPathPrefix, purapForm.getDocument(), (AccountingLine) importedLine));
-                if (rulePassed) {
-                    // add accountingLine
-                    SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(importedLine);
-                    ((PurchasingFormBase)purapForm).addAccountDistributionsourceAccountingLine(importedLine);
-                }
+                //boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPathPrefix, purapForm.getDocument(), (AccountingLine) importedLine));
+                //if (rulePassed) {
+                // add accountingLine
+                SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(importedLine);
+                ((PurchasingFormBase)purapForm).addAccountDistributionsourceAccountingLine(importedLine);
+                //}
             }
         }
     }    
@@ -190,7 +191,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
                 //corrected: itemIndex == -2 is the only case for distribute account
                 //This is the case when we're inserting an accounting line for distribute account.
                 line = ((PurchasingFormBase)purapForm).getAccountDistributionnewSourceLine();
-                errorPrefix = "accountDistributionnewSourceLine";
+                errorPrefix = PurapPropertyConstants.ACCOUNT_DISTRIBUTION_NEW_SRC_LINE;
                 rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
             }
 

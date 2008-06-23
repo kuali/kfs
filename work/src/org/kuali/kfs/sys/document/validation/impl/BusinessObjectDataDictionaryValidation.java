@@ -32,7 +32,7 @@ public class BusinessObjectDataDictionaryValidation extends GenericValidation {
      * @see org.kuali.kfs.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        return getDictionaryValidationService().isBusinessObjectValid(businessObjectForValidation, "");
+        return getDictionaryValidationService().isBusinessObjectValid(businessObjectForValidation);
     }
 
     /**

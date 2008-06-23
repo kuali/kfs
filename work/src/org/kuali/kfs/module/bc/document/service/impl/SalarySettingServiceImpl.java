@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +132,32 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         return StringUtils.equals(laborLedgerObject.getFinancialObjectPayTypeCode(), BCConstants.HOURLY_PAY_TYPE_CODE);
+    }
+    
+    /**
+     * @see org.kuali.module.budget.service.SalarySettingService#canBeVacant(java.util.List, org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean canBeVacant(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("canBeVacant(List, PendingBudgetConstructionAppointmentFunding) start");
+        
+        if(!this.canBeVacant(appointmentFunding)) {
+            return false;
+        }
+        
+        Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
+        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
+        
+        List<String> keyFields = new ArrayList<String>();
+        keyFields.addAll(keyFieldValues.keySet());
+        
+        // determine whether there is vacant for the given appointment funding in its list
+        for(PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
+            if(ObjectUtil.equals(fundingLine, vacantAppointmentFunding, keyFields)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -368,14 +395,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @return true if there exists at lease one vacant funding line for the given appointment funding; otherwise, return false
      */
     private boolean hasBeenVacated(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        Map<String, Object> keyFieldValues = new HashMap<String, Object>();
-        keyFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, appointmentFunding.getUniversityFiscalYear());
-        keyFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, appointmentFunding.getChartOfAccountsCode());
-        keyFieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, appointmentFunding.getAccountNumber());
-        keyFieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, appointmentFunding.getSubAccountNumber());
-        keyFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, appointmentFunding.getFinancialObjectCode());
-        keyFieldValues.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, appointmentFunding.getFinancialSubObjectCode());
-        keyFieldValues.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFunding.getPositionNumber());
+        Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
         keyFieldValues.put(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
 
         return businessObjectService.countMatching(PendingBudgetConstructionAppointmentFunding.class, keyFieldValues) > 0;

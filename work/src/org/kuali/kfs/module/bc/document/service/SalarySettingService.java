@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
@@ -44,7 +45,7 @@ public interface SalarySettingService {
      * @return true if the salary is paid at hourly rate; otherwise, false
      */
     public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger);
-    
+
     /**
      * calculate the hourly pay rate from the request amount in the given appointment funding
      * 
@@ -52,7 +53,7 @@ public interface SalarySettingService {
      * @return the hourly pay rate
      */
     public BigDecimal calculateHourlyPayRate(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * calculate the annual pay amount from the request pay rate in the given appointment funding
      * 
@@ -60,7 +61,7 @@ public interface SalarySettingService {
      * @return the annual pay amount
      */
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * calculate the fte quantity based on the information of the given appointment funding
      * 
@@ -76,6 +77,15 @@ public interface SalarySettingService {
      * @return true if the given appointment funding can be vacated; otherwise, false
      */
     public boolean canBeVacant(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * determine whehter the given appointment funding can be vacated
+     * 
+     * @param appointmentFunding the given appointment funding collection that the given appointment funding belongs to
+     * @param appointmentFunding the given appointment funding
+     * @return true if the given appointment funding can be vacated; otherwise, false
+     */
+    public boolean canBeVacant(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * vacate the given appointment funding and create a vacant appointment funding based on the given funding

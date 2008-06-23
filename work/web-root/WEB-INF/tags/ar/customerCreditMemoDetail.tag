@@ -22,6 +22,8 @@
     description="methodToCall value for actionImage"%>
 <%@ attribute name="recalculateMethod" required="true"
     description="methodToCall value for actionImage"%>
+<%@ attribute name="displayOrangeFlower" required="true"
+    description="indicates if display or not an orange flower for this detail line."%>
 <%@ attribute name="cssClass" required="true"%>
 <%@ attribute name="readOnly" required="true" %>
 
@@ -33,6 +35,10 @@
 <tr>
 	<!--  Line Number -->
 	<td class="${cssClass}" style="text-align:right" rowspan="4" >
+		<c:if test="${displayOrangeFlower}" >
+	    	<img src="${ConfigProperties.kr.externalizable.images.url}asterisk_orange.png" alt="changed"/>
+	    	&nbsp;
+	    </c:if>
 		<kul:htmlControlAttribute
 			attributeEntry="${customerCreditMemoDetailAttributes.referenceInvoiceItemNumber}"
 			property="${crmPropertyName}.referenceInvoiceItemNumber"
@@ -130,14 +136,27 @@
 		</td>
 	</c:if>
 </tr>
-<tr>			
-	<!--  CRM Quantity -->
-	<td class="${cssClass}" style="text-align:right" >
-		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
-			property="${crmPropertyName}.creditMemoItemQuantity"
-			readOnly="false" />
-	</td>
+<tr>
+	<!--  If not readOnly mode -> make "Quantity" editable -->
+	<c:if test="${not readOnly}" >			
+		<!--  CRM Quantity -->
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
+				property="${crmPropertyName}.creditMemoItemQuantity"
+				readOnly="false" />
+		</td>
+	</c:if>
+	<!--  If readOnly mode -> make "Quantity" read only -->
+	<c:if test="${readOnly}" >
+		<!--  CRM Quantity -->
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
+				property="${crmPropertyName}.creditMemoItemQuantity"
+				readOnly="true" />
+		</td>
+	</c:if>
 	
 	<!--  CRM 4 empty columns -->
 	<td class="${cssClass}" />
@@ -145,14 +164,26 @@
 	<td class="${cssClass}" />
 	<td class="${cssClass}" />
 
-	
-	<!--  CRM Item Amount -->
-	<td class="${cssClass}" style="text-align:right" >
-		<kul:htmlControlAttribute
-			attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
-			property="${crmPropertyName}.creditMemoItemTotalAmount"
-			readOnly="false" />
-	</td>
+	<!--  If not readOnly mode -> make "Amount" editable -->
+	<c:if test="${not readOnly}" >	
+		<!--  CRM Item Amount -->
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
+				property="${crmPropertyName}.creditMemoItemTotalAmount"
+				readOnly="false" />
+		</td>
+	</c:if>
+	<!--  If readOnly mode -> make "Amount" read only -->
+	<c:if test="${readOnly}" >
+		<!--  CRM Item Amount -->
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
+				property="${crmPropertyName}.creditMemoItemTotalAmount"
+				readOnly="true" />
+		</td>
+	</c:if>
 	
 	<!--  CRM Tax Amount -->
 	<td class="${cssClass}" style="text-align:right" >

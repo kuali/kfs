@@ -57,12 +57,14 @@
 				name="KualiForm"
 				property="document.creditMemoDetails"
 				indexId="ctr">
+				        <c:set var="displayOrangeFlower" value="${KualiForm.document.creditMemoDetails[ctr].creditMemoLineTotalAmount != 0}" />
 						<c:set var="accountingLineIndex" value="${KualiForm.document.creditMemoDetails[ctr].accountingLineIndexForCorrespondingInvoiceDetail}" />
 						<ar:customerCreditMemoDetail
 							invPropertyName="document.invoice.sourceAccountingLine[${accountingLineIndex}]"
 							crmPropertyName="document.creditMemoDetails[${ctr}]" 
 			        		refreshMethod="refreshCustomerCreditMemoDetail.line${ctr}"
 			        		recalculateMethod="recalculateCustomerCreditMemoDetail.line${ctr}"
+			        		displayOrangeFlower="${displayOrangeFlower}"
 			        		cssClass="datacell"
 			        		readOnly="${readOnly}"
 			        		 />

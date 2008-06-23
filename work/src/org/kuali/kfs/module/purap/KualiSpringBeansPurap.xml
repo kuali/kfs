@@ -390,8 +390,32 @@
             <ref bean="noteService" />
         </property>        
 	</bean>
+	
+	<bean id="bulkReceivingService" class="org.kuali.module.purap.service.impl.BulkReceivingServiceImpl">
+        <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>	
+        <property name="bulkReceivingDao">
+            <ref bean="bulkReceivingDao" />
+        </property>	       
+        <property name="documentService">
+        	<ref bean="documentService" />
+        </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>        
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="purapService">
+            <ref bean="purapService" />
+        </property>
+        <property name="noteService">
+            <ref bean="noteService" />
+        </property>        
+	</bean>
 
 	<bean id="receivingDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ReceivingDaoOjb" />
+	
+	<bean id="bulkReceivingDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.BulkReceivingDaoOjb" />
 	
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	

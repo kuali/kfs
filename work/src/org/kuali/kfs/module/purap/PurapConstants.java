@@ -367,6 +367,7 @@ public class PurapConstants extends JSTLConstants {
     //TAB ERROR KEYS
     public static final String PAYMENT_REQUEST_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.invoiceNumber,document.invoiceDate,document.vendorInvoiceAmount,document.specialHandlingInstructionLine1Text,document.specialHandlingInstructionLine2Text,document.specialHandlingInstructionLine3Text";
     public static final String RECEIVING_LINE_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.shipmentReceivedDate,document.shipmentPackingSlipNumber,document.shipmentBillOfLadingNumber,document.carrierCode";
+    public static final String BULK_RECEIVING_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.shipmentReceivedDate,document.shipmentPackingSlipNumber,document.shipmentBillOfLadingNumber,document.carrierCode";
     
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static final String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
@@ -480,6 +481,11 @@ public class PurapConstants extends JSTLConstants {
         public static final String RECEIVING_CORRECTION_NOTE_PREFIX = "Note entered while creating Receiving Correction: ";
     }
 
+    public static class BulkReceivingDocumentStrings{
+        public static final String DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION = "DuplicateBulkReceiving";
+        public static final String VENDOR_DATE = "Vendor Date";
+    }
+    
     public static class PREQDocumentsStrings {
         public static final String DUPLICATE_INVOICE_QUESTION = "PREQDuplicateInvoice";
         public static final String HOLD_PREQ_QUESTION = "HoldPREQ";

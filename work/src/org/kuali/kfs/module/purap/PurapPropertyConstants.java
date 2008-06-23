@@ -144,4 +144,8 @@ public class PurapPropertyConstants {
     //Assign Contract Manager
     public static final String REQUISITION_IDENTIFIER = "requisitionIdentifier";
     public static final String VENDOR_NAME = "vendorName";
+    
+    //Bulk Receiving
+    public static final String VENDOR_DATE = "vendorName";
+    
 }

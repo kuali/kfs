@@ -275,4 +275,8 @@ public class PurapKeyConstants {
     public static final String ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE = "errors.receivingCorrection.documentActiveForRcvLine";
     public static final String MESSAGE_RECEIVING_CORRECTION_NOTE = "message.receiving.correction.note"; 
     
+    //Bulk Receiving
+    public static final String ERROR_BULK_RECEIVING_DOCUMENT_ACTIVE_FOR_PO = "errors.bulkReceiving.documentActiveForPo";
+    public static final String ERROR_BULK_RECEIVING_DOCUMENT_INVALID_PO = "errors.bulkReceiving.invalidPo";
+    
 }

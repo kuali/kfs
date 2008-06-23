@@ -65,4 +65,9 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
     public static class ReceivingCorrectionEditMode extends EditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
     }
+    
+    public static class BulkReceivingEditMode extends EditMode {
+        public static final String DISPLAY_INIT_TAB = "displayInitTab";
+        public static final String LOCK_PO_DETAILS = "lockPODetails";
+    }
 }

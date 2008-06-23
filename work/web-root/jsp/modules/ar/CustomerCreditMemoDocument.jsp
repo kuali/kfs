@@ -22,7 +22,7 @@
 	
 	<c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
 	
-	<kfs:hiddenDocumentFields isFinancialDocument="false" />
+	<kul:hiddenDocumentFields isTransactionalDocument="false" />
 	<html:hidden property="document.statusCode" />
 
 	<!--  Display 1st screen -->
@@ -33,7 +33,7 @@
 
 	<!--  Display 2nd screen -->
 	<c:if test="${not displayInitTab}" >
-		<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+		<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		<ar:customerCreditMemoGeneral />
 		
@@ -41,7 +41,7 @@
     		<ar:customerCreditMemoReceivableAccountingLine />
     	</c:if>
       
-      	<ar:customerCreditMemoDetails />
+      	<ar:customerCreditMemoDetails editingMode="${KualiForm.editingMode}" />
     	<kul:notes />
 		<kul:adHocRecipients />
 		<kul:routeLog />
@@ -49,6 +49,6 @@
 	</c:if>
 
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
-  	<kfs:documentControls transactionalDocument="true" extraButtons="${extraButtons}" suppressRoutingControls="${displayInitTab}" />
+  	<kul:documentControls transactionalDocument="true" extraButtons="${extraButtons}" suppressRoutingControls="${displayInitTab}" />
 
 </kul:documentPage>

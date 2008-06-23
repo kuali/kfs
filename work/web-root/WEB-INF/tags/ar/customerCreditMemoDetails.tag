@@ -15,6 +15,9 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="editingMode" required="true" description="used to hide/show recalculate/refresh buttons" type="java.util.Map"%>
+<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />       
@@ -23,7 +26,14 @@
     <div class="tab-container" align=center>		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Items">
             <tr>
-                <td colspan="11" class="subhead">Invoice Items</td>
+            <!--  If readOnly mode -> hide the column 'Actions' -->
+            <c:if test="${readOnly}" >
+            	<td colspan="11" class="subhead">Invoice Items</td>
+            </c:if>
+            <!--  If not readOnly mode -> show the column 'Actions' -->
+            <c:if test="${not readOnly}" >
+                <td colspan="12" class="subhead">Invoice Items</td>
+            </c:if>
             </tr>
 			<tr>
 			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
@@ -35,8 +45,12 @@
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceLineTotalAmount}" hideRequiredAsterisk="true" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemQuantity}" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemAmount}" hideRequiredAsterisk="true" />				
-			    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
+			    <!--  If not readOnly mode -> show the column 'Actions' -->
+            	<c:if test="${not readOnly}" >
+                	<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+            	</c:if>
 			</tr>
 			<logic:iterate
 				id="customerCreditMemoDetail"
@@ -50,6 +64,7 @@
 			        		refreshMethod="refreshCustomerCreditMemoDetail.line${ctr}"
 			        		recalculateMethod="recalculateCustomerCreditMemoDetail.line${ctr}"
 			        		cssClass="datacell"
+			        		readOnly="${readOnly}"
 			        		 />
 			</logic:iterate>
 			<tr>
@@ -75,20 +90,24 @@
 						property="document.crmTotalAmount" />
 				</td>
 				<td />
-				<td><div align="center" valign="middle" >
-					<html:image property="methodToCall.recalculateCustomerCreditMemoDocument"
-	    						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
-	    						title="Recalculate Credit Memo Line Amounts"
-	    						alt="Recalculate Credit Memo Line Amounts"
-	                            styleClass="tinybutton" />
-	                &nbsp;
-					<html:image property="methodToCall.refreshCustomerCreditMemoDocument"
-	    						src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
-	    						title="Refresh Credit Memo Lines"
-	    						alt="Refresh Credit Memo Lines"
-	                            styleClass="tinybutton" />
-	            </div>     
-				</td>
+				<td />
+				<!--  If not readOnly mode -> show Recalculate/Refresh buttons for the total line -->
+				<c:if test="${not readOnly}" >
+					<td><div align="center" valign="middle" >
+						<html:image property="methodToCall.recalculateCustomerCreditMemoDocument"
+	    							src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+	    							title="Recalculate Credit Memo Line Amounts"
+	    							alt="Recalculate Credit Memo Line Amounts"
+	                            	styleClass="tinybutton" />
+	                	&nbsp;
+						<html:image property="methodToCall.refreshCustomerCreditMemoDocument"
+	    							src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
+	    							title="Refresh Credit Memo Lines"
+	    							alt="Refresh Credit Memo Lines"
+	                            	styleClass="tinybutton" />
+	            	</div>     
+					</td>
+				</c:if>
 			</tr> 
     	</table>
     </div>

@@ -66,6 +66,36 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
             customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(customerCreditMemoDetailItemAmount);
             customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount);
         }
+    }
+    
+    public void recalculateCRMForBlanketApproval(CustomerCreditMemoDocument customerCreditMemoDocument) {
+        Integer lineNumber;
+        CustomerInvoiceDetail customerInvoiceDetail;
+        KualiDecimal invItemUnitPrice, customerCreditMemoDetailItemAmount;
+        BigDecimal itemQuantity;
+        
+        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+        KualiDecimal taxRate = customerCreditMemoDocument.getTaxRate();
+        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
+        
+        for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
+            // no data entered for the current credit memo detail -> no processing needed
+            itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
+            customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+            if (ObjectUtils.isNull(itemQuantity) && ObjectUtils.isNull(customerCreditMemoDetailItemAmount))
+                continue;
+            
+            lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
+            customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,lineNumber);
+            invItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
 
+            // if item quantity was entered
+            if (ObjectUtils.isNotNull(itemQuantity))
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate,invItemUnitPrice);
+            // if item amount was entered
+            else
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate,invItemUnitPrice);
+        }
     }
 }

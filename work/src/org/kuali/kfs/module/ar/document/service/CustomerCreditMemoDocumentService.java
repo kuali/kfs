@@ -21,9 +21,14 @@ public interface CustomerCreditMemoDocumentService {
     
     /**
      * This method recalculates customer credit memo document based on the user input
-     * 
      * @return
      */
-    public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument);    
+    public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument);
+    
+    /**
+     * This method recalculates customer credit memo document based on the user input for Blanket Approve Event only
+     * @return
+     */    
+    public void recalculateCRMForBlanketApproval(CustomerCreditMemoDocument customerCreditMemoDocument);
 
 }

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -12,45 +16,43 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.service.CustomerCreditMemoDocumentService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-// public class CustomerCreditMemoDocument extends AccountingDocumentBase {
-public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
-    
+public class CustomerCreditMemoDocument extends TransactionalDocumentBase implements GeneralLedgerPendingEntrySource {
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
-    
+
     private String statusCode;
-    
-    private String documentNumber;
     private Integer postingYear;
     private String financialDocumentReferenceInvoiceNumber;
-    
+
     private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
     private KualiDecimal crmTotalTaxAmount = KualiDecimal.ZERO;
     private KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
-    
+
     private Integer invOutstandingDays;
 
     private CustomerInvoiceDocument invoice;
     private List<CustomerCreditMemoDetail> creditMemoDetails;
-    
+
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
 
     public CustomerCreditMemoDocument() {
         super();
+        this.postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         creditMemoDetails = new TypedArrayList(CustomerCreditMemoDetail.class);
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     }
@@ -89,7 +91,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
         this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
     }
-    
+
     /**
      * Gets the invoice attribute.
      * @return Returns the invoice.
@@ -109,7 +111,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public void setInvoice(CustomerInvoiceDocument invoice) {
         this.invoice = invoice;
     }
-    
+
     /**
      * Gets the statusCode attribute.
      * @return Returns the statusCode.
@@ -119,13 +121,13 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Sets the statusCode attribute value.
+     * Sets the statusCode attribute value. 
      * @param statusCode The statusCode to set.
      */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-    
+
     /**
      * Gets the postingYear attribute. 
      * @return Returns the postingYear.
@@ -135,13 +137,13 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Sets the postingYear attribute value.
+     * Sets the postingYear attribute value. 
      * @param postingYear The postingYear to set.
      */
     public void setPostingYear(Integer postingYear) {
         this.postingYear = postingYear;
     }
-    
+
     /**
      * Initializes the values for a new document.
      */
@@ -167,7 +169,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public KualiDecimal getCrmTotalAmount() {
         return crmTotalAmount;
     }
-    
+
     /**
      * This method returns the crmTotalAmount as a currency formatted string.
      * @return String
@@ -191,7 +193,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public KualiDecimal getCrmTotalItemAmount() {
         return crmTotalItemAmount;
     }
-    
+
     /**
      * This method returns the crmTotalItemAmount as a currency formatted string.
      * @return String
@@ -215,10 +217,9 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public KualiDecimal getCrmTotalTaxAmount() {
         return crmTotalTaxAmount;
     }
-    
+
     /**
-     * This method returns the crmTotalTaxAmount as a currency formatted string.
-     * 
+     * This method returns the crmTotalTaxAmount as a currency formatted string. 
      * @return String
      */
     public String getCurrencyFormattedCrmTotalTaxAmount() {
@@ -253,10 +254,9 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     public void setInvOutstandingDays(Integer invOutstandingDays) {
         this.invOutstandingDays = invOutstandingDays;
     }
-    
+
     /**
      * This method gets the glpes
-     * 
      * @return a list of glpes
      */
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
@@ -265,7 +265,6 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
 
     /**
      * This method sets the glpes
-     * 
      * @return a list of glpes
      */
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
@@ -276,35 +275,35 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         KualiDecimal stateTaxRate = invoice.getStateTaxPercent();
         KualiDecimal localTaxRate = invoice.getLocalTaxPercent();
         KualiDecimal taxRate;
-        
+
         if (ObjectUtils.isNull(stateTaxRate))
             stateTaxRate = KualiDecimal.ZERO;
-        
+
         if (ObjectUtils.isNull(localTaxRate))
             localTaxRate = KualiDecimal.ZERO;
-        
+
         taxRate = stateTaxRate.add(localTaxRate);
-        
+
         return taxRate;
     }
-    
+
     public void recalculateTotalsBasedOnChangedItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail) {
         KualiDecimal duplicateCreditMemoItemTotalAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
         KualiDecimal creditMemoItemTotalAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-        
+
         // substract the 'old' item amount, tax amount, and total amount accordingly from totals
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount))
             prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
 
         recalculateTotals(creditMemoItemTotalAmount);
-        
+
         // update duplicate credit memo item amount with 'new' value
         customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemTotalAmount);
     }
-    
+
     public void recalculateTotals(CustomerCreditMemoDetail customerCreditMemoDetail) {
         KualiDecimal duplicateCreditMemoItemTotalAmount = customerCreditMemoDetail.getDuplicateCreditMemoItemTotalAmount();
-        
+
         // substract the 'old' item amount, tax amount, and total amount accordingly from totals
         if (ObjectUtils.isNotNull(duplicateCreditMemoItemTotalAmount)) {
             prepareTotalsForUpdate(duplicateCreditMemoItemTotalAmount);
@@ -315,32 +314,32 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     private void prepareTotalsForUpdate(KualiDecimal oldItemAmount) {
         KualiDecimal taxRate = getTaxRate();
         KualiDecimal oldItemTaxAmount = oldItemAmount.multiply(taxRate);
-        
+
         crmTotalItemAmount = crmTotalItemAmount.subtract(oldItemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.subtract(oldItemTaxAmount);
         crmTotalAmount = crmTotalAmount.subtract(oldItemAmount.add(oldItemTaxAmount));
     }
-    
-    public void resetTotals(){
+
+    public void resetTotals() {
         crmTotalItemAmount = KualiDecimal.ZERO;
         crmTotalTaxAmount = KualiDecimal.ZERO;
         crmTotalAmount = KualiDecimal.ZERO;
     }
-    
+
     public void recalculateTotals(KualiDecimal itemAmount) {
         KualiDecimal taxRate = getTaxRate();
-        
+
         crmTotalItemAmount = crmTotalItemAmount.add(itemAmount);
         crmTotalTaxAmount = crmTotalTaxAmount.add(itemAmount.multiply(taxRate));
         crmTotalAmount = crmTotalItemAmount.add(crmTotalTaxAmount);
     }
-    
+
     /*
      * populate customer credit memo details based on the invoice info
      */
     public void populateCustomerCreditMemoDetails() {
         CustomerCreditMemoDetail customerCreditMemoDetail;
-        KualiDecimal invItemTaxAmount, openInvoiceAmount;
+        KualiDecimal invItemTaxAmount, invoiceUnitPrice, openInvoiceQuantity, openInvoiceAmount;
         Integer itemLineNumber;
         int ind = 0;
 
@@ -369,6 +368,11 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
                 customerCreditMemoDetail.setReferenceInvoiceItemNumber(itemLineNumber);
 
                 openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(itemLineNumber, (CustomerInvoiceDetail) invoiceDetail);
+                
+                invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice();
+                openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
+                customerCreditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
+                
                 customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
 
                 creditMemoDetails.add(customerCreditMemoDetail);
@@ -379,26 +383,65 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
     
     /**
-     * This method populate credit memo details that aren't saved in database
+     * This method populates credit memo details that aren't saved in database
      */
     public void populateCustomerCreditMemoDetailsAfterLoad(){
         
-        KualiDecimal openInvoiceAmount;
+        KualiDecimal invoiceUnitPrice, openInvoiceQuantity, openInvoiceAmount, invItemTaxAmount, creditMemoItemAmount, creditMemoTaxAmount, taxRate;
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
 
         List<SourceAccountingLine> invoiceDetails = invoice.getSourceAccountingLines();
         int index = 0;
+        taxRate = getTaxRate();
         for (SourceAccountingLine invoiceDetail : invoiceDetails) {
            for( CustomerCreditMemoDetail creditMemoDetail : creditMemoDetails ){
                if( invoiceDetail.getSequenceNumber().equals( creditMemoDetail.getReferenceInvoiceItemNumber() ) ){
+
                    creditMemoDetail.setAccountingLineIndexForCorrespondingInvoiceDetail(index);
                    openInvoiceAmount = customerInvoiceDetailService.getOpenAmount(invoiceDetail.getSequenceNumber(), (CustomerInvoiceDetail) invoiceDetail);
-                   creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);                   
+                   creditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
+                   
+                   invoiceUnitPrice = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemUnitPrice();
+                   openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
+                   creditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
+                   
+                   invItemTaxAmount = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemTaxAmount();
+                   if (invItemTaxAmount == null) {
+                       invItemTaxAmount = KualiDecimal.ZERO;
+                       ((CustomerInvoiceDetail) invoiceDetail).setInvoiceItemTaxAmount(invItemTaxAmount);
+                   }
+                   creditMemoDetail.setInvoiceLineTotalAmount(invItemTaxAmount, invoiceDetail.getAmount());
+                   
+                   creditMemoItemAmount = creditMemoDetail.getCreditMemoItemTotalAmount();
+                   creditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemAmount);
+                   if (ObjectUtils.isNotNull(creditMemoItemAmount)){
+                       creditMemoTaxAmount = creditMemoItemAmount.multiply(taxRate);
+                       creditMemoDetail.setCreditMemoItemTaxAmount(invItemTaxAmount);
+                       creditMemoDetail.setCreditMemoLineTotalAmount(creditMemoItemAmount.add(creditMemoTaxAmount));
+                  
+                       crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemAmount);
+                       crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoTaxAmount);
+                       crmTotalAmount = crmTotalAmount.add(creditMemoItemAmount.add(creditMemoTaxAmount));
+                   }
                }
                
            }
            index++;
         }      
+    }
+    
+    /**
+     * do all the calculations before the document gets saved
+     * gets called for 'Submit', 'Save', and 'Blanket Approved'
+     * @see org.kuali.core.document.Document#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    public void prepareForSave(KualiDocumentEvent event) {
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)event.getDocument();
+        CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        if (event instanceof BlanketApproveDocumentEvent)
+            customerCreditMemoDocumentService.recalculateCRMForBlanketApproval(customerCreditMemoDocument);
+        else
+            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument);
     }
 
     // TODO
@@ -410,24 +453,24 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         // TODO
         return success;
     }
-    
+
     // TODO
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        //TODO
+        // TODO
         return false;
     }
-     
+
     /**
      * Returns a document header associated with this general ledger posting helper 
      * @return a document header
      */
-    public FinancialSystemDocumentHeader getDocumentHeader() {
+    public DocumentHeader getDocumentHeader() {
         return documentHeader;
     }
-        
+
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
      */
@@ -435,14 +478,14 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
 
     }
-    
+
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
-            
+
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
@@ -450,21 +493,21 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         generalLedgerPendingEntries.add(entry);
 
     }
-        
+
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
-    
+
     // TODO
     public String getFinancialDocumentTypeCode() {
         // TODO Auto-generated method stub
         return null;
     }
-     
-    // TODO 
+
+    // TODO
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries.
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,

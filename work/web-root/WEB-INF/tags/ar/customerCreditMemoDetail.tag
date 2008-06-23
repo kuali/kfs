@@ -23,6 +23,7 @@
 <%@ attribute name="recalculateMethod" required="true"
     description="methodToCall value for actionImage"%>
 <%@ attribute name="cssClass" required="true"%>
+<%@ attribute name="readOnly" required="true" %>
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />
@@ -95,6 +96,13 @@
 			attributeEntry="${customerCreditMemoDetailAttributes.invoiceLineTotalAmount}"
 			property="${crmPropertyName}.invoiceLineTotalAmount"
 			readOnly="true" />
+			
+	<!--  Open Invoice Quantity --> 
+	<td class="${cssClass}" style="text-align:right" >
+		<kul:htmlControlAttribute
+			attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemQuantity}"
+			property="${crmPropertyName}.invoiceOpenItemQuantity"
+			readOnly="true" />
 	
 	<!--  Open Invoice Amount -->
 	<td class="${cssClass}" style="text-align:right" >
@@ -103,21 +111,24 @@
 			property="${crmPropertyName}.invoiceOpenItemAmount"
 			readOnly="true" />
 
-	<!--  Actions -->
-	<td rowspan="4"><div align="center" class="middle" >
-		<html:image property="methodToCall.${recalculateMethod}"
-	    	src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
-	    	title="Recalculate Credit Memo Line Amounts"
-	    	alt="Recalculate Credit Memo Line Amounts"
-	        styleClass="tinybutton" />
-	    &nbsp;
-		<html:image property="methodToCall.${refreshMethod}"
-	    	src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
-	    	title="Refresh Credit Memo Line"
-	    	alt="Refresh Credit Memo Line"
-	        styleClass="tinybutton" />
-	</div>     
-	</td>
+	<!--  If not readOnly mode -> show the buttons Recalculate/Refresh -->
+	<c:if test="${not readOnly}" >
+		<!--  Actions -->
+		<td rowspan="4"><div align="center" class="middle" >
+			<html:image property="methodToCall.${recalculateMethod}"
+	    		src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+	    		title="Recalculate Credit Memo Line Amounts"
+	    		alt="Recalculate Credit Memo Line Amounts"
+	        	styleClass="tinybutton" />
+	    	&nbsp;
+			<html:image property="methodToCall.${refreshMethod}"
+	    		src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
+	    		title="Refresh Credit Memo Line"
+	    		alt="Refresh Credit Memo Line"
+	        	styleClass="tinybutton" />
+		</div>     
+		</td>
+	</c:if>
 </tr>
 <tr>			
 	<!--  CRM Quantity -->
@@ -159,7 +170,8 @@
 			readOnly="true" />
 	</td>
 	
-	<!--  CRM 1 empty column -->
+	<!--  CRM 2 empty columns -->
+	<td class="${cssClass}" />
 	<td class="${cssClass}" />
 <tr/>
 

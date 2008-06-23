@@ -61,52 +61,25 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-        CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
-        isValid = checkReferenceInvoiceNumber(cmDocument);
+        isValid &= processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument)document, true);
 
         return isValid;
-    }
-    
-    /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
-     */
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)document;
-        if (isValid)
-           isValid &= processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument) document,true);
-
-        return isValid;
-    }
-    
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
-        CustomerCreditMemoDocument cmDocument = (CustomerCreditMemoDocument)approveEvent.getDocument();
-        if (isValid) {
-            
-        }
-        return isValid;
-    }
-      
-    private boolean checkReferenceInvoiceNumber(CustomerCreditMemoDocument document) {
-       return true;
     }
     
     /**
      * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule#processRecalculateCustomerCreditMemoDetailRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.module.ar.bo.CustomerCreditMemoDetail)
      */
-    public boolean processRecalculateCustomerCreditMemoDetailRules(TransactionalDocument financialDocument, CustomerCreditMemoDetail customerCreditMemoDetail) {
+    public boolean processRecalculateCustomerCreditMemoDetailRules(TransactionalDocument document, CustomerCreditMemoDetail customerCreditMemoDetail) {
         boolean success = true;
  
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)document;
         String inputKey = isQtyOrItemAmountEntered(customerCreditMemoDetail);
         
         // 'Qty' was entered
         if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY,inputKey)) {
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemQuantity());
-            // have to change this rule taking into account discounts
-            success &= isCustomerCreditMemoQtyGreaterThanInvoiceQty(customerCreditMemoDetail,customerCreditMemoDocument);
+            success &= isCustomerCreditMemoQtyGreaterThanInvoiceQty(customerCreditMemoDetail);
         }
         // 'Item Amount' was entered
         else if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT,inputKey)) { 
@@ -164,19 +137,11 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return validItemAmount;
     }
     
-    private boolean isCustomerCreditMemoQtyGreaterThanInvoiceQty(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerCreditMemoDocument customerCreditMemoDocument) {
-        Integer refInvoiceItemNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
-        String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-        
-        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetail(invDocumentNumber,refInvoiceItemNumber);
-
-        //BigDecimal customerInvoiceItemQty = customerInvoiceDetail.getInvoiceItemQuantity();
-        KualiDecimal invoiceOpenItemQty = getInvoiceOpenItemQuantity(customerCreditMemoDetail,customerInvoiceDetail);
-        //BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
+    private boolean isCustomerCreditMemoQtyGreaterThanInvoiceQty(CustomerCreditMemoDetail customerCreditMemoDetail) {
+        KualiDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
         KualiDecimal customerCreditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
-        // customer credit memo quantity must not be greater than parent quantity
+        // customer credit memo quantity must not be greater than invoice open item quantity
         boolean validQuantity = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1?true:false);
         if (!validQuantity)
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
@@ -195,10 +160,10 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
      */
-    public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument financialDocument, boolean printErrMsgFlag) {
+    public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument document, boolean printErrMsgFlag) {
         boolean success = true;
         boolean crmDataEnteredFlag = false;
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)financialDocument;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)document;
         List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
         int i = 0;
         String propertyName;
@@ -218,7 +183,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         
         success &= crmDataEnteredFlag;
         
-        // print error message if 'Submit' button is pressed and there is no CRM data entered
+        // print error message if 'Submit'/'Save'/'Blanket Approved' button is pressed and there is no CRM data entered
         if (!crmDataEnteredFlag && printErrMsgFlag)
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
         
@@ -228,9 +193,9 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule#processContinueCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
      */
-    public boolean processContinueCustomerCreditMemoDocumentRules(TransactionalDocument financialDocument) {
+    public boolean processContinueCustomerCreditMemoDocumentRules(TransactionalDocument document) {
         boolean success;
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) financialDocument;
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
    
         success = checkIfInvoiceNumberIsValid(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
         if (success)

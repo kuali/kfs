@@ -22,6 +22,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
     private KualiDecimal invoiceOpenItemAmount; //not in DB
+    private KualiDecimal invoiceOpenItemQuantity; // not in DB
     private Integer accountingLineIndexForCorrespondingInvoiceDetail; // not in DB
     /**
      * Default constructor.
@@ -196,7 +197,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
-    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
@@ -260,6 +260,22 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      */
     public void setAccountingLineIndexForCorrespondingInvoiceDetail(Integer accountingLineIndexForCorrespondingInvoiceDetail) {
         this.accountingLineIndexForCorrespondingInvoiceDetail = accountingLineIndexForCorrespondingInvoiceDetail;
+    }
+
+    /**
+     * Gets the invoiceOpenItemQuantity attribute. 
+     * @return Returns the invoiceOpenItemQuantity.
+     */
+    public KualiDecimal getInvoiceOpenItemQuantity() {
+        return invoiceOpenItemQuantity;
+    }
+
+    /**
+     * Sets the invoiceOpenItemQuantity attribute value.
+     * @param invoiceOpenItemQuantity The invoiceOpenItemQuantity to set.
+     */
+    public void setInvoiceOpenItemQuantity(KualiDecimal invoiceOpenItemQuantity) {
+        this.invoiceOpenItemQuantity = invoiceOpenItemQuantity;
     }
 
 }

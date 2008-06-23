@@ -15,6 +15,7 @@
       	<ref bean="CustomerCreditMemoDetail-creditMemoItemTotalAmount" />
       	<ref bean="CustomerCreditMemoDetail-creditMemoLineTotalAmount" />
       	<ref bean="CustomerCreditMemoDetail-invoiceLineTotalAmount" />
+      	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemQuantity" />
       	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemAmount" />
       </list>
     </property>
@@ -100,6 +101,15 @@
     <property name="required" value="false" />
     <property name="description" value="The invoice total line amount" />
   </bean>
+  
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity" parent="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" />
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="invoiceOpenItemQuantity" />
+    <property name="label" value="Open Invoice Quantity" />
+    <property name="shortLabel" value="Open Invoice Quantity" />
+    <property name="required" value="false" />
+    <property name="description" value="The open invoice item quantity" />
+  </bean>  
   
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" />
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

@@ -236,7 +236,7 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.addressToVendorIndicator}" property="document.addressToVendorIndicator" readOnly="${lockAddressToVendor}" /><br>				
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.addressToVendorIndicator}" property="document.addressToVendorIndicator" readOnly="${not(fullEntryMode or amendmentEntry) or lockAddressToVendor}" /><br>				
 					<!--
 					<c:choose>
 						<c:when test="${KualiForm.document.addressToVendorIndicator == 'true'}">

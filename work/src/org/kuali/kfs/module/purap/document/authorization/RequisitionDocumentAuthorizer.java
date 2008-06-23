@@ -115,6 +115,8 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
                     editMode = KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
                 }
+                
+                editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR, "TRUE");
             }
 
             /**

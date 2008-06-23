@@ -1363,12 +1363,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
          * FIXME:Have to remove the comment once we get the correct status  - vpc
          */
 //        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
-        List<PaymentRequestDocument> docs = null;
-        if (docs != null) {
-            for (PaymentRequestDocument paymentRequestDocument : docs) {
-                processPaymentRequestInReceivingStatus(paymentRequestDocument);
-            }
-        }
+//        if (docs != null) {
+//            for (PaymentRequestDocument paymentRequestDocument : docs) {
+//                processPaymentRequestInReceivingStatus(paymentRequestDocument);
+//            }
+//        }
     }
     
     public void processPaymentRequestInReceivingStatus(PaymentRequestDocument preqDoc) {
@@ -1398,10 +1397,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         if (changeStatus){
             /**
-             * FIXME: Temp comment. Have to remove this comment once we get the correct status to be added here- vpc
+             * FIXME: Have to change this status - vpc
              */
-//            purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
-//            saveDocumentWithoutValidation(preqDoc);
+            purapService.updateStatus(preqDoc, PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW);
+            saveDocumentWithoutValidation(preqDoc);
         }
     }
     

@@ -21,6 +21,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
 
@@ -36,8 +37,8 @@ public class EffortCertificationDocumentTest extends KualiTestBase {
      */
     public EffortCertificationDocumentTest() {
         super();
-        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "org/kuali/module/effort/testdata/effortCertificationDocument.properties";
+        String messageFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/effortCertificationDocument.properties";
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
         message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);

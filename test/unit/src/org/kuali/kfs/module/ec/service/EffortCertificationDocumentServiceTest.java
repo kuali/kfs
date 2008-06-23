@@ -59,8 +59,8 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
      */
     public EffortCertificationDocumentServiceTest() {
         super();
-        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "org/kuali/module/effort/testdata/effortCertificationDocumentService.properties";
+        String messageFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/effortCertificationDocumentService.properties";
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
         message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);

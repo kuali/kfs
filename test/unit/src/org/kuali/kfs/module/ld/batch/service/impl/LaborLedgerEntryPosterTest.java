@@ -39,8 +39,10 @@ import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
+import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
 import org.kuali.module.labor.util.LaborTestDataPreparator;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 
 @ConfigureContext
 public class LaborLedgerEntryPosterTest extends KualiTestBase {
@@ -61,10 +63,11 @@ public class LaborLedgerEntryPosterTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborLedgerEntryPoster.properties";
+        String messageFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborLedgerEntryPoster.properties";
 
-        properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));

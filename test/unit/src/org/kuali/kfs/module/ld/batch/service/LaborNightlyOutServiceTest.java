@@ -28,9 +28,9 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 import org.kuali.test.ConfigureContext;
@@ -51,10 +51,11 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborNightlyOutService.properties";
+        String messageFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborNightlyOutService.properties";
 
-        properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        
         fieldNames = properties.getProperty("fieldNames");
         documentFieldNames = properties.getProperty("documentFieldNames");
         deliminator = properties.getProperty("deliminator");

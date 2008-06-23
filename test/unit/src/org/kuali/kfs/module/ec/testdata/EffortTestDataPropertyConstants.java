@@ -16,6 +16,8 @@
 package org.kuali.module.effort.testdata;
 
 public class EffortTestDataPropertyConstants {
+    public static final String TEST_DATA_PACKAGE_NAME = EffortTestDataPropertyConstants.class.getPackage().getName().replace('.', '/');
+    
     public static final String BALANCE_FIELD_NAMES = "balanceFieldNames";
     public static final String COST_SHARE_SUB_ACCOUNT_TYPE_CODES = "costShareSubAccountTypeCodes";
     public static final String DATA_CLEANUP = "dataCleanup";

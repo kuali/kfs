@@ -19,28 +19,35 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 
 @ConfigureContext(session = KHUNTLEY)
-public class LaborLedgerUnitOfWorkTest extends TestCase {
+public class LaborLedgerUnitOfWorkTest extends KualiTestBase {
 
     private TestDataGenerator testDataGenerator;
     private LaborOriginEntry laborOriginEntry;
     private LaborLedgerUnitOfWork laborLedgerUnitOfWork;
 
-    public LaborLedgerUnitOfWorkTest() throws Exception {
-        String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborLedgerUnitOfWork.properties";
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        String messageFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborLedgerUnitOfWork.properties";
 
-        laborOriginEntry = new LaborOriginEntry();
-        testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
-        testDataGenerator.generateTransactionData(laborOriginEntry);
+        Properties properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        Properties message = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        
+        laborOriginEntry = TestDataPreparator.buildTestDataObject(LaborOriginEntry.class, properties);
     }
 
     public void testLaborLedgerUnitOfWork() throws Exception {

@@ -18,10 +18,12 @@ package org.kuali.test.util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
@@ -40,8 +42,8 @@ public class TestDataPreparator {
 
     /**
      * load properties from the given class path resource. The class path is different than the absolute path. If a resource is
-     * located at /project/test/org/kuali/kfs/util/message.properties, then its class path is org/kuali/kfs/util/message.properties, which
-     * is the fully-qualified Java package name plus the resource name.
+     * located at /project/test/org/kuali/kfs/util/message.properties, then its class path is org/kuali/kfs/util/message.properties,
+     * which is the fully-qualified Java package name plus the resource name.
      * 
      * @param classPath the given class path of a resource
      * @return properties loaded from the given resource.
@@ -108,6 +110,30 @@ public class TestDataPreparator {
      * @return an object of type "clazz" from the test data provided by the given properties
      */
     public static <T> T buildTestDataObject(Class<? extends T> clazz, Properties properties, String propertyKey, String fieldNames, String deliminator) {
+        T testData = null;
+        try {
+            testData = clazz.newInstance();
+            ObjectUtil.populateBusinessObject(testData, properties, propertyKey, fieldNames, deliminator);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return testData;
+    }
+
+    /**
+     * build an object of type "clazz" from the test data provided by the given properties
+     * 
+     * @param clazz the the specified object type
+     * @param properties the given properties that contain the test data
+     * @param propertyKey the test data with the given key
+     * @return an object of type "clazz" from the test data provided by the given properties
+     */
+    public static <T> T buildTestDataObject(Class<? extends T> clazz, Properties properties, String propertyKey) {
+        String fieldNames = properties.getProperty(DEFAULT_FIELD_NAMES);
+        String deliminator = properties.getProperty(DEFAULT_DELIMINATOR);
+
         T testData = null;
         try {
             testData = clazz.newInstance();
@@ -305,6 +331,44 @@ public class TestDataPreparator {
         }
 
         return true;
+    }
+
+    /**
+     * Generates transaction data for a business object from properties
+     * 
+     * @param businessObject the transction business object
+     * @return the transction business object with data
+     * @throws Exception thrown if an exception is encountered for any reason
+     */
+    public static <T> T buildTestDataObject(Class<? extends T> clazz, Properties properties) {
+        T testData = null;
+
+        try {
+            testData = clazz.newInstance();
+
+            Iterator propsIter = properties.keySet().iterator();
+            while (propsIter.hasNext()) {
+                String propertyName = (String) propsIter.next();
+                String propertyValue = (String) properties.get(propertyName);
+
+                // if searchValue is empty and the key is not a valid property ignore
+                if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(testData, propertyName))) {
+                    continue;
+                }
+
+                String propertyType = PropertyUtils.getPropertyType(testData, propertyName).getSimpleName();
+                Object finalPropertyValue = ObjectUtil.valueOf(propertyType, propertyValue);
+                
+                if (finalPropertyValue != null) {
+                    PropertyUtils.setProperty(testData, propertyName, finalPropertyValue);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Cannot build a test data object with the given data. " + e);
+        }
+
+        return testData;
     }
 
     /**

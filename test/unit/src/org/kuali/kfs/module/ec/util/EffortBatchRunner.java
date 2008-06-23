@@ -28,6 +28,7 @@ import org.kuali.kfs.context.Log4jConfigurer;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
+import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
 import org.kuali.module.integration.service.LaborModuleService;
@@ -51,8 +52,8 @@ public class EffortBatchRunner {
     private Class<? extends LaborLedgerEntry> ledgerEntryClass;
 
     public EffortBatchRunner() {
-        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "org/kuali/module/effort/testdata/effortCertificationExtractServiceProformance.properties";
+        String messageFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/effortCertificationExtractServiceProformance.properties";
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
         message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);

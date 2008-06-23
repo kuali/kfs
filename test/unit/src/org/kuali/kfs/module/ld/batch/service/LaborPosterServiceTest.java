@@ -42,6 +42,7 @@ import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
 import org.kuali.module.labor.util.LaborTestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborGeneralLedgerEntryForTesting;
 import org.kuali.module.labor.util.testobject.LedgerBalanceForTesting;
@@ -68,10 +69,11 @@ public class LaborPosterServiceTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborPosterService.properties";
+        String messageFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborPosterService.properties";
 
-        properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 

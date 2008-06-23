@@ -40,8 +40,8 @@ public class DetailLineGroupTest extends KualiTestBase {
      */
     public DetailLineGroupTest() {
         super();
-        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "org/kuali/module/effort/testdata/detailLineGroup.properties";
+        String messageFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = EffortTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/detailLineGroup.properties";
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
         message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);

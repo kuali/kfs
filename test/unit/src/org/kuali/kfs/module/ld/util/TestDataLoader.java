@@ -34,8 +34,10 @@ import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 import org.kuali.test.util.SpringContextForBatchRunner;
+import org.kuali.test.util.TestDataPreparator;
 
 public class TestDataLoader {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestDataLoader.class);
@@ -52,10 +54,11 @@ public class TestDataLoader {
     private LaborOriginEntryService laborOriginEntryService;
 
     public TestDataLoader() {
-        String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborTransaction.properties";
+        String messageFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
+        String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborTransaction.properties";
 
-        properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        
         fieldNames = properties.getProperty("fieldNames");
         fieldLength = properties.getProperty("fieldLength");
         deliminator = properties.getProperty("deliminator");

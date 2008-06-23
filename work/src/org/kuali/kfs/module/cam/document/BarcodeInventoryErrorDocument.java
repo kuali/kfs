@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
 import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
 
@@ -13,6 +14,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 	private String uploaderUniversalIdentifier;
     
     private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
+    private FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();    
     
 	/**
 	 * Default constructor.
@@ -62,6 +64,26 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 		this.uploaderUniversalIdentifier = uploaderUniversalIdentifier;
 	}
 
+	/**
+	 * Gets the documentHeader attribute.
+	 * 
+	 * @return Returns the documentHeader
+	 * 
+	 */
+	public FinancialSystemDocumentHeader getDocumentHeader() { 
+		return documentHeader;
+	}
+
+	/**
+	 * Sets the documentHeader attribute.
+	 * 
+	 * @param documentHeader The documentHeader to set.
+	 * @deprecated
+	 */
+	public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+		this.documentHeader = documentHeader;
+	}
+
     public List<BarcodeInventoryErrorDetail> getBarcodeInventoryErrorDetail() {
         return barcodeInventoryErrorDetail;
     }
@@ -81,7 +103,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     }  
     
 
-    public void deleteCashControlDetail(int index) {
+    public void deleteBarcodeInventoryErrorDetail(int index) {
         barcodeInventoryErrorDetail.remove(index);
     }   
     

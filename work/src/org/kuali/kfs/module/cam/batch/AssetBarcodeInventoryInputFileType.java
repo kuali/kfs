@@ -257,7 +257,8 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @see org.kuali.kfs.batch.BatchInputFileSetType#process(java.util.Map)
      */
     public void process(Map<String, File> typeToFiles) {        
-        SpringContext.getBean(AssetBarcodeInventoryLoadService.class).processFile(typeToFiles.get(CamsConstants.BarCodeInventory.DATA_FILE_TYPE));        
+        SpringContext.getBean(AssetBarcodeInventoryLoadService.class).processFile(typeToFiles.get(CamsConstants.BarCodeInventory.DATA_FILE_TYPE));
+        
     }
 
     /**

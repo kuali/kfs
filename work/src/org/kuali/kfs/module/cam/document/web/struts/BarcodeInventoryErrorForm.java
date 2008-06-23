@@ -22,68 +22,13 @@ import org.kuali.module.cams.document.BarcodeInventoryErrorDocument;
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
 
-    private BarcodeInventoryErrorDetail inventoryUploadErrorDetail;
-
-    /**
-     * Constructs a CashControlDocumentForm.java.
-     */
     public BarcodeInventoryErrorForm() {
         super();
         setDocument(new BarcodeInventoryErrorDocument());
     }
 
-    /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     *
-    @Override
-    public void populate(HttpServletRequest request) {
 
-        super.populate(request);
-
-        CashControlDocument ccDoc = getCashControlDocument();
-
-        if (hasDocumentId()) {
-
-            // apply populate to PaymentApplicationDocuments
-            for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
-
-                // populate workflowDocument in documentHeader, if needed
-                try {
-                    KualiWorkflowDocument workflowDocument = null;
-                    if (GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber()) != null) {
-                        workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber());
-                    }
-                    else {
-                        // gets the workflow document from doc service, doc service will also set the workflow document in the
-                        // user's session
-                        Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-                        if (retrievedDocument == null) {
-                            throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
-                        }
-                        workflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
-                    }
-
-                    cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().setWorkflowDocument(workflowDocument);
-                }
-                catch (WorkflowException e) {
-                    LOG.warn("Error while instantiating workflowDoc", e);
-                    throw new RuntimeException("error populating documentHeader.workflowDocument", e);
-                }
-            }
-        }
-
-    }*/
-
-    /**
-     * This method gets the cash control document
-     * 
-     * @return the CashControlDocument
-     */
-    public BarcodeInventoryErrorDocument getInventoryUploadErrorDocument() {
+    public BarcodeInventoryErrorDocument getBarcodeInventoryErrorDocument() {
         return (BarcodeInventoryErrorDocument) getDocument();
     }
-
-
-
- 
 }

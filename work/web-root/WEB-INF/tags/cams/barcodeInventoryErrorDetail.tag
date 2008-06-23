@@ -32,13 +32,14 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.assetTagNumber}"
 			property="${propertyName}.assetTagNumber"
-			readOnly="true" />
+			readOnly="${readOnly}" />
 	</td>
 	
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.uploadScanIndicator}"
-			property="${propertyName}.uploadScanIndicator" readOnly="${readOnly}" />
+			property="${propertyName}.uploadScanIndicator" 
+			readOnly="false" />
 	</td>
 	
 	<td align=left class="${cssClass}">
@@ -98,14 +99,7 @@
 		</c:if>
 
 	</td>
-	
-	<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute
-			attributeEntry="${barcodeInventoryDetailAttributes.errorCorrectionStatusCode}"
-			property="${propertyName}.errorCorrectionStatusCode"
-			readOnly="${readOnly}" />
-	</td>
-	
+		
 	<td align=left class="${cssClass}">
          <c:if test="${not readOnly}">
                <td class="datacell">

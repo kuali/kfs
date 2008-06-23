@@ -14,18 +14,18 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" /-->
 
-<%@ attribute name="bcieDetailAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for cash control detail fields."%>
-<%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
+<!-- %@ attribute name="bcieDetailAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for cash control detail fields."%-->
+<!-- %@ attribute name="readOnly" required="true" description="If document is in read only mode"%-->
 
 <kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}">
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Barcode Inventory Error(s)">
 			<tr>
-				<td colspan="8" class="subhead">
-					Barcode Inventory Error(s)
-				</td>
+				<td colspan="8" class="subhead">Barcode Inventory Error(s)</td>
 			</tr>
 			<tr>
 			    <!-- Columns Header -->
@@ -39,12 +39,12 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetConditionCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorCorrectionStatusCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" />
 			</tr>
-			<logic:iterate id="detail" name="KualiForm" property="document.inventoryUploadErrorDetails" indexId="ctr">
+			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
 				<cm:barcodeInventoryErrorDetail
-					propertyName="document.inventoryUploadErrorDetail[${ctr}]"
-					bcieDetailAttributes="${bcieDetailAttributes}"
+					bcieDetailAttributes="${bcieDetailAttributes}"					
+					propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
 					readOnly="${!readOnly}" 
 					cssClass="datacell"/>
 			</logic:iterate>

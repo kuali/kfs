@@ -15,39 +15,31 @@
  */
 package org.kuali.module.cams.web.struts.action;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
-import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.bo.BatchUpload;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.service.BatchInputFileService;
 import org.kuali.kfs.service.BatchInputFileSetService;
-import org.kuali.kfs.web.struts.action.KualiBatchInputFileAction;
 import org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction;
-import org.kuali.kfs.web.struts.form.KualiBatchInputFileForm;
 import org.kuali.kfs.web.struts.form.KualiBatchInputFileSetForm;
 
 
@@ -91,15 +83,54 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         return null;
     }
     
+    
     /**
-     * Retrieves a BatchInputFileType implementation from Spring based on the given name.
-     *
-    private BatchInputFileSetType retrieveBatchInputFileSetTypeImpl(String batchInputTypeName) {
-        BatchInputFileSetType batchInputType = BatchSpringContext.getBatchInputFileSetType(batchInputTypeName);
-        if (batchInputType == null) {
-            LOG.error("Batch input type implementation not found for id " + batchInputTypeName);
-            throw new RuntimeException(("Batch input type implementation not found for id " + batchInputTypeName));
+     * Builds list of filenames that the user has permission to manage, and populates the form member. Throws an exception if the
+     * batch file set type is not active. Sets the title key from the batch input type. This method must be called before the action
+     * handler to ensure proper authorization.
+     */
+    @Override    
+    public void setupForm(KualiBatchInputFileSetForm form) {
+        List<KeyLabelPair> userFiles = new ArrayList<KeyLabelPair>();
+
+        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        BatchInputFileSetType batchInputFileSetType = retrieveBatchInputFileSetTypeImpl(form.getBatchUpload().getBatchInputTypeName());
+
+        if (batchInputFileSetType == null) {
+            LOG.error("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName());
+            throw new RuntimeException("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName());
         }
-        return batchInputType;
-    }*/
+
+        if (!SpringContext.getBean(BatchInputFileSetService.class).isBatchInputTypeActive(batchInputFileSetType)) {
+            throw new RuntimeException("Batch input file set type is not active.");
+        }
+        form.setBatchInputFileSetType(batchInputFileSetType);
+
+        BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
+        Set<String> fileUserIdentifiers = batchInputFileSetService.listBatchTypeFileUserIdentifiersForUser(batchInputFileSetType, user);
+
+        userFiles.add(new KeyLabelPair("", "Select a file identifier"));
+        for (String fileUserIdentifier : fileUserIdentifiers) {
+            String label = fileUserIdentifier;
+            if (batchInputFileSetService.hasBeenProcessed(user, batchInputFileSetType, fileUserIdentifier)) {
+                label = label + " (processed)";
+            }
+            else {
+                label = label + " (ready to process)";
+            }
+            userFiles.add(new KeyLabelPair(fileUserIdentifier, label));
+        }
+        form.setFileUserIdentifiers(userFiles);
+
+        List<KeyLabelPair> fileTypes = new ArrayList<KeyLabelPair>();
+        fileTypes.add(new KeyLabelPair("", "Select a file type to download"));
+        for (String fileAlias : batchInputFileSetType.getFileTypes()) {
+            fileTypes.add(new KeyLabelPair(fileAlias, batchInputFileSetType.getFileTypeDescription().get(fileAlias)));
+        }
+        form.setFileTypes(fileTypes);
+
+        // set title key
+        form.setTitleKey(batchInputFileSetType.getTitleKey());
+    }
+    
 }

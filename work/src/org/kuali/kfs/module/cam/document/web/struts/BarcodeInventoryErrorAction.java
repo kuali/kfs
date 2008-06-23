@@ -36,26 +36,6 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
      *
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-
-        super.loadDocument(kualiDocumentFormBase);
-        CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
-        CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
-
-        // get the PaymentApplicationDocuments by reference number
-        for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
-            String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
-            PaymentApplicationDocument doc = null;
-            doc = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
-            if (doc == null) {
-                throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
-            }
-
-            cashControlDetail.setReferenceFinancialDocument(doc);
-            KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-            // KualiDocumentFormBase.populate() needs this updated in the session
-            GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
-        }
-
     }*/
 
     /**
@@ -74,63 +54,7 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         return super.execute(mapping, form, request, response);
     }
 
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-     *
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-        CashControlDocumentForm form = (CashControlDocumentForm) kualiDocumentFormBase;
-        CashControlDocument document = form.getCashControlDocument();
 
-        // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
-        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-
-    }*/
-
-    /**
-     * This method adds a new cash control detail
-     * 
-     * @param mapping action mapping
-     * @param form action form
-     * @param request
-     * @param response
-     * @return forward action
-     * @throws Exception
-     *
-    public ActionForward addCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
-        CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-
-        CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
-        newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
-
-
-        // apply rules for the new cash control detail
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
-
-        // add the new detail if rules passed
-        if (rulePassed) {
-
-            CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-
-            // add cash control detail
-            cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyString(ArConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
-
-            // set a new blank cash control detail
-            cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
-
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
-    }*/
 
     /**
      * This method deletes a  detail
@@ -144,14 +68,14 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
      */
     public ActionForward deleteBarcodeInventoryErrorDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm barcodeInventoryErrorForm = (BarcodeInventoryErrorForm) form;
-        BarcodeInventoryErrorDocument inventoryUploadErrorDocument = barcodeInventoryErrorForm.getInventoryUploadErrorDocument();
+        BarcodeInventoryErrorDocument inventoryUploadErrorDocument = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         
         int indexOfLineToDelete = getLineToDelete(request);
         
         BarcodeInventoryErrorDetail inventoryUploadErrorDetail = inventoryUploadErrorDocument.getBarcodeInventoryErrorDetail(indexOfLineToDelete);
         DocumentService documentService = KNSServiceLocator.getDocumentService();
 
-        inventoryUploadErrorDocument.deleteCashControlDetail(indexOfLineToDelete);
+        inventoryUploadErrorDocument.deleteBarcodeInventoryErrorDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

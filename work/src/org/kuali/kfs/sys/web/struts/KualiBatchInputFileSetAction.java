@@ -253,7 +253,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
      * batch file set type is not active. Sets the title key from the batch input type. This method must be called before the action
      * handler to ensure proper authorization.
      */
-    private void setupForm(KualiBatchInputFileSetForm form) {
+    public void setupForm(KualiBatchInputFileSetForm form) {
         List<KeyLabelPair> userFiles = new ArrayList<KeyLabelPair>();
 
         UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();

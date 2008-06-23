@@ -107,6 +107,11 @@ public class CamsConstants {
 
     public static class BarcodeInventoryError {
         public static final String DETAIL_ERRORS = "document.inventoryUploadErrorDetail*";
+        
+        //barcode inventory error document status codes
+        public static final String STATUS_CODE_ERROR="E";
+        public static final String STATUS_CODE_CORRECTED="C";
+        public static final String STATUS_CODE_DELETED="D";
     }
 
     public static class Workgroups {

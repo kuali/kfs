@@ -35,8 +35,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
-
   <bean id="BarcodeInventoryErrorDetail-assetConditionCode" parent="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" />
 
   <bean id="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" abstract="true" parent="AttributeDefinition">

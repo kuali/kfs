@@ -36,6 +36,10 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 	private Building building;
 	private AssetCondition condition;
 	
+	//error description. This field is not being saved in any table.
+	private String errorDescription;
+	
+	
 	/**
 	 * Default constructor.
 	 */
@@ -357,5 +361,13 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 
     public void setCondition(AssetCondition condition) {
         this.condition = condition;
+    }
+
+    public String getErrorDescription() {
+        return errorDescription;
+    }
+
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
 }

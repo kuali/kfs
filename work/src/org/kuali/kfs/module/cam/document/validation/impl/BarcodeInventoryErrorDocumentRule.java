@@ -29,6 +29,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -51,7 +52,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        return validateBarcodeInventoryErrorDetail(((BarcodeInventoryErrorDocument)document).getBarcodeInventoryErrorDetail());
+        validateBarcodeInventoryErrorDetail(((BarcodeInventoryErrorDocument)document).getBarcodeInventoryErrorDetail());
+        return true;
     }
 
 
@@ -63,11 +65,11 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      */
     public boolean validateBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) {
         boolean valid=true;
-        List<BarcodeInventoryErrorDetail> validInventory = new ArrayList<BarcodeInventoryErrorDetail>();
+        List<BarcodeInventoryErrorDetail> inventory = new ArrayList<BarcodeInventoryErrorDetail>();
         
-        int pos=0;
+        Long lineNumber=new Long(1);
         for(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail:barcodeInventoryErrorDetails) {
-            
+            valid=true;
             //LOG.info("****BarcodeInventoryErrorDocument - Validating - asset tag#:"+barcodeInventoryErrorDetail.getAssetTagNumber());
             
             valid&=this.validateTagNumber(barcodeInventoryErrorDetail.getAssetTagNumber());
@@ -77,19 +79,20 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             valid&=this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
             
             if (!valid) {
-                //LOG.info("****BarcodeInventoryErrorDocument - Error found - tag#:"+barcodeInventoryErrorDetail.getAssetTagNumber());
-                //TODO find out what should be the code for this field when an error is found.!!!!
-                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode("?");
-                validInventory.add(barcodeInventoryErrorDetail);
+                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
+                barcodeInventoryErrorDetail.setUploadRowNumber(lineNumber);
+                lineNumber++;
+            } else {
+                barcodeInventoryErrorDetail.setErrorCorrectionStatusCode("");
             }
-            pos++;
+            inventory.add(barcodeInventoryErrorDetail);
         }
         //Cleaning collection.
         barcodeInventoryErrorDetails.clear();
         
         //Adding back all elements including those that had modifications.
-        barcodeInventoryErrorDetails.addAll(validInventory);
-        return valid;
+        barcodeInventoryErrorDetails.addAll(inventory);
+        return true;
     }
 
     
@@ -100,7 +103,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param tagNumber
      * @return boolean
      */
-    public boolean validateTagNumber(String tagNumber) {
+    private boolean validateTagNumber(String tagNumber) {
         boolean result=true;
         //Getting a list of active assets. 
         List<Asset> assets = assetService.findActiveAssetsMatchingTagNumber(tagNumber);        
@@ -126,7 +129,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param inventoryDate
      * @return boolean
      */
-    public boolean validateInventoryDate(String inventoryDate) {
+    private boolean validateInventoryDate(String inventoryDate) {
         boolean result=true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE).getLabel();
 
@@ -141,7 +144,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             }
             catch (Exception e) {
                 //TODO use constant            
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE, "Invalid format", label);                        
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE, "Invalid date format", label);                        
                 result=false;
             }
         }
@@ -157,7 +160,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return
      */
-    public boolean validateCampusCode(String campusCode, BarcodeInventoryErrorDetail detail) {        
+    private boolean validateCampusCode(String campusCode, BarcodeInventoryErrorDetail detail) {        
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE).getLabel();
 
@@ -184,7 +187,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return
      */
-    public boolean validateBuildingCode(String buildingCode, BarcodeInventoryErrorDetail detail) {
+    private boolean validateBuildingCode(String buildingCode, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
 
@@ -211,7 +214,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return
      */
-    public boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail) {
+    private boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
 
@@ -220,7 +223,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, " cannot be blank", label);                    
             result&=false;
         } else {
-            detail.refreshReferenceObject(CamsPropertyConstants.BarcodeInventory.BUILDING_REFERENCE);
+            detail.refreshReferenceObject(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_REFERENCE);
             if (ObjectUtils.isNull(detail.getBuildingRoom())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER,  CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, label);
                 result &= false;
@@ -238,7 +241,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return
      */
-    public boolean validateConditionCode(String conditionCode, BarcodeInventoryErrorDetail detail) {
+    private boolean validateConditionCode(String conditionCode, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE).getLabel();
 
@@ -250,7 +253,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             detail.refreshReferenceObject(CamsPropertyConstants.BarcodeInventory.CONDITION_REFERENCE);
             if (ObjectUtils.isNull(detail.getBuildingRoom())) {
                 //TODO use constants
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE,  "Invalid" , label);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE,  "Invalid condition code" , label);
                 result &= false;
             }            
         }

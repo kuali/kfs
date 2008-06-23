@@ -428,6 +428,6 @@
     
     <bean id="reportGenerationService" class="org.kuali.kfs.service.impl.ReportGenerationServiceImpl" />
 
-	<import resource="validation/configuration/KfsValidators.xml" />
+	<import resource="validation/configuration/FinancialSystemValidators.xml" />
 	
 </beans>

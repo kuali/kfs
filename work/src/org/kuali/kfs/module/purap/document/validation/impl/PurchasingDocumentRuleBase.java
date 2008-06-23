@@ -354,10 +354,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processAddItemBusinessRules(financialDocument, item);
         GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
+        valid &= validateItemUnitPrice(item);
+        valid &= validateUnitOfMeasure(item);
         if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
             valid &= validateItemDescription(item);
+            valid &= validateItemQuantity(item);
+            valid &= validateCommodityCodes(item, commodityCodeIsRequired());
         }
-        valid &= validateItemUnitPrice(item);
         GlobalVariables.getErrorMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
 
         return valid;

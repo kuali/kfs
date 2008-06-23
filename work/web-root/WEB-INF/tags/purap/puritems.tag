@@ -92,8 +92,8 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
+				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" nowrap="true" />
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" /></kul:htmlAttributeHeaderCell>

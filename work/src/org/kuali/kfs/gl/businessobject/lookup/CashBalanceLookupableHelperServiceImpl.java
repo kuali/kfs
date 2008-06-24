@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * An extension of KualiLookupableImpl to support cash lookups
  */
-public class CashBalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
+public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLookupableHelperServiceImpl {
     private BalanceCalculator postBalance;
     private BalanceService balanceService;
 

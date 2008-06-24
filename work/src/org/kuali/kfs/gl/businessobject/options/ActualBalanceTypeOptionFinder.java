@@ -32,7 +32,7 @@ import org.kuali.kfs.coa.service.BalanceTypService;
 /**
  * A value finder that returns all balance type, but selects the actual balance type
  */
-public class GLActualBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
+public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns the value to select: here the value of the actual balance type

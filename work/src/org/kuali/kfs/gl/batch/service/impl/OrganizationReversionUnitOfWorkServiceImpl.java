@@ -29,11 +29,11 @@ import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The base implementation of OrgReversionUnitOfWorkService
+ * The base implementation of OrganizationReversionUnitOfWorkService
  */
 @Transactional
-public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWorkService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgReversionUnitOfWorkServiceImpl.class);
+public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationReversionUnitOfWorkService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionUnitOfWorkServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
 

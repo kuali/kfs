@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * An extension of KualiLookupableImpl to support balance lookups
  */
-public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
+public class BalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLookupableHelperServiceImpl {
     private BalanceCalculator postBalance;
     private BalanceService balanceService;
     private Map fieldValues;

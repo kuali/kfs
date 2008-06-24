@@ -23,7 +23,7 @@ import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 public class ExtractGlTransactionsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractGlTransactionsStep.class);
 
-    private ExtractGlTransactionService extractGlTransactionService;
+    private ExtractTransactionsService extractGlTransactionService;
 
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
@@ -35,7 +35,7 @@ public class ExtractGlTransactionsStep extends AbstractStep {
         return true;
     }
 
-    public void setExtractGlTransactionService(ExtractGlTransactionService e) {
+    public void setExtractGlTransactionService(ExtractTransactionsService e) {
         extractGlTransactionService = e;
     }
 }

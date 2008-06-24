@@ -27,7 +27,7 @@ import org.kuali.kfs.gl.Constant;
  * An implementation of ValueFinder that allows inquirers to include no pending entries, approved pending entries,
  * or all pending entries in the results of their lookup
  */
-public class GLPendingEntryOptionFinder extends KeyValuesBase implements ValueFinder {
+public class PendingEntryOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns a list of key/value pairs for this ValueFinder, in this case no pending entries, approved pending entries, and all pending entries

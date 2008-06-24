@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * An extension of KualiLookupableImpl to support encumbrance lookups
  */
-public class EncumbranceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
+public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedgerLookupableHelperServiceImpl {
 
     private EncumbranceCalculator postEncumbrance;
     private EncumbranceService encumbranceService;

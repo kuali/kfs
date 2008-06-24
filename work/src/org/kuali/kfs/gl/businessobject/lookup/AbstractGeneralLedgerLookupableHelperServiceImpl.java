@@ -37,9 +37,9 @@ import org.kuali.kfs.gl.Constant;
  * The abstract parent class for GL Lookupables, providing base implementations of methods
  * to make adding new lookupable reports easier
  */
-public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLLookupableHelperServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGeneralLedgerLookupableHelperServiceImpl.class);
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
 

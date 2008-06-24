@@ -64,7 +64,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
     private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
     private OrganizationReversionProcessService organizationReversionProcessService;
     private PriorYearAccountService priorYearAccountService;
-    private OrgReversionUnitOfWorkService orgReversionUnitOfWorkService;
+    private OrganizationReversionUnitOfWorkService orgReversionUnitOfWorkService;
     private OrganizationReversionProcess orgRevProcess;
     private Integer currentFiscalYear;
     private Integer previousFiscalYear;
@@ -167,7 +167,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
     };
 
     /**
-     * Fixtures that have object codes that will go into certain categories.  OrganizationReversionMockService
+     * Fixtures that have object codes that will go into certain categories.  OrganizationReversionMockServiceImpl
      * makes certain that each category represents different logic.
      * @see org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl
      */
@@ -214,7 +214,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         balanceService = SpringContext.getBean(BalanceService.class);
         cashOrganizationReversionCategoryLogic = SpringContext.getBean(CashOrganizationReversionCategoryLogic.class);
         priorYearAccountService = SpringContext.getBean(PriorYearAccountService.class);
-        orgReversionUnitOfWorkService = SpringContext.getBean(OrgReversionUnitOfWorkService.class);
+        orgReversionUnitOfWorkService = SpringContext.getBean(OrganizationReversionUnitOfWorkService.class);
         organizationReversionProcessService = SpringContext.getBean(OrganizationReversionProcessService.class);
 
         Map jobParameters = organizationReversionProcessService.getJobParameters();
@@ -428,7 +428,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /**
@@ -457,7 +457,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /**
@@ -485,7 +485,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /**
@@ -513,7 +513,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /*
@@ -572,7 +572,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /**
@@ -600,7 +600,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /**
@@ -684,7 +684,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /**
@@ -712,7 +712,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /*
@@ -1018,7 +1018,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-1500));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
         assertOriginEntry(originEntries.get(2), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(500));
         assertOriginEntry(originEntries.get(3), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(500));
     }
@@ -1053,7 +1053,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /**
@@ -1086,7 +1086,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-1500));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(1500));
         assertOriginEntry(originEntries.get(2), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "0110", "CB", "IN", new KualiDecimal(500));
         assertOriginEntry(originEntries.get(3), currentFiscalYear, "01", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "5000", "CB", "EX", new KualiDecimal(500));
     }
@@ -1121,7 +1121,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /*
@@ -1289,7 +1289,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /**
@@ -1355,7 +1355,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /*
@@ -1523,7 +1523,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /**
@@ -1589,7 +1589,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(-2000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(2000));
     }
 
     /*
@@ -1658,7 +1658,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /**
@@ -1691,7 +1691,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /**
@@ -1790,7 +1790,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 
     /**
@@ -1823,6 +1823,6 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
 
         // check the origin entries
         assertOriginEntry(originEntries.get(0), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, DEFAULT_BALANCE_ACCOUNT_NBR, "7900", "RE", "EX", new KualiDecimal(3000));
-        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockService.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
+        assertOriginEntry(originEntries.get(1), previousFiscalYear, "13", DEFAULT_BALANCE_CHART, OrganizationReversionMockServiceImpl.DEFAULT_BUDGET_REVERSION_ACCOUNT, "7900", "RE", "EX", new KualiDecimal(-3000));
     }
 }

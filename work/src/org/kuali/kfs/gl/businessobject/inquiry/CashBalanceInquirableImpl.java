@@ -23,7 +23,7 @@ import java.util.Properties;
  * The inquirable class to support the cash balance lookup.  Since there are no user defined inquiries to
  * perform on cash balance fields, this class returns many, many nulls
  */
-public class CashBalanceInquirableImpl extends AbstractGLInquirableImpl {
+public class CashBalanceInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
 
     /**
      * Since there are no user defined attributes, returns null

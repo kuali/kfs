@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.Constant;
 /**
  * An implementation of ValueFinder that allows balance inquiries to choose between consolidated results or detailed results
  */
-public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueFinder {
+public class ConsolidationOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns a list of key value pairs to allow inquirers to choose between consolidated results or detailed results

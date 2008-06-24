@@ -26,7 +26,7 @@ import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 /**
  * @author jsissom
  */
-public interface GlPendingTransactionDao {
+public interface PendingTransactionDao {
     /**
      * Save a GL Pending Transaction
      * 

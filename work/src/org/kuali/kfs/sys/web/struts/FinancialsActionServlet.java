@@ -30,13 +30,13 @@ import org.kuali.kfs.sys.context.PropertyLoadingFactoryBean;
 import org.kuali.rice.core.Core;
 
 /**
- * KFSActionServlet implementation which overrides {@link #getServletConfig()} to filter out the
+ * FinancialsActionServlet implementation which overrides {@link #getServletConfig()} to filter out the
  * kew struts module from the init parameters in the case where KFS is running against a
  * central workflow instance.
  *
  * @author Eric Westfall
  */
-public class KFSActionServlet extends KualiActionServlet {
+public class FinancialsActionServlet extends KualiActionServlet {
 
     @Override
     public ServletConfig getServletConfig() {

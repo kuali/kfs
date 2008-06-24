@@ -52,8 +52,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 
 @Transactional
-public class GlPendingTransactionServiceImpl implements GlPendingTransactionService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlPendingTransactionServiceImpl.class);
+public class PendingTransactionServiceImpl implements PendingTransactionService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingTransactionServiceImpl.class);
 
     private static String FDOC_TYP_CD_PROCESS_ACH = "ACHD";
     private static String FDOC_TYP_CD_PROCESS_CHECK = "CHKD";
@@ -62,12 +62,12 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
     private static String FDOC_TYP_CD_CANCEL_ACH = "ACHC";
     private static String FDOC_TYP_CD_CANCEL_CHECK = "CHKC";
 
-    private GlPendingTransactionDao glPendingTransactionDao;
+    private PendingTransactionDao glPendingTransactionDao;
     private ChartService chartService;
     private AccountingPeriodService accountingPeriodService;
 
     // Inject
-    public void setGlPendingTransactionDao(GlPendingTransactionDao g) {
+    public void setGlPendingTransactionDao(PendingTransactionDao g) {
         glPendingTransactionDao = g;
     }
 
@@ -81,7 +81,7 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
         chartService = c;
     }
 
-    public GlPendingTransactionServiceImpl() {
+    public PendingTransactionServiceImpl() {
         super();
     }
 

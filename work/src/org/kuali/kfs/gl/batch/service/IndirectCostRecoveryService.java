@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 /**
  * An interface with a predicate that tells if a transaction with the given fields would be an ICR transaction or not
  */
-public interface IcrTransaction {
+public interface IndirectCostRecoveryService {
     /**
      * Determines if a transaction with the given parameters would be subject to indirect cost recovery
      * 

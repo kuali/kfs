@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.Constant;
 /**
  * An implmentation of ValueFinder that allows the balance inquiries to choose whether to include or exclude cost share entries
  */
-public class GLCostShareOptionFinder extends KeyValuesBase implements ValueFinder {
+public class CostShareOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns the default value for this ValueFinder, in this case, exclude cost share entries

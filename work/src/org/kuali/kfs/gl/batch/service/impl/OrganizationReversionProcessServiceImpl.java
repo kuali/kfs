@@ -64,7 +64,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
     private PriorYearAccountService priorYearAccountService;
     private ReportService reportService;
-    private OrgReversionUnitOfWorkService orgReversionUnitOfWorkService;
+    private OrganizationReversionUnitOfWorkService orgReversionUnitOfWorkService;
 
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
@@ -112,7 +112,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
      * 
      * @param orgReversionUnitOfWorkService the service to set.
      */
-    public void setOrgReversionUnitOfWorkService(OrgReversionUnitOfWorkService orgReversionUnitOfWorkService) {
+    public void setOrgReversionUnitOfWorkService(OrganizationReversionUnitOfWorkService orgReversionUnitOfWorkService) {
         this.orgReversionUnitOfWorkService = orgReversionUnitOfWorkService;
     }
 

@@ -22,7 +22,7 @@ import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
  * Chart-Account-SubAccount that will be/has been reverted during the year end organization reversion process, which is the great
  * vacuum that sucks the contents out of accounts.
  */
-public interface OrgReversionUnitOfWorkService {
+public interface OrganizationReversionUnitOfWorkService {
     /**
      * This method is to rain the very blows of destruction on all org reversion unit of work data, so the tables can be rebuilt as
      * the OrgReversionProcess runs again

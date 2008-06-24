@@ -81,7 +81,7 @@ public class FormatServiceImpl implements FormatService {
     private ProcessDao processDao;
     private AchService achService;
     private ReferenceService referenceService;
-    private GlPendingTransactionService glPendingTransactionService;
+    private PendingTransactionService glPendingTransactionService;
     private ParameterService parameterService;
     private FormatPaymentDao formatPaymentDao;
     private SchedulerService schedulerService;
@@ -599,7 +599,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     // Inject
-    public void setGlPendingTransactionService(GlPendingTransactionService gs) {
+    public void setGlPendingTransactionService(PendingTransactionService gs) {
         glPendingTransactionService = gs;
     }
 

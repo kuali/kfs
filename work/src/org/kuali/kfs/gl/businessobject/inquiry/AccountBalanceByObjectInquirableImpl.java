@@ -31,9 +31,9 @@ import org.kuali.kfs.gl.Constant;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by object screen. It is entended
- * the AbstractGLInquirableImpl class, so it covers both the default implementation and customized implemetnation.
+ * the AbstractGeneralLedgerInquirableImpl class, so it covers both the default implementation and customized implemetnation.
  */
-public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableImpl {
+public class AccountBalanceByObjectInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
 

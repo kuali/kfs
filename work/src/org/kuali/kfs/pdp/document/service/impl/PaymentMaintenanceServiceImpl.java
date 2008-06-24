@@ -82,7 +82,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private AchAccountNumberDao achAccountNumberDao;
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
     private ReferenceService referenceService;
-    private GlPendingTransactionService glPendingTransactionService;
+    private PendingTransactionService glPendingTransactionService;
     private EnvironmentService environmentService;
     private MailService mailService;
     private ParameterService parameterService;
@@ -571,7 +571,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * 
      * @param service
      */
-    public void setGlPendingTransactionService(GlPendingTransactionService service) {
+    public void setGlPendingTransactionService(PendingTransactionService service) {
         glPendingTransactionService = service;
     }
 

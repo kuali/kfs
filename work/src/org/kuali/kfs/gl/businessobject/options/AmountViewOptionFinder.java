@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.Constant;
 /**
  * An implementation of ValuesFinder that allows GL inquiries to select either monthly totals or accumulated totals on balance inquiries
  */
-public class GLAmountViewOptionFinder extends KeyValuesBase implements ValueFinder {
+public class AmountViewOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns the default value of this ValueFinder: here, MONTHLY

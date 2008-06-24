@@ -33,9 +33,9 @@ import org.kuali.kfs.gl.Constant;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for available account balace screen. It is entended the
- * AbstractGLInquirableImpl class, so it covers both the default implementation and customized implemetnation.
+ * AbstractGeneralLedgerInquirableImpl class, so it covers both the default implementation and customized implemetnation.
  */
-public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
+public class AccountBalanceInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceInquirableImpl.class);
 
     private BusinessObjectDictionaryService dataDictionary;

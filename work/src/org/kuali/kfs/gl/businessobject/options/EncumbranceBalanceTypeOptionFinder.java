@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.service.OptionsService;
 /**
  * An implementation of ValueFinder that returns all balance types, but which defaults to external encumbrance
  */
-public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
+public class EncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns the default value of this ValueFinder, in this case, external encumbrance

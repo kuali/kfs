@@ -43,8 +43,8 @@ import org.kuali.kfs.gl.Constant;
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
  */
-public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLInquirableImpl.class);
+public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGeneralLedgerInquirableImpl.class);
     
     private BusinessObject businessObject; 
     

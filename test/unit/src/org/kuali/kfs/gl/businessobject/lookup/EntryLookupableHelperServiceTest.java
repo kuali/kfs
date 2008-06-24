@@ -32,7 +32,7 @@ import org.kuali.kfs.ConfigureContext;
  * This class contains the test cases that can be applied to the method in EntryLookupableImpl class.
  */
 @ConfigureContext
-public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
+public class EntryLookupableHelperServiceTest extends AbstractGeneralLedgerLookupableHelperServiceTestBase {
 
     private EntryDao entryDao;
 

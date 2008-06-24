@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp.batch.service;
 
-public interface ExtractGlTransactionService {
+public interface ExtractTransactionsService {
     /**
      * Extract GL Transactions
      */

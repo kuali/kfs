@@ -29,7 +29,7 @@ import org.kuali.kfs.gl.businessobject.UniversityDate;
 /**
  * An implementation of ValueFinder that allows the selection of a period code
  */
-public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder {
+public class PeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * Returns this default value of this ValueFinder, in this case the current period code

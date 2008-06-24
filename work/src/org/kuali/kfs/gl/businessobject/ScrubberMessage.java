@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.businessobject;
 /**
  * A class that holds an error message that would have been encountered during a GL batch job
  */
-public class Message {
+public class ScrubberMessage {
     /**
      * To mark Fatal errors, ones that should abend a batch process
      */
@@ -32,11 +32,11 @@ public class Message {
     private int type;
 
     /**
-     * Constructs a Message instance
+     * Constructs a ScrubberMessage instance
      * @param m the message
      * @param t the type of message
      */
-    public Message(String m, int t) {
+    public ScrubberMessage(String m, int t) {
         message = m;
         type = t;
     }

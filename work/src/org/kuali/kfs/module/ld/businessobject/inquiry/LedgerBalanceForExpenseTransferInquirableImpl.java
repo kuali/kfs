@@ -30,21 +30,21 @@ public class LedgerBalanceForExpenseTransferInquirableImpl extends LedgerBalance
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForExpenseTransferInquirableImpl.class);
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
         return LaborConstants.BalanceInquiries.LEDGER_ENTRY_LOOKUPABLE_FOR_EXPENSE_TRANSFER;
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return LedgerEntryForExpenseTransfer.class;
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
         parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());

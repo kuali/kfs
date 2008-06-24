@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.web.TestDataGenerator;
 /**
  * This class is a template being used by the test case classes of GL lookupable implementation.
  */
-public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTestBase {
+public abstract class AbstractGeneralLedgerLookupableHelperServiceTestBase extends KualiTestBase {
 
     protected Date date;
     protected GeneralLedgerPendingEntry pendingEntry;

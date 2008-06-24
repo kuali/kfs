@@ -273,7 +273,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         FLEXIBLE_ACTIVITY_CLOSING_OFFSET_ACCOUNT(DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR, DEFAULT_NOMINAL_ACTIVITY_OFFSET_OBJECT_CODE),
         FLEXIBLE_ENCUMBRANCE_FORWARD_OFFSET_ACCOUNT(DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, DEFAULT_ENCUMBRANCE_OFFSET_OBJECT_CODE),
         FLEXIBLE_CS_ENCUMBRANCE_FORWARD_OFFSET_ACCOUNT(DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR, DEFAULT_COST_SHARE_ENCUMBRANCE_OFFSET_OBJECT_CODE),
-        CASH_REVERSION_FORWARD_OFFSET_ACCOUNT(OrganizationReversionMockService.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockService.DEFAULT_CASH_REVERSION_ACCOUNT, DEFAULT_NOMINAL_ACTIVITY_OFFSET_OBJECT_CODE);
+        CASH_REVERSION_FORWARD_OFFSET_ACCOUNT(OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_ACCOUNT, DEFAULT_NOMINAL_ACTIVITY_OFFSET_OBJECT_CODE);
         
         private String chartCode;
         private String accountNumber;
@@ -465,9 +465,9 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         assertEquals("Number of generated OriginEntries ", new Integer(8), new Integer(resultingEntries.size()));
         // 1. when flexible offsets are turned on, cash reversion activity entries do not get flexible offsets
         assertChartAndAccount(resultingEntries.get(0), DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR);
-        assertChartAndAccount(resultingEntries.get(2), OrganizationReversionMockService.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockService.DEFAULT_CASH_REVERSION_ACCOUNT);
+        assertChartAndAccount(resultingEntries.get(2), OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_ACCOUNT);
         assertChartAndAccount(resultingEntries.get(4), DEFAULT_NO_FLEXIBLE_BALANCE_CHART, DEFAULT_NO_FLEXIBLE_BALANCE_ACCOUNT_NBR);
-        assertChartAndAccount(resultingEntries.get(6), OrganizationReversionMockService.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockService.DEFAULT_CASH_REVERSION_ACCOUNT);
+        assertChartAndAccount(resultingEntries.get(6), OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_ACCOUNT);
         // 2. when flexible offsets are turned on, cash reversion offsets that should get flexible offsets get them
         assertChartAndAccount(resultingEntries.get(1), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
         assertChartAndAccount(resultingEntries.get(3), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
@@ -490,7 +490,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         List<OriginEntryFull> resultingEntries = runOrganizationReversion(flexibleBalances);
         assertEquals("Number of generated OriginEntries ", new Integer(4), new Integer(resultingEntries.size()));
         assertChartAndAccount(resultingEntries.get(1), DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR);
-        assertChartAndAccount(resultingEntries.get(3), OrganizationReversionMockService.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockService.DEFAULT_CASH_REVERSION_ACCOUNT);
+        assertChartAndAccount(resultingEntries.get(3), OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_ACCOUNT);
     }
     
     /**
@@ -505,7 +505,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         BalanceService balanceService = SpringContext.getBean(BalanceService.class);
         CashOrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic = SpringContext.getBean(CashOrganizationReversionCategoryLogic.class);
         PriorYearAccountService priorYearAccountService = SpringContext.getBean(PriorYearAccountService.class);
-        OrgReversionUnitOfWorkService orgReversionUnitOfWorkService = SpringContext.getBean(OrgReversionUnitOfWorkService.class);
+        OrganizationReversionUnitOfWorkService orgReversionUnitOfWorkService = SpringContext.getBean(OrganizationReversionUnitOfWorkService.class);
         OrganizationReversionProcessService organizationReversionProcessService = SpringContext.getBean(OrganizationReversionProcessService.class);
 
         Map jobParameters = organizationReversionProcessService.getJobParameters();

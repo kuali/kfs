@@ -23,7 +23,7 @@ import java.util.Properties;
  * This class is used to generate the URL for the user-defined attributes for the GL entry screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
  */
-public class EntryInquirableImpl extends AbstractGLInquirableImpl {
+public class EntryInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryInquirableImpl.class);  // this class, which does *nothing* has a Log?  Funny.
 
     /**

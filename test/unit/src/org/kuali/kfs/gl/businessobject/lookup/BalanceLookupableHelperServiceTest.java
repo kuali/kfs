@@ -35,7 +35,7 @@ import org.kuali.kfs.ConfigureContext;
  * This class contains the test cases that can be applied to the method in BalanceLookupableImpl class.
  */
 @ConfigureContext
-public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
+public class BalanceLookupableHelperServiceTest extends AbstractGeneralLedgerLookupableHelperServiceTestBase {
 
     private BalanceService balanceService;
 

@@ -51,7 +51,7 @@ public class LaborCalculatedSalaryFoundationTrackerInquirableImpl extends Abstra
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
 
@@ -61,14 +61,14 @@ public class LaborCalculatedSalaryFoundationTrackerInquirableImpl extends Abstra
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
         return attributeName;
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
         if (isExclusiveField(keyName, keyValue)) {
@@ -78,28 +78,28 @@ public class LaborCalculatedSalaryFoundationTrackerInquirableImpl extends Abstra
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
         return keyName;
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
         return "CSFTrackerBalanceLookupable";
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
         return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
+     * @see org.kuali.module.labor.web.inquirable.AbstractGeneralLedgerInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return July1PositionFunding.class;

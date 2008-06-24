@@ -43,7 +43,7 @@ import org.springframework.util.StringUtils;
  * for ICR generation
  */
 @Transactional
-public class PostExpenditureTransaction implements IcrTransaction, PostTransaction {
+public class PostExpenditureTransaction implements IndirectCostRecoveryService, PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostExpenditureTransaction.class);
 
     private A21SubAccountDao a21SubAccountDao;

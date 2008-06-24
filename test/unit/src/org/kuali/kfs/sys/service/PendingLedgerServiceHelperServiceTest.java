@@ -24,7 +24,7 @@ import org.kuali.kfs.ConfigureContext;
  * A test that covers PendingLedgerService
  */
 @ConfigureContext
-public class PendingLedgerServiceHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
+public class PendingLedgerServiceHelperServiceTest extends AbstractGeneralLedgerLookupableHelperServiceTestBase {
 
     /**
      * Tests that PendingLedgerService is successfully saving and retrieving entries

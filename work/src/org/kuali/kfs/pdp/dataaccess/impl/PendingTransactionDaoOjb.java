@@ -31,10 +31,10 @@ import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
 /**
  * @author jsissom
  */
-public class GlPendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements GlPendingTransactionDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlPendingTransactionDaoOjb.class);
+public class PendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements PendingTransactionDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingTransactionDaoOjb.class);
 
-    public GlPendingTransactionDaoOjb() {
+    public PendingTransactionDaoOjb() {
         super();
     }
 

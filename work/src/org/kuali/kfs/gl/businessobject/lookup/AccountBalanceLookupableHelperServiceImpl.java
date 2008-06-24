@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * A class to support Account Balance lookups
  */
-public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
+public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLookupableHelperServiceImpl {
 
     private AccountBalanceCalculator postAccountBalance;
     private AccountBalanceService accountBalanceService;

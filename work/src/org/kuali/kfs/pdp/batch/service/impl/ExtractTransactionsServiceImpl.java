@@ -33,10 +33,10 @@ import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class ExtractGlTransactionServiceImpl implements ExtractGlTransactionService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractGlTransactionServiceImpl.class);
+public class ExtractTransactionsServiceImpl implements ExtractTransactionsService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractTransactionsServiceImpl.class);
 
-    private GlPendingTransactionService glPendingTransactionService;
+    private PendingTransactionService glPendingTransactionService;
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
@@ -80,7 +80,7 @@ public class ExtractGlTransactionServiceImpl implements ExtractGlTransactionServ
         this.dateTimeService = dateTimeService;
     }
 
-    public void setGlPendingTransactionService(GlPendingTransactionService glPendingTransactionService) {
+    public void setGlPendingTransactionService(PendingTransactionService glPendingTransactionService) {
         this.glPendingTransactionService = glPendingTransactionService;
     }
 

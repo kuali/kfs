@@ -23,7 +23,7 @@ import java.util.Properties;
  * Builds an inquirable to build inquiry links for fields in the encumbrance lookup. That lookup
  * has no drill downs outside of chart attributes, so this class returns null for many classes.
  */
-public class EncumbranceInquirableImpl extends AbstractGLInquirableImpl {
+public class EncumbranceInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceInquirableImpl.class);
 
     /**

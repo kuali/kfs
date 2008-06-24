@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl;
  */
 
 @NonTransactional
-public class OrganizationReversionMockService extends OrganizationReversionServiceImpl implements OrganizationReversionService {
+public class OrganizationReversionMockServiceImpl extends OrganizationReversionServiceImpl implements OrganizationReversionService {
     public static final String DEFAULT_BUDGET_REVERSION_CHART = "BL";
     public static final String DEFAULT_BUDGET_REVERSION_ACCOUNT = "0211301";
     public static final String DEFAULT_CASH_REVERSION_CHART = "BL";

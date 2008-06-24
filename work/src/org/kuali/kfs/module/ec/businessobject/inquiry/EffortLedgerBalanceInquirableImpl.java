@@ -35,7 +35,7 @@ import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
 import org.kuali.kfs.integration.service.LaborModuleService;
 
-public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl {
+public class EffortLedgerBalanceInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortLedgerBalanceInquirableImpl.class);
 
     private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);

@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.kuali.kfs.pdp.dataaccess.PayeeTypeDao;
 
-public class PayeeTypeDaoOther implements PayeeTypeDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeTypeDaoOther.class);
+public class PayeeTypeDaoMap implements PayeeTypeDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeTypeDaoMap.class);
 
     private Map<String, String> payees;
 

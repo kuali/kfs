@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author jsissom
  */
-public interface GlPendingTransactionService {
+public interface PendingTransactionService {
     public void createProcessPaymentTransaction(PaymentDetail pd, Boolean relieveLiabilities);
 
     public void createCancellationTransaction(PaymentGroup pg);

@@ -138,7 +138,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         
         // Set display modes for Receiving Address according to its parameter value. 
         String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
-        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);
+        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);
         editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS;
         if (paramValue.equals("Y")) 
             editModeMap.put(editMode, "TRUE");

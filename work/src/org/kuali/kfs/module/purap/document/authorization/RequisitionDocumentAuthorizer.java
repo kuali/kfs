@@ -133,12 +133,12 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
 
         // Set display modes for Receiving Address and Address to Vendor sections according to their parameter values. 
         String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
-        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);
+        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);
         String editMode = PurapAuthorizationConstants.RequisitionEditMode.DISPLAY_RECEIVING_ADDRESS;
         if (paramValue.equals("Y") || paramValue.equals("y")) 
             editModeMap.put(editMode, "TRUE");
         paramName = PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND;
-        paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Requisition", paramName);
+        paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Requisition", paramName);
         editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR;
         if (paramValue.equals("N") || paramValue.equals("n")) 
             editModeMap.put(editMode, "TRUE");

@@ -227,12 +227,12 @@ public class ItemParserBase implements ItemParser {
     private void populateExtraAttributes( PurApItem item, String documentNumber ) {     
         if (item.getItemQuantity() != null) {
             String paramName = PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE;
-            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);            
+            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);            
             item.setItemTypeCode(itemTypeCode);
         }
         else {
             String paramName = PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE;
-            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);
+            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);
             item.setItemTypeCode(itemTypeCode);
         }
         if (item instanceof RequisitionItem)

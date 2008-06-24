@@ -41,7 +41,7 @@
 <html:hidden property="salarySettingExpansion.financialObjectTypeCode" />
 <html:hidden property="salarySettingExpansion.versionNumber" />
 
-<div class="h2-container"><h2>Expenditure Salary Line</h2></div>
+<h3>Expenditure Salary Line</h3>
 						
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Expenditure Salary Line">
 <tbody>

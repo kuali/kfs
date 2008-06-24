@@ -19,11 +19,7 @@
     <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
     <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
 	<div class="tab-container" align="center" id="G02" style="display: block;">
-    	<div class="h2-container">
-    		<span class="subhead-left">
-        		<h2>Current Point of View Organization Selection </h2>
-        	</span>
-      	</div>
+        		<h3>Current Point of View Organization Selection </h3>
         <table cellpadding=0 cellspacing="0"  summary="">
           	<tr>
                	<td>

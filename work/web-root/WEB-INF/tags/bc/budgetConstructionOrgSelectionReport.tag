@@ -17,9 +17,7 @@
 
 <kul:tab tabTitle="Reports And Exports" defaultOpen="true" tabErrorKey="reportSel">
 	<div class="tab-container" align="center" id="G02" style="display: block;">
-    	<div class="h2-container">
-    		<h2>Reports</h2>
-      	</div>
+    		<h3>Reports</h3>
 
         <table width="100%" cellpadding="0" cellspacing="0">
               <tr>

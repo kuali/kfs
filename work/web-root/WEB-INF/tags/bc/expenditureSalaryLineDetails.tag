@@ -25,8 +25,7 @@
 <c:set var="isHourlyPaid" value="${KualiForm.salarySettingExpansion.hourlyPaid}" />
 <c:set var="numOfColumsRemoved" value="${isHourlyPaid ? 0 : 1 }" />
 	
-<div class="h2-container">
-	<h2><span class="subhead-left"><span class="tabtable1-left">Salary Line Detail</span></span></h2>
+ 	<h3>>Salary Line Detail</h3>
 	
 	<c:if test="${not readOnly}">
 	    <span class="subhead-right"><span class="subhead">
@@ -39,7 +38,6 @@
 				styleClass="tinybutton" />	
 	    </span></span>
     </c:if>
-</div>
 						
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Expenditure Salary Line Detail">	
 	<tr>
@@ -294,7 +292,7 @@
 	<c:if test="${not readOnly}">
 	<tr>
 		<td colspan="${16 - numOfColumsRemoved}">
-			<div class="h2-container" style="width: 100%;"><h2>Global Percent Adjustment</h2></div>
+			<h3>Global Percent Adjustment</h3>
 		</td>
 	</tr>
 	

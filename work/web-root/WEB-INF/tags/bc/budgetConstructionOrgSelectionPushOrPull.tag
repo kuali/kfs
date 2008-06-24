@@ -25,9 +25,7 @@
 
 <kul:tab tabTitle="${tabTitle}" defaultOpen="true" tabErrorKey="reportSel">
 	<div class="tab-container" align="center" id="G02" style="display: block;">
-    	<div class="h2-container">
-    		<h2>${tabTitle}</h2>
-      	</div>
+    		<h3>${tabTitle}</h3>
 
         <table width="100%" cellpadding="0" cellspacing="0">
       		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP}">

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry path="work/src" kind="src"/>
-	<classpathentry path="test/src" output="test/classes" kind="src"/>
+	<classpathentry path="test/infrastructure/src" output="test/classes" kind="src"/>
+	<classpathentry path="test/unit/src" output="test/classes" kind="src"/>
+	<classpathentry path="test/integration/src" output="test/classes" kind="src"/>
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
 	<classpathentry path="TOMCAT_LIB_HOME/servlet-api.jar" kind="var"/>
 	<classpathentry path="TOMCAT_LIB_HOME/jsp-api.jar" kind="var"/>

@@ -31,13 +31,12 @@
 			<logic:notEmpty name="KualiForm" property="summaryAccounts">
 				<logic:iterate id="summaryAccount" name="KualiForm" property="summaryAccounts" indexId="ctr">		
 				    <tr>
-					    <td colspan="10" class="tab-subhead" style="border-right: none;">
+					    <td colspan="9" class="tab-subhead" style="border-right: none;">
 					        Account Summary ${ctr+1} 
 					    </td>
 				    </tr>		
 				
 				    <tr>
-            		    <kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.postingYear}" hideRequiredAsterisk="true" scope="col"/>
                 		<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.chartOfAccountsCode}" hideRequiredAsterisk="true" scope="col"/>
                 		<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.accountNumber}" hideRequiredAsterisk="true" scope="col"/>
                 		<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.subAccountNumber}" hideRequiredAsterisk="true" scope="col"/>
@@ -50,12 +49,6 @@
 			    	</tr>
 								    		    
 					<tr>
-						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.core.bo.Options" keyValues="universityFiscalYear=${summaryAccount.account.postingYear}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.postingYear" write="true"/>
-							</kul:inquiry>
-							&nbsp;
-						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.chartOfAccountsCode" write="true"/>
@@ -98,7 +91,7 @@
 					</tr>
 					
                     <tr>
-                        <td colspan="10" height=30 style="padding: 20px;">
+                        <td colspan="9" height=30 style="padding: 20px;">
                             <div align="center">
                             <table width="75%" border="0" cellpadding="0" cellspacing="0" class="datatable">
                                 <tr>

@@ -5,29 +5,29 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
+import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
-import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**

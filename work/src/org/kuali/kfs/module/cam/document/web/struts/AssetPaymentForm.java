@@ -29,18 +29,15 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
-import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);

@@ -25,11 +25,10 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.coa.businessobject.ICRTypeCode;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
-import org.kuali.kfs.coa.businessobject.ICRTypeCode;
 
 public class ICRTypeCodeRule extends MaintenanceDocumentRuleBase {
 

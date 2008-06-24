@@ -25,13 +25,13 @@ import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

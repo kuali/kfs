@@ -22,11 +22,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.fp.businessobject.CreditCardVendor;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 /**
  * This class represents business rules for the credit card vendor maintenance document

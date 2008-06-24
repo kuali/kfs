@@ -23,10 +23,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.gl.service.EncumbranceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to remove old encumbrances from the database.

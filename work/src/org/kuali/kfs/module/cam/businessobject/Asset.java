@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -13,17 +12,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.kfs.sys.businessobject.Room;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
-import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
-import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

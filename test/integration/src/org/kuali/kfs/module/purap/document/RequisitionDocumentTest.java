@@ -28,17 +28,17 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionItemFixture;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
-import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 import edu.iu.uis.eden.EdenConstants;
 

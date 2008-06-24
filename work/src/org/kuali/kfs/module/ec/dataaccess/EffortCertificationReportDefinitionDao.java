@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ec.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 
 /**
  * Provides interface for data operations on the EffortCertificationReportDefinition table

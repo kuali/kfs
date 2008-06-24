@@ -15,20 +15,20 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleConstants.CREDIT_CARD_RECEIPT_PREFIX;
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.businessobject.CreditCardDetail;
+import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.fp.businessobject.CreditCardDetail;
-import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 
 /**
  * Common Credit Card Receipt Document rule utilities.

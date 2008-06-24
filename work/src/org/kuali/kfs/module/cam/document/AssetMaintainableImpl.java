@@ -23,10 +23,7 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.web.ui.Section;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
@@ -35,6 +32,8 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

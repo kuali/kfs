@@ -23,13 +23,13 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 
 /**
  * Validation that checks that the general ledger pending entries associated with an auxiliary voucher

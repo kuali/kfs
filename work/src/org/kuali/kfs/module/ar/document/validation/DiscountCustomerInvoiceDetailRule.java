@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.validation;
 
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 public interface DiscountCustomerInvoiceDetailRule<F extends AccountingDocument> extends CustomerInvoiceDetailRule {
 

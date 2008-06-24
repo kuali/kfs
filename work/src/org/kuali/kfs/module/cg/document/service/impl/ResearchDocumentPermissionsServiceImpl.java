@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;

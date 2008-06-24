@@ -17,7 +17,6 @@ package org.kuali.kfs.module.bc.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 

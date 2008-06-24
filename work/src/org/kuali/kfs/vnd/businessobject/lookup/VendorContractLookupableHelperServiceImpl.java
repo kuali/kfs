@@ -29,7 +29,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
-import org.springframework.transaction.annotation.Transactional;
 
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;

@@ -32,19 +32,18 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
+import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
+import org.kuali.kfs.fp.document.VoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
-import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
-import org.kuali.kfs.fp.document.VoucherDocument;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.fp.document.web.struts.VoucherForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

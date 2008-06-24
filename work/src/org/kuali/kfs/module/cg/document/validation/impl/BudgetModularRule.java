@@ -20,13 +20,13 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.KraKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
 import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class BudgetModularRule {
 

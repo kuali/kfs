@@ -17,8 +17,9 @@ package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.gl.businessobject.lookup.AbstractGeneralLedgerLookupableHelperServiceTestBase;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * A test that covers PendingLedgerService

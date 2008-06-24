@@ -23,13 +23,13 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.gl.Constant;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for available account balace screen. It is entended the

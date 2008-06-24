@@ -23,12 +23,12 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.web.struts.AssetTransferForm;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.KNSServiceLocator;
 
 public class AssetTransferDocumentPreRules extends PreRulesContinuationBase {

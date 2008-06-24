@@ -21,10 +21,10 @@ import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class CustomerPreRules extends PreRulesContinuationBase {
 

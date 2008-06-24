@@ -22,22 +22,22 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
-import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
-import org.kuali.kfs.integration.service.LaborModuleService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext(session = KULUSER)
 public class EffortCertificationDocumentServiceTest extends KualiTestBase {

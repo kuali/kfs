@@ -31,10 +31,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.util.properties.PropertyTree;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.suite.AnnotationTestSuite;
 import org.kuali.kfs.suite.PreCommitSuite;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * This class provides utility methods for use during manual testing.

@@ -20,17 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.kuali.kfs.sys.batch.BatchInputFileType;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.XMLParseException;
 
 /**
  * Tests for the service parse method.

@@ -20,14 +20,12 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineService;
-import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class ReceivableAccountingLineServiceImpl implements ReceivableAccountingLineService {

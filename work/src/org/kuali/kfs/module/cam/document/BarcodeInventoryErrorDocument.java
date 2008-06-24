@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 
 
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {

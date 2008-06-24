@@ -27,9 +27,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
@@ -39,7 +37,9 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygr
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
-import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.MessageBuilder;
 
 /**
  * Provide the implementation of the service methods related to EffortCertificationReportDefinition

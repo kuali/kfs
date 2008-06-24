@@ -15,15 +15,16 @@
  */
 package org.kuali.kfs.vnd.document.service;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address1;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address2;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address3;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address4;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -31,7 +32,6 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.fixture.VendorAddressFixture;
 import org.kuali.kfs.vnd.fixture.VendorRoutingChangesFixture;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class VendorServiceTest extends KualiTestBase {

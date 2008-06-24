@@ -23,12 +23,12 @@ import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.coa.businessobject.SubAccount;
 
 /**
  * This class...

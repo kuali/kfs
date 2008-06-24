@@ -18,10 +18,9 @@ package org.kuali.kfs.sys.service.impl;
 import java.util.Collection;
 
 import org.kuali.core.bo.KualiCode;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
 import org.kuali.kfs.sys.service.KualiCodeService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This class is the service implementation for the KualiCodeBase structure. This is the default implementation, that is delivered

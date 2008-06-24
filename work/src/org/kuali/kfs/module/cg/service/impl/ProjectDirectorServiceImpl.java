@@ -24,9 +24,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Implementation of the ProjectDirector service.

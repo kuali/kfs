@@ -21,8 +21,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation for the Cash Receipt family of documents which validates the sum amount of all

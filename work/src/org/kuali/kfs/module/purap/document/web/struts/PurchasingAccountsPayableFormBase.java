@@ -22,15 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * Struts Action Form for Purchasing and Accounts Payable documents.

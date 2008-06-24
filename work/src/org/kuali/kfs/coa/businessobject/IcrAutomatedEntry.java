@@ -22,7 +22,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**

@@ -18,9 +18,9 @@ package org.kuali.kfs.coa.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * PreRules checks for the {@link IcrAutomatedEntry} that needs to occur while still in the Struts processing. This includes

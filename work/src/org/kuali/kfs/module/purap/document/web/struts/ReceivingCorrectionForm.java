@@ -18,8 +18,6 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
 import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 public class ReceivingCorrectionForm extends ReceivingFormBase {
 

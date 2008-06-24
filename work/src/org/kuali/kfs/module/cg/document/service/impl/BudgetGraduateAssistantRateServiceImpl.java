@@ -24,13 +24,12 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate;
 import org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate;
 import org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAssistantRateService {
 

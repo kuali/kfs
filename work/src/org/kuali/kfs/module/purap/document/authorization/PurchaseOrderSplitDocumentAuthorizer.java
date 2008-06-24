@@ -15,16 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 public class PurchaseOrderSplitDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
     

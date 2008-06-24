@@ -23,8 +23,7 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -40,6 +39,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.DeliveryRequiredDateFixture;
 import org.kuali.kfs.module.purap.fixture.ItemFieldsFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -48,7 +48,8 @@ import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.module.purap.fixture.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.TestUtils;
 
 /**
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests

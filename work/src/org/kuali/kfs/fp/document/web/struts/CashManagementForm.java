@@ -28,10 +28,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.sys.KFSConstants.DepositConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -39,11 +35,17 @@ import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.businessobject.format.CashDrawerStatusCodeFormatter;
+import org.kuali.kfs.fp.businessobject.format.CashReceiptDepositTypeFormatter;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants.DepositConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 
 /**
  * This class is the action form for CashManagement

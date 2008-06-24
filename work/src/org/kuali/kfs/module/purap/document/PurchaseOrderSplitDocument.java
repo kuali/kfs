@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import java.util.ArrayList;
-
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.module.purap.PurapConstants;
 
 public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
     

@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceItemCodeMaintainableImplUtil;
 
 public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 

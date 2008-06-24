@@ -19,9 +19,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 
 public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail {
     private Account account;

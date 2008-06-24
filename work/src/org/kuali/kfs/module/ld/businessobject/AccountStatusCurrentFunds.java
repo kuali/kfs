@@ -25,9 +25,9 @@ import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ld.LaborConstants;
 
 /**
  * Labor business object for Account Status (Current Funds).

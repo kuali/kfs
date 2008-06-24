@@ -26,14 +26,14 @@ import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.util.ARUtil;
-import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {

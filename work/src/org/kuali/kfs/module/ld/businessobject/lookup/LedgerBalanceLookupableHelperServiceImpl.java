@@ -34,18 +34,17 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
-import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
-import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerBalanceInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Service implementation of LedgerBalanceLookupableHelperService. The class is the front-end for all Ledger balance inquiry

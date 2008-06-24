@@ -10,9 +10,9 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

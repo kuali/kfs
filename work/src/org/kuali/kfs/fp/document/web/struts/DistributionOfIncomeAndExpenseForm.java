@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the action form for Distribution of Income and Expense.

@@ -16,9 +16,9 @@
 package org.kuali.kfs.integration.businessobject;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.businessobject.Options;
 
 
 public interface LaborLedgerObject extends PersistableBusinessObject {

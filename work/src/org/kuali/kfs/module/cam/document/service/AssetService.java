@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;

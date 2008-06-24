@@ -28,13 +28,13 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.lookupable.Field;

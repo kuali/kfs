@@ -19,6 +19,7 @@
 package org.kuali.kfs.pdp.document.service;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.exception.PdpException;
 
 

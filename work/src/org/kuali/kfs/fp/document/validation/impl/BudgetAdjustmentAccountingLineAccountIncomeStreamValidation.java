@@ -17,11 +17,11 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation that checks Budget Adjustment accounting lines to make sure that non-zero adjustments have related income stream accounts.

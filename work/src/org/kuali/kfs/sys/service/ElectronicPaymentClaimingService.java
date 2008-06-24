@@ -17,11 +17,10 @@ package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 
 /**
  * A service which helps in the claiming of ElectronicPaymentClaim records

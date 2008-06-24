@@ -21,8 +21,8 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class CustomerTypeValuesFinder extends KeyValuesBase {
 

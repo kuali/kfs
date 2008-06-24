@@ -16,28 +16,26 @@
 package org.kuali.kfs.module.ld.businessobject.lookup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
-import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Current Funds class.

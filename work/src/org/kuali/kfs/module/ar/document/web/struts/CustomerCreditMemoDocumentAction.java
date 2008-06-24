@@ -23,23 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerCreditMemoDocumentEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDetailEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDocumentEvent;
-import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
-import org.kuali.kfs.module.ar.document.web.struts.CustomerCreditMemoDocumentForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

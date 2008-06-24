@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.module.purap.document.PurapFullProcessDocumentTest;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.purap.document.PurapFullProcessDocumentTest;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 @ConfigureContext
 public class PurapFullProcessStep extends AbstractStep {

@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.sys.service;
 
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.HomeOrigination;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the Home Origination service.

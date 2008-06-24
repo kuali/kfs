@@ -25,14 +25,14 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document inner class for

@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
-import java.math.BigDecimal;
-
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
 
 /**

@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.service.PersistenceService;
-
-
-import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao;
-
-import org.kuali.kfs.module.bc.BCConstants.Report;
-
 import java.util.ArrayList;
+
+import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.module.bc.BCConstants.Report;
+import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao;
 
 /**
  *  builds rows for the general ledger summary report.  allows three different levels of aggregation: account/sub-account, account, and subfund

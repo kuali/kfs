@@ -18,10 +18,10 @@ package org.kuali.kfs.module.bc.document.service;
 import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class...

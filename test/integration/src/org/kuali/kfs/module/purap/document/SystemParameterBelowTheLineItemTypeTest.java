@@ -21,9 +21,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -32,7 +30,9 @@ import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemCMFixtu
 import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemPaymentRequestFixture;
 import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemPurchaseOrderFixture;
 import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemRequisitionFixture;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * This class is used to test the below the line item type rules 

@@ -28,8 +28,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.core.io.ClassPathResource;
 
 /**

@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.fixture;
 import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 
 public enum PurApAccountingLineFixture {

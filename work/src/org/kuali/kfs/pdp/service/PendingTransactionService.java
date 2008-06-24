@@ -24,7 +24,6 @@ import java.util.Iterator;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author jsissom

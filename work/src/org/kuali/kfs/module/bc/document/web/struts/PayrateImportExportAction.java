@@ -30,13 +30,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.service.PayrateImportService;
-import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportForm;
-import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportForm;
-import org.kuali.kfs.module.bc.document.web.struts.PayrateImportExportForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class PayrateImportExportAction extends BudgetExpansionAction {
     

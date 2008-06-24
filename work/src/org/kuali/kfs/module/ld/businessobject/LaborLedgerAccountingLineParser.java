@@ -25,12 +25,12 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.POSITION_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
 
 /**
  * Labor Extended class for parsing serialized <code>AccountingLine</code>s for <code>TransactionalDocument</code>s

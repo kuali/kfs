@@ -17,8 +17,8 @@ package org.kuali.kfs.pdp.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 public class ExtractGlTransactionsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractGlTransactionsStep.class);

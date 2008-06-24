@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.service;
 
-import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 
 public interface PurapAccountingLineRuleHelperService extends AccountingLineRuleHelperService {
 

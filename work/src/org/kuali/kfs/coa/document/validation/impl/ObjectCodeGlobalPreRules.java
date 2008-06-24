@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.MaintenanceDocumentDictionaryService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * PreRules checks for the {@link ObjectCodeGlobal} that needs to occur while still in the Struts processing. This includes defaults

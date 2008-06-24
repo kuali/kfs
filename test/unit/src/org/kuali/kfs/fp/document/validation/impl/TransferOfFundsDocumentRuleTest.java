@@ -16,12 +16,11 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
-import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.FLEXIBLE_EXPENSE_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE10;
@@ -39,7 +38,8 @@ import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTE
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +49,12 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.CrossSectionSuite;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -58,15 +64,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.document.validation.Validation;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.fp.document.TransferOfFundsDocument;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.service.IsDebitTestUtils;
 
 @ConfigureContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {

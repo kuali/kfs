@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -32,6 +31,7 @@ import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.Threshold;
 import org.kuali.kfs.module.purap.util.ThresholdField;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 

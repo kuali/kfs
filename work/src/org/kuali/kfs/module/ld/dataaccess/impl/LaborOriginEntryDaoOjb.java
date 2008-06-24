@@ -26,7 +26,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
@@ -34,6 +33,7 @@ import org.kuali.kfs.gl.dataaccess.impl.OriginEntryDaoOjb;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * OJB Implementation of LaborOriginEntryDao.

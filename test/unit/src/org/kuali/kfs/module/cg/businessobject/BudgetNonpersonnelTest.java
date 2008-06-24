@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
-import org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.

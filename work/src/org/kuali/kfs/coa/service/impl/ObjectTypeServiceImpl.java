@@ -18,14 +18,13 @@ package org.kuali.kfs.coa.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.ObjectTypeDao;
 import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.dataaccess.OptionsDao;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This service implementation is the default implementation of the ObjectType service that is delivered with Kuali.

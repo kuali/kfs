@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document;
 
-import org.kuali.core.document.DocumentBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 

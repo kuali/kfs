@@ -18,10 +18,10 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
-import org.kuali.kfs.coa.service.ChartService;
 
 public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRuleBase {
 

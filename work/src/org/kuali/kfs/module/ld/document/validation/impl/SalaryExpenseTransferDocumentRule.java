@@ -26,12 +26,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
@@ -46,6 +40,12 @@ import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.validation.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.ParameterService;
 
 
 /**

@@ -37,11 +37,11 @@ import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.document.web.struts.TempListLookupForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.KNSServiceLocator;
 
 /**

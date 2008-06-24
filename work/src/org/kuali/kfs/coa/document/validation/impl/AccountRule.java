@@ -25,22 +25,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDescription;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
@@ -51,6 +41,15 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.

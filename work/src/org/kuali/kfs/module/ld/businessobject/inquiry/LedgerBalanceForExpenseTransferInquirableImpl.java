@@ -17,9 +17,9 @@ package org.kuali.kfs.module.ld.businessobject.inquiry;
 
 import java.util.Properties;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntryForExpenseTransfer;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Inquirable Implementation for Ledger Balance for Expense Transfer. This class is used to generate the URL for the user-defined

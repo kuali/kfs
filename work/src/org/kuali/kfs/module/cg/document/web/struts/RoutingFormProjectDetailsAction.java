@@ -24,14 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOtherCostShare;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormQuestion;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormSubcontractor;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
-import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
+import org.kuali.kfs.sys.KFSConstants;
 
 public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 

@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 

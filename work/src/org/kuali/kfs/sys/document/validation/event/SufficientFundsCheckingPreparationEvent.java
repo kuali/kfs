@@ -22,12 +22,12 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.validation.SufficientFundsCheckingPreparationRule;
-import org.kuali.kfs.gl.service.SufficientFundsService;
-import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 /**
  * This class represents the Sufficient Funds Checking Preparation event that is part of an eDoc in Kuali. This is triggered on

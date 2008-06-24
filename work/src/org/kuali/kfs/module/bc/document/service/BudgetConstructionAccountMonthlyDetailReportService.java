@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.service;
 import java.util.Collection;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountMonthlyDetailReport;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgObjectSummaryReport;
 
 /**
  * This interface defines the methods for BudgetConstructionLevelSummaryReports

@@ -22,10 +22,9 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class DatabaseConsistencyTest extends KualiTestBase {

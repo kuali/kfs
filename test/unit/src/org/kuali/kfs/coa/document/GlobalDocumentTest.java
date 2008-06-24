@@ -29,15 +29,15 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.DelegateGlobal;
 import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.suite.AnnotationTestSuite;
 import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 @SuppressWarnings("deprecation")
 @ConfigureContext(session = KHUNTLEY)

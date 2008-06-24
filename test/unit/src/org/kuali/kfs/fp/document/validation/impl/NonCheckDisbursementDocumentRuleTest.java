@@ -21,13 +21,13 @@ import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleT
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
-import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.ACCRUED_INCOME_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE10;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE8;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,9 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -43,9 +46,7 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.service.IsDebitTestUtils;
 
 @ConfigureContext(session = KHUNTLEY)
 public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {

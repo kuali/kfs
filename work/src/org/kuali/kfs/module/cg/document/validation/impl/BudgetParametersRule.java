@@ -26,10 +26,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.KraKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -39,6 +35,10 @@ import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
 import org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class BudgetParametersRule {
     private String MAXIMUM_PERIOD_LENGTH;

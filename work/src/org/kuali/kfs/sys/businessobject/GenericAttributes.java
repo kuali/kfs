@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.sql.Date;
-
 import org.kuali.core.bo.AttributeReferenceDummy;
 
 public class GenericAttributes extends AttributeReferenceDummy {

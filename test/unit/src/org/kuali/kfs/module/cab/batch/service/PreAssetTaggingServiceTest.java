@@ -15,28 +15,11 @@
  */
 package org.kuali.kfs.module.cab.batch.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.cab.batch.PreAssetTaggingInputFileType;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.module.cam.businessobject.Pretag;
-import org.kuali.kfs.module.cab.batch.PreAssetTaggingInputFileType;
-
-import org.springframework.util.StringUtils;
 
 /**
  * Test the PreAssetTaggingService.

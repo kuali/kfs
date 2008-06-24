@@ -23,13 +23,11 @@ import java.util.HashMap;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.kfs.module.cam.document.web.struts.AssetPaymentForm;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

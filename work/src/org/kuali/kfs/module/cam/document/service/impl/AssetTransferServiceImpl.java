@@ -26,9 +26,12 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.ObjectValueUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
@@ -40,10 +43,7 @@ import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
-import org.kuali.kfs.module.cam.ObjectValueUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetTransferServiceImpl implements AssetTransferService {

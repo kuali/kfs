@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.fp.businessobject.MessageOfTheDay;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class MessageOfTheDayFinder implements ValueFinder {
 

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.service;
 
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the Chart service.

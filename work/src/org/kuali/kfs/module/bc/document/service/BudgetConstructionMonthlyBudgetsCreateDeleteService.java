@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import org.kuali.kfs.module.bc.BCConstants;
 import java.io.IOException;
 
 /**

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;

@@ -21,20 +21,18 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.module.purap.businessobject.Carrier;
+import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.module.purap.businessobject.Carrier;
-import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
-import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
-import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
-import org.kuali.kfs.module.purap.document.service.ReceivingService;
-import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase {

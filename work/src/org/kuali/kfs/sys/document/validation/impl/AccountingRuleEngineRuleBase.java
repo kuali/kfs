@@ -26,15 +26,26 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.validation.AddCheckRule;
+import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
+import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
+import org.kuali.kfs.fp.document.validation.event.AttributedAddCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.AttributedDeleteCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.AttributedUpdateCheckEvent;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
+import org.kuali.kfs.module.purap.document.validation.event.AddAttributedPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.datadictionary.KFSTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.datadictionary.KFSTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.DeleteAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.ReviewAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAdHocRoutePersonEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedAddAdHocRouteWorkgroupEvent;
@@ -47,17 +58,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLin
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.Validation;
-import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.document.validation.AddCheckRule;
-import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
-import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
-import org.kuali.kfs.fp.document.validation.event.AttributedAddCheckEvent;
-import org.kuali.kfs.fp.document.validation.event.AttributedDeleteCheckEvent;
-import org.kuali.kfs.fp.document.validation.event.AttributedUpdateCheckEvent;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
-import org.kuali.kfs.module.purap.document.validation.event.AddAttributedPurchasingAccountsPayableItemEvent;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.

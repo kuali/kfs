@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp.dataaccess;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.bc.report;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;

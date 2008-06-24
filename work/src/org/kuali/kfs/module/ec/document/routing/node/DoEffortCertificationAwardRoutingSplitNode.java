@@ -22,8 +22,8 @@ import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.engine.RouteContext;

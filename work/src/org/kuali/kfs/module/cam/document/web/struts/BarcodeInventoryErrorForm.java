@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);

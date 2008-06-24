@@ -32,9 +32,9 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class KualiBatchJobModifyAction extends KualiAction {

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.HashMap;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,18 +24,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
-import org.kuali.kfs.module.purap.document.service.ReceivingService;
-import org.kuali.kfs.module.purap.document.web.struts.BulkReceivingForm;
-import org.kuali.kfs.module.purap.document.web.struts.ReceivingLineForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

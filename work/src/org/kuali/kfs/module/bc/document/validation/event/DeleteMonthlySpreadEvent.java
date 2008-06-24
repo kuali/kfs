@@ -21,7 +21,6 @@ import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
-import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
 
 /**
  * This class...

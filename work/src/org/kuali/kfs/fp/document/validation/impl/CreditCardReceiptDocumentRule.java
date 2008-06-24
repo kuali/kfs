@@ -17,27 +17,14 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_PROPERTY_NAME;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.

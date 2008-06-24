@@ -22,10 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -33,6 +29,10 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

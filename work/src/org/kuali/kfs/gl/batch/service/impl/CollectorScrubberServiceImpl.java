@@ -22,16 +22,17 @@ import java.util.Collection;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.gl.batch.CollectorScrubberProcess;
 import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

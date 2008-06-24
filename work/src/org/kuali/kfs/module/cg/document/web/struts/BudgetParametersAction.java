@@ -29,9 +29,6 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.AgencyExtension;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -42,10 +39,12 @@ import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
-import org.kuali.kfs.module.cg.document.validation.event.InsertPeriodLineEventBase;
 import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
 import org.kuali.kfs.module.cg.document.service.BudgetModularService;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.module.cg.document.validation.event.InsertPeriodLineEventBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 
 /**

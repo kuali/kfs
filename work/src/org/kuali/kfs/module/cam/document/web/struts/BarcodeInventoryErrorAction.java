@@ -23,10 +23,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
-import org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.KNSServiceLocator;
 
 public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActionBase {

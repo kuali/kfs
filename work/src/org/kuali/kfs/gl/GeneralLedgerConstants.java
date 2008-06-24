@@ -15,20 +15,18 @@
  */
 package org.kuali.kfs.gl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.AttributeDefinition;
-import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.A21SubAccount;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 
 /**

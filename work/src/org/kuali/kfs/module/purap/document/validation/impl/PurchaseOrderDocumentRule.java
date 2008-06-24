@@ -20,20 +20,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -47,13 +38,21 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.validation.PurchaseOrderSplitRule;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.validation.PurchaseOrderSplitRule;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorConstants.VendorTypes;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.service.PhoneNumberService;
 
 /**
  * Business rule(s) applicable to Purchase Order document.

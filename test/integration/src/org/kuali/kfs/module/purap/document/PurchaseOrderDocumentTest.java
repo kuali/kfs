@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
+import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
@@ -30,17 +30,17 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
-import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 

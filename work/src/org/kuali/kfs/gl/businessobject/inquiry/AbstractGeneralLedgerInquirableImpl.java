@@ -31,14 +31,14 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.coa.businessobject.KualiSystemCode;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
-import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.

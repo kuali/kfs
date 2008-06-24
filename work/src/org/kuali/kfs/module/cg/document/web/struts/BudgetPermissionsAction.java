@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
 
 /**
  * This class handles Actions for Research Administration permissions page.

@@ -30,8 +30,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.FiscalYearInitiatorRIRelationshipsDao;
+import org.kuali.kfs.sys.KFSConstants;
 
 public class FiscalYearInitiatorRIRelationshipsDaoOjb extends PlatformAwareDaoBaseOjb implements FiscalYearInitiatorRIRelationshipsDao {
 

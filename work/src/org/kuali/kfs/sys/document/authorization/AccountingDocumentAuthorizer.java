@@ -23,7 +23,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 
 /**
  * Extension to TransactionalDocumentAuthorizer interface which adds financial-document-specific methods.

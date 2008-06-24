@@ -31,7 +31,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
@@ -40,9 +40,9 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
-import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class is the OJB implementation of the BudgetConstructionDao interface.

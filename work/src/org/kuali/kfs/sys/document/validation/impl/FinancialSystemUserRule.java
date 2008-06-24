@@ -28,9 +28,9 @@ import org.kuali.core.web.format.PhoneNumberFormatter;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.kfs.sys.service.ParameterService;
 
 public class FinancialSystemUserRule extends KfsMaintenanceDocumentRuleBase {

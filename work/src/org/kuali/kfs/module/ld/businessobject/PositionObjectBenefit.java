@@ -19,11 +19,11 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * Labor business object for Modeling of Position Object Benefit

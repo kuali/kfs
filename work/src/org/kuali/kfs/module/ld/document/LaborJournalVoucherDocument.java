@@ -19,18 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentType;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherAccountingLineParser;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherDetail;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 
 // @latex.ClassSignatureStart
 /**

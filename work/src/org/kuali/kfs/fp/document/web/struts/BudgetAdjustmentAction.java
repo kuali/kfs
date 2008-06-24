@@ -23,9 +23,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

@@ -22,8 +22,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.KraKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -32,6 +30,8 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetService;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class BudgetDocumentPreRules extends PreRulesContinuationBase {
 

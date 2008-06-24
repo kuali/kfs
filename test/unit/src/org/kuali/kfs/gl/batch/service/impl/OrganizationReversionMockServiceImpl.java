@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * A mock implementation of OrganizationReversionService, used by the OrganizationReversionLogicTest

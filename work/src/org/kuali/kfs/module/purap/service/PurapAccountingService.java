@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
  * This class is used to generate Account Summaries for the Purchasing Accounts Payable Module account lists as well as to generate account lists that can be

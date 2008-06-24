@@ -18,14 +18,13 @@ package org.kuali.kfs.sys.document;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;

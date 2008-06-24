@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation;
 
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED;
@@ -26,11 +28,12 @@ import static org.kuali.kfs.sys.fixture.AccountFixture.EXPIRIED_ACCOUNT_EXPIRIED
 import static org.kuali.kfs.sys.fixture.AccountFixture.EXPIRIED_ACCOUNT_NO_CONTINUATION;
 import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
 import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_OBJECT_CODE;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -39,9 +42,6 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.

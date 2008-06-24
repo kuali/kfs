@@ -18,9 +18,8 @@ package org.kuali.kfs.module.ec.dataaccess;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
-import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 
 /**
  * Mock dao class to be used for unit tests that do not test database operations

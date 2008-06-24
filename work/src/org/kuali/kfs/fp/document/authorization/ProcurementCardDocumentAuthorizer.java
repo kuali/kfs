@@ -25,10 +25,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**

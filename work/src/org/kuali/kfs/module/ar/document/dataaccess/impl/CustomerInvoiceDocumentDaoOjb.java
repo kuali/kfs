@@ -18,10 +18,8 @@ package org.kuali.kfs.module.ar.document.dataaccess.impl;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
+import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
 
 public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerInvoiceDocumentDao {
 

@@ -16,15 +16,13 @@
 package org.kuali.kfs.module.ar.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
-import org.kuali.kfs.fp.businessobject.OwnershipTypeCode;
+import org.kuali.kfs.sys.context.SpringContext;
 /**
  * 
  * This class returns the list of payment medium value pairs.

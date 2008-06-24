@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
+import org.kuali.kfs.sys.document.validation.ValidationFieldConvertible;
+
 /**
  * A simple class to create field conversions to specify in validations.
  */

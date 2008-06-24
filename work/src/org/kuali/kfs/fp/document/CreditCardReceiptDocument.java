@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentTypeService;
@@ -29,19 +28,20 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
+import org.kuali.kfs.fp.businessobject.CreditCardDetail;
+import org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.businessobject.BankAccount;
-import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
-import org.kuali.kfs.fp.businessobject.CreditCardDetail;
-import org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleConstants;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will

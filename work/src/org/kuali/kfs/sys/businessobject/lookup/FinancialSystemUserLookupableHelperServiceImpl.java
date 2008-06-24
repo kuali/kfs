@@ -25,8 +25,8 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 

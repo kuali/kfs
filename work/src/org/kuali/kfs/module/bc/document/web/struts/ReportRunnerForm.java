@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BudgetConstructionDocumentReportMode;
 
 /**

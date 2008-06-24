@@ -22,11 +22,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
 
 /**

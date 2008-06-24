@@ -24,14 +24,14 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.KraKeyConstants;
-import org.kuali.kfs.module.cg.document.ResearchDocument;
-import org.kuali.kfs.module.cg.document.authorization.ResearchDocumentAuthorizer;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {

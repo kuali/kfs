@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.dataaccess.OriginationCodeDao;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OriginationCodeService;
-import org.springframework.transaction.annotation.Transactional;
 
 @NonTransactional
 public class OriginationCodeServiceImpl implements OriginationCodeService {

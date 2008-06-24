@@ -31,23 +31,23 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.impl.OriginEntryServiceImpl;
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
 import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.impl.OriginEntryServiceImpl;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

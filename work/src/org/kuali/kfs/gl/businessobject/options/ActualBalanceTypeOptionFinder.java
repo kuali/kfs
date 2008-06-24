@@ -23,11 +23,11 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.coa.service.BalanceTypService;
 
 /**
  * A value finder that returns all balance type, but selects the actual balance type

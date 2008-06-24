@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Purchase Order View Business Object.

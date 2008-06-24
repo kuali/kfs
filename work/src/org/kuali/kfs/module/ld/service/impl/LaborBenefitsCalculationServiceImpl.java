@@ -22,7 +22,6 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
@@ -31,6 +30,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

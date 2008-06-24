@@ -23,11 +23,11 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.AccountBalanceByLevel;
-import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by consolidation screen. It is

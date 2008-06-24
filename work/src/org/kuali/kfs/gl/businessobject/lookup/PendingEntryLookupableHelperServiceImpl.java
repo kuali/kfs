@@ -29,6 +29,10 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
+import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -36,12 +40,8 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.gl.Constant;
-import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
-import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * An extension of KualiLookupableImpl to support balance lookups

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
 import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * 

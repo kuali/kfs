@@ -16,15 +16,14 @@
 package org.kuali.kfs.pdp.document.validation.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 
 /*
  * import java.util.Iterator; import java.util.List; import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase; import

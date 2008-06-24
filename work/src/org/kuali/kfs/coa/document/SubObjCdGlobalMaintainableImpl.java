@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document generateMaintenanceLocks -

@@ -27,14 +27,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
 import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Implements a set of methods that can generate labor balance summary reports

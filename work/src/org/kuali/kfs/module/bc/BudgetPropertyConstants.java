@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc;
 
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
 /**
  * Contains constants that refer to a business object property name.

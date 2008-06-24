@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode;
 import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService {
 

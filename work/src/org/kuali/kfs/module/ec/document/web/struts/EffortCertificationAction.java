@@ -20,11 +20,11 @@ import java.util.List;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 
 /**
  * To define Actions for EffortCertification document.

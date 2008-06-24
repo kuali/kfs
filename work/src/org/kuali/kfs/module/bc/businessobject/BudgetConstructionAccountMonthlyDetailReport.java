@@ -16,7 +16,6 @@
 
 package org.kuali.kfs.module.bc.businessobject;
 
-import org.kuali.core.util.KualiInteger;
 
 /**
  * 

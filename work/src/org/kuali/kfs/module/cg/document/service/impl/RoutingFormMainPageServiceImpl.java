@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.DueDateType;
 import org.kuali.kfs.module.cg.businessobject.PersonRole;
@@ -41,7 +38,9 @@ import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchTypeCode;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.PurposeService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageService {
 

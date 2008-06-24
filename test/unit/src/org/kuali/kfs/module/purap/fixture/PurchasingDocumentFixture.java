@@ -19,13 +19,13 @@ import java.sql.Date;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public enum PurchasingDocumentFixture {
 

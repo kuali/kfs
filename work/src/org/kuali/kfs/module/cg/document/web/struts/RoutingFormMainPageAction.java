@@ -32,14 +32,13 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Keyword;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormKeyword;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
-import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
 

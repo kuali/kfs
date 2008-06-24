@@ -18,13 +18,13 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Business Prerules applicable to ReceivingAddressMaintenanceDocument. 

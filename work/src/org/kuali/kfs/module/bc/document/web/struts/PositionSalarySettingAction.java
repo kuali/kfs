@@ -25,13 +25,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm;
-import org.kuali.kfs.module.bc.document.web.struts.PositionSalarySettingForm;
 
 public class PositionSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingAction.class);

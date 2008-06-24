@@ -19,9 +19,9 @@ import java.util.Iterator;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
-import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

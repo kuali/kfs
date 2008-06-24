@@ -37,10 +37,10 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * The Journal Voucher's version of the accounting line amount validation

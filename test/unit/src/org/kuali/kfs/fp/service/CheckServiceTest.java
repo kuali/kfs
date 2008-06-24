@@ -25,13 +25,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class tests the Check service.

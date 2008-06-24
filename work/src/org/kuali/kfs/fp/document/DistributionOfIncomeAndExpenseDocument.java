@@ -18,15 +18,15 @@ package org.kuali.kfs.fp.document;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;

@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule;

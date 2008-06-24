@@ -17,8 +17,8 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.batch.service.PosterService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to run the process that creates indirect cost recover transactions, that the poster can then post

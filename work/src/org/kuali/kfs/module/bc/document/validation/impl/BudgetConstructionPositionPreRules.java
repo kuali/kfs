@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 
 /**
  * This class...

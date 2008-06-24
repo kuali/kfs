@@ -33,19 +33,19 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.EmployeeFundingInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
-import org.kuali.kfs.module.ld.businessobject.inquiry.EmployeeFundingInquirableImpl;
-import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 
 /**
  * The EmployeeFundingLookupableHelperServiceImpl class is the front-end for all Employee Funding balance inquiry processing.

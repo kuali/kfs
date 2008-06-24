@@ -19,13 +19,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.KraKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
 import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class BudgetIndirectCostRule {
 

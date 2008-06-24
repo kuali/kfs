@@ -34,10 +34,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
@@ -47,6 +43,10 @@ import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Methods for the Award maintenance document UI.

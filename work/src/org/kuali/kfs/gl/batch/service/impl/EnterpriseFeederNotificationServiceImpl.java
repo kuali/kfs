@@ -25,14 +25,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.gl.batch.EnterpriseFeedStep;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
-import org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus;
-import org.kuali.kfs.gl.batch.service.impl.FileReconOkLoadOkStatus;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * The base implementation of EnterpriseFeederNotificationService; performs email-based notifications

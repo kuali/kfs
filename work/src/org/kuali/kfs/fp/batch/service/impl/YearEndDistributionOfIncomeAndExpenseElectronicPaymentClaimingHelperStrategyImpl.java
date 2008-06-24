@@ -16,9 +16,7 @@
 package org.kuali.kfs.fp.batch.service.impl;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
  * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents.  Most of the behaviors have been inherited from

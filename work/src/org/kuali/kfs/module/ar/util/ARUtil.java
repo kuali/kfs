@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ar.util;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class ARUtil {
     

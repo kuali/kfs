@@ -26,8 +26,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.module.purap.businessobject.Threshold;
 import org.kuali.kfs.module.purap.document.dataaccess.ThresholdDao;
 import org.kuali.kfs.module.purap.util.ThresholdField;

@@ -25,7 +25,6 @@ import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class ServiceBusAuthorizationService implements AuthorizationService {
     private ParameterService parameterService;

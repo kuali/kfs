@@ -18,9 +18,9 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware;
 
 public class PositionSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingForm.class);

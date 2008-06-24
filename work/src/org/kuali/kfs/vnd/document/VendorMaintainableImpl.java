@@ -41,17 +41,17 @@ import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.kfs.vnd.VendorUtils;
 
 public class VendorMaintainableImpl extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);

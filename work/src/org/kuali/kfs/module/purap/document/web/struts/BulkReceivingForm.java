@@ -15,17 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentActionAuthorizer;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     

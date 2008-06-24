@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.AwardStatus;
 import org.kuali.kfs.module.cg.businessobject.ProposalStatus;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Allows some filtering of document search criteria.

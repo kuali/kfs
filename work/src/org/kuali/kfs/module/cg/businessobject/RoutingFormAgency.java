@@ -23,7 +23,6 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.cg.businessobject.Agency;
 
 /**
  * 

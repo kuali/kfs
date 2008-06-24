@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.gl.web.struts.LookupResultsSelectable;
 
 /**
  * This class serves as the struts action for implementing multiple value lookups

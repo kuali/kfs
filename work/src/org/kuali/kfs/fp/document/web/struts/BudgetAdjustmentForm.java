@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase

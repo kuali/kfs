@@ -25,13 +25,13 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 @ConfigureContext(session = PARKE, shouldCommitTransactions=false)

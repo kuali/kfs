@@ -30,13 +30,11 @@ import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.gl.batch.EnterpriseFeedStep;
-import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 
 /**
  * This class provides metadata for the batch upload screen to work for files associated with the enterprise feeder.

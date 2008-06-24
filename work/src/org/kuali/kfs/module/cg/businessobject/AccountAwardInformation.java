@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.cg.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 
 /**

@@ -28,6 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.fp.businessobject.JournalVoucherAccountingLineParser;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -35,16 +38,13 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.fp.businessobject.JournalVoucherAccountingLineParser;
-import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
-import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

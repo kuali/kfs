@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 
 /**

@@ -15,24 +15,14 @@
  */
 package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
-import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
-
-
-import java.util.Calendar;
 import java.sql.Date;
-import java.util.GregorianCalendar;
-import java.lang.String;
-import java.lang.StringBuilder;
 import java.sql.Types;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import org.kuali.core.util.Guid;
-import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-
+import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
 import org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase;
+import org.kuali.kfs.sys.KFSConstants;
 
 
 

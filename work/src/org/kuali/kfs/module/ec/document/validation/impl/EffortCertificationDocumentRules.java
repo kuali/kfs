@@ -27,15 +27,12 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
@@ -44,9 +41,11 @@ import org.kuali.kfs.module.ec.document.validation.AddDetailLineRule;
 import org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule;
 import org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
-import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
-import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document

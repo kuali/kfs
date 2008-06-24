@@ -18,13 +18,13 @@ package org.kuali.kfs.module.ar.document.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

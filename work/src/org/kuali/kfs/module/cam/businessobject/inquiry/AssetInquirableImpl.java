@@ -19,14 +19,14 @@ import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class AssetInquirableImpl extends KfsInquirableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetInquirableImpl.class);

@@ -24,10 +24,10 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerMaintenableImpl extends KualiMaintainableImpl {

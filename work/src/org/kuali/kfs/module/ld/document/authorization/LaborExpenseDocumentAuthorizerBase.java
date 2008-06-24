@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ld.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 
 /**
  * Labor Docuemnt Implements special document authorization for the labor expense documents.

@@ -21,10 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The class is the front-end for the balance inquiry of Ledger entry For Expense Transfer processing.

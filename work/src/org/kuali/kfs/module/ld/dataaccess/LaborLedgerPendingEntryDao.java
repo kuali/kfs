@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
 
 /**
  * LaborLedgerPendingEntryDao DAO Interface.

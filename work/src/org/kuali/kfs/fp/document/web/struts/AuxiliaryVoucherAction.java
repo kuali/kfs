@@ -25,10 +25,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
-import org.kuali.kfs.fp.document.web.struts.AuxiliaryVoucherForm;
 
 
 /**

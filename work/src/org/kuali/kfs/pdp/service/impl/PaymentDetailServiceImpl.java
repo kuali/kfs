@@ -18,11 +18,10 @@ package org.kuali.kfs.pdp.service.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 @NonTransactional
 public class PaymentDetailServiceImpl implements PaymentDetailService {

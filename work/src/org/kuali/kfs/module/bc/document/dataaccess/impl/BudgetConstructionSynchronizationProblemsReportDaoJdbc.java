@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.service.PersistenceService;
-
-import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchronizationProblemsReportDao;
-import org.kuali.kfs.module.bc.BCConstants;
-
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
-
 import java.util.ArrayList;
+
+import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchronizationProblemsReportDao;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 
 /**
  *   builds a report table of people whose salaries are budgeted in the wrong object class or have had a position change that merits an object code validity check

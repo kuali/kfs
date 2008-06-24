@@ -18,10 +18,12 @@ package org.kuali.kfs.gl.batch.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.gl.service.NightlyOutService;
+import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 
 /**
  * A test that allows manual testing of report generation for nightly out (ie, creates results and then people can look at those results and make certain they were expected)

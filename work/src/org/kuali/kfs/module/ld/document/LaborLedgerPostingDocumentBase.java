@@ -21,12 +21,12 @@ import java.util.List;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
-import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
-import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 
 /**
  * Labor Document base class implementation for all labor eDocs that are transactional, meaning implementing

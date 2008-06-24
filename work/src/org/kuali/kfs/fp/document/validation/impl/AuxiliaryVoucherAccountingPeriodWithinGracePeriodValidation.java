@@ -15,29 +15,20 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED;
-import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
-import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_ERRORS;
-import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
-import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
-import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
-import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
-import static org.kuali.kfs.sys.KFSKeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
 import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
+import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_ERRORS;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
-import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRule;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**

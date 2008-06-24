@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PO;
 
 public enum SystemParameterBelowTheLineItemPurchaseOrderFixture {
     PO_VALID_BELOW_LINE_ITEMS(

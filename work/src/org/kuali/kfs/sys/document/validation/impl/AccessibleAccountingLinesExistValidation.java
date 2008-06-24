@@ -22,11 +22,12 @@ import java.util.Iterator;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.coa.service.AccountService;
 
 /**
  * A validation that checks that once a given accounting line is deleted, there will still exist

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
 public class LedgerEntryForTesting extends LedgerEntry {
     @Override

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.fp.document.PreEncumbranceDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.

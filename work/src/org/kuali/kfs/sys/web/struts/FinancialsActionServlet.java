@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.web.struts;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -27,7 +26,6 @@ import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.kuali.core.web.struts.action.KualiActionServlet;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.PropertyLoadingFactoryBean;
-import org.kuali.rice.core.Core;
 
 /**
  * FinancialsActionServlet implementation which overrides {@link #getServletConfig()} to filter out the

@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED;
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
@@ -43,10 +46,6 @@ import static org.kuali.kfs.sys.KFSKeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT
 import static org.kuali.kfs.sys.KFSKeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -57,31 +56,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.gl.service.SufficientFundsService;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.

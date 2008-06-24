@@ -17,12 +17,9 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class tests AccountingLineOverride.

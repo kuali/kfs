@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * Represents a specific university date

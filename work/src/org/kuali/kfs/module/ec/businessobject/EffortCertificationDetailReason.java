@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Business Object for the Effort Certification Detail Reason Table.

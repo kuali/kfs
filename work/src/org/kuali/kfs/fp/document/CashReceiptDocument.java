@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -29,19 +28,20 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CheckService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will

@@ -21,14 +21,15 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
 import org.kuali.kfs.module.purap.fixture.ItemAccountsFixture;
 import org.kuali.kfs.module.purap.fixture.ItemTypesFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {

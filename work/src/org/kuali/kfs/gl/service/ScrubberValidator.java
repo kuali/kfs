@@ -17,10 +17,11 @@ package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * An interface that declares methods that would be needed to validate origin entries and transactions run through the scrubber

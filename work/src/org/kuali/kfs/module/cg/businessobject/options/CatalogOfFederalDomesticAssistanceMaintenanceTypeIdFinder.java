@@ -23,8 +23,8 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Cfda;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Allows some information about persisted {@link Cfda} instances to be looked up.

@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Purpose;
 import org.kuali.kfs.module.cg.document.service.PurposeService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class PurposeValuesFinder extends KeyValuesBase {
 

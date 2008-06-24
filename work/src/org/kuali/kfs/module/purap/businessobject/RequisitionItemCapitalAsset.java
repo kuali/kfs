@@ -18,8 +18,6 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-
 /**
  * Requisition Item Capital Asset Business Object.
  */

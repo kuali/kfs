@@ -22,11 +22,11 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.OrganizationExtension;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults, confirmations,

@@ -22,7 +22,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
 import org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule;
 

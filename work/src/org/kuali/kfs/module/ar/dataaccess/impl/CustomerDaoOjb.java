@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ar.dataaccess.impl;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
-import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
 
 public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerDao {
 

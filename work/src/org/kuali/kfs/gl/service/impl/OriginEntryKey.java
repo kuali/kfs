@@ -18,9 +18,10 @@ package org.kuali.kfs.gl.service.impl;
 import java.util.Arrays;
 
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class represents an origin entry key

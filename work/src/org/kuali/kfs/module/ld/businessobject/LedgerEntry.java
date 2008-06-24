@@ -23,22 +23,22 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
 
 /**
  * Labor business object for LedgerEntry

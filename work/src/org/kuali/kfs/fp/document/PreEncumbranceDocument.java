@@ -21,22 +21,21 @@ import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.fp.businessobject.PreEncumbranceDocumentAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.kfs.fp.businessobject.PreEncumbranceDocumentAccountingLineParser;
-import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

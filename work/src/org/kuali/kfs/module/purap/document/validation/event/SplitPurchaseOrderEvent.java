@@ -18,10 +18,9 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.validation.PurchaseOrderSplitRule;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderSplitDocumentRule;
+import org.kuali.kfs.sys.KFSConstants;
 
 public class SplitPurchaseOrderEvent extends KualiDocumentEventBase {
 

@@ -17,10 +17,10 @@ package org.kuali.kfs.gl.service.impl;
 
 import java.util.Map;
 
+import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.dataaccess.EntryDao;
 import org.kuali.kfs.gl.service.EntryService;
-import org.kuali.kfs.gl.OJBUtility;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

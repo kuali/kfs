@@ -3,7 +3,6 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -11,6 +10,7 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

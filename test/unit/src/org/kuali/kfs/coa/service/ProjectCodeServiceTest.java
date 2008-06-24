@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.service;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
 import org.kuali.kfs.coa.service.impl.ProjectCodeServiceImpl;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class tests the ProjectCode service.

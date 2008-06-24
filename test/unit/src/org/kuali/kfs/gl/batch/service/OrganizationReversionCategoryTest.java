@@ -17,13 +17,12 @@ package org.kuali.kfs.gl.batch.service;
 
 import java.util.Map;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
-import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * A test to make sure that canonical object codes are put into the correct Organization Reversion categories

@@ -18,17 +18,13 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
 
 /**
  * This class is a validator for the transactions processed by Labor Poster.

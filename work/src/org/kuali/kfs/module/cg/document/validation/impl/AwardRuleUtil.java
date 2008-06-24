@@ -21,9 +21,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.cg.businessobject.Award;
 
 /**
  * Rules for the Award maintenance document.

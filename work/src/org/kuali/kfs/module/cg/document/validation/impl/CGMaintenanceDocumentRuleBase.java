@@ -25,13 +25,13 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Primaryable;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Rules for the Proposal/Award maintenance document.

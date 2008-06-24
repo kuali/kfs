@@ -29,13 +29,10 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
-import org.kuali.kfs.coa.businessobject.FederalFundedCode;
-import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
-import org.kuali.kfs.coa.service.ChartService;
 
 /**
  * 

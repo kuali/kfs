@@ -21,7 +21,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 
 public abstract class CashControlDetailEventBase extends KualiDocumentEventBase implements CashControlDetailEvent {
 

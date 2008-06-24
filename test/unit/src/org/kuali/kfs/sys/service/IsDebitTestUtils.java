@@ -23,13 +23,6 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.AccountingLineRule;
-import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
@@ -42,6 +35,13 @@ import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.fp.document.PreEncumbranceDocument;
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.document.validation.AccountingLineRule;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

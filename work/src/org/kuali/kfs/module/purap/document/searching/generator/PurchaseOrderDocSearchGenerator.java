@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.document.searching.attribute.KualiPurchaseOrderIncompleteStatusesAttribute;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.docsearch.QueryComponent;
 import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;

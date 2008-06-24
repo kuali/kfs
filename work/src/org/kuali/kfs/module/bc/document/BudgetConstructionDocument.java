@@ -29,18 +29,18 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
-import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 

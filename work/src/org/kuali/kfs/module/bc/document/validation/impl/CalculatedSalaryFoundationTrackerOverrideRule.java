@@ -18,10 +18,10 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTrackerOverride;
 import org.kuali.kfs.module.bc.document.service.CalculatedSalaryFoundationTrackerOverrideService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDocumentRuleBase {

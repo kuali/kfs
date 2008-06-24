@@ -33,7 +33,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
@@ -43,18 +42,18 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.Bank;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
-import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
-import org.kuali.kfs.pdp.document.web.struts.CustomerProfileForm;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.BankService;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.ReferenceService;
-import org.kuali.kfs.pdp.businessobject.SecurityRecord;
-import org.kuali.kfs.pdp.GeneralUtilities;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**

@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cam.fixture;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.TestDataPreparator;
 
 public enum PaymentSummaryFixture {
     ASSET(1), PAYMENT1(1), PAYMENT2(2), PAYMENT3(3), PAYMENT4(4);

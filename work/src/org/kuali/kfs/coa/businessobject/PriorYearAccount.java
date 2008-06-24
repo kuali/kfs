@@ -24,19 +24,15 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.BudgetRecordingLevel;
-import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
-import org.kuali.kfs.coa.service.SubFundGroupService;
 
 /**
  * 

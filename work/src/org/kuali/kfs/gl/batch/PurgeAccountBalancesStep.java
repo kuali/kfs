@@ -19,10 +19,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.gl.service.AccountBalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to run the process that purges old data from gl_acct_balances_t.

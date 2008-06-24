@@ -22,14 +22,14 @@ import java.util.Map;
 
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
-import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 
 /**
  * This interface defines methods that a GeneralLedgerPendingEntry Service must provide

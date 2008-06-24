@@ -23,8 +23,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it

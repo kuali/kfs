@@ -15,14 +15,16 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.*;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
 import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = PARKE)
 public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBase {

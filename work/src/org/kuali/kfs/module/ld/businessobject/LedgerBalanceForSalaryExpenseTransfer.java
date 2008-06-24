@@ -15,16 +15,14 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSUtils;
 import org.kuali.kfs.integration.businessobject.SegmentedBusinessObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants.AccountingPeriodProperties;
+import org.kuali.kfs.sys.KFSUtils;
 
 /**
  * Labor business object specifically for SalaryExpenseTransferDocument ledger balance import functionality.

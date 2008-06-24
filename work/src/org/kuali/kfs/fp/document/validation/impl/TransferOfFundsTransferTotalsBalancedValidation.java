@@ -21,13 +21,13 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.document.TransferOfFundsDocument;
-import org.kuali.kfs.fp.document.service.TransferOfFundsService;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Transfer of Funds document validation which checks that mandatory and non-mandatory transfer totals are in balance.

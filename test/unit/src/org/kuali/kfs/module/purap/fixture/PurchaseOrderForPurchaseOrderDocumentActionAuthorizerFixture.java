@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;

@@ -17,9 +17,8 @@ package org.kuali.kfs.module.cam.batch.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.cam.report.DepreciationReport;
 import org.kuali.kfs.module.cam.batch.service.ReportService;
+import org.kuali.kfs.module.cam.report.DepreciationReport;
 
 public class ReportServiceImpl implements ReportService {
     /**

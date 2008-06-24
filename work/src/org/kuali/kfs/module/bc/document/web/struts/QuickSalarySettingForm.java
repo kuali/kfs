@@ -27,11 +27,11 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 
 public class QuickSalarySettingForm extends BudgetExpansionForm {

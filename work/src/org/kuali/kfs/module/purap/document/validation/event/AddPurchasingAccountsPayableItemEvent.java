@@ -17,9 +17,9 @@ package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Add Purchasing Accounts Payble Item Event. 

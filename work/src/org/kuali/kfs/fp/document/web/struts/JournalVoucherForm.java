@@ -21,12 +21,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI for the Journal

@@ -30,12 +30,6 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -46,7 +40,12 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule;
-import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 
 /**
  * This class holds the business rules for the AR Cash Control Document

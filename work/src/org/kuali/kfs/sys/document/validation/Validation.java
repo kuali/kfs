@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.document.validation;
 
-import java.util.List;
-
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**

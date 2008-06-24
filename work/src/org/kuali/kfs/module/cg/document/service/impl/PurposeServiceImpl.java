@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Purpose;
 import org.kuali.kfs.module.cg.document.service.PurposeService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class PurposeServiceImpl implements PurposeService {
 

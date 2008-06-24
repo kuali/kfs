@@ -17,9 +17,9 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.TestingStep;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 
 /**
  * This step, which would only be run in testing or extraordinary production circumstances, stops the posting fo any postable

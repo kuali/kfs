@@ -18,8 +18,8 @@ package org.kuali.kfs.vnd.service.impl;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 

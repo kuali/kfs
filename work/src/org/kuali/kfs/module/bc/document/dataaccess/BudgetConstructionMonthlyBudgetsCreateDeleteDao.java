@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess;
 
-import org.kuali.kfs.module.bc.BCConstants;
 
 /**
  * 

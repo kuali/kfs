@@ -32,14 +32,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.FormatSelection;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.pdp.web.struts.BaseAction;
-import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.web.struts.FormatSelectionForm;
-import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.kfs.pdp.service.FormatService;
-import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 
 
 /**

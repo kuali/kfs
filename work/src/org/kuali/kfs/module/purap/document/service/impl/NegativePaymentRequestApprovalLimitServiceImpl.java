@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 @NonTransactional
 public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativePaymentRequestApprovalLimitService {

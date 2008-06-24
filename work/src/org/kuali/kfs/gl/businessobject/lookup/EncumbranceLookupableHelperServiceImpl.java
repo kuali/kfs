@@ -22,15 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
-import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
-import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.inquiry.EncumbranceInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.gl.service.EncumbranceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * An extension of KualiLookupableImpl to support encumbrance lookups

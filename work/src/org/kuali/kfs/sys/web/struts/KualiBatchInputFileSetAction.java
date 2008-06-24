@@ -46,11 +46,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
-import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
 
 /**
  * This class is the struts action for the batch upload screen that supports file sets

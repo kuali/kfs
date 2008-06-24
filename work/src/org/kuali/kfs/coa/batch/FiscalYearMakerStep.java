@@ -17,9 +17,9 @@ package org.kuali.kfs.coa.batch;
 
 import java.util.Date;
 
+import org.kuali.kfs.coa.batch.service.DateMakerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.coa.batch.service.DateMakerService;
 
 /**
  * This is the batch step implementation for Fiscal Year Maker. It brings forward the appropriate rows from certain chart, gl, and

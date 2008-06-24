@@ -36,8 +36,8 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.ld.service.SegmentedLookupResultsService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

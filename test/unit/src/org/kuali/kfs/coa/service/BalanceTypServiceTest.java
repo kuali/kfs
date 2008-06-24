@@ -18,10 +18,10 @@ package org.kuali.kfs.coa.service;
 import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the BalanceType service.

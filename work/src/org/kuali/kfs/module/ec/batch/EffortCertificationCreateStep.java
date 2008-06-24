@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ec.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * Batch Step that executes the Effort Certification Extract Process.

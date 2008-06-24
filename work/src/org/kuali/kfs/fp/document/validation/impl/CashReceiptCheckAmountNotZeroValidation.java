@@ -16,11 +16,11 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation that checks that a check's amount is not zero.

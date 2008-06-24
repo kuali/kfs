@@ -26,11 +26,6 @@ import java.util.Map;
 import org.kuali.core.service.ConfigurableDateService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -39,6 +34,11 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 
 public class LaborOriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryTestBase.class);

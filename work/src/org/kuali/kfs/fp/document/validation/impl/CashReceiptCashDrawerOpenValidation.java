@@ -16,15 +16,14 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
-import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation for the cash receipt document that verifies that the cash drawer is open at approval.

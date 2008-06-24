@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 
 public class PendingLedgerEntryForTesting extends LaborLedgerPendingEntry {
 

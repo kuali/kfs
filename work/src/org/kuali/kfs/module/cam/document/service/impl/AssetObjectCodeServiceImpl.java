@@ -19,10 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetObjectCodeServiceImpl implements AssetObjectCodeService {

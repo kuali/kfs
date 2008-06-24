@@ -21,10 +21,10 @@ import java.util.List;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.KeyValuesService;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 
 /**
  * Business rule(s) applicable to AccountingPeriodMaintence documents.

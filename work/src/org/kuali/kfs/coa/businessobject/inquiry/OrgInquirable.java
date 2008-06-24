@@ -22,8 +22,8 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
-import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 
 /**
  * This class adds in some new sections for {@link Org} inquiries, specifically Org Hierarchy Org Review Hierarchy

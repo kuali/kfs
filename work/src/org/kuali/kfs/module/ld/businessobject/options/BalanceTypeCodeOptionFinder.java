@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ld.businessobject.options;
 
+import static org.kuali.kfs.module.ld.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_ACTUAL;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.module.ld.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
 
 import java.util.ArrayList;
 import java.util.List;

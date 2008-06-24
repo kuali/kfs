@@ -26,11 +26,10 @@ import java.util.TreeSet;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.

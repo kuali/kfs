@@ -22,15 +22,14 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
-import org.kuali.kfs.gl.service.AccountBalanceService;
-import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
-import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.inquiry.AccountBalanceByConsolidationInquirableImpl;
+import org.kuali.kfs.gl.service.AccountBalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * An extension of KualiLookupableImpl to support the account balance by consolidation inquiry screen

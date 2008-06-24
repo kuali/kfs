@@ -28,16 +28,14 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
 import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
-import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * The class is the front-end for all Ledger Entry inquiry processing.

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ld.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * Base Struts Action Form class for Labor Forms.

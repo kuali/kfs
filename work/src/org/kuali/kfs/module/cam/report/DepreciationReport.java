@@ -21,11 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.gl.report.GeneralLedgerPendingEntryReport;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;

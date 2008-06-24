@@ -18,8 +18,6 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 
 public class BudgetConstructionRequestImport extends TransientBusinessObjectBase {
     private String fileName;

@@ -26,14 +26,14 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.integration.service.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.document.AdvanceDepositDocument;
-import org.kuali.kfs.integration.service.AccountsReceivableModuleService;
 
 public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentClaimingService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimingServiceImpl.class);

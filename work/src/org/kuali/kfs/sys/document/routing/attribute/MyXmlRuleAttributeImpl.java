@@ -21,6 +21,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.kuali.workflow.attribute.KualiXmlAttribute;
+import org.kuali.workflow.attribute.KualiXmlAttributeHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

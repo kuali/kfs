@@ -7,8 +7,6 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -16,6 +14,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

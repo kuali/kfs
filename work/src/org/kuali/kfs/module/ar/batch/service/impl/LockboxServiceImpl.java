@@ -15,16 +15,14 @@
  */
 package org.kuali.kfs.module.ar.batch.service.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
@@ -32,14 +30,10 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.dataaccess.LockboxDao;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
-import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.coa.businessobject.Org;
-import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.KNSServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 public class OriginEntryGroupForTesting extends OriginEntryGroup {
 

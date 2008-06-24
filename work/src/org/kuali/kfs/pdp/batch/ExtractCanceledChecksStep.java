@@ -17,8 +17,8 @@ package org.kuali.kfs.pdp.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 public class ExtractCanceledChecksStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractCanceledChecksStep.class);

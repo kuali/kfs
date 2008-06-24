@@ -19,10 +19,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to run the process of purging old balances

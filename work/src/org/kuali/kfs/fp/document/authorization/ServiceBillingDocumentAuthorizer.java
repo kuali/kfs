@@ -25,15 +25,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
+import org.kuali.kfs.fp.document.ServiceBillingDocument;
+import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
+import org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRuleUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
-import org.kuali.kfs.fp.document.ServiceBillingDocument;
-import org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRuleUtil;
-import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 
 /**
  * Authorization permissions specific to the Service Billing document.

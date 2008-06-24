@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.gl;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * A test to cover GeneralLedgerConstants

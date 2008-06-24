@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
@@ -23,20 +22,19 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
-import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class ReceivingLineDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
 

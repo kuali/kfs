@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.cam.document.service;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 
 /**

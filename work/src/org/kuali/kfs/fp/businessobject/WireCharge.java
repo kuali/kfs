@@ -20,10 +20,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * This class is used to represent a Wire Charge business object, which is a method of payment to an institution.

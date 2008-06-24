@@ -30,17 +30,16 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.module.cg.document.validation.event.CalculatePersonnelEvent;
 import org.kuali.kfs.module.cg.document.validation.event.InsertPersonnelEventBase;
 import org.kuali.kfs.module.cg.document.validation.event.SavePersonnelEventBase;
 import org.kuali.kfs.module.cg.document.validation.event.UpdatePersonnelEventBase;
-import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**

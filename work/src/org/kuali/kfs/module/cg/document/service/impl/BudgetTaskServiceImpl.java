@@ -23,10 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class BudgetTaskServiceImpl implements BudgetTaskService {
 

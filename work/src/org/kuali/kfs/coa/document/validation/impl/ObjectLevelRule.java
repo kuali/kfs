@@ -20,9 +20,9 @@ import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 /**
  * 

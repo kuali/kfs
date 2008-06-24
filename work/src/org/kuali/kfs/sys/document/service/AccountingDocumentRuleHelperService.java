@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.sys.document.service;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 
 /**
  * A collection of methods that assist in rule validation for accounting documents

@@ -19,15 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.ec.EffortCertificationTestConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.dataaccess.MockEffortCertificationReportDefinitionDaoOjb;
-import org.kuali.kfs.module.ec.document.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.EffortCertificationReportDefinitionFixture;
-import org.kuali.kfs.suite.RelatesTo;
 
 /**
  * Contains methods that test the EffortCertificationAutomaticReportPeriodUpdateService.

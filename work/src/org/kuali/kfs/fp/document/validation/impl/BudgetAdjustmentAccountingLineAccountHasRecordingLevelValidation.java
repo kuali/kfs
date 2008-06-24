@@ -17,12 +17,12 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ACCOUNT_NUMBER;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 
 /**
  * Verification for BudgetAdjustmentAccountingLine to check that the account has a valid budget recording level.

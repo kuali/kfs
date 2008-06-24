@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 
 /**
  * A set of methods that help the ElectronicPaymentClaimingService turn a list of 

@@ -24,8 +24,7 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashDrawerTest;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
@@ -33,13 +32,14 @@ import org.kuali.kfs.fp.businessobject.CashieringTransaction;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
-import org.kuali.kfs.fp.businessobject.datadictionary.CoinDetailTest;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetailTest;
+import org.kuali.kfs.fp.businessobject.datadictionary.CoinDetailTest;
 import org.kuali.kfs.fp.document.CashManagementDocument;
-import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.fp.document.service.CashManagementService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.TWATSON)

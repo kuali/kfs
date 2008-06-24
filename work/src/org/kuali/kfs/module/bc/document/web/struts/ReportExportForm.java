@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BCConstants;
 
 /**

@@ -22,8 +22,6 @@ import java.util.GregorianCalendar;
 import org.apache.log4j.Logger;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
@@ -32,6 +30,8 @@ import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 /**
  * This class represents the rule used during cash management

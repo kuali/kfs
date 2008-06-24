@@ -17,8 +17,8 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to create a backup group for entries about to be processed by the scrubber and poster

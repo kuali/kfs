@@ -7,14 +7,13 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
-import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

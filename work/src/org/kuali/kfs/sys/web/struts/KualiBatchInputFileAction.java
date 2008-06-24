@@ -44,12 +44,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.exception.XMLParseException;
-import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.sys.web.struts.KualiBatchInputFileForm;
 
 /**
  * Handles actions from the batch upload screen.

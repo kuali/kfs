@@ -30,7 +30,6 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccoun
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
-import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

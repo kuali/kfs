@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**

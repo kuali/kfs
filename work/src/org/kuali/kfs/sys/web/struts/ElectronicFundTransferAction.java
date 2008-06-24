@@ -28,7 +28,6 @@ import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 
 public class ElectronicFundTransferAction extends KualiAction {
     private final static String START_BEAN = "electronicFundTransferStartAction";

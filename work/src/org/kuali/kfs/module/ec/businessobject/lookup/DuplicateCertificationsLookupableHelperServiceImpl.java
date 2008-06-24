@@ -24,9 +24,9 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ec.businessobject.DuplicateCertificationsReport;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

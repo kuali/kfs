@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 /**
  * A general use implementation of VerifyTransaction

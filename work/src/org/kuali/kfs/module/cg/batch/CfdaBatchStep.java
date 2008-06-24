@@ -31,9 +31,9 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
+import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in

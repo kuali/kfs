@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document.service;
 
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 
 public interface AssetObjectCodeService {
     /**

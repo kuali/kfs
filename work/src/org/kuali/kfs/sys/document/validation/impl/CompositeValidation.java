@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 

@@ -17,11 +17,11 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.dataaccess.NonInvoicedDistributionDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributionService {
     private NonInvoicedDistributionDao nonInvoicedDistributionDao;

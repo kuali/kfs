@@ -18,10 +18,10 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 
 /**
  * This class handles Actions for <ocde>IndirectCostAdjustmentDocument</code>s

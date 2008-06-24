@@ -21,16 +21,17 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.service.AccountingLineService;
-import org.kuali.kfs.fp.document.TransferOfFundsDocument;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
 
 /**
  * This class tests the AccountingLine service.

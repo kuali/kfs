@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.document.service;
 
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 
 /**

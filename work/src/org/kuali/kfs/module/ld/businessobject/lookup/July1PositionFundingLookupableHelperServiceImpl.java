@@ -24,19 +24,15 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.dataaccess.LaborDao;
-import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.July1PositionFundingInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.module.ld.dataaccess.LaborDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * The July1PositionFundingLookupableHelperServiceImpl class is the front-end for all July 1 funds balance inquiry processing.

@@ -20,21 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
  * Purap Accounting Line Base Business Object.

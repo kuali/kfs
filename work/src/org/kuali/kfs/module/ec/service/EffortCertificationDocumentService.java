@@ -15,19 +15,8 @@
  */
 package org.kuali.kfs.module.ec.service;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.AdHocRoutePerson;
-import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * To define the services related to the effort certification document

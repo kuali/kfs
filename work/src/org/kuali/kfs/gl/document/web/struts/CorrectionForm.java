@@ -27,14 +27,14 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.document.CorrectionDocument;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.service.ParameterService;
 
 
 /**

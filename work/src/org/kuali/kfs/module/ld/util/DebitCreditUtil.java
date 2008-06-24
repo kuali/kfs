@@ -16,10 +16,10 @@
 package org.kuali.kfs.module.ld.util;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 
 /**
  * This class provides a set of utilities that handle the debit credit logic.

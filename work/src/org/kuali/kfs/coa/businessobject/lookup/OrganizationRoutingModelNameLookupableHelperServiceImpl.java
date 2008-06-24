@@ -21,8 +21,8 @@ import java.util.Properties;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.DelegateGlobal;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class overrides the getBackLocation, getReturnUrl, setFieldConversions and getActionUrls for

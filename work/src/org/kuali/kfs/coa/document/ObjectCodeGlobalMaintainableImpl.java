@@ -22,10 +22,10 @@ import java.util.Map;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class provides some specific functionality for the {@link ObjectCodeGlobal} maintenance document refresh - sets the current

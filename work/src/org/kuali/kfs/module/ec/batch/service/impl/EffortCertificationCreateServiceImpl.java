@@ -16,31 +16,24 @@
 package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.spring.Logged;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
 import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This Process creates effort certification documents from the temporary build table created by the batch process and routes effort

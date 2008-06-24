@@ -24,8 +24,6 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.businessobject.State;
-import org.kuali.kfs.coa.businessobject.BudgetRecordingLevel;
-import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 
 
 public interface AccountIntf {

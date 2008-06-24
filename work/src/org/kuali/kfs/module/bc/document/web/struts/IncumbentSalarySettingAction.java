@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +25,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm;
-import org.kuali.kfs.module.bc.document.web.struts.IncumbentSalarySettingForm;
 
 
 public class IncumbentSalarySettingAction extends DetailSalarySettingAction {

@@ -16,19 +16,15 @@
 package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.DynamicCollectionComparator;
-import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.module.ec.util.DetailLineGroup;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 
 /**
  * Action form for Effort Certification Document.

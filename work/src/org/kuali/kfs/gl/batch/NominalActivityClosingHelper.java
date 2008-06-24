@@ -21,19 +21,18 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.NominalActivityClosingStep;
-import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
-import org.kuali.kfs.gl.ObjectHelper;
 
 /**
  * This class helps generate the entries for the nominal activity closing year end job.

@@ -19,8 +19,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule;
 
 public class GenerateReferenceDocumentEvent extends KualiDocumentEventBase {

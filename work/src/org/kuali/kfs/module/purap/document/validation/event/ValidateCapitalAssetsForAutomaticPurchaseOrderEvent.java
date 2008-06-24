@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.document.validation.event;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.validation.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
+import org.kuali.kfs.sys.KFSConstants;
 
 public final class ValidateCapitalAssetsForAutomaticPurchaseOrderEvent extends KualiDocumentEventBase {
 

@@ -18,11 +18,9 @@ package org.kuali.kfs.fp.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.dataaccess.CheckDao;
 import org.kuali.kfs.fp.service.CheckService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * 

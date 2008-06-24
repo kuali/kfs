@@ -23,8 +23,8 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class returns list of chart key value pairs with the key and label both being the chart code.

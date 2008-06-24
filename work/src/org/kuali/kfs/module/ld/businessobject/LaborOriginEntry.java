@@ -25,15 +25,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.gl.exception.LoadException;
-import org.kuali.kfs.module.ld.LaborConstants;
 
 /**
  * Labor business object for LaborOriginEntry.

@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Miscalenious Utility Methods.

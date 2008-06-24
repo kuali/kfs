@@ -26,13 +26,13 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
+import org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument;
+import org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentDocumentRuleConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument;
-import org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentDocumentRuleConstants;
 
 /**
  * This class represents an <code>IndirectCostAdjustmentDocument</code> accounting line parser.

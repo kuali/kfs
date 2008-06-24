@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.kfs.coa.service.ObjectLevelService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This service implementation is the default implementation of the ObjLevel service that is delivered with Kuali.

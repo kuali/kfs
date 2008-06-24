@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the form class for the Transfer of Funds document. This method extends the parent

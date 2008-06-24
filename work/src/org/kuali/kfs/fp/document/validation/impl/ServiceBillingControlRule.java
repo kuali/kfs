@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
+import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 
 import edu.iu.uis.eden.clientapp.vo.WorkgroupNameIdVO;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;

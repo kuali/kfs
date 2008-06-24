@@ -22,12 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.PositionData;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Struts Action Form for the Labor Ledger Journal Voucher. This class piggy backs on all of the functionality in the

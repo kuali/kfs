@@ -27,8 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
@@ -38,6 +36,8 @@ import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class is used to help generating pending entries for the given labor documents

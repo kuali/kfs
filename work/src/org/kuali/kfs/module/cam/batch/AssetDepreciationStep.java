@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cam.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 public class AssetDepreciationStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetDepreciationStep.class);

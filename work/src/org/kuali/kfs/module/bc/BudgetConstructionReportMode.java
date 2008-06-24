@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.bc;
 
-import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.PBGL;
 import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.BCAF;
 import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.MONTH;
+import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.PBGL;
 import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.ACCOUNT;
-import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.SUBFUND;
 import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.OBJECT_CODE;
 import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.REASON;
+import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.SUBFUND;
 
 import java.util.EnumSet;
 

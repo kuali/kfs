@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.quartz.JobDetail;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {

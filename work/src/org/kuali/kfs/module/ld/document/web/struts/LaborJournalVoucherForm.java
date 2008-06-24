@@ -19,10 +19,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
@@ -30,6 +26,10 @@ import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.kfs.module.ld.businessobject.PositionData;
 import org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Struts Action Form for the Labor Journal Voucher Document.

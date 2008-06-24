@@ -18,10 +18,10 @@ package org.kuali.kfs.sys.batch.service;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.kfs.sys.batch.BatchInputFileTypeTest;
 import org.kuali.kfs.fp.batch.service.PcdoLoadStepTest;
 import org.kuali.kfs.gl.batch.CollectorStepTest;
 import org.kuali.kfs.gl.batch.service.CollectorServiceTest;
+import org.kuali.kfs.sys.batch.BatchInputFileTypeTest;
 
 /**
  * Builds Suite for all batch tests.

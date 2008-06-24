@@ -21,9 +21,9 @@ import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 
 /**
  * Batch input type for the pre-asset tagging job.

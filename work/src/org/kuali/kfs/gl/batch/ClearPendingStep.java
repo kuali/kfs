@@ -17,8 +17,8 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.service.NightlyOutService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to clear pending ledger entries.

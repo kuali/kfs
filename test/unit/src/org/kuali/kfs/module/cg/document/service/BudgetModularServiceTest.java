@@ -23,20 +23,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.Agency;
-import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;
 import org.kuali.kfs.module.cg.businessobject.AgencyExtension;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
 import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
-import org.kuali.kfs.module.cg.document.service.BudgetModularService;
-import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class tests service methods in BudgetModularService.

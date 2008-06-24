@@ -26,15 +26,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 
 /**
  * Struts Action Form for the Salary Expense Transfer document. This method extends the parent ExpenseTransferDocumentFormBase class

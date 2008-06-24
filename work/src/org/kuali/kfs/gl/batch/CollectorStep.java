@@ -17,10 +17,10 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.batch.service.CollectorReportService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * Batch step that controls the collector process. The basic steps in the collector process are the following: 1) Retrieves files

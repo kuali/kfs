@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
+
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;

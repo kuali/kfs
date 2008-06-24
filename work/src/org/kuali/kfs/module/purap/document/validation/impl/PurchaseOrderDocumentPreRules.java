@@ -16,24 +16,20 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 
 /**
  * Business Prerules applicable to purchase order document.

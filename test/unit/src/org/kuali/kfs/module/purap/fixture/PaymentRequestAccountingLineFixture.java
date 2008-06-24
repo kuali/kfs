@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;

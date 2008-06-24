@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.sys.document.service.impl;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.sys.document.service.AccountPresenceService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
+import org.kuali.kfs.sys.document.service.AccountPresenceService;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * 

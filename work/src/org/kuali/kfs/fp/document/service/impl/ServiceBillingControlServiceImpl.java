@@ -19,10 +19,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This is the default implementation of the ServiceBillingControlService interface.

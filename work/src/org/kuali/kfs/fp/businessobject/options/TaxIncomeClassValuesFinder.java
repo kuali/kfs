@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.fp.businessobject.TaxIncomeClassCode;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class returns list of tax income class value pairs.

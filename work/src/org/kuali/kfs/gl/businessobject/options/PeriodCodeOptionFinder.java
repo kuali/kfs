@@ -21,10 +21,10 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 
 /**
  * An implementation of ValueFinder that allows the selection of a period code

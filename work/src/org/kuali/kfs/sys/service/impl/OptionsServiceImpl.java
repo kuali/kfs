@@ -16,13 +16,11 @@
 package org.kuali.kfs.sys.service.impl;
 
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
 @NonTransactional
 public class OptionsServiceImpl implements OptionsService {

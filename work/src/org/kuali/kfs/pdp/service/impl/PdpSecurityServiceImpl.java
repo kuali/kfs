@@ -27,8 +27,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.pdp.service.PdpSecurityService;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.service.PdpSecurityService;
 
 
 /**

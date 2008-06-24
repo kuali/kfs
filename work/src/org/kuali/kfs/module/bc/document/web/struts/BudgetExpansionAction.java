@@ -26,9 +26,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Handles close action to implement Budget return to caller (expansion screen) flow.

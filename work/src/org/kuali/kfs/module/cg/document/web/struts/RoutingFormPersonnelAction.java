@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
-import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
 
 public class RoutingFormPersonnelAction extends RoutingFormAction {
     @Override

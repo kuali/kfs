@@ -23,8 +23,6 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
-import org.kuali.kfs.gl.batch.service.impl.ColumnReconciliation;
-import org.kuali.kfs.gl.batch.service.impl.ReconciliationBlock;
 
 /**
  * Format of the reconciliation file:

@@ -23,8 +23,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

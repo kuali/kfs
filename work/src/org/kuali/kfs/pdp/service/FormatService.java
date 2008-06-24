@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.pdp.businessobject.FormatSelection;
 
 public interface FormatService {
     // Get the customer profiles to list on the screen

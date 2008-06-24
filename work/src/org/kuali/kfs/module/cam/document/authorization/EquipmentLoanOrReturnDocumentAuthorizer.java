@@ -19,9 +19,9 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
 
 /**

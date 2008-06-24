@@ -19,17 +19,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.module.ld.LaborConstants.SalaryExpenseTransfer;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.kfs.gl.Constant;
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
-import org.kuali.kfs.module.ld.LaborConstants.SalaryExpenseTransfer;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.util.ConsolidationUtil;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service implementation of LedgerBalanceForSalaryExpenseTransferLookupableHelperService. The class is the front-end for the

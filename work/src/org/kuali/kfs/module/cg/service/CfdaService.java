@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.service;
 import java.io.IOException;
 
 import org.kuali.kfs.module.cg.businessobject.Cfda;
+import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 
 /**
  * 

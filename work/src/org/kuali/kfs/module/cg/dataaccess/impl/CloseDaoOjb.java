@@ -22,9 +22,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.cg.businessobject.Close;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 /**

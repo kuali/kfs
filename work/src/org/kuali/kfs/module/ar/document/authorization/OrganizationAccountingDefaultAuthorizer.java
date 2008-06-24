@@ -24,14 +24,14 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 
 public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 

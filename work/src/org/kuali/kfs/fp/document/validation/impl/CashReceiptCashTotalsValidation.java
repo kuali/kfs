@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation that checks all of the various cash totals on a cash receipt document.

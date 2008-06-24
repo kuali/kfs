@@ -20,18 +20,18 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.kfs.ConfigureContext;
 
 
 @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)

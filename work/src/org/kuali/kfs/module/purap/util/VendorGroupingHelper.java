@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.module.purap.util;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 public class VendorGroupingHelper implements Comparable {

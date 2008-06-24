@@ -20,7 +20,6 @@ import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYP
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,15 +27,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRule;
 import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**

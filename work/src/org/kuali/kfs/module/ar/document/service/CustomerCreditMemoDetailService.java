@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 

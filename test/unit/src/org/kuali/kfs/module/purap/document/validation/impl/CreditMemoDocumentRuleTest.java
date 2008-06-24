@@ -22,9 +22,7 @@ import java.sql.Date;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -36,17 +34,20 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocumentTest;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocumentTest;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.CreditMemoInitTabFixture;
 import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurApAccountingLineFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderAccountingLineFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.kfs.vnd.VendorUtils;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 
 @ConfigureContext(session = APPLETON)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {

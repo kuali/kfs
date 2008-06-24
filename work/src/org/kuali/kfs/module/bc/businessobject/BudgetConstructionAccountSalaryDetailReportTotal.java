@@ -18,8 +18,6 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.KualiInteger;
-
 /**
  * 
  */

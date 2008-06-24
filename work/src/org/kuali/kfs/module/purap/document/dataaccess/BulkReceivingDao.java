@@ -15,13 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.document.dataaccess.impl.ReceivingDaoOjb;
 
 public interface BulkReceivingDao {
 

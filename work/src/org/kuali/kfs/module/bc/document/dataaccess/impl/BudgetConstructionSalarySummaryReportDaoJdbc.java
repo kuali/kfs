@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.service.PersistenceService;
-
-import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
 import org.kuali.kfs.module.bc.BCConstants;
-
-import java.util.ArrayList;
-import java.math.BigDecimal;
+import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
 
 /**
  * builds the underlying data table for the salary summary report in budget construction

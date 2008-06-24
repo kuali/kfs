@@ -21,13 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.AccountBalanceByObject;
 import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
-import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by object screen. It is entended

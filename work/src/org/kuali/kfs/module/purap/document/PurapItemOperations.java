@@ -17,8 +17,6 @@ package org.kuali.kfs.module.purap.document;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
-
 /**
  * This class allows for the use of items by multiple purap type docs
  */

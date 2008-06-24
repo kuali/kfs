@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the action form for Internal Billing.

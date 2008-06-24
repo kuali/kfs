@@ -25,18 +25,18 @@ import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     

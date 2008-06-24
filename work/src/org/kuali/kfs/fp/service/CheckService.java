@@ -17,8 +17,6 @@ package org.kuali.kfs.fp.service;
 
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.Check;
-
 /**
  * This service interface defines methods that a Check service implementation must provide.
  * 

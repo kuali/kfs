@@ -22,10 +22,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class tests the rules in CustomerInvoiceDocumentRule

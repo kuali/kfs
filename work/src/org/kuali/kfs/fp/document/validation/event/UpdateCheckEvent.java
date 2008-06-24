@@ -17,9 +17,9 @@ package org.kuali.kfs.fp.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * This class represents the update check event.

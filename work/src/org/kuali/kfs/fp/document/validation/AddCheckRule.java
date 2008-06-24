@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation;
 
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Defines a rule which gets invoked immediately before a check line is added to a document.

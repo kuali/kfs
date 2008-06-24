@@ -27,14 +27,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.module.cam.document.web.struts.AssetTransferForm;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);

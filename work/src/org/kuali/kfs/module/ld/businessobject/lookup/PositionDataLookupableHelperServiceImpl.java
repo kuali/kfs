@@ -23,11 +23,10 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * The class is the front-end for all position data inquiry processing.

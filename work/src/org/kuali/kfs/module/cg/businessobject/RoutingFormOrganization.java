@@ -19,8 +19,8 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * 

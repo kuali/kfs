@@ -34,11 +34,11 @@ import org.kuali.core.util.FieldUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.KualiModuleBO;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.businessobject.options.ParameterValuesFinder;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
+import org.kuali.workflow.attribute.ExtensionAttribute;
 
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;

@@ -25,10 +25,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.PositionData;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the Position Inquiry screen. It is entended the

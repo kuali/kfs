@@ -20,9 +20,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.module.cg.KraConstants;
 
 public class KraModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {
 

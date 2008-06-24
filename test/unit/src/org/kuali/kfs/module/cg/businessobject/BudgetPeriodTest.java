@@ -21,9 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.

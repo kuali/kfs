@@ -45,14 +45,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.BudgetXml;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.document.BudgetDocument;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
-import org.kuali.kfs.module.cg.document.BudgetXml;
 import org.w3c.dom.Document;
 
 /**

@@ -19,9 +19,6 @@ import java.util.HashMap;
 
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

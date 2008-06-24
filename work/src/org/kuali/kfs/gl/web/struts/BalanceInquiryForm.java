@@ -29,12 +29,12 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class is the action form for balance inquiries.

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.coa.service;
 
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 
 /**
  * This class...

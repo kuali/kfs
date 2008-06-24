@@ -27,10 +27,10 @@ import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
 import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.util.spring.ClassOrMethodAnnotationFilter;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.impl.BalanceTypServiceImpl;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.suite.AnnotationTestSuite;
 import org.kuali.kfs.suite.PreCommitSuite;
 import org.springframework.aop.Advisor;
@@ -39,8 +39,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttributeSource;
-
-import com.sun.swing.internal.plaf.metal.resources.metal_zh_CN;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext

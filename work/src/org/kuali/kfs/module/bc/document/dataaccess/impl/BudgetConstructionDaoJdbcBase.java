@@ -15,20 +15,15 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.StringBuilder;
-import java.lang.Exception;
-import java.sql.Date;
-
-import org.kuali.kfs.sys.service.ParameterService;
-
-import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 import org.apache.log4j.Logger;
-
+import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.sys.service.ParameterService;
 
 
 /**

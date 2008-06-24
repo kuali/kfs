@@ -22,13 +22,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
 
 /**
  * A step to generate summary reports from a recent poster run

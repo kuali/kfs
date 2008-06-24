@@ -21,12 +21,11 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with

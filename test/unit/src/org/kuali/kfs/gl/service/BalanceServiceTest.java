@@ -18,13 +18,13 @@ package org.kuali.kfs.gl.service;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.gl.service.BalanceService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * various tests for BalanceService, especially as it supports Account business rules; using hardcoded SQL for bootstrapping

@@ -15,23 +15,18 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.util.ObjectModification;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements ImportRequestDao {
    

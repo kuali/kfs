@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.routing.attribute;
 
 import java.io.StringWriter;
-import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -28,15 +27,15 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kfs.sys.document.workflow.AccountingLineClassDeterminer;
+import org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.engine.RouteContext;
-import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 import edu.iu.uis.eden.routetemplate.xmlrouting.XPathHelper;
-import edu.iu.uis.eden.util.Utilities;
 
 /**
  * This class represents rule attributes that support kfs_*AccountingLineClass markers in the XPath

@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.dao.ojb.KualiModuleUserDaoOjb;
+import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.module.cg.KraConstants;
 
 public class KraUserDaoOjb extends KualiModuleUserDaoOjb {
 

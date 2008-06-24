@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class...

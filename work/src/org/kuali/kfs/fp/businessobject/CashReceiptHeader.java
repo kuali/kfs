@@ -22,8 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Header for cash receipt that is used to uniquely identify a cash receipt

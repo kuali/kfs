@@ -15,25 +15,26 @@
  */
 package org.kuali.kfs.fp.document;
 
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 import static org.kuali.kfs.sys.KFSConstants.EMPTY_STRING;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser;
+import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -44,12 +45,11 @@ import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser;
-import org.kuali.kfs.gl.service.SufficientFundsService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

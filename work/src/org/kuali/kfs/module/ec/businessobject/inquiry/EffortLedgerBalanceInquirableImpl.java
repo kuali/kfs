@@ -24,16 +24,16 @@ import java.util.Properties;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
-import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class EffortLedgerBalanceInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortLedgerBalanceInquirableImpl.class);

@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ld.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * Defines the batch step for labor poster

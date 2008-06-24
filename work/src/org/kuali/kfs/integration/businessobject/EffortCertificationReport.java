@@ -20,11 +20,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationPeriodStatusCode;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportType;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * Methods for getting and setting report attributes.

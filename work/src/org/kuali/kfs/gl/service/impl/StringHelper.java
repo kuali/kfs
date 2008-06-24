@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
+import org.kuali.kfs.gl.ObjectHelper;
+
 /**
  * Provides helper methods related to evaluating Strings 
  */

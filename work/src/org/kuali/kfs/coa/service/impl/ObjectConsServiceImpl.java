@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.ObjectCons;
 import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
 import org.kuali.kfs.coa.service.ObjectConsService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali.

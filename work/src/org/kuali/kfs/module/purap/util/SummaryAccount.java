@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.util;
 import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
  * 

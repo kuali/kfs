@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.coa.dataaccess.SubObjectCodeDao;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered

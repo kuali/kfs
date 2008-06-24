@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.bc.batch.service.impl;
 
-import org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
 import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
+import org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

@@ -16,44 +16,31 @@
 package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.sql.Date;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
-import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.batch.dataaccess.GeneralLedgerBudgetLoadDao;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
-import org.kuali.kfs.module.bc.batch.dataaccess.impl.BudgetConstructionBatchHelperDaoOjb;
-import org.kuali.kfs.module.bc.batch.dataaccess.GeneralLedgerBudgetLoadDao;
-
-
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.service.HomeOriginationService;
 
 public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GeneralLedgerBudgetLoadDao {
 

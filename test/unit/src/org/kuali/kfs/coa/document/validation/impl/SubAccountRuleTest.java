@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -25,10 +25,10 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 

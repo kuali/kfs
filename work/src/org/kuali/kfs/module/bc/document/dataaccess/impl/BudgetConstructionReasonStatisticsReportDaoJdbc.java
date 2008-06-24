@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.util.Guid;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.service.PersistenceService;
-
-import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
-import org.kuali.kfs.module.bc.BCConstants;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.Guid;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
 
 /**
  * build the set of rows for the salary reason statistics report

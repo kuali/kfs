@@ -22,10 +22,10 @@ import java.util.Map;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
-import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWorkCategoryAmount;
 import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
+import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
+import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWorkCategoryAmount;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationReversionUnitOfWorkService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionUnitOfWorkServiceImpl.class);
     private BusinessObjectService businessObjectService;
-    private OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
+    private OrganizationReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
 
     /**
      * This method takes a unit of work retrieved from the persistence store and loads its categories
@@ -106,7 +106,7 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
      * 
      * @return Returns the orgReversionUnitOfWorkDao.
      */
-    public OrgReversionUnitOfWorkDao getOrgReversionUnitOfWorkDao() {
+    public OrganizationReversionUnitOfWorkDao getOrgReversionUnitOfWorkDao() {
         return orgReversionUnitOfWorkDao;
     }
 
@@ -115,7 +115,7 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
      * 
      * @param orgReversionUnitOfWorkDao The orgReversionUnitOfWorkDao to set.
      */
-    public void setOrgReversionUnitOfWorkDao(OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao) {
+    public void setOrgReversionUnitOfWorkDao(OrganizationReversionUnitOfWorkDao orgReversionUnitOfWorkDao) {
         this.orgReversionUnitOfWorkDao = orgReversionUnitOfWorkDao;
     }
 

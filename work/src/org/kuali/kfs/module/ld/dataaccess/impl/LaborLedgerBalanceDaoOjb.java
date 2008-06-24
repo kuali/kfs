@@ -47,9 +47,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -59,6 +56,9 @@ import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForYearEndBalanceForward;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 
 /**
  * This is the data access object for ledger balance.

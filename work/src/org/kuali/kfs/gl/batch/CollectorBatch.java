@@ -25,8 +25,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
@@ -34,9 +32,11 @@ import org.kuali.kfs.gl.businessobject.CollectorHeader;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.CollectorDetailService;
 import org.kuali.kfs.gl.service.OriginEntryService;
-import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Object representation of collector xml input.

@@ -26,7 +26,6 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -34,6 +33,7 @@ import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.dao.DataAccessException;
 
 public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements CashManagementDao {

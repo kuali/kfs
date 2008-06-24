@@ -24,12 +24,12 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.CalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionFundingInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     /**

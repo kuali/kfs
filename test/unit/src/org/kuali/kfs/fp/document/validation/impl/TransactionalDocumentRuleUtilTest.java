@@ -18,17 +18,17 @@ package org.kuali.kfs.fp.document.validation.impl;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>

@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -41,10 +40,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen

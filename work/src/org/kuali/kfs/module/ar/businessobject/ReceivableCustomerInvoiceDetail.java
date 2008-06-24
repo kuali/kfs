@@ -16,13 +16,12 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
 

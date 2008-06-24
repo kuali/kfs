@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.core.util.Guid;
-import org.kuali.core.service.PersistenceService;
-
-import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStatisticsReportDao;
-import org.kuali.kfs.module.bc.BCConstants;
-
 import java.util.ArrayList;
+
+import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.Guid;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStatisticsReportDao;
 
 /**
  * buiilds reporting source tables for the salary statistics report

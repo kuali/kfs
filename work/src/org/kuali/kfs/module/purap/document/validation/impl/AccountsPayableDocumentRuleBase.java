@@ -17,8 +17,6 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
@@ -31,6 +29,8 @@ import org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRu
 import org.kuali.kfs.module.purap.document.validation.CancelAccountsPayableRule;
 import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.module.purap.document.validation.PreCalculateAccountsPayableRule;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Business Rule(s) applicable to Accounts Payable documents.

@@ -23,10 +23,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.dataaccess.LaborObjectDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This is the data access object for Labor Object

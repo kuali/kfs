@@ -26,21 +26,19 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
+import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
+import org.kuali.kfs.gl.service.EntryService;
+import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.gl.service.EntryService;
-import org.kuali.kfs.gl.service.ScrubberValidator;
-import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
-import org.kuali.kfs.gl.Constant;
-import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
-import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * An extension of KualiLookupableImpl to support entry lookups

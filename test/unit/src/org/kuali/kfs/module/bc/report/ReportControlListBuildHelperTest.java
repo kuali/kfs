@@ -15,26 +15,22 @@
  */
 package org.kuali.kfs.module.bc.report;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper.BuildState;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-
-import org.kuali.kfs.ConfigureContext;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-
-import org.kuali.core.service.BusinessObjectService;
-
-import org.kuali.kfs.coa.service.OrganizationService;
-
-import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
-import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper.BuildState;
-import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 
 @ConfigureContext(session = KHUNTLEY)
 public class ReportControlListBuildHelperTest extends KualiTestBase {

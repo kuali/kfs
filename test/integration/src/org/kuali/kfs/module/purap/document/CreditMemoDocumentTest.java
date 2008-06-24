@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
@@ -27,21 +26,18 @@ import java.util.List;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.fixture.CreditMemoDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.CreditMemoItemFixture;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
-import org.kuali.kfs.module.purap.fixture.CreditMemoDocumentFixture;
-import org.kuali.kfs.module.purap.fixture.CreditMemoItemFixture;
-import org.kuali.kfs.module.purap.document.service.CreditMemoCreateService;
-import org.kuali.kfs.module.purap.document.service.CreditMemoService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
-import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-
-import edu.iu.uis.eden.EdenConstants;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 /**
  * This class is used to create and test populated CreditMemo Documents of various kinds.

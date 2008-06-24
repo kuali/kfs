@@ -26,8 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.Message;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

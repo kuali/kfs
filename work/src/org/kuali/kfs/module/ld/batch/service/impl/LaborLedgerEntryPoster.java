@@ -17,13 +17,13 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Date;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

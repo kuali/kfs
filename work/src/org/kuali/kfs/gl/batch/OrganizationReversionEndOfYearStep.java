@@ -19,9 +19,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
 
 /**

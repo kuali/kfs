@@ -17,8 +17,6 @@ package org.kuali.kfs.module.purap.util;
 
 import java.util.List;
 
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
@@ -27,6 +25,7 @@ import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionView;
 import org.kuali.kfs.module.purap.businessobject.ReceivingLineView;
 import org.kuali.kfs.module.purap.businessobject.RequisitionView;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class PurApRelatedViews {
     private String documentNumber;

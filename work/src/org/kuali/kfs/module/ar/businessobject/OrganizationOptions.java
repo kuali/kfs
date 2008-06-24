@@ -3,9 +3,9 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.businessobject.State;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

@@ -23,10 +23,10 @@ import java.util.Map;
 import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 
 public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
 

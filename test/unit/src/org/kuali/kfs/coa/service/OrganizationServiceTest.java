@@ -18,10 +18,10 @@ package org.kuali.kfs.coa.service;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.coa.service.impl.OrganizationServiceImpl;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class tests the Organization service.

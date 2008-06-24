@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Entries Finder for Processing Correction Labor Group. Returns a list of correction groups with a process flag set to yes key

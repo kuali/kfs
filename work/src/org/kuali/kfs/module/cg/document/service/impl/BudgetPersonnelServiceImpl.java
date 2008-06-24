@@ -30,9 +30,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.AppointmentType;
 import org.kuali.kfs.module.cg.businessobject.AppointmentTypeEffectiveDate;
@@ -46,6 +43,9 @@ import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
 import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

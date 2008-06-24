@@ -30,12 +30,11 @@ import org.apache.struts.action.ActionMessages;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.fp.document.CashManagementDocument;
-import org.kuali.kfs.fp.exception.CashDrawerStateException;
-import org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm;
 
 
 /**

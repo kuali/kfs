@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 
 /**

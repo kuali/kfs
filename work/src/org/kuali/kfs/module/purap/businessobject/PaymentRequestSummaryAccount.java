@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
  * Payment Request Summary Account Business Object.

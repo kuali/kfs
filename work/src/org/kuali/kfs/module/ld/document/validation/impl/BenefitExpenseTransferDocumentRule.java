@@ -22,9 +22,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -35,6 +32,9 @@ import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.

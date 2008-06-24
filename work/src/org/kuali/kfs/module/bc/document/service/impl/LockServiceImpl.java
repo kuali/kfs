@@ -17,14 +17,10 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -34,6 +30,8 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
 import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 

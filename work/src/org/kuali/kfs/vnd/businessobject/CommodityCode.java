@@ -21,9 +21,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
 import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * CommodityCode Code Business Object

@@ -23,13 +23,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.KraPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
 

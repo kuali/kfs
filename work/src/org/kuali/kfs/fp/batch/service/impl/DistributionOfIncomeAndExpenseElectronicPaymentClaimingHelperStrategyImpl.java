@@ -22,16 +22,12 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.NoteService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper;
-import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;

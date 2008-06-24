@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.core.util.AssertionUtils.assertThat;
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
@@ -26,17 +24,15 @@ import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.document.PreEncumbranceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.kfs.fp.document.PreEncumbranceDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 
 /**
  * Business rule(s) applicable to PreEncumbrance documents.

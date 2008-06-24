@@ -22,9 +22,10 @@ import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
+import org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase;
 
 /**
  * The values are the same as the disbursementVoucherDocumentationLocationCode in the DisbursementVoucherDocumentationLocation

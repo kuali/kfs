@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cg.web.struts;
 import java.util.Date;
 
 import org.kuali.core.web.format.DateFormatter;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.module.cg.businessobject.Close;
 import org.kuali.kfs.module.cg.service.CloseService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class CloseForm extends FinancialSystemTransactionalDocumentFormBase {
 

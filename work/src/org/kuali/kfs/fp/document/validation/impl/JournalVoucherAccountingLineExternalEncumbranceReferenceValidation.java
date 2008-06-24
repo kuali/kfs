@@ -24,11 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation that if the Journal Voucher is using an external encumbrance balance type, reference fields are included on each accounting line 

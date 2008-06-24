@@ -18,12 +18,10 @@ package org.kuali.kfs.sys.businessobject;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
-import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 @ConfigureContext
 public class AccountingLineBaseTest extends KualiTestBase {

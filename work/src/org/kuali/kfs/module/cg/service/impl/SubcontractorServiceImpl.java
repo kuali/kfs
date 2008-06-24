@@ -20,9 +20,9 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Subcontractor;
 import org.kuali.kfs.module.cg.service.SubcontractorService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Implementation of the Subcontractor service.

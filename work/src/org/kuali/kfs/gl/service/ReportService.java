@@ -21,15 +21,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.DemergerReportData;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.document.CorrectionDocument;
-import org.kuali.kfs.gl.businessobject.DemergerReportData;
-import org.kuali.kfs.gl.service.ScrubberReportData;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * An interface of methods that allow all of the GL processes generate reports about their runs

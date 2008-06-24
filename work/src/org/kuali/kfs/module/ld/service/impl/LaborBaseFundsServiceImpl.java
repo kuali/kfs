@@ -18,12 +18,11 @@ package org.kuali.kfs.module.ld.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
 import org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao;
 import org.kuali.kfs.module.ld.service.LaborBaseFundsService;
 import org.kuali.kfs.module.ld.service.LaborCalculatedSalaryFoundationTrackerService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This class provides its clients with access to labor base fund entries in the backend data store.

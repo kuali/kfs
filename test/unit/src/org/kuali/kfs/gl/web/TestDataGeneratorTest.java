@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.gl.businessobject.AccountBalance;
 
 /**
  * A test of the TestDataGenerator fixtures.

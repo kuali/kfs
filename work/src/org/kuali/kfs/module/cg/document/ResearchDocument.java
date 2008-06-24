@@ -17,10 +17,10 @@ package org.kuali.kfs.module.cg.document;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 
 
 /**

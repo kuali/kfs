@@ -7,11 +7,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class represents a customer invoice detail on the customer invoice document. This class extends SourceAccountingLine since

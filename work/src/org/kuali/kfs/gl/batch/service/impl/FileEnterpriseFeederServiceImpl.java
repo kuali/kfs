@@ -23,15 +23,14 @@ import java.util.Arrays;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
-import org.kuali.kfs.gl.batch.service.impl.RequiredFilesMissingStatus;
+import org.kuali.kfs.sys.Message;
 
 /**
  * This class iterates through the files in the enterprise feeder staging directory, which is injected by Spring. Note: this class

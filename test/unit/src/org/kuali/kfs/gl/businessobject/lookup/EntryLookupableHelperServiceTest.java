@@ -20,13 +20,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.EntryDao;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class contains the test cases that can be applied to the method in EntryLookupableImpl class.

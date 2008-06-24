@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.service.impl;
 
 import java.util.List;
 
+import org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus;
 import org.kuali.kfs.sys.Message;
 
 /**

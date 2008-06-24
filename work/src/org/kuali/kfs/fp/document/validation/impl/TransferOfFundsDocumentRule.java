@@ -22,13 +22,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 
 /**
  * Business rule(s) applicable to Transfer of Funds documents.

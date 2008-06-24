@@ -21,8 +21,8 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 

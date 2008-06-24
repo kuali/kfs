@@ -26,8 +26,8 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.document.CorrectionDocument;
-import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 
 /**
  * An interface declaring methods needed by the GLCP to function

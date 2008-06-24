@@ -23,19 +23,19 @@ import org.apache.struts.util.LabelValueBean;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.service.CashManagementService;
+import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.document.CashManagementDocument;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.service.CashDrawerService;
-import org.kuali.kfs.fp.document.service.CashManagementService;
-import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
 
 /**
  * This class is the action form for Cash Receipts.

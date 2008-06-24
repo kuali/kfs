@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -26,10 +26,10 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.Delegate;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class...

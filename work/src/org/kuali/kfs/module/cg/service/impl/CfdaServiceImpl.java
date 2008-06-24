@@ -29,12 +29,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.LookupService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Cfda;
-import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
+import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class CfdaServiceImpl implements CfdaService {
 

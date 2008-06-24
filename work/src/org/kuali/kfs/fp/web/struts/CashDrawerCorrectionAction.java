@@ -29,13 +29,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.service.CashDrawerService;
-import org.kuali.kfs.fp.web.struts.CashDrawerCorrectionForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class CashDrawerCorrectionAction extends KualiAction {
     public static final String CASH_MANAGEMENT_FORWARD = "cashManagementReturn";

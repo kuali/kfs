@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 
 /**

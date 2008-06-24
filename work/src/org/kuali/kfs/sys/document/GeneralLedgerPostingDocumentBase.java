@@ -24,15 +24,15 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.businessobject.Bank;
+import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.businessobject.Bank;
-import org.kuali.kfs.gl.service.SufficientFundsService;
-import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

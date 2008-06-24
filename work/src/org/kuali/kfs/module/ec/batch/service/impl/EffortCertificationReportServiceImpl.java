@@ -15,20 +15,17 @@
  */
 package org.kuali.kfs.module.ec.batch.service.impl;
 
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
+import org.kuali.kfs.module.ec.service.EffortCertificationReportService;
+import org.kuali.kfs.module.ec.util.ExtractProcessReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.batch.service.ReportGenerationService;
 import org.kuali.kfs.sys.report.ReportInfo;
-import org.kuali.kfs.module.ec.service.EffortCertificationReportService;
-import org.kuali.kfs.module.ec.util.ExtractProcessReportDataHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

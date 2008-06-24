@@ -25,11 +25,10 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.ld.businessobject.inquiry.BaseFundsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborBaseFundsService;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
-import org.kuali.kfs.module.ld.businessobject.inquiry.BaseFundsInquirableImpl;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * The BaseFundsLookupableHelperServiceImpl class is the front-end for all Base Fund balance inquiry processing.

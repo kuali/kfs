@@ -17,8 +17,8 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to run the process that rebuilds information that supports sufficient funds inquiries

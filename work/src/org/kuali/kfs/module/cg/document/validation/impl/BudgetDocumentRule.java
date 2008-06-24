@@ -24,16 +24,15 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
-import org.kuali.kfs.module.cg.document.validation.impl.ResearchDocumentRuleBase;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class...

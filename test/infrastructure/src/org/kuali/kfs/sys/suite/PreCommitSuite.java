@@ -16,7 +16,6 @@
 package org.kuali.kfs.suite;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * A set of tests that have repeatedly revealed bugs in production code or configuration. Their limited number allows them to be run

@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
-import org.kuali.kfs.module.cg.businessobject.AgencyExtension;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university

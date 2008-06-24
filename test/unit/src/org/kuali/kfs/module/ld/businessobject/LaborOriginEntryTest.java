@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 @ConfigureContext
 public class LaborOriginEntryTest extends KualiTestBase {

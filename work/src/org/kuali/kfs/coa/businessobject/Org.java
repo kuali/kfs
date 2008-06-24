@@ -30,11 +30,11 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalZipCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.service.OrganizationService;
 
 /**
  * 

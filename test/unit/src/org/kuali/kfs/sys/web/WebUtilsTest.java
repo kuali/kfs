@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.web;
 
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.web.WebUtilities;
 
 /**
  * Tests to cover functionality performed in org.kuali.kfs.sys.web.WebUtilities

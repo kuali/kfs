@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.bc.service;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
 import org.kuali.kfs.module.bc.fixture.ImportRequestFilelLineFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class ImportRequestFileParsingHelperparseLineTest extends KualiTestBase {
 

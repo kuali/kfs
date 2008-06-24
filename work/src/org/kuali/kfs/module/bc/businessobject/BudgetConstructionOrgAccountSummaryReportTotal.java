@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.businessobject;
 
-import java.math.BigDecimal;
 
 /**
  * Total Part of Budget Construction Organization Account Summary Report Business Object.

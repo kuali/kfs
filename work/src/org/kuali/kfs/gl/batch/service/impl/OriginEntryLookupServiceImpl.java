@@ -24,21 +24,21 @@ import java.util.TreeMap;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.service.impl.CachingLookup;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
 
 /**
  * This class retrieves the important references related to the OriginEntryFull family of business objects;

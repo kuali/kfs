@@ -23,13 +23,13 @@ import org.kuali.core.datadictionary.DataDictionaryEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation of the accounting period on a Journal Voucher document.

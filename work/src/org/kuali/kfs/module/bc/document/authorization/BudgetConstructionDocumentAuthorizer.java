@@ -23,17 +23,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.sysKfsAuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
-import org.kuali.kfs.coa.businessobject.Org;
-import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
 // public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {

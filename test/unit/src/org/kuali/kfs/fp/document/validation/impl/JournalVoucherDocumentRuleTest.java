@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.getBusinessRule;
@@ -33,10 +37,6 @@ import static org.kuali.kfs.sys.fixture.AccountingLineFixture.SOURCE_LINE;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +45,9 @@ import java.util.Map;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -55,12 +58,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch;
-import org.kuali.kfs.sys.document.validation.Validation;
-import org.kuali.kfs.fp.document.JournalVoucherDocument;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.service.IsDebitTestUtils;
 
 @ConfigureContext(session = DFOGLE)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {

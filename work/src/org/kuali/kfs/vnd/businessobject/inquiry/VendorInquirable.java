@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.vnd.businessobject.inquiry;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.KFSConstants;

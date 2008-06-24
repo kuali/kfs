@@ -15,28 +15,13 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.Guid;
-import org.kuali.core.util.KualiPercent;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
-import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
 
 /**
  * Struts Action Form for the Organization Report Selection Screen.

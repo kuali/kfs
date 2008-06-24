@@ -28,8 +28,6 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
@@ -52,6 +50,8 @@ import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.module.cg.document.service.BudgetService;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverBoHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;

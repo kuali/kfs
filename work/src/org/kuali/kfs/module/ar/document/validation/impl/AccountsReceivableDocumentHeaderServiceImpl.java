@@ -19,14 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 
 public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsReceivableDocumentHeaderService {
 

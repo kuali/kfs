@@ -20,10 +20,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * This interface defines basic methods that GeneralLedgerPendingEntry Dao's must provide

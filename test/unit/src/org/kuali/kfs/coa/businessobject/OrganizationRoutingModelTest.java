@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentTypeService;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class OrganizationRoutingModelTest extends KualiTestBase {

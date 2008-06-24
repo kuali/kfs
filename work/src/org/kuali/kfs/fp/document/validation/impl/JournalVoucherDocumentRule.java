@@ -21,7 +21,6 @@ import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BUDGET_STATISTICS;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
-import static org.kuali.kfs.sys.KFSConstants.BLANK_SPACE;
 import static org.kuali.kfs.sys.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.GENERIC_CODE_PROPERTY_NAME;
@@ -52,22 +51,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
-import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 
 /**
  * This class holds document specific business rules for the Journal Voucher. It overrides methods in the base rule class to apply

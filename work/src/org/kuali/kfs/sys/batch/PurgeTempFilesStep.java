@@ -22,7 +22,6 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 

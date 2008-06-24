@@ -20,9 +20,9 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.sys.KFSPropertyConstants.PERCENT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
-import static org.kuali.kfs.sys.KFSPropertyConstants.PERCENT;
 
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 

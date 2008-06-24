@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.document.validation;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 
 public interface GenerateReferenceDocumentRule <F extends TransactionalDocument > {
 

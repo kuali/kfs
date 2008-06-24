@@ -27,12 +27,15 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.kuali.core.util.ErrorMap;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
-import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.service.ScrubberReportData;
+import org.kuali.kfs.sys.Message;
 
 /**
  * This class aggregates all of the status information together from all of the collector-related processes. Note: this code assumes

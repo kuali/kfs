@@ -21,9 +21,9 @@ import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 
 /**
  * Utility class for helping DAOs deal with building queries for the consolidation option

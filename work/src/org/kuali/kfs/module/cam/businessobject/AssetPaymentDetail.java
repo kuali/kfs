@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
  * 

@@ -23,9 +23,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
-import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 
 /**
  * The Budget Adjustment's variation on whether accounting lines have been unchanged or not

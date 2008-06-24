@@ -19,8 +19,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus;
+import org.kuali.kfs.sys.Message;
 
 /**
  * A service that is used to provide notification about the status of an enterprise feed. The implementation may use a variety of

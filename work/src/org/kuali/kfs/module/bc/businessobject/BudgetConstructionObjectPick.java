@@ -24,10 +24,10 @@ import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.service.impl.FiscalYearFunctionControlServiceImpl;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Business object that represents a selected/unselected object code for a user.

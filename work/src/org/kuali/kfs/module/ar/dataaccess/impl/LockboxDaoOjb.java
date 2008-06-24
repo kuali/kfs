@@ -18,9 +18,7 @@ package org.kuali.kfs.module.ar.dataaccess.impl;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
 import org.kuali.kfs.module.ar.dataaccess.LockboxDao;

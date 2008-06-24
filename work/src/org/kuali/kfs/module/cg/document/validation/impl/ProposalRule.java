@@ -20,12 +20,12 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.ProposalOrganization;
 import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Rules for the Proposal maintenance document.

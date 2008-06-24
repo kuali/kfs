@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.vnd.document.validation.impl;
 
-import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,14 +47,14 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;

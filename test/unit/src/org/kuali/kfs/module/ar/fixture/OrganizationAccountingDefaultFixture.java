@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ar.fixture;
 
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public enum OrganizationAccountingDefaultFixture {

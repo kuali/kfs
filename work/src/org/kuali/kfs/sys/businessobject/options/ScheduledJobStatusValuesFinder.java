@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class ScheduledJobStatusValuesFinder extends KeyValuesBase {

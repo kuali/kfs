@@ -27,22 +27,22 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
-import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
-import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 
 /**
  * Effort Certification Document Class.

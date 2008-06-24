@@ -25,9 +25,8 @@ import junit.framework.TestCase;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.util.SimpleAddress;
+import org.kuali.kfs.sys.ObjectUtil;
 
 public class ObjectUtilTest extends TestCase {
 

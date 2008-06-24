@@ -23,18 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
-import org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class PaymentApplicationDocumentAction extends KualiAccountingDocumentActionBase {
     

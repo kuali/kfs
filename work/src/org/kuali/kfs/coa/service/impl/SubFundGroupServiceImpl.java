@@ -17,14 +17,13 @@ package org.kuali.kfs.coa.service.impl;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.FundGroup;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.dataaccess.SubFundGroupDao;
 import org.kuali.kfs.coa.service.SubFundGroupService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * This service implementation is the default implementation of the SubFundGroup service that is delivered with Kuali.

@@ -21,15 +21,14 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.BatchSearch;
 import org.kuali.kfs.pdp.dataaccess.BatchSearchDao;
 import org.kuali.kfs.pdp.service.BatchSearchService;
-import org.kuali.kfs.pdp.GeneralUtilities;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 
 /**

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.fp.service.impl;
 
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.fp.businessobject.CashDetailTypeCode;
 import org.kuali.kfs.fp.service.CashDetailTypeCodeService;
+import org.kuali.kfs.sys.service.KualiCodeService;
 
 /**
  * This is the default implementation for the CashDetailTypeCodeService interface. This implementation used the KualiCodeService,

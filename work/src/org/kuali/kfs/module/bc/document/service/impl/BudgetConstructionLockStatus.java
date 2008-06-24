@@ -17,8 +17,8 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.SortedSet;
 
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 
 /**
  * This class defines a BudgetConstructionLockStatus object. This object is used by many of the methods in the Budget module's

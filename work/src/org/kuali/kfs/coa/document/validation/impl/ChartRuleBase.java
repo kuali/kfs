@@ -22,8 +22,8 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.rule.RouteDocumentRule;
 import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 /**
  * This class provides some basic saving and routing rules for Chart documents

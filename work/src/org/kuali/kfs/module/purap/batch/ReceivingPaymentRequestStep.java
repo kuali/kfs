@@ -17,10 +17,8 @@ package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
-import org.kuali.kfs.module.purap.service.impl.PurapAccountingServiceImpl;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 
 public class ReceivingPaymentRequestStep extends AbstractStep {

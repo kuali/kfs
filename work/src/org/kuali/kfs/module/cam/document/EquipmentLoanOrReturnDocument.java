@@ -27,17 +27,16 @@ import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {

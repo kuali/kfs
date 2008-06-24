@@ -21,14 +21,14 @@ import java.util.List;
 
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validation for Budget Adjustment document that checks that the fund groups are correctly adjusted.

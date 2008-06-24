@@ -24,11 +24,10 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.

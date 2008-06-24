@@ -18,14 +18,14 @@ package org.kuali.kfs.module.ar.document;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
 
 public class PaymentApplicationDocument extends AccountingDocumentBase {
 

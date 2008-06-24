@@ -20,11 +20,11 @@ import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleB
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
-import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * A validation of the reversal date on a Journal Voucher document

@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 

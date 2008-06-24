@@ -22,11 +22,11 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 
 /**
  * Tests the PurgeStep

@@ -37,8 +37,6 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
-import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;

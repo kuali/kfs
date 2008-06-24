@@ -21,10 +21,10 @@ import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUMBER;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_COMMODITY_CODE;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_DESCRIPTION;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_QUANTITY;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
-import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_COMMODITY_CODE;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_UNIT_PRICE;
 
 import java.io.BufferedReader;
@@ -46,14 +46,14 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class ItemParserBase implements ItemParser {
 

@@ -19,11 +19,11 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     

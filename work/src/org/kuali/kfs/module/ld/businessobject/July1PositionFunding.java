@@ -24,9 +24,9 @@ import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Labor business object for July 1 Position Funding

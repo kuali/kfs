@@ -22,7 +22,6 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 

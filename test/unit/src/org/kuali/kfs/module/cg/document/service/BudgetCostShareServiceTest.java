@@ -21,16 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
-import org.kuali.kfs.module.cg.document.service.BudgetCostShareService;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.suite.AnnotationTestSuite;
 import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class tests service methods in BudgetCostShareService.

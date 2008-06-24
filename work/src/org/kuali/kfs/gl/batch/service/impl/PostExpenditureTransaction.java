@@ -19,7 +19,6 @@ import java.util.Date;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
@@ -30,11 +29,12 @@ import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.IndirectCostRecoveryService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
-import org.kuali.kfs.gl.batch.service.IndirectCostRecoveryService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 

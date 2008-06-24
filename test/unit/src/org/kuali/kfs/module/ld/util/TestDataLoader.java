@@ -27,17 +27,15 @@ import java.util.Properties;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.SpringContextForBatchRunner;
+import org.kuali.kfs.TestDataPreparator;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
-import org.kuali.kfs.module.ld.util.PendingLedgerEntryForTesting;
-import org.kuali.test.util.SpringContextForBatchRunner;
-import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 
 public class TestDataLoader {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestDataLoader.class);

@@ -35,11 +35,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
@@ -47,8 +42,11 @@ import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.fp.document.VoucherDocument;
-import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
-import org.kuali.kfs.fp.document.web.struts.VoucherForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

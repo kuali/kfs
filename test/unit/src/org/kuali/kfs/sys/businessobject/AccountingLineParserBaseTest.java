@@ -23,18 +23,15 @@ import java.util.List;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.CrossSectionSuite;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
-import org.kuali.kfs.fp.document.InternalBillingDocument;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
 
 /**
  * Test class for testing <code>{@link AccountingLineParserBase}</code>

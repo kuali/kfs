@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ec.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;

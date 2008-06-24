@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -36,7 +35,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.module.cam.document.web.struts.EquipmentLoanOrReturnForm;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {

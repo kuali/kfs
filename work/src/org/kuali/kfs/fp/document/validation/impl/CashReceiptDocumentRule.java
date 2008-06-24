@@ -24,6 +24,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.document.validation.AddCheckRule;
+import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
+import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -33,13 +40,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
-import org.kuali.kfs.fp.document.validation.AddCheckRule;
-import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
-import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
 
 
 /**

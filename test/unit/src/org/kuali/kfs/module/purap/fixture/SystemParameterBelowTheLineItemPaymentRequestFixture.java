@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 
 public enum SystemParameterBelowTheLineItemPaymentRequestFixture {

@@ -27,7 +27,6 @@ import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
@@ -40,7 +39,6 @@ import org.kuali.kfs.module.cg.businessobject.BudgetPeriodThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
-import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
 import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
@@ -49,6 +47,7 @@ import org.kuali.kfs.module.cg.document.web.struts.BudgetIndirectCostFormHelper;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelFormHelper;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper.BudgetOverviewPersonnelHelper;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

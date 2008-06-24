@@ -38,22 +38,22 @@ import org.kuali.core.web.comparator.StringValueComparator;
 import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
-import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
-import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
-import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
-import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

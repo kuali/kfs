@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.cg.businessobject.Agency;
 
 /**
  * 

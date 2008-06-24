@@ -24,11 +24,11 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
+import org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByOrganization;
+import org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByReport;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByOrganization;
-import org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByReport;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,18 +26,18 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
-import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
+import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
+import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.springframework.transaction.annotation.Transactional;

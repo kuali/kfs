@@ -19,7 +19,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule;
 
 public class DeleteCashControlDetailEvent extends CashControlDetailEventBase {

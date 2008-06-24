@@ -29,10 +29,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.LedgerEntry;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;

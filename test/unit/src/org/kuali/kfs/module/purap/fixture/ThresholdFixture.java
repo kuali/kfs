@@ -15,15 +15,8 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.apache.log4j.Logger;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.businessobject.Threshold;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public enum ThresholdFixture {
 

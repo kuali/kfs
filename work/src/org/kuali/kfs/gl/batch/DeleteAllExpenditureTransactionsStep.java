@@ -17,9 +17,9 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
+import org.kuali.kfs.gl.service.ExpenditureTransactionService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.TestingStep;
-import org.kuali.kfs.gl.service.ExpenditureTransactionService;
 
 /**
  * A step to remove all expenditure transactions held in the database

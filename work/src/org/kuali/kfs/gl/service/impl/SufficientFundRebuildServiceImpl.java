@@ -17,10 +17,10 @@ package org.kuali.kfs.gl.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
 import org.kuali.kfs.gl.service.SufficientFundRebuildService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

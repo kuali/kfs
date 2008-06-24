@@ -24,21 +24,19 @@ import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.fixture.PaymentRequestInvoiceTabFixture;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
+import org.kuali.kfs.module.purap.fixture.PaymentRequestInvoiceTabFixture;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;

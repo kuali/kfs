@@ -34,10 +34,10 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.service.BalanceTypService;
 
 /**
  * This class represents a <code>JournalVoucherDocument</code> accounting line parser.

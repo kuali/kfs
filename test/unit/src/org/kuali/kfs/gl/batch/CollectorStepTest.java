@@ -18,11 +18,9 @@ package org.kuali.kfs.gl.batch;
 import java.io.File;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.gl.batch.CollectorInputFileType;
-import org.kuali.kfs.gl.batch.CollectorStep;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests the CollecterStep. DEPENDENCIES: Collector card xml file transaction1.xml must be in /opt/kuali/dev/staging/collector/ this

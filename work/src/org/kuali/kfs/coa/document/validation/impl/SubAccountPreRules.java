@@ -22,10 +22,10 @@ import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * PreRules checks for the {@link SubAccount} that needs to occur while still in the Struts processing. This includes defaults, confirmations,

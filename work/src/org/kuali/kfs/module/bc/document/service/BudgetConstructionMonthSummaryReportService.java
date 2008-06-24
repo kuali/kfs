@@ -17,7 +17,6 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.Collection;
 
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgLevelSummaryReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgMonthSummaryReport;
 
 /**

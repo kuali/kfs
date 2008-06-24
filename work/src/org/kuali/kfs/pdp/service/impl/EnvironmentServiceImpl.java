@@ -21,7 +21,6 @@ package org.kuali.kfs.pdp.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author local-jsissom

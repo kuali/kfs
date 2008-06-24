@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.text.MessageFormat;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,18 +28,16 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
-import org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase;
-import org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Struts action class for Salary Expense Transfer Document. This class extends the parent FinancialSystemTransactionalDocumentActionBase

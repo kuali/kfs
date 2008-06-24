@@ -23,17 +23,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 /**

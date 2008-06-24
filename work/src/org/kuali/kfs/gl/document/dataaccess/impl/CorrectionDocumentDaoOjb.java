@@ -21,10 +21,10 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
-import org.kuali.kfs.gl.document.CorrectionDocument;
 
 /**
  * The OJB implementation of CorrectionDocumentDao

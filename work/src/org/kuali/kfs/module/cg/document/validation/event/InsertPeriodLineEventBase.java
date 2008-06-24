@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg.document.validation.event;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule;
 

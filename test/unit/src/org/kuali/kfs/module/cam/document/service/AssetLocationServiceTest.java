@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class AssetLocationServiceTest extends KualiTestBase {
     private AssetLocationService assetLocationService;

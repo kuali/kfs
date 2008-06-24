@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.sys.web.struts;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 
 /**
  * A class that helps Struts record which "claimed" checkboxes were clicked on the Electronic Fund Transfer

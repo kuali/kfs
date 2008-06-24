@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * A basic test of origin entry, making sure that line parsing works as expected

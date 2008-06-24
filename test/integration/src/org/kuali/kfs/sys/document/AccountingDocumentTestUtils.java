@@ -36,19 +36,17 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.document.routing.ChangeMonitor;
 import org.kuali.kfs.sys.document.routing.DocumentVersionMonitor;
 import org.kuali.kfs.sys.document.routing.DocumentWorkflowStatusMonitor;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

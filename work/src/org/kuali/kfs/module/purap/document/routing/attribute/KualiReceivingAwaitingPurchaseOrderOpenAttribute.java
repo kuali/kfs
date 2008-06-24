@@ -17,8 +17,8 @@ package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;

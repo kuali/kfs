@@ -23,11 +23,11 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,

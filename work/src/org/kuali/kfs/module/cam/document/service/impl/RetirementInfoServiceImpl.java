@@ -20,13 +20,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

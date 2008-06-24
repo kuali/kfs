@@ -29,8 +29,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
+import org.kuali.kfs.sys.service.ParameterService;
 
 
 /**

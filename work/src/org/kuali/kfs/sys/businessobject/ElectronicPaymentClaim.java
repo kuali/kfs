@@ -16,18 +16,16 @@
 
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

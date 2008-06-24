@@ -19,12 +19,6 @@ import java.sql.Date;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -33,12 +27,17 @@ import org.kuali.kfs.coa.service.A21SubAccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.EncumbranceForwardStep;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * A helper to create origin entries to carry forward different types of encumbrances.

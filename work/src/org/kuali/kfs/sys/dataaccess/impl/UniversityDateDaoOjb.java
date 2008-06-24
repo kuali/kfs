@@ -24,9 +24,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 
 /**

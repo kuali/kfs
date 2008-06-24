@@ -25,19 +25,19 @@ import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 
 public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 

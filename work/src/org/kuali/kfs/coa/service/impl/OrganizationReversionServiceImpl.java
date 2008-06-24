@@ -21,15 +21,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.dataaccess.OrganizationReversionDao;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * 

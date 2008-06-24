@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.kuali.core.KualiModule;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.suite.AnnotationTestSuite;
 import org.kuali.kfs.suite.PreCommitSuite;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**

@@ -23,10 +23,10 @@ import java.util.TreeSet;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.service.ObjectCodeService;
 
 /**
  * This is a representation of an Organization Reversion Detail, made specifically for Global Organization Reversions. However, as

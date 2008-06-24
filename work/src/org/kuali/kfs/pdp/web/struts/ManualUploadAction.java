@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.pdp.web.struts.BaseAction;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 
 

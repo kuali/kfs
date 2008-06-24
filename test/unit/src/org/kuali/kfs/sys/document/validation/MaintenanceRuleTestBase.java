@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
@@ -28,11 +29,11 @@ import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

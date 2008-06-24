@@ -30,8 +30,8 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.module.cg.service.CloseService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * @see CloseService#close()

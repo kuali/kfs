@@ -21,12 +21,12 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
-import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
 import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 @ConfigureContext
 public class DetailLineGroupTest extends KualiTestBase {

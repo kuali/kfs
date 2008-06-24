@@ -23,7 +23,6 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 

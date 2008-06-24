@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.batch.service;
 
-import java.util.Date;
-
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 
 /**

@@ -33,23 +33,23 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.dataaccess.LaborDao;
-import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
-import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.CurrentFundsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.module.ld.dataaccess.LaborDao;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 
 /**
  * Service implementation for the CurrentFundsLookupableHelperServiceImpl class is the front-end for all current funds balance

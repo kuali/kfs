@@ -25,17 +25,16 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
-import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerPendingEntryInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Helper Service for looking up instances of <code>{@link LaborLedgerPendingEntry}</code>

@@ -24,14 +24,14 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptFamilyTestUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.document.CashReceiptFamilyTestUtil;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.service.ParameterService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

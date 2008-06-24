@@ -27,26 +27,27 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.batch.OrganizationReversionProcess;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
+import org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic;
+import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.gl.service.BalanceService;
-import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
-import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
-import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
-import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * Tests that the Organization Reversion process generates the proper origin entries under

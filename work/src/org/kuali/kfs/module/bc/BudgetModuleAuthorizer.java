@@ -17,8 +17,8 @@ package org.kuali.kfs.module.bc;
 
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
+import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
 
 /**
  * This class...

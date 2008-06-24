@@ -22,10 +22,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * OJB Implementation of ReceivingAddressDao.

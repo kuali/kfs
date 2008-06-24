@@ -36,16 +36,16 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
-import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 /**

@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
 public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {

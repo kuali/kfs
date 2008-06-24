@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.KualiTestConstants.TestConstants.Data1;
 
 /**

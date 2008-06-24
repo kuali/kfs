@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.sys.context;
 
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Yes, we need to test our test utilities since they seem to be misbehaving in some areas.

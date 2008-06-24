@@ -21,9 +21,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 

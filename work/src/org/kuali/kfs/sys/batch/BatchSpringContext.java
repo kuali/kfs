@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import java.util.Map;
-
 import org.kuali.kfs.sys.context.SpringContext;
 
 public class BatchSpringContext {

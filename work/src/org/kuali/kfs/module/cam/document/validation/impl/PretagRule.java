@@ -28,15 +28,15 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.kfs.sys.businessobject.Room;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.Pretag;
 import org.kuali.kfs.module.cam.businessobject.PretagDetail;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**

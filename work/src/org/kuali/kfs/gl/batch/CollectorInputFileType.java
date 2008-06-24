@@ -23,10 +23,10 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 
 /**
  * Batch input type for the collector job.

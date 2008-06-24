@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.fp.document.service.impl;
 
+import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.EXCEPTIONS;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 
 /**
  * The default implementation of the TransferOfFundsService

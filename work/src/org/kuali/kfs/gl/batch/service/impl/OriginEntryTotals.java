@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class holds information about the sums of a list of origin entries. This information includes

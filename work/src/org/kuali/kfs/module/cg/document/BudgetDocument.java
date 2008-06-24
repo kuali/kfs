@@ -33,12 +33,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -49,7 +43,12 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.document.service.BudgetService;
-import org.kuali.kfs.module.cg.document.ResearchDocumentBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Budget

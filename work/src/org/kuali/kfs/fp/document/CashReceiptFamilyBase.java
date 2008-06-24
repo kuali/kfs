@@ -19,8 +19,8 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -28,11 +28,8 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
-import org.kuali.kfs.sys.document.validation.AccountingLineRule;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.

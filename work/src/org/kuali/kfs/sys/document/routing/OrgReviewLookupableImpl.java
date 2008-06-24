@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.routing;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.lookupable.Column;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
@@ -38,10 +36,8 @@ import edu.iu.uis.eden.routetemplate.RuleBaseValues;
 import edu.iu.uis.eden.routetemplate.RuleService;
 import edu.iu.uis.eden.routetemplate.RuleTemplate;
 import edu.iu.uis.eden.routetemplate.RuleTemplateService;
-import edu.iu.uis.eden.user.UserId;
 import edu.iu.uis.eden.util.KeyLabelPair;
 import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.workgroup.GroupId;
 
 /**
  * This class provides a lookup for org review hierarchy routing rules.

@@ -21,6 +21,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 
 /**
  * This class is the custom KFS maintenance document authorizer base class

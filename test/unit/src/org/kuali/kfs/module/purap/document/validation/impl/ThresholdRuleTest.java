@@ -17,27 +17,13 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.Guid;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.kfs.module.purap.businessobject.Threshold;
-import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.module.purap.fixture.ThresholdFixture;
-import org.kuali.kfs.module.purap.document.validation.impl.ThresholdRule;
-import org.kuali.kfs.module.purap.util.ThresholdField;
 import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
+import org.kuali.kfs.module.purap.fixture.ThresholdFixture;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

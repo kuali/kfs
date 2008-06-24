@@ -18,19 +18,19 @@ package org.kuali.kfs.module.cam.businessobject;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.AMOUNT;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE;
-import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.PURCHASE_ORDER;
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.REQUISITION_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE;
 
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 

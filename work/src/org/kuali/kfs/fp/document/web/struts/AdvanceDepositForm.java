@@ -20,10 +20,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the struts form for Advance Deposit document.

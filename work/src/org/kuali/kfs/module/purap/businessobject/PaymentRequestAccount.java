@@ -17,8 +17,8 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 
 /**
  * Payment Request Account Business Object.

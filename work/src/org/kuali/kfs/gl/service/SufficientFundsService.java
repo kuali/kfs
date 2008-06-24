@@ -17,10 +17,10 @@ package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 
 
 /**

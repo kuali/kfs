@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiPercent;
 
 /**
  * Holds threshold settings for object code report selection screen.

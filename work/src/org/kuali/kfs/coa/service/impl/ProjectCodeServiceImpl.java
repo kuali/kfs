@@ -16,11 +16,10 @@
 package org.kuali.kfs.coa.service.impl;
 
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
 import org.kuali.kfs.coa.service.ProjectCodeService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered

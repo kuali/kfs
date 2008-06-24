@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * Labor Journal Voucher Detail Business Object.

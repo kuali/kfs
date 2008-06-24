@@ -23,9 +23,6 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
@@ -34,6 +31,9 @@ import org.kuali.kfs.coa.businessobject.options.OrganizationReversionCodeValuesF
 import org.kuali.kfs.coa.document.OrganizationReversionGlobalMaintainableImpl;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 

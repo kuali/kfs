@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render nonpersonnel copy over properly.

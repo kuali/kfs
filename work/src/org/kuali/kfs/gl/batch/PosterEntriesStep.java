@@ -17,8 +17,8 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.batch.service.PosterService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * The step that runs the poster service on entries.

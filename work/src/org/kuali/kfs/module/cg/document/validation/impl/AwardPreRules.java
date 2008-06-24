@@ -23,11 +23,11 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
+import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 
 /**
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,

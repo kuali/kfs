@@ -34,7 +34,6 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.gl.web.struts.LookupResultsSelectable;
 
 /**
  * This class serves as the struts action for implementing multiple value lookups

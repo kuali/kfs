@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,14 +33,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountGuideline;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.AccountGuideline;
-import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class AccountRuleTest extends ChartRuleTestBase {

@@ -26,20 +26,19 @@ import java.util.Map.Entry;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
-import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
+import org.kuali.kfs.sys.Message;
 
 /**
  * This class scrubs the billing details in a collector batch. Note that all services used by this class are passed in as parameters

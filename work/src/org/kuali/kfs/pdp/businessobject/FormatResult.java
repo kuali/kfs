@@ -25,8 +25,6 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.DisbursementType;
 
 
 /**

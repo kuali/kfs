@@ -15,21 +15,22 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.MHKOZLOW;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.MHKOZLOW;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.service.IsDebitTestUtils;
 
 
 /**

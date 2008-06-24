@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.gl.batch.SufficientFundsReport;
-
 /**
  * A mock implementation of SufficientFundsReport that doesn't generate a report
  */

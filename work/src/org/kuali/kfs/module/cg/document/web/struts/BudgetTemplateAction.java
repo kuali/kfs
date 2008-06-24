@@ -24,12 +24,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class handles Actions for the Budget Template page.

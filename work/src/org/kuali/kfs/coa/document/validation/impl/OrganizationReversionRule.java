@@ -21,9 +21,9 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 /**
  * This class implements the business rules specific to the {@link OrganizationReversion} Maintenance Document.

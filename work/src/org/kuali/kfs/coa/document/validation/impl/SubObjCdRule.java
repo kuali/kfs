@@ -18,9 +18,9 @@ package org.kuali.kfs.coa.document.validation.impl;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.sys.KFSKeyConstants;
 
 public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 

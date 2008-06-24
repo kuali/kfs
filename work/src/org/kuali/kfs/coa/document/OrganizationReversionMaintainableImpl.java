@@ -24,11 +24,11 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document inner class for doing

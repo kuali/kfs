@@ -24,9 +24,7 @@ import java.util.List;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -35,7 +33,9 @@ import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.fixture.AssetTransferFixture;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 public class AssetTransferServiceTest extends KualiTestBase {

@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalaryStatisticsReport;
@@ -33,7 +33,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStati
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalaryStatisticsReportService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
-import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

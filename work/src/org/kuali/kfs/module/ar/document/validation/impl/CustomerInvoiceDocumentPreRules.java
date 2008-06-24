@@ -19,10 +19,10 @@ import java.util.Iterator;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class CustomerInvoiceDocumentPreRules extends PreRulesContinuationBase {
 

@@ -16,12 +16,9 @@
 package org.kuali.kfs.module.ar.batch;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.module.ar.businessobject.Lockbox;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 public class LockboxStep extends AbstractStep {
 

@@ -20,8 +20,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 
 /**
  * Labor business object for PositionData

@@ -21,11 +21,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
-import org.kuali.kfs.module.cg.businessobject.Purpose;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * 

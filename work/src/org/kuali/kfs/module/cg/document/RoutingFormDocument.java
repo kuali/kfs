@@ -36,18 +36,12 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.cg.businessobject.Agency;
-import org.kuali.kfs.module.cg.businessobject.Cfda;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
+import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Budget;
-import org.kuali.kfs.module.cg.document.ResearchDocumentBase;
+import org.kuali.kfs.module.cg.businessobject.Cfda;
 import org.kuali.kfs.module.cg.businessobject.ContractGrantProposal;
 import org.kuali.kfs.module.cg.businessobject.Purpose;
 import org.kuali.kfs.module.cg.businessobject.ResearchTypeCode;
@@ -71,6 +65,11 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormProjectDetailsService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * 

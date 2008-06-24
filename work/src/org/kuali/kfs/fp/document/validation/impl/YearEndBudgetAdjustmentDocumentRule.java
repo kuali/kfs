@@ -16,14 +16,8 @@
 
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants.YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
-
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
-import org.kuali.kfs.fp.document.YearEndDocumentUtil;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Business rules applicable to <code>YearEndBudgetAdjustmentDocument</code>

@@ -22,8 +22,8 @@ package org.kuali.kfs.pdp.web;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.pdp.dataaccess.BankDao;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**

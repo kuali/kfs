@@ -20,12 +20,12 @@ import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 
 /**
  * Tests the sufficient funds service

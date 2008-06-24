@@ -22,10 +22,10 @@ import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * General PreRules checks for all Maintenance docs that needs to occur while still in the Struts processing.

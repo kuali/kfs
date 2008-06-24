@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * An OJB implementation of CorrectionCriteriaDao

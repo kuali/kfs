@@ -19,7 +19,6 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.coa.businessobject.ICRTypeCode;
 
 /**
  * 

@@ -17,17 +17,14 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.SalarySettingCalculator;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedger implements PendingBudgetConstructionAppointmentFundingAware {

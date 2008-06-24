@@ -29,7 +29,6 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuForm;
 
 /**
  * This class handles Actions for the balance inquiry report menu

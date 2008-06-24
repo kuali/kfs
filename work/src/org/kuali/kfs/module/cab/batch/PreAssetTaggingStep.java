@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cab.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.module.cab.batch.service.PreAssetTaggingService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * Cams Batch Step.

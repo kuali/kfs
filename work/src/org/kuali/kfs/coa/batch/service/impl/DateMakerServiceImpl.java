@@ -19,10 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.batch.service.FiscalYearMakersCopyAction;
 import org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao;
 import org.kuali.kfs.coa.batch.service.DateMakerService;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.coa.batch.service.FiscalYearMakersCopyAction;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

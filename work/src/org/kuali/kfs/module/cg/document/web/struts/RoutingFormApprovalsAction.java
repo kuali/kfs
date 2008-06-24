@@ -26,12 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.document.service.RoutingFormProjectDetailsService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
-import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class RoutingFormApprovalsAction extends RoutingFormAction {
 

@@ -29,8 +29,8 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.NDCFilter;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.context.NDCFilter;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 

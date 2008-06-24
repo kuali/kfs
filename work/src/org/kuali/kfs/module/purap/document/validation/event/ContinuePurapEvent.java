@@ -19,9 +19,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Continue Event for Accounts Payable Document.

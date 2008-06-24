@@ -24,9 +24,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.pdp.businessobject.DisbursementType;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -29,8 +29,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 /**
  * Purchasing Contracts with specific Vendors.

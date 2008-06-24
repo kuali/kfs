@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.KFSConstants;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

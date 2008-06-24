@@ -17,9 +17,9 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
+import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.TestingStep;
-import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
 
 /**
  * A step to run the sufficient funds sync process. One typically doesn't need to do this - which is why it's marked as TestingStep -

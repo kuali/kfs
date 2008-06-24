@@ -19,8 +19,8 @@ import java.sql.Date;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public enum PaymentRequestDocumentFixture {
 

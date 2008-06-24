@@ -18,12 +18,12 @@ package org.kuali.kfs.gl.service;
 import java.util.Calendar;
 
 import org.kuali.core.util.Guid;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.ConfigureContext;
 
 /**
  * Test Flexible Offset in the scrubber

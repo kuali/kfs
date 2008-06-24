@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 public interface ImportPurchasingAccountsPayableItemRule <F extends AccountingDocument> extends PurchasingAccountsPayableItemRule {
 

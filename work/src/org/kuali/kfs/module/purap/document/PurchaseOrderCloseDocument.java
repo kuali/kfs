@@ -21,16 +21,16 @@ import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import java.util.ArrayList;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 
 /**
  * Purchase Order Close Document

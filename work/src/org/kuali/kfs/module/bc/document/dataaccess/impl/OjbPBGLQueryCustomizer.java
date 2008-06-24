@@ -25,11 +25,11 @@ import org.apache.ojb.broker.accesslayer.QueryCustomizer;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.bc.BCParameterKeyConstants;
-import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
 /**
  * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger so as to fetch expenditure or revenue lines

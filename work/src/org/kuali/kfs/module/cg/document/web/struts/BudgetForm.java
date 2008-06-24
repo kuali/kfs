@@ -34,12 +34,6 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
@@ -53,11 +47,16 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTypeCode;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
-import org.kuali.kfs.module.cg.document.ResearchDocument;
-import org.kuali.kfs.module.cg.document.web.struts.ResearchDocumentFormBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 
 /**

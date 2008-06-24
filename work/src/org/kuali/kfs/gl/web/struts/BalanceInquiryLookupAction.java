@@ -41,17 +41,16 @@ import org.kuali.core.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
+import org.kuali.kfs.integration.businessobject.SegmentedBusinessObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.KFSUtils;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.AccountBalance;
-import org.kuali.kfs.gl.ObjectHelper;
-import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
-import org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm;
-import org.kuali.kfs.integration.businessobject.SegmentedBusinessObject;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.KNSServiceLocator;
 
 /**

@@ -24,7 +24,7 @@ import java.util.Set;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService;
 import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

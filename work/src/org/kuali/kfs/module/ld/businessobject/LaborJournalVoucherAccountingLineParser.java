@@ -39,14 +39,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
-import org.kuali.kfs.coa.service.BalanceTypService;
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;

@@ -17,14 +17,10 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +31,12 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -43,17 +45,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.service.OriginationCodeService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
-import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**

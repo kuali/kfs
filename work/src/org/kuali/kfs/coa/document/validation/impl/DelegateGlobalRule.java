@@ -24,15 +24,15 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.DelegateGlobal;
+import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
-import org.kuali.kfs.coa.businessobject.Delegate;
-import org.kuali.kfs.coa.businessobject.DelegateGlobal;
-import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
 
 /**
  * This class executes specific rules for the {@link DelegateGlobalMaintenanceDocument}

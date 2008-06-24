@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.pdp.PdpAuthorizationConstants;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
 
 
 public class PayeeAchAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {

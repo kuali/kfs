@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 

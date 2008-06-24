@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ec.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
-import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 
 /**
  * Provide the facility used to generate documents (build) from the labor ledger balances

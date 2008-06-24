@@ -19,12 +19,12 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sysKfsAuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Document Authorizer for the Payee maintenance document.

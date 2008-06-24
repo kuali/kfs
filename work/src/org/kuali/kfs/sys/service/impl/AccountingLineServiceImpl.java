@@ -17,9 +17,9 @@ package org.kuali.kfs.sys.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.dataaccess.AccountingLineDao;
 import org.kuali.kfs.sys.service.AccountingLineService;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 /**
  * This class is the service implementation for the AccountingLine structure. This has been created with polymorphism in mind so

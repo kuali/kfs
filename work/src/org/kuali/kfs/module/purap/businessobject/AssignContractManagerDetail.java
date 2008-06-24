@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityContractManager;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 

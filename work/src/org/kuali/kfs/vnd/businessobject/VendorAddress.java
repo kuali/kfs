@@ -28,8 +28,8 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 /**
  * Address to be associated with a particular Vendor.

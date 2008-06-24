@@ -17,8 +17,6 @@ package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-
 /**
  * This interface defines methods that an AccountingLine service implementation must provide.
  */

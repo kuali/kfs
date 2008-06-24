@@ -22,10 +22,9 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_REQUIRED;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
-import org.kuali.kfs.coa.businessobject.ObjectType;
 
 /**
  * The Journal Voucher's version of the accounting line Object Type validation.

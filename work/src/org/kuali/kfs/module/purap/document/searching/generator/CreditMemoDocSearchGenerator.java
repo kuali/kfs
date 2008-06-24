@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.Org;
 
 /**
  * This class...

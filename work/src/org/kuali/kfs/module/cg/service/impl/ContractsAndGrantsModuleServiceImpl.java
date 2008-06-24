@@ -23,19 +23,18 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.cg.businessobject.AccountAwardInformation;
-import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.module.cg.service.AgencyService;
-import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
-import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kfs.module.cg.businessobject.AccountAwardInformation;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.service.AgencyService;
+import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {

@@ -39,8 +39,8 @@ import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
 import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
-import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;

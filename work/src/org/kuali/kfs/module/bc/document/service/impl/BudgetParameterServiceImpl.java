@@ -17,11 +17,11 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * See BudgetParameterService. This implements value added methods associated with ParameterService

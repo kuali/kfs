@@ -21,10 +21,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 
 public interface FinancialSystemUserService extends UniversalUserService {
 

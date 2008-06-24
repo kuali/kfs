@@ -21,15 +21,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.businessobject.Options;
-import org.kuali.kfs.sys.dataaccess.OptionsDao;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.dataaccess.OptionsDao;
+import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the

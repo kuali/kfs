@@ -26,13 +26,11 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.kfs.module.cg.businessobject.Agency;
-import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
-import org.kuali.kfs.module.cg.KraConstants;
 
 /**
  * This class...

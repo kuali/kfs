@@ -23,11 +23,11 @@ import java.util.Map;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.module.cg.businessobject.Subcontractor;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.module.cg.businessobject.Subcontractor;
 
 /**
  * 

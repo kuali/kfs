@@ -17,7 +17,6 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.Collection;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgPositionFundingDetailReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 

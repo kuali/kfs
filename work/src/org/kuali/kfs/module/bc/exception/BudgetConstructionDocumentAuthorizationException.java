@@ -17,7 +17,6 @@ package org.kuali.kfs.module.bc.exception;
 
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 
 /**

@@ -17,9 +17,9 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step which runs the process to remove old origin entry groups and associated origin entries

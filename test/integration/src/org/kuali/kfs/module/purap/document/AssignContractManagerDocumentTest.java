@@ -25,12 +25,12 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.fixture.AssignContractManagerDocumentFixture;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
-import org.kuali.kfs.module.purap.fixture.AssignContractManagerDocumentFixture;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;

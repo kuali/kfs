@@ -16,20 +16,16 @@
 package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
-
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.module.bc.batch.service.impl.GenesisTest;
 
 
 public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb {

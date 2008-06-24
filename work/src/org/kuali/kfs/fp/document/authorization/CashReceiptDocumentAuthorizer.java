@@ -27,16 +27,16 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.util.Timer;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
-import org.kuali.kfs.fp.service.CashDrawerService;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 
 /**
  * Abstract base class for all TransactionalDocumentAuthorizers, since there's this one bit of common code.

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.core.util.AssertionUtils.assertThat;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -26,28 +24,23 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.businessobject.DepositCashReceiptControl;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
-import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 
 /**
  * Business rule(s) applicable to Cash Management Document.

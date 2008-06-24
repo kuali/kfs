@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.document.CorrectionDocument;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * A step to remove old correction document origin entries from the database.

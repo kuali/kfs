@@ -17,24 +17,17 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
-
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
+import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * OJB implementation of PurchaseOrderDao.

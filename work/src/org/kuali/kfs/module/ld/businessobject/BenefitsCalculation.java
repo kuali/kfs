@@ -20,11 +20,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiPercent;
-import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsType;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * Labor business object for Benefits Calculation.

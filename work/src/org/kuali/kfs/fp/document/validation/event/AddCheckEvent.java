@@ -17,9 +17,9 @@ package org.kuali.kfs.fp.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.validation.AddCheckRule;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * This class represents the add check event. This could be triggered when a user presses the add button for a given document's

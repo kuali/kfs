@@ -16,8 +16,9 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * A validation which uses the AccountingLineRuleHelperService to validate the values on an accounting line

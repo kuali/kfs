@@ -20,8 +20,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Labor business object for Labor General ledger Entry

@@ -15,24 +15,23 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import static org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 
 /**
  * Business rule(s) applicable to <code>{@link org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument}</code>

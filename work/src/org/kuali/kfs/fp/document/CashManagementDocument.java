@@ -30,6 +30,13 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
+import org.kuali.kfs.fp.businessobject.CashieringTransaction;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.document.service.CashManagementService;
+import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -41,13 +48,6 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
-import org.kuali.kfs.fp.businessobject.CashieringTransaction;
-import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.businessobject.Deposit;
-import org.kuali.kfs.fp.service.CashDrawerService;
-import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**

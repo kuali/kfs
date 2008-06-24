@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 
 /**
  * This step will call a service method to load the kuali pcard xml file into the transaction table. Validates the data before the

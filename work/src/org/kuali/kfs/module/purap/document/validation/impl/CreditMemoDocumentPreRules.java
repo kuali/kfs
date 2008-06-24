@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 
 /**
  * Business rule(s) applicable to the Credit Memo document.

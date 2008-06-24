@@ -23,9 +23,6 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.module.cg.KraConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
@@ -42,7 +39,9 @@ import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
 import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetAction;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render the page properly.

@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.ConfigProperties;
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
 import org.springframework.beans.BeanUtils;
 
 /**

@@ -27,8 +27,8 @@ import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.util.RiceConstants;
 

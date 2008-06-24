@@ -31,25 +31,25 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.TestDataPreparator;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
-import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
 import org.kuali.kfs.module.ld.util.LaborGeneralLedgerEntryForTesting;
+import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
 import org.kuali.kfs.module.ld.util.LedgerBalanceForTesting;
 import org.kuali.kfs.module.ld.util.LedgerEntryForTesting;
 import org.kuali.kfs.module.ld.util.OriginEntryGroupForTesting;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext
 public class LaborPosterServiceTest extends KualiTestBase {

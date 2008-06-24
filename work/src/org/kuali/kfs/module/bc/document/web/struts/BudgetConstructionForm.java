@@ -29,19 +29,19 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sysKfsAuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
-import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.sys.service.OptionsService;
 
 
 public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {

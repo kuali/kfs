@@ -18,9 +18,9 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
 
 /**
  * 

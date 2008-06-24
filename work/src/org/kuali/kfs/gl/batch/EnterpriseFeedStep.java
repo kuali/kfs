@@ -17,8 +17,8 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
+import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  * This step executes the enterprise feeder

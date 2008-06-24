@@ -28,7 +28,6 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 

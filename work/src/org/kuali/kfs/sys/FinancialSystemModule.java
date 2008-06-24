@@ -20,7 +20,6 @@ import org.kuali.core.authorization.KualiModuleAuthorizer;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiModuleUserService;
-import org.kuali.kfs.sys.FinancialSystemModuleAuthorizer;
 
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.

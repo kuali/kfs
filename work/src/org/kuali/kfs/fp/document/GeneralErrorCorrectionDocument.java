@@ -19,21 +19,20 @@ import static org.kuali.kfs.sys.KFSConstants.FROM;
 import static org.kuali.kfs.sys.KFSConstants.TO;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
+import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
-import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
-import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 
 
 /**

@@ -20,10 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.dbplatform.KualiDBPlatformOracle;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class MismatchedForeignKeyTest extends KualiTestBase {

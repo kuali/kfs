@@ -26,9 +26,9 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.core.service.EncryptionService;
 

@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.businessobject.Country;
 
 /**
  * Purchase Order Vendor Quote Business Object.

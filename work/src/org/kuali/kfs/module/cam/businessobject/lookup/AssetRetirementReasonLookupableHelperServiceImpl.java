@@ -21,9 +21,9 @@ import java.util.Properties;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class overrides the getReturnUrl, setFieldConversions and getActionUrls for

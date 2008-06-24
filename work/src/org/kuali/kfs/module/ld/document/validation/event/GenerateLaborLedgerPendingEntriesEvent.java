@@ -19,10 +19,9 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.module.ld.document.validation.GenerateLaborLedgerPendingEntriesRule;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 /**
  * Event used to re/generate general ledger pending entries for a transactional document.

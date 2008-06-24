@@ -17,8 +17,6 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.util.KualiInteger;
-
 /**
  * Budget Construction Organization Account Funding Detail Report Business Object.
  */

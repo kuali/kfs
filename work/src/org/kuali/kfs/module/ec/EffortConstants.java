@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
-import org.kuali.kfs.sysKfsAuthorizationConstants.TransactionalEditMode;
+import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
 import org.kuali.rice.util.JSTLConstants;
 
 /**

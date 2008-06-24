@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.fp.businessobject.options.TaxIncomeClassValuesFinder;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class is used to represent a disbursement voucher non-resident alien tax.

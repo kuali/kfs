@@ -17,11 +17,7 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.List;
 
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
 
 /**
  * Provides helper methods for checking locks on transactional documents. We discussed whether this should move

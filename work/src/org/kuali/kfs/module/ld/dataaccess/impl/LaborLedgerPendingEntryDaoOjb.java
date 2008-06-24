@@ -23,13 +23,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * OJB Implementation of LaborLedgerPendingEntryDao.

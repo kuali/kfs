@@ -26,14 +26,14 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.BalanceTyp;
-import org.kuali.kfs.coa.service.ObjectTypeService;
 
 /**
  * The default implementation of the AccountingDocumentRuleHelperService

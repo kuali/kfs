@@ -16,17 +16,8 @@
 package org.kuali.kfs.module.cab.batch;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.module.cam.businessobject.Pretag;
-import org.kuali.kfs.module.cab.batch.PreAssetTaggingStep;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * Test the PreAssetTaggingSetp.

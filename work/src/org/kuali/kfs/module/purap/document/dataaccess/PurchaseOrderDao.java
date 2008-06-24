@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess;
 
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 
 
 /**

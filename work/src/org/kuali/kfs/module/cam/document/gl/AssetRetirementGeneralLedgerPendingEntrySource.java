@@ -16,10 +16,10 @@
 package org.kuali.kfs.module.cam.document.gl;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 
 public class AssetRetirementGeneralLedgerPendingEntrySource extends CamsGeneralLedgerPendingEntrySourceBase {
 

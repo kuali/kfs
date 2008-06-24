@@ -24,13 +24,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 import org.kuali.kfs.module.cg.document.validation.event.EnterModularEvent;
 import org.kuali.kfs.module.cg.document.validation.event.SaveModularEvent;
-import org.kuali.kfs.module.cg.document.service.BudgetModularService;
-import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class handles Actions for the Budget Modular page.

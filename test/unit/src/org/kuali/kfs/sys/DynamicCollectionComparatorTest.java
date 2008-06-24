@@ -24,9 +24,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.fixture.AccountFixture;
 
 public class DynamicCollectionComparatorTest extends TestCase {

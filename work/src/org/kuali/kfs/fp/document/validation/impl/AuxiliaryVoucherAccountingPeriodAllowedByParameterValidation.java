@@ -15,17 +15,17 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
 import static org.kuali.kfs.sys.KFSKeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * A validation for the Auxiliary Voucher document, this checks that the given accounting period on

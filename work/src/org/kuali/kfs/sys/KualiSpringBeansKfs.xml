@@ -429,6 +429,6 @@
     
     <bean id="reportGenerationService" class="org.kuali.kfs.sys.batch.service.impl.ReportGenerationServiceImpl" />
 
-	<import resource="validation/configuration/FinancialSystemValidators.xml" />
+	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 	
 </beans>

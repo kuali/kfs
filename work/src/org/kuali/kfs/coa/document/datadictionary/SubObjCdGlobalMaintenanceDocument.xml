@@ -107,7 +107,6 @@
           <property name="name" value="subObjCdGlobalDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail" />
           <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.ObjectCode" />
-          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Object Code" />
           <property name="summaryFields" >
             <list>
@@ -158,7 +157,6 @@
           <property name="name" value="accountGlobalDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountGlobalDetail" />
           <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.Account" />
-          <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Account" />
           <property name="summaryFields" >
             <list>

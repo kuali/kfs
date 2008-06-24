@@ -281,7 +281,9 @@ public class ParameterServiceImpl implements ParameterService {
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {
         Parameter parameter = (Parameter) getParameter(componentClass, parameterName);
         parameter.setParameterValue(parameterText);
-        SpringContext.getBean(BusinessObjectService.class).save(parameter);
+        // since parameters are now cached in a ThreadLocal, there is no need to save them
+        // since all tests run in a single thread
+        //SpringContext.getBean(BusinessObjectService.class).save(parameter);
         try {
             removeCachedMethod(ParameterService.class.getMethod("getParameterValue", new Class[] { Class.class, String.class }), new Object[] { componentClass, parameterName });
             removeCachedMethod(ParameterService.class.getMethod("getIndicatorParameter", new Class[] { Class.class, String.class }), new Object[] { componentClass, parameterName });
@@ -382,9 +384,9 @@ public class ParameterServiceImpl implements ParameterService {
             parameterCache.set(new HashMap<String,Parameter>());
         }
         String key = componentClass.toString() + ":" + parameterName;
-        Object value = parameterCache.get().get(key);
+        Parameter value = parameterCache.get().get(key);
         if (value != null) {
-            return (Parameter) value;
+            return value;
         }
         Parameter parameter = getParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName);
         if (parameter == null) {

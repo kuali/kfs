@@ -300,12 +300,17 @@ public class TestUtils {
                         willCommit = a.shouldCommitTransactions();
                     }
                     // now, check the method-level annotation
-                    Method m = clazz.getDeclaredMethod(ste.getMethodName(), (Class[])null);
-                    if ( a != null ) {
+                    try {
+                        Method m = clazz.getMethod(ste.getMethodName(), (Class[])null);
                         // if the method-level annotation is present, it overrides the class-level annotation
                         a = (ConfigureContext)m.getAnnotation(ConfigureContext.class);
-                        willCommit = a.shouldCommitTransactions();
-                    }                    
+                        if ( a != null ) {
+                            willCommit = a.shouldCommitTransactions();
+                        }
+                    } catch ( NoSuchMethodException e ) {
+                        // do nothing
+                        
+                    }
                 }
             } catch ( Exception e ) {
                 LOG.error( "Error checking stack trace element: " + ste.toString(), e );

@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.datadictionary.conversion.DocumentEntry;
+import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.ConfigureContext;

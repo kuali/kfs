@@ -72,6 +72,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         if (this instanceof AmountTotaling) {
             getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
+        super.prepareForSave();
     }
 
     /**
@@ -120,6 +121,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             getDocumentHeader().setDocumentFinalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         }
+        super.handleRouteStatusChange();
     }
 
     /**

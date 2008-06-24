@@ -27,7 +27,7 @@ public class FinancialSystemMaintenanceDocumentEntry extends MaintenanceDocument
     /**
      * @see org.kuali.core.datadictionary.DocumentEntry#setDocumentClass(java.lang.Class)
      */
-    protected Class<? extends Document> getStandardDocumentBaseClass() {
+    public Class<? extends Document> getStandardDocumentBaseClass() {
         return FinancialSystemMaintenanceDocument.class;
     }
 

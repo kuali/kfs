@@ -74,12 +74,12 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
      * 
      * @see org.kuali.core.document.Document#prepareForSave()
      */
-    @Override
-    public void prepareForSave() {
-        if (this instanceof AmountTotaling) {
-            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
-        }
-    }
+//    @Override
+//    public void prepareForSave() {
+//        if (this instanceof AmountTotaling) {
+//            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+//        }
+//    }
 
     /**
      * This is the default implementation which ensures that document note attachment references are loaded.
@@ -127,6 +127,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             getDocumentHeader().setDocumentFinalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         }
+        super.handleRouteStatusChange();
     }
 
 }

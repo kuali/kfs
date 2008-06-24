@@ -32,10 +32,10 @@
 		<property name="reportTitle" value="Account and SubAccount For Testing" />
 		<property name="reportFileName" value="TestReportWithParameterMap" /> 
 		<property name="reportsDirectory" value="${reports.directory}/" />
-		<property name="resourceBundleBaseName" value="org/kuali/kfs/report/ReportGenerationService" />
-		<property name="reportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/sys/report/fixture/ReportGenerationService" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/sys/report/" />
 		<property name="reportTemplateName" value="MasterReportWithParamterMap" />
-		<property name="subReportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/sys/report/" />
 		<property name="subReports">
 			<map>
 				<entry key="AccountReport" value="AccountReport"/>
@@ -48,10 +48,10 @@
 		<property name="reportTitle" value="Account For Testing" />
 		<property name="reportFileName" value="TestReportWithDataSource" />
 		<property name="reportsDirectory" value="${reports.directory}/" />
-		<property name="resourceBundleBaseName" value="org/kuali/kfs/report/ReportGenerationService" />
-		<property name="reportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/sys/report/ReportGenerationService" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/sys/report/" />
 		<property name="reportTemplateName" value="MasterReportWithDataSource" />
-		<property name="subReportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/sys/report/" />
 		<property name="subReports">
 			<map>
 				<entry key="AccountReport" value="AccountReport"/>

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
@@ -36,40 +34,38 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingAction.class);
 
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#loadExpansionScreen(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
-        
+
         // use the passed url parms to get the record from DB
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.EMPLID, incumbentSalarySettingForm.getEmplid());
+        Map<String, Object> fieldValues = incumbentSalarySettingForm.getKeyMapOfSalarySettingItem();
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, fieldValues);
         if (budgetConstructionIntendedIncumbent == null) {
             // TODO this is an RI error need to report it
         }
-        
+
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
         incumbentSalarySettingForm.populateBCAFLines();
         incumbentSalarySettingForm.setNewBCAFLine(this.createNewAppointmentFundingLine(incumbentSalarySettingForm));
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-        
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#createNewAppointmentFundingLine(org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm)
      */
     @Override
     public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) salarySettingForm;
-        
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine(incumbentSalarySettingForm);        
+
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine(incumbentSalarySettingForm);
         appointmentFunding.setEmplid(incumbentSalarySettingForm.getBudgetConstructionIntendedIncumbent().getEmplid());
-        
+
         return appointmentFunding;
     }
 }

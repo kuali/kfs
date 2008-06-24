@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 
 public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
@@ -38,14 +40,19 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#populateBCAFLines()
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getRefreshCallerName()
      */
     @Override
-    public void populateBCAFLines() {
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionIntendedIncumbent.getPendingBudgetConstructionAppointmentFunding();
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            this.populateBCAFLine(appointmentFunding);
-        }
+    public String getRefreshCallerName() {
+        return BCConstants.INCUMBENT_SALARY_SETTING_REFRESH_CALLER;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingForm#getAppointmentFundings()
+     */
+    @Override
+    public List<PendingBudgetConstructionAppointmentFunding> getAppointmentFundings() {
+        return this.getBudgetConstructionIntendedIncumbent().getPendingBudgetConstructionAppointmentFunding();
     }
 
     /**
@@ -67,18 +74,14 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getBudgetConstructionDetail()
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
      */
     @Override
-    public PendingBudgetConstructionAppointmentFundingAware getBudgetConstructionDetail() {
-        return this.budgetConstructionIntendedIncumbent;
-    }
+    public Map<String, Object> getKeyMapOfSalarySettingItem() {
+        Map<String, Object> keyMap = new HashMap<String, Object>();
 
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getRefreshCallerName()
-     */
-    @Override
-    public String getRefreshCallerName() {
-        return BCConstants.INCUMBENT_SALARY_SETTING_REFRESH_CALLER;
+        keyMap.put(KFSPropertyConstants.EMPLID, this.getEmplid());
+
+        return keyMap;
     }
 }

@@ -465,7 +465,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // request.getContextPath();
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.QUICK_SALARY_SETTING_METHOD);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
         parameters.put("documentNumber", pbglLine.getDocumentNumber());
@@ -486,7 +486,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
 
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.SALARY_SETTING_ACTION, parameters);
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.QUICK_SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
 

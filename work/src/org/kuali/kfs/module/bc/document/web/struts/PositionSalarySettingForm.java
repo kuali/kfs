@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 public class PositionSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingForm.class);
@@ -33,18 +35,36 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     public PositionSalarySettingForm() {
         super();
 
-        setBudgetConstructionPosition(new BudgetConstructionPosition());
+        this.setBudgetConstructionPosition(new BudgetConstructionPosition());
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
+     */
+    @Override
+    public Map<String, Object> getKeyMapOfSalarySettingItem() {
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+
+        keyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getUniversityFiscalYear());
+        keyMap.put(KFSPropertyConstants.POSITION_NUMBER, this.getPositionNumber());
+
+        return keyMap;
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#populateBCAFLines()
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getRefreshCallerName()
      */
     @Override
-    public void populateBCAFLines() {
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionPosition.getPendingBudgetConstructionAppointmentFunding();
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            this.populateBCAFLine(appointmentFunding);
-        }
+    public String getRefreshCallerName() {
+        return BCConstants.POSITION_SALARY_SETTING_REFRESH_CALLER;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingForm#getAppointmentFundings()
+     */
+    @Override
+    public List<PendingBudgetConstructionAppointmentFunding> getAppointmentFundings() {
+        return this.getBudgetConstructionPosition().getPendingBudgetConstructionAppointmentFunding();
     }
 
     /**
@@ -63,21 +83,5 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
      */
     public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
         this.budgetConstructionPosition = budgetConstructionPosition;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getBudgetConstructionDetail()
-     */
-    @Override
-    public PendingBudgetConstructionAppointmentFundingAware getBudgetConstructionDetail() {
-        return this.budgetConstructionPosition;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getRefreshCallerName()
-     */
-    @Override
-    public String getRefreshCallerName() {
-        return BCConstants.POSITION_SALARY_SETTING_REFRESH_CALLER;
     }
 }

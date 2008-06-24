@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
@@ -36,8 +34,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -50,32 +46,11 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
-public class QuickSalarySettingAction extends BudgetExpansionAction {
+public class QuickSalarySettingAction extends SalarySettingBaseAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingAction.class);
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-
-        // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
-        // since BC sets locks up front, but need to verify this
-
-        // TODO should probably use service locator and call
-        // DocumentAuthorizer documentAuthorizer =
-        // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
-        
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        salarySettingForm.postProcessBCAFLines();
-
-        return forward;
-    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
@@ -89,14 +64,15 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
             throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
         }
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#returnToCaller(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#returnToCaller(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         this.refresh(mapping, form, request, response);
-        
+
         return super.returnToCaller(mapping, form, request, response);
     }
 
@@ -142,13 +118,15 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
     }
 
     /**
-     * load the quick salary setting screen
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
         // use the passed url parms to get the record from DB
-        Map<String, Object> keyMap = salarySettingForm.getKeyMapOfSalarySettingExpension();
+        Map<String, Object> keyMap = salarySettingForm.getKeyMapOfSalarySettingItem();
 
         SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, keyMap);
 
@@ -158,67 +136,6 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         }
 
         salarySettingForm.setSalarySettingExpansion(salarySettingExpansion);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * vacate the specified appointment funding line
-     */
-    public ActionForward vacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
-
-        // retrieve the selected funding line
-        int indexOfSelectedLine = this.getSelectedLine(request);
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
-
-        // associated the vacant funding line with current salary setting expansion
-        salarySettingService.vacateAppointmentFunding(appointmentFundings, appointmentFunding);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * adjust the salary amount of the specified funding line
-     */
-    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
-
-        // retrieve the selected funding line
-        int indexOfSelectedLine = this.getSelectedLine(request);
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
-
-        this.adjustSalary(appointmentFunding);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * adjust the salary amounts of all funding lines
-     */
-    public ActionForward adjustAllSalarySettingLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
-
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
-        KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
-        String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
-
-        Object fullEntryEditMode = salarySettingForm.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY);
-        boolean isEditable = fullEntryEditMode != null && Boolean.parseBoolean(fullEntryEditMode.toString());
-
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if (isEditable) {
-                appointmentFunding.setAdjustmentAmount(adjustmentAmount);
-                appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
-
-                this.adjustSalary(appointmentFunding);
-            }
-        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -265,53 +182,6 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
 
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * normalize the hourly pay rate and annual pay amount
-     */
-    public ActionForward normalizePayRateAndAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
-
-        // retrieve the selected funding line
-        int indexOfSelectedLine = this.getSelectedLine(request);
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
-
-        this.normalizePayRateAndAmount(appointmentFunding);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * normalize the hourly pay rate and annual pay amount of the given appointment funding
-     * 
-     * @param appointmentFunding the given appointment funding
-     */
-    private void normalizePayRateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
-        if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
-            BigDecimal hourlyPayRate = salarySettingService.calculateHourlyPayRate(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
-        }
-
-        BigDecimal currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
-        if (currentHourlyPayRate != null) {
-            KualiInteger annualPayAmount = salarySettingService.calculateAnnualPayAmount(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
-        }
-    }
-
-    // adjust the requested salary amount of the given appointment funding line
-    private void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
-        if (BCConstants.SalaryAdjustmentMeasurement.PERCENT.measurement.equals(adjustmentMeasurement)) {
-            salarySettingService.adjustRequestedSalaryByPercent(appointmentFunding);
-        }
-        else if (BCConstants.SalaryAdjustmentMeasurement.AMOUNT.measurement.equals(adjustmentMeasurement)) {
-            salarySettingService.adjustRequestedSalaryByAmount(appointmentFunding);
-        }
     }
 
     // build the URL for the specified salary setting method

@@ -34,20 +34,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class PositionSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingAction.class);
 
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
 
         // use the passed url parms to get the record from DB
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, positionSalarySettingForm.getUniversityFiscalYear());
-        fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, positionSalarySettingForm.getPositionNumber());
+        Map<String, Object> fieldValues = positionSalarySettingForm.getKeyMapOfSalarySettingItem();
 
-        BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, fieldValues);
+        BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, fieldValues);
         if (budgetConstructionPosition == null) {
             // TODO this is an RI error need to report it
         }

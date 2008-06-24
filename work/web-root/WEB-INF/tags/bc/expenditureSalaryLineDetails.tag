@@ -246,7 +246,7 @@
 				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
 				methodToCall = "adjustSalarySettingLinePercent"
-				lineIndex = "${status.index}"/>
+				lineIndex = "${status.index}" />
 			</center>
 		</td>
 	</tr>

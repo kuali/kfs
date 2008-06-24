@@ -38,9 +38,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
-import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -48,13 +46,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * the base struts action for the salary setting
  */
-public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
+public abstract class DetailSalarySettingAction extends SalarySettingBaseAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
-
-    /**
-     * loads the data for the expansion screen based on the passed in url parameters
-     */
-    public abstract ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
@@ -109,8 +102,10 @@ public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
     }
 
     /**
-     * close the salary setting and return to the caller
+     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#close(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
@@ -173,83 +168,15 @@ public abstract class DetailSalarySettingAction extends BudgetExpansionAction {
      */
     public ActionForward insertSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
-        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
-
         appointmentFundings.add(newAppointmentFunding);
+
         salarySettingForm.populateBCAFLines();
         salarySettingForm.setNewBCAFLine(this.createNewAppointmentFundingLine(salarySettingForm));
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * creates a new funding line based on the selected line and sets the emplid to vacant then marks the selected line delete.
-     */
-    public ActionForward vacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
-
-        // retrieve the selected funding line
-        int indexOfSelectedLine = this.getSelectedLine(request);
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
-
-        // associated the vacant funding line with current salary setting expansion
-        SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = salarySettingService.vacateAppointmentFunding(appointmentFunding);
-        if (vacantAppointmentFunding != null) {
-            appointmentFundings.add(indexOfSelectedLine + 1, vacantAppointmentFunding);
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * delete the selected salary setting line
-     */
-    public ActionForward purgeSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
-
-        // remove the slected line
-        int indexOfSelectedLine = this.getSelectedLine(request);
-        appointmentFundings.remove(indexOfSelectedLine);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * sets the request amount using the CSF amount adjusted by a percent or flat rate
-     */
-    public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-        PendingBudgetConstructionAppointmentFundingAware budgetConstructionDetail = salarySettingForm.getBudgetConstructionDetail();
-
-        // retrieve the selected funding line
-        int indexOfSelectedLine = this.getSelectedLine(request);
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = budgetConstructionDetail.getPendingBudgetConstructionAppointmentFunding();
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
-
-        this.adjustSalary(appointmentFunding);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    // adjust the requested salary amount of the given appointment funding line
-    private void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-
-        String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
-        if (BCConstants.SalaryAdjustmentMeasurement.PERCENT.measurement.equals(adjustmentMeasurement)) {
-            salarySettingService.adjustRequestedSalaryByPercent(appointmentFunding);
-        }
-        else if (BCConstants.SalaryAdjustmentMeasurement.AMOUNT.measurement.equals(adjustmentMeasurement)) {
-            salarySettingService.adjustRequestedSalaryByAmount(appointmentFunding);
-        }
     }
 
     /**

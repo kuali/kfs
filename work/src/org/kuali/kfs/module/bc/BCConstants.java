@@ -136,9 +136,9 @@ public class BCConstants extends JSTLConstants {
     public static final String MONTHLY_BUDGET_ACTION = "budgetMonthlyBudget.do";
     public static final String MONTHLY_BUDGET_METHOD = "loadExpansionScreen";
 
-    public static final String SALARY_SETTING_REFRESH_CALLER = QuickSalarySettingAction.class.getName();
-    public static final String SALARY_SETTING_ACTION = "budgetQuickSalarySetting.do";
-    public static final String SALARY_SETTING_METHOD = "loadExpansionScreen";
+    public static final String QUICK_SALARY_SETTING_REFRESH_CALLER = QuickSalarySettingAction.class.getName();
+    public static final String QUICK_SALARY_SETTING_ACTION = "budgetQuickSalarySetting.do";
+    public static final String QUICK_SALARY_SETTING_METHOD = "loadExpansionScreen";
 
     public static final String POSITION_SALARY_SETTING_REFRESH_CALLER = "PositionSalarySetting";
     public static final String POSITION_SALARY_SETTING_ACTION = "budgetPositionSalarySetting.do";

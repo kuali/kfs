@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.document;
+package org.kuali.kfs.fp.document.web;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,27 +24,29 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 
-public class SubFundGroupCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
-
+/**
+ * The values are the same as the disbursementVoucherDocumentationLocationCode in the DisbursementVoucherDocumentationLocation
+ * class.
+ */
+public class DocumentationLocationCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
     @Override
     protected String getDescriptionOfBO(PersistableBusinessObject bo) {
-        return ((SubFundGroup) bo).getSubFundGroupDescription();
+        return ((DisbursementVoucherDocumentationLocation) bo).getDisbursementVoucherDocumentationLocationName();
     }
 
     @Override
     protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, values);
-
         Map<String, PersistableBusinessObject> map = new HashMap<String, PersistableBusinessObject>();
-
-        Collection<SubFundGroup> coll = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(SubFundGroup.class, criteria, "versionNumber", true);
-        for (SubFundGroup sfg : coll) {
-            map.put(sfg.getSubFundGroupCode(), sfg);
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME, values);
+        Collection<DisbursementVoucherDocumentationLocation> coll = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(DisbursementVoucherDocumentationLocation.class, criteria, "versionNumber", true);
+        // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns
+        // BOs in order)
+        for (DisbursementVoucherDocumentationLocation dvdl : coll) {
+            map.put(dvdl.getDisbursementVoucherDocumentationLocationCode(), dvdl);
         }
         return map;
     }
-
 }

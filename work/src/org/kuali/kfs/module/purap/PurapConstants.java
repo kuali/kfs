@@ -173,7 +173,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String SPLIT_PURCHASE_ORDER_TAB_ERRORS = "document.splitPurchaseOrder";
 
     // PO/Quotes Tab Constants
-    public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*";
+    public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*,newPurchaseOrderVendorQuote*";
 
     // Assign Contract Manager
     public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";
@@ -237,7 +237,7 @@ public class PurapConstants extends JSTLConstants {
          * Do not include 'OPEN' status in this map. The 'OPEN' status is the default status that is set when no status exists for a
          * particular pending transmission type code.
          * 
-         * @see {@link org.kuali.kfs.module.purap.document.service.PurchaseOrderService#completePurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)}
+         * @see {@link org.kuali.module.purap.service.PurchaseOrderService#completePurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)}
          */
         private static final Map<String, String> getStatusesByTransmissionType() {
             Map<String, String> statusByTrans = new HashMap<String, String>();

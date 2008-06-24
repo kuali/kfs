@@ -66,7 +66,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
                 i += summariesPerNote;
             }
         } catch (NumberFormatException nfe) {
-            throw new RuntimeException("The KFS-SY / ElectronicPaymentClaim / "+ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER+" should have a value that can be parsed into an integer.", nfe);
+            throw new RuntimeException("The KFS-SYS / ElectronicPaymentClaim / "+ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER+" should have a value that can be parsed into an integer.", nfe);
         } catch (NullPointerException npe) {
             throw new RuntimeException(npe);
         }

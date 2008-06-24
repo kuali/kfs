@@ -333,13 +333,13 @@ public class FormatServiceImpl implements FormatService {
 
     private void saveProcessId(Integer id) {
         Map fields = new HashMap();
-        fields.put("parameterNamespaceCode", "KFS-PD");
+        fields.put("parameterNamespaceCode", "KFS-PDP");
         fields.put("parameterDetailTypeCode", "All");
         fields.put("parameterName", PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
         Parameter processParam = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, fields);
         if (processParam == null) {
             processParam = new Parameter();
-            processParam.setParameterNamespaceCode("KFS-PD");
+            processParam.setParameterNamespaceCode("KFS-PDP");
             processParam.setParameterDetailTypeCode("All");
             processParam.setParameterTypeCode("CONFG");
             processParam.setParameterName(PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);

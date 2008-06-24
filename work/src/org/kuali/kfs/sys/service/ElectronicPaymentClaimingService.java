@@ -53,7 +53,7 @@ public interface ElectronicPaymentClaimingService {
     public abstract String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, UniversalUser user);
     
     /**
-     * Determines whether the given user is a member of the workgroup designated by parameter KFS-SY / ElectronicPaymentClaim / ELECTRONIC_FUNDS_CLAIMANT_GROUP
+     * Determines whether the given user is a member of the workgroup designated by parameter KFS-SYS / ElectronicPaymentClaim / ELECTRONIC_FUNDS_CLAIMANT_GROUP
      * as allowed claimants for ElectronicPaymentClaim records.
      * @param user the user to determine rights for
      * @return true if the user is a member of the parameterized workgroup, false otherwise
@@ -67,7 +67,7 @@ public interface ElectronicPaymentClaimingService {
     public abstract void declaimElectronicPaymentClaimsForDocument(Document document);
     
     /**
-     * Determines whether the given user is a member of the workgroup designated by parameter KFS-SY / ElectronicPaymentClaim / ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP,
+     * Determines whether the given user is a member of the workgroup designated by parameter KFS-SYS / ElectronicPaymentClaim / ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP,
      * and as such, is an administrator for Electronic Payment claiming
      * @param user the user to determine the authorizations for
      * @return true if the user is an EFT admin or not

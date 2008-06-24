@@ -44,12 +44,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PDP = "pdp";
     }
     public static class ParameterNamespaces {
-        public static final String KFS = "KFS-SY";
-        public static final String CHART = "KFS-CA";
-        public static final String FINANCIAL = "KFS-FT";
+        public static final String KFS = "KFS-SYS";
+        public static final String CHART = "KFS-COA";
+        public static final String FINANCIAL = "KFS-FP";
         public static final String GL = "KFS-GL";
-        public static final String VENDOR = "KFS-VN";
-        public static final String PDP = "KFS-PD";
+        public static final String VENDOR = "KFS-VND";
+        public static final String PDP = "KFS-PDP";
         public static final String KNS = KNSConstants.KNS_NAMESPACE;
     }
     

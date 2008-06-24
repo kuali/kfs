@@ -565,7 +565,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      */
     private void updateSystemParameters(String testTarget) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("parameterNamespaceCode", "KFS-ER");
+        fieldValues.put("parameterNamespaceCode", "KFS-EC");
         fieldValues.put("parameterDetailTypeCode", EffortCertificationExtractStep.class.getSimpleName());
 
         List<Parameter> parameters = (List<Parameter>) businessObjectService.findMatching(Parameter.class, fieldValues);

@@ -34,9 +34,7 @@
 		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
 	    	
 	    	<div class="tab-container" align="center">
-		<div class="h2-container">
-		<h2>Auxiliary Voucher Details</h2>
-		</div>	    	
+		<h3>Auxiliary Voucher Details</h3>
 	    	<table cellpadding="0" class="datatable" summary="view/edit ad hoc recipients">
             <tbody>
               <tr>

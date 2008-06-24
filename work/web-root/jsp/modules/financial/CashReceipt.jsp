@@ -60,9 +60,7 @@
 	<kul:tab tabTitle="Cash Reconciliation" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}">
 		<div class="tab-container" align=center>
-		<div class="h2-container">
-		<h2>Cash Reconciliation</h2>
-		</div>
+		<h3>Cash Reconciliation</h3>
 		<table>
 			<tbody>
 				<tr>
@@ -130,9 +128,7 @@
 	</kul:tab>
   <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS}">
     <div class="tab-container" align="center">
-      <div class="h2-container">
-        <h2>Currency and Coin Detail</h2>
-      </div>
+        <h3>Currency and Coin Detail</h3>
       <fin:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" readOnly="false" editingMode="${KualiForm.editingMode}" />
     </div>
   </kul:tab>

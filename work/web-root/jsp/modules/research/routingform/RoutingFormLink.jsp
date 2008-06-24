@@ -31,9 +31,7 @@
   <kul:tabTop tabTitle="Budget Link" defaultOpen="true" tabErrorKey="document.routingFormBudgetNumber*">
   
           <div class="tab-container" align="center">
-            <div class="h2-container">
-              <h2>Budget Link</h2>
-            </div>
+              <h3>Budget Link</h3>
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
               <tr>
                 <td colspan=4 class="tab-subhead"><span class="left">Select A Budget</span> </td>

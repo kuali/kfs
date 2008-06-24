@@ -21,9 +21,7 @@
     
     <kul:tabTop tabTitle="Cash Drawer Corrections" defaultOpen="true" tabErrorKey="cashDrawerErrors">
       <div class="tab-container" align="center">
-        <div class="h2-container">
-          <h2>Cash Drawer for ${KualiForm.cashDrawer.workgroupName}</h2>
-        </div>
+          <h3>Cash Drawer for ${KualiForm.cashDrawer.workgroupName}</h3>
         <cm:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" showCashDrawerSummary="false" />
       </div>
     </kul:tabTop>

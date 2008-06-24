@@ -36,7 +36,7 @@
 		
 	<kul:tabTop tabTitle="Manage files" defaultOpen="true" tabErrorKey="">
       <div class="tab-container" align="center">
-          <div class="h2-container"> <h2>Add Batch File</h2></div>
+          <h3>Add Batch File</h3>
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th width="120">&nbsp;</th>
@@ -70,7 +70,7 @@
          </table>
           
           <br>
-          <!-- div class="h2-container"> <h2>Manage Current Batch File Sets</h2></div>
+          <!-- <h3>Manage Current Batch File Sets</h3>
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th>&nbsp;</th>
@@ -98,7 +98,7 @@
           </table>
       </div-->
       
-          <div class="h2-container"> <h2>Manage current files</h2></div>
+          <h3>Manage current files</h3>
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th width="120">&nbsp;</th>

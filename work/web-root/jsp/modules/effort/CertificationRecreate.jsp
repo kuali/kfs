@@ -42,14 +42,14 @@
 		tabErrorKey="${EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS}">
 		
 		<div class="tab-container" align=center>
-			<div class="h2-container"><h2>Retrieve Data</h2></div>			
+			<h3>Retrieve Data</h3>
 			<er:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}" />				
 		</div>
 		
 		<div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}"/></div></div>
 					
 		<div class="tab-container" align=center>			
-			<div class="h2-container"><h2>Effort Detail Lines</h2></div>
+			<h3>Effort Detail Lines</h3>
 			
 			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationOriginalPayrollAmount"

@@ -33,7 +33,7 @@
   <kfs:electronicPaymentClaims allowAdministration="${KualiForm.allowElectronicFundsTransferAdministration}" />
   <kul:tab tabTitle="Claiming Document" defaultOpen="true" tabErrorKey="chosenElectronicPaymentClaimingDocumentCode">
     <div class="tab-container" align=center>
-      <div class="h2-container"><h2>Claiming Document Type</h2></div>
+      <h3>Claiming Document Type</h3>
       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <tr>
           <td>

@@ -55,9 +55,7 @@
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS}">
 		<div class="tab-container" align=center>
-		<div class="h2-container">
-		<h2>Ledger Balance Importing</h2>
-		</div>
+		<h3>Ledger Balance Importing</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Ledger Balance Importing">
 

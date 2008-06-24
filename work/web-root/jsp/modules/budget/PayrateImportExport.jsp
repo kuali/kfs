@@ -30,7 +30,7 @@
     
 	<kul:tabTop tabTitle="Payrate Export" defaultOpen="true">
 		<div class="tab-container" align=center>
-			<div class="h2-container"><h2>Export</h2></div>
+			<h3>Export</h3>
 			<table bgcolor="#C0C0C0" cellpadding="30" >
 				<tr>
 					<td> 
@@ -61,7 +61,7 @@
 	
 	<kul:tab tabTitle="Payrate Import" defaultOpen="true">
 		<div class="tab-container" align=center>
-			<div class="h2-container"><h2>Import</h2></div>
+			<h3>Import</h3>
 			<table bgcolor="#C0C0C0" >
 				<tr>
 					<td> 

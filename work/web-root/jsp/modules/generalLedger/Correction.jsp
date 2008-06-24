@@ -230,9 +230,7 @@
     <kul:tab tabTitle="Correction File Upload" defaultOpen="true" tabErrorKey="fileUpload">
       <c:if test="${KualiForm.chooseSystem == 'U'}" >
         <div class="tab-container" align="center"> 
-          <div class="h2-container">
-            <h2>Corrections File Upload</h2>
-          </div>
+            <h3>Corrections File Upload</h3>
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
               <td class="bord-l-b" style="padding: 4px;">

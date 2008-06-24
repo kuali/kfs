@@ -69,9 +69,7 @@ function checkCheckAllOrNone() {
 		<kul:tabTop tabTitle="Deposit Header" defaultOpen="true"
 			tabErrorKey="depositHeaderErrors">
 			<div class="tab-container" align=center>
-			<div class="h2-container">
-			<h2>Deposit Header</h2>
-			</div>
+			<h3>Deposit Header</h3>
 
 			<!-- deposit header fields -->
 			<div id="workarea">
@@ -135,9 +133,7 @@ function checkCheckAllOrNone() {
     <c:if test="${KualiForm.depositFinal}">
       <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true">
         <div class="tab-container" align="center">
-          <div class="h2-container">
-            <h2>Currency and Coin Detail</h2>
-          </div>
+            <h3>Currency and Coin Detail</h3>
           <fin:currencyCoinLine currencyProperty="currencyDetail" coinProperty="coinDetail" readOnly="false" />
         </div>
       </kul:tab>
@@ -151,9 +147,7 @@ function checkCheckAllOrNone() {
 			<div width="100%" align="left"
 				style="padding-left: 10px; padding-bottom: 10px"><b>Please select
 			the Cash Receipt documents that you would like to deposit.</b></div>
-			<div class="h2-container">
-			<h2>Cash Receipts Available for Deposit</h2>
-			</div>
+			<h3>Cash Receipts Available for Deposit</h3>
 			<div id="workarea">
 			<table cellpadding="0" cellspacing="0" class="datatable"
 				summary="cash receipts available for deposit">
@@ -331,9 +325,7 @@ function checkCheckAllOrNone() {
         <div width="100%" align="left" style="padding-left: 10px; padding-bottom: 10px">
           <strong>Please select Cashiering Checks to deposit.</strong>
         </div>
-        <div class="h2-container">
-          <h2>Cashiering Checks Available for Deposit</h2>
-        </div>
+          <h3>Cashiering Checks Available for Deposit</h3>
         <div id="workarea">
           <table cellpadding="0" cellspacing="0" class="datatable" summary="cashiering checks available for deposit">
             <tr>

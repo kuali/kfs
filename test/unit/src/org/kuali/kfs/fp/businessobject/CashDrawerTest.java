@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.fp.businessobject.datadictionary.CoinDetailTest;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class CashDrawerTest extends KualiTestBase {

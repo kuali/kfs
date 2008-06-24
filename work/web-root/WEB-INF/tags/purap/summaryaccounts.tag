@@ -26,7 +26,7 @@
 		</div>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 			<logic:empty name="KualiForm" property="summaryAccounts">
-				<h3>No Accounts</h3>
+				<h4>No Accounts</h4>
 			</logic:empty>
 			<logic:notEmpty name="KualiForm" property="summaryAccounts">
 				<logic:iterate id="summaryAccount" name="KualiForm" property="summaryAccounts" indexId="ctr">		

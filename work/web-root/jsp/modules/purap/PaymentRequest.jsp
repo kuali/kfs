@@ -56,11 +56,11 @@
 
 	<!--  Display hold message if payment is on hold -->
 	<c:if test="${KualiForm.paymentRequestDocument.holdIndicator}">	
-		<h3>This Payment Request has been Held by <c:out value="${KualiForm.paymentRequestDocument.lastActionPerformedByPersonName}"/></h3>		
+		<h4>This Payment Request has been Held by <c:out value="${KualiForm.paymentRequestDocument.lastActionPerformedByPersonName}"/></h4>		
 	</c:if>
 	
 	<c:if test="${KualiForm.paymentRequestDocument.paymentRequestedCancelIndicator}">	
-		<h3>This Payment Request has been Requested for Cancel by <c:out value="${KualiForm.paymentRequestDocument.lastActionPerformedByPersonName}"/></h3>		
+		<h4>This Payment Request has been Requested for Cancel by <c:out value="${KualiForm.paymentRequestDocument.lastActionPerformedByPersonName}"/></h4>		
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >

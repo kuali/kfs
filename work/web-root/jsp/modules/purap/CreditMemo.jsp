@@ -43,7 +43,7 @@
 	<c:if test="${not displayInitTab}" >
 		<!--  Display hold message if payment is on hold -->
 	    <c:if test="${KualiForm.document.holdIndicator}">	
-		  <h3>This Credit Memo has been Held by <c:out value="${KualiForm.document.lastActionPerformedByPersonName}"/></h3>		
+		  <h4>This Credit Memo has been Held by <c:out value="${KualiForm.document.lastActionPerformedByPersonName}"/></h4>		
 	    </c:if>
 	    
 		<kfs:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true" fiscalYearReadOnly="true" postingYearAttributes="${DataDictionary.CreditMemoDocument.attributes}" />

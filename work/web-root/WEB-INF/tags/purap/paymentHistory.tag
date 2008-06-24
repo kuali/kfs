@@ -115,7 +115,7 @@
 		    <br />
 		</logic:notEmpty>
         <logic:empty name="KualiForm" property="document.relatedViews.paymentHistoryPaymentRequestViews">
-	        <h3>No Payment Requests</h3>
+	        <h4>No Payment Requests</h4>
         </logic:empty>
 
         <div class="h2-container">
@@ -200,7 +200,7 @@
 		    <br />
 		</logic:notEmpty>
         <logic:empty name="KualiForm" property="document.relatedViews.paymentHistoryCreditMemoViews">
-	        <h3>No Credit Memos</h3>
+	        <h4>No Credit Memos</h4>
         </logic:empty>
     </div>
 </kul:tab>

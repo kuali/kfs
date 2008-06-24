@@ -15,9 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<div class="h3-container">
-	<h3>Money In</h3>
-</div>
+	<h4>Money In</h4>
 <kul:htmlControlAttribute property="document.currentTransaction.workgroupName" attributeEntry="${DataDictionary.CashieringTransaction.attributes.workgroupName}" />
 <kul:htmlControlAttribute property="document.currentTransaction.referenceFinancialDocumentNumber" attributeEntry="${DataDictionary.CashieringTransaction.attributesreferenceFinancialDocumentNumber}" />
 <html:hidden name="KualiForm" property="document.currentTransaction.nextCheckSequenceId" write="false" />
@@ -44,9 +42,7 @@
   <cm:checkLines checkDetailMode="true" editingMode="${KualiForm.editingMode}" displayHidden="false" />
 </div>
 
-<div class="h3-container">
-	<h3>Money Out</h3>
-</div>
+	<h4>Money Out</h4>
 <div style="padding: 5px;">
   <div class="h2-container">
     <h2>Currency/Coin</h2>

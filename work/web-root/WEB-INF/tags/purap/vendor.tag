@@ -446,9 +446,7 @@
         </table>
 
         <c:if test="${displayRequisitionFields}">
-            <div class="h2-container">
-                <h2>Additional Suggested Vendor Names</h2>
-            </div>
+                <h3>Additional Suggested Vendor Names</h3>
 
             <table cellpadding="0" cellspacing="0" class="datatable" summary="Additional Vendor Section">
                 <tr>

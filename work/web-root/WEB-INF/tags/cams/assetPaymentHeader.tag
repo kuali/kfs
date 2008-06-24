@@ -23,9 +23,7 @@
 
 <kul:tab tabTitle="Asset Detail Information" defaultOpen="${!defaultTabHide}">		
     <div class="tab-container" align=center > 
-	    <div class="h2-container">
-	        <h2>Asset Information</h2>
-	    </div>
+	        <h3>Asset Information</h3>
 		<table cellpadding=0 class="datatable" summary="Asset Information Section">
 	      <tr>
 	        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}"/></div></th>

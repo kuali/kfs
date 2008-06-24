@@ -21,7 +21,7 @@
 	<c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
 
  	<div class="tab-container" align=center > 
-		<div class="h2-container"><h2>Report Information</h2></div>
+		<h3>Report Information</h3>
 		
 	 	<table summary="" cellpadding="0" cellspacing="0"><tbody>
 			<tr>

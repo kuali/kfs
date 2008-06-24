@@ -96,7 +96,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
      * @return the fiscal year
      */
     private Integer getFiscalYear() {
-        String val = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+        String val = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
         int yr = Integer.parseInt(val);
         return new Integer(yr);
     }

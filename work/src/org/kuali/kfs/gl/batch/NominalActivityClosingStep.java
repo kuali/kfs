@@ -57,17 +57,17 @@ public class NominalActivityClosingStep extends AbstractStep {
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
         }
         catch (ParseException e) {
             LOG.error("forwardBalances() Unable to parse transaction date", e);
             throw new IllegalArgumentException("Unable to parse transaction date");
         }
-        Integer varFiscalYear = new Integer(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+        Integer varFiscalYear = new Integer(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
         OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, true, false, true);
         Map nominalClosingJobParameters = new HashMap();
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
 
         yearEndService.closeNominalActivity(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);

@@ -54,8 +54,8 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
-        keys.add(GLConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
+        keys.add(GeneralLedgerConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
+        keys.add(GeneralLedgerConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
         keys.add(Constant.PENDING_ENTRY_OPTION);
@@ -70,7 +70,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+        userDefinedAttributeMap.put(GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
         return userDefinedAttributeMap;
     }
 
@@ -81,7 +81,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
-        if (attributeName.equals(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION)) {
+        if (attributeName.equals(GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION)) {
             attributeName = KFSPropertyConstants.OBJECT_CODE;
         }
         return attributeName;
@@ -140,7 +140,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         /*
          * if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) { c =
          * AccountBalanceByConsolidation.class; } else
-         */if (GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE.equals(attributeName)) {
+         */if (GeneralLedgerConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE.equals(attributeName)) {
             c = AccountBalance.class;
         }
         else if (KFSPropertyConstants.OBJECT_CODE.equals(attributeName)) {

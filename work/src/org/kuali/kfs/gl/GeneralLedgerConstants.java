@@ -34,7 +34,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 /**
  * This class holds constants specifically for use within the General Ledger module.
  */
-public class GLConstants {
+public class GeneralLedgerConstants {
 
     public static final String INSERT_CODE = "I";
     public static final String UPDATE_CODE = "U";

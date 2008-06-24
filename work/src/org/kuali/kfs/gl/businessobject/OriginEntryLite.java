@@ -203,7 +203,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
     protected String formatDate(Date date) {
         if (date == null) {
-            return GLConstants.getSpaceTransactionDate();
+            return GeneralLedgerConstants.getSpaceTransactionDate();
         }
         else {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -227,9 +227,9 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     public void setFromTextFile(String line, int lineNumber) throws LoadException {
 
         // Just in case
-        line = line + GLConstants.getSpaceAllOriginEntryFields();
+        line = line + GeneralLedgerConstants.getSpaceAllOriginEntryFields();
 
-        if (!GLConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
             try {
                 setUniversityFiscalYear(new Integer(line.substring(0, 4)));
             }
@@ -254,7 +254,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         setFinancialDocumentTypeCode(getValue(line, 31, 35));
         setFinancialSystemOriginationCode(getValue(line, 35, 37));
         setDocumentNumber(getValue(line, 37, 51));
-        if (!GLConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GLConstants.getZeroTransactionEntrySequenceNumber().equals(line.substring(51, 56))) {
+        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(line.substring(51, 56))) {
             try {
                 setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
             }
@@ -305,11 +305,11 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
     protected String getField(int size, String value) {
         if (value == null) {
-            return GLConstants.getSpaceAllOriginEntryFields().substring(0, size);
+            return GeneralLedgerConstants.getSpaceAllOriginEntryFields().substring(0, size);
         }
         else {
             if (value.length() < size) {
-                return value + GLConstants.getSpaceAllOriginEntryFields().substring(0, size - value.length());
+                return value + GeneralLedgerConstants.getSpaceAllOriginEntryFields().substring(0, size - value.length());
             }
             else {
                 return value;
@@ -320,7 +320,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     public String getLine() {
         StringBuffer sb = new StringBuffer();
         if (universityFiscalYear == null) {
-            sb.append(GLConstants.getSpaceUniversityFiscalYear());
+            sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
         }
         else {
             sb.append(universityFiscalYear);

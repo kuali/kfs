@@ -152,7 +152,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             balance.setMonth13Amount(KualiDecimal.ZERO);
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
+                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
                 balance.setTimestamp(new java.sql.Date(jud.getTime()));
             }
             catch (ParseException e) {
@@ -258,7 +258,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             balance.setMonth13Amount(KualiDecimal.ZERO);
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
+                java.util.Date jud = sdf.parse(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM));
                 balance.setTimestamp(new java.sql.Date(jud.getTime()));
             }
             catch (ParseException e) {

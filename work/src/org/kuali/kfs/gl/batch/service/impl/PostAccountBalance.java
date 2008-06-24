@@ -30,8 +30,8 @@ import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalculator {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostGlAccountBalance.class);
+public class PostAccountBalance implements PostTransaction, AccountBalanceCalculator {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostAccountBalance.class);
 
     private AccountBalanceDao accountBalanceDao;
 
@@ -40,9 +40,9 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
     }
 
     /**
-     * Constructs a PostGlAccountBalance instance
+     * Constructs a PostAccountBalance instance
      */
-    public PostGlAccountBalance() {
+    public PostAccountBalance() {
         super();
     }
 
@@ -63,20 +63,20 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
         // or where object type isn't FB and balance type code is EX, IE, PE and CE
         if ((t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) || (t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getCostShareEncumbranceBalanceTypeCd())) && (!t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd()))) {
             // We are posting this transaction
-            String returnCode = GLConstants.UPDATE_CODE;
+            String returnCode = GeneralLedgerConstants.UPDATE_CODE;
 
             // Load it
             AccountBalance ab = accountBalanceDao.getByTransaction(t);
 
             if (ab == null) {
-                returnCode = GLConstants.INSERT_CODE;
+                returnCode = GeneralLedgerConstants.INSERT_CODE;
                 ab = new AccountBalance(t);
             }
 
             ab.setTimestamp(new java.sql.Date(postDate.getTime()));
 
             if (!updateAccountBalanceReturn(t, ab)) {
-                return GLConstants.EMPTY_CODE;
+                return GeneralLedgerConstants.EMPTY_CODE;
             }
 
             accountBalanceDao.save(ab);
@@ -84,7 +84,7 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
             return returnCode;
         }
         else {
-            return GLConstants.EMPTY_CODE;
+            return GeneralLedgerConstants.EMPTY_CODE;
         }
     }
 

@@ -58,24 +58,24 @@ public class EncumbranceForwardStep extends AbstractStep {
         Integer varFiscalYear = null;
         Date varTransactionDate = null;
 
-        String FIELD_FISCAL_YEAR = GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR;
-        String FIELD_TRANSACTION_DATE = GLConstants.ColumnNames.TRANSACTION_DT;
+        String FIELD_FISCAL_YEAR = GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR;
+        String FIELD_TRANSACTION_DATE = GeneralLedgerConstants.ColumnNames.TRANSACTION_DT;
 
         // Get the current fiscal year.
-        varFiscalYear = new Integer(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+        varFiscalYear = new Integer(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
 
         // Get the current date (transaction date).
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
         }
         catch (ParseException pe) {
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
             throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
         }
 
-        jobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
-        jobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
+        jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
+        jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
 
         OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, false, true);
         Map<String, Integer> forwardEncumbranceCounts = new HashMap<String, Integer>();

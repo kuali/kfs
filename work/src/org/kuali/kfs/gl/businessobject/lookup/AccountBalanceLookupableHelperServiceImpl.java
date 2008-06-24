@@ -79,7 +79,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
         String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
 
         // test if the consolidation option is selected or not
-        String consolidationOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         boolean isConsolidated = isConsolidationSelected(fieldValues);
 
         // get the search result collection

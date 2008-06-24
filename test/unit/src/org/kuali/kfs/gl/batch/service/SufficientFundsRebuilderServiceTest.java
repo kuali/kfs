@@ -64,7 +64,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         
         // and reset the closing fiscal year
-        TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2007");
+        TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2007");
     }
 
     /**

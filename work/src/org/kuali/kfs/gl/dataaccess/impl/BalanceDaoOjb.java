@@ -228,10 +228,10 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
-        criteriaBuilder(criteria, GLConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
-        criteriaBuilder(criteria, GLConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
-        criteriaBuilder(criteria, GLConstants.ColumnNames.OBJECT_CODE, includedObjectCodes);
-        negatedCriteriaBuilder(criteria, GLConstants.ColumnNames.OBJECT_CODE, excludedObjectCodes);
+        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
+        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
+        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_CODE, includedObjectCodes);
+        negatedCriteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_CODE, excludedObjectCodes);
 
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
 
@@ -614,10 +614,10 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             qbc.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
         }
         else if (KFSConstants.SF_TYPE_LEVEL.equals(sfCode)) {
-            qbc.addOrderByAscending(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
+            qbc.addOrderByAscending(GeneralLedgerConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
         }
         else if (KFSConstants.SF_TYPE_CONSOLIDATION.equals(sfCode)) {
-            qbc.addOrderByAscending(GLConstants.BalanceInquiryDrillDowns.CONSOLIDATION_OBJECT_CODE);
+            qbc.addOrderByAscending(GeneralLedgerConstants.BalanceInquiryDrillDowns.CONSOLIDATION_OBJECT_CODE);
         }
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -702,7 +702,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
 
-        String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
+        String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
         List<String> generalBalanceForwardBalanceTypes = new ArrayList<String>();
         for (String bt : generalBalanceForwardBalanceTypesArray) {
             generalBalanceForwardBalanceTypes.add(bt);
@@ -742,13 +742,13 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         SubFundGroupService subFundGroupService = SpringContext.getBean(SubFundGroupService.class);
 
-        final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
+        final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
         List<String> subFundGroupsForCumulativeBalanceForwarding = new ArrayList<String>();
         for (String subFundGroup : subFundGroupsForCumulativeBalanceForwardingArray) {
             subFundGroupsForCumulativeBalanceForwarding.add(subFundGroup);
         }
 
-        String[] cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GLConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
+        String[] cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
         List<String> cumulativeBalanceForwardBalanceTypes = new ArrayList<String>();
         for (String bt : cumulativeBalanceForwardBalanceTypesArray) {
             cumulativeBalanceForwardBalanceTypes.add(bt);

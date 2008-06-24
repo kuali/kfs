@@ -38,7 +38,7 @@ public class ClearOldOriginEntryStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) {
         LOG.debug("performStep() started");
-        String daysStr = getParameterService().getParameterValue(getClass(), GLConstants.RETAIN_DAYS);
+        String daysStr = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.RETAIN_DAYS);
         int days = Integer.parseInt(daysStr);
         originEntryGroupService.deleteOlderGroups(days);
         return true;

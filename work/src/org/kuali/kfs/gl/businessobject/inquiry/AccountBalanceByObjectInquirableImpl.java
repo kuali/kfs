@@ -65,8 +65,8 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "");
-        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
-        userDefinedAttributeMap.put(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE, "");
+        userDefinedAttributeMap.put(GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+        userDefinedAttributeMap.put(GeneralLedgerConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE, "");
         return userDefinedAttributeMap;
     }
 
@@ -77,7 +77,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
      * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
-        if (attributeName.equals(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION)) {
+        if (attributeName.equals(GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION)) {
             attributeName = KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRY;
         }
         return attributeName;

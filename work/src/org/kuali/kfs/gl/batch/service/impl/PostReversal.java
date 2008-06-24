@@ -63,7 +63,7 @@ public class PostReversal implements PostTransaction {
 
         if (t.getFinancialDocumentReversalDate() == null) {
             // No need to post this
-            return GLConstants.EMPTY_CODE;
+            return GeneralLedgerConstants.EMPTY_CODE;
         }
 
         Reversal re = new Reversal(t);
@@ -75,7 +75,7 @@ public class PostReversal implements PostTransaction {
 
         reversalDao.save(re);
 
-        return GLConstants.INSERT_CODE;
+        return GeneralLedgerConstants.INSERT_CODE;
     }
 
     /**

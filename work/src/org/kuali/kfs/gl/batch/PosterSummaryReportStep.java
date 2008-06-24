@@ -53,9 +53,9 @@ public class PosterSummaryReportStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public synchronized boolean execute(String jobName, Date jobRunDate) {
-        final String CURRENT_YEAR_LOWER = getParameterService().getParameterValue(getClass(), GLConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
-        final String CURRENT_YEAR_UPPER = getParameterService().getParameterValue(getClass(), GLConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
-        final String CURRENT_AND_LAST_YEAR = getParameterService().getParameterValue(getClass(), GLConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
+        final String CURRENT_YEAR_LOWER = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
+        final String CURRENT_YEAR_UPPER = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
+        final String CURRENT_AND_LAST_YEAR = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
 
         Options currentYear = optionsService.getCurrentYearOptions();
         Options nextYear = optionsService.getOptions(currentYear.getUniversityFiscalYear() + 1);

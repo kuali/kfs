@@ -90,33 +90,33 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         this.universityFiscalYear = universityFiscalYear;
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;
-        subAccountNumber = (String) data.get(GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER);
+        subAccountNumber = (String) data.get(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER);
 
-        currentBudgetLineBalanceAmount = new KualiDecimal((BigDecimal) data.get(GLConstants.ColumnNames.CURRENT_BDLN_BALANCE_AMOUNT));
-        accountLineActualsBalanceAmount = new KualiDecimal((BigDecimal) data.get(GLConstants.ColumnNames.ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT));
-        accountLineEncumbranceBalanceAmount = new KualiDecimal((BigDecimal) data.get(GLConstants.ColumnNames.ACCOUNTING_LINE_ENCUMBRANCE_BALANCE_AMOUNT));
+        currentBudgetLineBalanceAmount = new KualiDecimal((BigDecimal) data.get(GeneralLedgerConstants.ColumnNames.CURRENT_BDLN_BALANCE_AMOUNT));
+        accountLineActualsBalanceAmount = new KualiDecimal((BigDecimal) data.get(GeneralLedgerConstants.ColumnNames.ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT));
+        accountLineEncumbranceBalanceAmount = new KualiDecimal((BigDecimal) data.get(GeneralLedgerConstants.ColumnNames.ACCOUNTING_LINE_ENCUMBRANCE_BALANCE_AMOUNT));
 
-        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
-        financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinConsolidationObjectCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
+        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get(GeneralLedgerConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
+        financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinConsolidationObjectCode((String) data.get(GeneralLedgerConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
 
         if (TYPE_CONSOLIDATION.equals(type)) {
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.REPORT_SORT_CODE));
-            financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_REPORT_SORT_CODE));
+            financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get(GeneralLedgerConstants.ColumnNames.REPORT_SORT_CODE));
+            financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get(GeneralLedgerConstants.ColumnNames.CONSOLIDATION_REPORT_SORT_CODE));
             fixVariance();
         }
         else if (TYPE_LEVEL.equals(type)) {
-            financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.REPORT_SORT_CODE));
-            financialObject.setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE2));
-            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE2));
+            financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get(GeneralLedgerConstants.ColumnNames.REPORT_SORT_CODE));
+            financialObject.setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE2));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE2));
 
             // tricking it so getVariance() works
             financialObject.getFinancialObjectType().setFinancialReportingSortCode(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B);
             fixVariance();
         }
         else if (TYPE_OBJECT.equals(type)) {
-            objectCode = (String) data.get(GLConstants.ColumnNames.OBJECT_CODE);
-            financialObject.setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
-            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
+            objectCode = (String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_CODE);
+            financialObject.setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE));
 
             // tricking it so getVariance() works
             financialObject.getFinancialObjectType().setFinancialReportingSortCode(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B);

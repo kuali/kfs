@@ -88,7 +88,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
 
-        String returnCode = GLConstants.UPDATE_CODE;
+        String returnCode = GeneralLedgerConstants.UPDATE_CODE;
 
         // If the encumbrance update code is space or N, or the object type code is FB
         // we don't need to post an encumbrance
@@ -110,7 +110,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
             // Build a new encumbrance record
             enc = new Encumbrance(e);
 
-            returnCode = GLConstants.INSERT_CODE;
+            returnCode = GeneralLedgerConstants.INSERT_CODE;
         }
         else {
             // Use the one retrieved
@@ -118,7 +118,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
                 enc.setTransactionEncumbranceDate(t.getTransactionDate());
             }
 
-            returnCode = GLConstants.UPDATE_CODE;
+            returnCode = GeneralLedgerConstants.UPDATE_CODE;
         }
 
         updateEncumbrance(t, enc);

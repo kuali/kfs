@@ -87,7 +87,7 @@ public class PositionDataInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+        userDefinedAttributeMap.put(GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
 
         return userDefinedAttributeMap;
     }

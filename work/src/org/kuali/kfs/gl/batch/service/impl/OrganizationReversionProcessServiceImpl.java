@@ -158,11 +158,11 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public Map getJobParameters() {
         // Get job parameters
         Map jobParameters = new HashMap();
-        String strTransactionDate = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM);
-        jobParameters.put(KFSConstants.UNALLOC_OBJECT_CD, parameterService.getParameterValue(OrganizationReversion.class, GLConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM));
-        jobParameters.put(KFSConstants.BEG_BUD_CASH_OBJECT_CD, parameterService.getParameterValue(OrganizationReversion.class, GLConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE));
-        jobParameters.put(KFSConstants.FUND_BAL_OBJECT_CD, parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM));
-        String strUniversityFiscalYear = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+        String strTransactionDate = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM);
+        jobParameters.put(KFSConstants.UNALLOC_OBJECT_CD, parameterService.getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM));
+        jobParameters.put(KFSConstants.BEG_BUD_CASH_OBJECT_CD, parameterService.getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.CARRY_FORWARD_OBJECT_CODE));
+        jobParameters.put(KFSConstants.FUND_BAL_OBJECT_CD, parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM));
+        String strUniversityFiscalYear = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);

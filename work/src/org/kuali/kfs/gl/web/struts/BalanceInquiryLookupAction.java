@@ -182,7 +182,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
 
         if (lookupForm.isSegmented()) {
             LOG.debug("I'm segmented");
-            request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+            request.setAttribute(GeneralLedgerConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
         }
 
         if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
@@ -255,7 +255,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     @Override
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        request.setAttribute(GeneralLedgerConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
         return super.sort(mapping, form, request, response);
     }
 
@@ -265,7 +265,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     @Override
     public ActionForward selectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        request.setAttribute(GeneralLedgerConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
         return super.selectAll(mapping, form, request, response);
     }
 
@@ -275,7 +275,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     @Override
     public ActionForward unselectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        request.setAttribute(GeneralLedgerConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
         return super.unselectAll(mapping, form, request, response);
     }
 
@@ -285,7 +285,7 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     @Override
     public ActionForward switchToPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
+        request.setAttribute(GeneralLedgerConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE);
         return super.switchToPage(mapping, form, request, response);
     }
 

@@ -277,7 +277,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            bal.put(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE, financialConsolidationObjectCode);
+            bal.put(GeneralLedgerConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE, financialConsolidationObjectCode);
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_LEVEL, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
@@ -325,7 +325,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            bal.put(GLConstants.ColumnNames.OBJECT_LEVEL_CODE, financialObjectLevelCode);
+            bal.put(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE, financialObjectLevelCode);
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_OBJECT, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {

@@ -170,7 +170,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
         if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
             return postTransaction(t, mode);
         }
-        return GLConstants.EMPTY_CODE;
+        return GeneralLedgerConstants.EMPTY_CODE;
     }
 
     /**
@@ -183,17 +183,17 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
     private String postTransaction(Transaction t, int mode) {
         LOG.debug("postTransaction() started");
 
-        String returnCode = GLConstants.UPDATE_CODE;
+        String returnCode = GeneralLedgerConstants.UPDATE_CODE;
 
         ExpenditureTransaction et = expenditureTransactionDao.getByTransaction(t);
         if (et == null) {
             LOG.warn("Posting expenditure transation");
             et = new ExpenditureTransaction(t);
-            returnCode = GLConstants.INSERT_CODE;
+            returnCode = GeneralLedgerConstants.INSERT_CODE;
         }
 
         if (org.apache.commons.lang.StringUtils.isBlank(t.getOrganizationReferenceId())) {
-            et.setOrganizationReferenceId(GLConstants.getDashOrganizationReferenceId());
+            et.setOrganizationReferenceId(GeneralLedgerConstants.getDashOrganizationReferenceId());
         }
 
         if (KFSConstants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode()) || KFSConstants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode())) {

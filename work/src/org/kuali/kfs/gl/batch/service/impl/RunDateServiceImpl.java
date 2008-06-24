@@ -159,7 +159,7 @@ public class RunDateServiceImpl implements RunDateService {
      *         particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59
      */
     protected String retrieveCutoffTimeValue() {
-        String value = parameterService.getParameterValue(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        String value = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
         if (StringUtils.isBlank(value)) {
             LOG.error("Unable to retrieve parameter for GL process cutoff date.  Defaulting to no cutoff time (i.e. midnight)");
             value = null;

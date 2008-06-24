@@ -72,16 +72,16 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
 
         BusinessObjectFieldConverter.escapeSingleQuote(fieldValues);
 
-        String costShareOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.COST_SHARE_OPTION);
-        String pendingEntryOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
-        String consolidationOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        String costShareOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.COST_SHARE_OPTION);
+        String pendingEntryOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
 
         int pendingEntryCode = AccountBalanceService.PENDING_NONE;
-        if (GLConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption)) {
+        if (GeneralLedgerConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_APPROVED;
         }
-        else if (GLConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
+        else if (GeneralLedgerConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_ALL;
         }
 

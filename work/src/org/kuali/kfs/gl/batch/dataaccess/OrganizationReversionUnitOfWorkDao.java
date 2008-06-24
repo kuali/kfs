@@ -19,7 +19,7 @@ package org.kuali.kfs.gl.batch.dataaccess;
  * A data access object interface, declaring methods needed by the org reversion process to 
  * properly report the unit of work summaries
  */
-public interface OrgReversionUnitOfWorkDao {
+public interface OrganizationReversionUnitOfWorkDao {
 
     /**
      * This method...this terrible method...will destroy each and every one of the innocent Org Reversion Unit of Work records.

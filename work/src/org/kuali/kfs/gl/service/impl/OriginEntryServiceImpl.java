@@ -432,10 +432,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         Object oCount = entrySummary[6];
 
         Integer fiscalYear = oFiscalYear != null ? new Integer(oFiscalYear.toString()) : null;
-        String periodCode = oPeriodCode != null ? oPeriodCode.toString() : GLConstants.getSpaceUniversityFiscalPeriodCode();
-        String balanceType = oBalanceType != null ? oBalanceType.toString() : GLConstants.getSpaceBalanceTypeCode();
-        String originCode = oOriginCode != null ? oOriginCode.toString() : GLConstants.getSpaceFinancialSystemOriginationCode();
-        String debitCreditCode = oDebitCreditCode != null ? oDebitCreditCode.toString() : GLConstants.getSpaceDebitCreditCode();
+        String periodCode = oPeriodCode != null ? oPeriodCode.toString() : GeneralLedgerConstants.getSpaceUniversityFiscalPeriodCode();
+        String balanceType = oBalanceType != null ? oBalanceType.toString() : GeneralLedgerConstants.getSpaceBalanceTypeCode();
+        String originCode = oOriginCode != null ? oOriginCode.toString() : GeneralLedgerConstants.getSpaceFinancialSystemOriginationCode();
+        String debitCreditCode = oDebitCreditCode != null ? oDebitCreditCode.toString() : GeneralLedgerConstants.getSpaceDebitCreditCode();
         KualiDecimal amount = oAmount != null ? new KualiDecimal(oAmount.toString()) : KualiDecimal.ZERO;
         int count = oCount != null ? Integer.parseInt(oCount.toString()) : 0;
 

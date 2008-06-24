@@ -126,7 +126,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 
                 Map<String, Object> balance = null;
                 try {
-                    balance = getSimpleJdbcTemplate().queryForMap(balanceStatementSql, sessionId, pendingEntryRowSet.getInt(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), pendingEntryRowSet.getString(GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE), pendingEntryRowSet.getString(GLConstants.ColumnNames.ACCOUNT_NUMBER), pendingEntryRowSet.getString(GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER), pendingEntryRowSet.getString(GLConstants.ColumnNames.OBJECT_CODE), pendingEntryRowSet.getString(GLConstants.ColumnNames.SUB_OBJECT_CODE));
+                    balance = getSimpleJdbcTemplate().queryForMap(balanceStatementSql, sessionId, pendingEntryRowSet.getInt(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.ACCOUNT_NUMBER), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.OBJECT_CODE), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.SUB_OBJECT_CODE));
                 }
                 catch (IncorrectResultSizeDataAccessException ex) {
                     if (ex.getActualSize() != 0) {
@@ -136,40 +136,40 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
                     // no rows returned - that's ok
                 }
 
-                String balanceType = pendingEntryRowSet.getString(GLConstants.ColumnNames.BALANCE_TYPE_CODE);
-                String debitCreditCode = pendingEntryRowSet.getString(GLConstants.ColumnNames.DEBIT_CREDIT_CODE);
-                String objectTypeDebitCreditCode = pendingEntryRowSet.getString(GLConstants.ColumnNames.OBJECT_TYPE_DEBIT_CREDIT_CODE);
-                String offsetGenerationCode = pendingEntryRowSet.getString(GLConstants.ColumnNames.OFFSET_GENERATION_CODE);
+                String balanceType = pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE);
+                String debitCreditCode = pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.DEBIT_CREDIT_CODE);
+                String objectTypeDebitCreditCode = pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_DEBIT_CREDIT_CODE);
+                String offsetGenerationCode = pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.OFFSET_GENERATION_CODE);
 
                 if (balance != null) {
                     updateCount++;
 
-                    BigDecimal budget = (BigDecimal) balance.get(GLConstants.ColumnNames.CURRENT_BDLN_BALANCE_AMOUNT);
-                    BigDecimal actual = (BigDecimal) balance.get(GLConstants.ColumnNames.ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT);
-                    BigDecimal encumb = (BigDecimal) balance.get(GLConstants.ColumnNames.ACCOUNTING_LINE_ENCUMBRANCE_BALANCE_AMOUNT);
+                    BigDecimal budget = (BigDecimal) balance.get(GeneralLedgerConstants.ColumnNames.CURRENT_BDLN_BALANCE_AMOUNT);
+                    BigDecimal actual = (BigDecimal) balance.get(GeneralLedgerConstants.ColumnNames.ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT);
+                    BigDecimal encumb = (BigDecimal) balance.get(GeneralLedgerConstants.ColumnNames.ACCOUNTING_LINE_ENCUMBRANCE_BALANCE_AMOUNT);
 
                     if (balanceType.equals(options.getBudgetCheckingBalanceTypeCd())) {
-                        budget = budget.add(pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                        budget = budget.add(pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
                     }
                     else if (balanceType.equals(options.getActualFinancialBalanceTypeCd())) {
                         if (debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)))) {
-                            actual = actual.add(pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                            actual = actual.add(pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
                         }
                         else {
-                            actual = actual.subtract(pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                            actual = actual.subtract(pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
                         }
                     }
                     else if (balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType)) {
                         if (debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)))) {
-                            encumb = encumb.add(pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                            encumb = encumb.add(pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
                         }
                         else {
-                            encumb = encumb.subtract(pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                            encumb = encumb.subtract(pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT));
                         }
                     }
 
                     // A balance exists, so we need to update it
-                    getSimpleJdbcTemplate().update(updateBalanceStatementSql, budget, actual, encumb, sessionId, pendingEntryRowSet.getInt(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), pendingEntryRowSet.getString(GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE), pendingEntryRowSet.getString(GLConstants.ColumnNames.ACCOUNT_NUMBER), pendingEntryRowSet.getString(GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER), pendingEntryRowSet.getString(GLConstants.ColumnNames.OBJECT_CODE), pendingEntryRowSet.getString(GLConstants.ColumnNames.SUB_OBJECT_CODE));
+                    getSimpleJdbcTemplate().update(updateBalanceStatementSql, budget, actual, encumb, sessionId, pendingEntryRowSet.getInt(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.ACCOUNT_NUMBER), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.OBJECT_CODE), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.SUB_OBJECT_CODE));
                 }
                 else {
                     insertCount++;
@@ -179,27 +179,27 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
                     BigDecimal encumb = new BigDecimal("0");
 
                     if (balanceType.equals(options.getBudgetCheckingBalanceTypeCd())) {
-                        budget = pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+                        budget = pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT);
                     }
                     else if (balanceType.equals(options.getActualFinancialBalanceTypeCd())) {
                         if (debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)))) {
-                            actual = pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+                            actual = pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT);
                         }
                         else {
-                            actual = pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT).negate();
+                            actual = pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT).negate();
                         }
                     }
                     else if (balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType)) {
                         if (debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)))) {
-                            encumb = pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+                            encumb = pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT);
                         }
                         else {
-                            encumb = pendingEntryRowSet.getBigDecimal(GLConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT).negate();
+                            encumb = pendingEntryRowSet.getBigDecimal(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT).negate();
                         }
                     }
 
                     // No balance exists, so we need to insert one
-                    getSimpleJdbcTemplate().update(insertBalanceStatementSql, pendingEntryRowSet.getInt(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), pendingEntryRowSet.getString(GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE), pendingEntryRowSet.getString(GLConstants.ColumnNames.ACCOUNT_NUMBER), pendingEntryRowSet.getString(GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER), pendingEntryRowSet.getString(GLConstants.ColumnNames.OBJECT_CODE), pendingEntryRowSet.getString(GLConstants.ColumnNames.SUB_OBJECT_CODE), budget, actual, encumb, sessionId);
+                    getSimpleJdbcTemplate().update(insertBalanceStatementSql, pendingEntryRowSet.getInt(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.ACCOUNT_NUMBER), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.OBJECT_CODE), pendingEntryRowSet.getString(GeneralLedgerConstants.ColumnNames.SUB_OBJECT_CODE), budget, actual, encumb, sessionId);
                 }
             }
             LOG.info("summarizePendingEntriesByObject() INSERTS: " + insertCount);

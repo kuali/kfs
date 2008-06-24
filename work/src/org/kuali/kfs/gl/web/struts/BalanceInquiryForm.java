@@ -93,7 +93,7 @@ public class BalanceInquiryForm extends LookupForm {
 
             // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
             if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-                setPendingEntryLookupable(LookupableSpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY));
+                setPendingEntryLookupable(LookupableSpringContext.getLookupable(GeneralLedgerConstants.LookupableBeanKeys.PENDING_ENTRY));
             }
 
             if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {

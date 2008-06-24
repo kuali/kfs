@@ -26,10 +26,10 @@ import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoverAutomatedEntryDao;
 
 /**
- * This class implements the {@link IcrAutomatedEntryDao} data access methods using Ojb
+ * This class implements the {@link IndirectCostRecoverAutomatedEntryDao} data access methods using Ojb
  */
-public class IcrAutomatedEntryDaoOjb extends PlatformAwareDaoBaseOjb implements IcrAutomatedEntryDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryDaoOjb.class);
+public class IndirectCostRecoverAutomatedEntryDaoOjb extends PlatformAwareDaoBaseOjb implements IndirectCostRecoverAutomatedEntryDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoverAutomatedEntryDaoOjb.class);
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoverAutomatedEntryDao#getEntriesBySeries(java.lang.Integer, java.lang.String,

@@ -76,8 +76,8 @@ public class NominalActivityClosingHelper {
 
         varNetExpenseObjectCode = parameterService.getParameterValue(NominalActivityClosingStep.class, "NET_EXPENSE_OBJECT_CODE");
         varNetRevenueObjectCode = parameterService.getParameterValue(NominalActivityClosingStep.class, "NET_REVENUE_OBJECT_CODE");
-        varFundBalanceObjectCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
-        varFundBalanceObjectTypeCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
+        varFundBalanceObjectCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
+        varFundBalanceObjectTypeCode = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
 
     }
     
@@ -711,11 +711,11 @@ public class NominalActivityClosingHelper {
      * @param nominalClosingJobParameters a map of batch job parameters to add nominal activity closing parameters to
      */
     public void addNominalClosingJobParameters(Map nominalClosingJobParameters) {
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.NET_EXP_OBJECT_CD, varNetExpenseObjectCode);
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.NET_REV_OBJECT_CD, varNetRevenueObjectCode);
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.FUND_BAL_OBJECT_CD, varFundBalanceObjectCode);
-        nominalClosingJobParameters.put(GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD, varFundBalanceObjectTypeCode);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.NET_EXP_OBJECT_CD, varNetExpenseObjectCode);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.NET_REV_OBJECT_CD, varNetRevenueObjectCode);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.FUND_BAL_OBJECT_CD, varFundBalanceObjectCode);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD, varFundBalanceObjectTypeCode);
     }
     
     /**

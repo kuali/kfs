@@ -76,7 +76,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
         // Just in case
         line = line + "                   ";
 
-        if (!GLConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
             setUniversityFiscalYear(new Integer(line.substring(0, 4)));
         }
         else {
@@ -106,7 +106,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
 
         StringBuffer sb = new StringBuffer();
         if (universityFiscalYear == null) {
-            sb.append(GLConstants.getSpaceUniversityFiscalYear());
+            sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
         }
         else {
             sb.append(universityFiscalYear);

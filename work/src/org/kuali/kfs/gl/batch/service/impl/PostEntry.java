@@ -34,15 +34,15 @@ import org.springframework.transaction.annotation.Transactional;
  * An implementation of PostTransaction that posts the actual entry
  */
 @Transactional
-public class PostGlEntry implements PostTransaction {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostGlEntry.class);
+public class PostEntry implements PostTransaction {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEntry.class);
 
     private EntryDao entryDao;
 
     /**
-     * Constructs an instance of PostGlEntry
+     * Constructs an instance of PostEntry
      */
-    public PostGlEntry() {
+    public PostEntry() {
         super();
     }
 
@@ -71,7 +71,7 @@ public class PostGlEntry implements PostTransaction {
 
         entryDao.addEntry(e, postDate);
 
-        return GLConstants.INSERT_CODE;
+        return GeneralLedgerConstants.INSERT_CODE;
     }
 
     /**

@@ -100,8 +100,8 @@ public class YearEndServiceImpl implements YearEndService {
      */
     public void closeNominalActivity(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalClosingCounts) {
 
-        Integer varFiscalYear = (Integer) nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
-        NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(varFiscalYear, (Date) nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIV_DT), parameterService, configurationService);
+        Integer varFiscalYear = (Integer) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
+        NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(varFiscalYear, (Date) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIV_DT), parameterService, configurationService);
         
         closingHelper.addNominalClosingJobParameters(nominalClosingJobParameters);
 
@@ -433,7 +433,7 @@ public class YearEndServiceImpl implements YearEndService {
         counts.put("originEntriesWritten", new Integer(0));
 
         // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
-        Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
         while (encumbranceIterator.hasNext()) {
 
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
@@ -445,7 +445,7 @@ public class YearEndServiceImpl implements YearEndService {
                 incrementCount(counts, "encumbrancesSelected");
 
                 // build a pair of origin entries to carry forward the encumbrance.
-                OriginEntryOffsetPair beginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, (Integer) jobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), (Date) jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
+                OriginEntryOffsetPair beginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, (Integer) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), (Date) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIV_DT));
 
                 if (beginningBalanceEntryPair.isFatalErrorFlag()) {
 
@@ -485,7 +485,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     // build and save an additional pair of origin entries to carry forward the encumbrance.
 
-                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, (Date) jobParameters.get(GLConstants.ColumnNames.UNIV_DT));
+                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, (Date) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIV_DT));
 
                     if (!costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
 

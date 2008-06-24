@@ -19,23 +19,23 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.ConfigureContext;
 
 /**
- * A test to cover GLConstants
+ * A test to cover GeneralLedgerConstants
  */
 @ConfigureContext
 public class GLConstantsTest extends KualiTestBase {
     /**
-     * Tests that none of the space constants in GLConstants return null.
+     * Tests that none of the space constants in GeneralLedgerConstants return null.
      */
     public void testDDSpaceConstants() {
-        assertNotNull(GLConstants.getSpaceDebitCreditCode());
-        assertNotNull(GLConstants.getSpaceUniversityFiscalPeriodCode());
-        assertNotNull(GLConstants.getSpaceBalanceTypeCode());
-        assertNotNull(GLConstants.getSpaceFinancialSystemOriginationCode());
-        assertNotNull(GLConstants.getSpaceFinancialObjectCode());
-        assertNotNull(GLConstants.getSpaceTransactionDate());
-        assertNotNull(GLConstants.getSpaceUniversityFiscalYear());
-        assertNotNull(GLConstants.getSpaceTransactionEntrySequenceNumber());
-        assertNotNull(GLConstants.getSpaceTransactionLedgetEntryDescription());
-        assertNotNull(GLConstants.getSpaceSubAccountTypeCode());
+        assertNotNull(GeneralLedgerConstants.getSpaceDebitCreditCode());
+        assertNotNull(GeneralLedgerConstants.getSpaceUniversityFiscalPeriodCode());
+        assertNotNull(GeneralLedgerConstants.getSpaceBalanceTypeCode());
+        assertNotNull(GeneralLedgerConstants.getSpaceFinancialSystemOriginationCode());
+        assertNotNull(GeneralLedgerConstants.getSpaceFinancialObjectCode());
+        assertNotNull(GeneralLedgerConstants.getSpaceTransactionDate());
+        assertNotNull(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
+        assertNotNull(GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber());
+        assertNotNull(GeneralLedgerConstants.getSpaceTransactionLedgetEntryDescription());
+        assertNotNull(GeneralLedgerConstants.getSpaceSubAccountTypeCode());
     }
 }

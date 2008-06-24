@@ -71,7 +71,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         Map userDefinedAttributeMap = new HashMap();
         // userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObject.financialConsolidationObjectCode",
         // "");
-        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+        userDefinedAttributeMap.put(GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
         return userDefinedAttributeMap;
     }
 
@@ -142,7 +142,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         Class c = null;
-        if (GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(attributeName)) {
+        if (GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(attributeName)) {
             c = AccountBalanceByLevel.class;
         }
         return c;

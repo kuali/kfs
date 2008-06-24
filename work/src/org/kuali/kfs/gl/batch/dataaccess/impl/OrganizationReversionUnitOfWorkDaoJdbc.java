@@ -19,10 +19,10 @@ import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
 
 /**
- * A JDBC implementation of the OrgReversionUnitOfWorkDao...we had to use this because PersistenceService
+ * A JDBC implementation of the OrganizationReversionUnitOfWorkDao...we had to use this because PersistenceService
  * truncated tables, which is something you can't do on tables with primary keys.
  */
-public class OrgReversionUnitOfWorkDaoJdbc extends PlatformAwareDaoBaseJdbc implements OrgReversionUnitOfWorkDao {
+public class OrganizationReversionUnitOfWorkDaoJdbc extends PlatformAwareDaoBaseJdbc implements OrganizationReversionUnitOfWorkDao {
 
     /**
      * Deletes all existing records in gl_org_rvrsn_ctgry_amt_t and gl_org_rvrsn_unit_wrk_t

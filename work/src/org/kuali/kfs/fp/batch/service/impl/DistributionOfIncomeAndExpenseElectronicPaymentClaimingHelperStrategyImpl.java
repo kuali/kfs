@@ -36,8 +36,8 @@ import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
-    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.class);
+public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.class);
     private DataDictionaryService ddService;
     private DocumentService documentService;
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
@@ -123,11 +123,11 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
      * @param document the document to add a description to
      */
     protected void addDescriptionToDocument(DistributionOfIncomeAndExpenseDocument document) {
-        String description = parameterService.getParameterValue(DistributionOfIncomeAndExpenseDocument.class, DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DOCUMENT_DESCRIPTION_PARAM_NAME);
+        String description = parameterService.getParameterValue(DistributionOfIncomeAndExpenseDocument.class, DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DOCUMENT_DESCRIPTION_PARAM_NAME);
         if (description != null) {
             document.getDocumentHeader().setDocumentDescription(description);
         } else {
-            throw new RuntimeException("There is evidently no value for Parameter KFS-FP / Distribution of Income and Expense / "+DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DOCUMENT_DESCRIPTION_PARAM_NAME+"; please set a value before claiming Electronic Payments");
+            throw new RuntimeException("There is evidently no value for Parameter KFS-FP / Distribution of Income and Expense / "+DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DOCUMENT_DESCRIPTION_PARAM_NAME+"; please set a value before claiming Electronic Payments");
         }
     }
     
@@ -173,7 +173,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentClass()
      */
     public String getClaimingDocumentWorkflowDocumentType() {
-        return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DI_WORKFLOW_DOCUMENT_TYPE;
+        return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.DI_WORKFLOW_DOCUMENT_TYPE;
     }
 
     /**

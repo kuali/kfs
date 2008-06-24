@@ -62,7 +62,7 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
         super.populate(request);
 
         if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-            localPendingEntryLookupable = LookupableSpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
+            localPendingEntryLookupable = LookupableSpringContext.getLookupable(GeneralLedgerConstants.LookupableBeanKeys.PENDING_ENTRY);
         }
 
         if (localPendingEntryLookupable != null) {

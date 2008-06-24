@@ -1612,7 +1612,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // *** this is a point of change if either of these criteria change ***
         // @@TODO We should regularize the sources for these constants
         // they should probably all come from GL (although UNIV_FISCAL_YR is generic)
-        // we should add the two hard-wired strings at the bottom to GLConstants
+        // we should add the two hard-wired strings at the bottom to GeneralLedgerConstants
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         //  we'll estimate the size of the PBGL map from the number of

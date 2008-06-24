@@ -54,7 +54,7 @@ public class AccountBalanceByObjectLookupableHelperServiceImpl extends AbstractL
      */
     @Override
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        if (GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(propertyName)) {
+        if (GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(propertyName)) {
             return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
@@ -74,15 +74,15 @@ public class AccountBalanceByObjectLookupableHelperServiceImpl extends AbstractL
 
         BusinessObjectFieldConverter.escapeSingleQuote(fieldValues);
 
-        String costShareOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.COST_SHARE_OPTION);
-        String pendingEntryOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
-        String consolidationOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        String costShareOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.COST_SHARE_OPTION);
+        String pendingEntryOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
         int pendingEntryCode = AccountBalanceService.PENDING_NONE;
-        if (GLConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption)) {
+        if (GeneralLedgerConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_APPROVED;
         }
-        else if (GLConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
+        else if (GeneralLedgerConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_ALL;
         }
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
@@ -90,8 +90,8 @@ public class AccountBalanceByObjectLookupableHelperServiceImpl extends AbstractL
         String chartOfAccountsCode = (String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = (String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
         String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        String financialObjectLevelCode = (String) fieldValues.get(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
-        String financialReportingSortCode = (String) fieldValues.get(GLConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
+        String financialObjectLevelCode = (String) fieldValues.get(GeneralLedgerConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
+        String financialReportingSortCode = (String) fieldValues.get(GeneralLedgerConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
 
         // Dashes means no sub account number
         if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {

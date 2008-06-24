@@ -22,9 +22,9 @@ import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
  * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents.  Most of the behaviors have been inherited from
- * DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.
+ * DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.
  */
-public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
+public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private final static String YEDI_WORKFLOW_DOC_TYPE = "YearEndDistributionOfIncomeAndExpenseDocument";
 
     /**
@@ -33,7 +33,7 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
      */
     @Override
     public String getClaimingDocumentWorkflowDocumentType() {
-        return YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.YEDI_WORKFLOW_DOC_TYPE;
+        return YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.YEDI_WORKFLOW_DOC_TYPE;
     }
 
     /**

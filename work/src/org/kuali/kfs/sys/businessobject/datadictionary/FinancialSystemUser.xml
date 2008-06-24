@@ -506,7 +506,7 @@
     <property name="description" value="Document used to create or update Financial System User attributes." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SY"
+            p:parameterNamespace="KFS-SYS"
             p:parameterName="FINANCIAL_SYSTEM_USER"
             p:parameterDetailType="FinancialSystemUser" />
     </property>

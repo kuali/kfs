@@ -26,7 +26,7 @@
     <property name="description" value="Document used to update Sufficient Fund Code objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="SUFFICIENT_FUNDS_CODE"
             p:parameterDetailType="SufficientFundsCode" />
     </property>

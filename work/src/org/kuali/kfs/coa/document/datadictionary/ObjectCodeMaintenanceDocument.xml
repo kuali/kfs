@@ -49,7 +49,7 @@
     <property name="description" value="Document used to create or update Object Code objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="OBJECT_CODE"
             p:parameterDetailType="ObjectCode" />
     </property>

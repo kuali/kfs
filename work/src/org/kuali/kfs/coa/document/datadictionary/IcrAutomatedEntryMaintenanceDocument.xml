@@ -38,7 +38,7 @@
     <property name="description" value="Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="INDIRECT_COST_RECOVERY_AUTOMATED_ENTRY"
             p:parameterDetailType="IcrAutomatedEntry" />
     </property>

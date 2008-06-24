@@ -45,7 +45,7 @@
     <property name="description" value="Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="OFFSET_DEFINITION"
             p:parameterDetailType="OffsetDefinition" />
     </property>

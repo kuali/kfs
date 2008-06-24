@@ -44,7 +44,7 @@
     <property name="description" value="Maintenance document which allows you to create new Indirect Cost Recovery Exclusions By Account, or modify existing Indirect Cost Recovery Exclusions By Account." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="INDIRECT_COST_RECOVERY_EXCLUSION_BY_ACCOUNT"
             p:parameterDetailType="IndirectCostRecoveryExclusionAccount" />
     </property>

@@ -37,7 +37,7 @@
     <property name="description" value="Global Sub Object Code Maintenance Document" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="SUB_OBJECT_CODE_GLOBAL"
             p:parameterDetailType="SubObjCdGlobal" />
     </property>

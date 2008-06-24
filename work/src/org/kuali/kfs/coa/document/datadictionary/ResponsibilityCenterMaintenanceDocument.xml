@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Responsibility Center objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="RESPONSIBILITY_CENTER"
             p:parameterDetailType="ResponsibilityCenter" />
     </property>

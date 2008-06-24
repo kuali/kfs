@@ -41,7 +41,7 @@
     <property name="description" value="Maintenance document which allows you to create, remove or modify Account Delegates." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="ACCOUNT_DELEGATE"
             p:parameterDetailType="Delegate" />
     </property>

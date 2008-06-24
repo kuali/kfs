@@ -54,7 +54,7 @@
     <property name="description" value="Document used to create or update Organization objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="ORGANIZATION"
             p:parameterDetailType="Org" />
     </property>

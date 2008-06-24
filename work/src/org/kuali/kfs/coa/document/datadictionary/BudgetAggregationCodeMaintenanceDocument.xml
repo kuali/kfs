@@ -25,7 +25,7 @@
     <property name="description" value="Maintenance document which allows you to create new Budget Aggregation Codes, or modify existing Budget Aggregation Codes." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="BUDGET_AGGREGATION_CODE"
             p:parameterDetailType="BudgetAggregationCode" />
     </property>

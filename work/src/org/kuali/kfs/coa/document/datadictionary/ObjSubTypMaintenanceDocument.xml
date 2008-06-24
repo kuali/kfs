@@ -25,7 +25,7 @@
     <property name="description" value="Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="OBJECT_SUB_TYPE"
             p:parameterDetailType="ObjSubTyp" />
     </property>

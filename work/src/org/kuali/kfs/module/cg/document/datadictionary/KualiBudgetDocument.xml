@@ -31,7 +31,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_PARAMETERS_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -41,7 +41,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_OVERVIEW_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -51,7 +51,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_PERSONNEL_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -61,7 +61,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_NONPERSONNEL"
                   p:parameterDetailType="Budget" />
           </property>
@@ -71,7 +71,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_COST_SHARE_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -81,7 +81,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_MODULAR"
                   p:parameterDetailType="Budget" />
           </property>
@@ -91,7 +91,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_INDIRECT_COST"
                   p:parameterDetailType="Budget" />
           </property>
@@ -101,7 +101,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_PERMISSIONS_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -111,7 +111,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_OUTPUT_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -121,7 +121,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_TEMPLATE_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -131,7 +131,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_AUDIT_MODE_PAGE"
                   p:parameterDetailType="Budget" />
           </property>
@@ -141,7 +141,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="BUDGET_NOTES_PAGE"
                   p:parameterDetailType="Budget" />
           </property>

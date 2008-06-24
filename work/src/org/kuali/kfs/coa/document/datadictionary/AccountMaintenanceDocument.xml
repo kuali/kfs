@@ -99,7 +99,7 @@
     <property name="description" value="Document used to create or update Account objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="ACCOUNT"
             p:parameterDetailType="Account" />
     </property>

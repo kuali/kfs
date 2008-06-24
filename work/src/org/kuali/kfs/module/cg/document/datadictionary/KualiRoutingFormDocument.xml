@@ -29,7 +29,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_MAIN_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -39,7 +39,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_PERSONNEL"
                   p:parameterDetailType="RoutingFormPersonnel" />
           </property>
@@ -49,7 +49,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_RESEARCH_RISK"
                   p:parameterDetailType="RoutingFormResearchRisk" />
           </property>
@@ -59,7 +59,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_PROJECT_DETAILS_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -69,7 +69,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_MODULE_LINKS_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -79,7 +79,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_NOTES_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -89,7 +89,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_OUTPUT_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -99,7 +99,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_TEMPLATE_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -109,7 +109,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_AUDIT_MODE_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -119,7 +119,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_PERMISSIONS_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>
@@ -129,7 +129,7 @@
         <bean parent="HeaderNavigation">
           <property name="helpDefinition" >
             <bean parent="HelpDefinition"
-                  p:parameterNamespace="KFS-RA"
+                  p:parameterNamespace="KFS-CG"
                   p:parameterName="ROUTING_FORM_APPROVALS_PAGE"
                   p:parameterDetailType="RoutingForm" />
           </property>

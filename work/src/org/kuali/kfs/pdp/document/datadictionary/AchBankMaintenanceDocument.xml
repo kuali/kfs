@@ -32,7 +32,7 @@
     <property name="description" value="Document used to create or update Ach Bank objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PD"
+            p:parameterNamespace="KFS-PDP"
             p:parameterName="BANK"
             p:parameterDetailType="AchBank" />
     </property>

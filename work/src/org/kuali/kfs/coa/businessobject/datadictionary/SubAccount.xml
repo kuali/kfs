@@ -124,7 +124,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="ApcSelectControlDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="SUB_ACCOUNT_TYPES"
             p:parameterDetailType="SubAccount" />
     </property>

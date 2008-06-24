@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Country objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SY"
+            p:parameterNamespace="KFS-SYS"
             p:parameterName="COUNTRY"
             p:parameterDetailType="Country" />
     </property>

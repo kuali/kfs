@@ -52,7 +52,7 @@
     <property name="description" value="Global Organization Reversion Maintenance Document" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="ORGANIZATION_REVERSION_GLOBAL"
             p:parameterDetailType="OrganizationReversionGlobal" />
     </property>

@@ -36,7 +36,7 @@
     <property name="description" value="Document used to create or update Object Level objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="OBJECT_LEVEL"
             p:parameterDetailType="ObjLevel" />
     </property>

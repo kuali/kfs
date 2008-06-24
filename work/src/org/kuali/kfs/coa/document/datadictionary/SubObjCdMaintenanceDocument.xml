@@ -48,7 +48,7 @@
     <property name="description" value="Document used to create or update Sub Objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="SUB_OBJECT_CODE"
             p:parameterDetailType="SubObjCd" />
     </property>

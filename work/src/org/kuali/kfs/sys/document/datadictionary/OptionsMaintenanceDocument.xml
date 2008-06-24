@@ -93,7 +93,7 @@
     <property name="description" value="Document used to create or update Options" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SY"
+            p:parameterNamespace="KFS-SYS"
             p:parameterName="OPTIONS"
             p:parameterDetailType="Options" />
     </property>

@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update University Budget Office Function Maintenance Document objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="UNIVERSITY_BUDGET_OFFICE_FUNCTION"
             p:parameterDetailType="UniversityBudgetOfficeFunction" />
     </property>

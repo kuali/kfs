@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Unit Of Measure" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SY"
+            p:parameterNamespace="KFS-SYS"
             p:parameterName="UNIT_OF_MEASURE"
             p:parameterDetailType="UnitOfMeasure" />
     </property>

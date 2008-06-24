@@ -28,7 +28,7 @@
     <property name="description" value="Account Delegate Model Maintenance Document" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="DELEGATE_MODEL"
             p:parameterDetailType="OrganizationRoutingModelName" />
     </property>

@@ -25,7 +25,7 @@
     <property name="description" value="Maintenance document which allows you to create new Organization Types, or modify existing Organization Types." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="ORGANIZATION_TYPE"
             p:parameterDetailType="OrgType" />
     </property>

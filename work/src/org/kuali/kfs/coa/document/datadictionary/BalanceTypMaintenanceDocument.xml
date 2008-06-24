@@ -25,7 +25,7 @@
     <property name="description" value="Maintenance document which allows you to create new Balance Types, or modify existing Balance Types." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="BALANCE_TYPE"
             p:parameterDetailType="BalanceTyp" />
     </property>

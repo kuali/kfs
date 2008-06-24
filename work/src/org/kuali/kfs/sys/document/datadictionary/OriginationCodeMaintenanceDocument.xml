@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Origination Code objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SY"
+            p:parameterNamespace="KFS-SYS"
             p:parameterName="ORIGINATION"
             p:parameterDetailType="OriginationCode" />
     </property>

@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -57,7 +58,7 @@ import org.kuali.kfs.vnd.service.PhoneNumberService;
 /**
  * Business rule(s) applicable to Purchase Order document.
  */
-public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implements PurchaseOrderSplitRule {
+public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implements PurchaseOrderSplitRule, AddVendorToQuoteRule {
 
     /**
      * Overrides the method in PurchasingDocumentRuleBase class in order to add validation for the Vendor Stipulation Tab. Tab
@@ -376,6 +377,47 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
             GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN);
             valid &= false;
         }
+        return valid;
+    }
+    
+    public boolean processAddVendorBusinessRules (PurchaseOrderDocument document, PurchaseOrderVendorQuote vendorQuote) {
+        boolean valid = true;
+        valid &= isVendorQuoteActiveNotDebarredVendor(vendorQuote.getVendorHeaderGeneratedIdentifier(), vendorQuote.getVendorDetailAssignedIdentifier());
+        valid &= vendorQuoteHasRequiredFields(vendorQuote);
+        return valid;
+    }
+    
+    private boolean isVendorQuoteActiveNotDebarredVendor(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifer) {
+        VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderGeneratedIdentifier, vendorDetailAssignedIdentifer);    
+        if (vendorDetail != null) {
+            if (!vendorDetail.isActiveIndicator()) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_INACTIVE_VENDOR);
+                return false;
+            }
+            else if (vendorDetail.isVendorDebarred()) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_DEBARRED_VENDOR);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean vendorQuoteHasRequiredFields (PurchaseOrderVendorQuote vendorQuote) {
+        boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        if ( StringUtils.isBlank(vendorQuote.getVendorName()) ) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor Name");
+            valid = false;
+        }
+        if (StringUtils.isBlank(vendorQuote.getVendorLine1Address())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_LINE_1_ADDR, KFSKeyConstants.ERROR_REQUIRED, "Vendor Line 1 Address");
+            valid = false;
+        }
+        if (StringUtils.isBlank(vendorQuote.getVendorCityName())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor City Name");
+            valid = false;
+        }
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 }

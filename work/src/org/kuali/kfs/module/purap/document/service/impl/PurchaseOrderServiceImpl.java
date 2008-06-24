@@ -89,9 +89,13 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorConstants.AddressTypes;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -1389,5 +1393,88 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         movingOrNot.put(PODocumentsStrings.ITEMS_MOVING_TO_SPLIT, movingPOItems);
         movingOrNot.put(PODocumentsStrings.ITEMS_REMAINING, remainingPOItems);
         return movingOrNot;
+    }
+
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#populateQuoteWithVendor(java.lang.Integer, java.lang.Integer, java.lang.String)
+     */
+    public PurchaseOrderVendorQuote populateQuoteWithVendor(Integer headerId, Integer detailId, String documentNumber) {
+        VendorDetail vendor = vendorService.getVendorDetail(headerId, detailId);
+        updateDefaultVendorAddress(vendor);
+        PurchaseOrderVendorQuote newPOVendorQuote = populateAddressForPOVendorQuote(vendor, documentNumber);
+
+        //Set the vendorPhoneNumber on the quote to be the first "phone number" type phone
+        //found on the list. If there's no "phone number" type found, the quote's 
+        //vendorPhoneNumber will be blank regardless of any other types of phone found on the list.
+        for (VendorPhoneNumber phone : vendor.getVendorPhoneNumbers()) {
+            if (VendorConstants.PhoneTypes.PHONE.equals(phone.getVendorPhoneTypeCode())) {
+                newPOVendorQuote.setVendorPhoneNumber(phone.getVendorPhoneNumber());
+                break;
+            }
+        }
+        
+        return newPOVendorQuote;
+    }
+    
+    /**
+     * Creates the new PurchaseOrderVendorQuote and populate the address fields for it.
+     *
+     * @param newVendor       The VendorDetail object from which we obtain the values for the address fields.
+     * @param documentNumber  The documentNumber of the PurchaseOrderDocument containing the PurchaseOrderVendorQuote.
+     * @return
+     */
+    private PurchaseOrderVendorQuote populateAddressForPOVendorQuote(VendorDetail newVendor, String documentNumber) {
+        PurchaseOrderVendorQuote newPOVendorQuote = new PurchaseOrderVendorQuote();
+        newPOVendorQuote.setVendorName(newVendor.getVendorName());
+        newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
+        newPOVendorQuote.setVendorDetailAssignedIdentifier(newVendor.getVendorDetailAssignedIdentifier());
+        newPOVendorQuote.setDocumentNumber(documentNumber);
+        boolean foundAddress = false;
+        for (VendorAddress address : newVendor.getVendorAddresses()) {
+            if (AddressTypes.QUOTE.equals(address.getVendorAddressTypeCode())) {
+                newPOVendorQuote.setVendorCityName(address.getVendorCityName());
+                newPOVendorQuote.setVendorCountryCode(address.getVendorCountryCode());
+                newPOVendorQuote.setVendorLine1Address(address.getVendorLine1Address());
+                newPOVendorQuote.setVendorLine2Address(address.getVendorLine2Address());
+                newPOVendorQuote.setVendorPostalCode(address.getVendorZipCode());
+                newPOVendorQuote.setVendorStateCode(address.getVendorStateCode());
+                newPOVendorQuote.setVendorFaxNumber(address.getVendorFaxNumber());
+                foundAddress = true;
+                break;
+            }
+        }
+        if (!foundAddress) {
+            newPOVendorQuote.setVendorCityName(newVendor.getDefaultAddressCity());
+            newPOVendorQuote.setVendorCountryCode(newVendor.getDefaultAddressCountryCode());
+            newPOVendorQuote.setVendorLine1Address(newVendor.getDefaultAddressLine1());
+            newPOVendorQuote.setVendorLine2Address(newVendor.getDefaultAddressLine2());
+            newPOVendorQuote.setVendorPostalCode(newVendor.getDefaultAddressPostalCode());
+            newPOVendorQuote.setVendorStateCode(newVendor.getDefaultAddressStateCode());
+            newPOVendorQuote.setVendorFaxNumber(newVendor.getDefaultFaxNumber());
+        }
+        return newPOVendorQuote;
+    }
+    
+    /**
+     * Obtains the defaultAddress of the vendor and setting the default address fields on
+     * the vendor.
+     * 
+     * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
+     */
+    private void updateDefaultVendorAddress(VendorDetail vendor) {
+        VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        if (defaultAddress != null ) {
+            if (defaultAddress.getVendorState() != null) {
+                vendor.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
+            }
+            vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
+            vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
+            vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());
+            vendor.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
+            vendor.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
+            vendor.setDefaultAddressInternationalProvince(defaultAddress.getVendorAddressInternationalProvinceName());
+            vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
+            vendor.setDefaultFaxNumber(defaultAddress.getVendorFaxNumber());
+        }
     }
 }

@@ -340,4 +340,14 @@ public interface PurchaseOrderService {
      * @return          A HashMap<String, List<PurchaseOrderItem>> of categorized lists of items
      */
     public HashMap<String, List<PurchaseOrderItem>> categorizeItemsForSplit(List<PurchaseOrderItem> items);
+
+    /**
+     * Creates a PurchaseOrderVendorQuote based on the data on the selected vendor and the document number.
+     * 
+     * @param headerId       The vendorHeaderGeneratedIdentifier of the selected vendor.
+     * @param detailId       The vendorDetailAssignedIdentifier of the selected vendor.
+     * @param documentNumber The documentNumber of the PurchaseOrderDocument containing this quote.
+     * @return               The resulting PurchaseOrderVendorQuote object.
+     */
+    public PurchaseOrderVendorQuote populateQuoteWithVendor(Integer headerId, Integer detailId, String documentNumber);
 }

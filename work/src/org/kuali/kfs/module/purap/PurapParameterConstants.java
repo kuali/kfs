@@ -66,6 +66,9 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String RECURRING_CAMS_TRAN_TYPES = "CAPITAL_ASSET_TRANSACTION_TYPES_REQUIRING_RECURRING_PAYMENT_TERMS";
         
         public static final String OVERRIDE_CAPITAL_ASSET_WARNINGS_IND = "OVERRIDE_CAPITAL_ASSET_WARNINGS_IND";
+        
+        public static final String CAMS_DOC_ITEM_CREATION_TRAN_TYPES = "CAMS_DOC_ITEM_CREATION_TRAN_TYPES";
+        public static final String CAMS_DOC_CAPITAL_OC_SUBTYPES = "CAMS_DOC_CAPITAL_OC_SUBTYPES";
     }
 
     public static final String PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME = "PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME";

@@ -23,9 +23,7 @@
               
 <kul:tab tabTitle="General" defaultOpen="true" >
     <div class="tab-container" align=center>
-    	<div class="h2-container">
-        	<h2>General</h2>
-        </div>	
+        	<h3>General</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="General Section">
 
         	<tr>

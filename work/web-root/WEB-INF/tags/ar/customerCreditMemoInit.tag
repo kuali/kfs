@@ -19,10 +19,7 @@
               
 <kul:tabTop tabTitle="Customer Credit Memo Initiation" defaultOpen="true" tabErrorKey="*">
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Credit Memo Initiation</h2>
-        </div>
-        
+            <h3>Credit Memo Initiation</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section" >
             <tr>
                 <th align=right valign=middle class="bord-l-b" >

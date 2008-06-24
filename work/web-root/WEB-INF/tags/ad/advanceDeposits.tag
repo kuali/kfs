@@ -21,9 +21,7 @@
 <kul:tab tabTitle="Advance Deposits" defaultOpen="true" tabErrorKey="${KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS}">
 <c:set var="adAttributes" value="${DataDictionary.AdvanceDepositDetail.attributes}" />
  <div class="tab-container" align=center>
-	<div class="h2-container">
-	<h2>Advance Deposits</h2>
-	</div>
+	<h3>Advance Deposits</h3>
 	<table cellpadding=0 class="datatable" summary="Advance Deposits">
 		<tr>
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>

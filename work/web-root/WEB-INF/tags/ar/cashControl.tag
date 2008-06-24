@@ -44,12 +44,7 @@
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 	<div class="tab-container" align=center>
-		<div class="h2-container">
-			<h2>
-				General Info
-			</h2>
-		</div>
-
+			<h3>General Info</h3>
 		<table cellpadding="0" cellspacing="0" summary="General Info">
 
 			<tr>

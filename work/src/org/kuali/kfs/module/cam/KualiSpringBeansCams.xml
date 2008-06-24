@@ -26,7 +26,8 @@
 		<property name="moduleAuthorizer" ref="camsModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/kfs/module/cam/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/cam/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/cam/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

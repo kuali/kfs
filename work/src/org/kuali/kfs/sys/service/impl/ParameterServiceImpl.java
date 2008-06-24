@@ -304,9 +304,6 @@ public class ParameterServiceImpl implements ParameterService {
             if (documentOrStepClass.getName().startsWith("org.kuali.core")) {
                 return ParameterConstants.NERVOUS_SYSTEM_NAMESPACE;
             }
-            if (documentOrStepClass.getName().startsWith("org.kuali.kfs")) {
-                return ParameterConstants.FINANCIAL_SYSTEM_NAMESPACE;
-            }
             throw new IllegalArgumentException("The getNamespace method of ParameterUtils requires documentOrStepClass with a package prefix of org.kuali.core, org.kuali.kfs, or org.kuali.module");
         }
         else {

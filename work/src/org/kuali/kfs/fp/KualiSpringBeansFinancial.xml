@@ -26,7 +26,8 @@
 		<property name="moduleAuthorizer" ref="financialModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/kfs/fp/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/fp/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/fp/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

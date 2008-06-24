@@ -26,7 +26,8 @@
 		<property name="moduleAuthorizer" ref="effortModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/kfs/module/ec/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/ec/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/ec/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

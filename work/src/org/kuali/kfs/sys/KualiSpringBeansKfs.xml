@@ -31,6 +31,7 @@
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/kfs/sys/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/sys/document/datadictionary</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
@@ -59,7 +60,7 @@
     <bean id="financialSystemCoreModuleAuthorizer" parent="financialSystemModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.kfs.</value>
+                <value>org.kuali.kfs.sys.</value>
             </list>
         </property>
     </bean>

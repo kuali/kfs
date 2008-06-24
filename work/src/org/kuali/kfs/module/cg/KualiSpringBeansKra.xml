@@ -26,9 +26,8 @@
 		<property name="moduleAuthorizer" ref="kraModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
-				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
-				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/cg/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

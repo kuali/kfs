@@ -26,7 +26,8 @@
 		<property name="moduleAuthorizer" ref="chartModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/kfs/coa/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/coa/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/coa/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

@@ -34,9 +34,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.bc.SalarySettingCalculator;
-import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 
@@ -86,13 +84,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private String adjustmentMeasurement;
     private KualiDecimal adjustmentAmount;
     private boolean persistedDeleteIndicator;
-    
+    private boolean vacatable;
+
 
     /**
      * Default constructor.
      */
     public PendingBudgetConstructionAppointmentFunding() {
-        budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);       
+        budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
         bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
         budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
     }
@@ -661,14 +660,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @return Returns the budgetConstructionAppointmentFundingReason.
      */
     public List<BudgetConstructionAppointmentFundingReason> getBudgetConstructionAppointmentFundingReason() {
-        if(budgetConstructionAppointmentFundingReason == null) {
+        if (budgetConstructionAppointmentFundingReason == null) {
             budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
         }
-        
-        if(budgetConstructionAppointmentFundingReason.size()<=0) {
+
+        if (budgetConstructionAppointmentFundingReason.size() <= 0) {
             budgetConstructionAppointmentFundingReason.add(new BudgetConstructionAppointmentFundingReason());
         }
-        
+
         return budgetConstructionAppointmentFundingReason;
     }
 
@@ -826,15 +825,26 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * Gets the vacatable attribute. 
+     * Gets the vacatable attribute.
+     * 
      * @return Returns the vacatable.
      */
     public boolean isVacatable() {
-        return SpringContext.getBean(SalarySettingService.class).canBeVacant(this);
+        return vacatable;
     }
-    
+
     /**
-     * Gets the persistedDeleteIndicator attribute. 
+     * Sets the vacatable attribute value.
+     * 
+     * @param vacatable The vacatable to set.
+     */
+    public void setVacatable(boolean vacatable) {
+        this.vacatable = vacatable;
+    }
+
+    /**
+     * Gets the persistedDeleteIndicator attribute.
+     * 
      * @return Returns the persistedDeleteIndicator.
      */
     public boolean isPersistedDeleteIndicator() {
@@ -843,6 +853,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
     /**
      * Sets the persistedDeleteIndicator attribute value.
+     * 
      * @param persistedDeleteIndicator The persistedDeleteIndicator to set.
      */
     public void setPersistedDeleteIndicator(boolean persistedDeleteIndicator) {
@@ -889,14 +900,14 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
         return map;
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterLookup(persistenceBroker);
-        
+
         this.setPersistedDeleteIndicator(this.isAppointmentFundingDeleteIndicator());
     }
 }

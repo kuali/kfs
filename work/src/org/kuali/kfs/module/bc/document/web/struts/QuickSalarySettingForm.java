@@ -31,7 +31,10 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class QuickSalarySettingForm extends BudgetExpansionForm {
@@ -60,7 +63,7 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
 
     public QuickSalarySettingForm() {
         super();
-        LOG.debug("creating SalarySettingForm");
+
         setSalarySettingExpansion(new SalarySettingExpansion());
     }
 
@@ -70,12 +73,6 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
-        Enumeration names = request.getAttributeNames();
-        while(names.hasMoreElements()) {
-            String name = (String)names.nextElement();
-            LOG.info(name + ": " + request.getAttribute(name));
-        }
 
         this.populateBCAFLines();
 
@@ -92,12 +89,26 @@ public class QuickSalarySettingForm extends BudgetExpansionForm {
             this.populateBCAFLine(appointmentFunding);
         }
     }
+    
+    /**
+     * This method iterates over all of the BCAF lines for the SalarySettingExpansion (PBGL line) TODO verify this - and calls
+     * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
+     */
+    public void postProcessBCAFLines() {
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+        for(PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            boolean vacatable = SpringContext.getBean(SalarySettingService.class).canBeVacant(appointmentFundings, appointmentFunding);
+            appointmentFunding.setVacatable(vacatable);
+        }
+        
+        DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);
+    }
 
     /**
      * Populates the dependent fields of objects contained within the BCAF line
      */
     private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        appointmentFunding.refreshNonUpdateableReferences();
+        appointmentFunding.refresh();
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);

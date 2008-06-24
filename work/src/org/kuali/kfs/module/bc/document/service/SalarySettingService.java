@@ -81,7 +81,7 @@ public interface SalarySettingService {
     /**
      * determine whehter the given appointment funding can be vacated
      * 
-     * @param appointmentFunding the given appointment funding collection that the given appointment funding belongs to
+     * @param appointmentFundings the given appointment funding collection that the given appointment funding belongs to
      * @param appointmentFunding the given appointment funding
      * @return true if the given appointment funding can be vacated; otherwise, false
      */
@@ -94,6 +94,15 @@ public interface SalarySettingService {
      * @return a vacant appointment funding
      */
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * vacate the given appointment funding, create a vacant appointment funding based on the given funding, and add the vacant line into the given appointment funding collection
+     * 
+     * @param appointmentFundings the given appointment funding collection that the given appointment funding belongs to
+     * @param appointmentFunding the given apporintment funding
+     * @return a vacant appointment funding
+     */
+    public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * adjust the requested salary amount of the given appointment funding by amount

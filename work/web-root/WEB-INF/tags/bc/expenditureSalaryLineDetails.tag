@@ -22,7 +22,7 @@
 <c:set var="pbcafAttributes" value="${DataDictionary['PendingBudgetConstructionAppointmentFunding'].attributes}" />
 <c:set var="bcpAttributes" value="${DataDictionary['BudgetConstructionPosition'].attributes}" />
 <c:set var="fundingPropertyName" value="salarySettingExpansion.pendingBudgetConstructionAppointmentFunding"/>
-<c:set var="isHourlyPaid" value="${true or KualiForm.salarySettingExpansion.hourlyPaid}" />
+<c:set var="isHourlyPaid" value="${KualiForm.salarySettingExpansion.hourlyPaid}" />
 <c:set var="numOfColumsRemoved" value="${isHourlyPaid ? 0 : 1 }" />
 	
 <div class="h2-container">
@@ -73,7 +73,7 @@
 	<c:forEach items="${KualiForm.salarySettingExpansion.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 	<c:set var="fundingLineName" value="${fundingPropertyName}[${status.index}]"/>	
 	<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
-	<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly}" />
+	<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 	<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator}"/>
 	<c:set var="rowspan" value="${ hidePercentAdjustment ? 1: 2}"/>
 	
@@ -128,7 +128,7 @@
 				<bc:pbglLineDataCell dataCellCssClass="datacell" 
 					accountingLine="${fundingLineName}.budgetConstructionIntendedIncumbent" attributes="${bciiAttributes}"
 					field="personName"
-					readOnly="true" formattedNumberValue="${KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}" 
+					readOnly="true" formattedNumberValue="${BCConstants.VACANT_EMPLID}" 
 					displayHidden="false" rowSpan="${rowspan}" />
 				
 				<td rowspan="${rowspan}">&nbsp;</td>

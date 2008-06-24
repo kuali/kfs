@@ -155,17 +155,6 @@ public abstract class DetailSalarySettingForm extends BudgetExpansionForm {
     }
 
     /**
-     * calculate the standard working hours through the given time percent
-     * 
-     * @param timePercent the given time percent
-     * @return the standard working hour calculated from the given time percent
-     */
-    protected BigDecimal getStandarHours(BigDecimal timePercent) {
-        BigDecimal standarHours = timePercent.multiply(BCConstants.STANDARD_WEEKLY_WORK_HOUR_AS_DECIMAL).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
-        return standarHours;
-    }
-
-    /**
      * Gets the newBCAFLine attribute.
      * 
      * @return Returns the newBCAFLine.

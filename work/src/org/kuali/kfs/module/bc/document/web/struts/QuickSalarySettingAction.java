@@ -70,6 +70,9 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         // TODO should probably use service locator and call
         // DocumentAuthorizer documentAuthorizer =
         // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
+        
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+        salarySettingForm.postProcessBCAFLines();
 
         return forward;
     }
@@ -85,6 +88,16 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
             throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
         }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#returnToCaller(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        this.refresh(mapping, form, request, response);
+        
+        return super.returnToCaller(mapping, form, request, response);
     }
 
     /**
@@ -105,6 +118,9 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         }
 
         salarySettingForm.populateBCAFLines();
+
+        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
+        salarySettingExpansion.refresh();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -159,11 +175,7 @@ public class QuickSalarySettingAction extends BudgetExpansionAction {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
 
         // associated the vacant funding line with current salary setting expansion
-        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = salarySettingService.vacateAppointmentFunding(appointmentFunding);
-
-        if (vacantAppointmentFunding != null) {
-            appointmentFundings.add(indexOfSelectedLine + 1, vacantAppointmentFunding);
-        }
+        salarySettingService.vacateAppointmentFunding(appointmentFundings, appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

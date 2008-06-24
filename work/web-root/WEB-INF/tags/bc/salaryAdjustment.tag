@@ -31,7 +31,7 @@
 	<kul:htmlAttributeLabel attributeEntry="${attributes.adjustmentMeasurement}" forceRequired="false" useShortLabel="true" />
 	
 	<kul:htmlControlAttribute attributeEntry="${attributes.adjustmentMeasurement}" property="${adjustmentMeasurementFieldName}"/>
-	<kul:htmlControlAttribute attributeEntry="${attributes.adjustmentAmount}" property="${adjustmentAmountFieldName}"/>				
+	<kul:htmlControlAttribute attributeEntry="${attributes.adjustmentAmount}" property="${adjustmentAmountFieldName}"/>			
 	
 	<html:image property="methodToCall.${methodToCall}.line${lineIndex}.anchorsalaryexistingLineLineAnchor${lineIndex}" 
 		src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif" 

@@ -11,7 +11,7 @@
     <property name="shortLabel" value="Receiving Line" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="RECEIVING_LINE"
             p:parameterDetailType="ReceivingLine" />
     </property>    

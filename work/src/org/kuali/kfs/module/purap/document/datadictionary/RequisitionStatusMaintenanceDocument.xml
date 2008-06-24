@@ -24,7 +24,7 @@
     <property name="shortLabel" value="Requisition Status" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="REQUISITION_STATUS"
             p:parameterDetailType="RequisitionStatus" />
     </property>

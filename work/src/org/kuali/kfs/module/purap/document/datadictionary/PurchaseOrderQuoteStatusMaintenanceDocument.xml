@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Purchase Order Quote Status" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="PURCHASE_ORDER_QUOTE_STATUS"
             p:parameterDetailType="PurchaseOrderQuoteStatus" />
     </property>

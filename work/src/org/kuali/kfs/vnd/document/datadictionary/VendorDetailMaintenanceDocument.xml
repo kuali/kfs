@@ -33,7 +33,7 @@
     <property name="shortLabel" value="Vendor" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="VENDOR"
             p:parameterDetailType="VendorDetail" />
     </property>

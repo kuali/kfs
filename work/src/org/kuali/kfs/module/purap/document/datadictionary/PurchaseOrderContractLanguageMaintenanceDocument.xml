@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Purchase Order Contract Language" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="PURCHASE_ORDER_CONTRACT_LANGUAGE"
             p:parameterDetailType="PurchaseOrderContractLanguage" />
     </property>

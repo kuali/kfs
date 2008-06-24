@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Contact Type" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="CONTACT_TYPE"
             p:parameterDetailType="ContactType" />
     </property>

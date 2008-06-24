@@ -11,7 +11,7 @@
     <property name="shortLabel" value="PO" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="PURCHASE_ORDER"
             p:parameterDetailType="PurchaseOrder" />
     </property>

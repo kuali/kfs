@@ -24,7 +24,7 @@
     <property name="shortLabel" value="Payment Request Status" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="PAYMENT_REQUEST_STATUS"
             p:parameterDetailType="PaymentRequestStatus" />
     </property>

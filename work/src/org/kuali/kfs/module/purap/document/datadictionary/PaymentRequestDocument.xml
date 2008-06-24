@@ -11,7 +11,7 @@
     <property name="shortLabel" value="Payment Request" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="PAYMENT_REQUEST"
             p:parameterDetailType="PaymentRequest" />
     </property>

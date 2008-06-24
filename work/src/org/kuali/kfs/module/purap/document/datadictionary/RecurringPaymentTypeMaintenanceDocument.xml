@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Recurring Payment Type" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="RECURRING_PAYMENT_TYPE"
             p:parameterDetailType="RecurringPaymentType" />
     </property>

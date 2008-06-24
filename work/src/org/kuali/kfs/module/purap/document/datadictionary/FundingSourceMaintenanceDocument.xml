@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Funding Source" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="FUNDING_SOURCE"
             p:parameterDetailType="FundingSource" />
     </property>

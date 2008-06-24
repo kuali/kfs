@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Ownership Type" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="OWNERSHIP_TYPE"
             p:parameterDetailType="OwnershipType" />
     </property>

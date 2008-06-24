@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Purchase Order Vendor Choice" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="PURCHASE_ORDER_VENDOR_CHOICE"
             p:parameterDetailType="PurchaseOrderVendorChoice" />
     </property>

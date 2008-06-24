@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Billing Address" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="BILLING_ADDRESS"
             p:parameterDetailType="BillingAddress" />
     </property>

@@ -33,7 +33,7 @@
     <property name="shortLabel" value="Payment Request Auto Approve Exclusions" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="AUTO_APPROVE_EXCLUDE"
             p:parameterDetailType="AutoApproveExclude" />
     </property>

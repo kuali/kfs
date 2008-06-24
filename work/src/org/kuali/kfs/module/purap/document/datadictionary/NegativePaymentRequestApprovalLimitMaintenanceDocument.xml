@@ -36,7 +36,7 @@
     <property name="shortLabel" value="Negative Payment Request Approval Limit" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT"
             p:parameterDetailType="NegativePaymentRequestApprovalLimit" />
     </property>

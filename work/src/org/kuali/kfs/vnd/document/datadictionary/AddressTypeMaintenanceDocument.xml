@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Address Type" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="ADDRESS_TYPE"
             p:parameterDetailType="AddressType" />
     </property>

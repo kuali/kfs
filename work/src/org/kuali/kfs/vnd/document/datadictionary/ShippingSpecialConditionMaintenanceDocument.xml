@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Shipping Special Conditions" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="SHIPPING_SPECIAL_CONDITION"
             p:parameterDetailType="ShippingSpecialCondition" />
     </property>

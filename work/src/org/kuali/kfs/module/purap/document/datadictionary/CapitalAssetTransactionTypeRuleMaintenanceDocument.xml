@@ -24,7 +24,7 @@
     <property name="shortLabel" value="Capital Asset Transaction Type Rule" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="CAPITAL_ASSET_TRANSACTION_TYPE"
             p:parameterDetailType="CapitalAssetTransactionType" />
     </property>

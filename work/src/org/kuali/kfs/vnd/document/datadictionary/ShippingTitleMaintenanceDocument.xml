@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Shipping Title" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="SHIPPING_TITLE"
             p:parameterDetailType="ShippingTitle" />
     </property>

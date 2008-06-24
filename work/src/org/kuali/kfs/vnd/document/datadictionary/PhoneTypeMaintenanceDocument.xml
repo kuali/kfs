@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Phone Type" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="PHONE_TYPE"
             p:parameterDetailType="PhoneType" />
     </property>

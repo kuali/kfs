@@ -11,7 +11,7 @@
     <property name="shortLabel" value="Credit Memo" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="CREDIT_MEMO"
             p:parameterDetailType="CreditMemo" />
     </property>

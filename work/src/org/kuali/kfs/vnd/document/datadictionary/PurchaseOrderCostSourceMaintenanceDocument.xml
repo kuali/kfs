@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Cost Source" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="PURCHASE_ORDER_COST_SOURCE"
             p:parameterDetailType="PurchaseOrderCostSource" />
     </property>

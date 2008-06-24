@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Shipping Payment Terms" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="SHIPPING_PAYMENT_TERMS"
             p:parameterDetailType="ShippingPaymentTerms" />
     </property>

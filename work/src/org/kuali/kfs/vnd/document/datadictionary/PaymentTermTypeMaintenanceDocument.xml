@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Payment Terms Type" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="PAYMENT_TERM_TYPE"
             p:parameterDetailType="PaymentTermType" />
     </property>

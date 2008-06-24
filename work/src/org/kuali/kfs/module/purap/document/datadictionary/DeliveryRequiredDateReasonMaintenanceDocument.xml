@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Delivery Required Date Reason" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="DELIVERY_REQUIRED_DATE_REASON"
             p:parameterDetailType="DeliveryRequiredDateReason" />
     </property>

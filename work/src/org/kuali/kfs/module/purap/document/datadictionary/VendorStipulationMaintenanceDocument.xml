@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Vendor Stipulation" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="VENDOR_STIPULATION"
             p:parameterDetailType="VendorStipulation" />
     </property>

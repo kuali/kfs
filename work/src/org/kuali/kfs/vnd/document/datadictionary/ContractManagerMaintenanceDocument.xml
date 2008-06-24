@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Contract Manager" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="CONTRACT_MANAGER"
             p:parameterDetailType="ContractManager" />
     </property>

@@ -23,7 +23,7 @@
     <property name="shortLabel" value="Supplier Diversity" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="SUPPLIER_DIVERSITY"
             p:parameterDetailType="SupplierDiversity" />
     </property>

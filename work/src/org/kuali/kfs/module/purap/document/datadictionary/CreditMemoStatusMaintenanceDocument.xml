@@ -24,7 +24,7 @@
     <property name="shortLabel" value="Credit Memo Status" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="CREDIT_MEMO_STATUS"
             p:parameterDetailType="CreditMemoStatus" />
     </property>

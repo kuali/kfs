@@ -11,7 +11,7 @@
     <property name="shortLabel" value="Contract Manager Assignment" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PA"
+            p:parameterNamespace="KFS-PURAP"
             p:parameterName="ASSIGN_CONTRACT_MANAGER"
             p:parameterDetailType="AssignContractManager" />
     </property>

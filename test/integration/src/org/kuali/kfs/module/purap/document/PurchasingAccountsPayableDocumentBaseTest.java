@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.bo.AccountsPayableItem;
-import org.kuali.module.purap.rules.PurchasingDocumentRuleBase;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class PurchasingAccountsPayableDocumentBaseTest extends KualiTestBase {

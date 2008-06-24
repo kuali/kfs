@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.util.ReconciliationBlock;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.batch.service.impl.ReconciliationBlock;
 
 /**
  * An object to reconcile origin entries. Since the {@link #reconcile(Iterator, ReconciliationBlock, List)} method below takes in an

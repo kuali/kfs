@@ -7,7 +7,7 @@
   <bean id="A21SubAccount" parent="A21SubAccount-parentBean" />
 
   <bean id="A21SubAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.A21SubAccount" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.A21SubAccount" />
     <property name="titleAttribute" value="A21SubAccountNumber" />
     <property name="objectLabel" value="A21 Sub-Account" />
     <property name="attributes" >
@@ -37,7 +37,7 @@
   <bean id="A21SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -94,7 +94,7 @@
     <property name="shortLabel" value="ICR Chart" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -120,7 +120,7 @@
     <property name="shortLabel" value="Cost Sharting Chart Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

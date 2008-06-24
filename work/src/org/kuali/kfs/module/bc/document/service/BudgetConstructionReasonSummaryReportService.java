@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.Collection;
 
-import org.kuali.module.budget.bo.BudgetConstructionOrgReasonSummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 
 
 /**

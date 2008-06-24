@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.authorization;
+package org.kuali.kfs.module.ld.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
-import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.AssetGlobal;
-import org.kuali.module.cams.rules.AssetLocationGlobalRule;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.form;
+package org.kuali.kfs.sys.web.struts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.Map;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.bo.BatchUpload;
+import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.businessobject.BatchUpload;
 
 /**
  * This class is the form used for the batch upload for file sets

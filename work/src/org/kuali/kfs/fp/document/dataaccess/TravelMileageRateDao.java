@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao;
+package org.kuali.kfs.fp.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao;
+package org.kuali.kfs.sys.dataaccess;
 
-import org.kuali.kfs.bo.HomeOrigination;
+import org.kuali.kfs.sys.businessobject.HomeOrigination;
 
 /**
  * This is the data access interface for HomeOrigination objects.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.attribute;
+package org.kuali.kfs.sys.document.workflow;
 
 /**
  * This is a marker interface. It is used to flag the class as having used the routingChart and routingOrg fields for

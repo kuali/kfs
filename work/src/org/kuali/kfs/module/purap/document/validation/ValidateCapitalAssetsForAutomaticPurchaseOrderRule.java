@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rule;
+package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 public interface ValidateCapitalAssetsForAutomaticPurchaseOrderRule<P extends PurchasingAccountsPayableDocument>   {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,8 +23,8 @@ import org.kuali.core.rule.PreRulesCheck;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.chart.bo.DelegateGlobal;
-import org.kuali.module.chart.bo.DelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.DelegateGlobal;
+import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
 
 /**
  * This class executes specific pre-rules for the {@link DelegateGlobalMaintenanceDocument}

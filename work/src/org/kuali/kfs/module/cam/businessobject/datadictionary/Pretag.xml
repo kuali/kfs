@@ -7,7 +7,7 @@
   <bean id="Pretag" parent="Pretag-parentBean" />
 
   <bean id="Pretag-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cams.bo.Pretag" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.Pretag" />
     <property name="inquiryDefinition" >
       <ref bean="Pretag-inquiryDefinition" />
     </property>
@@ -87,7 +87,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cams.lookup.keyvalues.AssetTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.AssetTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -129,7 +129,7 @@
     <property name="shortLabel" value="Fiscal Chart" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -423,7 +423,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="pretagDetails" />
-                <property name="businessObjectClass" value="org.kuali.module.cams.bo.PretagDetail" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.PretagDetail" />
                 <property name="numberOfColumns" value="1" />
                 <property name="summaryTitle" value="Pretag Detail" />
                 <property name="inquiryFields" >

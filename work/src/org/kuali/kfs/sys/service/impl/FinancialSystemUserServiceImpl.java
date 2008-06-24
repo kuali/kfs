@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,14 +29,14 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.impl.UniversalUserServiceImpl;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.bo.ChartOrgHolderImpl;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class FinancialSystemUserServiceImpl extends UniversalUserServiceImpl implements FinancialSystemUserService {

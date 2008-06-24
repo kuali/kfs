@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.lookupable;
+package org.kuali.kfs.module.bc.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +30,17 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.service.LockService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

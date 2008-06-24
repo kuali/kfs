@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.test.util.TestDataPreparator;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.TestDataPreparator;
 
 public class LaborTestDataPreparator {
     /**

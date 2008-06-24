@@ -7,7 +7,7 @@
   <bean id="BudgetGraduateAssistantRate" parent="BudgetGraduateAssistantRate-parentBean" />
 
   <bean id="BudgetGraduateAssistantRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate" />
     <property name="objectLabel" value="Budget Graduate Assistant Rate" />
     <property name="attributes" >
       <list>

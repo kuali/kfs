@@ -42,7 +42,7 @@
 		<tr>
 			<td><b>Available Balances</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.module.gl.bo.AccountBalance"
+				boClassName="org.kuali.kfs.gl.businessobject.AccountBalance"
 				actionPath="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}"
 				lookupParameters="${KualiForm.availableBalancesBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>
@@ -50,7 +50,7 @@
 		<tr>
 			<td><b>Balances by Consolidation</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.module.gl.bo.AccountBalanceByConsolidation"
+				boClassName="org.kuali.kfs.gl.businessobject.AccountBalanceByConsolidation"
 				actionPath="${KFSConstants.GL_ACCOUNT_BALANCE_BY_CONSOLIDATION_LOOKUP_ACTION}"
 				lookupParameters="${KualiForm.balancesByConsolidationBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>
@@ -58,7 +58,7 @@
 		<tr>
 			<td><b>Cash Balances</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.module.gl.bo.CashBalance"
+				boClassName="org.kuali.kfs.gl.businessobject.CashBalance"
 				actionPath="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}"
 				lookupParameters="${KualiForm.cashBalancesBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>
@@ -66,7 +66,7 @@
 		<tr>
 			<td><b>General Ledger Balance</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.module.gl.bo.Balance"
+				boClassName="org.kuali.kfs.gl.businessobject.Balance"
 				actionPath="${KFSConstants.GL_BALANCE_INQUIRY_ACTION}"
 				lookupParameters="${KualiForm.generalLedgerBalanceBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>
@@ -74,7 +74,7 @@
 		<tr>
 			<td><b>General Ledger Entry</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.module.gl.bo.Entry"
+				boClassName="org.kuali.kfs.gl.businessobject.Entry"
 				actionPath="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}"
 				lookupParameters="${KualiForm.generalLedgerEntryBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>
@@ -82,7 +82,7 @@
 		<tr>
 			<td><b>General Ledger Pending Entry</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.kfs.bo.GeneralLedgerPendingEntry"
+				boClassName="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry"
 				actionPath="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}"
 				lookupParameters="${KualiForm.generalLedgerPendingEntryBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>
@@ -90,7 +90,7 @@
 		<tr>
 			<td><b>Open Encumbrances</b>&nbsp;</td>
 			<td><gl:balanceInquiryLookup
-				boClassName="org.kuali.module.gl.bo.Encumbrance"
+				boClassName="org.kuali.kfs.gl.businessobject.Encumbrance"
 				actionPath="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}"
 				lookupParameters="${KualiForm.openEncumbrancesBalanceInquiryLookupParameters}"
 				hideReturnLink="true" /></td>

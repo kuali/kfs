@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,25 +26,25 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.bo.PurapEnterableItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.ReceivingItem;
-import org.kuali.module.purap.bo.ReceivingLineItem;
-import org.kuali.module.purap.document.BulkReceivingDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.ReceivingDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.rule.ContinuePurapRule;
-import org.kuali.module.purap.service.BulkReceivingService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.service.ReceivingService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
 
 public class BulkReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
 

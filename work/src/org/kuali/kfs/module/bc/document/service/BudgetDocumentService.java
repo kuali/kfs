@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.BudgetConstructionDao;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

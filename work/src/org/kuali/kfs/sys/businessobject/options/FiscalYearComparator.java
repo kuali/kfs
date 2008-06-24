@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup.keyvalues;
+package org.kuali.kfs.sys.businessobject.options;
 
 import java.util.Comparator;
 
-import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.sys.businessobject.Options;
 
 public class FiscalYearComparator implements Comparator {
 

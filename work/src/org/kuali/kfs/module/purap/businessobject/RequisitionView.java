@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class RequisitionView extends AbstractRelatedView {
      * The next three methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why
      * at this point! (AAP)
      * 
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getPurapDocumentIdentifier()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
@@ -50,7 +50,7 @@ public class RequisitionView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getNotes()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getNotes()
      */
     @Override
     public List<Note> getNotes() {
@@ -58,7 +58,7 @@ public class RequisitionView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getUrl()
      */
     @Override
     public String getUrl() {

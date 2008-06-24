@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rule;
+package org.kuali.kfs.sys.document.validation;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Defines methods common to all *AccountingLineRule interfaces

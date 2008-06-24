@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,15 +22,15 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
-import org.kuali.module.labor.bo.BenefitsCalculation;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
-import org.kuali.module.labor.service.LaborBenefitsCalculationService;
-import org.kuali.module.labor.service.LaborPositionObjectBenefitService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
+import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
+import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,7 +44,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     private LaborPositionObjectBenefitService laborPositionObjectBenefitService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#getBenefitsCalculation(java.lang.Integer,
+     * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#getBenefitsCalculation(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode) {
@@ -57,7 +57,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
+     * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
      *      java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
@@ -73,7 +73,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.LaborObject,
+     * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.LaborObject,
      *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
@@ -102,7 +102,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.PositionObjectBenefit,
+     * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit,
      *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount) {

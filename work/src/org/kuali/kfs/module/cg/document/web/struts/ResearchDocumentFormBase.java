@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.module.kra.bo.AdhocOrg;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.document.ResearchDocument;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
+import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
 
 public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
 

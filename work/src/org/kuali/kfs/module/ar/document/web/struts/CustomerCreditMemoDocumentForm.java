@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.web.struts.form;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.List;
 
@@ -22,11 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.module.ar.ArAuthorizationConstants;
-import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.module.ar.ArAuthorizationConstants;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 
 public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
    

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,9 +26,9 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.quartz.InterruptableJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

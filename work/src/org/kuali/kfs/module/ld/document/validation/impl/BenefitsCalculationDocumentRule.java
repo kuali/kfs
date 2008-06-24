@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.rules;
+package org.kuali.kfs.module.ld.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.bo.BenefitsCalculation;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
 
 /**
  * Business rule(s) applicable to Benefit Calculation Documents.

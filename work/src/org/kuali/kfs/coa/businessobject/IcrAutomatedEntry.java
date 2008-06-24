@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * 

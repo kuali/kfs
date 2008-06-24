@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,19 +21,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BudgetPropertyConstants;
-import org.kuali.module.budget.BCConstants.Report.BuildMode;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
-import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
-import org.kuali.module.budget.dao.BudgetReportsControlListDao;
-import org.kuali.module.budget.service.BudgetReportsControlListService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BudgetPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao;
+import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @see org.kuali.module.budget.service.BudgetReportsControlListService
+ * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService
  */
 @Transactional
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
@@ -41,29 +41,29 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,
-     *      java.lang.Integer, java.lang.String, java.lang.String, org.kuali.module.budget.BCConstants.Report.BuildMode)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, org.kuali.kfs.module.bc.BCConstants.Report.BuildMode)
      */
     public void updateReportsControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
         budgetReportsControlListDao.updateReportControlList(personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode, buildMode);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSubFundGroupSelectList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportsSubFundGroupSelectList(java.lang.String)
      */
     public void updateReportSubFundGroupSelectList(String personUserIdentifier) {
         budgetReportsControlListDao.updateReportsSubFundGroupSelectList(personUserIdentifier);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportObjectCodeSelectList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportObjectCodeSelectList(java.lang.String)
      */
     public void updateReportObjectCodeSelectList(String personUserIdentifier) {
         budgetReportsControlListDao.updateReportsObjectCodeSelectList(personUserIdentifier);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportReasonCodeSelectList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportReasonCodeSelectList(java.lang.String)
      */
     public void updateReportReasonCodeSelectList(String personUserIdentifier) {
         budgetReportsControlListDao.updateReportsReasonCodeSelectList(personUserIdentifier);
@@ -88,7 +88,7 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#retrieveSelectedOrganziations(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveSelectedOrganziations(java.lang.String)
      */
     public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String personUserIdentifier) {
         Map criteria = new HashMap();
@@ -99,7 +99,7 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#retrieveSubFundList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveSubFundList(java.lang.String)
      */
     public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String personUniversalIdentifier) {
         Map criteria = new HashMap();
@@ -109,7 +109,7 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#retrieveObjectCodeList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveObjectCodeList(java.lang.String)
      */
     public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String personUniversalIdentifier) {
         Map criteria = new HashMap();
@@ -119,7 +119,7 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#retrieveReasonCodeList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveReasonCodeList(java.lang.String)
      */
     public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String personUniversalIdentifier) {
         Map criteria = new HashMap();
@@ -129,21 +129,21 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateObjectCodeSelectFlags(java.util.List)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateObjectCodeSelectFlags(java.util.List)
      */
     public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList) {
         budgetReportsControlListDao.updateObjectCodeSelectFlags(objectCodePickList);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReasonCodeSelectFlags(java.util.List)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReasonCodeSelectFlags(java.util.List)
      */
     public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
         budgetReportsControlListDao.updateReasonCodeSelectFlags(reasonCodePickList);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateSubFundSelectFlags(java.util.List)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSelectFlags(java.util.List)
      */
     public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList) {
         budgetReportsControlListDao.updateSubFundSelectFlags(subFundPickList);

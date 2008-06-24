@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.report;
+package org.kuali.kfs.module.ld.report;
 
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.service.CorrectionDocumentService;
-import org.kuali.module.gl.util.PDFPageHelper;
-import org.kuali.module.gl.web.optionfinder.SearchOperatorsFinder;
-import org.kuali.module.labor.document.LaborCorrectionDocument;
+import org.kuali.kfs.gl.businessobject.CorrectionChange;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
+import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.gl.report.PDFPageHelper;
+import org.kuali.kfs.gl.businessobject.options.SearchOperatorsFinder;
+import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;

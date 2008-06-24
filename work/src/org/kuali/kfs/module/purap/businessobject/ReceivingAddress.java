@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
 
 /**
  * Receiving Address Business Object. 

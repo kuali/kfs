@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web;
+package org.kuali.kfs.gl.web;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
 
 /**
  * A class that reads fixtures as property files and then sets the fields of
@@ -46,8 +46,8 @@ public class TestDataGenerator {
      * Constructs a TestDataGenerator instance, with default file names
      */
     public TestDataGenerator() {
-        this.messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
-        this.propertiesFileName = "test/src/org/kuali/module/gl/web/data.properties";
+        this.messageFileName = "test/src/org/kuali/kfs/gl/web/fixture/message.properties";
+        this.propertiesFileName = "test/src/org/kuali/kfs/gl/web/fixture/data.properties";
 
         properties = loadProperties(propertiesFileName);
         message = loadProperties(messageFileName);

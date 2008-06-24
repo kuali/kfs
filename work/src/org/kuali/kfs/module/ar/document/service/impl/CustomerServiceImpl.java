@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.dao.CustomerDao;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
-import org.kuali.module.ar.service.CustomerService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     private static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
     
     /**
-     * @see org.kuali.module.ar.service.CustomerService#getByPrimaryKey(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerService#getByPrimaryKey(java.lang.String)
      */
     public Customer getByPrimaryKey(String customerNumber) {
        return customerDao.getByPrimaryId(customerNumber);
@@ -51,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerService#getNextCustomerNumber(org.kuali.module.ar.bo.Customer)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerService#getNextCustomerNumber(org.kuali.kfs.module.ar.businessobject.Customer)
      */
     public String getNextCustomerNumber(Customer newCustomer) {
         Long customerNumberSuffix = sequenceAccessorService.getNextAvailableSequenceNumber(CUSTOMER_NUMBER_SEQUENCE);
@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerService#getCustomerByName(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerService#getCustomerByName(java.lang.String)
      */
     public Customer getCustomerByName(String customerName) {
         return customerDao.getByName(customerName);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 

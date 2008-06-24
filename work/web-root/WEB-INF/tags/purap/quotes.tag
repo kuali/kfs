@@ -84,7 +84,7 @@
 				<span class="subhead-left">Vendor Information</span>
 				<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
 					<span class="subhead-right">
-						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.purap.bo.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
+						<input type="image" name="methodToCall.performLookup.(!!org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
 						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Quote List" title="Search for a Quote List" />
 					</span>
 				</c:if>
@@ -103,7 +103,7 @@
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorName}" property="newPurchaseOrderVendorQuote.vendorName" />
-                    <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
+                    <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
                     lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
                     fieldConversions="vendorName:newPurchaseOrderVendorQuote.vendorName,vendorHeaderGeneratedIdentifier:newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier,defaultAddressLine1:newPurchaseOrderVendorQuote.vendorLine1Address,defaultAddressLine2:newPurchaseOrderVendorQuote.vendorLine2Address,defaultAddressCity:newPurchaseOrderVendorQuote.vendorCityName,defaultAddressPostalCode:newPurchaseOrderVendorQuote.vendorPostalCode,defaultAddressStateCode:newPurchaseOrderVendorQuote.vendorStateCode"/>
             </td>

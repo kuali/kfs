@@ -11,7 +11,7 @@
         <fieldDef name="statusCode" title="kuali_dd_label(AwardStatus)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchStatusCriteriaValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.cg.businessobject.options.DocumentSearchStatusCriteriaValuesFinder)</values>
           </display>
           <fieldEvaluation>
             <xpathexpression>concat(wf:xstreamsafe('//newMaintainableObject/businessObject/awardStatusCode'), wf:xstreamsafe('//newMaintainableObject/businessObject/proposalStatusCode'))</xpathexpression>

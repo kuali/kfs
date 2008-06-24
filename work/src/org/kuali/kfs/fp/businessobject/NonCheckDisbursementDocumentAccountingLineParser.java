@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
-import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
-import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.AMOUNT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
-import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 
 
 /**
  * This class represents a <code>NonCheckDisbursementDocument</code> accounting line parser.
  * 
- * @see org.kuali.module.financial.document.NonCheckDisbursementDocument
+ * @see org.kuali.kfs.fp.document.NonCheckDisbursementDocument
  */
 public class NonCheckDisbursementDocumentAccountingLineParser extends AccountingLineParserBase {
     private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT };

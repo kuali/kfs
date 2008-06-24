@@ -7,7 +7,7 @@
   <bean id="BudgetConstructionIntendedIncumbentInitializationMove" parent="BudgetConstructionIntendedIncumbentInitializationMove-parentBean" />
 
   <bean id="BudgetConstructionIntendedIncumbentInitializationMove-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentInitializationMove" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentInitializationMove" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-inquiryDefinition" />
     </property>

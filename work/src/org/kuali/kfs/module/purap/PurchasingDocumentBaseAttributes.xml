@@ -13,24 +13,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.kfs.coa.businessobject.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Chart</label>
     <shortLabel>Code</shortLabel>
 </attributeReference>
 
 <attributeReference name="organizationCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="organizationCode"/>
 <!-- 
-<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+<attributeReference name="organizationCode" sourceClassName="org.kuali.kfs.coa.businessobject.Org" sourceAttributeName="organizationCode">
     <label>Chart/Org</label>
     <shortLabel>Chart/Org</shortLabel>
 </attributeReference>
 -->
 
-<attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
+<attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.kfs.vnd.businessobject.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
     <required>false</required>
 </attributeReference>
 
-<attributeReference name="vendorContractName" sourceClassName="org.kuali.module.vendor.bo.VendorContract" sourceAttributeName="vendorContractName">
+<attributeReference name="vendorContractName" sourceClassName="org.kuali.kfs.vnd.businessobject.VendorContract" sourceAttributeName="vendorContractName">
     <label>Contract Name</label>
     <shortLabel>Contract Name</shortLabel>
     <required>false</required>
@@ -64,60 +64,60 @@
     </control>
 </attribute>
 
-<attributeReference name="billingName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingName">
+<attributeReference name="billingName" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingName">
     <label>Address</label>
     <shortLabel>Name</shortLabel>
 </attributeReference>
 
-<attributeReference name="billingLine1Address" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingLine1Address">
+<attributeReference name="billingLine1Address" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingLine1Address">
 </attributeReference>
 
-<attributeReference name="billingLine2Address" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingLine2Address">
+<attributeReference name="billingLine2Address" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingLine2Address">
 </attributeReference>
 
-<attributeReference name="billingCityName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingCityName">
+<attributeReference name="billingCityName" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingCityName">
 </attributeReference>
 
-<attributeReference name="billingStateCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingStateCode">
+<attributeReference name="billingStateCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingStateCode">
 </attributeReference>
 
-<attributeReference name="billingPostalCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPostalCode">
+<attributeReference name="billingPostalCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingPostalCode">
 </attributeReference>
 
-<attributeReference name="billingCountryCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingCountryCode">
+<attributeReference name="billingCountryCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingCountryCode">
 </attributeReference>
 
-<attributeReference name="billingPhoneNumber" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPhoneNumber">
+<attributeReference name="billingPhoneNumber" sourceClassName="org.kuali.kfs.module.purap.businessobject.BillingAddress" sourceAttributeName="billingPhoneNumber">
 </attributeReference>
 
-<attributeReference name="receivingName" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingName">
+<attributeReference name="receivingName" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingName">
     <label>Receiving Address</label>
     <shortLabel>Name</shortLabel>
 </attributeReference>
 
-<attributeReference name="receivingLine1Address" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingLine1Address">
+<attributeReference name="receivingLine1Address" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingLine1Address">
 </attributeReference>
 
-<attributeReference name="receivingLine2Address" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingLine2Address">
+<attributeReference name="receivingLine2Address" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingLine2Address">
 </attributeReference>
 
-<attributeReference name="receivingCityName" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingCityName">
+<attributeReference name="receivingCityName" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingCityName">
 </attributeReference>
 
-<attributeReference name="receivingStateCode" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingStateCode">
+<attributeReference name="receivingStateCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingStateCode">
 </attributeReference>
 
-<attributeReference name="receivingPostalCode" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingPostalCode">
+<attributeReference name="receivingPostalCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingPostalCode">
 </attributeReference>
 
-<attributeReference name="receivingCountryCode" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingCountryCode">
+<attributeReference name="receivingCountryCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="receivingCountryCode">
 </attributeReference>
 
-<attributeReference name="addressToVendorIndicator" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="useReceivingIndicator">
+<attributeReference name="addressToVendorIndicator" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="useReceivingIndicator">
     <label>Shipping Address Presented to Vendor</label>
     <shortLabel>Address to Vendor</shortLabel>
     <control>
-    	<radio valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.AddressToVendorIndicatorValuesFinder" />
+    	<radio valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AddressToVendorIndicatorValuesFinder" />
     </control>
 </attributeReference>
 
@@ -132,7 +132,7 @@
     <required>true</required>
 
     <control>
-        <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"/>
+        <select valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder"/>
     </control>
 </attribute>
 
@@ -141,7 +141,7 @@
     <shortLabel>Delivery Campus</shortLabel>
     <required>true</required>
     <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"/>
+        <select valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"/>
     </control>
 </attributeReference>
 
@@ -216,11 +216,11 @@
     <shortLabel>Date Required</shortLabel>
 </attributeReference>
 
-<attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
+<attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
     <label>Date Required Reason</label>
     <shortLabel>Date Reason</shortLabel>
     <control>
-		<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
+		<select valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.DateRequiredReasonValuesFinder"/>
 	</control>    
 
 </attributeReference>
@@ -256,12 +256,12 @@
 
 </attribute>
 
-<attributeReference name="fundingSourceCode" sourceClassName="org.kuali.module.purap.bo.FundingSource" sourceAttributeName="fundingSourceCode">
+<attributeReference name="fundingSourceCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.FundingSource" sourceAttributeName="fundingSourceCode">
     <label>Funding Source</label>
     <shortLabel>Funding Source</shortLabel>
     <required>true</required>
     <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
+        <select valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.FundingSourceValuesFinder" />
     </control>
 </attributeReference>
 
@@ -290,28 +290,28 @@
 
 </attributeReference>
 
-<attributeReference name="nonInstitutionFundAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+<attributeReference name="nonInstitutionFundAccountNumber" sourceClassName="org.kuali.kfs.coa.businessobject.Account" sourceAttributeName="accountNumber">
     <label>Non Institution Fund Account Number</label>
     <shortLabel>Number</shortLabel>
 	<required>false</required>
 
 </attributeReference>
 
-<attributeReference name="nonInstitutionFundChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+<attributeReference name="nonInstitutionFundChartOfAccountsCode" sourceClassName="org.kuali.kfs.coa.businessobject.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>
 
 </attributeReference>
 
-<attributeReference name="nonInstitutionFundOrgChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+<attributeReference name="nonInstitutionFundOrgChartOfAccountsCode" sourceClassName="org.kuali.kfs.coa.businessobject.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Org Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>
 
 </attributeReference>
 
-<attributeReference name="nonInstitutionFundOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+<attributeReference name="nonInstitutionFundOrganizationCode" sourceClassName="org.kuali.kfs.coa.businessobject.Org" sourceAttributeName="organizationCode">
     <label>Non Institution Fund Org Organization Code</label>
     <shortLabel>Code</shortLabel>
 	<required>false</required>
@@ -324,12 +324,12 @@
 
 </attributeReference>
 
-<attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
+<attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
     <required>true</required>
     <control>
-        <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
+        <select valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PurchaseOrderCostSourceValuesFinder" />
     </control>
 
 </attributeReference>
@@ -352,20 +352,20 @@
 
 </attributeReference>
 
-<attributeReference name="purchaseOrderTransmissionMethodCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" sourceAttributeName="purchaseOrderTransmissionMethodCode">
+<attributeReference name="purchaseOrderTransmissionMethodCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" sourceAttributeName="purchaseOrderTransmissionMethodCode">
     <label>Method of PO Transmission</label>
     <shortLabel>Code</shortLabel>
     <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
+        <select valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderTransmissionMethodValuesFinder" />
     </control>
 
 </attributeReference>
 
-<attributeReference name="recurringPaymentTypeCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentType" sourceAttributeName="recurringPaymentTypeCode">
+<attributeReference name="recurringPaymentTypeCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.RecurringPaymentType" sourceAttributeName="recurringPaymentTypeCode">
     <label>Type of Recurring Payment</label>
     <shortLabel>Code</shortLabel>
     <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
+        <select valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentTypeValuesFinder" />
     </control>
 
 </attributeReference>
@@ -398,9 +398,9 @@
 
 </attributeReference>
 
-<attributeReference name="requisitionSourceCode" sourceClassName="org.kuali.module.purap.bo.RequisitionSource" sourceAttributeName="requisitionSourceCode"/>
+<attributeReference name="requisitionSourceCode" sourceClassName="org.kuali.kfs.module.purap.businessobject.RequisitionSource" sourceAttributeName="requisitionSourceCode"/>
 
-<attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier"/>
+<attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.kfs.vnd.businessobject.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier"/>
 
 <attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Fax Number</label>
@@ -435,9 +435,9 @@
 
 </attributeReference>
 
-<attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorPaymentTermsCode"/>
+<attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" sourceAttributeName="vendorPaymentTermsCode"/>
 
-<attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingTitleCode"/>
+<attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" sourceAttributeName="vendorShippingTitleCode"/>
                                     
-<attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingPaymentTermsCode"/>
+<attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" sourceAttributeName="vendorShippingPaymentTermsCode"/>
 

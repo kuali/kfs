@@ -7,7 +7,7 @@
   <bean id="Subcontractor" parent="Subcontractor-parentBean" />
 
   <bean id="Subcontractor-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Subcontractor" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Subcontractor" />
     <property name="inquiryDefinition" >
       <ref bean="Subcontractor-inquiryDefinition" />
     </property>

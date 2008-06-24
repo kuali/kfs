@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.effort.document;
+package org.kuali.kfs.module.ec.document;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,22 +27,22 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.service.EffortCertificationDocumentService;
-import org.kuali.workflow.attribute.GenericRoutingInfo;
-import org.kuali.workflow.attribute.KualiAccountAttribute;
-import org.kuali.workflow.attribute.KualiCGAttribute;
-import org.kuali.workflow.attribute.KualiOrgReviewAttribute;
-import org.kuali.workflow.attribute.KualiPDAttribute;
-import org.kuali.workflow.attribute.OrgReviewRoutingData;
-import org.kuali.workflow.attribute.RoutingAccount;
-import org.kuali.workflow.attribute.RoutingData;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 
 /**
  * Effort Certification Document Class.
@@ -728,7 +728,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.workflow.attribute.GenericRoutingInfo#populateRoutingInfo()
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
     public void populateRoutingInfo() {
         routingInfo = new HashSet<RoutingData>();

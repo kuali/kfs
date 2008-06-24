@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,22 +23,22 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.DynamicCollectionComparator;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountDump;
-import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.ReportDumpDao;
-import org.kuali.module.budget.service.ReportExportService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountDump;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao;
+import org.kuali.kfs.module.bc.document.service.ReportExportService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @see org.kuali.module.budget.service.ReportExportService
+ * @see org.kuali.kfs.module.bc.document.service.ReportExportService
  */
 @Transactional
 public class ReportExportServiceImpl implements ReportExportService {
@@ -46,14 +46,14 @@ public class ReportExportServiceImpl implements ReportExportService {
     BusinessObjectService businessObjectService;
     
     /**
-     * @see org.kuali.module.budget.service.ReportExportService#updateAccountDump(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#updateAccountDump(java.lang.String)
      */
     public void updateAccountDump(String personUniversalIdentifier) {
         reportDumpDao.updateAccountDump(personUniversalIdentifier);
     }
 
     /**
-     * @see org.kuali.module.budget.service.ReportExportService#buildAccountDumpFile(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountDumpFile(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public StringBuilder buildOrganizationAccountDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter) {
@@ -123,7 +123,7 @@ public class ReportExportServiceImpl implements ReportExportService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.ReportExportService#buildFundingDumpFile(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildFundingDumpFile(java.lang.String, java.lang.String,
      *      java.lang.String)
      *      
      * // read u_where %\
@@ -220,7 +220,7 @@ public class ReportExportServiceImpl implements ReportExportService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.ReportExportService#buildMonthlyDumpFile(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildMonthlyDumpFile(java.lang.String, java.lang.String,
      *      java.lang.String)
      *      
      *      // read u_where %\
@@ -297,7 +297,7 @@ public class ReportExportServiceImpl implements ReportExportService {
 
     /**
      * 
-     * @see org.kuali.module.budget.service.ReportExportService#buildAccountDumpFile(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountDumpFile(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public StringBuilder buildAccountDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         StringBuilder results = new StringBuilder();
@@ -318,7 +318,7 @@ public class ReportExportServiceImpl implements ReportExportService {
     
     /**
      * 
-     * @see org.kuali.module.budget.service.ReportExportService#buildAccountFundingDumpFile(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountFundingDumpFile(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public StringBuilder buildAccountFundingDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         StringBuilder results = new StringBuilder();
@@ -338,7 +338,7 @@ public class ReportExportServiceImpl implements ReportExportService {
     
     /**
      * 
-     * @see org.kuali.module.budget.service.ReportExportService#buildAccountMonthlyDumpFile(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountMonthlyDumpFile(java.lang.String, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public StringBuilder buildAccountMonthlyDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         StringBuilder results = new StringBuilder();
@@ -367,7 +367,7 @@ public class ReportExportServiceImpl implements ReportExportService {
     
     /**
      * 
-     * @see org.kuali.module.budget.service.ReportExportService#setBusinessObjectService(org.kuali.core.service.BusinessObjectService)
+     * @see org.kuali.kfs.module.bc.document.service.ReportExportService#setBusinessObjectService(org.kuali.core.service.BusinessObjectService)
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;

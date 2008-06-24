@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,22 +30,22 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.AppointmentType;
-import org.kuali.module.kra.budget.bo.AppointmentTypeEffectiveDate;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UserAppointmentTask;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetFringeRateService;
-import org.kuali.module.kra.budget.service.BudgetPersonnelService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.AppointmentType;
+import org.kuali.kfs.module.cg.businessobject.AppointmentTypeEffectiveDate;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTask;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
+import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -29,7 +29,7 @@ import org.kuali.core.util.TypedArrayList;
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
  * <code>VendorDetail</code>.
  * 
- * @see org.kuali.module.vendor.bo.VendorDetail
+ * @see org.kuali.kfs.vnd.businessobject.VendorDetail
  */
 public class VendorHeader extends PersistableBusinessObjectBase {
     private static Logger LOG = Logger.getLogger(VendorHeader.class);

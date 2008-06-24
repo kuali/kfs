@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.bo.DocumentType;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * Labor business object for Labor Transaction

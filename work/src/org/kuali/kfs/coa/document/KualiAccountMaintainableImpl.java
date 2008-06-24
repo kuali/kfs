@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.List;
 import java.util.Map;
@@ -23,8 +23,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it

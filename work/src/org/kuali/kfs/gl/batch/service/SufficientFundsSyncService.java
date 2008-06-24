@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 /**
  * An interface declaring methods needed to run the sufficient funds sync service.  It should be noted, though,

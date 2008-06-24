@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,19 +23,19 @@ import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.batch.poster.BalanceCalculator;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.CashBalance;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.CashBalanceInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.batch.service.BalanceCalculator;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.CashBalance;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.inquiry.CashBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

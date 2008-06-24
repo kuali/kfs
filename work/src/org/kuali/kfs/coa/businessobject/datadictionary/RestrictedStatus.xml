@@ -7,7 +7,7 @@
   <bean id="RestrictedStatus" parent="RestrictedStatus-parentBean" />
 
   <bean id="RestrictedStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.RestrictedStatus" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.RestrictedStatus" />
     <property name="inquiryDefinition" >
       <ref bean="RestrictedStatus-inquiryDefinition" />
     </property>

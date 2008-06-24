@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.util.Guid;
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
-import org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao;
+import org.kuali.kfs.module.bc.BCConstants;
 
 import java.util.ArrayList;
 
@@ -281,7 +281,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectDetailTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectDetailTable(java.lang.String)
      */
     public void updateReportsAccountObjectDetailTable(String personUserIdentifier) {
 
@@ -304,7 +304,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectConsolidatedTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectConsolidatedTable(java.lang.String)
      */
     public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) {
 

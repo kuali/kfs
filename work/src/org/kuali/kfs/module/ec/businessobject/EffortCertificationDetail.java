@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,21 +22,21 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.util.EffortCertificationParameterFinder;
-import org.kuali.module.effort.util.PayrollAmountHolder;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
+import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
+import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.service.LaborModuleService;
 
 /**
  * Business Object for the Effort Certification Detail Table.

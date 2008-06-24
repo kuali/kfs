@@ -7,7 +7,7 @@
   <bean id="BuildingMaintenanceDocument" parent="BuildingMaintenanceDocument-parentBean" />
 
   <bean id="BuildingMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.bo.Building" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Building" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -41,7 +41,7 @@
             p:parameterDetailType="Building" />
     </property>
     <property name="documentTypeName" value="BuildingMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BLDG" />
     <property name="workflowProperties" >
       <ref bean="BuildingMaintenanceDocument-workflowProperties" />

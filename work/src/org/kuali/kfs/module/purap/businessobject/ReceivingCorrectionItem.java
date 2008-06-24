@@ -1,13 +1,13 @@
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.UnitOfMeasure;
-import org.kuali.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
+import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

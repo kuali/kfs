@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.chart.bo.DelegateGlobalDetail;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class DelegateGlobalRuleTest extends ChartRuleTestBase {

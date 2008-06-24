@@ -84,7 +84,7 @@
 			property="${propertyName}.customerNumber" readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
 		&nbsp;
-		<kul:lookup boClassName="org.kuali.module.ar.bo.Customer"
+		<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
 				fieldConversions="customerNumber:${propertyName}.customerNumber" />
 		</c:if>
 	</td>

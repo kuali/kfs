@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.ojb;
+package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +29,7 @@ import org.apache.ojb.broker.metadata.MetadataManager;
 
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.module.budget.service.impl.GenesisTest;
+import org.kuali.kfs.module.bc.batch.service.impl.GenesisTest;
 
 
 public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb {

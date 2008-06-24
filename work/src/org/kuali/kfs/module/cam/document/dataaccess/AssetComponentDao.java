@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.dao;
+package org.kuali.kfs.module.cam.document.dataaccess;
 
-import org.kuali.module.cams.bo.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetComponent;
 
 public interface AssetComponentDao {
     /**

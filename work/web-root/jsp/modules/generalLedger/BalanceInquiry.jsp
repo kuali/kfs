@@ -127,7 +127,7 @@
 	        
 	        <display:table class="datatable-100" cellspacing="0"
 				cellpadding="0" name="${reqSearchResults}" id="row"
-				export="true" pagesize="100" defaultsort="1" decorator="org.kuali.module.gl.web.BalanceInquiryTableDecorator"
+				export="true" pagesize="100" defaultsort="1" decorator="org.kuali.kfs.gl.businessobject.inquiry.BalanceInquiryTableDecorator"
 				requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 				
 				<c:set var="columnLength" value="${fn:length(row.columns)-13}" />

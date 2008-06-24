@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.batch.collector.CollectorInputFileType;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants.TestConstants.Data4;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.KualiTestConstants.TestConstants.Data4;
 
 /**
  * Tests the collector and pcdo instances of BatchInputFileType.
  * 
- * @see org.kuali.kfs.batch.BatchInputFileType
+ * @see org.kuali.kfs.sys.batch.BatchInputFileType
  */
 @ConfigureContext
 public class BatchInputFileTypeTest extends KualiTestBase {

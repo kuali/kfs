@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.sys.document.service.impl;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.service.AccountPresenceService;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.dao.BalanceDao;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.document.service.AccountPresenceService;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.dataaccess.BalanceDao;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class AccountPresenceServiceImpl implements AccountPresenceService {
      * @param objectCode The object code being reviewed.
      * @return True if the object code has been budgeted for an account presence, false otherwise.
      * 
-     * @see org.kuali.module.financial.service.AccountPresenceService#isObjectCodeBudgetedForAccountPresence(org.kuali.module.chart.bo.Account, org.kuali.module.chart.bo.ObjectCode)
+     * @see org.kuali.kfs.sys.document.service.AccountPresenceService#isObjectCodeBudgetedForAccountPresence(org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.coa.businessobject.ObjectCode)
      */
     public boolean isObjectCodeBudgetedForAccountPresence(Account account, ObjectCode objectCode) {
         boolean objectCodeValid = true;

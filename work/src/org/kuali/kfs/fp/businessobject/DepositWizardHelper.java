@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This helper class works in conjunction with the DepositWizardForm to help build the UI for the Deposit Wizard.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.AdhocOrg;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.bo.AdhocWorkgroup;
-import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
-import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
+import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
+import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
+import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;

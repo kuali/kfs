@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
 
 public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 

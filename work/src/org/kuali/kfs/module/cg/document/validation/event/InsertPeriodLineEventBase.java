@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.rules.event;
+package org.kuali.kfs.module.cg.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.document.validation.impl.BudgetDocumentRule;
 
 /**
  * Class capturing an insert period line event.

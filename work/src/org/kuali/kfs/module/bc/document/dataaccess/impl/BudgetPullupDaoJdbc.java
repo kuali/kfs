@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.module.budget.dao.BudgetPullupDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
 
 /**
  * This class implemements BudgetPullupDao using Raw Sql
@@ -65,7 +65,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
     /**
      * This method initializes and inserts the root organization using raw SQL.
      * 
-     * @see org.kuali.module.budget.dao.BudgetPullupDao#initPointOfView(java.lang.String, java.lang.String, java.lang.String, int)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#initPointOfView(java.lang.String, java.lang.String, java.lang.String, int)
      */
     public void initPointOfView(String personUserIdentifier, String chartOfAccountsCode, String organizationCode, int currentLevel) {
    
@@ -77,7 +77,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
     /**
      * This method is implemented using RawSql
      * 
-     * @see org.kuali.module.budget.dao.BudgetPullupDao#insertChildOrgs(java.lang.String, int)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#insertChildOrgs(java.lang.String, int)
      */
     public void insertChildOrgs(String personUserIdentifier, int previousLevel) {
         

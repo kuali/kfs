@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.batch;
+package org.kuali.kfs.module.purap.batch;
 
 public class CreateFullDocumentSuiteStep {
     // empty to attempt to remove references to problems caused in build-698(7) from this file.

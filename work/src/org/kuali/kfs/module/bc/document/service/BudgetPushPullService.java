@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 /**
  * This interface defines the methods that perform Pullup or Pushdown operations on Budget Construction Documents.

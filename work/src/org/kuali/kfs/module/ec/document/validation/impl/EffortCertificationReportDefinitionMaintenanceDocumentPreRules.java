@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.rules;
+package org.kuali.kfs.module.ec.document.validation.impl;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService;
 
 /**
  * Checks warnings and prompts for EffortCertifictionReportDefinition Maintenance Document

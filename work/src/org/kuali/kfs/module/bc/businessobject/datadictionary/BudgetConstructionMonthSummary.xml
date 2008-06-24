@@ -7,7 +7,7 @@
   <bean id="BudgetConstructionMonthSummary" parent="BudgetConstructionMonthSummary-parentBean" />
 
   <bean id="BudgetConstructionMonthSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionMonthSummary" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthSummary" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetConstructionMonthSummary-inquiryDefinition" />
     </property>

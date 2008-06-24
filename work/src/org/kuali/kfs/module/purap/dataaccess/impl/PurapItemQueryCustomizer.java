@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.dataaccess.impl;
 
 import java.util.Map;
 

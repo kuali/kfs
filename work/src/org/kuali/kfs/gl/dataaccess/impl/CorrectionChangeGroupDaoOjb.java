@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
 
 /**
  * The OJB implementation of CorrectionChangeGroupDao
@@ -35,7 +35,7 @@ public class CorrectionChangeGroupDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * Deletes an unlucky correction change group
      * 
      * @param group the group to delete
-     * @see org.kuali.module.gl.dao.CorrectionChangeGroupDao#delete(org.kuali.module.gl.bo.CorrectionChangeGroup)
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao#delete(org.kuali.kfs.gl.businessobject.CorrectionChangeGroup)
      */
     public void delete(CorrectionChangeGroup group) {
         LOG.debug("delete() started");
@@ -48,7 +48,7 @@ public class CorrectionChangeGroupDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * 
      * @param documentNumber the document number of a GLCP document
      * @return a Collection of CorrectionChangeGroup records
-     * @see org.kuali.module.gl.dao.CorrectionChangeGroupDao#findByDocumentNumber(java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao#findByDocumentNumber(java.lang.String)
      */
     public Collection findByDocumentNumber(String documentNumber) {
         Criteria criteria = new Criteria();
@@ -65,7 +65,7 @@ public class CorrectionChangeGroupDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * @param documentNumber the document number of the correction change group to retrieve
      * @param CorrectionChangeGroupNumber the number of the group to retrieve
      * @return the found CorrectionChangeGroup, or null if not found
-     * @see org.kuali.module.gl.dao.CorrectionChangeGroupDao#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
      *      java.lang.Integer)
      */
     public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String documentNumber, Integer CorrectionChangeGroupNumber) {
@@ -84,7 +84,7 @@ public class CorrectionChangeGroupDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * Saves a correction change group
      * 
      * @param group the Correction Change Group to save
-     * @see org.kuali.module.gl.dao.CorrectionChangeGroupDao#save(org.kuali.module.gl.bo.CorrectionChangeGroup)
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao#save(org.kuali.kfs.gl.businessobject.CorrectionChangeGroup)
      */
     public void save(CorrectionChangeGroup group) {
         LOG.debug("save() started");

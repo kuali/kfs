@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.dao.A21SubAccountDao;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
 
 /**
  * This class provides data access to {@link A21SubAccount} through OJB
@@ -33,7 +33,7 @@ public class A21SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements A21S
     }
 
     /**
-     * @see org.kuali.module.chart.dao.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         LOG.debug("getByPrimaryKey() started");

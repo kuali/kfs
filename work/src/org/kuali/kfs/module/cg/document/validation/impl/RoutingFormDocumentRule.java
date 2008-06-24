@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.rules;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,24 +33,24 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer;
-import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
-import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
-import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.authorization.BudgetDocumentAuthorizer;
+import org.kuali.kfs.module.cg.document.validation.impl.ResearchDocumentRuleBase;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRiskStudy;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormSubcontractor;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

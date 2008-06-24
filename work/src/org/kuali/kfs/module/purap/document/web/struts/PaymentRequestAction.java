@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.HashMap;
 
@@ -28,21 +28,21 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.util.PurQuestionCallback;
-import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
-import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.PurQuestionCallback;
+import org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm;
+import org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -160,7 +160,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @param paymentRequestDocument The PaymentRequestDocument
      * @throws Exception
      * @return An ActionForward
-     * @see org.kuali.module.purap.service.PaymentRequestService
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService
      */
     private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
         ActionForward forward = null;
@@ -252,7 +252,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#cancelPOActionCallbackMethod()
+     * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#cancelPOActionCallbackMethod()
      */
     @Override
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
@@ -306,7 +306,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#getActionName()
+     * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#getActionName()
      */
     @Override
     public String getActionName() {

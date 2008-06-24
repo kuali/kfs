@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.inquiry;
+package org.kuali.kfs.sys.businessobject.inquiry;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Base KFS Inquirable Implementation

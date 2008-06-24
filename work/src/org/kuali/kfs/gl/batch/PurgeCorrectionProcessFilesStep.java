@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -21,9 +21,9 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 
 /**
  * A step to remove old correction document origin entries from the database.
@@ -38,7 +38,7 @@ public class PurgeCorrectionProcessFilesStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#performStep()
+     * @see org.kuali.kfs.sys.batch.Step#performStep()
      */
     public boolean execute(String jobName, Date jobRunDate) {
         int numberOfDaysFinal = Integer.parseInt(getParameterService().getParameterValue(getClass(), "NUMBER_OF_DAYS_FINAL"));
@@ -56,7 +56,7 @@ public class PurgeCorrectionProcessFilesStep extends AbstractStep {
      * Sets the correctionDocumentService attribute value, allowing the injection of an implementation of that service.
      * 
      * @param correctionDocumentService The correctionDocumentService to set.
-     * @see org.kuali.module.gl.service.CorrectionDocumentService.
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService.
      */
     public void setCorrectionDocumentService(CorrectionDocumentService correctionDocumentService) {
         this.correctionDocumentService = correctionDocumentService;

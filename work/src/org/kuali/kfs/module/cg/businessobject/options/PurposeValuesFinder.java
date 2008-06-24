@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.lookup.keyvalues;
+package org.kuali.kfs.module.cg.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.routingform.bo.Purpose;
-import org.kuali.module.kra.routingform.service.PurposeService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.Purpose;
+import org.kuali.kfs.module.cg.document.service.PurposeService;
 
 public class PurposeValuesFinder extends KeyValuesBase {
 

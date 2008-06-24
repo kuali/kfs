@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.io.BufferedOutputStream;
 import java.sql.Date;
@@ -22,12 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.gl.util.PosterOutputSummaryEntry;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LaborTransaction;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 
 /**
  * Defines methods that must be implemented by classes providing a LaborOriginEntryServiceImpl.

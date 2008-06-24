@@ -16,10 +16,10 @@
             p:parameterDetailType="CreditMemo" />
     </property>
     <property name="documentTypeName" value="CreditMemoDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.CreditMemoDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.CreditMemoDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.CreditMemoDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.CreditMemoDocumentPreRules" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.CreditMemoDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.CreditMemoDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
     <property name="documentTypeCode" value="CM" />
     <property name="workflowProperties" >
       <ref bean="CreditMemoDocument-workflowProperties" />

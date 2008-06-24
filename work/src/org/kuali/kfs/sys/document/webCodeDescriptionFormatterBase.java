@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.util;
+package org.kuali.kfs.sys.document;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -35,7 +35,7 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
     public static final int INIT_BUFFER_SIZE = 20;
 
     /**
-     * @see org.kuali.module.financial.util.CodeDescriptionFormatter#getFormattedStringWithDescriptions(java.util.Set,
+     * @see org.kuali.kfs.sys.document.webCodeDescriptionFormatter#getFormattedStringWithDescriptions(java.util.Set,
      *      java.lang.String, java.lang.String)
      */
     public String getFormattedStringWithDescriptions(Set values, String startConjunction, String endConjunction) {

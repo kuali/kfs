@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.module.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.CorrectionDocument;
 
 /**
  * A DAO interface that declares methods...or, in this case, a method...for CorrectionDocuments to interact 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,14 +27,14 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
-import org.kuali.module.chart.bo.Delegate;
-import org.kuali.module.chart.bo.DelegateGlobal;
-import org.kuali.module.chart.bo.DelegateGlobalDetail;
-import org.kuali.module.chart.bo.OrganizationRoutingModel;
-import org.kuali.module.chart.bo.OrganizationRoutingModelName;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.DelegateGlobal;
+import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
+import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global delegates

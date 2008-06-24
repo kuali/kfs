@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -22,8 +22,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 
 public enum CreditMemoDocumentFixture {
     

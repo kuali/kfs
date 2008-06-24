@@ -19,9 +19,9 @@
             p:parameterDetailType="GeneralErrorCorrection" />
     </property>
     <property name="documentTypeName" value="GeneralErrorCorrectionDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.GeneralErrorCorrectionDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GEC" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

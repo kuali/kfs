@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -25,12 +25,12 @@ import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.util.AccountingPeriodMonth;
-import org.kuali.module.integration.bo.EffortCertificationReport;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 
 /**
  * Business Object for the Effort Certification Report Definition Table.

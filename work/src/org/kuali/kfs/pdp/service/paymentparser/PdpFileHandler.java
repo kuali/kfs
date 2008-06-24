@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.xml;
+package org.kuali.kfs.pdp.service.paymentparser;
 
 import java.util.List;
 

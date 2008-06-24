@@ -7,7 +7,7 @@
   <bean id="SubObjCdMaintenanceDocument" parent="SubObjCdMaintenanceDocument-parentBean" />
 
   <bean id="SubObjCdMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.SubObjCd" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjCd" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -53,9 +53,9 @@
             p:parameterDetailType="SubObjCd" />
     </property>
     <property name="documentTypeName" value="SubObjCdMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.SubObjCdRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.SubObjectPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjCdRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjectPreRules" />
     <property name="documentTypeCode" value="SOBJ" />
     <property name="workflowProperties" >
       <ref bean="SubObjCdMaintenanceDocument-workflowProperties" />
@@ -87,7 +87,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="universityFiscalYear"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
               p:required="true" />

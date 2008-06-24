@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.orgreversion;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 
 /**
  * A generic implementation of OrganizationReversionCategoryLogic; it is completely based off of parameters
- * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic
+ * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic
  */
 public class GenericOrganizationReversionCategory implements OrganizationReversionCategoryLogic {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GenericOrganizationReversionCategory.class);
@@ -70,7 +70,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
      * 
      * @param oc the object code to qualify
      * @return true if balances with the given object code should be processed by this logic, false if otherwise
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#containsObjectCode(org.kuali.module.chart.bo.ObjectCode)
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#containsObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode)
      */
     public boolean containsObjectCode(ObjectCode oc) {
         if (LOG.isDebugEnabled()) {
@@ -122,7 +122,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
      * Returns the name of the category
      * 
      * @return the name of the category
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#getName()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#getName()
      */
     public String getName() {
         return categoryName;
@@ -132,7 +132,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
      * Returns the code of this category
      * 
      * @return the code of this category
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#getCode()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#getCode()
      */
     public String getCode() {
         return categoryCode;
@@ -142,7 +142,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
      * Returns whether this category represents an expense or not
      * 
      * @return true if this category represents expenses, false if otherwise
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#isExpense()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#isExpense()
      */
     public boolean isExpense() {
         return isExpense;

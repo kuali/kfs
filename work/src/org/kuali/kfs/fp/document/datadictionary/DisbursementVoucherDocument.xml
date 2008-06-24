@@ -18,10 +18,10 @@
             p:parameterDetailType="DisbursementVoucher" />
     </property>
     <property name="documentTypeName" value="DisbursementVoucherDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.DisbursementVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.DisbursementVoucherDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.financial.rules.DisbursementVoucherDocumentPreRules" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />
     <property name="documentTypeCode" value="DV" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
@@ -202,7 +202,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="description" value="The description of the organization involved in the document Payment. Select one from the pulldown list." />
@@ -306,7 +306,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="&amp;nbsp;" />

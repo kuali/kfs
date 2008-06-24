@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.

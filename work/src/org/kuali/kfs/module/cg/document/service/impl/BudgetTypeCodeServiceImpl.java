@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.Collection;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.kra.budget.bo.BudgetTypeCode;
-import org.kuali.module.kra.budget.service.BudgetTypeCodeService;
+import org.kuali.kfs.module.cg.businessobject.BudgetTypeCode;
+import org.kuali.kfs.module.cg.document.service.BudgetTypeCodeService;
 
 /**
  * This class is the service implementation for the Budget Type Codes interface. This is the default, Kuali provided implementation.

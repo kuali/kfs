@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.kra.node;
+package org.kuali.kfs.module.cg.document.routing.node;
 
 
 import edu.iu.uis.eden.doctype.DocumentType;

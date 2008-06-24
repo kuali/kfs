@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.exceptions;
+package org.kuali.kfs.module.purap.exception;
 
 /**
  * Exception that is thrown when a piece of the <code>ItemParser</code> fails.
  * 
- * @see org.kuali.module.purap.util.ItemParser
+ * @see org.kuali.kfs.module.purap.util.ItemParser
  */
 public class ItemParserException extends RuntimeException {
 

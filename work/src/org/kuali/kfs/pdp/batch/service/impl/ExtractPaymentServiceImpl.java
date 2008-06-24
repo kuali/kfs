@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -25,23 +25,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.Bank;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.bo.PaymentNoteText;
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.dao.PaymentGroupHistoryDao;
-import org.kuali.module.pdp.dao.ProcessDao;
-import org.kuali.module.pdp.service.ExtractPaymentService;
-import org.kuali.module.pdp.service.PaymentDetailService;
-import org.kuali.module.pdp.service.PaymentGroupService;
-import org.kuali.module.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.Bank;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
+import org.kuali.kfs.pdp.dataaccess.ProcessDao;
+import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
+import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.service.ReferenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -71,7 +71,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.ExtractPaymentService#extractCancelledChecks()
+     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractCancelledChecks()
      */
     public void extractCanceledChecks() {
         LOG.debug("extractCancelledChecks() started");
@@ -141,7 +141,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.ExtractPaymentService#extractAchPayments()
+     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractAchPayments()
      */
     public void extractAchPayments() {
         LOG.debug("extractAchPayments() started");
@@ -242,7 +242,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.ExtractPaymentService#extractChecks()
+     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractChecks()
      */
     public void extractChecks() {
         LOG.debug("extractChecks() started");

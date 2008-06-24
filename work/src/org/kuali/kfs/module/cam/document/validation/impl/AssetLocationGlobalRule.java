@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.cams.rules;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetLocationGlobal;
-import org.kuali.module.cams.bo.AssetLocationGlobalDetail;
-import org.kuali.module.cams.service.AssetService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.

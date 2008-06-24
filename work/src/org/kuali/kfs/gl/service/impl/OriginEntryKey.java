@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.Arrays;
 
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 /**
  * This class represents an origin entry key

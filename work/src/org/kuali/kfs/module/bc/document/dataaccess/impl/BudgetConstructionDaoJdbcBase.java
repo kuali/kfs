@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,14 @@ import java.lang.StringBuilder;
 import java.lang.Exception;
 import java.sql.Date;
 
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 import org.apache.log4j.Logger;
 
-import org.kuali.module.budget.BCParameterKeyConstants;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
 
 /**

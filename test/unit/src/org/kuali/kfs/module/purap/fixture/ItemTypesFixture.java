@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 public enum ItemTypesFixture {
 

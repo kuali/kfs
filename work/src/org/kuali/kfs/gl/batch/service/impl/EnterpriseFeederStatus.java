@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.batch.service.impl;
 
 /**
  * An status object that signifies the status of the enterprise feeder process

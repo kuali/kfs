@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.util;
+package org.kuali.kfs.sys;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -24,10 +24,10 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.test.fixtures.AccountFixture;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.fixture.AccountFixture;
 
 public class DynamicCollectionComparatorTest extends TestCase {
 

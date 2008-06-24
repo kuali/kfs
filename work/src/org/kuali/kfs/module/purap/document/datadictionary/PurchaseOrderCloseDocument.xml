@@ -16,9 +16,9 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderCloseDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderCloseDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderCloseDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderCloseDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderCloseDocumentAuthorizer" />
     <property name="documentTypeCode" value="POC" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderCloseDocument-workflowProperties" />

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.jdbc;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.PriorYearOrganization;
-import org.kuali.module.chart.dao.PriorYearOrganizationDao;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.PriorYearOrganization;
+import org.kuali.kfs.coa.dataaccess.PriorYearOrganizationDao;
 
 /**
  * This class performs actions against the database through direct SQL command calls.
@@ -33,7 +33,7 @@ public class PriorYearOrganizationDaoJdbc extends PlatformAwareDaoBaseJdbc imple
      * This method purges all records in the Prior Year Organization table in the DB.
      * 
      * @return Number of records that were purged.
-     * @see org.kuali.module.chart.dao.PriorYearOrganizationDao#purgePriorYearOrganizations()
+     * @see org.kuali.kfs.coa.dataaccess.PriorYearOrganizationDao#purgePriorYearOrganizations()
      */
     public int purgePriorYearOrganizations() {
         String priorYrOrgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearOrganization.class).getFullTableName();
@@ -51,7 +51,7 @@ public class PriorYearOrganizationDaoJdbc extends PlatformAwareDaoBaseJdbc imple
      * This method copies all organization records from the current Org table to the Prior Year Organization table.
      * 
      * @return Number of records that were copied.
-     * @see org.kuali.module.chart.dao.PriorYearOrganizationDao#copyCurrentOrganizationsToPriorYearTable()
+     * @see org.kuali.kfs.coa.dataaccess.PriorYearOrganizationDao#copyCurrentOrganizationsToPriorYearTable()
      */
     public int copyCurrentOrganizationsToPriorYearTable() {
         String priorYrOrgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearOrganization.class).getFullTableName();

@@ -17,7 +17,7 @@
  * Created on Aug 7, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -27,10 +27,10 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.module.pdp.bo.CustomerBank;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.UserRequired;
-import org.kuali.module.pdp.dao.CustomerProfileDao;
+import org.kuali.kfs.pdp.businessobject.CustomerBank;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
 
 
 /**

@@ -7,7 +7,7 @@
   <bean id="LaborObjectMaintenanceDocument" parent="LaborObjectMaintenanceDocument-parentBean" />
 
   <bean id="LaborObjectMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LaborObject" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -42,7 +42,7 @@
             p:parameterDetailType="LaborObject" />
     </property>
     <property name="documentTypeName" value="LaborObjectMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="LOBJ" />
     <property name="workflowProperties" >
       <ref bean="LaborObjectMaintenanceDocument-workflowProperties" />

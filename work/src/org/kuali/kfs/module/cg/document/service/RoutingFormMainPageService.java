@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.routingform.bo.DueDateType;
-import org.kuali.module.kra.routingform.bo.PersonRole;
-import org.kuali.module.kra.routingform.bo.ProjectType;
-import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.businessobject.DueDateType;
+import org.kuali.kfs.module.cg.businessobject.PersonRole;
+import org.kuali.kfs.module.cg.businessobject.ProjectType;
+import org.kuali.kfs.module.cg.businessobject.ResearchTypeCode;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 
 /**
  * This interface defines methods that a RoutingFormMainPageService must provide

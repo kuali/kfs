@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.ojb;
+package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
@@ -37,23 +37,23 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.ojb.BudgetConstructionBatchHelperDaoOjb;
-import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.batch.dataaccess.impl.BudgetConstructionBatchHelperDaoOjb;
+import org.kuali.kfs.module.bc.batch.dataaccess.GeneralLedgerBudgetLoadDao;
 
 
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.service.HomeOriginationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.service.HomeOriginationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 
 public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GeneralLedgerBudgetLoadDao {
 
@@ -453,7 +453,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
     /**
      *  build a hash set of subfunds whose accounts should NOT be loaded
      *  this can be done by either a list of FUND groups and/or a list of subfund groups
-     *  @see org.kuali.module.budget.BCConstants to initialize the String[] array(s) as desired
+     *  @see org.kuali.kfs.module.bc.BCConstants to initialize the String[] array(s) as desired
      *  @return  list of subfunds whose accounts will NOT be loaded
      */
      private HashSet<String> getSubFundsNotToBeLoaded ()

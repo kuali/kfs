@@ -34,7 +34,7 @@
     <property name="description" value="This document can be used to create or update parameter components." />
     <property name="documentTypeName" value="ParameterDetailTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PDTP" />
     <property name="workflowProperties" >
       <ref bean="ParameterDetailTypeMaintenanceDocument-workflowProperties" />

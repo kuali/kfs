@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.util.EnterpriseFeederStatus;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus;
 
 /**
  * A service that is used to provide notification about the status of an enterprise feed. The implementation may use a variety of

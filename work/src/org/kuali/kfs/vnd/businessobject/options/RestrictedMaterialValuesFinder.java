@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup.keyvalues;
+package org.kuali.kfs.vnd.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.integration.bo.PurchasingAccountsPayableRestrictedMaterial;
-import org.kuali.module.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
 
 public class RestrictedMaterialValuesFinder extends KeyValuesBase {
 

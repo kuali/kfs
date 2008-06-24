@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.jdbc;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.AccountBalanceConsolidationDao;
-import org.kuali.module.gl.service.AccountBalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceConsolidationDao;
+import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -48,7 +48,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param isConsolidated whether the results of the inquiry should be consolidated
      * @param pendingEntriesCode whether the inquiry should also report results based on no pending entries, approved pending entries, or all pending entries
      * @return a List of Maps with the report information from this inquiry
-     * @see org.kuali.module.gl.dao.AccountBalanceConsolidationDao#findAccountBalanceByConsolidationObjectTypes(java.lang.String[], java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceConsolidationDao#findAccountBalanceByConsolidationObjectTypes(java.lang.String[], java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
     public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByConsolidationObjectTypes() started");

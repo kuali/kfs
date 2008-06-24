@@ -16,13 +16,13 @@
 /*
  * Created on Aug 19, 2004
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.pdp.bo.AchAccountNumber;
-import org.kuali.module.pdp.dao.AchAccountNumberDao;
+import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
+import org.kuali.kfs.pdp.dataaccess.AchAccountNumberDao;
 
 
 /**

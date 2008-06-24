@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -31,29 +31,29 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.bo.CustomerAddress;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.InvoicePaidApplied;
-import org.kuali.module.ar.bo.NonInvoicedDistribution;
-import org.kuali.module.ar.bo.OrganizationOptions;
-import org.kuali.module.ar.dao.CustomerInvoiceDocumentDao;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.module.ar.service.CustomerAddressService;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
-import org.kuali.module.ar.service.InvoicePaidAppliedService;
-import org.kuali.module.ar.service.NonInvoicedDistributionService;
-import org.kuali.module.ar.service.ReceivableAccountingLineService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
+import org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -72,35 +72,35 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private CustomerInvoiceDetailService customerInvoiceDetailService;
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         return getCustomerInvoiceDetailsForCustomerInvoiceDocument(customerInvoiceDocument.getDocumentNumber());
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(java.lang.String)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         return customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber);
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public KualiDecimal getBalanceForCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
         return getTotalAmountForCustomerInvoiceDocument(invoice).subtract(getPaidAppliedTotalForInvoice(invoice));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(java.lang.String)
      */
     public KualiDecimal getBalanceForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         return getBalanceForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public KualiDecimal getTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
         KualiDecimal total = new KualiDecimal(0);
@@ -113,14 +113,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     
     
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(java.lang.String)
      */
     public KualiDecimal getTotalAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         return getTotalAmountForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoicesByCustomerNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoicesByCustomerNumber(java.lang.String)
      */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByCustomerNumber(String customerNumber) {
         
@@ -155,7 +155,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
     
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerByOrganizationInvoiceNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerByOrganizationInvoiceNumber(java.lang.String)
      */
     public Customer getCustomerByOrganizationInvoiceNumber(String organizationInvoiceNumber) {
         CustomerInvoiceDocument invoice = getInvoiceByOrganizationInvoiceNumber(organizationInvoiceNumber);
@@ -163,7 +163,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
     
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
      */
     public CustomerInvoiceDocument getInvoiceByOrganizationInvoiceNumber(String organizationInvoiceNumber) {
         return customerInvoiceDocumentDao.getInvoiceByOrganizationInvoiceNumber(organizationInvoiceNumber);
@@ -179,7 +179,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoiceByInvoiceDocumentNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoiceByInvoiceDocumentNumber(java.lang.String)
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber) {
         return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
@@ -188,7 +188,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * Refactor to have all the setters in here.
      * 
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#setupDefaultValuesForNewCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#setupDefaultValuesForNewCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public void setupDefaultValuesForNewCustomerInvoiceDocument(CustomerInvoiceDocument document) {
 
@@ -218,7 +218,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#loadCustomerAddressesForCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#loadCustomerAddressesForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public void loadCustomerAddressesForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         // if address identifier is provided, try to refresh customer address data
@@ -238,7 +238,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#setupDefaultValuesForCopiedCustomerInvoiceDocument(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#setupDefaultValuesForCopiedCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public void setupDefaultValuesForCopiedCustomerInvoiceDocument(CustomerInvoiceDocument document) {
 
@@ -255,21 +255,21 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getInvoicePaidAppliedsForCustomerInvoiceDocument(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getInvoicePaidAppliedsForCustomerInvoiceDocument(java.lang.String)
      */
 //    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
 //        return invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
 //    }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getNonInvoicedDistributionsForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber) {
         return nonInvoicedDistributionService.getNonInvoicedDistributionsForInvoice(documentNumber);
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getNonInvoicedTotalForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getNonInvoicedTotalForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public KualiDecimal getNonInvoicedTotalForInvoice(CustomerInvoiceDocument invoice) {
         Collection<NonInvoicedDistribution> payments = this.nonInvoicedDistributionService.getNonInvoicedDistributionsForInvoice(invoice);
@@ -281,14 +281,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getNonInvoicedTotalForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getNonInvoicedTotalForInvoice(java.lang.String)
      */
     public KualiDecimal getNonInvoicedTotalForInvoice(String documentNumber) {
         return getNonInvoicedTotalForInvoice(getInvoiceByInvoiceDocumentNumber(documentNumber));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getPaidAppliedTotalForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getPaidAppliedTotalForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public KualiDecimal getPaidAppliedTotalForInvoice(CustomerInvoiceDocument invoice) {
         Collection<InvoicePaidApplied> payments = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(invoice);
@@ -300,7 +300,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getPaidAppliedTotalForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getPaidAppliedTotalForInvoice(java.lang.String)
      */
     public KualiDecimal getPaidAppliedTotalForInvoice(String documentNumber) {
         return getPaidAppliedTotalForInvoice(getInvoiceByInvoiceDocumentNumber(documentNumber));

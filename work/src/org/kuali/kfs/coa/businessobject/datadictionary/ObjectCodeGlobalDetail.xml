@@ -7,7 +7,7 @@
   <bean id="ObjectCodeGlobalDetail" parent="ObjectCodeGlobalDetail-parentBean" />
 
   <bean id="ObjectCodeGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail" />
     <property name="objectLabel" value="Object Code Change Detail" />
     <property name="attributes" >
       <list>
@@ -36,7 +36,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

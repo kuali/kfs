@@ -1,4 +1,4 @@
-package org.kuali.module.cams.bo;
+package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,9 +10,9 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.Room;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

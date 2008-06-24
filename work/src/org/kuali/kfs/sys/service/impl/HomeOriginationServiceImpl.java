@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.bo.HomeOrigination;
-import org.kuali.kfs.dao.HomeOriginationDao;
-import org.kuali.kfs.service.HomeOriginationService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.businessobject.HomeOrigination;
+import org.kuali.kfs.sys.dataaccess.HomeOriginationDao;
+import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @NonTransactional

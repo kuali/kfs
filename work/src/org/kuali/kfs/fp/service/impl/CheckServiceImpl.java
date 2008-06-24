@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.service.impl;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.dao.CheckDao;
-import org.kuali.module.financial.service.CheckService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.dataaccess.CheckDao;
+import org.kuali.kfs.fp.service.CheckService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

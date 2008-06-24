@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -22,9 +22,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 
@@ -230,7 +230,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
     @Override
     public boolean equals(Object obj) {
         // this method was added so that
-        // org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm.populateAccountingPeriodListForRendering works properly
+        // org.kuali.kfs.fp.document.web.struts.AuxiliaryVoucherForm.populateAccountingPeriodListForRendering works properly
         if (this == obj)
             return true;
         if (obj == null)

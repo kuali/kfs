@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.document;
+package org.kuali.kfs.module.bc.document;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,18 +29,18 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
-import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.service.BudgetParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 

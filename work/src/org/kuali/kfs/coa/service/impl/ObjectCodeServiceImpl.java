@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,11 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.dao.ObjectCodeDao;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +41,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         return objectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
@@ -82,14 +82,14 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.ObjectCodeService#getYearList(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.ObjectCodeService#getYearList(java.lang.String, java.lang.String)
      */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
         return objectCodeDao.getYearList(chartOfAccountsCode, financialObjectCode);
     }
 
     /**
-     * @see org.kuali.module.chart.service.ObjectCodeService#getObjectCodeNamesByCharts(java.lang.Integer, java.lang.String[],
+     * @see org.kuali.kfs.coa.service.ObjectCodeService#getObjectCodeNamesByCharts(java.lang.Integer, java.lang.String[],
      *      java.lang.String)
      */
     public String getObjectCodeNamesByCharts(Integer universityFiscalYear, String[] chartOfAccountCodes, String financialObjectCode) {
@@ -117,7 +117,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.ObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String)
      */
     public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode) {
         return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);

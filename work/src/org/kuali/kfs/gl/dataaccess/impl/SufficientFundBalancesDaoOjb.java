@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.SufficientFundBalances;
-import org.kuali.module.gl.dao.SufficientFundBalancesDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
+import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
 
 /**
  * An OJB implementation of the SufficientFundBalancesDao
@@ -39,7 +39,7 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
      * @param accountNumber the account number of the sufficient funds balance to return
      * @param financialObjectCode the object code of the sufficient funds balance to return
      * @return the qualifying sufficient funds balance record, or null no suitable record can be found
-     * @see org.kuali.module.gl.dao.SufficientFundBalancesDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode) {
         LOG.debug("getByPrimaryId() started");
@@ -57,7 +57,7 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * Saves a sufficient fund balance record
      * @param sfb the sufficient funds balance record to save
-     * @see org.kuali.module.gl.dao.SufficientFundBalancesDao#save(org.kuali.module.gl.bo.SufficientFundBalances)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#save(org.kuali.kfs.gl.businessobject.SufficientFundBalances)
      */
     public void save(SufficientFundBalances sfb) {
         LOG.debug("save() started");
@@ -72,7 +72,7 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
      * @param chartOfAccountsCode the chart of accounts code of sufficient fund balances to find
      * @param financialObjectCode the object code of sufficient fund balances to find
      * @return a Collection of sufficient fund balances, qualified by the parameter values
-     * @see org.kuali.module.gl.dao.SufficientFundBalancesDao#getByObjectCode(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#getByObjectCode(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         LOG.debug("getByObjectCode() started");
@@ -92,7 +92,7 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
      * @param universityFiscalYear the university fiscal year of sufficient fund balances to delete
      * @param chartOfAccountsCode the chart code of sufficient fund balances to delete
      * @param accountNumber the account number of sufficient fund balances to delete
-     * @see org.kuali.module.gl.dao.SufficientFundBalancesDao#deleteByAccountNumber(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#deleteByAccountNumber(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
         LOG.debug("deleteByAccountNumber() started");

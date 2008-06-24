@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 
 public class RoutingFormOrganizationCreditPercent extends PersistableBusinessObjectBase {
 

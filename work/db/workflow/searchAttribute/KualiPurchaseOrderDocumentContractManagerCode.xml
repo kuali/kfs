@@ -20,7 +20,7 @@
             <regex>^[0-9]{0,}$</regex>
             <message>Invalid Contract Manager Code Value.  A valid contract manager code value must be numeric.</message>
           </validation>
-          <quickfinder appliesTo="contractManagerCode" draw="true" service="workflow-org.kuali.module.vendor.bo.ContractManager-Lookupable(null)" />
+          <quickfinder appliesTo="contractManagerCode" draw="true" service="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/contractManagerCode')</xpathexpression>
           </fieldEvaluation>

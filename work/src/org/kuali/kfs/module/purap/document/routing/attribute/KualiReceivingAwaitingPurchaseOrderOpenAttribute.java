@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.purap.attribute;
+package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.List;
 
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.service.ReceivingService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
 
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;

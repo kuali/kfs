@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 
 /**
  * Special case <code>{@link SourceAccountingLine}</code> type for
- * <code>{@link org.kuali.module.financial.document.BudgetAdjustmentDocument}</code>
+ * <code>{@link org.kuali.kfs.fp.document.BudgetAdjustmentDocument}</code>
  */
 public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine implements BudgetAdjustmentAccountingLine {
 
@@ -71,21 +71,21 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
      */
     public KualiDecimal getMonthlyLinesTotal() {
         return BudgetAdjustmentAccountingLineUtil.getMonthlyLinesTotal(this);
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getBaseBudgetAdjustmentAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getBaseBudgetAdjustmentAmount()
      */
     public KualiInteger getBaseBudgetAdjustmentAmount() {
         return baseBudgetAdjustmentAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBaseBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setBaseBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setBaseBudgetAdjustmentAmount(KualiInteger baseBudgetAdjustmentAmount) {
         if (baseBudgetAdjustmentAmount != null) {
@@ -100,28 +100,28 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getBudgetAdjustmentPeriodCode()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getBudgetAdjustmentPeriodCode()
      */
     public String getBudgetAdjustmentPeriodCode() {
         return budgetAdjustmentPeriodCode;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBudgetAdjustmentPeriodCode(java.lang.String)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setBudgetAdjustmentPeriodCode(java.lang.String)
      */
     public void setBudgetAdjustmentPeriodCode(String budgetAdjustmentPeriodCode) {
         this.budgetAdjustmentPeriodCode = budgetAdjustmentPeriodCode;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getCurrentBudgetAdjustmentAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getCurrentBudgetAdjustmentAmount()
      */
     public KualiDecimal getCurrentBudgetAdjustmentAmount() {
         return currentBudgetAdjustmentAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setCurrentBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setCurrentBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setCurrentBudgetAdjustmentAmount(KualiDecimal currentBudgetAdjustmentAmount) {
         if (currentBudgetAdjustmentAmount != null) {
@@ -130,14 +130,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth1LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth1LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth1LineAmount() {
         return financialDocumentMonth1LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth1LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth1LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth1LineAmount(KualiDecimal financialDocumentMonth1LineAmount) {
         if (financialDocumentMonth1LineAmount != null) {
@@ -147,14 +147,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
 
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth2LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth2LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth2LineAmount() {
         return financialDocumentMonth2LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth2LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth2LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth2LineAmount(KualiDecimal financialDocumentMonth2LineAmount) {
         if (financialDocumentMonth2LineAmount != null) {
@@ -164,14 +164,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
 
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth3LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth3LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth3LineAmount() {
         return financialDocumentMonth3LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth3LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth3LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth3LineAmount(KualiDecimal financialDocumentMonth3LineAmount) {
         if (financialDocumentMonth3LineAmount != null) {
@@ -181,14 +181,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
 
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth4LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth4LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth4LineAmount() {
         return financialDocumentMonth4LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth4LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth4LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth4LineAmount(KualiDecimal financialDocumentMonth4LineAmount) {
         if (financialDocumentMonth4LineAmount != null) {
@@ -198,14 +198,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
 
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth5LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth5LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth5LineAmount() {
         return financialDocumentMonth5LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth5LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth5LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth5LineAmount(KualiDecimal financialDocumentMonth5LineAmount) {
         if (financialDocumentMonth5LineAmount != null) {
@@ -214,14 +214,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth6LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth6LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth6LineAmount() {
         return financialDocumentMonth6LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth6LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth6LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth6LineAmount(KualiDecimal financialDocumentMonth6LineAmount) {
         if (financialDocumentMonth6LineAmount != null) {
@@ -230,14 +230,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth7LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth7LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth7LineAmount() {
         return financialDocumentMonth7LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth7LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth7LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth7LineAmount(KualiDecimal financialDocumentMonth7LineAmount) {
         if (financialDocumentMonth7LineAmount != null) {
@@ -246,14 +246,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth8LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth8LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth8LineAmount() {
         return financialDocumentMonth8LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth8LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth8LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth8LineAmount(KualiDecimal financialDocumentMonth8LineAmount) {
         if (financialDocumentMonth8LineAmount != null) {
@@ -262,14 +262,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth9LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth9LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth9LineAmount() {
         return financialDocumentMonth9LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth9LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth9LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth9LineAmount(KualiDecimal financialDocumentMonth9LineAmount) {
         if (financialDocumentMonth9LineAmount != null) {
@@ -278,14 +278,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth10LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth10LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth10LineAmount() {
         return financialDocumentMonth10LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth10LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth10LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth10LineAmount(KualiDecimal financialDocumentMonth10LineAmount) {
         if (financialDocumentMonth10LineAmount != null) {
@@ -294,14 +294,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth11LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth11LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth11LineAmount() {
         return financialDocumentMonth11LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth11LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth11LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth11LineAmount(KualiDecimal financialDocumentMonth11LineAmount) {
         if (financialDocumentMonth11LineAmount != null) {
@@ -311,14 +311,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
 
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth12LineAmount()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth12LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth12LineAmount() {
         return financialDocumentMonth12LineAmount;
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth12LineAmount(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth12LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth12LineAmount(KualiDecimal financialDocumentMonth12LineAmount) {
         if (financialDocumentMonth12LineAmount != null) {
@@ -345,7 +345,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#clearFinancialDocumentMonthLineAmounts()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#clearFinancialDocumentMonthLineAmounts()
      */
     public void clearFinancialDocumentMonthLineAmounts() {
         financialDocumentMonth1LineAmount = KualiDecimal.ZERO;
@@ -363,7 +363,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLineBase#isSourceAccountingLine()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#isSourceAccountingLine()
      */
     @Override
     public boolean isSourceAccountingLine() {
@@ -371,7 +371,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLineBase#isTargetAccountingLine()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#isTargetAccountingLine()
      */
     @Override
     public boolean isTargetAccountingLine() {

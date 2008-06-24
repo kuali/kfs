@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.PurApItemBase;
-import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.fixtures.SystemParameterBelowTheLineItemCMFixture;
-import org.kuali.module.purap.fixtures.SystemParameterBelowTheLineItemPaymentRequestFixture;
-import org.kuali.module.purap.fixtures.SystemParameterBelowTheLineItemPurchaseOrderFixture;
-import org.kuali.module.purap.fixtures.SystemParameterBelowTheLineItemRequisitionFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemCMFixture;
+import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemPaymentRequestFixture;
+import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemPurchaseOrderFixture;
+import org.kuali.kfs.module.purap.fixture.SystemParameterBelowTheLineItemRequisitionFixture;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class is used to test the below the line item type rules 

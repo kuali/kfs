@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.web.struts.form;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.Map;
 
@@ -22,18 +22,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.UnitOfMeasure;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
 
@@ -53,7 +53,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     }
 
     /**
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
@@ -64,7 +64,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     /**
      * Reused to create new source accounting line (i.e customer invoice detail line) with defaulted values.
      * 
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#createNewSourceAccountingLine(org.kuali.kfs.document.AccountingDocument)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#createNewSourceAccountingLine(org.kuali.kfs.sys.document.AccountingDocument)
      */
     @Override
     protected SourceAccountingLine createNewSourceAccountingLine(AccountingDocument financialDocument) {
@@ -94,7 +94,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     /**
      * Configure lookup for Invoice Item Code source accounting line
      * 
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
      */
     @Override
     public Map getForcedLookupOptionalFields() {

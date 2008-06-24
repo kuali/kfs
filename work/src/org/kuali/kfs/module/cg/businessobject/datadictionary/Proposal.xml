@@ -7,7 +7,7 @@
   <bean id="Proposal" parent="Proposal-parentBean" />
 
   <bean id="Proposal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Proposal" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
     <property name="inquiryDefinition" >
       <ref bean="Proposal-inquiryDefinition" />
     </property>
@@ -317,7 +317,7 @@
     <property name="shortLabel" value="Type" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalAwardTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -444,7 +444,7 @@
     <property name="shortLabel" value="Purpose" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalPurposeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -462,7 +462,7 @@
     <property name="shortLabel" value="Status" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalStatusValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -571,7 +571,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="proposalOrganizations" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalOrganization" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -604,7 +604,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="proposalProjectDirectors" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalProjectDirector" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -639,7 +639,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="proposalSubcontractors" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalSubcontractor" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -672,7 +672,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="proposalResearchRisks" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalResearchRisk" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -696,7 +696,7 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.module.cg.maintenance.ProposalInquirable" />
+    <property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.ProposalInquirable" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

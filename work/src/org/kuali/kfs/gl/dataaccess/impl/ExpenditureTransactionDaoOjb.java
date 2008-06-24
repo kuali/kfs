@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.Iterator;
 
@@ -22,11 +22,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.ExpenditureTransaction;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.ExpenditureTransactionDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
 
 /**
  * The OJB implmentation of ExpenditureTransactionDao
@@ -46,7 +46,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
      * 
      * @param t a transaction to find a related expenditure transaction for
      * @return the expenditure transaction if found, null otherwise
-     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#getByTransaction(org.kuali.kfs.gl.businessobject.Transaction)
      */
     public ExpenditureTransaction getByTransaction(Transaction t) {
         LOG.debug("getByTransaction() started");
@@ -78,7 +78,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
      * Fetches all expenditure transactions currently in the database
      * 
      * @return an Iterator with all expenditure transactions from the database
-     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#getAllExpenditureTransactions()
+     * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#getAllExpenditureTransactions()
      */
     public Iterator getAllExpenditureTransactions() {
         LOG.debug("getAllExpenditureTransactions() started");
@@ -94,7 +94,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
      * Deletes the given expenditure transaction
      * 
      * @param et the expenditure transaction that will be removed, as such, from the database
-     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#delete(org.kuali.module.gl.bo.ExpenditureTransaction)
+     * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#delete(org.kuali.kfs.gl.businessobject.ExpenditureTransaction)
      */
     public void delete(ExpenditureTransaction et) {
         LOG.debug("delete() started");
@@ -105,7 +105,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * Saves an expenditure transaction
      * @param et the expenditure transaction to save
-     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#save(org.kuali.module.gl.bo.ExpenditureTransaction)
+     * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#save(org.kuali.kfs.gl.businessobject.ExpenditureTransaction)
      */
     public void save(ExpenditureTransaction et) {
         LOG.debug("save() started");
@@ -116,7 +116,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     /**
      * Since expenditure transactions are temporary, just like flies that live for a mere day, this method removes all of the currently existing
      * expenditure transactions from the database, all expenditure transactions having run through the poster and fulfilled their lifecycle
-     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#deleteAllExpenditureTransactions()
+     * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#deleteAllExpenditureTransactions()
      */
     public void deleteAllExpenditureTransactions() {
         LOG.debug("deleteAllExpenditureTransactions() started");

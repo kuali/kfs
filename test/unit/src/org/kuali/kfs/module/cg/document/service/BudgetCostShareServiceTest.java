@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.service;
+package org.kuali.kfs.module.cg.document.service;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertEquality;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
-import org.kuali.module.kra.budget.service.BudgetCostShareService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
+import org.kuali.kfs.module.cg.document.service.BudgetCostShareService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.CrossSectionSuite;
 
 /**
  * This class tests service methods in BudgetCostShareService.

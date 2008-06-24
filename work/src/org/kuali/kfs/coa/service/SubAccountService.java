@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.util.List;
 
-import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 
 /**
  * This interface defines methods that a SubAccount Service must provide.

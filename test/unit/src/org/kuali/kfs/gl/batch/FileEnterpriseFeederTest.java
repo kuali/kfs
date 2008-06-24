@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,14 +33,14 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.batch.service.impl.FileEnterpriseFeederServiceImpl;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the enterprise feeder service. The concept of a file set is pervasive throughout this test. A file set consists

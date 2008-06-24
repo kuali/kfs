@@ -13,9 +13,9 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Year End Benefit Expense Transfer Document" />
     <property name="documentTypeName" value="YearEndBenefitExpenseTransferDocument" />
-    <property name="documentClass" value="org.kuali.module.labor.document.YearEndBenefitExpenseTransferDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.labor.rules.YearEndBenefitExpenseTransferDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.labor.document.authorization.LaborExpenseDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndBenefitExpenseTransferDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="YEBT" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

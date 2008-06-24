@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.ojb;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +23,25 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.dao.BudgetConstructionDao;
-import org.kuali.module.budget.dao.BudgetConstructionLockDao;
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
 
 /**
- * @see org.kuali.module.budget.dao.BudgetConstructionLockDao
+ * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao
  */
 public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionLockDao {
     private BudgetConstructionDao budgetConstructionDao;
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getAllAccountLocks(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao#getAllAccountLocks(java.lang.String)
      */
     public List<BudgetConstructionHeader> getAllAccountLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
@@ -63,7 +63,7 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getAllPositionFundingLocks(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao#getAllPositionFundingLocks(java.lang.String)
      */
     public List<PendingBudgetConstructionAppointmentFunding> getAllPositionFundingLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
@@ -99,7 +99,7 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getOrphanedPositionLocks(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao#getOrphanedPositionLocks(java.lang.String)
      */
     public List<BudgetConstructionPosition> getOrphanedPositionLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
@@ -144,7 +144,7 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getAllTransactionLocks(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao#getAllTransactionLocks(java.lang.String)
      */
     public List<BudgetConstructionHeader> getAllTransactionLocks(String lockUnivId) {
         Criteria criteria = new Criteria();
@@ -166,7 +166,7 @@ public class BudgetConstructionLockDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionLockDao#getOrphanedFundingLocks(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao#getOrphanedFundingLocks(java.lang.String)
      */
     public List<BudgetConstructionFundingLock> getOrphanedFundingLocks(String lockUnivId) {
         Criteria criteria = new Criteria();

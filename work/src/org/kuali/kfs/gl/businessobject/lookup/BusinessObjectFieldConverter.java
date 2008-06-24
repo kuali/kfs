@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class converts field values from G/L Business Objects to G?L transactions

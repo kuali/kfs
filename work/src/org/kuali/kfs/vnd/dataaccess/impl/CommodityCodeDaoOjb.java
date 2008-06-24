@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.dao.ojb;
+package org.kuali.kfs.vnd.dataaccess.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.dao.CommodityCodeDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.dataaccess.CommodityCodeDao;
 
 /**
  * OJB implementation of CommodityCodeDao.
@@ -30,7 +30,7 @@ public class CommodityCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Comm
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommodityCodeDaoOjb.class);
 
     /**
-     * @see org.kuali.module.vendor.dao.CommodityCodeDao#wildCardCommodityCodeExists(java.lang.String)
+     * @see org.kuali.kfs.vnd.dataaccess.CommodityCodeDao#wildCardCommodityCodeExists(java.lang.String)
      */
     public boolean wildCardCommodityCodeExists(String wildCardCommodityCode) {
         String commodityCodeString = StringUtils.replace(wildCardCommodityCode, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);

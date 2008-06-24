@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.io.IOException;
 import java.io.Reader;
 
-import org.kuali.module.gl.util.ReconciliationBlock;
+import org.kuali.kfs.gl.batch.service.impl.ReconciliationBlock;
 
 /**
  * This class parses a reconciliation file

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.util.List;
 
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.coa.businessobject.Org;
 
 /**
  * This interface defines methods that an Org Service must provide.
@@ -36,7 +36,7 @@ public interface OrganizationService {
     /**
      * Method is used by KualiOrgReviewAttribute to enable caching of orgs for routing.
      * 
-     * @see org.kuali.module.chart.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode);
 

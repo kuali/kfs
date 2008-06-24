@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.report;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,8 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

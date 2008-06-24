@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.dao.AccountingLineDao;
-import org.kuali.kfs.service.AccountingLineService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.dataaccess.AccountingLineDao;
+import org.kuali.kfs.sys.service.AccountingLineService;
 
 /**
  * This class is the service implementation for the AccountingLine structure. This has been created with polymorphism in mind so

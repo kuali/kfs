@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
 /**
  * Used for containing logic that must be run... usually when faking a user session

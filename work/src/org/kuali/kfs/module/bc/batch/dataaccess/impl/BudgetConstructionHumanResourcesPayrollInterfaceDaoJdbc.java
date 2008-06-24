@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
-import org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao;
+import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
 
 
 import java.util.Calendar;
@@ -28,18 +28,18 @@ import java.sql.Types;
 import org.kuali.core.util.Guid;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
-import org.kuali.module.budget.dao.jdbc.BudgetConstructionDaoJdbcBase;
+import org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase;
 
 
 
 public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionHumanResourcesPayrollInterfaceDao {
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAdministrativePosts(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAdministrativePosts(java.lang.Integer)
      */
     public void buildBudgetConstructionAdministrativePosts() {
       /**
@@ -51,7 +51,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAppointmentFundingReasons(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAppointmentFundingReasons(java.lang.Integer)
      */
     public void buildBudgetConstructionAppointmentFundingReasons(Integer requestFiscalYear) {
         /**
@@ -63,7 +63,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionIntendedIncumbent(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionIntendedIncumbent(java.lang.Integer)
      */
     public void buildBudgetConstructionIntendedIncumbent(Integer requestFiscalYear) {
         /**
@@ -142,7 +142,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionPositionBaseYear(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionPositionBaseYear(java.lang.Integer)
      */
     public void buildBudgetConstructionPositionBaseYear(Integer baseFiscalYear) {
         StringBuilder sqlBuilder = new StringBuilder(2000);
@@ -211,7 +211,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionPositonRequestYear(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionPositonRequestYear(java.lang.Integer)
      */
     public void buildBudgetConstructionPositonRequestYear(Integer requestFiscalYear) {
         StringBuilder sqlBuilder = new StringBuilder(2500);
@@ -355,7 +355,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#updateBudgetConstructionIntenededIncumbentAttributes(java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao#updateBudgetConstructionIntenededIncumbentAttributes(java.lang.Integer)
      */
     
     public void updateBudgetConstructionIntendedIncumbentAttributes (Integer requestFiscalYear)

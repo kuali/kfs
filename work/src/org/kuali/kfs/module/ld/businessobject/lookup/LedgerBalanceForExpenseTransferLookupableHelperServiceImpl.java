@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
@@ -38,14 +38,14 @@ import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.integration.bo.SegmentedBusinessObject;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
-import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInquirableImpl;
-import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.integration.businessobject.SegmentedBusinessObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerBalanceForExpenseTransferInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 
 /**
  * Service implementation of LedgerBalanceForExpenseTransferLookupableHelperService.
@@ -74,7 +74,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
     }
 
     /**
-     * @see org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

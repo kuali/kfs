@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.util.VendorGroupingHelper;
-import org.kuali.module.vendor.bo.PaymentTermType;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

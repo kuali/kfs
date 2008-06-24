@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rule;
+package org.kuali.kfs.fp.document.validation;
 
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.bo.Check;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.fp.businessobject.Check;
 
 /**
  * Defines a rule which gets invoked immediately before a check line is added to a document.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.batch;
+package org.kuali.kfs.module.bc.batch;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,10 +22,10 @@ import java.util.Map;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterNamespace;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.batch.Job;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.service.GenesisService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.batch.service.GenesisService;
 
 public class GenesisBatchStep extends AbstractStep {
 

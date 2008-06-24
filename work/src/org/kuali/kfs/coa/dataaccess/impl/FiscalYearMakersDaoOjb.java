@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
@@ -44,30 +44,30 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.ar.bo.SystemInformation;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.IcrAutomatedEntry;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionDetail;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.dao.FiscalYearMakersCopyAction;
-import org.kuali.module.chart.dao.FiscalYearMakersDao;
-import org.kuali.module.chart.dao.FiscalYearMakersFieldChangeAction;
-import org.kuali.module.chart.dao.FiscalYearMakersFilterAction;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
-import org.kuali.module.effort.bo.EffortCertificationReportPosition;
-import org.kuali.module.financial.bo.WireCharge;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.labor.bo.BenefitsCalculation;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.batch.service.FiscalYearMakersCopyAction;
+import org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao;
+import org.kuali.kfs.coa.batch.service.FiscalYearMakersFieldChangeAction;
+import org.kuali.kfs.coa.batch.service.FiscalYearMakersFilterAction;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
+import org.kuali.kfs.fp.businessobject.WireCharge;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 
 /**
  * Copy selected maintenance documents which depend on fiscal year into the coming fiscal year.  This precludes having to create rows
@@ -125,7 +125,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * delete all the rows (if any) for the request year for all the classes in the ordered delete list the delete order is set so
      * that referential integrity will not cause an exception: children first, then parents
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#deleteNewYearRows(java.lang.Integer)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#deleteNewYearRows(java.lang.Integer)
      */
     public void deleteNewYearRows(Integer requestYear) {
 
@@ -149,7 +149,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * this routine gets rid of existing rows for the request year + 1 for the parents of the child passed as a parameter it is uses
      * when, for some classes, we want to create two years' worth of rows on each run
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#deleteYearAfterNewYearRowsForParents(java.lang.Integer, java.lang.Class)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#deleteYearAfterNewYearRowsForParents(java.lang.Integer, java.lang.Class)
      */
     public void deleteYearAfterNewYearRowsForParents(Integer RequestYear, Class childClass) {
         RequestYear = RequestYear + 1;
@@ -168,7 +168,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     /**
      * This method checks to see if a given child class is a parent of another class (denoted by a String)
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#isAParentOf(java.lang.String, java.lang.Class)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#isAParentOf(java.lang.String, java.lang.Class)
      */
     public boolean isAParentOf(String testClassName, Class childClass) {
         ArrayList<Class> parentClasses = childParentMap.get(childClass.getName());
@@ -186,7 +186,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * this is the routine where you designate which objects should participate and whether they should use customized field setters
      * or customized query filters the objects participating MUST match the object list configured in the XML
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setUpRun(java.lang.Integer, boolean)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#setUpRun(java.lang.Integer, boolean)
      */
     public LinkedHashMap<String, FiscalYearMakersCopyAction> setUpRun(Integer BaseYear, boolean replaceMode) {
 
@@ -698,7 +698,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     /**
      * we look up the fiscal year for today's date, and return it we return 0 if nothing is found
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#fiscalYearFromToday()
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#fiscalYearFromToday()
      */
     public Integer fiscalYearFromToday() {
 
@@ -1200,7 +1200,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
 
     /**
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#copyTwoYears(java.lang.String)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#copyTwoYears(java.lang.String)
      */
     public boolean copyTwoYears(String ClassName)
     {
@@ -1210,14 +1210,14 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     /**
      * the list of all the fiscal year makers objects
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#getMakerObjectsList()
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#getMakerObjectsList()
      */
     public HashMap<String, Class> getMakerObjectsList() {
         return this.makerObjectsList;
     }
 
     /**
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setMakerObjectsList(java.util.HashMap)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#setMakerObjectsList(java.util.HashMap)
      */
     public void setMakerObjectsList(HashMap<String, Class> makerObjectsList) {
         this.makerObjectsList = makerObjectsList;
@@ -1227,7 +1227,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     /**
      * this list of child/parent relationships for the fiscal year makers objects
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#getChildParentMap()
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#getChildParentMap()
      */
     public HashMap<String, ArrayList<Class>> getChildParentMap() {
         return this.childParentMap;
@@ -1239,7 +1239,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * ArrayList here. (There is a way to get a "list" view of an array, and this view is an ArrayList. But we will create a new
      * one, which will be extensible, unlike the view.)
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setChildParentArrayMap(java.util.HashMap)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#setChildParentArrayMap(java.util.HashMap)
      */
     public void setChildParentArrayMap(HashMap<String, Class[]> childParentArrayMap) {
         this.childParentArrayMap = childParentArrayMap;
@@ -1257,7 +1257,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     
     /**
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setCopyTwoYearsList(java.util.HashSet)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#setCopyTwoYearsList(java.util.HashSet)
      */
     public void setCopyTwoYearsList(HashSet<String> copyTwoYearsList)
     {
@@ -1265,7 +1265,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     }
 
     /**
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setLaggingCopyCycle(java.util.HashSet)
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#setLaggingCopyCycle(java.util.HashSet)
      */
     public void setLaggingCopyCycle(HashSet<String> laggingCopyCycle) {
         this.laggingCopyCycle = laggingCopyCycle;
@@ -1995,7 +1995,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     /**
      * turnOffCascades should always be called, but if it hasn't been, there is no need to call this
      * 
-     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#resetCascades()
+     * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao#resetCascades()
      */
     public void resetCascades() {
         if (persistenceStructureWindow == null) {

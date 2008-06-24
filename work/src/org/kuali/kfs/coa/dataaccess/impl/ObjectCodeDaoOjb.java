@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.dao.ObjectCodeDao;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 
 
 /**
@@ -36,7 +36,7 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
     /**
      * Retrieves object code business object by primary key
      * 
-     * @see org.kuali.module.chart.dao.ObjectCodeDao#getByPrimaryId(Integer, String, String)
+     * @see org.kuali.kfs.coa.dataaccess.ObjectCodeDao#getByPrimaryId(Integer, String, String)
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Criteria criteria = new Criteria();
@@ -48,7 +48,7 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
     }
 
     /**
-     * @see org.kuali.module.chart.dao.ObjectCodeDao#getYearList(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.ObjectCodeDao#getYearList(java.lang.String, java.lang.String)
      */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
 

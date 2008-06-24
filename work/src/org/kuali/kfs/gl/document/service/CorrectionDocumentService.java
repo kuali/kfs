@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.document.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,11 +23,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.web.ui.Column;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
-import org.kuali.module.gl.util.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
 
 /**
  * An interface declaring methods needed by the GLCP to function

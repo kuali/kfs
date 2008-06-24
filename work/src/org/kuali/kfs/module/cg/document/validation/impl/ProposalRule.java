@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.rules;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.ProposalOrganization;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
-import org.kuali.module.cg.bo.ProposalSubcontractor;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.Proposal;
+import org.kuali.kfs.module.cg.businessobject.ProposalOrganization;
+import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor;
 
 /**
  * Rules for the Proposal maintenance document.

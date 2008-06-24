@@ -17,7 +17,7 @@
  * Created on Jul 16, 2004
  *
  */
-package org.kuali.module.pdp.xml.impl;
+package org.kuali.kfs.pdp.service.impl.paymentparser;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -31,36 +31,36 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.ProjectCodeService;
-import org.kuali.module.chart.service.SubAccountService;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.pdp.bo.AccountingChange;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentAccountDetail;
-import org.kuali.module.pdp.bo.PaymentAccountHistory;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentNoteText;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.dao.CustomerProfileDao;
-import org.kuali.module.pdp.dao.PaymentFileLoadDao;
-import org.kuali.module.pdp.dao.ReferenceDao;
-import org.kuali.module.pdp.xml.PdpFileHandler;
-import org.kuali.module.pdp.xml.XmlAccounting;
-import org.kuali.module.pdp.xml.XmlDetail;
-import org.kuali.module.pdp.xml.XmlGroup;
-import org.kuali.module.pdp.xml.XmlHeader;
-import org.kuali.module.pdp.xml.XmlTrailer;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.ProjectCodeService;
+import org.kuali.kfs.coa.service.SubAccountService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.pdp.businessobject.AccountingChange;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.Code;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
+import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
+import org.kuali.kfs.pdp.service.paymentparser.PdpFileHandler;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlAccounting;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlDetail;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlGroup;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlTrailer;
 
 /**
  * @author jsissom

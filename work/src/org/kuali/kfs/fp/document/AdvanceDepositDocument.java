@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 
 /**
  * This is the business object that represents the AdvanceDeposit document in Kuali. This is a transactional document that will
@@ -175,7 +175,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     /**
      * This method returns the overall total of the document - the advance deposit total.
      * 
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override
@@ -187,7 +187,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      * This method defers to its parent's version of handleRouteStatusChange, but then, if the document is processed, it creates ElectronicPaymentClaim records
      * for any qualifying accountings lines in the document.
      * 
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
     @Override
     public void handleRouteStatusChange() {

@@ -17,11 +17,11 @@
  * Created on Sep 2, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.Iterator;
 
-import org.kuali.module.pdp.bo.GlPendingTransaction;
+import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 
 /**
  * @author jsissom

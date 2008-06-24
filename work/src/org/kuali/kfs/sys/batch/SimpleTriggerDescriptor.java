@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 
@@ -37,7 +37,7 @@ public class SimpleTriggerDescriptor extends TriggerDescriptor {
     }
 
     /**
-     * @see org.kuali.kfs.batch.TriggerDescriptor#completeTriggerDescription(org.quartz.Trigger)
+     * @see org.kuali.kfs.sys.batch.TriggerDescriptor#completeTriggerDescription(org.quartz.Trigger)
      */
     protected void completeTriggerDescription(Trigger trigger) {
         if (startTime == null) {

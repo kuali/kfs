@@ -16,7 +16,7 @@
 /*
  * Created on Aug 19, 2004
  */
-package org.kuali.module.pdp.exception;
+package org.kuali.kfs.pdp.exception;
 
 /**
  * @author HSTAPLET

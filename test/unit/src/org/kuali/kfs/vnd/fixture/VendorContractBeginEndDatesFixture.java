@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.fixtures.VendorTestConstants.BeginEndDates;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.BeginEndDates;
 
 public enum VendorContractBeginEndDatesFixture {
 

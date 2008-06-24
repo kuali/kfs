@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.scrubber;
+package org.kuali.kfs.gl.businessobject;
 
 /**
  * A class to encapsulate statistics generated during a demerger

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.List;
 
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.CollectorScrubberStatus;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 
 /**
  * Provides methods for processing gl incoming batch files.

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
-import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
-import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +28,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
-import org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRule;
-import org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRule;
+import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -148,7 +148,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     /**
      * This method generates a proper list of valid accounting periods that the user can select from.
      * 
-     * @see org.kuali.module.financial.web.struts.form.VoucherForm#populateAccountingPeriodListForRendering()
+     * @see org.kuali.kfs.fp.document.web.struts.VoucherForm#populateAccountingPeriodListForRendering()
      */
     @Override
     public void populateAccountingPeriodListForRendering() {

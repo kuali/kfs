@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service;
+package org.kuali.kfs.module.ar.document.service;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.fixture.CustomerFixture;
-import org.kuali.module.ar.fixture.CustomerInvoiceDetailFixture;
-import org.kuali.module.ar.fixture.CustomerInvoiceDocumentFixture;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.fixture.CustomerFixture;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
+import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 
 public class CustomerInvoiceDocumentTestUtil {
     

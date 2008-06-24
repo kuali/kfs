@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.lookup.keyvalues;
+package org.kuali.kfs.fp.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants.BudgetAdjustmentDocumentConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetAdjustmentDocumentConstants;
 
 /**
  * This class returns list of ba fund restriction levels.

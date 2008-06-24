@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.dao.ojb;
+package org.kuali.kfs.module.ec.dataaccess;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
-import org.kuali.module.integration.bo.EffortCertificationReport;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 
 /**
  * Mock dao class to be used for unit tests that do not test database operations

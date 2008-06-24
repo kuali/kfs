@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.maintenance;
+package org.kuali.kfs.module.cg.document;
 
-import static org.kuali.kfs.KFSPropertyConstants.AWARD_ACCOUNTS;
-import static org.kuali.kfs.KFSPropertyConstants.AWARD_PROJECT_DIRECTORS;
-import static org.kuali.kfs.KFSPropertyConstants.AWARD_SUBCONTRACTORS;
-import static org.kuali.kfs.KFSPropertyConstants.DOCUMENT;
-import static org.kuali.kfs.KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_ACCOUNTS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_PROJECT_DIRECTORS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_SUBCONTRACTORS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,19 +34,19 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.cg.bo.AwardOrganization;
-import org.kuali.module.cg.bo.AwardProjectDirector;
-import org.kuali.module.cg.bo.CGProjectDirector;
-import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.rules.AwardRuleUtil;
-import org.kuali.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
+import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.Proposal;
+import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
+import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 
 /**
  * Methods for the Award maintenance document UI.

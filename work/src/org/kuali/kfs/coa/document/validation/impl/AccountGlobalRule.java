@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -32,17 +32,17 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountGlobal;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.OrganizationService;
-import org.kuali.module.chart.service.SubFundGroupService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
 
 /**
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects

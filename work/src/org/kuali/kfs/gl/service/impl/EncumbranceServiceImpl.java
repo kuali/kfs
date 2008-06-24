@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.dao.EncumbranceDao;
-import org.kuali.module.gl.service.EncumbranceService;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
+import org.kuali.kfs.gl.service.EncumbranceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +36,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * Saves an encumbrance
      * 
      * @param enc an encumbrance to save
-     * @see org.kuali.module.gl.service.EncumbranceService#save(org.kuali.module.gl.bo.Encumbrance)
+     * @see org.kuali.kfs.gl.service.EncumbranceService#save(org.kuali.kfs.gl.businessobject.Encumbrance)
      */
     public void save(Encumbrance enc) {
         LOG.debug("save() started");
@@ -48,7 +48,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * Removes all encumbrances from the database having a certain chart and fiscal year
      * @param chartOfAccountsCode the chart of encumbrances to purge
      * @param year the year of encumbrances to purge
-     * @see org.kuali.module.gl.service.EncumbranceService#purgeYearByChart(java.lang.String, int)
+     * @see org.kuali.kfs.gl.service.EncumbranceService#purgeYearByChart(java.lang.String, int)
      */
     public void purgeYearByChart(String chartOfAccountsCode, int year) {
         LOG.debug("purgeYearByChart() started");
@@ -59,7 +59,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
     /**
      * Returns an iterator with all encumbrances from the database.
      * @return an Iterator of all encumbrances
-     * @see org.kuali.module.gl.service.EncumbranceService#getAllEncumbrances()
+     * @see org.kuali.kfs.gl.service.EncumbranceService#getAllEncumbrances()
      */
     public Iterator getAllEncumbrances() {
         return encumbranceDao.getAllEncumbrances();
@@ -80,7 +80,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * 
      * @param documentTypeCode the given document type code
      * @param included indicate if all encumbrances with the given document type are included in the results or not
-     * @see org.kuali.module.gl.service.EncumbranceService#getSummarizedEncumbrances(java.lang.String, boolean)
+     * @see org.kuali.kfs.gl.service.EncumbranceService#getSummarizedEncumbrances(java.lang.String, boolean)
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included) {
         return encumbranceDao.getSummarizedEncumbrances(documentTypeCode, included);
@@ -90,7 +90,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * Given the fieldValues, forms a query and finds the open encumbrances that match it
      * @param fieldValues the values to form an encumbrance query out of
      * @return an Iterator full of qualifying encumbrances
-     * @see org.kuali.module.gl.service.EncumbranceService#findOpenEncumbrance(java.util.Map)
+     * @see org.kuali.kfs.gl.service.EncumbranceService#findOpenEncumbrance(java.util.Map)
      */
     public Iterator findOpenEncumbrance(Map fieldValues) {
         return encumbranceDao.findOpenEncumbrance(fieldValues);
@@ -100,7 +100,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      * Returns the count of all open encumbrances in the database, matching the given field values
      * @param fieldValues the field values to build an encumbrance query out of
      * @return the number of qualifying open encumbrances
-     * @see org.kuali.module.gl.service.EncumbranceService#getOpenEncumbranceCount(java.util.Map)
+     * @see org.kuali.kfs.gl.service.EncumbranceService#getOpenEncumbranceCount(java.util.Map)
      */
     public Integer getOpenEncumbranceRecordCount(Map fieldValues) {
         return encumbranceDao.getOpenEncumbranceRecordCount(fieldValues);

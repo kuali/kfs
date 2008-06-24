@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.UnitOfMeasure;
-import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 
 /**
  * This class...

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.util;
+package org.kuali.kfs.fp.document;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class CashReceiptFamilyTestUtil {

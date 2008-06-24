@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,10 +27,10 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -45,7 +45,7 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
     private static final String PORTAL_FORWARD = "portal";
 
     /**
-     * @see org.kuali.kfs.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map params, String basePath) {
         // is the current user able to claim electronic funds?

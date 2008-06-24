@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -26,13 +26,13 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.dao.ReceivingDao;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 
 import edu.iu.uis.eden.clientapp.WorkflowDocument;
 

@@ -38,7 +38,7 @@
                         <kul:htmlControlAttribute 
                             attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
                             property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" />
-                        <kul:lookup boClassName="org.kuali.module.purap.bo.VendorStipulation" 
+                        <kul:lookup boClassName="org.kuali.kfs.module.purap.businessobject.VendorStipulation" 
                         	readOnlyFields="active" lookupParameters="'Y':active"
                         	fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
                     </td>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 
 public interface FinancialSystemUserService extends UniversalUserService {
 

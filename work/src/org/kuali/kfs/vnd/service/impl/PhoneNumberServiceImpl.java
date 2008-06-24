@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service.impl;
+package org.kuali.kfs.vnd.service.impl;
 
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.service.PhoneNumberService;
 
 public class PhoneNumberServiceImpl implements PhoneNumberService {
 

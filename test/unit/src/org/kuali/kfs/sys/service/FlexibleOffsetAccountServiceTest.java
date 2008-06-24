@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.sys.service;
 
-import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
+import static org.kuali.kfs.sys.fixture.OffsetAccountFixture.OFFSET_ACCOUNT1;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertSparselyEqualBean;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.fp.businessobject.OffsetAccount;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class...

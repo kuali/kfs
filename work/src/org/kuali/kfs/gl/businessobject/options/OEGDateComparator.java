@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.lookup.keyvalues;
+package org.kuali.kfs.gl.businessobject.options;
 
 import java.util.Comparator;
 
-import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 /**
  * A comparator for two origin entry groups, based on the dates of their creations

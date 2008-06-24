@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.document.ElectronicPaymentClaiming;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 
 /**
  * A set of methods that help the ElectronicPaymentClaimingService turn a list of 
  * ElectronicPaymentClaim records into a document used to claim those records.
- * @see org.kuali.kfs.service.ElectronicPaymentClaimingService
- * @see org.kuali.kfs.bo.ElectronicPaymentClaim
+ * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService
+ * @see org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim
  */
 public interface ElectronicPaymentClaimingDocumentGenerationStrategy {
     

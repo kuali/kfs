@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.document.InternalBillingDocument;
-import org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRuleConstants;
 
 /**
  * Validates that an accounting line does not have a capital object object code 
@@ -36,7 +36,7 @@ public class InternalBillingCapitalObjectValidation extends GenericValidation {
     /**
      * Validates that an accounting line does not have a capital object object code
      * <strong>Expects an accounting line as the first a parameter</strong>
-     * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;

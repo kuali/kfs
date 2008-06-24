@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.ArrayList;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**
  * Requisition Item Business Object.
@@ -87,7 +87,7 @@ public class RequisitionItem extends PurchasingItemBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurchasingItemBase#getAccountingLineClass()
+     * @see org.kuali.kfs.module.purap.businessobject.PurchasingItemBase#getAccountingLineClass()
      */
     @Override
     public Class getAccountingLineClass() {

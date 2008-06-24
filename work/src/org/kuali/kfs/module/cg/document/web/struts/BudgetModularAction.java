@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +24,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
-import org.kuali.module.kra.budget.rules.event.SaveModularEvent;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.document.validation.event.EnterModularEvent;
+import org.kuali.kfs.module.cg.document.validation.event.SaveModularEvent;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
 
 /**
  * This class handles Actions for the Budget Modular page.

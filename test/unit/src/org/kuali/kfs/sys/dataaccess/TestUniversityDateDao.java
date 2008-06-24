@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.sys.dataaccess;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class TestUniversityDateDao extends KualiTestBase {

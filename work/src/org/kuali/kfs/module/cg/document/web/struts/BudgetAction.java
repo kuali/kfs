@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,29 +37,29 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.bo.AdhocWorkgroup;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
-import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
-import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.module.kra.budget.service.BudgetPersonnelService;
-import org.kuali.module.kra.budget.service.BudgetTypeCodeService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
-import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
-import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
+import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.validation.event.EnterModularEvent;
+import org.kuali.kfs.module.cg.document.validation.event.RunAuditEvent;
+import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
+import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
+import org.kuali.kfs.module.cg.document.service.BudgetTypeCodeService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetIndirectCostFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.ResearchDocumentActionBase;
 
 /**
  * This class handles Actions for Research Administration.

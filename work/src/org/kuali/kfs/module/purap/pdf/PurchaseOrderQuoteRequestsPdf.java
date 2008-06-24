@@ -17,7 +17,7 @@
  * Created on Sep 6, 2005
  *
  */
-package org.kuali.module.purap.pdf;
+package org.kuali.kfs.module.purap.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 
-import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

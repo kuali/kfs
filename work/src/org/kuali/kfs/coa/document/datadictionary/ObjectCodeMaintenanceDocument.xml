@@ -7,7 +7,7 @@
   <bean id="ObjectCodeMaintenanceDocument" parent="ObjectCodeMaintenanceDocument-parentBean" />
 
   <bean id="ObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCode" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCode" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -54,9 +54,9 @@
             p:parameterDetailType="ObjectCode" />
     </property>
     <property name="documentTypeName" value="ObjectCodeMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.ObjectCodePreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodePreRules" />
     <property name="documentTypeCode" value="OBJT" />
     <property name="webScriptFiles" >
       <list>
@@ -94,7 +94,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="universityFiscalYear"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
               p:required="true" />

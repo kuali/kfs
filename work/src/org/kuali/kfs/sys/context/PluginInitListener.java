@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import edu.iu.uis.eden.plugin.Plugin;
 import edu.iu.uis.eden.plugin.client.PluginListener;

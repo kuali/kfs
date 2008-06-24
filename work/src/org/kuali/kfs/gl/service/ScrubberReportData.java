@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.scrubber;
+package org.kuali.kfs.gl.service;
 
 /**
  * A class which encapsulates statistics about a scrubber run

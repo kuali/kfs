@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -25,9 +25,9 @@ import junit.framework.TestCase;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.util.testobject.SimpleAddress;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.util.SimpleAddress;
 
 public class ObjectUtilTest extends TestCase {
 

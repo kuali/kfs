@@ -16,7 +16,7 @@
 /*
  * Created on Aug 12, 2004
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.document.service.impl;
 
 import java.util.List;
 
@@ -24,30 +24,30 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.AchAccountNumber;
-import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentChange;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.bo.PaymentNoteText;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.dao.AchAccountNumberDao;
-import org.kuali.module.pdp.dao.PaymentDetailDao;
-import org.kuali.module.pdp.dao.PaymentGroupDao;
-import org.kuali.module.pdp.dao.PaymentGroupHistoryDao;
-import org.kuali.module.pdp.exception.CancelPaymentException;
-import org.kuali.module.pdp.exception.PdpException;
-import org.kuali.module.pdp.service.EnvironmentService;
-import org.kuali.module.pdp.service.GlPendingTransactionService;
-import org.kuali.module.pdp.service.PaymentMaintenanceService;
-import org.kuali.module.pdp.service.ReferenceService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
+import org.kuali.kfs.pdp.businessobject.Code;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentChange;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.dataaccess.AchAccountNumberDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
+import org.kuali.kfs.pdp.exception.CancelPaymentException;
+import org.kuali.kfs.pdp.exception.PdpException;
+import org.kuali.kfs.pdp.service.EnvironmentService;
+import org.kuali.kfs.pdp.service.PendingTransactionService;
+import org.kuali.kfs.pdp.document.service.PaymentMaintenanceService;
+import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.GeneralUtilities;
 import org.springframework.transaction.annotation.Transactional;
 
 

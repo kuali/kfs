@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class...

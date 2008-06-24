@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.rules;
+package org.kuali.kfs.module.ec.document.validation.impl;
 
 import java.util.Collection;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.bo.EffortCertificationReportPosition;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 
 /**
  * Contains Business Rules for the Effort Certification Report Maintenance Document.

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCodeCurrent;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 
 /**
  * This class represents an offset account business object.

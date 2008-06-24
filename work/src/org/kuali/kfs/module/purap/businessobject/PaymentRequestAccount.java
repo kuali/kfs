@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLineBase;
-import org.kuali.module.purap.util.PurApObjectUtils;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 
 /**
  * Payment Request Account Business Object.

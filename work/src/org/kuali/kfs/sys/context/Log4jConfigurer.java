@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 public class Log4jConfigurer {
     private static final long MILLISECONDS_CONVERSION_MULTIPLIER = 60 * 1000;

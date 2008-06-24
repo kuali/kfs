@@ -5,7 +5,7 @@
       <name>CreditMemoDocument</name>
       <parent>KualiPurapDocument</parent>
       <label>Credit Memo</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>PA_AP_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>PA_AP_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>

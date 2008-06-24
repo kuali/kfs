@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.authorization;
+package org.kuali.kfs.module.cam.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.service.AssetService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 
 public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 

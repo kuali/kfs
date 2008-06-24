@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import java.sql.Date;
 
@@ -23,10 +23,10 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -54,7 +54,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * Used during initialization to provide a base <code>{@link AccountingPeriod}</code>.<br/>
      * <p>
      * This is a hack right now because its intended to be set by the
-     * <code>{@link org.kuali.module.chart.service.AccountingPeriodService}</code>
+     * <code>{@link org.kuali.kfs.coa.service.AccountingPeriodService}</code>
      * 
      * @return AccountingPeriod
      */
@@ -73,14 +73,14 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
 
     /**
-     * @see org.kuali.kfs.document.LedgerPostingDocument#getPostingYear()
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocument#getPostingYear()
      */
     public Integer getPostingYear() {
         return postingYear;
     }
 
     /**
-     * @see org.kuali.kfs.document.LedgerPostingDocument#setPostingYear(java.lang.Integer)
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocument#setPostingYear(java.lang.Integer)
      */
     public void setPostingYear(Integer postingYear) {
         this.tmpPostingYear = postingYear;
@@ -88,14 +88,14 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
 
     /**
-     * @see org.kuali.kfs.document.LedgerPostingDocument#getPostingPeriodCode()
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocument#getPostingPeriodCode()
      */
     public String getPostingPeriodCode() {
         return postingPeriodCode;
     }
 
     /**
-     * @see org.kuali.kfs.document.LedgerPostingDocument#setPostingPeriodCode(java.lang.String)
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocument#setPostingPeriodCode(java.lang.String)
      */
     public void setPostingPeriodCode(String postingPeriodCode) {
         this.tmpPostingPeriodCode = postingPeriodCode;
@@ -103,14 +103,14 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
     }
 
     /**
-     * @see org.kuali.kfs.document.LedgerPostingDocument#getAccountingPeriod()
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocument#getAccountingPeriod()
      */
     public AccountingPeriod getAccountingPeriod() {
         return accountingPeriod;
     }
 
     /**
-     * @see org.kuali.kfs.document.LedgerPostingDocument#setAccountingPeriod(AccountingPeriod)
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocument#setAccountingPeriod(AccountingPeriod)
      */
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         Integer postingYear = null;

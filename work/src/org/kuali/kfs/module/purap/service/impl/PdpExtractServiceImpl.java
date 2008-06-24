@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -37,39 +37,39 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentAccountDetail;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentNoteText;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.service.CustomerProfileService;
-import org.kuali.module.pdp.service.EnvironmentService;
-import org.kuali.module.pdp.service.PaymentDetailService;
-import org.kuali.module.pdp.service.PaymentFileService;
-import org.kuali.module.pdp.service.PaymentGroupService;
-import org.kuali.module.pdp.service.ReferenceService;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.bo.AccountsPayableItemBase;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PdpExtractService;
-import org.kuali.module.purap.service.PurapRunDateService;
-import org.kuali.module.purap.util.VendorGroupingHelper;
-import org.kuali.module.vendor.VendorConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.service.EnvironmentService;
+import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.kfs.pdp.service.PaymentFileService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.GeneralUtilities;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItemBase;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.service.PdpExtractService;
+import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.vnd.VendorConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -104,7 +104,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     boolean testMode = false;
 
     /**
-     * @see org.kuali.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
+     * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
      */
     public void extractImmediatePaymentsOnly() {
         LOG.debug("extractImmediatePaymentsOnly() started");
@@ -114,7 +114,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PdpExtractService#extractPayments(Date)
+     * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractPayments(Date)
      */
     public void extractPayments(Date runDate) {
         LOG.debug("extractPayments() started");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,30 +26,30 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.kfs.util.Message;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.gl.batch.ScrubberStep;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.service.OriginEntryLookupService;
-import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.batch.LaborScrubberStep;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.gl.batch.ScrubberStep;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
+import org.kuali.kfs.gl.service.ScrubberValidator;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 
 /**
  * Service implementation of ScrubberValidator.
@@ -70,7 +70,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     /**
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
-     *      org.kuali.module.labor.bo.LaborOriginEntry, org.kuali.module.gl.bo.UniversityDate)
+     *      org.kuali.kfs.module.ld.businessobject.LaborOriginEntry, org.kuali.kfs.gl.businessobject.UniversityDate)
      */
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator) {
         LOG.debug("validateTransaction() started");

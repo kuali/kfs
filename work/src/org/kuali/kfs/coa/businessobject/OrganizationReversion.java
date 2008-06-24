@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * 

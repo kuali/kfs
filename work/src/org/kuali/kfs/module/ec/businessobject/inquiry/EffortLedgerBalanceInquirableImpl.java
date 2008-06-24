@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.inquiry;
+package org.kuali.kfs.module.ec.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,16 +24,16 @@ import java.util.Properties;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
+import org.kuali.kfs.integration.service.LaborModuleService;
 
 public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortLedgerBalanceInquirableImpl.class);
@@ -41,7 +41,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
@@ -65,7 +65,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     @Override
     protected List<String> buildUserDefinedAttributeKeyList() {
@@ -81,7 +81,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     @Override
     protected String getAttributeName(String attributeName) {
@@ -89,7 +89,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getBaseUrl()
      */
     @Override
     protected String getBaseUrl() {
@@ -97,7 +97,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
      */
     @Override
     protected Class getInquiryBusinessObjectClass(String attributeName) {
@@ -105,7 +105,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyName(java.lang.String)
      */
     @Override
     protected String getKeyName(String keyName) {
@@ -113,7 +113,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     @Override
     protected Object getKeyValue(String keyName, Object keyValue) {
@@ -121,7 +121,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getLookupableImplAttributeName()
      */
     @Override
     protected String getLookupableImplAttributeName() {
@@ -129,7 +129,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getUserDefinedAttributeMap()
      */
     @Override
     protected Map<String, Object> getUserDefinedAttributeMap() {
@@ -142,7 +142,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl 
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#isExclusiveField(java.lang.Object, java.lang.Object)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#isExclusiveField(java.lang.Object, java.lang.Object)
      */
     @Override
     protected boolean isExclusiveField(Object keyName, Object keyValue) {

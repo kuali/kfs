@@ -1,34 +1,34 @@
-package org.kuali.module.ar.document;
+package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.ElectronicPaymentClaiming;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.bo.PaymentMedium;
-import org.kuali.module.ar.service.CashControlDocumentService;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
+import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -291,7 +291,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.AmountTotaling#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount() {
         return cashControlTotalAmount;
@@ -322,7 +322,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public void addPendingEntry(GeneralLedgerPendingEntry entry) {
         generalLedgerPendingEntries.add(entry);
@@ -330,7 +330,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
      */
     public void clearAnyGeneralLedgerPendingEntries() {
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
@@ -338,8 +338,8 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail,
-     *      org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         String documentType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class);
@@ -387,7 +387,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -407,14 +407,14 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
@@ -423,21 +423,21 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
 
     /**
      * The Cash Control document doesn't generate general ledger pending entries based off of the accounting lines on the document
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getPostingYear()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getPostingYear()
      */
     public Integer getPostingYear() {
         return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine) postable;
@@ -501,7 +501,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.document.ElectronicPaymentClaiming#declaimElectronicPaymentClaims()
+     * @see org.kuali.kfs.sys.document.ElectronicPaymentClaiming#declaimElectronicPaymentClaims()
      */
     public void declaimElectronicPaymentClaims() {
         SpringContext.getBean(ElectronicPaymentClaimingService.class).declaimElectronicPaymentClaimsForDocument(this);

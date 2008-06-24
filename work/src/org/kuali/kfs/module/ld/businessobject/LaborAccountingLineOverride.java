@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.bo.AccountingLineOverride.COMPONENT;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 
 /**
  * Labor business object for Labor Accounting Line Override

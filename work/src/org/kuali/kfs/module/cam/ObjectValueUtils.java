@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.util;
+package org.kuali.kfs.module.cam;
 
 import java.beans.PropertyDescriptor;
 

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.dao.SubAccountDao;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.dataaccess.SubAccountDao;
 
 
 /**

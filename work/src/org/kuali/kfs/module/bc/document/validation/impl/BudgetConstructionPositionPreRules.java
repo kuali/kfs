@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.rules;
+package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.math.BigDecimal;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.chart.rules.MaintenancePreRulesBase;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 
 /**
  * This class...

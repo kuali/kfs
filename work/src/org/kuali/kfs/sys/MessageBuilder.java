@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.util;
+package org.kuali.kfs.sys;
 
 import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class provides a set of utilities that can be used to build error message

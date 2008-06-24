@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.UniversityDateDao;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @return A UniversityDate instance representing today's date.
      * 
-     * @see org.kuali.module.financial.service.UniversityDateService#getCurrentUniversityDate()
+     * @see org.kuali.kfs.sys.service.UniversityDateService#getCurrentUniversityDate()
      */
     public UniversityDate getCurrentUniversityDate() {
         LOG.debug("getCurrentUniversityDate() started");
@@ -91,7 +91,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @param fiscalYear The fiscal year to retrieve the first date for.
      * @return A Date object representing the first date of the fiscal year given.
      * 
-     * @see org.kuali.module.financial.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
+     * @see org.kuali.kfs.sys.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
     @CacheNoCopy
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
@@ -105,7 +105,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @param fiscalYear The fiscal year to retrieve the last date for.
      * @return A Date object representing the last date of the fiscal year given.
      * 
-     * @see org.kuali.module.financial.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
+     * @see org.kuali.kfs.sys.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
     @CacheNoCopy
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {

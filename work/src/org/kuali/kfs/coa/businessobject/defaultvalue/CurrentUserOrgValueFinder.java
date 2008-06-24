@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.lookup.valuefinder;
+package org.kuali.kfs.coa.businessobject.defaultvalue;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 
 /**
  * A value finder that returns the current user's default organization code.

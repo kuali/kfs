@@ -17,7 +17,7 @@
  * Created on Nov 2, 2004
  *
  */
-package org.kuali.module.pdp.action.format;
+package org.kuali.kfs.pdp.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.service.FormatService;
-import org.kuali.module.pdp.service.SecurityRecord;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.service.FormatService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 
 
 /**

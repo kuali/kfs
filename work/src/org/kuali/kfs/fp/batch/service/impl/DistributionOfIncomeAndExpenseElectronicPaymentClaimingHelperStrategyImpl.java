@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.batch.service.impl;
 
 import java.util.List;
 
@@ -24,14 +24,14 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ElectronicFundTransferClaimActionHelper;
-import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper;
+import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -55,7 +55,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
     private final static String URL_SUFFIX = "&docId=";
     
     /**
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List)
      */
     public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, UniversalUser user) {
         DistributionOfIncomeAndExpenseDocument document = null;
@@ -170,7 +170,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
     
     /**
      * Returns the name DistributionOfIncomeAndExpenseDocument workflow document type
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentClass()
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentClass()
      */
     public String getClaimingDocumentWorkflowDocumentType() {
         return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DI_WORKFLOW_DOCUMENT_TYPE;
@@ -178,7 +178,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
 
     /**
      * Uses the data dictionary to find the label for this document
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
      */
     public String getDocumentLabel() {
         return ddService.getDataDictionary().getDocumentEntry(documentTypeService.getClassByName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName()).getLabel();
@@ -186,21 +186,21 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
 
     /**
      * This always returns true if the given user in the claiming workgroup.
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
      */
     public boolean userMayUseToClaim(UniversalUser claimingUser) {
         return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);
     }
 
     /**
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentCode()
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentCode()
      */
     public String getDocumentCode() {
         return ddService.getDataDictionary().getDocumentEntry(documentTypeService.getClassByName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName()).getDocumentTypeCode();
     }
 
     /**
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#isDocumentReferenceValid(java.lang.String)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#isDocumentReferenceValid(java.lang.String)
      */
     public boolean isDocumentReferenceValid(String referenceDocumentNumber) {
         boolean valid = false;

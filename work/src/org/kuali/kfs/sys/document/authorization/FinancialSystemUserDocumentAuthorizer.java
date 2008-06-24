@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.authorization;
+package org.kuali.kfs.sys.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +25,12 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.bo.FinancialSystemUserOrganizationSecurity;
-import org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.form;
+package org.kuali.kfs.module.purap.document.web.struts;
 
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class ReceivingFormBase extends FinancialSystemTransactionalDocumentFormBase {
 

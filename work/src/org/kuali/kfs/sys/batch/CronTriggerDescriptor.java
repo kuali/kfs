@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.text.ParseException;
 
@@ -24,7 +24,7 @@ public class CronTriggerDescriptor extends TriggerDescriptor {
     private String cronExpression;
 
     /**
-     * @see org.kuali.kfs.batch.TriggerDescriptor#completeTriggerDescription(org.quartz.Trigger)
+     * @see org.kuali.kfs.sys.batch.TriggerDescriptor#completeTriggerDescription(org.quartz.Trigger)
      */
     protected void completeTriggerDescription(Trigger trigger) {
         // prevent setting of the trigger information in test mode

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.quartz.JobDetail;
 import org.springframework.beans.factory.BeanNameAware;
 
@@ -53,7 +53,7 @@ public class JobDescriptor implements BeanNameAware {
     }
 
     /**
-     * Constructs a non-volatile, durable, non-recoverable JobDetail w/ org.kuali.kfs.batch.Job as the job class and the specified
+     * Constructs a non-volatile, durable, non-recoverable JobDetail w/ org.kuali.kfs.sys.batch.Job as the job class and the specified
      * name and group from this instance. Also adds status=Pending to the JobDataMap, if this is a scheduled job.
      * 
      * @return the org.quartz.JobDetail corresponding to this instance

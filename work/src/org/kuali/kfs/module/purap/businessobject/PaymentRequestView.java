@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Date;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.DateFormatter;
-import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 
 /**
  * Payment Request View Business Object.
@@ -160,7 +160,7 @@ public class PaymentRequestView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getNotes()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getNotes()
      */
     @Override
     public List<Note> getNotes() {
@@ -168,7 +168,7 @@ public class PaymentRequestView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getUrl()
      */
     @Override
     public String getUrl() {

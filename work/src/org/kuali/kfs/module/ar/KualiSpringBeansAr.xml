@@ -18,7 +18,7 @@
 <beans>	
     <bean id="arModule" parent="arModule-parentBean" />
 
-    <bean id="arModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="arModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="ar" />
 		<property name="moduleName" value="Accounts Receivable" />
 		<property name="moduleCode" value="AR" />
@@ -26,12 +26,12 @@
 		<property name="moduleAuthorizer" ref="arModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/ar/datadictionary</value>
+				<value>org/kuali/kfs/module/ar/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/ar/OJB-repository-ar.xml</value>
+				<value>org/kuali/kfs/module/ar/OJB-repository-ar.xml</value>
 			</list>
 		</property>
 
@@ -47,7 +47,7 @@
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/module/ar/dwr-ar.xml</value>
+				<value>org/kuali/kfs/module/ar/dwr-ar.xml</value>
 			</list>
 		</property>		
 	</bean>
@@ -55,32 +55,32 @@
     <bean id="arModuleAuthorizer" parent="financialSystemModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.ar.</value>
+                <value>org.kuali.kfs.module.ar.</value>
             </list>
         </property>
     </bean>
 
 	<!--  AR DAOs  -->
-	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerDaoOjb" />
-	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerAddressDaoOjb" />
-	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.SystemInformationDaoOjb" />
-	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.LockboxDaoOjb" />
-	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerInvoiceDocumentDaoOjb" />
+	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
+	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAddressDaoOjb" />
+	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.SystemInformationDaoOjb" />
+	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.LockboxDaoOjb" />
+	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
 	
 	<!--  AR Services  -->
-	<bean id="systemInformationService" class="org.kuali.module.ar.service.impl.SystemInformationServiceImpl">
+	<bean id="systemInformationService" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl">
 		<property name="systemInformationDao">
 			<ref bean="systemInformationDao" />
 		</property>
 	</bean>
 	
-	<bean id="lockboxService" class="org.kuali.module.ar.service.impl.LockboxServiceImpl">
+	<bean id="lockboxService" class="org.kuali.kfs.module.ar.batch.service.impl.LockboxServiceImpl">
 		<property name="lockboxDao">
 			<ref bean="lockboxDao" />
 		</property>
 	</bean>
 	
-	<bean id="customerInvoiceDetailService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDetailServiceImpl">
+	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>		
@@ -98,11 +98,11 @@
 		</property>
 	</bean>	
 	
-	<bean id="customerCreditMemoDetailService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDetailServiceImpl"/>
+	<bean id="customerCreditMemoDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDetailServiceImpl"/>
 	
-	<bean id="customerCreditMemoDocumentService" class="org.kuali.module.ar.service.impl.CustomerCreditMemoDocumentServiceImpl"/>
+	<bean id="customerCreditMemoDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDocumentServiceImpl"/>
 	
-	<bean id="invoicePaidAppliedService" class="org.kuali.module.ar.service.impl.InvoicePaidAppliedServiceImpl">
+	<bean id="invoicePaidAppliedService" class="org.kuali.kfs.module.ar.document.service.impl.InvoicePaidAppliedServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>			
@@ -111,14 +111,14 @@
 		</property>		
 	</bean>		
 	
-	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.module.ar.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
+	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.kfs.module.ar.document.validation.impl.AccountsReceivableDocumentHeaderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>	
 	
 	<!-- Used for DWR call to get Customer Name -->
-	<bean id="customerService" class="org.kuali.module.ar.service.impl.CustomerServiceImpl">
+	<bean id="customerService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerServiceImpl">
 		<property name="customerDao">
 			<ref bean="customerDao" />
 		</property>
@@ -130,7 +130,7 @@
 		</property>				
 	</bean>
 	
-    <bean id="customerInvoiceDocumentService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentServiceImpl">
+    <bean id="customerInvoiceDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl">
 		<property name="documentDao">
 			<ref bean="documentDao" />
 		</property>
@@ -163,19 +163,19 @@
 		</property>
 	</bean>	
 	
-	<bean id="nonInvoicedDistributionService" class="org.kuali.module.ar.service.impl.NonInvoicedDistributionServiceImpl">
+	<bean id="nonInvoicedDistributionService" class="org.kuali.kfs.module.ar.document.service.impl.NonInvoicedDistributionServiceImpl">
 		<property name="nonInvoicedDistributionDao">
 			<ref bean="nonInvoicedDistributionDao"/>
 		</property>
 	</bean>
 	
-	<bean id="nonInvoicedDistributionDao" class="org.kuali.module.ar.dao.ojb.NonInvoicedDistributionDaoOjb">
+	<bean id="nonInvoicedDistributionDao" class="org.kuali.kfs.module.ar.dataaccess.impl.NonInvoicedDistributionDaoOjb">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>
 	</bean>
 	
-    <bean id="customerAddressService" class="org.kuali.module.ar.service.impl.CustomerAddressServiceImpl">
+    <bean id="customerAddressService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerAddressServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -187,7 +187,7 @@
 		</property>		
 	</bean>		
 	
-    <bean id="receivableAccountingLineService" class="org.kuali.module.ar.service.impl.ReceivableAccountingLineServiceImpl">
+    <bean id="receivableAccountingLineService" class="org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -196,7 +196,7 @@
 		</property>	
 	</bean>	
 	
-	<bean id="cashControlDocumentService" class="org.kuali.module.ar.service.impl.CashControlDocumentServiceImpl">
+	<bean id="cashControlDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl">
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
@@ -229,7 +229,7 @@
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 	
-	<bean id="lockboxStep" class="org.kuali.module.ar.batch.LockboxStep" parent="step">
+	<bean id="lockboxStep" class="org.kuali.kfs.module.ar.batch.LockboxStep" parent="step">
 		<property name="lockboxService">
 			<ref bean="lockboxService" />
 		</property>
@@ -243,7 +243,7 @@
 		</property>
 	</bean>
 	
-	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.ar.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
+	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
 		<property name="documentService"><ref bean="documentService" /></property>
 	    <property name="documentTypeService"><ref bean="documentTypeService" /></property>
@@ -256,7 +256,7 @@
 	
 	<!-- Workflow Lookupables -->
 	
-	<bean id="systemInformationLookupHelperService" class="org.kuali.module.ar.lookup.SystemInformationLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="systemInformationLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.SystemInformationLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 	
 	<bean id="systemInformationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -264,7 +264,7 @@
 		</property>
 	</bean>
 	
-	<bean id="customerLookupHelperService" class="org.kuali.module.ar.lookup.CustomerLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="customerLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 	
     <bean id="customerLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -272,15 +272,15 @@
 		</property>
 	</bean>
 	
-	<bean id="workflow-org.kuali.module.ar.bo.SystemInformation-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.module.ar.businessobject.SystemInformation-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.module.ar.bo.SystemInformation</value>
+			<value>org.kuali.kfs.module.ar.businessobject.SystemInformation</value>
 		</property>
 	</bean>
 	
-	<bean id="workflow-org.kuali.module.ar.bo.Customer-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.module.ar.businessobject.Customer-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.module.ar.bo.Customer</value>
+			<value>org.kuali.kfs.module.ar.businessobject.Customer</value>
 		</property>
 	</bean>
 	

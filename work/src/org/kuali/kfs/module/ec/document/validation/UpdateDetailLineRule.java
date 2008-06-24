@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.rule;
+package org.kuali.kfs.module.ec.document.validation;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 
 /**
  * Defines a rule which gets invoked immediately before a detail line in a effort certification document is updated.

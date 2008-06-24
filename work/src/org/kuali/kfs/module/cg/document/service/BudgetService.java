@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service;
+package org.kuali.kfs.module.cg.document.service;
 
-import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

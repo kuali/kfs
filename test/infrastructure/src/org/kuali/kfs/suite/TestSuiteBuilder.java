@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,9 +34,9 @@ import org.kuali.core.util.AssertionUtils;
 /**
  * Utility class that builds test suites dynamically.
  * 
- * @see org.kuali.test.suite.ContextConfiguredSuite
+ * @see org.kuali.kfs.suite.ContextConfiguredSuite
  * @see org.kuali.test.suite.ShouldCommitTransactionsSuite
- * @see org.kuali.test.suite.CrossSectionSuite
+ * @see org.kuali.kfs.suite.CrossSectionSuite
  */
 public class TestSuiteBuilder {
 

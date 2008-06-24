@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 
 /**
  * This class represents a target accounting line for budget adjustment
@@ -69,7 +69,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
      */
     public KualiDecimal getMonthlyLinesTotal() {
         return BudgetAdjustmentAccountingLineUtil.getMonthlyLinesTotal(this);
@@ -371,7 +371,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     }
 
     /**
-     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#clearFinancialDocumentMonthLineAmounts()
+     * @see org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine#clearFinancialDocumentMonthLineAmounts()
      */
     public void clearFinancialDocumentMonthLineAmounts() {
         financialDocumentMonth1LineAmount = KualiDecimal.ZERO;
@@ -389,7 +389,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLineBase#isSourceAccountingLine()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#isSourceAccountingLine()
      */
     @Override
     public boolean isSourceAccountingLine() {
@@ -397,7 +397,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLineBase#isTargetAccountingLine()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#isTargetAccountingLine()
      */
     @Override
     public boolean isTargetAccountingLine() {

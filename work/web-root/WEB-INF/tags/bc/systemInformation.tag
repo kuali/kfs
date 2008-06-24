@@ -61,7 +61,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Chart"
+				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.chartOfAccountsCode" />
@@ -75,7 +75,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Account"
+				    boClassName="org.kuali.kfs.coa.businessobject.Account"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}"
 				    render="true">
 			    	<html:hidden write="true" property="document.accountNumber" />
@@ -100,7 +100,7 @@
 	      	    readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.SubAccount"
+				    boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}&amp;subAccountNumber=${KualiForm.document.subAccountNumber}"
 				    render="${KualiForm.document.subAccountNumber ne '-----'}"><%-- FIXME: need to get current "default" value from constants --%>
 			    	<html:hidden write="true" property="document.subAccountNumber" />
@@ -125,7 +125,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.SubFundGroup"
+				    boClassName="org.kuali.kfs.coa.businessobject.SubFundGroup"
 				    keyValues="subFundGroupCode=${KualiForm.document.account.subFundGroupCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.account.subFundGroupCode" />
@@ -150,7 +150,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Org"
+				    boClassName="org.kuali.kfs.coa.businessobject.Org"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.document.account.organizationCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.account.organizationCode" />
@@ -174,7 +174,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Chart"
+				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.account.organization.reportsToChartOfAccountsCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.account.organization.reportsToChartOfAccountsCode" />
@@ -188,7 +188,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Org"
+				    boClassName="org.kuali.kfs.coa.businessobject.Org"
 				    keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgVals.reportsToOrganizationCode}"
 				    render="true">
 			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
@@ -229,7 +229,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Chart"
+				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.budgetConstructionAccountReports.reportsToChartOfAccountsCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.budgetConstructionAccountReports.reportsToChartOfAccountsCode" />
@@ -243,7 +243,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
+				    boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.budgetConstructionAccountReports.reportsToChartOfAccountsCode}&amp;organizationCode=${KualiForm.document.budgetConstructionAccountReports.reportsToOrganizationCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.budgetConstructionAccountReports.reportsToOrganizationCode" />
@@ -267,7 +267,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Chart"
+				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToChartOfAccountsCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports.reportsToChartOfAccountsCode" />
@@ -281,7 +281,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
+				    boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgRptsVals.reportsToOrganizationCode}"
 				    render="true">
 			    	<html:hidden write="true" property="${orgRptsPropString}.reportsToOrganizationCode" />
@@ -328,7 +328,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.Chart"
+				    boClassName="org.kuali.kfs.coa.businessobject.Chart"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.organizationLevelChartOfAccountsCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.organizationLevelChartOfAccountsCode" />
@@ -342,7 +342,7 @@
 	      		readOnly="true"
 	      		readOnlyBody="true">
 	      		<kul:inquiry
-				    boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
+				    boClassName="org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.organizationLevelChartOfAccountsCode}&amp;organizationCode=${KualiForm.document.organizationLevelOrganizationCode}"
 				    render="true">
 			    	<html:hidden write="true" property="document.organizationLevelOrganizationCode" />

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.module.gl.bo;
+package org.kuali.kfs.gl.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * A class that represents a change to any origin entry that was altered within a GLCP Document

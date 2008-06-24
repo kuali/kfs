@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,14 +22,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.KFSConstants.ChartApcParms;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.dao.OrganizationDao;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.chart.service.OrganizationService;
+import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.dataaccess.OrganizationDao;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.OrganizationService;
 
 /**
  * This class is the service implementation for the Org structure. This is the default implementation, that is delivered with Kuali.
@@ -44,7 +44,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
@@ -54,7 +54,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * Implements the getByPrimaryId method defined by OrganizationService. Method is used by KualiOrgReviewAttribute to enable
      * caching of orgs for routing.
      * 
-     * @see org.kuali.module.chart.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
     @Cached
     public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
@@ -62,7 +62,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.OrganizationService#getActiveAccountsByOrg(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.OrganizationService#getActiveAccountsByOrg(java.lang.String, java.lang.String)
      */
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
 
@@ -77,7 +77,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.OrganizationService#getActiveChildOrgs(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.OrganizationService#getActiveChildOrgs(java.lang.String, java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
 
@@ -93,7 +93,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.OrganizationService#getActiveOrgsByType(java.lang.String)
+     * @see org.kuali.kfs.coa.service.OrganizationService#getActiveOrgsByType(java.lang.String)
      */
     public List<Org> getActiveOrgsByType(String organizationTypeCode) {
         if (StringUtils.isBlank(organizationTypeCode)) {
@@ -105,7 +105,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.OrganizationService#getActiveFinancialOrgs()
+     * @see org.kuali.kfs.coa.service.OrganizationService#getActiveFinancialOrgs()
      */
     public List<Org> getActiveFinancialOrgs() {
         Map<String, Object> criteriaMap = new HashMap<String, Object>();
@@ -116,7 +116,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     
     /**
      * 
-     * @see org.kuali.module.chart.service.OrganizationService#getRootOrganizationCode()
+     * @see org.kuali.kfs.coa.service.OrganizationService#getRootOrganizationCode()
      */
     public String[] getRootOrganizationCode() {
         String rootChart = getChartService().getUniversityChart().getChartOfAccountsCode();

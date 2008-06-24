@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -26,10 +26,10 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Delegate;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class...

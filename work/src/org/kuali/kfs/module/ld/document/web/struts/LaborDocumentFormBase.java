@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.form;
+package org.kuali.kfs.module.ld.document.web.struts;
 
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 
 /**
  * Base Struts Action Form class for Labor Forms.

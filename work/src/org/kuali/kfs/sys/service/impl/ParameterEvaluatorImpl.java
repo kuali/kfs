@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.List;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterEvaluator;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 
 public class ParameterEvaluatorImpl implements ParameterEvaluator {
     private Parameter parameter;
@@ -48,7 +48,7 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterEvaluator#evaluateAndAddError(java.lang.Class businessObjectOrDocumentClass,
+     * @see org.kuali.kfs.sys.service.ParameterEvaluator#evaluateAndAddError(java.lang.Class businessObjectOrDocumentClass,
      *      java.lang.String constrainedPropertyName)
      */
     public boolean evaluateAndAddError(Class businessObjectOrDocumentClass, String constrainedPropertyName) {
@@ -74,7 +74,7 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterEvaluator#constraintIsAllow()
+     * @see org.kuali.kfs.sys.service.ParameterEvaluator#constraintIsAllow()
      */
     public boolean constraintIsAllow() {
         return constraintIsAllow;
@@ -90,7 +90,7 @@ public class ParameterEvaluatorImpl implements ParameterEvaluator {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterEvaluator#getValue()
+     * @see org.kuali.kfs.sys.service.ParameterEvaluator#getValue()
      */
     public String getValue() {
         return parameter.getParameterValue();

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
@@ -36,28 +36,28 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
-import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.module.financial.bo.WireCharge;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
-import org.kuali.module.financial.service.DisbursementVoucherPayeeService;
-import org.kuali.module.financial.service.DisbursementVoucherTaxService;
-import org.kuali.module.financial.service.DisbursementVoucherTravelService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl;
-import org.kuali.module.financial.web.struts.form.DisbursementVoucherForm;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
+import org.kuali.kfs.fp.businessobject.WireCharge;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl;
+import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -69,7 +69,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
 
     /**
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

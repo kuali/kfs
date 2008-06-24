@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service.impl.exception;
 
 public class NoBankForCustomerException extends RuntimeException {
     private String customerProfile;

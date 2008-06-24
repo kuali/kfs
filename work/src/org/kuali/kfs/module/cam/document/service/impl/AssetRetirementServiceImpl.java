@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,25 +31,25 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
-import org.kuali.module.cams.service.AssetObjectCodeService;
-import org.kuali.module.cams.service.AssetPaymentService;
-import org.kuali.module.cams.service.AssetRetirementService;
-import org.kuali.module.cams.util.ObjectValueUtils;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
+import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
+import org.kuali.kfs.module.cam.ObjectValueUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetRetirementServiceImpl implements AssetRetirementService {
 
@@ -156,7 +156,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredBySoldOrAuction(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredBySoldOrAuction(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
      */
     public boolean isAssetRetiredBySoldOrAuction(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.AUCTION.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode()) || CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
@@ -164,7 +164,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredByExternalTransferOrGift(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredByExternalTransferOrGift(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
      */
     public boolean isAssetRetiredByExternalTransferOrGift(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode()) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
@@ -172,7 +172,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredByMerged(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredByMerged(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
      */
     public boolean isAssetRetiredByMerged(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.MERGED.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
@@ -180,7 +180,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#isAssetRetiredByTheft(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredByTheft(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
      */
     public boolean isAssetRetiredByTheft(AssetRetirementGlobal assetRetirementGlobal) {
         return CamsConstants.AssetRetirementReasonCode.THEFT.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
@@ -188,7 +188,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#getAssetRetirementReasonName(org.kuali.module.cams.bo.AssetRetirementGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#getAssetRetirementReasonName(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
      */
     public String getAssetRetirementReasonName(AssetRetirementGlobal assetRetirementGlobal) {
         return assetRetirementGlobal.getRetirementReason() == null ? new String() : assetRetirementGlobal.getRetirementReason().getRetirementReasonName();
@@ -196,7 +196,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#generateOffsetPaymentsForEachSource(org.kuali.module.cams.bo.Asset,
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#generateOffsetPaymentsForEachSource(org.kuali.kfs.module.cam.businessobject.Asset,
      *      java.util.List, java.lang.String)
      */
     public void generateOffsetPaymentsForEachSource(Asset sourceAsset, List<PersistableBusinessObject> persistables, String currentDocumentNumber) {
@@ -222,8 +222,8 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#generateNewPaymentForTarget(org.kuali.module.cams.bo.Asset,
-     *      org.kuali.module.cams.bo.Asset, java.util.List, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#generateNewPaymentForTarget(org.kuali.kfs.module.cam.businessobject.Asset,
+     *      org.kuali.kfs.module.cam.businessobject.Asset, java.util.List, java.lang.Integer, java.lang.String)
      */
     public Integer generateNewPaymentForTarget(Asset targetAsset, Asset sourceAsset, List<PersistableBusinessObject> persistables, Integer maxSequenceNo, String currentDocumentNumber) {
         List<AssetPayment> newPayments = new TypedArrayList(AssetPayment.class);
@@ -249,7 +249,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#isRetirementReasonCodeInGroup(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isRetirementReasonCodeInGroup(java.lang.String, java.lang.String)
      */
     public boolean isRetirementReasonCodeInGroup(String reasonCodeGroup, String reasonCode) {
         if (StringUtils.isBlank(reasonCodeGroup) || StringUtils.isBlank(reasonCode)) {
@@ -260,7 +260,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAllowedRetireMultipleAssets(java.lang.String)
      */
     public boolean isAllowedRetireMultipleAssets(String retirementReasonCode) {
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
@@ -269,7 +269,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetRetirementService#createGLPostables(org.kuali.module.cams.bo.AssetRetirementGlobal,
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#createGLPostables(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal,
      *      org.kuali.module.cams.gl.CamsGlPosterBase)
      */
     public boolean createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster) {

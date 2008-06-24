@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
+import org.kuali.kfs.module.bc.BCConstants;
 
 import java.util.ArrayList;
 import java.math.BigDecimal;
@@ -356,7 +356,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
      */
     public void updateSalaryAndReasonSummaryReportsWithThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
@@ -418,7 +418,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
      */
     public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
         

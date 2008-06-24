@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -34,18 +34,18 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule;
-import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule;
-import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.validation.ContinueCustomerCreditMemoDocumentRule;
+import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule;
+import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -67,8 +67,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
     
     /**
-     * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDetailRule#processRecalculateCustomerCreditMemoDetailRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.ar.bo.CustomerCreditMemoDetail)
+     * @see org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule#processRecalculateCustomerCreditMemoDetailRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail)
      */
     public boolean processRecalculateCustomerCreditMemoDetailRules(TransactionalDocument document, CustomerCreditMemoDetail customerCreditMemoDetail) {
         boolean success = true;
@@ -158,7 +158,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
     
     /**
-     * @see org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
+     * @see org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.sys.document.AccountingDocument)
      */
     public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument document, boolean printErrMsgFlag) {
         boolean success = true;
@@ -191,7 +191,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
 
     /**
-     * @see org.kuali.module.ar.rule.ContinueCustomerCreditMemoDocumentRule#processContinueCustomerCreditMemoDocumentRules(org.kuali.kfs.document.AccountingDocument)
+     * @see org.kuali.kfs.module.ar.document.validation.ContinueCustomerCreditMemoDocumentRule#processContinueCustomerCreditMemoDocumentRules(org.kuali.kfs.sys.document.AccountingDocument)
      */
     public boolean processContinueCustomerCreditMemoDocumentRules(TransactionalDocument document) {
         boolean success;

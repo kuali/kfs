@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,9 +24,9 @@ import java.util.Iterator;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.dao.PaymentGroupHistoryDao;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 
 public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentGroupHistoryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentGroupHistoryDaoOjb.class);
@@ -36,7 +36,7 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupHistoryDao#save(org.kuali.module.pdp.bo.PaymentGroupHistory)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao#save(org.kuali.kfs.pdp.businessobject.PaymentGroupHistory)
      */
     public PaymentGroupHistory save(PaymentGroupHistory paymentGroupHistory) {
         LOG.debug("save() started");
@@ -46,7 +46,7 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupHistoryDao#getCanceledChecks()
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao#getCanceledChecks()
      */
     public Iterator getCanceledChecks() {
         LOG.debug("getCanceledChecks() started");

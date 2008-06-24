@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
-import static org.kuali.test.fixtures.UserNameFixture.PARKE;
-import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
-import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +27,19 @@ import java.util.List;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.bo.AccountsPayableItem;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.fixtures.CreditMemoDocumentFixture;
-import org.kuali.module.purap.fixtures.CreditMemoItemFixture;
-import org.kuali.module.purap.service.CreditMemoCreateService;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.fixture.CreditMemoDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.CreditMemoItemFixture;
+import org.kuali.kfs.module.purap.document.service.CreditMemoCreateService;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
 

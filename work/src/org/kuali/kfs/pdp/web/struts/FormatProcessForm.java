@@ -17,7 +17,7 @@
  * Created on Aug 30, 2004
  *
  */
-package org.kuali.module.pdp.form.format;
+package org.kuali.kfs.pdp.web.struts;
 
 import org.apache.struts.action.ActionForm;
 

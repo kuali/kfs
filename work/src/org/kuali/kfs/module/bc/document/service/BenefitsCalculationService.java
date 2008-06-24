@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 /**
  * This class defines methods that a Benefits Calculation Service must provide The Benefits Calculation Service supports

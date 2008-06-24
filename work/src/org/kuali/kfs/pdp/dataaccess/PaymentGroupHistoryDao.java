@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.Iterator;
 
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 
 public interface PaymentGroupHistoryDao {
     /**

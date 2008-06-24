@@ -17,7 +17,7 @@
  * Created on Aug 2, 2004
  *
  */
-package org.kuali.module.pdp.action.paymentsearch;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -32,17 +32,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.bo.PaymentDetailSearch;
-import org.kuali.module.pdp.exception.ConfigurationError;
-import org.kuali.module.pdp.form.paymentsearch.PaymentDetailSearchForm;
-import org.kuali.module.pdp.service.PaymentDetailSearchService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.businessobject.PaymentDetailSearch;
+import org.kuali.kfs.pdp.exception.ConfigurationError;
+import org.kuali.kfs.pdp.web.struts.PaymentDetailSearchForm;
+import org.kuali.kfs.pdp.service.PaymentDetailSearchService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Delegate;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Delegate;
 
 
 /**
@@ -42,7 +42,7 @@ public interface AccountService {
     /**
      * Method is used by KualiAccountAttribute to enable caching of orgs for routing.
      * 
-     * @see org.kuali.module.chart.service.AccountService#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.AccountService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber);
 

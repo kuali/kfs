@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.dao;
+package org.kuali.kfs.module.cam.document.dataaccess;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.cams.bo.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 
 public interface DepreciableAssetsDao {
     /**

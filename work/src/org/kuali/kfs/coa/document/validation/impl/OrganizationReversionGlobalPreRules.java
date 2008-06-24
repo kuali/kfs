@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.OrganizationReversionGlobal;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class OrganizationReversionGlobalPreRules extends MaintenancePreRulesBase
      * <li>{@link OrganizationReversionGlobalPreRules#checkForContinuationAccounts(OrganizationReversionGlobal)}</li>
      * <li>{@link OrganizationReversionGlobalPreRules#copyKeyAttributesToCollections(OrganizationReversionGlobal)}</li>
      * </ul>
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     public boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.optionfinder;
+package org.kuali.kfs.gl.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.gl.web.Constant;
+import org.kuali.kfs.gl.Constant;
 
 /**
  * An implmentation of ValueFinder that allows the balance inquiries to choose whether to include or exclude cost share entries

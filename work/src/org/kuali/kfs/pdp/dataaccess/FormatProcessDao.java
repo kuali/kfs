@@ -17,11 +17,11 @@
  * Created on Aug 16, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.Date;
 
-import org.kuali.module.pdp.bo.FormatProcess;
+import org.kuali.kfs.pdp.businessobject.FormatProcess;
 
 
 /**

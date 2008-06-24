@@ -27,7 +27,7 @@
   </info>
   <tag>
     <name>getReference</name>
-    <tagclass>org.kuali.module.pdp.tag.GetReferenceTag</tagclass>
+    <tagclass>org.kuali.kfs.pdp.web.GetReferenceTag</tagclass>
     <bodycontent>empty</bodycontent>
     <info>
       Put lists of lookup tables in the page context so they can be used
@@ -44,7 +44,7 @@
 
   <tag>
     <name>getBank</name>
-    <tagclass>org.kuali.module.pdp.tag.GetBankTag</tagclass>
+    <tagclass>org.kuali.kfs.pdp.web.GetBankTag</tagclass>
     <bodycontent>empty</bodycontent>
     <info>
       Put lists of banks in the page context so it can be used

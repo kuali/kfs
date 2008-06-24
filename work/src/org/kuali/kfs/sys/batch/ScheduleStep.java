@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 
 public class ScheduleStep extends AbstractStep {
     private static final Logger LOG = Logger.getLogger(ScheduleStep.class);
     private SchedulerService schedulerService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         boolean isPastScheduleCutoffTime = false;

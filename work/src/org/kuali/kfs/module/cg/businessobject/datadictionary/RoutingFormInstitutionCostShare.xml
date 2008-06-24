@@ -7,7 +7,7 @@
   <bean id="RoutingFormInstitutionCostShare" parent="RoutingFormInstitutionCostShare-parentBean" />
 
   <bean id="RoutingFormInstitutionCostShare-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare" />
     <property name="inquiryDefinition" >
       <ref bean="RoutingFormInstitutionCostShare-inquiryDefinition" />
     </property>
@@ -62,7 +62,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="chartOfAccountsCode" />

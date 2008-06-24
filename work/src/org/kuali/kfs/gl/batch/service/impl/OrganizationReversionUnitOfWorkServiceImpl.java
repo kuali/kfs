@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,10 +22,10 @@ import java.util.Map;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
-import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
-import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
+import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
+import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWorkCategoryAmount;
+import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -42,7 +42,7 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
      * 
      * @param orgRevUnitOfWork org reversion unit of work to load categories for
      * @return the org reversion unit of work with loaded categories
-     * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#loadCategories(org.kuali.module.gl.bo.OrgReversionUnitOfWork)
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService#loadCategories(org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork)
      */
     public OrgReversionUnitOfWork loadCategories(OrgReversionUnitOfWork orgRevUnitOfWork) {
         Collection categoryAmounts = businessObjectService.findMatching(OrgReversionUnitOfWorkCategoryAmount.class, orgRevUnitOfWork.toStringMapper());
@@ -59,7 +59,7 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
      * Immediate deletion awaits all entries of the unit of work summary tables in the persistence store once
      * you call this method, for this method is both powerful and deadly and also gets called to clear out
      * those tables before every single org reversion run.
-     * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#removeAll()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService#removeAll()
      */
     public void destroyAllUnitOfWorkSummaries() {
         orgReversionUnitOfWorkDao.destroyAllUnitOfWorkSummaries();
@@ -69,7 +69,7 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
      * This save method is guaranteed to save the category data as well.
      * 
      * @param orgRevUnitOfWork organizationReversionUnitOfWork to save
-     * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#save(org.kuali.module.gl.bo.OrgReversionUnitOfWork)
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService#save(org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork)
      */
     public void save(OrgReversionUnitOfWork orgRevUnitOfWork) {
         LOG.debug("Saving org reversion summary for " + orgRevUnitOfWork.toString() + "; its category keys are: " + orgRevUnitOfWork.getCategoryAmounts().keySet());

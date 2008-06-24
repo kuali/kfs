@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.web.struts.form;
+package org.kuali.kfs.module.cam.document.web.struts;
 
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
-import org.kuali.module.cams.document.BarcodeInventoryErrorDocument;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);

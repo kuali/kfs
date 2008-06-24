@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl.helper;
+package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -21,25 +21,25 @@ import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.FatalErrorException;
-import org.kuali.module.gl.util.NonFatalErrorException;
-import org.kuali.module.gl.util.ObjectHelper;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
+import org.kuali.kfs.gl.batch.service.impl.exception.NonFatalErrorException;
+import org.kuali.kfs.gl.ObjectHelper;
 
 /**
  * A class to hold significant state for a balance forward job; it also has the methods that actually accomplish the job

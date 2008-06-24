@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,23 +23,23 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
-import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgSalarySummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgSynchronizationProblemsReport;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.BudgetConstructionPositionFunding;
-import org.kuali.module.budget.bo.BudgetConstructionSalaryFunding;
-import org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.dao.BudgetConstructionSynchronizationProblemsReportDao;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.service.BudgetConstructionSynchronizationProblemsReportService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgAccountSummaryReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalarySummaryReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSynchronizationProblemsReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionFunding;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchronizationProblemsReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionSynchronizationProblemsReportService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,31 +32,31 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.ItemFields;
-import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
+import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 
 /**
  * Business rule(s) applicable to Payment Request documents.
@@ -69,7 +69,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     /**
      * Returns true if full document entry is complete, bypassing further rules.
      * 
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -84,8 +84,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      * Overriding the accessibility of the accounts only in the case where awaiting ap review, that is because the super
      * checks enroute and checks if it is the owner while we allow "full entry" until past this stage
      *
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#accountIsAccessible(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -104,7 +104,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     /**
      * Tabs included on Payment Request Documents are: Invoice
      * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -159,7 +159,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
 
     /**
-     * @see org.kuali.module.purap.rule.ContinuePurapRule#processContinueAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.ContinuePurapRule#processContinueAccountsPayableBusinessRules(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public boolean processContinuePurapBusinessRules(TransactionalDocument apDocument) {
         boolean valid = true;
@@ -171,7 +171,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
 
     /**
-     * @see org.kuali.module.purap.rule.CalculateAccountsPayableRule#processCalculateAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRule#processCalculateAccountsPayableBusinessRules(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument apDocument) {
         boolean valid = true;
@@ -195,7 +195,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     /**
      * Validates item fields are valid for the calculation process.
      * 
-     * @see org.kuali.module.purap.rule.PreCalculateAccountsPayableRule#processPreCalculateAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.PreCalculateAccountsPayableRule#processPreCalculateAccountsPayableBusinessRules(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public boolean processPreCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
         boolean valid = true;
@@ -759,7 +759,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     /**
      * Returns true if full document entry is completed and bypasses any further validation, otherwise proceeds as normal.
      * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#verifyAccountPercent(org.kuali.kfs.document.AccountingDocument, java.util.List, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#verifyAccountPercent(org.kuali.kfs.sys.document.AccountingDocument, java.util.List, java.lang.String)
      */
     @Override
     protected boolean verifyAccountPercent(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
@@ -770,7 +770,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
 
     /**
-     * @see org.kuali.module.purap.rule.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
         boolean valid = true;

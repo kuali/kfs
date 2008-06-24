@@ -17,13 +17,13 @@
  * Created on Jul 8, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.bo.Code;
+import org.kuali.kfs.pdp.businessobject.Code;
 
 
 /**

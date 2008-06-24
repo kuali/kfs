@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 
 
 /**

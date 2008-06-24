@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service;
+package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.document.CashControlDocument;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.ConfigureContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

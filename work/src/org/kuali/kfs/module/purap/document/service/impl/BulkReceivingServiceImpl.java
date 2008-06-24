@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -27,17 +27,17 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.dao.BulkReceivingDao;
-import org.kuali.module.purap.dao.ReceivingDao;
-import org.kuali.module.purap.document.BulkReceivingDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.rule.event.ContinuePurapEvent;
-import org.kuali.module.purap.service.BulkReceivingService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.dataaccess.BulkReceivingDao;
+import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
+import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -81,7 +81,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
     
     /**
      * 
-     * @see org.kuali.module.purap.service.ReceivingService#populateAndSaveReceivingLineDocument(org.kuali.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateAndSaveReceivingLineDocument(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
      */
     public void populateAndSaveBulkReceivingDocument(BulkReceivingDocument blkRecDoc) throws WorkflowException {
         try {            

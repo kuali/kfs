@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.dao.SubAccountDao;
-import org.kuali.module.chart.service.SubAccountService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.dataaccess.SubAccountDao;
+import org.kuali.kfs.coa.service.SubAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,7 +37,7 @@ public class SubAccountServiceImpl implements SubAccountService {
     private SubAccountDao subAccountDao;
 
     /**
-     * @see org.kuali.module.chart.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
      */
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
@@ -46,7 +46,7 @@ public class SubAccountServiceImpl implements SubAccountService {
     /**
      * Method is used by KualiAccountAttribute to enable caching of accounts for routing.
      * 
-     * @see org.kuali.module.chart.service.impl.SubAccountServiceImpl#getByPrimaryId(String, String, String)
+     * @see org.kuali.kfs.coa.service.impl.SubAccountServiceImpl#getByPrimaryId(String, String, String)
      */
     @Cached
     public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {

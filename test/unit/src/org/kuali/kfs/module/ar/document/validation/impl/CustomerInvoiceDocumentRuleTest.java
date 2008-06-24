@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the rules in CustomerInvoiceDocumentRule

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 
@@ -26,15 +26,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.BudgetConstructionReportMode;
-import org.kuali.module.budget.service.ReportExportService;
-import org.kuali.module.budget.web.struts.form.ReportExportForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.document.service.ReportExportService;
+import org.kuali.kfs.module.bc.document.web.struts.ReportExportForm;
 
 /**
  * Struts action class for report dumps.

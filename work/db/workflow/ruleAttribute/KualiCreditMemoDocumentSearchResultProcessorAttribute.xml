@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiCreditMemoDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.CreditMemoDocumentSearchResultProcessor</className>
+      <className>org.kuali.kfs.module.purap.document.searching.processor.CreditMemoDocumentSearchResultProcessor</className>
       <label>Kuali Credit Memo Document Search Result Processor</label>
       <description>Kuali Credit Memo Document Search Result Processor</description>
       <type>DocumentSearchResultProcessorAttribute</type>

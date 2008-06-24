@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.batch;
+package org.kuali.kfs.coa.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.chart.service.DateMakerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.coa.batch.service.DateMakerService;
 
 /**
  * This is the batch step implementation for Fiscal Year Maker. It brings forward the appropriate rows from certain chart, gl, and
@@ -33,7 +33,7 @@ public class FiscalYearMakerStep extends AbstractStep {
      * KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR and KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE
      * parameters from the KFSConstants.ParameterGroups.CHART_FISCAL_YEAR_MAKER security group.
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         dateMakerService.fiscalYearMakers(Integer.parseInt(getParameterService().getParameterValue(getClass(), KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR)), getParameterService().getIndicatorParameter(getClass(), KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE));

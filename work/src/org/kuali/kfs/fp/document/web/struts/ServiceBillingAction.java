@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 /**
  * This class handles Actions for ServiceBilling.

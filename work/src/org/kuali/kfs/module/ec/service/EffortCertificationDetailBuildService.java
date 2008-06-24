@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.service;
 
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 
 /**
  * Provides the facilities that can generate detail line (build) for effort certification from the given labor ledger balance record

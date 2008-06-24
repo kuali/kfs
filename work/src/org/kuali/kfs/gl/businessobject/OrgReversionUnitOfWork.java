@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.bo;
+package org.kuali.kfs.gl.businessobject;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 
 /**
  * This class represents a unit of work for the organization reversion

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,20 +26,20 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.web.struts.form.DetailSalarySettingForm;
-import org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm;
+import org.kuali.kfs.module.bc.document.web.struts.IncumbentSalarySettingForm;
 
 
 public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingAction.class);
 
     /**
-     * @see org.kuali.module.budget.web.struts.action.DetailSalarySettingAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#loadExpansionScreen(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -64,7 +64,7 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     }
         
     /**
-     * @see org.kuali.module.budget.web.struts.action.DetailSalarySettingAction#createNewAppointmentFundingLine(org.kuali.module.budget.web.struts.form.DetailSalarySettingForm)
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#createNewAppointmentFundingLine(org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm)
      */
     @Override
     public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {

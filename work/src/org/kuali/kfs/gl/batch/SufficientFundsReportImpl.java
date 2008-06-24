@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.sufficientFunds.impl;
+package org.kuali.kfs.gl.batch;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.util.Summary;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.batch.SufficientFundsReport;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.report.Summary;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.ExceptionConverter;
@@ -63,7 +63,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
      * @param reportSummary a List of Strings that summarize the sufficient funds rebuild process 
      * @param runDate the date the sufficient funds rebuild process was run
      * @param mode the mode the sufficient funds rebuild process was run in
-     * @see org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport#generateReport(java.util.Map, java.util.List, java.util.Date, int)
+     * @see org.kuali.kfs.gl.batch.SufficientFundsReport#generateReport(java.util.Map, java.util.List, java.util.Date, int)
      */
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
         LOG.debug("generateReport() started");

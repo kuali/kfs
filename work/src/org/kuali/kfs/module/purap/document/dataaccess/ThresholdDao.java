@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao;
+package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.module.purap.bo.Threshold;
+import org.kuali.kfs.module.purap.businessobject.Threshold;
 
 public interface ThresholdDao {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 
 import java.io.BufferedReader;
@@ -31,33 +31,33 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCParameterKeyConstants;
-import org.kuali.module.budget.BCConstants.RequestImportFileType;
-import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.ImportRequestDao;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.service.BenefitsCalculationService;
-import org.kuali.module.budget.service.BudgetDocumentService;
-import org.kuali.module.budget.service.BudgetParameterService;
-import org.kuali.module.budget.service.BudgetRequestImportService;
-import org.kuali.module.budget.service.LockService;
-import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.budget.util.ImportRequestFileParsingHelper;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.BCConstants.RequestImportFileType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
+import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
+import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.module.bc.service.ImportRequestFileParsingHelper;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -83,7 +83,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 
     /**
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#generatePdf(java.util.List, java.io.ByteArrayOutputStream)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#generatePdf(java.util.List, java.io.ByteArrayOutputStream)
      */
     @NonTransactional
     public void generatePdf(List<String> errorMessages, ByteArrayOutputStream baos) throws DocumentException {
@@ -99,7 +99,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#processImportFile(java.io.InputStream, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#processImportFile(java.io.InputStream, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     @Transactional
@@ -200,7 +200,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#validateData()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#validateData()
      */
     @Transactional
     public List<String> validateData(Integer budgetYear, String personUniversalIdentifier) {
@@ -293,7 +293,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#loadBudget()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#loadBudget()
      */
     @Transactional
     public List<String> loadBudget(UniversalUser user, String fileType, Integer budgetYear) throws Exception {
@@ -359,7 +359,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#getImportRequestDao()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#getImportRequestDao()
      */
     @NonTransactional
     public ImportRequestDao getImportRequestDao() {
@@ -367,7 +367,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#setImportRequestDao(org.kuali.module.budget.dao.ImportRequestDao)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setImportRequestDao(org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao)
      */
     @NonTransactional
     public void setImportRequestDao(ImportRequestDao dao) {
@@ -645,7 +645,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.core.service.DictionaryValidationService)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.core.service.DictionaryValidationService)
      */
     @NonTransactional
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
@@ -655,7 +655,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetRequestImportService#setLockService(org.kuali.module.budget.service.LockService)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setLockService(org.kuali.kfs.module.bc.document.service.LockService)
      */
     @NonTransactional
     public void setLockService(LockService lockService) {

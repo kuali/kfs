@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.action;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -29,18 +29,18 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-import org.kuali.module.labor.service.SalaryTransferPeriodValidationService;
-import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
-import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
+import org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase;
+import org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm;
 
 /**
  * Struts action class for Salary Expense Transfer Document. This class extends the parent FinancialSystemTransactionalDocumentActionBase
@@ -51,8 +51,8 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     /**
      * Resets lookup fields for salary expense transfer action
      * 
-     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase,
-     *      org.kuali.module.labor.bo.LedgerBalance)
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase,
+     *      org.kuali.kfs.module.ld.businessobject.LedgerBalance)
      */
     @Override
     protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {
@@ -79,7 +79,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     }
 
     /**
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

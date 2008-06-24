@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,19 +29,19 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
-import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
+import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
 
 /**
  * An extension of KualiLookupableImpl to support balance lookups

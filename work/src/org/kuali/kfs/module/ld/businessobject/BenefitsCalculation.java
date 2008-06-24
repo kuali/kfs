@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiPercent;
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsType;
 
 /**
  * Labor business object for Benefits Calculation.
@@ -228,14 +228,14 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * @see org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation#getLaborLedgerBenefitsType()
+     * @see org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation#getLaborLedgerBenefitsType()
      */
     public LaborLedgerBenefitsType getLaborLedgerBenefitsType() {
         return this.getPositionBenefitType();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation#setLaborLedgerBenefitsType(org.kuali.module.labor.bo.LaborLedgerBenefitsType)
+     * @see org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation#setLaborLedgerBenefitsType(org.kuali.module.labor.bo.LaborLedgerBenefitsType)
      */
     public void setLaborLedgerBenefitsType(LaborLedgerBenefitsType laborLedgerBenefitsType) {
         this.setPositionBenefitType((BenefitsType)laborLedgerBenefitsType);

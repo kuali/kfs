@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.batch.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,8 @@ import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.ClassNotPersistableException;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.dao.ReconciliationDao;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.batch.dataaccess.ReconciliationDao;
 
 /**
  * Uses OJB to determine the column name -> java attribute name mapping
@@ -51,7 +51,7 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
      * @param caseInsensitive whether to do matching
      * @return for every valid index in the return value and the array, the value in the array is the db column name, and the value
      *         in the list is the java attribute name
-     * @see org.kuali.module.gl.dao.ReconciliationDao#convertDBColumnNamesToJavaName(java.lang.String[])
+     * @see org.kuali.kfs.gl.batch.dataaccess.ReconciliationDao#convertDBColumnNamesToJavaName(java.lang.String[])
      */
     public List<String> convertDBColumnNamesToJavaName(Class<? extends OriginEntryFull> clazz, String[] columnNames, boolean caseInsensitive) {
         List<String> results = new ArrayList<String>();

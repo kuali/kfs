@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rule;
+package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 
 /**
  * Add Purchasing Accounts Payable Item Rule Interface.

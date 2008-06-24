@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -23,14 +23,14 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate that the Address is the default one
  * for this Campus among the various Addresses available for this Vendor.
  * 
  * @see org.kuali.core.bo.Campus
- * @see org.kuali.module.vendor.bo.VendorAddress
+ * @see org.kuali.kfs.vnd.businessobject.VendorAddress
  */
 public class VendorDefaultAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
@@ -117,7 +117,7 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorDefaultAddress)) {

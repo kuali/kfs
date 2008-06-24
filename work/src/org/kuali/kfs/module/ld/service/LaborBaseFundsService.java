@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
 
 /**
  * This interface provides its clients with access to labor base fund entries in the backend data store.

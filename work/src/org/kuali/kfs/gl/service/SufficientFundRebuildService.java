@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.SufficientFundRebuild;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 
 /**
  * An interface which declares methods needed to rebuild sufficient funds balances

@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.integration.bo;
+package org.kuali.kfs.integration.businessobject;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode;
-import org.kuali.module.effort.bo.EffortCertificationReportPosition;
-import org.kuali.module.effort.bo.EffortCertificationReportType;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationPeriodStatusCode;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportType;
 
 /**
  * Methods for getting and setting report attributes.

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionAccountFundingDetailReportDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountFundingDetailReportDao;
 
 import java.util.ArrayList;
 

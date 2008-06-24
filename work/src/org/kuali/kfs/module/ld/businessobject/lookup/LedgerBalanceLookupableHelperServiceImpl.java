@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
-import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
+import static org.kuali.kfs.module.ld.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,17 +34,17 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.util.ConsolidationUtil;
-import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
-import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
-import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
+import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerBalanceInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

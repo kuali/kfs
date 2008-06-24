@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document.authorization;
+package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,19 +26,19 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.PurapService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 
 /**
  * Document Authorizer for the Requisition document.
@@ -56,7 +56,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
     }
 
     /**
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
      */
     @Override

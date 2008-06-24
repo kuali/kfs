@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -25,17 +25,17 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.module.purap.bo.Carrier;
-import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
-import org.kuali.module.purap.rule.event.ContinuePurapEvent;
-import org.kuali.module.purap.service.BulkReceivingService;
-import org.kuali.module.purap.service.ReceivingService;
-import org.kuali.module.purap.util.PurApRelatedViews;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.module.purap.businessobject.Carrier;
+import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase {
 

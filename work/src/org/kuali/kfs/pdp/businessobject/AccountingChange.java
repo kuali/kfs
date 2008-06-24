@@ -17,7 +17,7 @@
  * Created on Jun 30, 2004
  *
  */
-package org.kuali.module.pdp.bo;
+package org.kuali.kfs.pdp.businessobject;
 
 
 /**

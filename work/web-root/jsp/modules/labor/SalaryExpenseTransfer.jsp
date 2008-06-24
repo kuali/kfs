@@ -71,7 +71,7 @@
 					property="universityFiscalYear" readOnly="${readOnly}" /> 
 					
 					<c:if test="${!readOnly}">
-						<kul:lookup	boClassName="org.kuali.kfs.bo.Options"
+						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.Options"
 						lookupParameters="universityFiscalYear:universityFiscalYear"
 						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
 					</c:if>
@@ -101,7 +101,7 @@
             	<td height="30" class="infoline">
             		<c:if test="${!readOnly}">
 	                   <gl:balanceInquiryLookup
-	                       boClassName="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer"
+	                       boClassName="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForSalaryExpenseTransfer"
 	                       actionPath="glBalanceInquiryLookup.do"
 	                       lookupParameters="universityFiscalYear:universityFiscalYear,emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
 	                       tabindexOverride="KualiForm.currentTabIndex"

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
-import static org.kuali.test.fixtures.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +25,14 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.UnitTestSqlDao;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
-import org.kuali.test.ConfigureContext;
-import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
 public class ThresholdTest extends KualiTestBase {

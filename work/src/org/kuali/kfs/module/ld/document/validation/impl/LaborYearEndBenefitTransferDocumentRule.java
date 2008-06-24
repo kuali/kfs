@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.rules;
+package org.kuali.kfs.module.ld.document.validation.impl;
 
 /**
  * Business rule(s) applicable to Labor Benefit Expense Transfer documents that extends BenefitExpenseTransferDocumentRule

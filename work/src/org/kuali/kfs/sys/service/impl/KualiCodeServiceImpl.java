@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.Collection;
 
 import org.kuali.core.bo.KualiCode;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.dao.KualiCodeDao;
-import org.kuali.kfs.service.KualiCodeService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
+import org.kuali.kfs.sys.service.KualiCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

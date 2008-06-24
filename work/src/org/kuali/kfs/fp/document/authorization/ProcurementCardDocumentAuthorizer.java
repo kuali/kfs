@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.authorization;
+package org.kuali.kfs.fp.document.authorization;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,12 +24,12 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
  * Document Authorizer for the Procurement Card document.

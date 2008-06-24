@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
-import org.kuali.module.gl.batch.collector.CollectorInputFileType;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants.TestConstants.Data4;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
+import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.KualiTestConstants.TestConstants.Data4;
 
 /**
  * Tests system parameters are setup and methods on the batch input types are correctly using them.

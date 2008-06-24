@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service.impl;
+package org.kuali.kfs.module.cg.service.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,11 +30,11 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.Cfda;
-import org.kuali.module.cg.service.CfdaService;
-import org.kuali.module.cg.service.CfdaUpdateResults;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.Cfda;
+import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 
 public class CfdaServiceImpl implements CfdaService {
 

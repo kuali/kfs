@@ -21,7 +21,7 @@
 	</init>
 	<allow>
 	    <create creator="new" javascript="BudgetConstructionPosition">
-	    	<param name="class" value="org.kuali.module.budget.bo.BudgetConstructionPosition" />
+	    	<param name="class" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition" />
 	    	<include method="getCalculatedBCPositionFTE" />
 	    </create>
 	</allow>

@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.module.budget.BCConstants.Report.BuildMode;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
-import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
+import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
 
 /**
  * Defines methods that manipulate objects used by the Organization Selection screens. Manipulated objects include

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.budget.BCParameterKeyConstants;
-import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.service.BudgetParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 
 /**
  * See BudgetParameterService. This implements value added methods associated with ParameterService
@@ -33,7 +33,7 @@ public class BudgetParameterServiceImpl implements BudgetParameterService {
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetParameterService#getParameterValues(java.lang.Class, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetParameterService#getParameterValues(java.lang.Class, java.lang.String)
      */
     public List getParameterValues(Class componentClass, String parameterName) {
         List paramValues = null;
@@ -49,7 +49,7 @@ public class BudgetParameterServiceImpl implements BudgetParameterService {
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetParameterService#isSalarySettingOnlyAccount(org.kuali.module.budget.document.BudgetConstructionDocument)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetParameterService#isSalarySettingOnlyAccount(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     public AccountSalarySettingOnlyCause isSalarySettingOnlyAccount(BudgetConstructionDocument bcDoc){
         AccountSalarySettingOnlyCause retVal = AccountSalarySettingOnlyCause.MISSING_PARAM;

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.

@@ -7,7 +7,7 @@
   <bean id="AcctType" parent="AcctType-parentBean" />
 
   <bean id="AcctType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.AcctType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AcctType" />
     <property name="inquiryDefinition" >
       <ref bean="AcctType-inquiryDefinition" />
     </property>

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao.other;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.Map;
 
-import org.kuali.module.pdp.dao.PayeeTypeDao;
+import org.kuali.kfs.pdp.dataaccess.PayeeTypeDao;
 
 public class PayeeTypeDaoOther implements PayeeTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeTypeDaoOther.class);

@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Date;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.dao.A21SubAccountDao;
-import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao;
-import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.ExpenditureTransaction;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.ExpenditureTransactionDao;
-import org.kuali.module.gl.service.IcrTransaction;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
+import org.kuali.kfs.gl.batch.service.IndirectCostRecoveryService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -162,7 +162,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
      * @return the accomplished post type
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -209,7 +209,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
     }
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(ExpenditureTransaction.class).getFullTableName();

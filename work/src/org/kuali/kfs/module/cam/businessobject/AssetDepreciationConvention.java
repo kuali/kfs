@@ -1,9 +1,9 @@
-package org.kuali.module.cams.bo;
+package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

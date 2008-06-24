@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.util;
+package org.kuali.kfs.coa.document;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,9 +22,9 @@ import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ObjLevel;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.ObjLevel;
 
 /**
  * This class...
@@ -38,7 +38,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
     }
 
     /**
-     * @see org.kuali.module.financial.util.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.webCodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.core.bo.BusinessObject)
      */
     @Override
     protected String getDescriptionOfBO(PersistableBusinessObject bo) {
@@ -46,7 +46,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
     }
 
     /**
-     * @see org.kuali.module.financial.util.CodeDescriptionFormatterBase#getValuesToBusinessObjectsMap(java.util.Set)
+     * @see org.kuali.kfs.sys.document.webCodeDescriptionFormatterBase#getValuesToBusinessObjectsMap(java.util.Set)
      */
     @Override
     protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {

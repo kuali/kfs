@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -23,7 +23,7 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 

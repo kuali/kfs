@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.rules;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,26 +28,26 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.CamsKeyConstants.Transfer;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.service.AssetLocationService;
-import org.kuali.module.cams.service.AssetObjectCodeService;
-import org.kuali.module.cams.service.AssetPaymentService;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.AssetTransferService;
-import org.kuali.module.cams.service.AssetLocationService.LocationField;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants.Transfer;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.AssetTransferService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
 

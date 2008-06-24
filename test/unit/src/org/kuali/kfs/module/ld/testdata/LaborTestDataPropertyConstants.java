@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.testdata;
+package org.kuali.kfs.module.ld.testdata;
 
 public class LaborTestDataPropertyConstants {
     public static final String TEST_DATA_PACKAGE_NAME = LaborTestDataPropertyConstants.class.getPackage().getName().replace('.', '/');

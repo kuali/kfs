@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.report;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
@@ -29,10 +29,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.service.OriginEntryService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;

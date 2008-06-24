@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.service.impl;
 
-import org.kuali.kfs.service.KualiCodeService;
-import org.kuali.module.financial.bo.CashDetailTypeCode;
-import org.kuali.module.financial.service.CashDetailTypeCodeService;
+import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.kfs.fp.businessobject.CashDetailTypeCode;
+import org.kuali.kfs.fp.service.CashDetailTypeCodeService;
 
 /**
  * This is the default implementation for the CashDetailTypeCodeService interface. This implementation used the KualiCodeService,

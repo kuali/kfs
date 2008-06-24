@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup;
+package org.kuali.kfs.vnd.businessobject.lookup;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 
 public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

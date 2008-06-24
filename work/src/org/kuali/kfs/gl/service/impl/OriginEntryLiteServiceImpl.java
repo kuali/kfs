@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntryLite;
-import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.service.OriginEntryLiteService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryLite;
+import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
+import org.kuali.kfs.gl.service.OriginEntryLiteService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -47,7 +47,7 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
      * @param documentTypeCode the document type code of origin entries to return
      * @param originCode the origination code to return
      * @return iterator to all qualifying entries
-     * @see org.kuali.module.gl.service.OriginEntryLiteService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.service.OriginEntryLiteService#getEntriesByDocument(org.kuali.kfs.gl.businessobject.OriginEntryGroup, java.lang.String, java.lang.String, java.lang.String)
      */
     public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
         LOG.debug("getEntriesByDocument() started");
@@ -66,7 +66,7 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
      * 
      * @param oeg Group used to select entries
      * @return Iterator to all the entires
-     * @see org.kuali.module.gl.service.OriginEntryLiteService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.OriginEntryLiteService#getEntriesByGroup(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
         LOG.debug("getEntriesByGroup() started");
@@ -95,7 +95,7 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
     /**
      * Saves an origin entry to the persistence store, defers to the DAO
      * @param entry the origin entry lite to save
-     * @see org.kuali.module.gl.service.OriginEntryLiteService#save(org.kuali.module.gl.bo.OriginEntryLite)
+     * @see org.kuali.kfs.gl.service.OriginEntryLiteService#save(org.kuali.kfs.gl.businessobject.OriginEntryLite)
      */
     public void save(OriginEntryLite entry) {
         LOG.debug("save() started");
@@ -105,7 +105,7 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
     /**
      * Deletes an origin entry from the persistence store, defers to the DAO
      * @param entry the origin entry lite to delete
-     * @see org.kuali.module.gl.service.OriginEntryLiteService#delete(org.kuali.module.gl.bo.OriginEntryLite)
+     * @see org.kuali.kfs.gl.service.OriginEntryLiteService#delete(org.kuali.kfs.gl.businessobject.OriginEntryLite)
      */
     public void delete(OriginEntryLite entry) {
         LOG.debug("delete() started");

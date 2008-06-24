@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
@@ -49,35 +49,35 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.BlankFormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
-import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
-import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
-import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchaseOrderSplitDocument;
-import org.kuali.module.purap.question.SingleConfirmationQuestion;
-import org.kuali.module.purap.service.FaxService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
-import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorConstants.AddressTypes;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorPhoneNumber;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
+import org.kuali.kfs.module.purap.document.service.FaxService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm;
+import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorConstants.AddressTypes;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -477,7 +477,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param response The HttpServletResponse
      * @throws Exception
      * @return An ActionForward
-     * @see org.kuali.module.purap.document.PurchaseOrderReopenDocument
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument
      */
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Reopen PO started");
@@ -498,7 +498,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param response The HttpServletResponse
      * @throws Exception
      * @return An ActionForward
-     * @see org.kuali.module.purap.document.PurchaseOrderAmendmentDocument
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument
      */
     public ActionForward amendPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Amend PO started");
@@ -519,7 +519,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param response The HttpServletResponse
      * @throws Exception
      * @return An ActionForward
-     * @see org.kuali.module.purap.document.PurchaseOrderVoidDocument
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument
      */
     public ActionForward voidPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Void PO started");
@@ -540,7 +540,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param response      The HttpServeletResponse
      * @return              An ActionForward
      * @throws Exception
-     * @see org.kuali.module.purap.document.PurchaseOrderSplitDocument
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument
      */
     public ActionForward splitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Split PO started");
@@ -1648,7 +1648,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingAccountsPayableActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

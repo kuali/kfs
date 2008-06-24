@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.rules;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 
 public class AssetDepreciationDocumentRule extends AccountingDocumentRuleBase {
 }

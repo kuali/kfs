@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 
 /**
  * Validation for Auxiliary Voucher that checks that all the source accounting lines on the document use
@@ -35,7 +35,7 @@ public class AuxiliaryVoucherSingleSubFundValidation extends GenericValidation {
     /**
      * Iterates <code>{@link AccountingLine}</code> instances in a given <code>{@link FinancialDocument}</code> instance and
      * compares them to see if they are all in the same Sub-Fund Group.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service;
+package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
 
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerService {
 

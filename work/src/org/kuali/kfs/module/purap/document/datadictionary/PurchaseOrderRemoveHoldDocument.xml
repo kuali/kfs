@@ -16,9 +16,9 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderRemoveHoldDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderRemoveHoldDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderRemoveHoldDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRemoveHoldDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentAuthorizer" />
     <property name="documentTypeCode" value="PORH" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderRemoveHoldDocument-workflowProperties" />

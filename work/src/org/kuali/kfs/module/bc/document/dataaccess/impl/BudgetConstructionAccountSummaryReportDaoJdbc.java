@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.service.PersistenceService;
 
 
-import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao;
 
-import org.kuali.module.budget.BCConstants.Report;
+import org.kuali.kfs.module.bc.BCConstants.Report;
 
 import java.util.ArrayList;
 
@@ -392,7 +392,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     }
     
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsAccountSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#cleanReportsAccountSummaryTable(java.lang.String)
      */
     public void cleanReportsAccountSummaryTable(String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", personUserIdentifier);
@@ -403,7 +403,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
      */
     public void updateReportsAccountSummaryTable(String personUserIdentifier) {
         // build the list of strings to insert
@@ -428,7 +428,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
 
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
         // build the list of strings to insert
@@ -452,7 +452,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     }
     
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateSubFundSummaryReport(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateSubFundSummaryReport(java.lang.String)
      */
     public void updateSubFundSummaryReport(String personUserIdentifier) {
         // build the list of strings to insert

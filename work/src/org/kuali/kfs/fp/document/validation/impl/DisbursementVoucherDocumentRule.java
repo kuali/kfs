@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,27 +38,27 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
-import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
-import org.kuali.module.financial.bo.TravelCompanyCode;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.document.authorization.DisbursementVoucherDocumentAuthorizer;
-import org.kuali.module.financial.service.DisbursementVoucherTaxService;
-import org.kuali.module.financial.service.DisbursementVoucherTravelService;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
+import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 
 /**

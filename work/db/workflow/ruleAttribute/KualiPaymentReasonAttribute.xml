@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="paymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:paymentReasonCode)" />
+          <quickfinder appliesTo="paymentReasonCode" draw="true" service="workflow-org.kuali.kfs.fp.businessobject.PaymentReasonCode-Lookupable(workflow-code:paymentReasonCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode') = wf:ruledata('disbVchrPaymentReasonCode')</xpathexpression>
           </fieldEvaluation>

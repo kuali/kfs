@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule.event;
+package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerInvoiceDetailRule;
 
 public class RecalculateCustomerInvoiceDetailEvent extends CustomerInvoiceDetailEventBase implements CustomerInvoiceDetailEvent {
 

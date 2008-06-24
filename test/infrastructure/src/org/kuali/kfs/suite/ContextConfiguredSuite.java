@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 /**
- * The suite of all test classes with the {@link org.kuali.test.ConfigureContext} annotation. IDEs or Ant can run this as JUnit
+ * The suite of all test classes with the {@link org.kuali.kfs.ConfigureContext} annotation. IDEs or Ant can run this as JUnit
  * tests.
  */
 public class ContextConfiguredSuite {
@@ -38,7 +38,7 @@ public class ContextConfiguredSuite {
     }
 
     /**
-     * The suite of all test classes without the {@link org.kuali.test.ConfigureContext} annotation. IDEs or Ant can run this nested
+     * The suite of all test classes without the {@link org.kuali.kfs.ConfigureContext} annotation. IDEs or Ant can run this nested
      * class as JUnit tests.
      */
     public static class Not {
@@ -48,7 +48,7 @@ public class ContextConfiguredSuite {
     }
 
     /**
-     * The suite of all test classes with the {@link org.kuali.test.ConfigureContext} annotation with a {@code session} element
+     * The suite of all test classes with the {@link org.kuali.kfs.ConfigureContext} annotation with a {@code session} element
      * other than {@code NO_SESSION}. IDEs or Ant can run this nested class as JUnit tests.
      */
     public static class WithSession {
@@ -64,7 +64,7 @@ public class ContextConfiguredSuite {
     }
 
     /**
-     * The suite of all test classes with the {@link org.kuali.test.ConfigureContext} annotation with a {@code session} element of
+     * The suite of all test classes with the {@link org.kuali.kfs.ConfigureContext} annotation with a {@code session} element of
      * {@code NO_SESSION} (the default). IDEs or Ant can run this nested class as JUnit tests.
      */
     public static class WithoutSession {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -23,20 +23,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.Agency;
-import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
-import org.kuali.module.kra.budget.bo.AgencyExtension;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;
+import org.kuali.kfs.module.cg.businessobject.AgencyExtension;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests service methods in BudgetModularService.

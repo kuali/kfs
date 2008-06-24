@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,28 +25,28 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.bo.NonAppliedHolding;
-import org.kuali.module.ar.bo.SystemInformation;
-import org.kuali.module.ar.document.CashControlDocument;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.module.ar.service.CashControlDocumentService;
-import org.kuali.module.ar.service.SystemInformationService;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -63,8 +63,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private UniversityDateService universityDateService;
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
-     *      org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public PaymentApplicationDocument createAndSavePaymentApplicationDocument(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
 
@@ -88,7 +88,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#hasAllApplicationDocumentsApproved(org.kuali.module.ar.document.CashControlDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#hasAllApplicationDocumentsApproved(org.kuali.kfs.module.ar.document.CashControlDocument)
      */
     public boolean hasAllApplicationDocumentsApproved(CashControlDocument cashControlDocument) {
         // TODO Auto-generated method stub
@@ -96,8 +96,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#addNewCashControlDetail(java.lang.String,
-     *      org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#addNewCashControlDetail(java.lang.String,
+     *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public void addNewCashControlDetail(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
 
@@ -115,14 +115,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#saveGLPEs(org.kuali.module.ar.document.CashControlDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#saveGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument)
      */
     public void saveGLPEs(CashControlDocument cashControlDocument) {
         businessObjectService.save(cashControlDocument.getGeneralLedgerPendingEntries());
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#createCashReceiptGLPEs(org.kuali.module.ar.document.CashControlDocument,
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createCashReceiptGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument,
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createCashReceiptGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -167,7 +167,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#createDistributionOfIncomeAndExpenseGLPEs(org.kuali.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createDistributionOfIncomeAndExpenseGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createDistributionOfIncomeAndExpenseGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -218,7 +218,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#createGeneralErrorCorrectionGLPEs(org.kuali.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createGeneralErrorCorrectionGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -264,7 +264,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#getLockboxNumber(org.kuali.module.ar.document.CashControlDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#getLockboxNumber(org.kuali.kfs.module.ar.document.CashControlDocument)
      */
     public String getLockboxNumber(CashControlDocument cashControlDocument) {
 

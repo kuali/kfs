@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Date;
 import java.text.NumberFormat;
@@ -33,34 +33,34 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.ScrubberStep;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryLookupService;
-import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
-import org.kuali.module.gl.util.CachingLookup;
-import org.kuali.module.gl.util.ObjectHelper;
-import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.ScrubberStep;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
+import org.kuali.kfs.gl.service.ScrubberValidator;
+import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.service.ScrubberReportData;
+import org.kuali.kfs.gl.service.impl.CachingLookup;
+import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 
 /**
  * This class has the logic for the scrubber. It is required because the scrubber process needs instance variables. Instance

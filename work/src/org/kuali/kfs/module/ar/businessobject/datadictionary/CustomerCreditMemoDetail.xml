@@ -6,7 +6,7 @@
        
   <bean id="CustomerCreditMemoDetail" parent="CustomerCreditMemoDetail-parentBean" />
   <bean id="CustomerCreditMemoDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerCreditMemoDetail" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail" />
     <property name="attributes" >
       <list>
       	<ref bean="CustomerCreditMemoDetail-referenceInvoiceItemNumber" />

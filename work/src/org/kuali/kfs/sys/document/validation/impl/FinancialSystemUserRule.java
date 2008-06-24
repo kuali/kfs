@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rules;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +25,13 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.format.PhoneNumberFormatter;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.authorization.FinancialSystemUserDocumentAuthorizer;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class FinancialSystemUserRule extends KfsMaintenanceDocumentRuleBase {
 

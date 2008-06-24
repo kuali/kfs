@@ -7,7 +7,7 @@
   <bean id="Bank" parent="Bank-parentBean" />
 
   <bean id="Bank-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.Bank" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.Bank" />
     <property name="inquiryDefinition" >
       <ref bean="Bank-inquiryDefinition" />
     </property>

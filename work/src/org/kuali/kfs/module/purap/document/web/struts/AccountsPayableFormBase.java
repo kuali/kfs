@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.form;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.List;
 
@@ -22,14 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.util.PurApItemUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 
 /**
  * Struts Action Form for Accounts Payable documents.
@@ -134,7 +134,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
 
     /**
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.sql.Date;
@@ -24,19 +24,19 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.CollectorHelperService;
-import org.kuali.module.gl.service.CollectorScrubberService;
-import org.kuali.module.gl.service.CollectorService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.RunDateService;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.CollectorScrubberStatus;
-import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.batch.service.CollectorHelperService;
+import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
+import org.kuali.kfs.gl.batch.service.CollectorService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.batch.service.RunDateService;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

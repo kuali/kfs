@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.xml.impl;
+package org.kuali.kfs.pdp.service.impl.paymentparser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,15 +25,15 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.module.pdp.exception.ConfigurationError;
-import org.kuali.module.pdp.exception.FileReadException;
-import org.kuali.module.pdp.xml.PaymentFileParser;
-import org.kuali.module.pdp.xml.PdpFileHandler;
-import org.kuali.module.pdp.xml.XmlAccounting;
-import org.kuali.module.pdp.xml.XmlDetail;
-import org.kuali.module.pdp.xml.XmlGroup;
-import org.kuali.module.pdp.xml.XmlHeader;
-import org.kuali.module.pdp.xml.XmlTrailer;
+import org.kuali.kfs.pdp.exception.ConfigurationError;
+import org.kuali.kfs.pdp.exception.FileReadException;
+import org.kuali.kfs.pdp.service.paymentparser.PaymentFileParser;
+import org.kuali.kfs.pdp.service.paymentparser.PdpFileHandler;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlAccounting;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlDetail;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlGroup;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlTrailer;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;

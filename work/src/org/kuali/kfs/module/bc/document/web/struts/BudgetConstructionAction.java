@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,24 +40,24 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants.BudgetConstructionEditMode;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.rule.event.AddPendingBudgetGeneralLedgerLineEvent;
-import org.kuali.module.budget.rule.event.DeletePendingBudgetGeneralLedgerLineEvent;
-import org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
-import org.kuali.module.budget.service.BudgetDocumentService;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sysKfsAuthorizationConstants.BudgetConstructionEditMode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
+import org.kuali.kfs.module.bc.document.validation.event.DeletePendingBudgetGeneralLedgerLineEvent;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -312,7 +312,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     }
 
     /**
-     * This method is similar to org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase.performBalanceInquiry()
+     * This method is similar to org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase.performBalanceInquiry()
      * 
      * @param isRevenue
      * @param mapping

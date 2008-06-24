@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.sys.businessobject.Building;
 
 /**
  * Building Parameter Business Object. Maintenance document for building parameters.

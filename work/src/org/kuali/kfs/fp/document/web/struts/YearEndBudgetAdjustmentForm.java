@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.module.financial.document.YearEndBudgetAdjustmentDocument;
+import org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument;
 
 /**
  * form for <code>YearEndBudgetAdjustmentDocument</code> the only functional difference between the YearEnd version and the
  * non-yearEnd version of a document is the glpe's generation.
  * 
- * @see org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm
+ * @see org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentForm
  */
 
 public class YearEndBudgetAdjustmentForm extends BudgetAdjustmentForm {

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort;
+package org.kuali.kfs.module.ec;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.ChartApcParms;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants.TransactionalEditMode;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
+import org.kuali.kfs.sysKfsAuthorizationConstants.TransactionalEditMode;
 import org.kuali.rice.util.JSTLConstants;
 
 /**

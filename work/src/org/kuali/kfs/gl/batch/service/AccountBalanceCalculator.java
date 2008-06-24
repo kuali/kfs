@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * This interface declares the methods needed to update an account balance, based on a transaction.

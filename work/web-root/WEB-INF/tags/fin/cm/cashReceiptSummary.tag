@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="receipt" required="true" type="org.kuali.module.financial.document.CashReceiptDocument"%>
+<%@ attribute name="receipt" required="true" type="org.kuali.kfs.fp.document.CashReceiptDocument"%>
 <%@ attribute name="receiptIndex" required="true" %>
 
 <c:set var="checkBaseAttributes" value="${DataDictionary.CheckBase.attributes}" />

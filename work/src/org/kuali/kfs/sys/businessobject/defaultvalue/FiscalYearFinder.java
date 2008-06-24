@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup.valuefinder;
+package org.kuali.kfs.sys.businessobject.defaultvalue;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * Returns the current fiscal year.

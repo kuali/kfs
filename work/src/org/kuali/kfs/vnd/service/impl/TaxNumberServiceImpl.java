@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service.impl;
+package org.kuali.kfs.vnd.service.impl;
 
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorParameterConstants;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.service.TaxNumberService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorParameterConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.service.TaxNumberService;
 
 public class TaxNumberServiceImpl implements TaxNumberService {
 

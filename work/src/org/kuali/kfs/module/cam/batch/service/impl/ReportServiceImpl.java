@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.batch.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.report.DepreciationReport;
-import org.kuali.module.cams.service.ReportService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.report.DepreciationReport;
+import org.kuali.kfs.module.cam.batch.service.ReportService;
 
 public class ReportServiceImpl implements ReportService {
     /**
      * 
-     * @see org.kuali.module.cams.service.ReportService#generateDepreciationReport(java.util.List, java.lang.String)
+     * @see org.kuali.kfs.module.cam.batch.service.ReportService#generateDepreciationReport(java.util.List, java.lang.String)
      */
     public void generateDepreciationReport(List<String[]> reportLog, String errorMsg, String sDepreciationDate) {
         DepreciationReport dr = new DepreciationReport();

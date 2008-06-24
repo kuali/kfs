@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao.ojb;
+package org.kuali.kfs.sys.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -22,9 +22,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.ojb.DocumentHeaderDaoOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.dao.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDao;
 
 /**
  * This class is the financial system document header dao ojb implementation

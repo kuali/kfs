@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import org.kuali.core.bo.KualiCodeBase;
 

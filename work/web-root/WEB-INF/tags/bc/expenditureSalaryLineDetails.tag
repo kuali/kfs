@@ -105,7 +105,7 @@
 			accountingLine="${fundingLineName}" attributes="${pbcafAttributes}" 
 			field="positionNumber" inquiry="true"
 			lookupOrInquiryKeys="positionNumber,universityFiscalYear" 
-			boClassSimpleName="BudgetConstructionPosition" boPackageName="org.kuali.module.budget.bo" 
+			boClassSimpleName="BudgetConstructionPosition" boPackageName="org.kuali.kfs.module.bc.businessobject" 
 			accountingLineValuesMap="${fundingLine.valuesMap}" fieldAlign="left" readOnly="true" rowSpan="${rowspan}"
 			anchor="salaryexistingLineLineAnchor${status.index}" />
 	
@@ -117,7 +117,7 @@
 					detailField="budgetConstructionIntendedIncumbent.personName"
 					attributes="${pbcafAttributes}" inquiry="true"
 					boClassSimpleName="BudgetConstructionIntendedIncumbent"
-					boPackageName="org.kuali.module.budget.bo"
+					boPackageName="org.kuali.kfs.module.bc.businessobject"
 					readOnly="true"	displayHidden="false"
 					lookupOrInquiryKeys="emplid" rowSpan="${rowspan}" 
 					accountingLineValuesMap="${fundingLine.valuesMap}"/>	
@@ -153,7 +153,7 @@
 				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfAmount}" 
 					var="formattedCsfAmount" type="number" groupingUsed="true"/>		
 				<td class="datacell" style="text-align: right;">
-					<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
+					<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
     					${formattedCsfAmount}
     				</a>
     			</td>

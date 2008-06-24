@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.document;
+package org.kuali.kfs.module.cg.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -33,23 +33,23 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLineBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.AdhocOrg;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.service.BudgetService;
-import org.kuali.module.kra.document.ResearchDocumentBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTask;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.document.service.BudgetService;
+import org.kuali.kfs.module.cg.document.ResearchDocumentBase;
 
 /**
  * Budget

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.lookupable;
+package org.kuali.kfs.module.bc.businessobject.lookup;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -37,11 +37,11 @@ import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionPositionSelect;
-import org.kuali.module.budget.web.struts.form.TempListLookupForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect;
+import org.kuali.kfs.module.bc.document.web.struts.TempListLookupForm;
 import org.kuali.rice.KNSServiceLocator;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,20 +30,20 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.bo.SalarySettingExpansion;
-import org.kuali.module.budget.service.SalarySettingService;
-import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,7 +58,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private LaborModuleService laborModuleService;
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#getDisabled()
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#getDisabled()
      */
     public boolean isSalarySettingDisabled() {
         // TODO for now just return false, implement application parameter if decision is made implement this functionality
@@ -70,7 +70,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#calculateHourlyPayRate(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateHourlyPayRate(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public BigDecimal calculateHourlyPayRate(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("calculateHourlyPayRate() start");
@@ -84,7 +84,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#calculateAnnualPayAmount(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateAnnualPayAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("calculateAnnualPayAmount() start");
@@ -116,7 +116,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#isHourlyPaid(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#isHourlyPaid(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger)
      */
     public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger) {
         LOG.info("isHourlyPaid() start");
@@ -135,7 +135,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
     
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#canBeVacant(java.util.List, org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#canBeVacant(java.util.List, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean canBeVacant(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("canBeVacant(List, PendingBudgetConstructionAppointmentFunding) start");
@@ -161,7 +161,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#canBeVacant(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#canBeVacant(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean canBeVacant(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("canBeVacant() start");
@@ -188,7 +188,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#vacateAppointmentFunding(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#vacateAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("vacateAppointmentFunding() start");
@@ -205,7 +205,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#adjustRequestedSalaryByAmount(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#adjustRequestedSalaryByAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public void adjustRequestedSalaryByAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("adjustRequestedSalaryByAmount() start");
@@ -220,7 +220,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#adjustRequestedSalaryByPercent(org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#adjustRequestedSalaryByPercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.info("adjustRequestedSalaryByPercent() start");
@@ -237,7 +237,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#saveSalarySetting(org.kuali.module.budget.bo.SalarySettingExpansion)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveSalarySetting(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
      */
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion) {
         LOG.info("saveSalarySetting() start");
@@ -260,7 +260,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.SalarySettingService#updateSalarySettingExpansion(org.kuali.module.budget.bo.SalarySettingExpansion)
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateSalarySettingExpansion(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
      */
     @SuppressWarnings("deprecation")
     public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,10 +21,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.PayeeAchAccount;
-import org.kuali.module.pdp.service.AchInformation;
-import org.kuali.module.pdp.service.AchService;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
+import org.kuali.kfs.pdp.businessobject.AchInformation;
+import org.kuali.kfs.pdp.service.AchService;
 
 public class AchServiceImpl implements AchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchServiceImpl.class);
@@ -32,7 +32,7 @@ public class AchServiceImpl implements AchService {
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.pdp.service.AchService#getAchInformation(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.AchService#getAchInformation(java.lang.String, java.lang.String, java.lang.String)
      */
     public AchInformation getAchInformation(String idType, String payeeId, String psdTransactionCode) {
         LOG.debug("getAchInformation() started");

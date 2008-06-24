@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.purap.bo.BillingAddress;
-import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
-import org.kuali.module.purap.bo.FundingSource;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.ReceivingAddress;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.bo.RequisitionSource;
-import org.kuali.module.purap.util.ItemParser;
-import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.businessobject.FundingSource;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
+import org.kuali.kfs.module.purap.util.ItemParser;
+import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 
 /**
@@ -422,22 +422,22 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setItems(List<PurApItem> items);
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItem(int)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItem(int)
      */
     public PurApItem getItem(int pos);
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addItem(PurApItem item)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#addItem(PurApItem item)
      */
     public void addItem(PurApItem item);
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#deleteItem(int lineNum)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#deleteItem(int lineNum)
      */
     public void deleteItem(int lineNum);
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount();
 

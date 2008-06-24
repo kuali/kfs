@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Map;
 
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class BatchSpringContext {
     public static Step getStep(String beanId) {

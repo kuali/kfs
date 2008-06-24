@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -27,11 +27,11 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.bo.SalarySettingExpansion;
-import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 
 
 public class QuickSalarySettingForm extends BudgetExpansionForm {

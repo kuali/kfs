@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,33 +28,33 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurApAccountingLineBase;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.util.ExpiredOrClosedAccount;
-import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccount;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -102,7 +102,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#getExpiredOrClosedAccountList(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#getExpiredOrClosedAccountList(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public HashMap<String, ExpiredOrClosedAccountEntry> getExpiredOrClosedAccountList(AccountsPayableDocument document) {
 
@@ -113,7 +113,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#generateExpiredOrClosedAccountNote(org.kuali.module.purap.document.AccountsPayableDocument,
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#generateExpiredOrClosedAccountNote(org.kuali.kfs.module.purap.document.AccountsPayableDocument,
      *      java.util.HashMap)
      */
     public void generateExpiredOrClosedAccountNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
@@ -126,7 +126,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#generateExpiredOrClosedAccountWarning(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#generateExpiredOrClosedAccountWarning(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public void generateExpiredOrClosedAccountWarning(AccountsPayableDocument document) {
 
@@ -151,7 +151,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#processExpiredOrClosedAccount(org.kuali.module.purap.bo.PurApAccountingLineBase,
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#processExpiredOrClosedAccount(org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase,
      *      java.util.HashMap)
      */
     public void processExpiredOrClosedAccount(PurApAccountingLineBase acctLineBase, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
@@ -342,7 +342,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#cancelAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#cancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument, java.lang.String)
      */
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName) {
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
@@ -357,7 +357,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
     
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#performLogicForFullEntryCompleted(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#performLogicForFullEntryCompleted(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         
@@ -374,7 +374,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#updateItemList(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#updateItemList(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public void updateItemList(AccountsPayableDocument apDocument) {
         // don't run the following if past full entry
@@ -518,7 +518,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableService#purchaseOrderItemEligibleForPayment(org.kuali.module.purap.bo.PurchaseOrderItem)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#purchaseOrderItemEligibleForPayment(org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem)
      */
     public boolean purchaseOrderItemEligibleForPayment(PurchaseOrderItem poi) {
         if (ObjectUtils.isNull(poi)) {

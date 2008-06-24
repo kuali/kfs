@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -50,7 +50,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLine#getAlternateAmountForGLEntryCreation()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#getAlternateAmountForGLEntryCreation()
      */
     public KualiDecimal getAlternateAmountForGLEntryCreation() {
         if (ObjectUtils.isNull(super.getAlternateAmountForGLEntryCreation())) {

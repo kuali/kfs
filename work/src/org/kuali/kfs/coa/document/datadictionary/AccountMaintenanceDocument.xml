@@ -7,8 +7,8 @@
   <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean" />
 
   <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Account" />
-    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.KualiAccountMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance" />
@@ -104,9 +104,9 @@
             p:parameterDetailType="Account" />
     </property>
     <property name="documentTypeName" value="AccountMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.AccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.AccountPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules" />
     <property name="documentTypeCode" value="ACCT" />
     <property name="webScriptFiles" >
       <list>
@@ -161,7 +161,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="accountEffectiveDate"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="accountExpirationDate" />
         <bean parent="MaintainableFieldDefinition"
@@ -298,7 +298,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialIcrSeriesIdentifier"
               p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier"
-              p:overrideLookupClass="org.kuali.module.chart.bo.IcrAutomatedEntry" />
+              p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IcrAutomatedEntry" />
         <bean parent="MaintainableFieldDefinition"
               p:name="indirectCostRcvyFinCoaCode" />
         <bean parent="MaintainableFieldDefinition"

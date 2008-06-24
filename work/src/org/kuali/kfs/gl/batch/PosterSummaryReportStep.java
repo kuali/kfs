@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.ReportService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.ReportService;
 
 /**
  * A step to generate summary reports from a recent poster run
@@ -50,7 +50,7 @@ public class PosterSummaryReportStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public synchronized boolean execute(String jobName, Date jobRunDate) {
         final String CURRENT_YEAR_LOWER = getParameterService().getParameterValue(getClass(), GLConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
@@ -114,7 +114,7 @@ public class PosterSummaryReportStep extends AbstractStep {
      * Sets the reportService attribute, allowing the injection of an implementation of that service
      * 
      * @param reportService the reportService implementation to set
-     * @see org.kuali.module.gl.service.ReportService
+     * @see org.kuali.kfs.gl.service.ReportService
      */
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;
@@ -124,7 +124,7 @@ public class PosterSummaryReportStep extends AbstractStep {
      * Sets the optionsService attribute, allowing the injection of an implementation of that service
      * 
      * @param os the optionsService implementation to set
-     * @see org.kuali.kfs.service.OptionsService
+     * @see org.kuali.kfs.sys.service.OptionsService
      */
     public void setOptionsService(OptionsService os) {
         optionsService = os;
@@ -134,7 +134,7 @@ public class PosterSummaryReportStep extends AbstractStep {
      * Sets the originEntryGroupService attribute value.
      * 
      * @param originEntryGroupService The originEntryGroupService to set.
-     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;

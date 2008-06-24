@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
+import static org.kuali.kfs.sys.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.sys.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.AccountingLineGroupTotalsUnchangedValidation;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 
 /**
  * The Budget Adjustment's variation on whether accounting lines have been unchanged or not
@@ -34,7 +34,7 @@ public class BudgetAdjustmentAccountingLineTotalsUnchangedValidation extends Acc
 
     /**
      * Returns true if account line totals remains unchanged from what was entered and what was persisted before; takes into account all adjustment totals
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean isUnchanged = true;

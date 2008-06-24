@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
-import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
+import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 
 /**
  * An Electronic Funds Transfer action which simply returns to the portal.
@@ -30,7 +30,7 @@ public class ElectronicFundTransferCancelActionHelper implements ElectronicFundT
 
     /**
      * Just return to the portal.
-     * @see org.kuali.kfs.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramsMap, String basePath) {
         return mapping.findForward(ElectronicFundTransferCancelActionHelper.PORTAL_FORWARD);

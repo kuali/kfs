@@ -17,7 +17,7 @@
  * Created on Aug 19, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -32,9 +32,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.UserRequired;
-import org.kuali.module.pdp.dao.ProcessDao;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 
 
 /**

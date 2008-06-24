@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,15 +25,15 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.OriginEntryGroupDao;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
+import org.kuali.kfs.gl.dataaccess.OriginEntryGroupDao;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -57,7 +57,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /**
      * Finds the group by the given group id, and then sets it to not process
      * @param groupId the id of the group to set
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#dontProcessGroup(java.lang.Integer)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#dontProcessGroup(java.lang.Integer)
      */
     public void dontProcessGroup(Integer groupId) {
         LOG.debug("dontProcessGroup() started");
@@ -72,7 +72,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     /**
      * Sets all scrubbable backup groups's scrub attributes to false, so none will be scrubbed
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#markBackupGroupsUnscrubbable()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#markBackupGroupsUnscrubbable()
      */
     public void markScrubbableBackupGroupsAsUnscrubbable() {
         LOG.debug("markScrubbableBackupGroupsAsUnscrubbable() started");
@@ -87,7 +87,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     /**
      * Sets all groups created by the scrubber and ready to be posted's process attribute to false, so they won't be posted
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#markPostableScrubberValidGroupsAsUnpostable()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#markPostableScrubberValidGroupsAsUnpostable()
      */
     public void markPostableScrubberValidGroupsAsUnpostable() {
         LOG.debug("markPostableScrubberValidGroupsAsUnpostable() started");
@@ -103,7 +103,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     /**
      * Marks any postable ICR group's process attribute as false, so they won't be posted
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#markPostableIcrGroupsAsUnpostable()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#markPostableIcrGroupsAsUnpostable()
      */
     public void markPostableIcrGroupsAsUnpostable() {
         LOG.debug("markPostableIcrGroupsAsUnpostable() started");
@@ -120,7 +120,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /**
      * Returns the most recently created scrubber error group in the database
      * @return the most recently created scrubber error group
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getNewestScrubberErrorGroup()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getNewestScrubberErrorGroup()
      */
     public OriginEntryGroup getNewestScrubberErrorGroup() {
         LOG.debug("getNewestScrubberErrorGroup() started");
@@ -151,8 +151,8 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Returns all groups created by a given origin entry Source
      * @param sourceCode the source of the origin entry group
      * @return a OriginEntryGroup with the given source code and max ORIGIN_ENTRY_GRP_ID
-     * @see org.kuali.module.gl.bo.OriginEntrySource
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getGroupsFromSource(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.OriginEntrySource
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getGroupsFromSource(java.lang.String)
      */
     public OriginEntryGroup getGroupWithMaxIdFromSource(String sourceCode) {
         LOG.debug("getGroupWithMaxIdFromSource() started");
@@ -163,7 +163,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /**
      * Returns all groups created by the backup source that can be scrubbed
      * @return a Collection of origin entry groups to scrub
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getAllScrubbableBackupGroups()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getAllScrubbableBackupGroups()
      */
     public Collection<OriginEntryGroup> getAllScrubbableBackupGroups() {
         return originEntryGroupDao.getAllScrubbableBackupGroups();
@@ -171,7 +171,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     /**
      * Retrieves all groups to be created today, and creates backup group versions of them
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#createBackupGroup()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#createBackupGroup()
      */
     public void createBackupGroup() {
         LOG.debug("createBackupGroup() started");
@@ -205,7 +205,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /**
      * Deletes all groups older than a given number of days
      * @param days the number of days that groups older than should be deleted
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#deleteOlderGroups(int)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#deleteOlderGroups(int)
      */
     public void deleteOlderGroups(int days) {
         LOG.debug("deleteOlderGroups() started");
@@ -226,7 +226,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Deletes every origin entry group in the given collection.  Note: this method deletes all the origin entries
      * in each group and then deletes the group.
      * @param groupsToDelete a Collection of groups to delete
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#deleteGroups(java.util.Collection)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#deleteGroups(java.util.Collection)
      */
     public void deleteGroups(Collection<OriginEntryGroup> groupsToDelete) {
         for (OriginEntryGroup groupToDelete : groupsToDelete) {
@@ -258,7 +258,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /**
      * Returns all origin entry groups currently in the databse
      * @return a Collection of all origin entry groups in the database
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getAllOriginEntryGroup()
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getAllOriginEntryGroup()
      */
     public Collection getAllOriginEntryGroup() {
         LOG.debug("getAllOriginEntryGroup() started");
@@ -348,7 +348,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Returns all groups to post
      * @param entryGroupSourceCode the source code of origin entry groups to post
      * @return a Collection of groups to post
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getGroups(java.lang.String)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getGroups(java.lang.String)
      */
     public Collection getGroupsToPost(String entryGroupSourceCode) {
         return originEntryGroupDao.getPosterGroups(entryGroupSourceCode);
@@ -358,7 +358,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Retrieves all groups that match the given search criteria
      * @param criteria a Map of criteria to build a query from
      * @return a Collection of all qualifying origin entry groups
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getMatchingGroups(java.util.Map)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getMatchingGroups(java.util.Map)
      */
     public Collection getMatchingGroups(Map criteria) {
         LOG.debug("getMatchingGroups() started");
@@ -381,7 +381,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Returns the origin entry group with the given id
      * @param id the id of the origin entry group to retreive
      * @return the origin entry group with the given id if found, otherwise null
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getExactMatchingEntryGroup(java.lang.Integer)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getExactMatchingEntryGroup(java.lang.Integer)
      */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
         return originEntryGroupDao.getExactMatchingEntryGroup(id);
@@ -391,7 +391,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Returns groups created within the past number of given days
      * @param days the number of days returned groups must be younger than
      * @return a Collection of qualifying groups
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getRecentGroupsByDays(int)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getRecentGroupsByDays(int)
      */
     public Collection getRecentGroupsByDays(int days) {
 
@@ -408,7 +408,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Returns whether or not a group with the given id exists in the database
      * @param groupId the id of the group to check for existence
      * @return true if such a group exists, false otherwise
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getGroupExists(java.lang.Integer)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getGroupExists(java.lang.Integer)
      */
     public boolean getGroupExists(Integer groupId) {
         Map<String, Integer> criteria = new HashMap<String, Integer>();

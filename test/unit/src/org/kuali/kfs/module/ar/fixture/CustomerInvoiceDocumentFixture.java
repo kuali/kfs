@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.fixture;
+package org.kuali.kfs.module.ar.fixture;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentService;
-import org.kuali.test.DocumentTestUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.DocumentTestUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

@@ -23,7 +23,7 @@ import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
 import org.apache.ojb.broker.util.sequence.SequenceManager;
 import org.apache.ojb.broker.util.sequence.SequenceManagerException;
-import org.kuali.kfs.context.PropertyLoadingFactoryBean;
+import org.kuali.kfs.sys.context.PropertyLoadingFactoryBean;
 import org.kuali.rice.config.ConfigurationException;
 
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document.authorization;
+package org.kuali.kfs.sys.document.authorization;
 
 import java.util.List;
 import java.util.Map;
@@ -22,8 +22,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 
 /**
  * Extension to TransactionalDocumentAuthorizer interface which adds financial-document-specific methods.

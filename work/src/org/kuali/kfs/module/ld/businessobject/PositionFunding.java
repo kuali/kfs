@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import org.kuali.core.bo.user.UniversalUser;
 

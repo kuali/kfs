@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -31,29 +31,29 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
-import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.rule.event.ContinuePurapEvent;
-import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.service.CreditMemoCreateService;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.module.purap.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.CreditMemoCreateService;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -223,7 +223,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * Hook point for performing actions that occur after a route level change, in this case; Performs logic necessary after full
      * entry has been completed when past Adhoc Review, or sets the AP approval date when past AP review.
      * 
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
@@ -263,21 +263,21 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
      */
     public NodeDetails getNodeDetailEnum(String nodeName) {
         return NodeDetailEnum.getNodeDetailEnumByName(nodeName);
     }
 
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#saveDocumentFromPostProcessing()
      */
     public void saveDocumentFromPostProcessing() {
         SpringContext.getBean(CreditMemoService.class).saveDocumentWithoutValidation(this);
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
     @Override
     public Class<CreditMemoItem> getItemClass() {
@@ -285,7 +285,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
     @Override
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
@@ -300,7 +300,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
      */
     @Override
     public String getPurApSourceDocumentLabelIfPossible() {
@@ -490,14 +490,14 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#getPoDocumentTypeForAccountsPayableDocumentApprove()
      */
     public String getPoDocumentTypeForAccountsPayableDocumentCancel() {
         return PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
     }
 
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getInitialAmount()
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#getInitialAmount()
      */
     public KualiDecimal getInitialAmount() {
         return this.getCreditMemoAmount();
@@ -520,7 +520,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#isAttachmentRequired()
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#isAttachmentRequired()
      */
     @Override
     protected boolean isAttachmentRequired() {
@@ -528,7 +528,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#getDocumentSpecificService()
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#getDocumentSpecificService()
      */
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
@@ -538,7 +538,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * Forces GL entries to be approved before document final approval.
      * 
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD;
 
 import java.util.List;
 
@@ -24,22 +24,22 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.document.CashReceiptFamilyBase;
-import org.kuali.module.financial.rule.AddCheckRule;
-import org.kuali.module.financial.rule.DeleteCheckRule;
-import org.kuali.module.financial.rule.UpdateCheckRule;
-import org.kuali.module.financial.service.CashReceiptService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
+import org.kuali.kfs.fp.document.validation.AddCheckRule;
+import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
+import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
 
 
 /**
@@ -75,8 +75,8 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @param accountingLine
      * @return true if account and object code are valid in an accounting line.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -94,7 +94,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @return true if check is valid (i.e. non-zero and not negative)
      * 
      * @see org.kuali.core.rule.AddCheckRule#processAddCheckBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.module.financial.bo.Check)
+     *      org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processAddCheckBusinessRules(AccountingDocument financialDocument, Check check) {
         boolean isValid = validateCheck(check);
@@ -110,7 +110,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @return true 
      * 
      * @see org.kuali.core.rule.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.module.financial.bo.Check)
+     *      org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processDeleteCheckBusinessRules(AccountingDocument financialDocument, Check check) {
         boolean processed = true;
@@ -126,7 +126,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * @return true if updated check is valid (i.e. non-zero and not negative)
      * 
      * @see org.kuali.core.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.module.financial.bo.Check)
+     *      org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processUpdateCheckRule(AccountingDocument financialDocument, Check check) {
         boolean isValid = validateCheck(check);
@@ -160,7 +160,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     }
 
     /**
-     * Method used by <code>{@link org.kuali.module.financial.service.CashReceiptCoverSheetService}</code> to determine of the
+     * Method used by <code>{@link org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService}</code> to determine of the
      * <code>{@link CashReceiptDocument}</code> validates business rules for generating a cover page. <br/> <br/> Rule is the
      * <code>{@link Document}</code> must be ENROUTE.
      * 

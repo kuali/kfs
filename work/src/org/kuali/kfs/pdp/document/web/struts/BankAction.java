@@ -17,7 +17,7 @@
  * Created on Sep 3, 2004
  *
  */
-package org.kuali.module.pdp.action.bank;
+package org.kuali.kfs.pdp.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,12 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.bo.Bank;
-import org.kuali.module.pdp.form.bank.BankForm;
-import org.kuali.module.pdp.service.BankService;
-import org.kuali.module.pdp.service.SecurityRecord;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.businessobject.Bank;
+import org.kuali.kfs.pdp.document.web.struts.BankForm;
+import org.kuali.kfs.pdp.service.BankService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 
 
 /**

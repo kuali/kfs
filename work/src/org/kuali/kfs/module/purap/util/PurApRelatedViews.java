@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
 import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.AbstractRelatedView;
-import org.kuali.module.purap.bo.CreditMemoView;
-import org.kuali.module.purap.bo.PaymentRequestView;
-import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.ReceivingCorrectionView;
-import org.kuali.module.purap.bo.ReceivingLineView;
-import org.kuali.module.purap.bo.RequisitionView;
-import org.kuali.module.purap.service.PurapService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
+import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionView;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineView;
+import org.kuali.kfs.module.purap.businessobject.RequisitionView;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 
 public class PurApRelatedViews {
     private String documentNumber;
@@ -62,7 +62,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
     public List<RequisitionView> getRelatedRequisitionViews() {
         relatedRequisitionViews = updateRelatedView(RequisitionView.class, relatedRequisitionViews, true);
@@ -70,7 +70,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPurchaseOrderViews()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPurchaseOrderViews()
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
         relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
@@ -78,7 +78,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPaymentRequestViews()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPaymentRequestViews()
      */
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
         relatedPaymentRequestViews = updateRelatedView(PaymentRequestView.class, relatedPaymentRequestViews, true);
@@ -86,7 +86,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedCreditMemoViews()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedCreditMemoViews()
      */
     public List<CreditMemoView> getRelatedCreditMemoViews() {
         relatedCreditMemoViews = updateRelatedView(CreditMemoView.class, relatedCreditMemoViews, true);
@@ -114,7 +114,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
     public List<ReceivingLineView> getRelatedReceivingLineViews() {
         relatedReceivingLineViews = updateRelatedView(ReceivingLineView.class, relatedReceivingLineViews, true);
@@ -122,7 +122,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
     public List<ReceivingCorrectionView> getRelatedReceivingCorrectionViews() {
         relatedReceivingCorrectionViews = updateRelatedView(ReceivingCorrectionView.class, relatedReceivingCorrectionViews, true);

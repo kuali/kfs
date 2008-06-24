@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,9 +21,9 @@ import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 
 /**
  * Utility class for helping DAOs deal with building queries for the consolidation option

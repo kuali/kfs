@@ -96,7 +96,7 @@ function checkCheckAllOrNone() {
 						attributeEntry="${depositAttributes.depositBankCode}"
 						onblur="loadBankInfo(document.forms['KualiForm'], 'bankCode', 'bank');" />
 					<c:if test="${!readOnly}">
-						<kul:lookup boClassName="org.kuali.module.financial.bo.Bank"
+						<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.Bank"
 							fieldConversions="financialDocumentBankCode:bankCode" />
 					</c:if> <br />
 					<div id="bank.div" class="fineprint"><bean:write name="KualiForm"
@@ -109,7 +109,7 @@ function checkCheckAllOrNone() {
 						onblur="loadBankAccountInfo(document.forms['KualiForm'], 'bankCode', 'bankAccountNumber', 'bankAccount' );" />
 					<c:if test="${!readOnly}">
 						<kul:lookup
-							boClassName="org.kuali.module.financial.bo.BankAccount"
+							boClassName="org.kuali.kfs.fp.businessobject.BankAccount"
 							fieldConversions="financialDocumentBankCode:bankCode,finDocumentBankAccountNumber:bankAccountNumber"
 							lookupParameters="bankCode:financialDocumentBankCode" />
 					</c:if> <br />

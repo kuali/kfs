@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -37,7 +37,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
      * Checks that the source and total amounts on the current version of the accounting document
      * are equal to the persisted source and total totals.
      * <strong>Expects a document to be sent in as the first parameter</strong>
-     * @see org.kuali.kfs.validation.GenericValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         AccountingDocument persistedDocument = null;

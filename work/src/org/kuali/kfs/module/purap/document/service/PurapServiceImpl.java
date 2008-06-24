@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -40,30 +40,30 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.OrganizationParameter;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurapEnterableItem;
-import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurapItemOperations;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.LogicContainer;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurapItemOperations;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.LogicContainer;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -125,7 +125,7 @@ public class PurapServiceImpl implements PurapService {
         this.universityDateService = universityDateService;
     }
     /**
-     * @see org.kuali.module.purap.service.PurapService#updateStatus(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#updateStatus(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
     public boolean updateStatus(PurchasingAccountsPayableDocument document, String newStatus) {
         LOG.debug("updateStatus() started");
@@ -142,7 +142,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#getRelatedViews(java.lang.Class, java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getRelatedViews(java.lang.Class, java.lang.Integer)
      */
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         LOG.debug("getRelatedViews() started");
@@ -154,7 +154,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#addBelowLineItems(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#addBelowLineItems(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
         LOG.debug("addBelowLineItems() started");
@@ -229,7 +229,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#sortBelowTheLine(java.lang.String[], java.util.List, java.util.List)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#sortBelowTheLine(java.lang.String[], java.util.List, java.util.List)
      */
     public void sortBelowTheLine(PurchasingAccountsPayableDocument document) {
         LOG.debug("sortBelowTheLine() started");
@@ -244,7 +244,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#getBelowTheLineForDocument(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getBelowTheLineForDocument(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document) {
         LOG.debug("getBelowTheLineForDocument() started");
@@ -269,8 +269,8 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#getBelowTheLineByType(org.kuali.module.purap.document.PurchasingAccountsPayableDocument,
-     *      org.kuali.module.purap.bo.ItemType)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getBelowTheLineByType(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
+     *      org.kuali.kfs.module.purap.businessobject.ItemType)
      */
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
         LOG.debug("getBelowTheLineByType() started");
@@ -300,7 +300,7 @@ public class PurapServiceImpl implements PurapService {
     }
     
     /**
-     * @see org.kuali.module.purap.service.PurapService#getDateFromOffsetFromToday(int)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getDateFromOffsetFromToday(int)
      */
     public Date getDateFromOffsetFromToday(int offsetDays) {
         Calendar calendar = dateTimeService.getCurrentCalendar();
@@ -309,7 +309,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#isDateInPast(java.sql.Date)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isDateInPast(java.sql.Date)
      */
     public boolean isDateInPast(Date compareDate) {
         LOG.debug("isDateInPast() started");
@@ -320,7 +320,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#isDateMoreThanANumberOfDaysAway(java.sql.Date, int)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isDateMoreThanANumberOfDaysAway(java.sql.Date, int)
      */
     public boolean isDateMoreThanANumberOfDaysAway(Date compareDate, int daysAway) {
         LOG.debug("isDateMoreThanANumberOfDaysAway() started");
@@ -340,7 +340,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#isDateAYearAfterToday(java.sql.Date)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isDateAYearAfterToday(java.sql.Date)
      */
     public boolean isDateAYearBeforeToday(Date compareDate) {
         LOG.debug("isDateAYearBeforeToday() started");
@@ -353,7 +353,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#getApoLimit(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getApoLimit(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
         LOG.debug("getApoLimit() started");
@@ -375,7 +375,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#isFullDocumentEntryCompleted(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isFullDocumentEntryCompleted(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         LOG.debug("isFullDocumentEntryCompleted() started");
@@ -395,7 +395,7 @@ public class PurapServiceImpl implements PurapService {
     /**
      * Main hook point for close/Reopen PO.
      * 
-     * @see org.kuali.module.purap.service.PurapService#performLogicForCloseReopenPO(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#performLogicForCloseReopenPO(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument) {
         LOG.debug("performLogicForCloseReopenPO() started");
@@ -540,7 +540,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#performLogicWithFakedUserSession(java.lang.String, org.kuali.module.purap.service.LogicContainer, java.lang.Object[])
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#performLogicWithFakedUserSession(java.lang.String, org.kuali.kfs.module.purap.document.service.LogicContainer, java.lang.Object[])
      */
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
         LOG.debug("performLogicWithFakedUserSession() started");
@@ -562,7 +562,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurchaseOrderService#saveDocumentNoValidation(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#saveDocumentNoValidation(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void saveDocumentNoValidation(Document document) {
         try {
@@ -591,7 +591,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#allowEncumberNextFiscalYear()
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#allowEncumberNextFiscalYear()
      */
     public boolean allowEncumberNextFiscalYear() {
         LOG.debug("allowEncumberNextFiscalYear() started");
@@ -615,7 +615,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#getAllowedFiscalYears()
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#getAllowedFiscalYears()
      */
     public List<Integer> getAllowedFiscalYears() {
         List allowedYears = new ArrayList();
@@ -628,7 +628,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapService#isTodayWithinApoAllowedRange()
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isTodayWithinApoAllowedRange()
      */
     public boolean isTodayWithinApoAllowedRange() {
         java.util.Date today = dateTimeService.getCurrentDate();

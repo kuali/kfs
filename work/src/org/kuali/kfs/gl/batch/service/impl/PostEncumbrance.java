@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -25,15 +25,15 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.batch.poster.VerifyTransaction;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.EncumbranceDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.batch.service.VerifyTransaction;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -136,7 +136,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
      * @param encumbranceList a Collection of encumbrances
      * @param t the transaction to find the appropriate encumbrance for
      * @return the encumbrance found from the list, or, if not found, a newly created encumbrance
-     * @see org.kuali.module.gl.batch.poster.EncumbranceCalculator#findEncumbrance(java.util.Collection, org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.batch.service.EncumbranceCalculator#findEncumbrance(java.util.Collection, org.kuali.kfs.gl.businessobject.Transaction)
      */
     public Encumbrance findEncumbrance(Collection encumbranceList, Transaction t) {
 
@@ -202,7 +202,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     }
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Encumbrance.class).getFullTableName();

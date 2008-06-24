@@ -17,7 +17,7 @@
  * Created on Jan 14, 2005
  *
  */
-package org.kuali.module.pdp.form.format;
+package org.kuali.kfs.pdp.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

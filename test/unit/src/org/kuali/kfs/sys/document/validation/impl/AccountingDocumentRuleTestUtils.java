@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.sys.document.validation.impl;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertSparselyEqualBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +26,12 @@ import org.kuali.core.rule.RouteDocumentRule;
 import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.AddAccountingLineRule;
-import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
+import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 

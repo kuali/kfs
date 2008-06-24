@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.lookup.keyvalues;
+package org.kuali.kfs.module.cg.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.routingform.bo.ControlAttributeType;
-import org.kuali.module.kra.service.ResearchDocumentControlAttributeTypeService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.ControlAttributeType;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentControlAttributeTypeService;
 
 /**
  * This class is used to acquire and build a collection of possible ControlAttributeTypes that can be used to generate user drop

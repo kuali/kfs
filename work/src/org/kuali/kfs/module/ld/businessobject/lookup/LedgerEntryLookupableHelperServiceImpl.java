@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
-import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
+import static org.kuali.kfs.module.ld.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,21 +28,21 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
-import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl;
-import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.inquiry.EntryInquirableImpl;
+import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The class is the front-end for all Ledger Entry inquiry processing.
  * 
- * @see org.kuali.module.labor.bo.LedgerEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LedgerEntry
  */
 public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerEntryLookupableHelperServiceImpl.class);

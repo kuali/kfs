@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -40,24 +40,24 @@ import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSelect;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect;
-import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
-import org.kuali.module.budget.bo.BudgetConstructionPositionSelect;
-import org.kuali.module.budget.service.LockService;
-import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
-import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
-import org.kuali.module.budget.web.struts.form.TempListLookupForm;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborKeyConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect;
+import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
+import org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService;
+import org.kuali.kfs.module.bc.document.web.struts.TempListLookupForm;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

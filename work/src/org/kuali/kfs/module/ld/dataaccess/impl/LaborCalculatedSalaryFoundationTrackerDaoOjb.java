@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,27 +26,27 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
-import org.kuali.module.labor.bo.EmployeeFunding;
-import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
-import org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao;
-import org.kuali.module.labor.util.ConsolidationUtil;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
+import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
+import org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.ld.dataaccess.LaborCalculatedSalaryFoundationTrackerDao;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 
 /**
  * This is the data access object for calculated salary foundation tracker
  * 
- * @see org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker
+ * @see org.kuali.kfs.module.ld.businessobject.CalculatedSalaryFoundationTracker
  */
 public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareDaoBaseOjb implements LaborCalculatedSalaryFoundationTrackerDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCalculatedSalaryFoundationTrackerDaoOjb.class);
 
     /**
-     * @see org.kuali.module.labor.dao.LaborBaseFundsDao#findCSFTrackers(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findCSFTrackers(java.util.Map, boolean)
      */
     public List<LaborCalculatedSalaryFoundationTracker> findCSFTrackers(Map fieldValues, boolean isConsolidated) {
         LOG.info("Start findCSFTrackers()");
@@ -69,7 +69,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborBaseFundsDao#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
         LOG.info("Start findCSFTrackersAsAccountStatusBaseFunds()");
@@ -86,7 +86,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao#findCSFTrackersAsEmployeeFunding(java.util.Map,
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborCalculatedSalaryFoundationTrackerDao#findCSFTrackersAsEmployeeFunding(java.util.Map,
      *      boolean)
      */
     public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {

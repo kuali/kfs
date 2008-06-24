@@ -7,8 +7,8 @@
   <bean id="OrgMaintenanceDocument" parent="OrgMaintenanceDocument-parentBean" />
 
   <bean id="OrgMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Org" />
-    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.KualiOrgMaintainable" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Org" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiOrgMaintainable" />
     <property name="maintainableSections" >
       <list>
         <ref bean="OrgMaintenanceDocument-EditOrganizationCode" />
@@ -59,9 +59,9 @@
             p:parameterDetailType="Org" />
     </property>
     <property name="documentTypeName" value="OrgMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.OrgRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.chart.document.OrgDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.OrgPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.OrgDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules" />
     <property name="documentTypeCode" value="ORGN" />
     <property name="webScriptFiles" >
       <list>
@@ -150,7 +150,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationBeginDate"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationEndDate" />
         <bean parent="MaintainableFieldDefinition"

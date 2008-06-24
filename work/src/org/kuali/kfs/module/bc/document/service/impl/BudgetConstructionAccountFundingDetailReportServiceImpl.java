@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,24 +26,24 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
-import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
-import org.kuali.module.budget.bo.BudgetConstructionObjectDump;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountFundingDetailReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountFundingDetailReportTotal;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.BudgetConstructionPositionFunding;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.dao.BudgetConstructionAccountFundingDetailReportDao;
-import org.kuali.module.budget.service.BudgetConstructionAccountFundingDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
-import org.kuali.module.budget.util.BudgetConstructionReportHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectDump;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgAccountFundingDetailReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgAccountFundingDetailReportTotal;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountFundingDetailReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFundingDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
+import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -57,14 +57,14 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
     KualiConfigurationService kualiConfigurationService;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
      */
     public void updateAccountFundingDetailTable(String personUserIdentifier) {
         budgetConstructionAccountFundingDetailReportDao.updateReportsAccountFundingDetailTable(personUserIdentifier);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionAccountFundingDetailReportService#buildReports(java.lang.Integer,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFundingDetailReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
     public Collection<BudgetConstructionOrgAccountFundingDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {

@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.rules.MaintenancePreRulesBase;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.ReceivingAddress;
-import org.kuali.module.purap.service.ReceivingAddressService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
+import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 
 /**
  * Business Prerules applicable to ReceivingAddressMaintenanceDocument. 
@@ -40,7 +40,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
      * to the user; and if proceed, enforce the rule by updating the related receiving address as well.
      * Note: this method relies on the condition that the current status of the DB satisfies the constraints.
      * 
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules( MaintenanceDocument document ) {                

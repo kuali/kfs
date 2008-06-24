@@ -101,7 +101,7 @@
 	        
 	        <display:table class="datatable-100" cellspacing="0"
 				cellpadding="0" name="${reqSearchResults}" id="row"
-				export="true" pagesize="100" defaultsort="1" decorator="org.kuali.module.labor.web.LongRowTableDecorator"
+				export="true" pagesize="100" defaultsort="1" decorator="org.kuali.kfs.module.ld.businessobject.lookup.LongRowTableDecorator"
 				requestURI="laborLongRowTableInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 				
 				<c:set var="columnLength" value="14" />

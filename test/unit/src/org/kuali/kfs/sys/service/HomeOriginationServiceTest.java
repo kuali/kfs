@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.core.service;
+package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.bo.HomeOrigination;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.HomeOriginationService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.HomeOrigination;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.HomeOriginationService;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the Home Origination service.

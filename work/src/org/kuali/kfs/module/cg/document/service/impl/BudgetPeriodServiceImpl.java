@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.service.BudgetPeriodService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BudgetPeriodServiceImpl implements BudgetPeriodService {

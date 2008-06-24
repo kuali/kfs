@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch;
+package org.kuali.kfs.module.ld.batch;
 
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.service.LaborLedgerEntryService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
 
 /**
  * The step is used to remove the labor ledger entries posted before the given year from database
@@ -34,7 +34,7 @@ public class LaborPurgeEntryStep extends AbstractStep {
     private LaborLedgerEntryService laborLedgerEntryService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         String fiscalYearAsString = getParameterService().getParameterValue(getClass(), LaborConstants.PurgeJob.PURGE_LEDGER_ENTRY_YEAR);

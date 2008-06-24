@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.form;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
-import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
-import org.kuali.module.labor.bo.PositionData;
-import org.kuali.module.labor.document.LaborJournalVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
+import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
+import org.kuali.kfs.module.ld.businessobject.PositionData;
+import org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument;
 
 /**
  * Struts Action Form for the Labor Journal Voucher Document.
@@ -49,7 +49,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     /**
      * Populates source a accounting line encumbrance code (D, R or null) for a given source accounting line 
      * 
-     * @see org.kuali.module.financial.web.struts.form.JournalVoucherForm#populateSourceAccountingLineEncumbranceCode(org.kuali.kfs.bo.SourceAccountingLine)
+     * @see org.kuali.kfs.fp.document.web.struts.JournalVoucherForm#populateSourceAccountingLineEncumbranceCode(org.kuali.kfs.sys.businessobject.SourceAccountingLine)
      */
     @Override
     protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
@@ -121,7 +121,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     /**
      * Configure map for optional accounting line quickfinders.
      * 
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
      */
     public Map getForcedLookupOptionalFields() {
         Map retval = super.getForcedLookupOptionalFields();

@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.document.service;
 
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.bo.CashieringItemInProcess;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 
 /**
  * This service interface defines methods that a CashManagementService implementation must provide.

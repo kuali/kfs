@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.batch.service.impl;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,17 +24,17 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
+import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 
 /**
  * This is the default implementation of the ProcurementCardLoadTransactionsService interface.
  * Handles loading, parsing, and storing of incoming procurement card batch files.
  * 
- * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
+ * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService
  */
 public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCardLoadTransactionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
@@ -49,7 +49,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      * @param fileName The name of the file to be parsed.
      * @return This method always returns true.  An exception is thrown if a problem occurs while loading the file.
      * 
-     * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#loadProcurementCardFile()
+     * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#loadProcurementCardFile()
      */
     public boolean loadProcurementCardFile(String fileName) {
         FileInputStream fileContents;

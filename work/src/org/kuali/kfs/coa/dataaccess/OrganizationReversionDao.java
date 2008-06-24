@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao;
+package org.kuali.kfs.coa.dataaccess;
 
 import java.util.List;
 
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 
 
 /**

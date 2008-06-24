@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.attribute;
+package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,13 +32,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.KualiModuleBO;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.keyvalues.ParameterValuesFinder;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.KualiModuleBO;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.options.ParameterValuesFinder;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;

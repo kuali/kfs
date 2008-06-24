@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.authorization;
+package org.kuali.kfs.module.cg;
 
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
+import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
 
 public class KraModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {
 

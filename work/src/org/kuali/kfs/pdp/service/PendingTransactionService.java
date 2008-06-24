@@ -17,13 +17,13 @@
  * Created on Aug 30, 2004
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 import java.util.Iterator;
 
-import org.kuali.module.pdp.bo.GlPendingTransaction;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.web.struts.form;
+package org.kuali.kfs.module.cam.document.web.struts;
 
-import org.kuali.kfs.web.struts.form.KualiBatchInputFileSetForm;
+import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
 
 public class AssetBarCodeInventoryInputFileForm extends KualiBatchInputFileSetForm {
     public AssetBarCodeInventoryInputFileForm() {

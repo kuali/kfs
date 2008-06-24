@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.module.chart.dao.ObjectLevelDao;
+import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.
@@ -28,7 +28,7 @@ public class ObjectLevelDaoOjb extends PlatformAwareDaoBaseOjb implements Object
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevelDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.ObjectLevelDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.ObjectLevelDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         Criteria criteria = new Criteria();

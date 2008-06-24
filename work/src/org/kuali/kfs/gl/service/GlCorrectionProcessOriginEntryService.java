@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 /**
  * Implementations of this interface are used to store a list of origin entries to be used by the GLCP. These persisted entries are

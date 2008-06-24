@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao;
-import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
+import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
+import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,7 +31,7 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
     private OrganizationBCDocumentSearchDao organizationBCDocumentSearchDao;
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#buildAccountSelectPullList(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService#buildAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
     public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
@@ -41,7 +41,7 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
     public int buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
@@ -51,7 +51,7 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#cleanAccountSelectPullList(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService#cleanAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
     public void cleanAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {

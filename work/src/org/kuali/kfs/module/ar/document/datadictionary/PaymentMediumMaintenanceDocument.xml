@@ -7,7 +7,7 @@
   <bean id="PaymentMediumMaintenanceDocument" parent="PaymentMediumMaintenanceDocument-parentBean" />
 
   <bean id="PaymentMediumMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.PaymentMedium" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.PaymentMedium" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -24,7 +24,7 @@
     <property name="summary" value="Payment Medium maintenance document" />
     <property name="description" value="Document used to create or update Payment Medium objects" />
     <property name="documentTypeName" value="PaymentMediumMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMED" />
     <property name="authorizations" >
       <list>

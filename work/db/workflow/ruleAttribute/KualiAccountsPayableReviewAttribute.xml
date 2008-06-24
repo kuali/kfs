@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiAccountsPayableReviewAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiAccountsPayableReviewAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiAccountsPayableReviewAttribute</className>
       <label>Accounts Payable review Routing Role Attribute</label>
       <description>Attribute to determine if document should route for Accounts Payable Review</description>
       <type>RuleAttribute</type>

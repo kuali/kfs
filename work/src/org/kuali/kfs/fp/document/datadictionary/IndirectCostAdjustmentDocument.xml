@@ -19,9 +19,9 @@
             p:parameterDetailType="IndirectCostAdjustment" />
     </property>
     <property name="documentTypeName" value="IndirectCostAdjustmentDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.IndirectCostAdjustmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ICA" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

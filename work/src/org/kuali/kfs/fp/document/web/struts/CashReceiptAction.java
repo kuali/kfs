@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
@@ -32,22 +32,22 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.module.financial.bo.CashReceiptHeader;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.rule.event.AddCheckEvent;
-import org.kuali.module.financial.rule.event.DeleteCheckEvent;
-import org.kuali.module.financial.rule.event.UpdateCheckEvent;
-import org.kuali.module.financial.service.CashReceiptCoverSheetService;
-import org.kuali.module.financial.service.CashReceiptService;
-import org.kuali.module.financial.web.struts.form.CashReceiptForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
+import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.document.web.struts.CashReceiptForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -302,7 +302,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
 
 
     /**
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -337,7 +337,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
     }
 
     /**
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

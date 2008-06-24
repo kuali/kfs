@@ -7,7 +7,7 @@
   <bean id="RestrictedMaterial" parent="RestrictedMaterial-parentBean" />
 
   <bean id="RestrictedMaterial-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.purap.bo.RestrictedMaterial" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" />
     <property name="inquiryDefinition" >
       <ref bean="RestrictedMaterial-inquiryDefinition" />
     </property>

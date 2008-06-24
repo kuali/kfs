@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.kuali.module.pdp.bo.AchBank;
-import org.kuali.module.pdp.dao.AchBankDao;
-import org.kuali.module.pdp.service.AchBankService;
+import org.kuali.kfs.pdp.businessobject.AchBank;
+import org.kuali.kfs.pdp.dataaccess.AchBankDao;
+import org.kuali.kfs.pdp.service.AchBankService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -32,7 +32,7 @@ public class AchBankServiceImpl implements AchBankService {
     private AchBankDao achBankDao;
 
     /**
-     * @see org.kuali.module.pdp.service.AchBankService#save(org.kuali.module.pdp.bo.AchBank)
+     * @see org.kuali.kfs.pdp.service.AchBankService#save(org.kuali.kfs.pdp.businessobject.AchBank)
      */
     public void save(AchBank ab) {
         LOG.debug("save() started");
@@ -41,7 +41,7 @@ public class AchBankServiceImpl implements AchBankService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.AchBankService#reloadTable(java.lang.String)
+     * @see org.kuali.kfs.pdp.service.AchBankService#reloadTable(java.lang.String)
      */
     public boolean reloadTable(String filename) {
         LOG.debug("reloadTable() started");

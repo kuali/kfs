@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.util.Guid;
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao;
 
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 import java.util.ArrayList;
 
@@ -346,7 +346,7 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao#updateReportsMonthSummaryTable(java.lang.String, boolean)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao#updateReportsMonthSummaryTable(java.lang.String, boolean)
      */
     public void updateReportsMonthSummaryTable(String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
 

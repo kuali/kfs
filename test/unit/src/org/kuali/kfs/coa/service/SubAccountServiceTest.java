@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.SubAccountFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.SubAccountFixture;
 
 /**
  * This class tests the SubAccount service.

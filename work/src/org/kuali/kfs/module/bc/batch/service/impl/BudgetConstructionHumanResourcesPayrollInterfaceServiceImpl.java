@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.batch.service.impl;
 
-import org.kuali.module.budget.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
-import org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao;
+import org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
+import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -27,7 +27,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl impleme
     
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionHumanResourcesPayrollInterfaceService#refreshBudgetConstructionPosition(java.lang.Integer, boolean, boolean)
+     * @see org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService#refreshBudgetConstructionPosition(java.lang.Integer, boolean, boolean)
      */
     public void refreshBudgetConstructionPosition(Integer baseYear, boolean positionSynchOK, boolean CSFUpdateOK) {
      /**
@@ -51,7 +51,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl impleme
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionHumanResourcesPayrollInterfaceService#refreshBudgetConstructionIntendedIncumbent(java.lang.Integer, boolean, boolean)
+     * @see org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService#refreshBudgetConstructionIntendedIncumbent(java.lang.Integer, boolean, boolean)
      */
     public void refreshBudgetConstructionIntendedIncumbent(Integer baseYear, boolean positionSynchOK, boolean CSFUpdateOK) {
         Integer requestYear = baseYear+1;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -28,9 +28,9 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.service.VendorService;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * Purchasing Contracts with specific Vendors.
@@ -342,7 +342,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorContract)) {

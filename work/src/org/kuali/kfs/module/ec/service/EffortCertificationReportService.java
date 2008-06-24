@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.service;
 
 import java.util.Date;
 
-import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
+import org.kuali.kfs.module.ec.util.ExtractProcessReportDataHolder;
 
 /**
  * To generate the working progress reports for the effort certification

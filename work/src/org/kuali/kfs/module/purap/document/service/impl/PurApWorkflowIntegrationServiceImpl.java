@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.security.InvalidParameterException;
 import java.sql.Timestamp;
@@ -32,9 +32,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -76,7 +76,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurApWorkflowIntegrationService#isActionRequestedOfUserAtNodeName(java.lang.String,
+     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#isActionRequestedOfUserAtNodeName(java.lang.String,
      *      java.lang.String, org.kuali.core.bo.user.UniversalUser)
      */
     public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, UniversalUser userToCheck) {
@@ -114,7 +114,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurApWorkflowIntegrationService#takeAllActionsForGivenCriteria(org.kuali.core.document.Document,
+     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#takeAllActionsForGivenCriteria(org.kuali.core.document.Document,
      *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser, java.lang.String)
      */
     public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, UniversalUser userToCheck, String superUserNetworkId) {
@@ -220,8 +220,8 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.module.purap.document.PurchasingAccountsPayableDocument,
-     *      org.kuali.module.purap.PurapWorkflowConstants.NodeDetails)
+     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#willDocumentStopAtGivenFutureRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
+     *      org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails)
      */
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail) {
         if (givenNodeDetail == null) {
@@ -285,7 +285,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurApWorkflowIntegrationService#getLastUserId(edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue)
+     * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#getLastUserId(edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue)
      */
     public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws EdenUserNotFoundException {
         WorkflowUser user = null;

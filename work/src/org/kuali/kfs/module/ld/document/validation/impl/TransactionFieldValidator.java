@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.rules;
+package org.kuali.kfs.module.ld.document.validation.impl;
 
 
 import java.util.List;
@@ -21,12 +21,12 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.util.Message;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.bo.LaborTransaction;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 
 /**
  * This class provides a set of utilities that can be used to validate a transaction in the field level.

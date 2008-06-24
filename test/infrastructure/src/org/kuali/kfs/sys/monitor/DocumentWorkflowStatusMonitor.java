@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.monitor;
+package org.kuali.kfs.sys.document.routing;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;

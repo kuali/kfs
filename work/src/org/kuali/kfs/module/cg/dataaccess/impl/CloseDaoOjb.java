@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.dao.ojb;
+package org.kuali.kfs.module.cg.dataaccess.impl;
 
 import java.util.Iterator;
 
@@ -22,9 +22,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.module.cg.dao.CloseDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 /**
@@ -33,7 +33,7 @@ import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
 
     /**
-     * @see org.kuali.module.cg.dao.CloseDao#getMaxApprovedClose()
+     * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
     public Close getMaxApprovedClose() {
         Criteria criteria = new Criteria();
@@ -58,7 +58,7 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     }
 
     /**
-     * @see org.kuali.module.cg.dao.CloseDao#save(org.kuali.module.cg.bo.Close)
+     * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#save(org.kuali.kfs.module.cg.businessobject.Close)
      */
     public void save(Close close) {
         getPersistenceBrokerTemplate().store(close);

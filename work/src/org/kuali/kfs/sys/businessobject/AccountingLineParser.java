@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.bo;
+package org.kuali.kfs.sys.businessobject;
 
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Defines an abstraction for parsing serialized <code>AccountingLines</code>

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.service;
 
 import java.util.ArrayList;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.CashDetailTypeCode;
-import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.CashDetailTypeCode;
+import org.kuali.kfs.fp.service.impl.CashDetailTypeCodeServiceImpl;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the CashDetailTypeCode service.

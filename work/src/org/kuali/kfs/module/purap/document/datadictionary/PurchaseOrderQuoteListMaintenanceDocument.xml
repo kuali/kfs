@@ -7,7 +7,7 @@
   <bean id="PurchaseOrderQuoteListMaintenanceDocument" parent="PurchaseOrderQuoteListMaintenanceDocument-parentBean" />
 
   <bean id="PurchaseOrderQuoteListMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteList" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -29,8 +29,8 @@
             p:parameterDetailType="PurchaseOrderQuoteList" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderQuoteListMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderQuoteListRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteListRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMQT" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderQuoteListMaintenanceDocument-workflowProperties" />
@@ -81,7 +81,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="quoteListVendors" />
-          <property name="businessObjectClass" value="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor" />
           <property name="summaryTitle" value="Vendor" />
           <property name="summaryFields" >
             <list>

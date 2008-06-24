@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentWithCommodityCodeFixture;
-import org.kuali.module.purap.service.RequisitionService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.RelatesTo;
+import org.kuali.kfs.suite.RelatesTo.JiraIssue;
 
 /**
  * This class is used to create and test populated Requisition Documents

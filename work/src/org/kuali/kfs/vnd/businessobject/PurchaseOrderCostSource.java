@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -24,7 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * Arbitrary categories per Vendor Contract for the purpose of tracking various kinds of costs that may be incurred by Purchase
  * Orders which use the Vendors which have these Contracts.
  * 
- * @see org.kuali.module.vendor.bo.VendorContract
+ * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
 public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
 

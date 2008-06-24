@@ -16,7 +16,7 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="properties" class="org.kuali.kfs.context.PropertyLoadingFactoryBean" />
+	<bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="true"></property>
@@ -239,13 +239,13 @@
 		<property name="encryptionService" ref="encryptionService" />
 	</bean>
 
-	<bean id="webAuthenticationService" class="org.kuali.kfs.service.impl.WebAuthenticationServiceCas">
+	<bean id="webAuthenticationService" class="org.kuali.kfs.sys.service.impl.WebAuthenticationServiceCas">
 		<property name="validatePassword" value="${validate.password}" />
 	</bean>
 
 	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb" />
 
-	<bean id="universalUserService" class="org.kuali.kfs.service.impl.FinancialSystemUserServiceImpl">
+	<bean id="universalUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl">
 		<property name="universalUserDao" ref="universalUserDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="kualiGroupService" ref="kualiGroupService" />
@@ -419,7 +419,7 @@
 
 	<bean id="xmlObjectSerializerService" class="org.kuali.core.service.impl.XmlObjectSerializerServiceImpl"></bean>
 
-	<bean id="documentService" class="org.kuali.kfs.service.impl.FinancialSystemDocumentServiceImpl">
+	<bean id="documentService" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentServiceImpl">
 		<property name="documentDao">
 			<ref bean="documentDao" />
 		</property>
@@ -744,13 +744,13 @@
 
 	<bean id="confirmationQuestion" class="org.kuali.core.question.ConfirmationQuestion" singleton="false" />
     
-	<bean id="documentDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.FinancialSystemDocumentDaoOjb">
+	<bean id="documentDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
 		<property name="businessObjectDao">
 			<ref bean="businessObjectDao" />
 		</property>
 	</bean>
 
-	<bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.FinancialSystemDocumentHeaderDaoOjb" />
+	<bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb" />
 
 	<bean id="lookupDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.LookupDaoOjb">
 		<property name="persistenceStructureService">

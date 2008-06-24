@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rules;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +24,8 @@ import org.kuali.core.bo.ParameterDetailType;
 import org.kuali.core.datadictionary.DataDictionaryException;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class ParameterRule extends org.kuali.core.rules.ParameterRule {
 

@@ -60,7 +60,7 @@
 				property="universityFiscalYear" readOnly="${readOnly}" />
 			
 			<c:if test="${!readOnly}" >	 
-			<kul:lookup boClassName="org.kuali.kfs.bo.Options"
+			<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Options"
 				fieldConversions="universityFiscalYear:universityFiscalYear"
 				lookupParameters="universityFiscalYear:universityFiscalYear"
 				fieldLabel="${attributes.universityFiscalYear.label}" />
@@ -83,7 +83,7 @@
 			
 			<c:if test="${!readOnly}" > 
 			<kul:lookup
-				boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition"
+				boClassName="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition"
 				fieldConversions="universityFiscalYear:universityFiscalYear,effortCertificationReportNumber:effortCertificationReportNumber"
 				lookupParameters="universityFiscalYear:universityFiscalYear,effortCertificationReportNumber:effortCertificationReportNumber"
 				fieldLabel="${attributes.effortCertificationReportNumber.label}" />

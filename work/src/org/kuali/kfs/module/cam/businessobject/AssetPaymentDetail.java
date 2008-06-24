@@ -1,4 +1,4 @@
-package org.kuali.module.cams.bo;
+package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 /**
  * 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp;
+package org.kuali.kfs.pdp;
 
 
 // This is a utility to help load data from a spreadsheet. It is not needed for production or unit tests.

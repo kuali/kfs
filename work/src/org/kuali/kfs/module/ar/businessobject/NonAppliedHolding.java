@@ -1,4 +1,4 @@
-package org.kuali.module.ar.bo;
+package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.ar.bo.NonInvoicedDistribution;
-import org.kuali.module.ar.dao.NonInvoicedDistributionDao;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.NonInvoicedDistributionService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.dataaccess.NonInvoicedDistributionDao;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
 
 public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributionService {
     private NonInvoicedDistributionDao nonInvoicedDistributionDao;
     
     /**
-     * @see org.kuali.module.ar.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
     @NonTransactional
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber) {
@@ -35,7 +35,7 @@ public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributi
     }
 
     /**
-     * @see org.kuali.module.ar.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     @NonTransactional
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(CustomerInvoiceDocument invoice) {

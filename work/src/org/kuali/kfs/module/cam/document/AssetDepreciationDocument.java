@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document;
+package org.kuali.kfs.module.cam.document;
 
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
 
 
 public class AssetDepreciationDocument extends AccountingDocumentBase  {

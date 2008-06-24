@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 
 /**
  * Validates an accounting line on a budget adjustment document whether the base amount on the line can be changed or not
@@ -35,7 +35,7 @@ public class BudgetAdjustmentAccountingLineBaseAmountValidation extends GenericV
 
     /**
      * Validate that, if a base amount is entered for a line, that it can be adjusted for the posting year
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean allow = true;

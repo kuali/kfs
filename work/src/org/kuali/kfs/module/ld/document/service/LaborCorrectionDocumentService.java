@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.document.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,11 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.web.ui.Column;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
-import org.kuali.module.gl.util.CorrectionDocumentUtils;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.document.LaborCorrectionDocument;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
 
 
 /**
@@ -95,12 +95,12 @@ public interface LaborCorrectionDocumentService {
     public void persistInputOriginEntriesForInitiatedOrSavedDocument(LaborCorrectionDocument document, Iterator<LaborOriginEntry> entries);
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public void removePersistedInputOriginEntries(LaborCorrectionDocument document);
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public void removePersistedInputOriginEntries(String docId);
 
@@ -145,12 +145,12 @@ public interface LaborCorrectionDocumentService {
     public void persistOutputLaborOriginEntriesForInitiatedOrSavedDocument(LaborCorrectionDocument document, Iterator<LaborOriginEntry> entries);
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.CorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.CorrectionDocument)
      */
     public void removePersistedOutputOriginEntries(LaborCorrectionDocument document);
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.CorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.CorrectionDocument)
      */
     public void removePersistedOutputOriginEntries(String docId);
 

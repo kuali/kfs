@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,9 +28,9 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.NDCFilter;
-import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.NDCFilter;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 

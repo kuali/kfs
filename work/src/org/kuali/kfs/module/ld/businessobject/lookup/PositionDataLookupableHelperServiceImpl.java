@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,10 +23,10 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl;
-import org.kuali.module.labor.web.inquirable.PositionDataInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
+import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

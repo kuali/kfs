@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
 
 /**
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a

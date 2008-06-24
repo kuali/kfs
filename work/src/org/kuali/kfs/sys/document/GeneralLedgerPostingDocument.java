@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.SufficientFundsItem;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 /**
  * Defines methods that must be implements for a general ledger posting document.

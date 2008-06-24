@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Collection;
 
-import org.kuali.module.labor.bo.BenefitsType;
+import org.kuali.kfs.module.ld.businessobject.BenefitsType;
 
 public interface LaborBenefitsTypeService {
 

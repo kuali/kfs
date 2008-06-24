@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 
 public enum SystemParameterBelowTheLineItemPaymentRequestFixture {
     PREQ_VALID_BELOW_LINE_ITEMS(

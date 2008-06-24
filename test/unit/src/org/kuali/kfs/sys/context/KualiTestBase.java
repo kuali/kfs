@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
-import static org.kuali.test.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
+import static org.kuali.kfs.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -30,12 +30,12 @@ import org.kuali.core.UserSession;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
-import org.kuali.kfs.service.SchedulerService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants;
-import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.test.suite.JiraRelatedSuite;
-import org.kuali.test.suite.RelatesTo;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.KualiTestConstants;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.suite.JiraRelatedSuite;
+import org.kuali.kfs.suite.RelatesTo;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;

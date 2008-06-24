@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,16 +27,16 @@ import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiPercent;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
-import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
-import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.service.BudgetReportsControlListService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
 
 /**
  * Struts Action Form for the Organization Report Selection Screen.

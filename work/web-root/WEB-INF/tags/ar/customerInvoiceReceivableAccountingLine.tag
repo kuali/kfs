@@ -147,7 +147,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAccountNumber}" property="document.paymentAccountNumber" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.chart.bo.Account" fieldConversions="accountNumber:document.paymentAccountNumber" lookupParameters="document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
+	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" fieldConversions="accountNumber:document.paymentAccountNumber" lookupParameters="document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
                 </td>
                 
@@ -156,7 +156,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSubAccountNumber}" property="document.paymentSubAccountNumber" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.chart.bo.SubAccount" fieldConversions="subAccountNumber:document.paymentSubAccountNumber" lookupParameters="document.paymentSubAccountNumber:subAccountNumber,document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
+	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount" fieldConversions="subAccountNumber:document.paymentSubAccountNumber" lookupParameters="document.paymentSubAccountNumber:subAccountNumber,document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
                 </td>
                 
@@ -165,7 +165,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentFinancialObjectCode}" property="document.paymentFinancialObjectCode" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.chart.bo.ObjectCode" fieldConversions="financialObjectCode:document.paymentFinancialObjectCode" lookupParameters="document.paymentFinancialObjectCode:financialObjectCode,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
+	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" fieldConversions="financialObjectCode:document.paymentFinancialObjectCode" lookupParameters="document.paymentFinancialObjectCode:financialObjectCode,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
                 </td>
                 
@@ -174,14 +174,14 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentFinancialSubObjectCode}" property="document.paymentFinancialSubObjectCode" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.chart.bo.SubObjCd" fieldConversions="financialSubObjectCode:document.paymentFinancialSubObjectCode" lookupParameters="document.paymentFinancialSubObjectCode:financialSubObjectCode,document.paymentFinancialObjectCode:financialObjectCode,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
+	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" fieldConversions="financialSubObjectCode:document.paymentFinancialSubObjectCode" lookupParameters="document.paymentFinancialSubObjectCode:financialSubObjectCode,document.paymentFinancialObjectCode:financialObjectCode,document.paymentChartOfAccountsCode:chartOfAccountsCode"/>
                     </c:if>
                 </td>
 				<td align=left valign=middle class="datacell">
 					<kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentProjectCode}" property="document.paymentProjectCode" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.chart.bo.ProjectCode" fieldConversions="code:document.paymentProjectCode" lookupParameters="document.paymentProjectCode:code"/>
+	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" fieldConversions="code:document.paymentProjectCode" lookupParameters="document.paymentProjectCode:code"/>
                     </c:if>
                 </td>
                 

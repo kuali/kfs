@@ -5,7 +5,7 @@
       <name>KualiLaborLedgerErrorCorrectionDocument</name>
       <parent>CorrectionDocument</parent>
       <label>Labor Ledger Correction Process</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/laborLedgerCorrection.do?methodToCall=docHandler</docHandler>

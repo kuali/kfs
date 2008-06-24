@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.dao.LaborObjectDao;
-import org.kuali.module.labor.service.LaborObjectService;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.dataaccess.LaborObjectDao;
+import org.kuali.kfs.module.ld.service.LaborObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This interface provides its clients with access to labor object in the backend data store.
  * 
- * @see org.kuali.module.labor.bo.LaborObject
+ * @see org.kuali.kfs.module.ld.businessobject.LaborObject
  */
 @Transactional
 public class LaborObjectServiceImpl implements LaborObjectService {
@@ -36,7 +36,7 @@ public class LaborObjectServiceImpl implements LaborObjectService {
     private LaborObjectDao laborObjectDao;
 
     /**
-     * @see org.kuali.module.labor.service.LaborObjectService#findAllLaborObjectInPositionGroups(java.util.Map, java.util.List)
+     * @see org.kuali.kfs.module.ld.service.LaborObjectService#findAllLaborObjectInPositionGroups(java.util.Map, java.util.List)
      */
     public Collection<LaborObject> findAllLaborObjectInPositionGroups(Map<String, Object> fieldValues, List<String> positionGroupCodes) {
         return laborObjectDao.findAllLaborObjectInPositionGroups(fieldValues, positionGroupCodes);

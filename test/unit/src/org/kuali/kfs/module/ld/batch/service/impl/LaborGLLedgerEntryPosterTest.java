@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch.poster;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
+import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,21 +28,21 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
-import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
-import org.kuali.module.labor.util.LaborTestDataPreparator;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.util.TestDataPreparator;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.web.TestDataGenerator;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
+import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
+import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.TestDataPreparator;
 
 @ConfigureContext
 public class LaborGLLedgerEntryPosterTest extends KualiTestBase {

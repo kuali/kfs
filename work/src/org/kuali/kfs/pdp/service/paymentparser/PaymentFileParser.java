@@ -17,11 +17,11 @@
  * Created on Jun 25, 2004
  *
  */
-package org.kuali.module.pdp.xml;
+package org.kuali.kfs.pdp.service.paymentparser;
 
 import java.io.InputStream;
 
-import org.kuali.module.pdp.exception.FileReadException;
+import org.kuali.kfs.pdp.exception.FileReadException;
 
 
 /**

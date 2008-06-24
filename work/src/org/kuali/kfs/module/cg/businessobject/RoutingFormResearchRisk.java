@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.kuali.module.kra.routingform.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Class representing a RoutingFormResearchRiskType.

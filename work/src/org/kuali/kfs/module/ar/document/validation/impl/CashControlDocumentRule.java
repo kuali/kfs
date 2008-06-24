@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,23 +30,23 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.bo.OrganizationOptions;
-import org.kuali.module.ar.bo.PaymentMedium;
-import org.kuali.module.ar.document.CashControlDocument;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.ar.rule.AddCashControlDetailRule;
-import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
-import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule;
+import org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule;
+import org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule;
+import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 
 /**
  * This class holds the business rules for the AR Cash Control Document
@@ -284,8 +284,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.module.ar.rule.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
@@ -465,8 +465,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.module.ar.rule.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
@@ -477,7 +477,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.module.ar.rule.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
      */
     public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
 

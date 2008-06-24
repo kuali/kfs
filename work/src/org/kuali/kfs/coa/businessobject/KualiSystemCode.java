@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -21,8 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.KualiCodeService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.KualiCodeService;
 
 public class KualiSystemCode extends PersistableBusinessObjectBase implements KualiCode {
 

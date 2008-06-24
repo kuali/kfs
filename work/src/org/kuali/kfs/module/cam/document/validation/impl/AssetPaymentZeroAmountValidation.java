@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.validation.impl;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 
 /**
  * This class validates asset zero amount condition
@@ -33,7 +33,7 @@ public class AssetPaymentZeroAmountValidation extends GenericValidation {
     /**
      * Asset payment amount should be a non-zero value
      * 
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         KualiDecimal amount = accountingLineForValidation.getAmount();

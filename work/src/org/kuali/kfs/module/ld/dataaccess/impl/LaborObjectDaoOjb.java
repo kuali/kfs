@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,21 +23,21 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.dao.LaborObjectDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.dataaccess.LaborObjectDao;
 
 /**
  * This is the data access object for Labor Object
  * 
- * @see org.kuali.module.labor.bo.LaborObject
+ * @see org.kuali.kfs.module.ld.businessobject.LaborObject
  */
 public class LaborObjectDaoOjb extends PlatformAwareDaoBaseOjb implements LaborObjectDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborObjectDaoOjb.class);
 
     /**
-     * @see org.kuali.module.labor.dao.LaborObjectDao#findAllLaborObjectInPositionGroups(java.util.Map, java.util.List)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborObjectDao#findAllLaborObjectInPositionGroups(java.util.Map, java.util.List)
      */
     public Collection<LaborObject> findAllLaborObjectInPositionGroups(Map<String, Object> fieldValues, List<String> positionGroupCodes) {
         LOG.debug("Start findAllLaborObjectInPositionGroups()");

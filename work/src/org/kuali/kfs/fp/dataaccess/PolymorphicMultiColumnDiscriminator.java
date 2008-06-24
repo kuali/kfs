@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao.ojb;
+package org.kuali.kfs.fp.dataaccess;
 
 import java.util.Map;
 

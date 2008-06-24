@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.bo;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public class PayeeAchAccount extends PersistableBusinessObjectBase {
 

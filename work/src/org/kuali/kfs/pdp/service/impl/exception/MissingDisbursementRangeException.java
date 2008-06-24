@@ -17,7 +17,7 @@
  * Created on Aug 24, 2004
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service.impl.exception;
 
 /**
  * @author jsissom

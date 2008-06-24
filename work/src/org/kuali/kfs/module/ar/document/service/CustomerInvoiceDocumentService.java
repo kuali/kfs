@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service;
+package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.NonInvoicedDistribution;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerInvoiceDocumentService {
     

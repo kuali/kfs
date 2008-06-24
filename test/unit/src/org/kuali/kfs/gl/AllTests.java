@@ -13,37 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl;
+package org.kuali.kfs.gl;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.module.gl.batch.BalanceForwardStepTest;
-import org.kuali.module.gl.batch.CollectorStepTest;
-import org.kuali.module.gl.batch.FileEnterpriseFeederTest;
-import org.kuali.module.gl.batch.ForwardEncumbranceTest;
-import org.kuali.module.gl.batch.PurgeTest;
-import org.kuali.module.gl.batch.YearEndFlexibleOffsetTest;
-import org.kuali.module.gl.bo.OriginEntryTest;
-import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
-import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
-import org.kuali.module.gl.service.CollectorServiceTest;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
-import org.kuali.module.gl.service.NightlyOutServiceTest;
-import org.kuali.module.gl.service.PosterServiceTest;
-import org.kuali.module.gl.service.ReportServiceTest;
-import org.kuali.module.gl.service.RunDateServiceTest;
-import org.kuali.module.gl.service.ScrubberFlexibleOffsetTest;
-import org.kuali.module.gl.service.ScrubberServiceTest;
-import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
-import org.kuali.module.gl.service.SufficientFundsServiceTest;
-import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionCategoryTest;
-import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionLogicTest;
-import org.kuali.module.gl.util.OJBUtilityTest;
-import org.kuali.module.gl.web.lookupable.AccountBalanceLookupableHelperServiceTest;
-import org.kuali.module.gl.web.lookupable.BalanceLookupableHelperServiceTest;
-import org.kuali.module.gl.web.lookupable.EntryLookupableHelperServiceTest;
-import org.kuali.module.gl.web.lookupable.PendingLedgerServiceHelperServiceTest;
+import org.kuali.kfs.gl.batch.BalanceForwardStepTest;
+import org.kuali.kfs.gl.batch.CollectorStepTest;
+import org.kuali.kfs.gl.batch.FileEnterpriseFeederTest;
+import org.kuali.kfs.gl.batch.ForwardEncumbranceTest;
+import org.kuali.kfs.gl.batch.PurgeTest;
+import org.kuali.kfs.gl.batch.YearEndFlexibleOffsetTest;
+import org.kuali.kfs.gl.businessobject.OriginEntryTest;
+import org.kuali.kfs.sys.dataaccess.TestUnitTestSqlDao;
+import org.kuali.kfs.sys.dataaccess.TestUniversityDateDao;
+import org.kuali.kfs.gl.batch.service.CollectorServiceTest;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryServiceTest;
+import org.kuali.kfs.gl.service.NightlyOutServiceTest;
+import org.kuali.kfs.gl.batch.service.PosterServiceTest;
+import org.kuali.kfs.gl.batch.service.ReportServiceTest;
+import org.kuali.kfs.gl.batch.service.RunDateServiceTest;
+import org.kuali.kfs.gl.service.ScrubberFlexibleOffsetTest;
+import org.kuali.kfs.gl.service.ScrubberServiceTest;
+import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderServiceTest;
+import org.kuali.kfs.gl.service.SufficientFundsServiceTest;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryTest;
+import org.kuali.kfs.gl.service.OrganizationReversionLogicTest;
+import org.kuali.kfs.gl.OJBUtilityTest;
+import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceTest;
+import org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceTest;
+import org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceTest;
+import org.kuali.kfs.sys.service.PendingLedgerServiceHelperServiceTest;
 
 /**
  * Runs all the tests in the GL test suite.
@@ -65,10 +65,10 @@ public class AllTests {
     public static Test suite() {
         TestSuite suite = new TestSuite();
 
-        // org.kuali.module.gl
+        // org.kuali.kfs.gl
         suite.addTestSuite(GLConstantsTest.class);
 
-        // org.kuali.module.gl.batch
+        // org.kuali.kfs.gl.batch
         suite.addTestSuite(BalanceForwardStepTest.class);
         suite.addTestSuite(CollectorStepTest.class);
         suite.addTestSuite(FileEnterpriseFeederTest.class);
@@ -76,7 +76,7 @@ public class AllTests {
         suite.addTestSuite(PurgeTest.class);
         suite.addTestSuite(YearEndFlexibleOffsetTest.class);
 
-        // org.kuali.module.gl.bo
+        // org.kuali.kfs.gl.businessobject
         suite.addTestSuite(OriginEntryTest.class);
 
         // org.kuali.module.gl.dao.ojb
@@ -102,7 +102,7 @@ public class AllTests {
         // org.kuali.module.gl.util
         suite.addTestSuite(OJBUtilityTest.class);
 
-        // org.kuali.module.gl.web.lookupable
+        // org.kuali.kfs.gl.businessobject.lookup
         suite.addTestSuite(AccountBalanceLookupableHelperServiceTest.class);
         suite.addTestSuite(BalanceLookupableHelperServiceTest.class);
         suite.addTestSuite(EntryLookupableHelperServiceTest.class);

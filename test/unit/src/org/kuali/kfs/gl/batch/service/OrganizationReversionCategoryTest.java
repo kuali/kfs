@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.orgreversion;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Map;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * A test to make sure that canonical object codes are put into the correct Organization Reversion categories

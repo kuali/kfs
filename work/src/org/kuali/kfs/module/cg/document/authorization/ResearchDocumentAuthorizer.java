@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.document;
+package org.kuali.kfs.module.cg.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,14 +30,14 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowGroupService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.bo.AdhocWorkgroup;
-import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
+import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;

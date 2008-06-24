@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.authorization;
+package org.kuali.kfs.module.cam.document.authorization;
 
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
 public class AssetDepreciationDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 

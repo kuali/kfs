@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -38,45 +38,45 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.document.AmountTotaling;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
-import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
-import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
-import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
-import org.kuali.module.financial.bo.WireCharge;
-import org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
-import org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder;
-import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.DisbursementVoucherTaxService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
+import org.kuali.kfs.fp.businessobject.WireCharge;
+import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder;
+import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -137,7 +137,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
      */
     @Override
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
@@ -942,7 +942,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#toCopy()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {
@@ -1030,7 +1030,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
@@ -1040,7 +1040,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     /**
      * Returns check total.
      * 
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override

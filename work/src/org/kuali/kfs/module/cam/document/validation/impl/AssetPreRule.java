@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.rules;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.cams.bo.Asset;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.rules.MaintenancePreRulesBase;
+import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 
 /**
  * Business Prerules applicable to Asset documents. These PreRules checks for the Asset that needs to occur while
@@ -56,7 +56,7 @@ public class AssetPreRule extends MaintenancePreRulesBase {
     /**
      * Sets up a convenience object and few other Asset attributes
      * 
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
   

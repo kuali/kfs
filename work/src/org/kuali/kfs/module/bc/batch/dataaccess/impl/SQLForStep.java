@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import java.util.Arrays;
 import java.util.ArrayList;

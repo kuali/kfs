@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.bo;
+package org.kuali.kfs.sys.businessobject;
 
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
 
 /** Simple utility interface for abstracting an object which contains both a chart and organization code. */
 public interface ChartOrgHolder {

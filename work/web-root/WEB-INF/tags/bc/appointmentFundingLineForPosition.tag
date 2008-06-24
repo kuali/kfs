@@ -151,7 +151,7 @@
 			detailField="budgetConstructionIntendedIncumbent.personName"
 			attributes="${pbcafAttributes}" inquiry="${doLookupOrInquiry}" lookup="true"
 			boClassSimpleName="BudgetConstructionIntendedIncumbent"
-			boPackageName="org.kuali.module.budget.bo"
+			boPackageName="org.kuali.kfs.module.bc.businessobject"
 			readOnly="${hasBeenAdded}"
 			displayHidden="false"
 			lookupOrInquiryKeys="emplid"

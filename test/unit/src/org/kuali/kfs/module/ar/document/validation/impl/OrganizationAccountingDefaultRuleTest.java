@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.maintenance.MaintenanceRuleTestBase;
-import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.chart.rules.AccountRule;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.coa.document.validation.impl.AccountRule;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the business rules for the OrganizationAccountingDefault Maint. Doc.

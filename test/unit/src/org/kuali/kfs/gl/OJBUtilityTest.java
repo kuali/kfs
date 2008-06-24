@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,19 +21,19 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Test coverage of OJBUtility
- * @see org.kuali.module.gl.util.OJBUtility
+ * @see org.kuali.kfs.gl.OJBUtility
  */
 @ConfigureContext
 public class OJBUtilityTest extends KualiTestBase {

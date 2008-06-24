@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.rule;
+package org.kuali.kfs.module.ld.document.validation;
 
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Defines a rule which gets invoked whenever pending entries for a document need to be re/generated (which is usually when the

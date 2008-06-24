@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 
 /**
  * This class...

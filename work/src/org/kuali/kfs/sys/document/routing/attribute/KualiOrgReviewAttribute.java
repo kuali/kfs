@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.workflow.attribute;
+package org.kuali.kfs.sys.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,17 +36,17 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.OrganizationService;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

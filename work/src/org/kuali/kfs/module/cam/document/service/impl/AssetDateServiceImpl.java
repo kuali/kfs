@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -21,13 +21,13 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetDepreciationConvention;
-import org.kuali.module.cams.bo.AssetType;
-import org.kuali.module.cams.service.AssetDateService;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.module.cam.document.service.AssetDateService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 
 public class AssetDateServiceImpl implements AssetDateService {
@@ -36,8 +36,8 @@ public class AssetDateServiceImpl implements AssetDateService {
     UniversityDateService universityDateService;
 
     /**
-     * @see org.kuali.module.cams.service.AssetDetailInformationService#checkAndUpdateLastInventoryDate(org.kuali.module.cams.bo.Asset,
-     *      org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.module.cams.service.AssetDetailInformationService#checkAndUpdateLastInventoryDate(org.kuali.kfs.module.cam.businessobject.Asset,
+     *      org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public void checkAndUpdateLastInventoryDate(Asset oldAsset, Asset newAsset) {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingSubRoomNumber(), newAsset.getBuildingSubRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getCampusTagNumber(), newAsset.getCampusTagNumber())) {
@@ -46,8 +46,8 @@ public class AssetDateServiceImpl implements AssetDateService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetDetailInformationService#checkAndUpdateDepreciationDate(org.kuali.module.cams.bo.Asset,
-     *      org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.module.cams.service.AssetDetailInformationService#checkAndUpdateDepreciationDate(org.kuali.kfs.module.cam.businessobject.Asset,
+     *      org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public void checkAndUpdateDepreciationDate(Asset oldAsset, Asset newAsset) {
         if (assetService.isAssetTypeCodeChanged(oldAsset, newAsset) && assetService.isAssetDepreciableLifeLimitZero(newAsset)) {
@@ -62,8 +62,8 @@ public class AssetDateServiceImpl implements AssetDateService {
 
 
     /**
-     * @see org.kuali.module.cams.service.AssetDateService#computeDepreciationDate(org.kuali.module.cams.bo.AssetType,
-     *      org.kuali.module.cams.bo.AssetDepreciationConvention, java.sql.Date)
+     * @see org.kuali.kfs.module.cam.document.service.AssetDateService#computeDepreciationDate(org.kuali.kfs.module.cam.businessobject.AssetType,
+     *      org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention, java.sql.Date)
      */
     public java.sql.Date computeDepreciationDate(AssetType assetType, AssetDepreciationConvention depreciationConvention, java.sql.Date inServiceDate) {
         java.sql.Date depreciationDate = null;

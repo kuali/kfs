@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -26,8 +26,8 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.dao.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDao;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -39,7 +39,7 @@ public class PurgeDocumentContentsStep extends AbstractStep {
     private DocumentService documentService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         int numberOfDaysFinal = Integer.parseInt(getParameterService().getParameterValue(getClass(), "NUMBER_OF_DAYS_FINAL"));

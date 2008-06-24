@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Iterator;
 
 import org.kuali.core.service.MailService;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.service.AchEmailService;
-import org.kuali.module.pdp.service.EnvironmentService;
-import org.kuali.module.pdp.service.PaymentDetailService;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.service.AchEmailService;
+import org.kuali.kfs.pdp.service.EnvironmentService;
+import org.kuali.kfs.pdp.service.PaymentDetailService;
 
 public class AchEmailServiceImpl implements AchEmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchEmailServiceImpl.class);
@@ -35,7 +35,7 @@ public class AchEmailServiceImpl implements AchEmailService {
     
 
     /**
-     * @see org.kuali.module.pdp.service.AchEmailService#sendAchEmails()
+     * @see org.kuali.kfs.pdp.service.AchEmailService#sendAchEmails()
      */
     public void sendAchEmails() {
         LOG.debug("sendAchEmails() started");

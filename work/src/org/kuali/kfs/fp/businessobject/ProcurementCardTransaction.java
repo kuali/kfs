@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -24,7 +24,7 @@ import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class is used to represent a procurement card transaction business object.

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.integration.service;
+package org.kuali.kfs.integration.service;
 
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.module.integration.bo.ContractsAndGrantsAgency;
-import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
 
 public interface ContractsAndGrantsModuleService {
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);

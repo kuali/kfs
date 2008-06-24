@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.dao.ProjectCodeDao;
-import org.kuali.module.chart.service.impl.ProjectCodeServiceImpl;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
+import org.kuali.kfs.coa.service.impl.ProjectCodeServiceImpl;
 
 /**
  * This class tests the ProjectCode service.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,9 +36,9 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.service.ReportGenerationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.batch.service.ReportGenerationService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ui.jasperreports.JasperReportsUtils;
 
@@ -56,7 +56,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     public final static String PDF_FILE_EXTENSION = ReportGeneration.PDF_FILE_EXTENSION;
 
     /**
-     * @see org.kuali.kfs.service.ReportGenerationService#generateReportToPdfFile(java.util.Map, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#generateReportToPdfFile(java.util.Map, java.lang.String, java.lang.String)
      */
     public void generateReportToPdfFile(Map<String, Object> reportData, String template, String reportFileName) {
         List<String> data = Arrays.asList(KFSConstants.EMPTY_STRING);
@@ -68,7 +68,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     /**
      * The dataSource can be an instance of JRDataSource, java.util.Collection or object array.
      * 
-     * @see org.kuali.kfs.service.ReportGenerationService#generateReportToPdfFile(java.util.Map, java.lang.Object, java.lang.String,
+     * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#generateReportToPdfFile(java.util.Map, java.lang.Object, java.lang.String,
      *      java.lang.String)
      */
     public void generateReportToPdfFile(Map<String, Object> reportData, Object dataSource, String template, String reportFileName) {
@@ -101,7 +101,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ReportGenerationService#generateReportToOutputStream(java.util.Map, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#generateReportToOutputStream(java.util.Map, java.lang.Object,
      *      java.lang.String, java.io.ByteArrayOutputStream)
      */
     public void generateReportToOutputStream(Map<String, Object> reportData, Object dataSource, String template, ByteArrayOutputStream baos) {
@@ -135,7 +135,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ReportGenerationService#buildFullFileName(java.util.Date, java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.sys.batch.service.ReportGenerationService#buildFullFileName(java.util.Date, java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public String buildFullFileName(Date runDate, String directory, String fileName, String extension) {

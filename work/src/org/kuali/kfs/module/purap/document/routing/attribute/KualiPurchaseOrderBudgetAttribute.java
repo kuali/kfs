@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.purap.attribute;
+package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,18 +28,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.module.gl.util.SufficientFundsItem;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.service.SufficientFundsService;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.exception.WorkflowException;

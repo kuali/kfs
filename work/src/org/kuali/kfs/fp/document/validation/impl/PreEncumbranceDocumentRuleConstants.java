@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 /**
- * Holds constants for <code>{@link org.kuali.module.financial.document.PreEncumbranceDocument}</code> business rules.
+ * Holds constants for <code>{@link org.kuali.kfs.fp.document.PreEncumbranceDocument}</code> business rules.
  */
 public class PreEncumbranceDocumentRuleConstants {
     public static final String PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.PreEncumbranceDocument";

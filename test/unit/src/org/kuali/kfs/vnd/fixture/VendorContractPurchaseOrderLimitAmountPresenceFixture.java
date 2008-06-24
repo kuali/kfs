@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorContractOrganization;
-import org.kuali.module.vendor.fixtures.VendorTestConstants.ContractPOLimitAmts;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.ContractPOLimitAmts;
 
 public enum VendorContractPurchaseOrderLimitAmountPresenceFixture {
 

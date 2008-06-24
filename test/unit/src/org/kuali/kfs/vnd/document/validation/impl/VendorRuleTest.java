@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.rules;
+package org.kuali.kfs.vnd.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.MaintenanceRuleTestBase;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.fixtures.VendorContractBeginEndDatesFixture;
-import org.kuali.module.vendor.fixtures.VendorContractPurchaseOrderLimitAmountPresenceFixture;
-import org.kuali.module.vendor.fixtures.VendorRuleAddressStateZipFixture;
-import org.kuali.module.vendor.fixtures.VendorRuleAddressTypeFixture;
-import org.kuali.module.vendor.fixtures.VendorRuleFaxNumberFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.fixture.VendorContractBeginEndDatesFixture;
+import org.kuali.kfs.vnd.fixture.VendorContractPurchaseOrderLimitAmountPresenceFixture;
+import org.kuali.kfs.vnd.fixture.VendorRuleAddressStateZipFixture;
+import org.kuali.kfs.vnd.fixture.VendorRuleAddressTypeFixture;
+import org.kuali.kfs.vnd.fixture.VendorRuleFaxNumberFixture;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class should contain all tests of methods implementing Vendor rules. For this purpose, we need to set up the parts of a

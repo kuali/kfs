@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao.ojb;
+package org.kuali.kfs.sys.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,19 +33,19 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.OJBUtility;
 
 /**
  * 
@@ -256,7 +256,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#countPendingLedgerEntries(org.kuali.module.chart.bo.Account)
+     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#countPendingLedgerEntries(org.kuali.kfs.coa.businessobject.Account)
      */
     public int countPendingLedgerEntries(Account account) {
         LOG.debug("findPendingLedgerEntries(Account) started");
@@ -283,7 +283,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.module.gl.bo.Encumbrance,
+     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Encumbrance,
      *      boolean)
      */
     public Iterator findPendingLedgerEntries(Encumbrance encumbrance, boolean isApproved) {
@@ -319,7 +319,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.module.gl.bo.Balance, boolean,
+     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Balance, boolean,
      *      boolean)
      */
     public Iterator findPendingLedgerEntries(Balance balance, boolean isApproved, boolean isConsolidated) {

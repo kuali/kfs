@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.document.web;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 
 /**

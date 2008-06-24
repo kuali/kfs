@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.util;
+package org.kuali.kfs.coa.document;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,9 +22,9 @@ import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 public class ObjectCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
 

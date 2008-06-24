@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.action;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,13 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm;
-import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.document.web.struts.BenefitExpenseTransferForm;
+import org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase;
 
 /**
  * Struts Action class for the Benefit Expense Transfer Document.
@@ -41,7 +41,7 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
      * 
      * @param expenseTransferDocumentFormBase ExpenseTransferDocumentForm type
      * @return String classname
-     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#getLookupResultsBOClassName(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase)
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentActionBase#getLookupResultsBOClassName(org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase)
      */
     @Override
     protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm) {
@@ -52,8 +52,8 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
      * @param expenseTransferDocumentFormBase ExpenseTransferDocumentForm type
      * @param balance LedgerBalance type
      * @return none
-     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase,
-     *      org.kuali.module.labor.bo.LedgerBalance)
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase,
+     *      org.kuali.kfs.module.ld.businessobject.LedgerBalance)
      */
     @Override
     protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {

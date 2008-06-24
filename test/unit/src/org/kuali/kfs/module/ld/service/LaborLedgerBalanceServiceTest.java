@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LaborTransaction;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.testdata.LaborTestDataPropertyConstants;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.util.TestDataPreparator;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.web.TestDataGenerator;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.TestDataPreparator;
 
 @ConfigureContext
 public class LaborLedgerBalanceServiceTest extends KualiTestBase {

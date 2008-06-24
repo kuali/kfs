@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.gl.batch.service.BalancePredicate;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 /**
  * An implementation of BalancePredicate to only select balances where the annual account line total and contracts and grants total
@@ -29,7 +29,7 @@ public class BalanceAnnualAndCGTotalNotZeroPredicate implements BalancePredicate
      * 
      * @param balance the balance to qualify
      * @returns true if the annual account line balance and contracts and grants balance summed are not zero, false otherwise
-     * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate#select(org.kuali.module.gl.bo.Balance)
+     * @see org.kuali.kfs.gl.batch.service.BalancePredicate#select(org.kuali.kfs.gl.businessobject.Balance)
      */
     public boolean select(Balance balance) {
         return !balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()).isZero();

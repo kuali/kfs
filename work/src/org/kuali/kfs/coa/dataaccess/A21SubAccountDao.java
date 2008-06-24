@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao;
+package org.kuali.kfs.coa.dataaccess;
 
-import org.kuali.module.chart.bo.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
 
 /**
- * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.module.chart.bo.A21SubAccount}
+ * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.kfs.coa.businessobject.A21SubAccount}
  */
 public interface A21SubAccountDao {
     /**

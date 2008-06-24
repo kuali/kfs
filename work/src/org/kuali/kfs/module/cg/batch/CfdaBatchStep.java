@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.batch;
+package org.kuali.kfs.module.cg.batch;
 
 import java.io.IOException;
 import java.util.Date;
@@ -31,9 +31,9 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.cg.service.CfdaService;
-import org.kuali.module.cg.service.CfdaUpdateResults;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
@@ -53,7 +53,7 @@ public class CfdaBatchStep extends AbstractStep {
     /**
      * See the class description.
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         MailMessage message = new MailMessage();

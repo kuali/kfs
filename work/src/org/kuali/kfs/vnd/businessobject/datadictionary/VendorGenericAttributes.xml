@@ -7,7 +7,7 @@
 <bean id="VendorGenericAttributes" parent="VendorGenericAttributes-parentBean"/>
 
 	<bean id="VendorGenericAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
-<property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorGenericAttributes"/>
+<property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorGenericAttributes"/>
 
 	<property name="attributes">
 
@@ -49,7 +49,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -227,7 +227,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryNotRestrictedValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

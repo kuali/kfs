@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.bo.AccountsPayableItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 
 /**
  * Accounts Payable Document Interface

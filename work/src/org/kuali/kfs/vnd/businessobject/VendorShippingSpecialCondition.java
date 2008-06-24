@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -22,12 +22,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * Relationship between a Vendor and a <code>ShippingSpecialCondition</code>.
  * 
- * @see org.kuali.module.vendor.bo.ShippingSpecialCondition
+ * @see org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition
  */
 public class VendorShippingSpecialCondition extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
@@ -113,7 +113,7 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorShippingSpecialCondition)) {

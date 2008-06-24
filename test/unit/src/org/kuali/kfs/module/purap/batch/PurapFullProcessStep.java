@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.batch;
+package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.purap.document.PurapFullProcessDocumentTest;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.purap.document.PurapFullProcessDocumentTest;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class PurapFullProcessStep extends AbstractStep {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.service.SalarySettingService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 
 
 /**

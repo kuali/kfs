@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.List;
 
 import org.kuali.core.util.Guid;
-import org.kuali.module.budget.BCConstants.Report.BuildMode;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
-import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
-import org.kuali.module.budget.dao.BudgetReportsControlListDao;
+import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao;
 
 /**
  * JCBC implementation of BudgetReportsControlListDaoJdbc
  * 
- * @see org.kuali.module.budget.dao.BudgetReportsControlListDao
+ * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao
  */
 public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetReportsControlListDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetReportsControlListDaoJdbc.class);
@@ -207,8 +207,8 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportControlList(java.lang.String, java.lang.Integer,
-     *      java.lang.String, java.lang.String, org.kuali.module.budget.BCConstants.Report.BuildMode)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportControlList(java.lang.String, java.lang.Integer,
+     *      java.lang.String, java.lang.String, org.kuali.kfs.module.bc.BCConstants.Report.BuildMode)
      */
     public void updateReportControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
         // clear out previous data for user
@@ -241,7 +241,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSubFundGroupSelectList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsSubFundGroupSelectList(java.lang.String)
      */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier) {
         // clear out previous sub-fund list for user
@@ -252,7 +252,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsObjectCodeSelectList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsObjectCodeSelectList(java.lang.String)
      */
     public void updateReportsObjectCodeSelectList(String personUserIdentifier) {
         // clear out previous object code list for user
@@ -263,7 +263,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsReasonCodeSelectList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsReasonCodeSelectList(java.lang.String)
      */
     public void updateReportsReasonCodeSelectList(String personUserIdentifier) {
         // clear out previous reason code list for user
@@ -274,7 +274,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateObjectCodeSelectFlags(java.util.List)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateObjectCodeSelectFlags(java.util.List)
      */
     public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList) {
         for (BudgetConstructionObjectPick budgetConstructionObjectPick : objectCodePickList) {
@@ -283,7 +283,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReasonCodeSelectFlags(java.util.List)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReasonCodeSelectFlags(java.util.List)
      */
     public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
         for (BudgetConstructionReasonCodePick budgetConstructionReasonCodePick : reasonCodePickList) {
@@ -292,7 +292,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateSubFundSelectFlags(java.util.List)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateSubFundSelectFlags(java.util.List)
      */
     public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList) {
         for (BudgetConstructionSubFundPick budgetConstructionSubFundPick : subFundPickList) {

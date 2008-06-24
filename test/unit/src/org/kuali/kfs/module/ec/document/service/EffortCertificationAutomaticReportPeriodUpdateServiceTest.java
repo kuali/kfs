@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.document.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.EffortCertificationTestConstants;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.dao.ojb.MockEffortCertificationReportDefinitionDaoOjb;
-import org.kuali.module.effort.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.EffortCertificationReportDefinitionFixture;
-import org.kuali.test.suite.RelatesTo;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.EffortCertificationTestConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.dataaccess.MockEffortCertificationReportDefinitionDaoOjb;
+import org.kuali.kfs.module.ec.document.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.EffortCertificationReportDefinitionFixture;
+import org.kuali.kfs.suite.RelatesTo;
 
 /**
  * Contains methods that test the EffortCertificationAutomaticReportPeriodUpdateService.

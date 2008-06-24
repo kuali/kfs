@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.exceptions.XMLParseException;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.exception.FileStorageException;
+import org.kuali.kfs.sys.exception.XMLParseException;
 
 /**
  * Interface defining methods to manage batch input files.

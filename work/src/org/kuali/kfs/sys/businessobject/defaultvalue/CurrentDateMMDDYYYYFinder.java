@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup.valuefinder;
+package org.kuali.kfs.sys.businessobject.defaultvalue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +22,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class CurrentDateMMDDYYYYFinder implements ValueFinder {
 

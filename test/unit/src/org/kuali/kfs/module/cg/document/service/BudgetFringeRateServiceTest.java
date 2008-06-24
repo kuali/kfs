@@ -17,14 +17,14 @@
  * Created on Jul 15, 2005
  *
  */
-package org.kuali.module.kra.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.module.kra.budget.service.BudgetFringeRateService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
+import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class...

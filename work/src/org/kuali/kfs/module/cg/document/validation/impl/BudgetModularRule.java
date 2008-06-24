@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.rules.budget;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 
 public class BudgetModularRule {
 

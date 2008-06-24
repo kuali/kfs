@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.fixtures.UserNameFixture.PARKE;
-import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
 import java.util.List;
 
@@ -25,13 +25,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.bo.AssignContractManagerDetail;
-import org.kuali.module.purap.fixtures.AssignContractManagerDocumentFixture;
-import org.kuali.test.ConfigureContext;
-import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.fixture.AssignContractManagerDocumentFixture;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;

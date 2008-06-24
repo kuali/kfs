@@ -7,7 +7,7 @@
   <bean id="Encumbrance" parent="Encumbrance-parentBean" />
 
   <bean id="Encumbrance-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.gl.bo.Encumbrance" />
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Encumbrance" />
     <property name="inquiryDefinition" >
       <ref bean="Encumbrance-inquiryDefinition" />
     </property>
@@ -232,7 +232,7 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -246,7 +246,7 @@
               p:attributeName="subObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="balanceTypeCode"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLEncumbranceBalanceTypeOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.EncumbranceBalanceTypeOptionFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="documentTypeCode" />
         <bean parent="FieldDefinition"
@@ -255,7 +255,7 @@
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.pendingEntryOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
       </list>
     </property>
     <property name="resultFields" >

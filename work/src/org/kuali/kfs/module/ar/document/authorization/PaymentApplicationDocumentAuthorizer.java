@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.document.authorization;
+package org.kuali.kfs.module.ar.document.authorization;
 
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
 public class PaymentApplicationDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     

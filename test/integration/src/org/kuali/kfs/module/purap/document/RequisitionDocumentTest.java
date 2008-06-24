@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
-import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +28,17 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.bo.PurchasingItem;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentWithCommodityCodeFixture;
-import org.kuali.module.purap.fixtures.RequisitionItemFixture;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionItemFixture;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
 

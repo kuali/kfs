@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs;
+package org.kuali.kfs.sys;
 
 public interface ParameterKeyConstants {
     // marker interface for classes holding parameter key constants

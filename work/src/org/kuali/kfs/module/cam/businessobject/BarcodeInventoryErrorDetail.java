@@ -1,4 +1,4 @@
-package org.kuali.module.cams.bo;
+package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -7,9 +7,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Campus;
-import org.kuali.kfs.bo.Room;
-import org.kuali.kfs.bo.Building;
-import org.kuali.module.cams.bo.AssetCondition;
+import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.module.cam.businessobject.AssetCondition;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */

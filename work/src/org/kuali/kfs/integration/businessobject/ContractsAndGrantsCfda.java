@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.integration.bo;
+package org.kuali.kfs.integration.businessobject;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 

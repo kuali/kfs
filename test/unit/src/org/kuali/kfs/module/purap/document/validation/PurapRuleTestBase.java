@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.core.maintenance.MaintenanceRuleTestBase;
+import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 
 /**
  * This class should contain any methods which need to be implemented by all test classes implementing tests of Purchasing

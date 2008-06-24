@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.gl.batch.service.BalancePredicate;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 /**
  * A predicate that only allows the selection of balances with a total that isn't zero (those with zero as a total are somewhat
@@ -30,7 +30,7 @@ public class BalanceTotalNotZeroPredicate implements BalancePredicate {
      * 
      * @param balance the balance to qualify
      * @return true if the balance total is not zero, false if it is
-     * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate#select(org.kuali.module.gl.bo.Balance)
+     * @see org.kuali.kfs.gl.batch.service.BalancePredicate#select(org.kuali.kfs.gl.businessobject.Balance)
      */
     public boolean select(Balance balance) {
         return !balance.getAccountLineAnnualBalanceAmount().add(balance.getBeginningBalanceLineAmount()).add(balance.getContractsGrantsBeginningBalanceAmount()).isZero();

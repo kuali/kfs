@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.workflow.postprocessor;
+package org.kuali.kfs.sys.document.workflow;
 
 import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.service.PostProcessorService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.clientapp.PostProcessorRemote;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao.ojb;
+package org.kuali.kfs.fp.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,14 +26,14 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.financial.bo.CashieringItemInProcess;
-import org.kuali.module.financial.bo.CashieringTransaction;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.dao.CashManagementDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
+import org.kuali.kfs.fp.businessobject.CashieringTransaction;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
 import org.springframework.dao.DataAccessException;
 
 public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements CashManagementDao {
@@ -44,7 +44,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#findOpenItemsInProcessByWorkgroupName(java.lang.String)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findOpenItemsInProcessByWorkgroupName(java.lang.String)
      */
     public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String wrkgrpName) throws DataAccessException {
         List<CashieringItemInProcess> openItems = new ArrayList<CashieringItemInProcess>();
@@ -61,7 +61,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#findRecentlyClosedItemsInProcess(java.lang.String)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findRecentlyClosedItemsInProcess(java.lang.String)
      */
     public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String workgroupName) {
         List<CashieringItemInProcess> closedItems = new ArrayList<CashieringItemInProcess>();
@@ -82,7 +82,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#findCoinDetailByCashieringRecordSource(java.lang.String,
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findCoinDetailByCashieringRecordSource(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public CoinDetail findCoinDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
@@ -90,7 +90,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#findCurrencyDetailByCashieringRecordSource(java.lang.String,
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findCurrencyDetailByCashieringRecordSource(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public CurrencyDetail findCurrencyDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
@@ -129,7 +129,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#selectCashieringChecksForDeposit(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#selectCashieringChecksForDeposit(java.lang.String, java.lang.Integer)
      */
     public List<Check> selectCashieringChecksForDeposit(String documentNumber, Integer depositLineNumber) {
         QueryByCriteria depositedChecksQuery = QueryFactory.newQuery(CheckBase.class, createDepositedCashieringCheckCriteria(documentNumber, depositLineNumber));
@@ -164,7 +164,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#selectUndepositedCashieringChecks(java.lang.String)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#selectUndepositedCashieringChecks(java.lang.String)
      */
     public List<Check> selectUndepositedCashieringChecks(String documentNumber) {
         QueryByCriteria undepositedChecksQuery = QueryFactory.newQuery(CheckBase.class, createUndepositedCashieringCheckCriteria(documentNumber));
@@ -184,7 +184,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#selectDepositedCashieringChecks(java.lang.String)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#selectDepositedCashieringChecks(java.lang.String)
      */
     public List<Check> selectDepositedCashieringChecks(String documentNumber) {
         QueryByCriteria depositedChecksQuery = QueryFactory.newQuery(CheckBase.class, createDepositedCashieringCheckCriteria(documentNumber));
@@ -247,7 +247,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#selectNextAvailableCheckLineNumber(java.lang.String)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#selectNextAvailableCheckLineNumber(java.lang.String)
      */
     public Integer selectNextAvailableCheckLineNumber(String documentNumber) {
         if (documentNumber != null) {

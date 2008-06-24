@@ -72,7 +72,7 @@
               This does not include the package name." %>
 <%@ attribute name="boPackageName" required="false"
               description="The name of the package containing the business object class to perform a lookup or inquiry.
-              If this attribute is missing, it defaults to 'org.kuali.module.chart.bo'." %>
+              If this attribute is missing, it defaults to 'org.kuali.kfs.coa.businessobject'." %>
 <%@ attribute name="conversionField" required="false"
               description="The name of the field in the business object corresponding to
               this cell's field  in the accounting line.
@@ -133,7 +133,7 @@
 </c:if>
 <c:choose>
     <c:when test="${empty boPackageName}">
-        <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
+        <c:set var="boClassName" value="org.kuali.kfs.coa.businessobject.${boClassSimpleName}"/>
     </c:when>
     <c:otherwise>
         <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
@@ -173,7 +173,7 @@
         </c:otherwise>
     </c:choose>
     <c:if test="${csfInquiry == 'true'}">
-    	<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
+    	<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
     </c:if>
     <kul:htmlControlAttribute
         property="${cellProperty}"

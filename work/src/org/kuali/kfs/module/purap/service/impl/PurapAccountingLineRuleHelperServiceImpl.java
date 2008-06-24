@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.service.impl;
 
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.PurapAccountingLineRuleHelperService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.service.PurapAccountingLineRuleHelperService;
 
 public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl implements PurapAccountingLineRuleHelperService{
     private PurchasingAccountsPayableDocument document;
@@ -43,7 +43,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
     }
 
     /**
-     * @see org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.bo.AccountingLine, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
      * in purap implementation this does nothing since it is handled in our rule classes
      */
     @Override
@@ -52,7 +52,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.module.chart.bo.ObjectCode, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
         
@@ -80,7 +80,7 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
     }
     
     /**
-     * @see org.kuali.kfs.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.module.chart.bo.SubObjCd, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.core.datadictionary.DataDictionary, java.lang.String)
      */
     public boolean isValidSubObjectCode(SubObjCd subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
 

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
-import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 
 /**
  * Defines methods that must be implemented by a CreditMemoCreateService implementation.

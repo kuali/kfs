@@ -7,7 +7,7 @@
   <bean id="VendorDetail" parent="VendorDetail-parentBean" />
 
   <bean id="VendorDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorDetail" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail" />
     <property name="boNotesEnabled" value="true" />
     <property name="inquiryDefinition" >
       <ref bean="VendorDetail-inquiryDefinition" />
@@ -383,7 +383,7 @@
     <property name="shortLabel" value="Payment Terms" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTermsValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTermsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -394,7 +394,7 @@
     <property name="shortLabel" value="Shipping Payment Terms" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingPaymentTermsValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingPaymentTermsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -406,7 +406,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingTitleValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingTitleValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -417,7 +417,7 @@
     <property name="shortLabel" value="Inactive Reason" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.InactiveReasonValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.InactiveReasonValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -707,7 +707,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorAddresses" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorAddress" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAddress" />
                 <property name="numberOfColumns" value="2" />
                 <property name="inquiryFields" >
                   <list>
@@ -745,7 +745,7 @@
                   <list>
                     <bean parent="InquiryCollectionDefinition">
                       <property name="attributeName" value="vendorDefaultAddresses" />
-                      <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorDefaultAddress" />
+                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress" />
                       <property name="numberOfColumns" value="1" />
                       <property name="summaryTitle" value="Default Address" />
                       <property name="inquiryFields" >
@@ -778,7 +778,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorContacts" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContact" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContact" />
                 <property name="numberOfColumns" value="2" />
                 <property name="summaryTitle" value="Contact" />
                 <property name="inquiryFields" >
@@ -815,7 +815,7 @@
                   <list>
                     <bean parent="InquiryCollectionDefinition">
                       <property name="attributeName" value="vendorContactPhoneNumbers" />
-                      <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContactPhoneNumber" />
+                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber" />
                       <property name="numberOfColumns" value="1" />
                       <property name="summaryTitle" value="Phone Number" />
                       <property name="inquiryFields" >
@@ -852,7 +852,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorHeader.vendorSupplierDiversities" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorSupplierDiversity" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity" />
                 <property name="numberOfColumns" value="1" />
                 <property name="summaryTitle" value="Supplier Diversity" />
                 <property name="inquiryFields" >
@@ -880,7 +880,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorShippingSpecialConditions" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition" />
                 <property name="numberOfColumns" value="1" />
                 <property name="summaryTitle" value="Shipping Special Condition" />
                 <property name="inquiryFields" >
@@ -908,7 +908,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorAliases" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorAlias" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -935,7 +935,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorPhoneNumbers" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorPhoneNumber" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -968,7 +968,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorCustomerNumbers" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorCustomerNumber" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -999,7 +999,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="vendorContracts" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContract" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContract" />
                 <property name="numberOfColumns" value="2" />
                 <property name="summaryTitle" value="Contract" />
                 <property name="inquiryFields" >
@@ -1036,7 +1036,7 @@
                   <list>
                     <bean parent="InquiryCollectionDefinition">
                       <property name="attributeName" value="vendorContractOrganizations" />
-                      <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContractOrganization" />
+                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" />
                       <property name="numberOfColumns" value="1" />
                       <property name="summaryTitle" value="Contract Organization" />
                       <property name="inquiryFields" >
@@ -1093,7 +1093,7 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.module.vendor.maintenance.VendorInquirable" />    
+    <property name="inquirableClass" value="org.kuali.kfs.vnd.businessobject.inquiry.VendorInquirable" />    
   </bean>
 
 <!-- Business Object Lookup Definition -->

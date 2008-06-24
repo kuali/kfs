@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
 
 /**
  * This interface defines methods that a BudgetCostShareService must provide.

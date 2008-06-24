@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Collection;
 
-import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 
 /**
  * This interface provides its clients with access to labor position object benefit entries in the backend data store.

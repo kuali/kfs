@@ -1,4 +1,4 @@
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -7,17 +7,17 @@ import java.util.List;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.Carrier;
-import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
-import org.kuali.module.purap.bo.ReceivingCorrectionItem;
-import org.kuali.module.purap.bo.ReceivingItem;
-import org.kuali.module.purap.bo.ReceivingLineItem;
-import org.kuali.module.purap.rule.event.ContinuePurapEvent;
-import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.ReceivingService;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.businessobject.Carrier;
+import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

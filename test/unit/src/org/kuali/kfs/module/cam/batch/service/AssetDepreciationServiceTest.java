@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.batch.service;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -21,14 +21,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.module.cams.service.AssetDepreciationService;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 @ConfigureContext(session = KHUNTLEY)
 //@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)

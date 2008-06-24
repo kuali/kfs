@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kfs.batch.BatchJobStatus;
-import org.kuali.kfs.batch.Job;
+import org.kuali.kfs.sys.batch.BatchJobStatus;
+import org.kuali.kfs.sys.batch.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;

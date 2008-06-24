@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.database;
+package org.kuali.kfs.sys.dataaccess;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,9 +23,9 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class DatabaseConsistencyTest extends KualiTestBase {

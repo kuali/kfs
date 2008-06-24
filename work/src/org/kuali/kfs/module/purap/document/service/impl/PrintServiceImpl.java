@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -27,25 +27,25 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.CampusParameter;
-import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
-import org.kuali.module.purap.dao.ImageDao;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.exceptions.PurError;
-import org.kuali.module.purap.exceptions.PurapConfigurationException;
-import org.kuali.module.purap.pdf.PurchaseOrderPdf;
-import org.kuali.module.purap.pdf.PurchaseOrderPdfParameters;
-import org.kuali.module.purap.pdf.PurchaseOrderQuotePdf;
-import org.kuali.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
-import org.kuali.module.purap.service.PrintService;
-import org.kuali.module.vendor.bo.ContractManager;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.CampusParameter;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.dataaccess.ImageDao;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdfParameters;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
+import org.kuali.kfs.module.purap.document.service.PrintService;
+import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -77,7 +77,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderQuoteRequestsListPdf(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream)
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#generatePurchaseOrderQuoteRequestsListPdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream)
      */
     public Collection generatePurchaseOrderQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream) {
         LOG.debug("generatePurchaseOrderQuoteRequestsListPdf() started");
@@ -112,7 +112,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderQuoteRequestsListPdf(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#savePurchaseOrderQuoteRequestsListPdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public Collection savePurchaseOrderQuoteRequestsListPdf(PurchaseOrderDocument po) {
         return null;
@@ -238,7 +238,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderQuotePdf(org.kuali.module.purap.document.PurchaseOrderDocument, org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#generatePurchaseOrderQuotePdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream, java.lang.String)
      */
     public Collection generatePurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream byteArrayOutputStream, String environment) {
         LOG.debug("generatePurchaseOrderQuotePdf() started");
@@ -273,7 +273,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderQuotePdf(org.kuali.module.purap.document.PurchaseOrderDocument, org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#savePurchaseOrderQuotePdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote, java.lang.String)
      */
     public Collection savePurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, String environment) {
         LOG.debug("savePurchaseOrderQuotePdf() started");
@@ -435,7 +435,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderPdf(org.kuali.module.purap.document.PurchaseOrderDocument,
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#generatePurchaseOrderPdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
      *      java.io.ByteArrayOutputStream, java.lang.String)
      */
     public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems) {
@@ -443,7 +443,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderPdfForRetransmission(org.kuali.module.purap.document.PurchaseOrderDocument,
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#generatePurchaseOrderPdfForRetransmission(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
      *      java.io.ByteArrayOutputStream, java.lang.String)
      */
     public Collection generatePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems) {
@@ -498,7 +498,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderPdf(org.kuali.module.purap.document.PurchaseOrderDocument,
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#savePurchaseOrderPdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
      *      java.lang.String)
      */
     public Collection savePurchaseOrderPdf(PurchaseOrderDocument po, String environment) {
@@ -506,7 +506,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderPdfForRetransmission(org.kuali.module.purap.document.PurchaseOrderDocument,
+     * @see org.kuali.kfs.module.purap.document.service.PrintService#savePurchaseOrderPdfForRetransmission(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
      *      java.lang.String)
      */
     public Collection savePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, String environment) {

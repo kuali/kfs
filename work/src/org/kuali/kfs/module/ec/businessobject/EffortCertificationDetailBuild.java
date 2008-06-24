@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
 
 /**
  * Business Object for the Effort Certification Detail Build Table.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.util;
+package org.kuali.kfs.module.ec.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,12 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.util.TestDataPreparator;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.TestDataPreparator;
 
 @ConfigureContext
 public class DetailLineGroupTest extends KualiTestBase {

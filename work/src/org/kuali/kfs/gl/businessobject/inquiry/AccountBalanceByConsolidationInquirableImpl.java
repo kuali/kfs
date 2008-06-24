@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.inquirable;
+package org.kuali.kfs.gl.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +23,11 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.AccountBalanceByLevel;
-import org.kuali.module.gl.web.Constant;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.AccountBalanceByLevel;
+import org.kuali.kfs.gl.Constant;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by consolidation screen. It is
@@ -44,7 +44,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * Builds a list of attributes for finding the values for this inquiry.
      * 
      * @return a List of attribute keys to inquire on
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
@@ -65,7 +65,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * Generates an attribute map of fields created simply for this inquiry
      * 
      * @return a Map with a link button attribute in it
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
@@ -79,7 +79,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * Converts attribute names for the inquiry screen
      * 
      * @return the converted name of the attribute
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
         // if (attributeName.equals("dummyBusinessObject.linkButtonOption")) {
@@ -94,7 +94,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * @param keyName the keyName of the key to check
      * @param keyValue the value of the key to check
      * @return a new value
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
         if (isExclusiveField(keyName, keyValue)) {
@@ -107,7 +107,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * Given a key name, returns the key name; this implementation just passes back what it gets
      * 
      * @return the key name passed in
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
         return keyName;
@@ -117,7 +117,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * The name of this inquiry
      * 
      * @return a String with this inquiry's name
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
         return Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_LEVEL;
@@ -127,7 +127,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * The base url that inquires of this type need to be sent to
      * 
      * @return the base url
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
         return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
@@ -138,7 +138,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * 
      * @param attributeName the attribute to return a class for
      * @return a class for the attribute
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         Class c = null;
@@ -152,7 +152,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * For a given attribute, lets this inquiry add more parameters
      * @param parameter the set of parameters for the inquiry
      * @param attributeName the attributeName parameters are being set for
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
         parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.batch;
+package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.impl.PurapAccountingServiceImpl;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.service.impl.PurapAccountingServiceImpl;
 
 
 public class ReceivingPaymentRequestStep extends AbstractStep {

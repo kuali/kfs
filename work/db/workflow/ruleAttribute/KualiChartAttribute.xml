@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiChartAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiChartAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiChartAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>

@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.MockCollectorBatch;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.gl.batch.collector.CollectorStep;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.batch.MockCollectorBatch;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.gl.batch.CollectorStep;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.ConfigureContext;
 
-// import org.kuali.test.suite.RelatesTo;
+// import org.kuali.kfs.suite.RelatesTo;
 
 /**
  * Test the CollectorService.

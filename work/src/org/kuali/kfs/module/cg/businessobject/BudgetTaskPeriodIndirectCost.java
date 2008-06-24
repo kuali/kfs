@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.kra.budget.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -39,7 +39,7 @@ public class BudgetTaskPeriodIndirectCost extends PersistableBusinessObjectBase 
     /**
      * For more information on how these values are used, see the impl.
      * 
-     * @see org.kuali.module.kra.budget.service.impl.BudgetIndirectCostServiceImpl
+     * @see org.kuali.kfs.module.cg.document.service.impl.BudgetIndirectCostServiceImpl
      */
     private KualiInteger totalDirectCost; // Calcluated totalDirectCost for this taskPeriod.
     private KualiInteger baseCost; // Calculated baseCost for this taskPeriod.

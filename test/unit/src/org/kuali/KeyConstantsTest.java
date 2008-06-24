@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 public class KeyConstantsTest extends KualiTestBase {
 

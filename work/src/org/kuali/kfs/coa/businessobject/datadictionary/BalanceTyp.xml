@@ -7,7 +7,7 @@
   <bean id="BalanceTyp" parent="BalanceTyp-parentBean" />
 
   <bean id="BalanceTyp-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.BalanceTyp" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.BalanceTyp" />
     <property name="inquiryDefinition" >
       <ref bean="BalanceTyp-inquiryDefinition" />
     </property>

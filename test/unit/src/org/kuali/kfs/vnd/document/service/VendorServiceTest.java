@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service;
+package org.kuali.kfs.vnd.document.service;
 
-import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address1;
-import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address2;
-import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address3;
-import static org.kuali.module.vendor.fixtures.VendorAddressFixture.address4;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address1;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address2;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address3;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address4;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.fixtures.VendorAddressFixture;
-import org.kuali.module.vendor.fixtures.VendorRoutingChangesFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.fixture.VendorAddressFixture;
+import org.kuali.kfs.vnd.fixture.VendorRoutingChangesFixture;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class VendorServiceTest extends KualiTestBase {

@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.kfs.validation.GenericValidation;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
 
 /**
  * Validation that checks the sales tax account/object code combination on accounting lines of the cash receipt
@@ -37,7 +37,7 @@ public class CashReceiptAccountAndObjectCodeValidation extends GenericValidation
 
     /**
      * This method processes the accounting line to make sure if a sales tax account is used the right object code is used with it
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean isValid = true;

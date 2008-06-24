@@ -17,7 +17,7 @@
  * Created on Aug 2, 2004
  *
  */
-package org.kuali.module.pdp.action.paymentsearch;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,18 +31,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.BatchSearch;
-import org.kuali.module.pdp.form.paymentsearch.BatchSearchForm;
-import org.kuali.module.pdp.service.BatchMaintenanceService;
-import org.kuali.module.pdp.service.BatchSearchService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.BatchSearch;
+import org.kuali.kfs.pdp.web.struts.BatchSearchForm;
+import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.BatchSearchService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

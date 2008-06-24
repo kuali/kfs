@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.action;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -45,35 +45,35 @@ import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.document.CorrectionDocumentAuthorizer;
-import org.kuali.module.gl.exception.LoadException;
-import org.kuali.module.gl.service.CorrectionDocumentService;
-import org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.CorrectionDocumentUtils;
-import org.kuali.module.gl.web.struts.action.CorrectionAction;
-import org.kuali.module.gl.web.struts.form.CorrectionForm;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.document.LaborCorrectionDocument;
-import org.kuali.module.labor.service.LaborCorrectionDocumentService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.web.optionfinder.CorrectionLaborGroupEntriesFinder;
-import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
-import org.kuali.module.labor.web.struts.form.LaborCorrectionForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.CorrectionChange;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.CorrectionDocumentAuthorizer;
+import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.gl.service.GlCorrectionProcessOriginEntryService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.document.web.struts.CorrectionAction;
+import org.kuali.kfs.gl.document.web.struts.CorrectionForm;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.businessobject.options.CorrectionLaborGroupEntriesFinder;
+import org.kuali.kfs.module.ld.businessobject.options.LaborOriginEntryFieldFinder;
+import org.kuali.kfs.module.ld.document.web.struts.LaborCorrectionForm;
 
 /**
  * Struts Action Class for the Labor Ledger Correction Process.
@@ -208,7 +208,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * This handles the action for uploading a file
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#uploadFile(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#uploadFile(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward uploadFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException, Exception {
@@ -345,7 +345,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Save a changed row in the group
      *
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#saveManualEntry(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#saveManualEntry(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward saveManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("saveManualEdit() started");
@@ -393,7 +393,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Add a new row to the group
      *
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#addManualEntry(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#addManualEntry(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward addManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("addManualEdit() started");
@@ -436,7 +436,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Handles manual edit of labor correction form
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#manualEdit(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#manualEdit(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward manualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -457,7 +457,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Handles edit of manual entry
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#editManualEntry(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#editManualEntry(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -573,14 +573,14 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#removeNonMatchingEntries(java.util.Collection,
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#removeNonMatchingEntries(java.util.Collection,
      *      java.util.Collection)
      */
     protected void removeNonMatchingEntries(Collection<OriginEntryFull> entries, Collection<CorrectionChangeGroup> groups) {
         Iterator<OriginEntryFull> loei = entries.iterator();
         while (loei.hasNext()) {
             OriginEntryFull oe = loei.next();
-            if (!org.kuali.module.labor.util.CorrectionDocumentUtils.doesLaborEntryMatchAnyCriteriaGroups(oe, groups)) {
+            if (!org.kuali.kfs.module.ld.util.CorrectionDocumentUtils.doesLaborEntryMatchAnyCriteriaGroups(oe, groups)) {
                 loei.remove();
             }
         }
@@ -683,7 +683,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Loads persisted output group 
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#loadPersistedOutputGroup(org.kuali.module.gl.web.struts.form.CorrectionForm,
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#loadPersistedOutputGroup(org.kuali.kfs.gl.document.web.struts.CorrectionForm,
      *      boolean)
      */
     protected void loadPersistedOutputGroup(CorrectionForm correctionForm, boolean setSequentialIds) throws Exception {
@@ -756,7 +756,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Prepare labor correction document for routing
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#prepareForRoute(org.kuali.module.gl.web.struts.form.CorrectionForm)
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#prepareForRoute(org.kuali.kfs.gl.document.web.struts.CorrectionForm)
      */
     protected boolean prepareForRoute(CorrectionForm correctionForm) throws Exception {
 
@@ -849,7 +849,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Save labor correction form as a text document (.txt)
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#saveToDesktop(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#saveToDesktop(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward saveToDesktop(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -947,7 +947,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Apply paging and sorting from previous page view
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#applyPagingAndSortingFromPreviousPageView(org.kuali.module.gl.web.struts.form.CorrectionForm)
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#applyPagingAndSortingFromPreviousPageView(org.kuali.kfs.gl.document.web.struts.CorrectionForm)
      */
     protected void applyPagingAndSortingFromPreviousPageView(CorrectionForm correctionForm) {
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) correctionForm;
@@ -968,7 +968,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Returns true if input group exists from labor correction document  
      * 
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#checkInputGroupPersistedForDocumentSave(org.kuali.module.gl.web.struts.form.CorrectionForm)
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#checkInputGroupPersistedForDocumentSave(org.kuali.kfs.gl.document.web.struts.CorrectionForm)
      */
     protected boolean checkInputGroupPersistedForDocumentSave(CorrectionForm correctionForm) {
         boolean present;
@@ -990,7 +990,7 @@ public class LaborCorrectionAction extends CorrectionAction {
      * Called when selecting the system and method. If this button is pressed, the document should be reset as if it is the first
      * time it was pressed.
      *
-     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#selectSystemEditMethod(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#selectSystemEditMethod(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectSystemEditMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("selectSystemEditMethod() started");

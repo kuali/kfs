@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.document.authorization;
+package org.kuali.kfs.module.ec.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +21,11 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
-import org.kuali.module.effort.util.EffortCertificationParameterFinder;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
+import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
  * Document Authorizer for the Effort Certification document.

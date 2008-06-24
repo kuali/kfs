@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.action;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -33,13 +33,13 @@ import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.service.PdpSecurityService;
-import org.kuali.module.pdp.service.SecurityRecord;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.service.PdpSecurityService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 
 import edu.iu.uis.eden.web.WebAuthenticationService;
 

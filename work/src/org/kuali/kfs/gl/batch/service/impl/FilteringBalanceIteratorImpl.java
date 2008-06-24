@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Iterator;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.iterators.FilterIterator;
-import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
-import org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator;
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.gl.batch.service.BalancePredicate;
+import org.kuali.kfs.gl.batch.service.FilteringBalanceIterator;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 /**
  * An implementation of FilteringBalanceIterator that only selects balances that should be selected, according to the predicate that

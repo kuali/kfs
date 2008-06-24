@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiRequisitionDocSearchGeneratorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.RequisitionDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.purap.document.searching.generator.RequisitionDocSearchGenerator</className>
       <label>Kuali Requisition Document Search Generator</label>
       <description>Document search generator class for Kuali Requisition Documents</description>
       <type>DocumentSearchGeneratorAttribute</type>

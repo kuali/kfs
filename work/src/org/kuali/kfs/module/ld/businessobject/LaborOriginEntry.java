@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -25,15 +25,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.exception.LoadException;
-import org.kuali.module.labor.LaborConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.module.ld.LaborConstants;
 
 /**
  * Labor business object for LaborOriginEntry.
@@ -1298,7 +1298,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
      * Formats date and returns date
      * 
      * @param date
-     * @see org.kuali.module.gl.bo.OriginEntryLite#formatDate(java.sql.Date)
+     * @see org.kuali.kfs.gl.businessobject.OriginEntryLite#formatDate(java.sql.Date)
      */
     protected String formatDate(Date date) {
         if (date == null) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,12 +22,12 @@ import java.util.Map;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.AssignContractManagerDetail;
-import org.kuali.module.purap.document.AssignContractManagerDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

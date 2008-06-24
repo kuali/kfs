@@ -22,7 +22,7 @@
         
 	<bean id="JournalVoucher-routeDocumentValidation" parent="JournalVoucher-routeDocumentValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-routeDocumentValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-routeDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
@@ -42,7 +42,7 @@
 	
 	<bean id="JournalVoucher-saveDocumentValidation" parent="JournalVoucher-saveDocumentValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-saveDocumentValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-saveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
 				<bean parent="JournalVoucher-balanceTypeValidation" scope="prototype">
@@ -72,7 +72,7 @@
 	
 	<bean id="JournalVoucher-approveDocumentValidation" parent="JournalVoucher-approveDocumentValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-approveDocumentValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-approveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
@@ -82,7 +82,7 @@
 	
 	<bean id="JournalVoucher-blanketApproveDocumentValidation" parent="JournalVoucher-blanketApproveDocumentValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-blanketApproveDocumentValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-blanketApproveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
@@ -99,10 +99,10 @@
 	
 	<bean id="JournalVoucher-addAccountingLineValidation" parent="JournalVoucher-addAccountingLineValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-addAccountingLineValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-addAccountingLineValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
@@ -172,7 +172,7 @@
 	
 	<bean id="JournalVoucher-deleteAccountingLineValidation" parent="JournalVoucher-deleteAccountingLineValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-deleteAccountingLineValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-deleteAccountingLineValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
@@ -182,10 +182,10 @@
 	
 	<bean id="JournalVoucher-updateAccountingLineValidation" parent="JournalVoucher-updateAccountingLineValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-updateAccountingLineValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-updateAccountingLineValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
@@ -255,10 +255,10 @@
 	
 	<bean id="JournalVoucher-reviewAccountingLineValidation" parent="JournalVoucher-reviewAccountingLineValidation-parent" scope="prototype" />
 	
-	<bean id="JournalVoucher-reviewAccountingLineValidation-parent" class="org.kuali.kfs.validation.CompositeValidation" abstract="true" scope="prototype">
+	<bean id="JournalVoucher-reviewAccountingLineValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">

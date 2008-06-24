@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.Calendar;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class UniversityDateServiceTest extends KualiTestBase {

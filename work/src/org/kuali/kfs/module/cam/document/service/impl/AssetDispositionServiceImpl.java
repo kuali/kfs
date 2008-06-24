@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.List;
 
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetDisposition;
-import org.kuali.module.cams.service.AssetDispositionService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetDisposition;
+import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 
 public class AssetDispositionServiceImpl implements AssetDispositionService {
     public void setAssetDispositionHistory(Asset asset) {

@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.bo;
+package org.kuali.kfs.sys.businessobject;
 
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE;
+import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class AccountingLineBaseTest extends KualiTestBase {

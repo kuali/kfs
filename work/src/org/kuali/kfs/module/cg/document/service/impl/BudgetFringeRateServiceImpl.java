@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,16 +24,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.AppointmentType;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.service.BudgetFringeRateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.AppointmentType;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
@@ -57,7 +57,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetFringeRateService#getDefaultFringeRates()
+     * @see org.kuali.kfs.module.cg.document.service.BudgetFringeRateService#getDefaultFringeRates()
      */
     public Collection getDefaultFringeRates() {
         Map fieldValues = new HashMap();

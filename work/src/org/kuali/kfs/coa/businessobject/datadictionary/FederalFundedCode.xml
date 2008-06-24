@@ -7,7 +7,7 @@
   <bean id="FederalFundedCode" parent="FederalFundedCode-parentBean" />
 
   <bean id="FederalFundedCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.FederalFundedCode" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFundedCode" />
     <property name="inquiryDefinition" >
       <ref bean="FederalFundedCode-inquiryDefinition" />
     </property>

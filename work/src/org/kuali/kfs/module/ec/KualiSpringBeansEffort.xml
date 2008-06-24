@@ -18,7 +18,7 @@
 <beans>
     <bean id="effortModule" parent="effortModule-parentBean" />
 
-    <bean id="effortModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="effortModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="effort" />
 		<property name="moduleName" value="Effort Certification" />
 		<property name="moduleCode" value="ER" />
@@ -26,17 +26,17 @@
 		<property name="moduleAuthorizer" ref="effortModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/effort/datadictionary</value>
+				<value>org/kuali/kfs/module/ec/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/effort/OJB-repository-effort.xml</value>
+				<value>org/kuali/kfs/module/ec/OJB-repository-effort.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/module/effort/dwr-effort.xml</value>
+				<value>org/kuali/kfs/module/ec/dwr-effort.xml</value>
 			</list>
 		</property>		
 
@@ -51,7 +51,7 @@
     <bean id="effortModuleAuthorizer" parent="financialSystemModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.effort.</value>
+                <value>org.kuali.kfs.module.ec.</value>
             </list>
         </property>
     </bean>
@@ -65,7 +65,7 @@
 		</property>
 	</bean>
 	
-	<bean id="effortCertificationExtractStep" class="org.kuali.module.effort.batch.EffortCertificationExtractStep" parent="step">
+	<bean id="effortCertificationExtractStep" class="org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep" parent="step">
 		<property name="effortCertificationExtractService">
 			<ref bean="effortCertificationExtractService" />
 		</property>
@@ -79,7 +79,7 @@
 		</property>
 	</bean>
 	
-	<bean id="effortCertificationCreateStep" class="org.kuali.module.effort.batch.EffortCertificationCreateStep" parent="step">
+	<bean id="effortCertificationCreateStep" class="org.kuali.kfs.module.ec.batch.EffortCertificationCreateStep" parent="step">
 		<property name="effortCertificationCreateService">
 			<ref bean="effortCertificationCreateService" />
 		</property>
@@ -87,13 +87,13 @@
 	
 	<!-- Section 2: Service declarations -->
 	
-	<bean id="effortCertifcationReportPeriodUpdateService" class="org.kuali.module.effort.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl" >
+	<bean id="effortCertifcationReportPeriodUpdateService" class="org.kuali.kfs.module.ec.document.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl" >
 		<property name="effortCertificationReportDefinitionDao">
 			<ref bean="effortCertificationReportDefinitionDao" />
 		</property>
 	</bean>
 	
-	<bean id="effortCertificationExtractService" class="org.kuali.module.effort.service.impl.EffortCertificationExtractServiceImpl" >
+	<bean id="effortCertificationExtractService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationExtractServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -122,7 +122,7 @@
 		</property>				
 	</bean>
 	
-	<bean id="effortCertificationCreateService" class="org.kuali.module.effort.service.impl.EffortCertificationCreateServiceImpl" >
+	<bean id="effortCertificationCreateService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationCreateServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -131,13 +131,13 @@
 		</property>	
 	</bean>
 	
-	<bean id="effortCertificationReportDefinitionService" class="org.kuali.module.effort.service.impl.EffortCertificationReportDefinitionServiceImpl" >
+	<bean id="effortCertificationReportDefinitionService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationReportDefinitionServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>					
 	</bean>	
 	
-	<bean id="effortCertificationReportService" class="org.kuali.module.effort.service.impl.EffortCertificationReportServiceImpl">
+	<bean id="effortCertificationReportService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationReportServiceImpl">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -146,14 +146,14 @@
 		</property>
 	</bean>
 	
-	<bean id="effortExtractProcessReportInfo" class="org.kuali.kfs.util.ReportInfoHolder" >
+	<bean id="effortExtractProcessReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Effort Certification Extract Process" />
 		<property name="reportFileName" value="effort_extract_summary" />
 		<property name="reportsDirectory" value="${reports.directory}/" />
 		<property name="resourceBundleBaseName" value="org/kuali/module/effort/report/messages" />
-		<property name="reportTemplateClassPath" value="org/kuali/module/effort/report/" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ec/report/" />
 		<property name="reportTemplateName" value="EffortExtractProcessReport" />
-		<property name="subReportTemplateClassPath" value="org/kuali/module/effort/report/" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ec/report/" />
 		<property name="subReports">
 			<map>
 				<entry key="extractErrors" value="ExtractErrors"/>
@@ -161,7 +161,7 @@
 		</property>
 	</bean>		
 	
-	<bean id="effortCertificationDocumentBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentBuildServiceImpl" >
+	<bean id="effortCertificationDocumentBuildService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationDocumentBuildServiceImpl" >
 		<property name="effortCertificationDetailBuildService">
 			<ref bean="effortCertificationDetailBuildService" />
 		</property>	
@@ -170,9 +170,9 @@
 		</property>					
 	</bean>
 			
-	<bean id="effortCertificationDetailBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDetailBuildServiceImpl" />
+	<bean id="effortCertificationDetailBuildService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationDetailBuildServiceImpl" />
 	
-	<bean id="effortCertificationDocumentService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentServiceImpl" >
+	<bean id="effortCertificationDocumentService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationDocumentServiceImpl" >
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
 		</property>
@@ -187,7 +187,7 @@
 		</property>
 	</bean>	
 		
-	<bean id="effortCertificationService" class="org.kuali.module.effort.service.impl.EffortCertificationServiceImpl">
+	<bean id="effortCertificationService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationServiceImpl">
 		<property name="effortCertificationReportDefinitionService">
 			<ref bean="effortCertificationReportDefinitionService" />
 		</property>	
@@ -200,7 +200,7 @@
 	</bean>
 	 	
 	<!-- DAO declarations -->		
-	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
+	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.kfs.module.ec.dataaccess.impl.EffortCertificationReportDefinitionDaoOjb" />
 	
 	<!-- lookup declarations -->
 	<bean id="outstandingReportsByOrganizationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
@@ -221,7 +221,7 @@
 		</property>
 	</bean>
 	
-	<bean id="outstandingReportsByOrganizationLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingCertificationsByOrganizationLookupableHelperServiceImpl" singleton="false">
+	<bean id="outstandingReportsByOrganizationLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByOrganizationLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -242,7 +242,7 @@
         </property>		
 	</bean> 
 
-	<bean id="outstandingCertificationsByReportLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl" singleton="false">
+	<bean id="outstandingCertificationsByReportLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -263,7 +263,7 @@
         </property>		
 	</bean> 
 
-	<bean id="duplicateCertificationsReportLookupableHelperService" class="org.kuali.module.effort.lookup.DuplicateCertificationsLookupableHelperServiceImpl" singleton="false">
+	<bean id="duplicateCertificationsReportLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.DuplicateCertificationsLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -284,7 +284,7 @@
         </property>		
 	</bean> 
 
-	<bean id="effortLedgerBalanceLookupableHelperService" class="org.kuali.module.effort.lookup.EffortLedgerBalanceLookupableHelperServiceImpl" singleton="false">
+	<bean id="effortLedgerBalanceLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortLedgerBalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -324,7 +324,7 @@
 		</property>
 	</bean>
 	
-	<bean id="effortCertificationDetailBuildLookupableHelperService" class="org.kuali.module.effort.lookup.EffortCertificationDetailBuildLookupableHelperServiceImpl" singleton="false">				
+	<bean id="effortCertificationDetailBuildLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortCertificationDetailBuildLookupableHelperServiceImpl" singleton="false">				
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -345,5 +345,5 @@
         </property>
 	</bean>   	
 	
-	<bean id="effortLedgerBalanceInquirable" class="org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl" singleton="false"/>
+	<bean id="effortLedgerBalanceInquirable" class="org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl" singleton="false"/>
 </beans>

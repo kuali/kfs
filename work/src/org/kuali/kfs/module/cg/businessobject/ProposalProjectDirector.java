@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -44,14 +44,14 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.module.cg.bo.CGProjectDirector#getPersonUniversalIdentifier()
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPersonUniversalIdentifier()
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
     }
 
     /**
-     * @see org.kuali.module.cg.bo.CGProjectDirector#setPersonUniversalIdentifier(java.lang.String)
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPersonUniversalIdentifier(java.lang.String)
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
@@ -62,14 +62,14 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
 
     /**
-     * @see org.kuali.module.cg.bo.CGProjectDirector#getProposalNumber()
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProposalNumber()
      */
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
-     * @see org.kuali.module.cg.bo.CGProjectDirector#setProposalNumber(java.lang.Long)
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProposalNumber(java.lang.Long)
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -139,14 +139,14 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.module.cg.bo.CGProjectDirector#getProjectDirector()
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
     }
 
     /**
-     * @see org.kuali.module.cg.bo.CGProjectDirector#setProjectDirector(org.kuali.module.cg.bo.ProjectDirector)
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProjectDirector(org.kuali.kfs.module.cg.businessobject.ProjectDirector)
      */
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;

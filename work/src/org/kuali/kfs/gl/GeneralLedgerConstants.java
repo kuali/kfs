@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl;
+package org.kuali.kfs.gl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,13 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 
 /**

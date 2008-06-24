@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
 
 /**
  * Business rule(s) applicable to Purchase Order Contract Language maintenance document.

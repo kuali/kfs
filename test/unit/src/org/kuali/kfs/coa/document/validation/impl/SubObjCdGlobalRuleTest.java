@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.chart.bo.AccountGlobalDetail;
-import org.kuali.module.chart.bo.SubObjCdGlobal;
-import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
+import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {

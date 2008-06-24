@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
  * Individuals who are assigned to manage a particular set of Contracts with Vendors, who must therefore look at associated Purchase
  * Orders.
  * 
- * @see org.kuali.module.vendor.bo.VendorContract
+ * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
 public class ContractManager extends PersistableBusinessObjectBase {
 

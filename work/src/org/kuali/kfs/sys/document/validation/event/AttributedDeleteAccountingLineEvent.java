@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rule.event;
+package org.kuali.kfs.sys.document.validation.event;
 
 import org.kuali.core.document.Document;
-import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 public class AttributedDeleteAccountingLineEvent extends AttributedDocumentEventBase {
     private final AccountingLine accountingLine;

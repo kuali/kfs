@@ -7,8 +7,8 @@
   <bean id="VendorDetailMaintenanceDocument" parent="VendorDetailMaintenanceDocument-parentBean" />
 
   <bean id="VendorDetailMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorDetail" />
-    <property name="maintainableClass" value="org.kuali.module.vendor.maintenance.VendorMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail" />
+    <property name="maintainableClass" value="org.kuali.kfs.vnd.document.VendorMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="VendorDetailMaintenanceDocument-Vendor" />
@@ -38,9 +38,9 @@
             p:parameterDetailType="VendorDetail" />
     </property>
     <property name="documentTypeName" value="VendorDetailMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.vendor.rules.VendorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.vendor.document.authorization.VendorDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.vendor.rules.VendorPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.vnd.document.authorization.VendorDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorPreRules" />
     <property name="documentTypeCode" value="PVEN" />
     <property name="workflowProperties" >
       <ref bean="VendorDetailMaintenanceDocument-workflowProperties" />
@@ -197,7 +197,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorAddresses" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorAddress" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAddress" />
           <property name="summaryTitle" value="Address" />
           <property name="summaryFields" >
             <list>
@@ -261,7 +261,7 @@
             <list>
               <bean parent="MaintainableCollectionDefinition">
                 <property name="name" value="vendorDefaultAddresses" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorDefaultAddress" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress" />
                 <property name="summaryTitle" value="Default Address" />
                 <property name="summaryFields" >
                   <list>
@@ -305,7 +305,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorContacts" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContact" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContact" />
           <property name="summaryTitle" value="Contact" />
           <property name="summaryFields" >
             <list>
@@ -365,7 +365,7 @@
             <list>
               <bean parent="MaintainableCollectionDefinition">
                 <property name="name" value="vendorContactPhoneNumbers" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContactPhoneNumber" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber" />
                 <property name="summaryTitle" value="Phone Number" />
                 <property name="summaryFields" >
                   <list>
@@ -416,7 +416,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorHeader.vendorSupplierDiversities" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorSupplierDiversity" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity" />
           <property name="summaryTitle" value="Supplier Diversity" />
           <property name="summaryFields" >
             <list>
@@ -454,7 +454,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorShippingSpecialConditions" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition" />
           <property name="summaryTitle" value="Shipping Special Condition" />
           <property name="summaryFields" >
             <list>
@@ -495,7 +495,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorCommodities" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorCommodityCode" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode" />
           <property name="summaryTitle" value="Vendor Commodity Code" />
           <property name="summaryFields" >
             <list>
@@ -541,7 +541,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorAliases" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorAlias" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -575,7 +575,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorPhoneNumbers" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorPhoneNumber" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -625,7 +625,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorCustomerNumbers" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorCustomerNumber" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -673,7 +673,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="vendorContracts" />
-          <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContract" />
+          <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContract" />
           <property name="summaryTitle" value="Contract" />
           <property name="summaryFields" >
             <list>
@@ -739,7 +739,7 @@
             <list>
               <bean parent="MaintainableCollectionDefinition">
                 <property name="name" value="vendorContractOrganizations" />
-                <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorContractOrganization" />
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" />
                 <property name="summaryTitle" value="Contract Organization" />
                 <property name="summaryFields" >
                   <list>

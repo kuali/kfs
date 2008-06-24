@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * Validates an accounting line that, if the line is not a correction document, the line amount is a positive amount
@@ -34,7 +34,7 @@ public class AccountingLineAmountPositiveValidation extends GenericValidation {
      * Check for zero amount, or negative on original (non-correction) document; no sign check for documents that are
      * corrections to previous documents
      * <strong>the accounting document must be the first parameter, the accounting line must be the second parameter</strong>
-     * @see org.kuali.kfs.validation.GenericValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {        
         KualiDecimal amount = accountingLineForValidation.getAmount();

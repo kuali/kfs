@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service;
+package org.kuali.kfs.vnd.service;
 
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorParameterConstants;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorParameterConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class TaxNumberServiceTest extends KualiTestBase {

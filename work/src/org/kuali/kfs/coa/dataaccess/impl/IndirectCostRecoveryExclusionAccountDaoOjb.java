@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.Iterator;
 
@@ -22,8 +22,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
-import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
 
 /**
  * This class implements the {@link IndirectCostRecoveryExclusionAccountDao} data access methods using Ojb
@@ -36,7 +36,7 @@ public class IndirectCostRecoveryExclusionAccountDaoOjb extends PlatformAwareDao
     }
 
     /**
-     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao#getByPrimaryKey(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao#getByPrimaryKey(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String objectChartOfAccountsCode, String objectCode) {
@@ -53,7 +53,7 @@ public class IndirectCostRecoveryExclusionAccountDaoOjb extends PlatformAwareDao
     }
 
     /**
-     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao#existByAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao#existByAccount(java.lang.String, java.lang.String)
      */
     public boolean existByAccount(String chartOfAccountsCode, String accountNumber) {
         LOG.debug("existByAccount() started");

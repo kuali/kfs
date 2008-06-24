@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rules;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class refers to an attribute which has a value and is labeled in the DataDictionary.

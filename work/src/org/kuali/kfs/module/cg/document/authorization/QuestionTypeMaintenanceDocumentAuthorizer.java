@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.document;
+package org.kuali.kfs.module.cg.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraPropertyConstants;
-import org.kuali.module.kra.routingform.bo.QuestionType;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.QuestionType;
 
 public class QuestionTypeMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 

@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.util.Iterator;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 
 public class CustomerInvoiceDocumentPreRules extends PreRulesContinuationBase {
 

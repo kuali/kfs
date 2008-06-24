@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.module.chart.bo.AccountGlobal;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class AccountGlobalRuleTest extends ChartRuleTestBase {

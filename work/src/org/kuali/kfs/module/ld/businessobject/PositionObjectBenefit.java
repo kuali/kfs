@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
-import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
 
 /**
  * Labor business object for Modeling of Position Object Benefit
@@ -251,14 +251,14 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit#getLaborLedgerBenefitsCalculation()
+     * @see org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit#getLaborLedgerBenefitsCalculation()
      */
     public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation() {
         return this.getBenefitsCalculation();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit#setLaborLedgerBenefitsCalculation(org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation)
+     * @see org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit#setLaborLedgerBenefitsCalculation(org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation)
      */
     public void setLaborLedgerBenefitsCalculation(LaborLedgerBenefitsCalculation laborLedgerBenefitsCalculation) {
         benefitsCalculation = (BenefitsCalculation)laborLedgerBenefitsCalculation;

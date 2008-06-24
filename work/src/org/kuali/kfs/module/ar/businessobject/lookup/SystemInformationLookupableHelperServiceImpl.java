@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.lookup;
+package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.util.List;
 

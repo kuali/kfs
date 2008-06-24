@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.service.PostalZipCodeService;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.service.PostalZipCodeService;
 
 public class PostalZipCodeServiceImpl implements PostalZipCodeService {
 

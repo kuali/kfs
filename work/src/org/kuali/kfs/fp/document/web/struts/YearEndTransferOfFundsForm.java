@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.module.financial.document.YearEndTransferOfFundsDocument;
+import org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument;
 
 /**
  * form for <code>YearEndTransferOfFunds</code>. behaves the same as the TOF. the only functional difference between the YearEnd
  * version and the non-yearEnd version of a document is the glpe's generation.
  * 
- * @see org.kuali.module.financial.web.struts.form.TransferOfFundsForm
+ * @see org.kuali.kfs.fp.document.web.struts.TransferOfFundsForm
  */
 public class YearEndTransferOfFundsForm extends TransferOfFundsForm {
 

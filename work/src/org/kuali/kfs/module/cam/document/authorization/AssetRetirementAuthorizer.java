@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.authorization;
+package org.kuali.kfs.module.cam.document.authorization;
 
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
 
@@ -28,17 +28,17 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
-import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.AssetGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementReason;
-import org.kuali.module.cams.service.AssetRetirementService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
+import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 
 /**
  * AssetAuthorizer for Asset edit.

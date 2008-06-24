@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.ojb;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,18 +31,18 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCConstants.OrgSelControlOption;
-import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.BudgetConstructionDao;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.chart.bo.Delegate;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.coa.businessobject.Delegate;
 
 /**
  * This class is the OJB implementation of the BudgetConstructionDao interface.
@@ -152,7 +152,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getPositionAssociatedWithFundingLock(org.kuali.module.budget.bo.BudgetConstructionFundingLock)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getPositionAssociatedWithFundingLock(org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock)
      */
     public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
 
@@ -206,7 +206,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#deleteBudgetConstructionPullupByUserId(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#deleteBudgetConstructionPullupByUserId(java.lang.String)
      */
     public void deleteBudgetConstructionPullupByUserId(String personUserIdentifier) {
 
@@ -217,7 +217,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBudgetConstructionPullupFlagSetByUserId(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBudgetConstructionPullupFlagSetByUserId(java.lang.String)
      */
     public List getBudgetConstructionPullupFlagSetByUserId(String personUserIdentifier) {
         List orgs = new ArrayList();
@@ -233,7 +233,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
@@ -263,7 +263,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getPendingBudgetConstructionAppointmentFundingRequestSum(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getPendingBudgetConstructionAppointmentFundingRequestSum(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger)
      */
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
         KualiInteger salarySum = KualiInteger.ZERO;
@@ -293,7 +293,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getDocumentPBGLFringeLines(java.lang.String, java.util.List)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getDocumentPBGLFringeLines(java.lang.String, java.util.List)
      */
     public List getDocumentPBGLFringeLines(String documentNumber, List fringeObjects){
         List documentPBGLfringeLines = new ArrayList();
@@ -313,7 +313,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String, java.lang.String)
      */
     public boolean isDelegate(String chartOfAccountsCode, String accountNumber, String personUniversalIdentifier) {
         

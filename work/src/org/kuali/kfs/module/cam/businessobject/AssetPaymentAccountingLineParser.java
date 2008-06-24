@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.bo;
+package org.kuali.kfs.module.cam.businessobject;
 
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.AMOUNT;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.PURCHASE_ORDER;
-import static org.kuali.module.cams.CamsPropertyConstants.AssetPaymentDetail.REQUISITION_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.AMOUNT;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.PURCHASE_ORDER;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.REQUISITION_NUMBER;
 
-import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 
 public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {
     protected static final String[] LINE_FORMAT = 
@@ -53,7 +53,7 @@ public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {
     
     /**
      * 
-     * @see org.kuali.kfs.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {

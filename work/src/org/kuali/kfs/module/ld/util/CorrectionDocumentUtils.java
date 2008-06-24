@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.businessobject.options.LaborOriginEntryFieldFinder;
 
 /**
  * This class provides utility methods for the Labor correction document
@@ -42,7 +42,7 @@ public class CorrectionDocumentUtils {
         Object fieldActualValue = loe.getFieldValue(cc.getCorrectionFieldName());
         String fieldTestValue = StringUtils.isBlank(cc.getCorrectionFieldValue()) ? "" : cc.getCorrectionFieldValue();
         String fieldType = loeff.getFieldType(cc.getCorrectionFieldName());
-        String fieldActualValueString = org.kuali.module.gl.util.CorrectionDocumentUtils.convertToString(fieldActualValue, fieldType);
+        String fieldActualValueString = org.kuali.kfs.gl.document.CorrectionDocumentUtils.convertToString(fieldActualValue, fieldType);
 
         if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
             fieldActualValueString = "";

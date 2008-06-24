@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.document;
+package org.kuali.kfs.module.ld.document;
 
 /**
  * Labor Document class for the Benefit Expense Transfer Document and a base class for the year end benefit expense transfer

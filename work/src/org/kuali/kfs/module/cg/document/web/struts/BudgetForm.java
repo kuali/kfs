@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -34,30 +34,30 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetTypeCode;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetPeriodService;
-import org.kuali.module.kra.budget.service.BudgetPersonnelService;
-import org.kuali.module.kra.budget.service.BudgetTaskService;
-import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTask;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetTypeCode;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
+import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
+import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.kfs.module.cg.document.web.struts.ResearchDocumentFormBase;
 
 
 /**
@@ -141,7 +141,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
         academicYearSubdivisionNames = new ArrayList();
 
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.budget.document.BudgetDocument.class.getName());
+        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.kfs.module.cg.document.BudgetDocument.class.getName());
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderNavigationList().toArray( new HeaderNavigation[] {} ));
     }
 
@@ -926,7 +926,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.web.struts.form.RoutingForm#getSelectedBudgetTypesMultiboxFix(String)
+     * @see org.kuali.kfs.module.cg.document.web.struts.RoutingForm#getSelectedBudgetTypesMultiboxFix(String)
      */
     public void setSelectedBudgetTypesMultiboxFix(String code, String[] something) {
         this.getBudgetDocument().getBudget().addBudgetTypeCode(code);

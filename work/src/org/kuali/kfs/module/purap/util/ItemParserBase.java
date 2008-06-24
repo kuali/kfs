@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_FILE_FORMAT;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_LINE;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
-import static org.kuali.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUMBER;
-import static org.kuali.module.purap.PurapPropertyConstants.ITEM_DESCRIPTION;
-import static org.kuali.module.purap.PurapPropertyConstants.ITEM_QUANTITY;
-import static org.kuali.module.purap.PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
-import static org.kuali.module.purap.PurapPropertyConstants.ITEM_COMMODITY_CODE;
-import static org.kuali.module.purap.PurapPropertyConstants.ITEM_UNIT_PRICE;
+import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_FILE_FORMAT;
+import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
+import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_LINE;
+import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
+import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUMBER;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_DESCRIPTION;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_QUANTITY;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_COMMODITY_CODE;
+import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_UNIT_PRICE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,14 +46,14 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.exceptions.ItemParserException;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.exception.ItemParserException;
 
 public class ItemParserBase implements ItemParser {
 
@@ -65,14 +65,14 @@ public class ItemParserBase implements ItemParser {
     private Integer lineNo = 0;
 
     /**
-     * @see org.kuali.module.purap.util.ItemParser#getItemFormat()
+     * @see org.kuali.kfs.module.purap.util.ItemParser#getItemFormat()
      */
     public String[] getItemFormat() {
         return DEFAULT_FORMAT;
     }
 
     /**
-     * @see org.kuali.module.purap.util.ItemParser#getExpectedItemFormatAsString(java.lang.Class)
+     * @see org.kuali.kfs.module.purap.util.ItemParser#getExpectedItemFormatAsString(java.lang.Class)
      */
     public String getExpectedItemFormatAsString( Class<? extends PurApItem> itemClass ) {
         checkItemClass( itemClass );
@@ -242,7 +242,7 @@ public class ItemParserBase implements ItemParser {
     }
     
     /**
-     * @see org.kuali.module.purap.util.ItemParser#parseItem(java.lang.String,java.lang.Class,java.lang.String)
+     * @see org.kuali.kfs.module.purap.util.ItemParser#parseItem(java.lang.String,java.lang.Class,java.lang.String)
      */
     public PurApItem parseItem( String itemLine, Class<? extends PurApItem> itemClass, String documentNumber ) {
         Map<String, String> itemMap = retrieveItemAttributes( itemLine );
@@ -253,7 +253,7 @@ public class ItemParserBase implements ItemParser {
     }
     
     /**
-     * @see org.kuali.module.purap.util.ItemParser#parseItem(org.apache.struts.upload.FormFile,java.lang.Class,java.lang.String)
+     * @see org.kuali.kfs.module.purap.util.ItemParser#parseItem(org.apache.struts.upload.FormFile,java.lang.Class,java.lang.String)
      */
     public List<PurApItem> importItems( FormFile itemFile, Class<? extends PurApItem> itemClass, String documentNumber ) {
         // check input parameters

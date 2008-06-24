@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.sys.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 
 /**
  * An DAO interface declaring methods needed by UniversityDates to interact with the database

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Map;
 
-import org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper;
-import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.kfs.gl.batch.BalanceForwardRuleHelper;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 
 /**

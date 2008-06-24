@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
 
 /**
  * A step to create a backup group for entries about to be processed by the scrubber and poster
@@ -33,7 +33,7 @@ public class CreateBackupGroupStep extends AbstractStep {
      * @param jobName the name of the job that this step is being run as part of
      * @param jobRunDate the time/date when the job was started
      * @return true if this job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         originEntryGroupService.createBackupGroup();

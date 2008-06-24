@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 
 public enum PurApItemFixture {
     BASIC_QTY_ITEM_1(null, // itemIdentifier

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rule.event;
+package org.kuali.kfs.sys.document.validation.event;
 
 import org.kuali.core.document.Document;
 
@@ -21,7 +21,7 @@ import org.kuali.core.document.Document;
  * An event to save an accounting document, which AccountingDocumentBase will *not* generate
  * general ledger pending entries for
  * 
- * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave
+ * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave
  */
 public class AccountingDocumentSaveWithNoLedgerEntryGenerationEvent extends DocumentSystemSaveEvent {
     /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,18 +28,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
-import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.module.kra.routingform.rules.event.RoutingFormBudgetLinkEvent;
-import org.kuali.module.kra.routingform.service.RoutingFormService;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetIndirectCostFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
+import org.kuali.kfs.module.cg.document.validation.event.RoutingFormBudgetLinkEvent;
+import org.kuali.kfs.module.cg.document.service.RoutingFormService;
+import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -198,7 +198,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
      * Save shouldn't do anything on this page. The only action that should cause the budget linking to occur is the actual "link"
      * button.
      * 
-     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.module.cg.document.web.struts.RoutingFormAction#save(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

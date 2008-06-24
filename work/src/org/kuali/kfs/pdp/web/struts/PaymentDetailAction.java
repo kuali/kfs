@@ -17,7 +17,7 @@
  * Created on Aug 11, 2004
  *
  */
-package org.kuali.module.pdp.action.paymentdetail;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,15 +33,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.service.PaymentDetailService;
-import org.kuali.module.pdp.service.PaymentGroupService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

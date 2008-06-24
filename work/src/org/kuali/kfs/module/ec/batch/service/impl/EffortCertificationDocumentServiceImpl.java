@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,26 +35,26 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
-import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
-import org.kuali.module.effort.service.EffortCertificationDocumentService;
-import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
-import org.kuali.module.integration.service.LaborModuleService;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
+import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
+import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -74,7 +74,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
         KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
@@ -94,7 +94,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#createAndRouteEffortCertificationDocument(org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#createAndRouteEffortCertificationDocument(org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
     @Logged
     public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
@@ -112,8 +112,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument,
-     *      org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
+     *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
     @Logged
     public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
@@ -141,7 +141,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#resetEffortCertificationDetailLines(org.kuali.module.effort.document.EffortCertificationDocument)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#resetEffortCertificationDetailLines(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     @Logged
     public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument) {
@@ -152,7 +152,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     @Logged
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
@@ -181,7 +181,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.module.effort.document.EffortCertificationDocument)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     @Logged
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {

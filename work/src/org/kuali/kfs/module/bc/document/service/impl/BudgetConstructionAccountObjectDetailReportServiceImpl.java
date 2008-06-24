@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,19 +26,19 @@ import java.util.Map;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountBalance;
-import org.kuali.module.budget.bo.BudgetConstructionObjectSummary;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountObjectDetailReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountObjectDetailReportTotal;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountBalance;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgAccountObjectDetailReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgAccountObjectDetailReportTotal;
 
-import org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao;
-import org.kuali.module.budget.service.BudgetConstructionAccountObjectDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.util.BudgetConstructionReportHelper;
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountObjectDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -53,7 +53,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
     public void updateAccountObjectDetailReport(String personUserIdentifier, boolean consolidated) {
         if (consolidated) {

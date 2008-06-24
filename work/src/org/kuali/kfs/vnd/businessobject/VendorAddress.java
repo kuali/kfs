@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,11 +25,11 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.State;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.service.VendorService;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * Address to be associated with a particular Vendor.
@@ -290,7 +290,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         LOG.debug("Entering isEqualForRouting.");

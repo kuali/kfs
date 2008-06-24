@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the BC PermissionService class
@@ -44,7 +44,7 @@ public class PermissionServiceTest extends KualiTestBase {
     }
 
     /**
-     * This tests org.kuali.module.budget.service.PermissionService.getOrgReview() It depends on certain WorkFlow OrgReview rules to
+     * This tests org.kuali.kfs.module.bc.document.service.PermissionService.getOrgReview() It depends on certain WorkFlow OrgReview rules to
      * exist for the BudgetConstructionDocument type. It verifies that khuntley is a BCD approver for one organization and it
      * is IU-UNIV It verifies that hsoucy is a BCD approver for two organizations in the review hierarchy (BL-BL,UA-UA) one as a
      * member of the workgroup KUALI-BLSPECIAL (BL-BL) and one as an individual (UA-UA)
@@ -69,7 +69,7 @@ public class PermissionServiceTest extends KualiTestBase {
     }
 
     /**
-     * This tests org.kuali.module.budget.service.PermissionService.isOrgReviewApprover() It depends on certain WorkFlow OrgReview
+     * This tests org.kuali.kfs.module.bc.document.service.PermissionService.isOrgReviewApprover() It depends on certain WorkFlow OrgReview
      * rules to exist for the BudgetConstructionDocument type. It verfies that khuntley is a BCD approver for the organization
      * IU-UNIV It verfies that khuntley is *NOT* a BCD approver for the organization BL-BL It verfies that dfogle is a KBCD
      * approver for the organization BL-PSY

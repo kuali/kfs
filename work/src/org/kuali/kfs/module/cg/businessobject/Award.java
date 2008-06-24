@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -33,8 +33,8 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 
 /**
  * Defines a financial award object.
@@ -1207,28 +1207,28 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#getRoutingChart()
+     * @see org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting#getRoutingChart()
      */
     public String getRoutingChart() {
         return routingChart;
     }
 
     /**
-     * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#setRoutingChart(java.lang.String)
+     * @see org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting#setRoutingChart(java.lang.String)
      */
     public void setRoutingChart(String routingChart) {
         this.routingChart = routingChart;
     }
 
     /**
-     * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#getRoutingOrg()
+     * @see org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting#getRoutingOrg()
      */
     public String getRoutingOrg() {
         return routingOrg;
     }
 
     /**
-     * @see org.kuali.workflow.attribute.AlternateOrgReviewRouting#setRoutingOrg(java.lang.String)
+     * @see org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting#setRoutingOrg(java.lang.String)
      */
     public void setRoutingOrg(String routingOrg) {
         this.routingOrg = routingOrg;

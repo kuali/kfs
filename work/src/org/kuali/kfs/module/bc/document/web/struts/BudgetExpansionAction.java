@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.Properties;
 
@@ -26,9 +26,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.web.struts.form.BudgetExpansionForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm;
 
 /**
  * Handles close action to implement Budget return to caller (expansion screen) flow.

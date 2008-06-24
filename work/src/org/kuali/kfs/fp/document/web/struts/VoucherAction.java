@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,19 +32,19 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AmountTotaling;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
-import org.kuali.module.financial.document.VoucherDocument;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.financial.web.struts.form.VoucherForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
+import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
+import org.kuali.kfs.fp.document.VoucherDocument;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.fp.document.web.struts.VoucherForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -88,7 +88,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
      * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a
      * voucher error correction.
      * 
-     * @see org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -364,7 +364,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
 
     /**
      * Overridden to reset the available and selected accounting periods on the form, so that copies are moved forward to the current accounting period correctly
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao.ojb;
+package org.kuali.kfs.fp.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,10 +24,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.dao.CheckDao;
+import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
+import org.kuali.kfs.fp.dataaccess.CheckDao;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -45,7 +45,7 @@ public class CheckDaoOjb extends PlatformAwareDaoBaseOjb implements CheckDao {
     }
 
     /**
-     * @see org.kuali.core.dao.CheckDao#save(org.kuali.module.financial.bo.Check)
+     * @see org.kuali.core.dao.CheckDao#save(org.kuali.kfs.fp.businessobject.Check)
      */
     public Check save(Check check) throws DataAccessException {
         getPersistenceBrokerTemplate().store(check);

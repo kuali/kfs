@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.util.List;
 
-import org.kuali.module.purap.bo.ReceivingLineItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
 
 /**
  * This class allows for the use of items by multiple purap type docs

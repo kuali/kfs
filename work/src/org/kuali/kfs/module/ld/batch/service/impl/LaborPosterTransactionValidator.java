@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch.poster.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.kfs.util.Message;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.module.gl.batch.poster.VerifyTransaction;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborTransaction;
-import org.kuali.module.labor.rules.TransactionFieldValidator;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.gl.batch.service.VerifyTransaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
+import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborPosterTransactionValidator implements VerifyTransaction {
     
     /**
-     * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.batch.service.VerifyTransaction#verifyTransaction(org.kuali.kfs.gl.businessobject.Transaction)
      */
     public List<Message> verifyTransaction(Transaction transaction) {
         List<Message> messageList = new ArrayList<Message>();

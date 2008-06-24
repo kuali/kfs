@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cams.service.EquipmentLoanOrReturnService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 
 public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnServiceImpl.class);
@@ -31,7 +31,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.cams.service.EquipmentLoanOrReturnService#processApprovedEquipmentLoanOrReturn(org.kuali.module.cams.document.EquipmentLoanOrReturn)
+     * @see org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService#processApprovedEquipmentLoanOrReturn(org.kuali.module.cams.document.EquipmentLoanOrReturn)
      *      This method is called when the work flow document is reached its final approval
      *      <ol>
      *      <li>Gets the latest equipmentLoanOrReturn details from DB</li>
@@ -55,7 +55,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     }
 
     /**
-     * @see org.kuali.module.cams.service.EquipmentLoanOrReturnService#updateBorrowerLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
+     * @see org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService#updateBorrowerLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
      */
     private void updateBorrowerLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation borrowerLocation = new AssetLocation();
@@ -90,7 +90,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     }
 
     /**
-     * @see org.kuali.module.cams.service.EquipmentLoanOrReturnService#updateStoreAtLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
+     * @see org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService#updateStoreAtLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
      */
     private void updateStoreAtLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation storeAtLocation = new AssetLocation();

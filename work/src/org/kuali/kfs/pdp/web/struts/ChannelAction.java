@@ -17,7 +17,7 @@
  * Created on Sep 17, 2004
  *
  */
-package org.kuali.module.pdp.action;
+package org.kuali.kfs.pdp.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

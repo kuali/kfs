@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetBaseCode;
-import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetBaseCode;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
 
 public interface BudgetIndirectCostService {
 

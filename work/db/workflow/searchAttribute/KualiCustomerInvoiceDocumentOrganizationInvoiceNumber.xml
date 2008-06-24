@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <searchDefinition allowWildcards="true" caseSensitive="false" />
-          <quickfinder appliesTo="OrganizationInvoiceNumber" draw="true" service="workflow-org.kuali.module.ar.bo.Customer-Lookupable(null)" />
+          <quickfinder appliesTo="OrganizationInvoiceNumber" draw="true" service="workflow-org.kuali.kfs.module.ar.businessobject.Customer-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/organizationInvoiceNumber')</xpathexpression>
           </fieldEvaluation>

@@ -128,7 +128,7 @@
                     <kul:htmlControlAttribute attributeEntry="${itemAttributes.commodityCode}" 
                         property="${commodityCodeField}" 
                         onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
-                    <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
+                    <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                             fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
                             lookupParameters="'Y':active"/>   
                             
@@ -339,7 +339,7 @@
                             onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
                             readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"/>
                         <c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
-                            <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
+                            <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
                         </c:if>

@@ -17,7 +17,7 @@
  * Created on Jul 11, 2004
  *
  */
-package org.kuali.module.pdp.bo;
+package org.kuali.kfs.pdp.businessobject;
 
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;

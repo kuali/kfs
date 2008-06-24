@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.ObjectCons;
-import org.kuali.module.chart.dao.ObjectConsDao;
-import org.kuali.module.chart.service.ObjectConsService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
+import org.kuali.kfs.coa.service.ObjectConsService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,7 +30,7 @@ public class ObjectConsServiceImpl implements ObjectConsService {
     private ObjectConsDao objectConsDao;
 
     /**
-     * @see org.kuali.module.chart.service.ObjectConsService#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.ObjectConsService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
         return objectConsDao.getByPrimaryId(chartOfAccountsCode, objectConsCode);

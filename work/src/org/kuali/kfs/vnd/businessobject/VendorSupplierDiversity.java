@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -23,12 +23,12 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * Relationship between a Vendor and a <code>SupplierDiversity</code>.
  * 
- * @see org.kuali.module.vendor.bo.SupplierDiversity
+ * @see org.kuali.kfs.vnd.businessobject.SupplierDiversity
  */
 public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
     private static Logger LOG = Logger.getLogger(VendorSupplierDiversity.class);
@@ -120,7 +120,7 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         LOG.debug("Entering isEqualForRouting.");

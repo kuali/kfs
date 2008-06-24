@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.batch;
+package org.kuali.kfs.module.cg.batch;
 
 import java.util.Date;
 import java.util.List;
@@ -30,8 +30,8 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.cg.service.CloseService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.cg.service.CloseService;
 
 /**
  * @see CloseService#close()
@@ -50,7 +50,7 @@ public class CloseBatchStep extends AbstractStep {
     /**
      * See the class description.
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
 
@@ -120,7 +120,7 @@ public class CloseBatchStep extends AbstractStep {
      * 
      * @param closeService The value to be used to assign to the local attribute <code>closeService</code>.
      */
-    public void setCloseService(org.kuali.module.cg.service.CloseService closeService) {
+    public void setCloseService(org.kuali.kfs.module.cg.service.CloseService closeService) {
         this.closeService = closeService;
     }
 

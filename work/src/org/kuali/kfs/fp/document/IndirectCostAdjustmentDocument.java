@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.document.Correctable;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.IndirectCostAdjustmentDocumentAccountingLineParser;
-import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.IndirectCostAdjustmentDocumentAccountingLineParser;
+import org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentDocumentRuleConstants;
 
 public class IndirectCostAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
 
@@ -42,7 +42,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -50,7 +50,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
@@ -68,7 +68,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      * <li>receipt line's amount = amount from grant line
      * </ol>
      * 
-     * @see org.kuali.kfs.document.AccountingDocumentBase#addSourceAccountingLine(SourceAccountingLine)
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#addSourceAccountingLine(SourceAccountingLine)
      */
     @Override
     public void addSourceAccountingLine(SourceAccountingLine line) {
@@ -98,7 +98,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {

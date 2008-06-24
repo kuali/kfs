@@ -18,7 +18,7 @@
 <beans>
     <bean id="cgModule" parent="cgModule-parentBean" />
 
-    <bean id="cgModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="cgModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="cg" />
 		<property name="moduleName" value="Post-Award" />
 		<property name="moduleCode" value="CG" />
@@ -26,17 +26,17 @@
 		<property name="moduleAuthorizer" ref="cgModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/cg/datadictionary</value>
+				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/cg/OJB-repository-cg.xml</value>
+				<value>org/kuali/kfs/module/cg/OJB-repository-cg.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/module/cg/dwr-cg.xml</value>
+				<value>org/kuali/kfs/module/cg/dwr-cg.xml</value>
 			</list>
 		</property>
 		<property name="jobNames">
@@ -55,20 +55,20 @@
     <bean id="cgModuleAuthorizer" parent="financialSystemModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.cg.</value>
+                <value>org.kuali.kfs.module.cg.</value>
             </list>
         </property>
     </bean>
 	
 	<!-- DAOs -->
-	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.AwardDaoOjb" />
+	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />
 
-	<bean id="proposalDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.ProposalDaoOjb" />
+	<bean id="proposalDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.ProposalDaoOjb" />
 	
-	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.CloseDaoOjb" />
+	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.CloseDaoOjb" />
 	
 	<!-- Services -->
-	<bean id="closeService" class="org.kuali.module.cg.service.impl.CloseServiceImpl">
+	<bean id="closeService" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl">
 		<property name="awardDao">
 			<ref bean="awardDao" />
 		</property>
@@ -83,7 +83,7 @@
 		</property>
 	</bean>
 	
-	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="proposalLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -91,7 +91,7 @@
 		</property>
 	</bean>
 
-    <bean id="awardLookupableHelperService" class="org.kuali.module.cg.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+    <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
     <bean id="awardLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
@@ -99,7 +99,7 @@
         </property>
     </bean>
 
-    <bean id="projectDirectorService" class="org.kuali.module.cg.service.impl.ProjectDirectorServiceImpl">
+    <bean id="projectDirectorService" class="org.kuali.kfs.module.cg.service.impl.ProjectDirectorServiceImpl">
         <property name="universalUserService">
             <ref bean="universalUserService" />
         </property>
@@ -108,38 +108,38 @@
         </property>
     </bean>
 
-    <bean id="subcontractorService" class="org.kuali.module.cg.service.impl.SubcontractorServiceImpl">
+    <bean id="subcontractorService" class="org.kuali.kfs.module.cg.service.impl.SubcontractorServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
 
-    <bean id="agencyService" class="org.kuali.module.cg.service.impl.AgencyServiceImpl">
+    <bean id="agencyService" class="org.kuali.kfs.module.cg.service.impl.AgencyServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
 
-    <bean id="cfdaService" class="org.kuali.module.cg.service.impl.CfdaServiceImpl">
+    <bean id="cfdaService" class="org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
 
 	<!-- Workflow Lookupables -->
-    <bean id="workflow-org.kuali.module.cg.bo.Proposal-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
-            <value>org.kuali.module.cg.bo.Proposal</value>
+            <value>org.kuali.kfs.module.cg.businessobject.Proposal</value>
         </property>
     </bean>
 	
-    <bean id="workflow-org.kuali.module.cg.bo.Agency-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.module.cg.businessobject.Agency-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
-            <value>org.kuali.module.cg.bo.Agency</value>
+            <value>org.kuali.kfs.module.cg.businessobject.Agency</value>
         </property>
     </bean>
 	
-    <bean id="cfdaBatchStep" class="org.kuali.module.cg.batch.CfdaBatchStep" parent="step">
+    <bean id="cfdaBatchStep" class="org.kuali.kfs.module.cg.batch.CfdaBatchStep" parent="step">
         <property name="cfdaService">
             <ref bean="cfdaService" />
         </property>
@@ -167,7 +167,7 @@
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 
-    <bean id="closeBatchStep" class="org.kuali.module.cg.batch.CloseBatchStep" parent="step">
+    <bean id="closeBatchStep" class="org.kuali.kfs.module.cg.batch.CloseBatchStep" parent="step">
         <property name="closeService">
             <ref bean="closeService" />
         </property>

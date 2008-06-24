@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service.impl;
+package org.kuali.kfs.module.cg.service.impl;
 
 import java.sql.Date;
 import java.util.Collection;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.dao.AwardDao;
-import org.kuali.module.cg.dao.CloseDao;
-import org.kuali.module.cg.dao.ProposalDao;
-import org.kuali.module.cg.service.CloseService;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.businessobject.Proposal;
+import org.kuali.kfs.module.cg.dataaccess.AwardDao;
+import org.kuali.kfs.module.cg.dataaccess.CloseDao;
+import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
+import org.kuali.kfs.module.cg.service.CloseService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -54,7 +54,7 @@ public class CloseServiceImpl implements CloseService {
      * <li>Save the Close.</li>
      * </ul>
      * 
-     * @see org.kuali.module.cg.service.CloseService#close()
+     * @see org.kuali.kfs.module.cg.service.CloseService#close()
      */
     public void close() {
 

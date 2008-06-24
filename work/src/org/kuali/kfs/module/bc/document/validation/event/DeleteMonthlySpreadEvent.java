@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.rule.event;
+package org.kuali.kfs.module.bc.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.rule.DeleteMonthlySpreadRule;
-import org.kuali.module.budget.rule.DeletePendingBudgetGeneralLedgerLineRule;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
+import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
 
 /**
  * This class...

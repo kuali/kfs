@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
-import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
+import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
+import static org.kuali.kfs.sys.KFSKeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
+import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 
 /**
  * A validation for the Auxiliary Voucher document, this checks that the given accounting period on
@@ -38,7 +38,7 @@ public class AuxiliaryVoucherAccountingPeriodAllowedByParameterValidation extend
 
     /**
      * Using the KFS-FP / AuxiliaryVoucherDocument / RestrictedPeriodCodes parameter, checks that the accounting period specified on the document is valid.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;

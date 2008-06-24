@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.fixtures.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
-import org.kuali.module.purap.fixtures.ItemAccountsFixture;
-import org.kuali.module.purap.fixtures.ItemTypesFixture;
-import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
+import org.kuali.kfs.module.purap.fixture.ItemAccountsFixture;
+import org.kuali.kfs.module.purap.fixture.ItemTypesFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {

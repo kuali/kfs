@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.budget.dao.ReportDumpDao;
+import org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao;
 
 
 /**

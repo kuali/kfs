@@ -19,13 +19,13 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.Bank;
-import org.kuali.module.pdp.dao.BankDao;
-import org.kuali.module.pdp.service.BankService;
+import org.kuali.kfs.pdp.businessobject.Bank;
+import org.kuali.kfs.pdp.dataaccess.BankDao;
+import org.kuali.kfs.pdp.service.BankService;
 import org.springframework.transaction.annotation.Transactional;
 
 

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.dao.A21SubAccountDao;
-import org.kuali.module.chart.service.A21SubAccountService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
+import org.kuali.kfs.coa.service.A21SubAccountService;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return a21SubAccountDao.getByPrimaryKey(chartOfAccountsCode, accountNumber, subAccountNumber);

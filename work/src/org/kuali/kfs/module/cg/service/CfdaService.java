@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service;
+package org.kuali.kfs.module.cg.service;
 
 import java.io.IOException;
 
-import org.kuali.module.cg.bo.Cfda;
+import org.kuali.kfs.module.cg.businessobject.Cfda;
 
 /**
  * 

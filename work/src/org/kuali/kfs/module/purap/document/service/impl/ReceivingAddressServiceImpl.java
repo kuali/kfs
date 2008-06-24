@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.purap.bo.ReceivingAddress;
-import org.kuali.module.purap.dao.ReceivingAddressDao;
-import org.kuali.module.purap.service.ReceivingAddressService;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
+import org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao;
+import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -35,7 +35,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.ReceivingAddressService#findActiveByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingAddressService#findActiveByChartOrg(java.lang.String,java.lang.String)
      */
     public Collection<ReceivingAddress> findActiveByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering findActiveByChartOrg(String,String)");
@@ -44,7 +44,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.ReceivingAddressService#findDefaultByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingAddressService#findDefaultByChartOrg(java.lang.String,java.lang.String)
      */
     public Collection<ReceivingAddress> findDefaultByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering findDefaultByChartOrg(String,String)");
@@ -53,7 +53,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.ReceivingAddressService#findUniqueDefaultByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingAddressService#findUniqueDefaultByChartOrg(java.lang.String,java.lang.String)
      */
     public ReceivingAddress findUniqueDefaultByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering findUniqueDefaultByChartOrg(String,String)");
@@ -71,7 +71,7 @@ public class ReceivingAddressServiceImpl implements ReceivingAddressService {
     }
     
     /**
-     * @see org.kuali.module.purap.service.ReceivingAddressService#countActiveByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingAddressService#countActiveByChartOrg(java.lang.String,java.lang.String)
      */
     public int countActiveByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering countActiveByChartOrg(String,String)");

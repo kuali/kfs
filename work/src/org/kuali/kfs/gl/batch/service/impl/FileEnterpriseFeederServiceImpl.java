@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -23,15 +23,15 @@ import java.util.Arrays;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
-import org.kuali.module.gl.service.EnterpriseFeederService;
-import org.kuali.module.gl.service.FileEnterpriseFeederHelperService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.util.EnterpriseFeederStatusAndErrorMessagesWrapper;
-import org.kuali.module.gl.util.RequiredFilesMissingStatus;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
+import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
+import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
+import org.kuali.kfs.gl.batch.service.impl.RequiredFilesMissingStatus;
 
 /**
  * This class iterates through the files in the enterprise feeder staging directory, which is injected by Spring. Note: this class
@@ -52,7 +52,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     /**
      * Feeds file sets in the directory whose name is returned by the invocation to getDirectoryName()
      * 
-     * @see org.kuali.module.gl.service.EnterpriseFeederService#feed(java.lang.String)
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederService#feed(java.lang.String)
      */
     public void feed(String processName, boolean performNotifications) {
         // ensure that this feeder implementation may not be run concurrently on this JVM

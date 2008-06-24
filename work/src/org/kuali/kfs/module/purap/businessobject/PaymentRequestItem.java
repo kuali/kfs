@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,17 +25,17 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.exceptions.PurError;
-import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.module.purap.util.PurApItemUtils;
-import org.kuali.module.purap.util.PurApObjectUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
+import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 
 /**
  * Payment Request Item Business Object.
@@ -253,7 +253,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItem#getAccountingLineClass()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#getAccountingLineClass()
      */
     public Class getAccountingLineClass() {
         return PaymentRequestAccount.class;
@@ -303,7 +303,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /**
      * sets account line percentage to zero.
      * 
-     * @see org.kuali.module.purap.bo.PurApItem#resetAccount()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#resetAccount()
      */
     @Override
     public void resetAccount() {

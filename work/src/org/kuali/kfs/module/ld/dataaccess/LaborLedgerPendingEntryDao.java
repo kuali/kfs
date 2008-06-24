@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 
 /**
  * LaborLedgerPendingEntryDao DAO Interface.

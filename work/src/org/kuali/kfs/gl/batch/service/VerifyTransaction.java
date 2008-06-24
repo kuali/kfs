@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * An interface declaring methods needed by the Poster to ascertain if a transaction is suitable for posting

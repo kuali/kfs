@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.WebAuthenticationService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.yale.its.tp.cas.auth.AuthHandler;
 import edu.yale.its.tp.cas.auth.PasswordHandler;

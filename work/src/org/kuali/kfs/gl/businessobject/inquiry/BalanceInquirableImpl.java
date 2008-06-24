@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.inquirable;
+package org.kuali.kfs.gl.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +23,11 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.web.Constant;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.kfs.gl.Constant;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the GL balace screen. It is entended the
@@ -43,7 +43,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Builds the keys for this inquiry.
      * @return a List of Strings, holding the keys of this inquiry
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
@@ -64,7 +64,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * The addition of all the month amounts, plus beginning balance and c&g balance as attributes
      * @return a Map of user defined attributes
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
@@ -96,7 +96,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
      * Changes the name of attributes on the fly...in this case, this just always returns the attribute name it's handed
      * @param attributeName the attribute to rename
      * @return a String with the new attribute name
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
         return attributeName;
@@ -107,7 +107,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
      * @param keyName the name of the key that may be changed
      * @param keyValue the value of the key that may be changed
      * @return an Object with the perhaps modified value for the key
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
         if (isExclusiveField(keyName, keyValue)) {
@@ -120,7 +120,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
      * Justs returns the key name given
      * @param keyName a key name
      * @return the key name given
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
         keyName = BusinessObjectFieldConverter.convertToTransactionPropertyName(keyName);
@@ -130,7 +130,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Return a Spring bean for the lookup
      * @return the name of the Spring bean of the lookup
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
         return Constant.GL_LOOKUPABLE_ENTRY;
@@ -139,7 +139,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Return the page name of this lookup
      * @return the page name for all GL lookups
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
         return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
@@ -149,7 +149,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
      * Retrieves the business class of the next class type to drill up...since balance summarizes entry, it's entry
      * @param attributeName the name to build the inquiry link to
      * @return the Class of the business object that should be inquired on
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         return Entry.class;
@@ -159,7 +159,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
      * Addes the lookup impl and period code attributes to the parameters
      * @param parameter the parameters used in the lookup
      * @param attributeName the attribute name that an inquiry URL is being built for
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
         parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());

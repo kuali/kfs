@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.document.authorization;
+package org.kuali.kfs.module.bc.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,15 +25,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.service.BudgetDocumentService;
-import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.financial.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 
 // public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {

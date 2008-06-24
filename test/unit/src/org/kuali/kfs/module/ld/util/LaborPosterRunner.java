@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import java.util.Date;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.batch.BatchSpringContext;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.labor.service.LaborPosterService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.KULUSER)
 public class LaborPosterRunner extends KualiTestBase {

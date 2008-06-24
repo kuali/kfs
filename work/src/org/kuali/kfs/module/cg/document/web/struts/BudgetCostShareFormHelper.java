@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,20 +23,20 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.BudgetAbstractCostShare;
-import org.kuali.module.kra.budget.bo.BudgetAbstractPeriodCostShare;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
-import org.kuali.module.kra.budget.bo.UserAppointmentTask;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.service.BudgetPeriodService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.BudgetAbstractCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetAbstractPeriodCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 
 
 /**

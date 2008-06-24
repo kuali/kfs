@@ -16,9 +16,9 @@
             p:parameterDetailType="AssignContractManager" />
     </property>
     <property name="documentTypeName" value="AssignContractManagerDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.AssignContractManagerDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.AssignContractManagerDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.AssignContractManagerDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer" />
     <property name="documentTypeCode" value="ACM" />
     <property name="workflowProperties" >
       <ref bean="AssignContractManagerDocument-workflowProperties" />

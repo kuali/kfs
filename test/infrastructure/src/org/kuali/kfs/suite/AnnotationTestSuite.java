@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

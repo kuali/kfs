@@ -22,7 +22,7 @@
 <portal:immutableBar />
 
  <table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
-<c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
+<c:set var="motd" value="<%= (new org.kuali.kfs.sys.businessobject.defaultvalue.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
 <c:if test="${empty channelTitle && empty channelUrl && !empty pageScope.motd}">
   	<tr valign="top" bgcolor="#FFFFFF">
 				<td width="15" class="leftback-focus">&nbsp;</td>

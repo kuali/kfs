@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 
 
 /**

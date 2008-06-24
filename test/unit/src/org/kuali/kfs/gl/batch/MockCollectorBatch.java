@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.gl.batch;
 
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.test.KualiTestConstants.TestConstants.Data1;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.KualiTestConstants.TestConstants.Data1;
 
 /**
  * Mock object for CollectorBatch. Used so the object does not need built from XML everytime we need it for a parameter.
@@ -24,7 +24,7 @@ import org.kuali.test.KualiTestConstants.TestConstants.Data1;
 public class MockCollectorBatch extends CollectorBatch {
 
     /**
-     * @see org.kuali.module.gl.batch.collector.CollectorBatch#getChartOfAccountsCode()
+     * @see org.kuali.kfs.gl.batch.CollectorBatch#getChartOfAccountsCode()
      */
     @Override
     public String getChartOfAccountsCode() {
@@ -32,7 +32,7 @@ public class MockCollectorBatch extends CollectorBatch {
     }
 
     /**
-     * @see org.kuali.module.gl.batch.collector.CollectorBatch#getOrganizationCode()
+     * @see org.kuali.kfs.gl.batch.CollectorBatch#getOrganizationCode()
      */
     @Override
     public String getOrganizationCode() {

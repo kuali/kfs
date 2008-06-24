@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.module.budget.dao.ImportRequestDao;
+import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
 
 import com.lowagie.text.DocumentException;
 

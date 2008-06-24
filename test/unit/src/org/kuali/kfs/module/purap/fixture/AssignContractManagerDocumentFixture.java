@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.AssignContractManagerDetail;
-import org.kuali.module.purap.document.AssignContractManagerDocument;
-import org.kuali.test.DocumentTestUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.DocumentTestUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

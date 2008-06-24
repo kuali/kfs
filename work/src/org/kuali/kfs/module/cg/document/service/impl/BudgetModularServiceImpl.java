@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ import java.util.Map;
 
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.cg.bo.Agency;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
+import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelFormHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -44,7 +44,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     private ModularAgencyHelper modularAgencyHelper;
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetModularService#generateModularBudget(org.kuali.module.kra.budget.bo.Budget)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetModularService#generateModularBudget(org.kuali.kfs.module.cg.businessobject.Budget)
      */
     public void generateModularBudget(Budget budget) {
 
@@ -63,7 +63,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetModularService#generateModularBudget(org.kuali.module.kra.budget.bo.Budget,
+     * @see org.kuali.kfs.module.cg.document.service.BudgetModularService#generateModularBudget(org.kuali.kfs.module.cg.businessobject.Budget,
      *      List nonpersonnelCategories)
      */
     public void generateModularBudget(Budget budget, List nonpersonnelCategories) {
@@ -79,7 +79,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetModularService#resetModularBudget(org.kuali.module.kra.budget.bo.Budget)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetModularService#resetModularBudget(org.kuali.kfs.module.cg.businessobject.Budget)
      */
     public void resetModularBudget(Budget budget) {
 
@@ -107,7 +107,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetModularService#agencySupportsModular(org.kuali.module.cg.bo.Agency)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetModularService#agencySupportsModular(org.kuali.kfs.module.cg.businessobject.Agency)
      */
     public boolean agencySupportsModular(Agency agency) {
         if (ObjectUtils.isNull(agency)) {
@@ -123,7 +123,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetModularService#determineBudgetPeriodMaximumAmount(org.kuali.module.cg.bo.Agency)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetModularService#determineBudgetPeriodMaximumAmount(org.kuali.kfs.module.cg.businessobject.Agency)
      */
     public KualiInteger determineBudgetPeriodMaximumAmount(Agency agency) {
         ModularAgencyHelper helper = getModularAgencyInformation(agency, new ModularAgencyHelper());

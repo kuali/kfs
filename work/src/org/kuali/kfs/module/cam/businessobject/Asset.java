@@ -1,4 +1,4 @@
-package org.kuali.module.cams.bo;
+package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -13,17 +13,17 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.Room;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cg.bo.Agency;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjSubTyp;
-import org.kuali.module.integration.bo.ContractsAndGrantsAgency;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
+import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

@@ -28,10 +28,10 @@
               <td colspan="3"  class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}" property="document.dvPayeeDetail.disbVchrPaymentReasonCode" extraReadOnlyProperty="document.dvPayeeDetail.disbVchrPaymentReasonName" onchange="paymentReasonMessages(this.value);" readOnly="${!fullEntryMode}"/>
                 <c:if test="${fullEntryMode}">
-                  <kul:lookup boClassName="org.kuali.module.financial.bo.PaymentReasonCode" fieldConversions="code:document.dvPayeeDetail.disbVchrPaymentReasonCode"/>
+                  <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.PaymentReasonCode" fieldConversions="code:document.dvPayeeDetail.disbVchrPaymentReasonCode"/>
                 </c:if>
-                <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode"
-                   onclick="this.href='${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
+                <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode"
+                   onclick="this.href='${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
                   <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" styleClass="globalbuttons" alt="help"/>
                 </a>
             </tr>
@@ -118,7 +118,7 @@
               <td  class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.disbursementVoucherDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
                 <c:if test="${fullEntryMode}">
-                  <kul:lookup boClassName="org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation" fieldConversions="disbursementVoucherDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode"/>
+                  <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" fieldConversions="disbursementVoucherDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode"/>
                 </c:if>
               </td>
             </tr>

@@ -64,7 +64,7 @@
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
-					<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" />
+					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" />
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td>
@@ -79,7 +79,7 @@
             <html:hidden property="newRoutingFormInstitutionCostShare.account.accountName" />
           <div align="center">
             <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" readOnly="${viewOnly or budgetLinked}" onblur="accountNameLookup('newRoutingFormInstitutionCostShare.accountNumber')"/>
-            <kul:lookup boClassName="org.kuali.module.chart.bo.Account" lookupParameters="newRoutingFormInstitutionCostShare.accountNumber:accountNumber,newRoutingFormInstitutionCostShare.chartOfAccountsCode:chartOfAccountsCode,newRoutingFormInstitutionCostShare.organizationCode:organizationCode" fieldConversions="accountNumber:newRoutingFormInstitutionCostShare.accountNumber,chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
+            <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" lookupParameters="newRoutingFormInstitutionCostShare.accountNumber:accountNumber,newRoutingFormInstitutionCostShare.chartOfAccountsCode:chartOfAccountsCode,newRoutingFormInstitutionCostShare.organizationCode:organizationCode" fieldConversions="accountNumber:newRoutingFormInstitutionCostShare.accountNumber,chartOfAccountsCode:newRoutingFormInstitutionCostShare.chartOfAccountsCode,organizationCode:newRoutingFormInstitutionCostShare.organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
           </div>
           		  <div id="newRoutingFormInstitutionCostShare.account.accountName.div" >
 		             <c:if test="${!empty KualiForm.newRoutingFormInstitutionCostShare.accountNumber}">
@@ -126,7 +126,7 @@
 						</c:otherwise>
 					</c:choose>
 					&nbsp;&nbsp;
-					<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" />
+					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" />
 				</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</td>
@@ -143,7 +143,7 @@
           <div align="center">
             <html:hidden property="document.routingFormInstitutionCostShare[${status.index}].account.accountName" />
             <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" readOnly="${viewOnly or budgetLinked}" onblur="accountNameLookup('document.routingFormInstitutionCostShare[${status.index}].accountNumber')"/>
-            <c:if test="${not viewOnly and not budgetLinked}"><kul:lookup boClassName="org.kuali.module.chart.bo.Account" lookupParameters="document.routingFormInstitutionCostShare[${status.index}].accountNumber:accountNumber,document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode:chartOfAccountsCode,document.routingFormInstitutionCostShare[${status.index}].organizationCode:organizationCode" fieldConversions="accountNumber:document.routingFormInstitutionCostShare[${status.index}].accountNumber,chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" /></c:if>
+            <c:if test="${not viewOnly and not budgetLinked}"><kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account" lookupParameters="document.routingFormInstitutionCostShare[${status.index}].accountNumber:accountNumber,document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode:chartOfAccountsCode,document.routingFormInstitutionCostShare[${status.index}].organizationCode:organizationCode" fieldConversions="accountNumber:document.routingFormInstitutionCostShare[${status.index}].accountNumber,chartOfAccountsCode:document.routingFormInstitutionCostShare[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormInstitutionCostShare[${status.index}].organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" /></c:if>
           </div>
           		  <div id="document.routingFormInstitutionCostShare[${status.index}].account.accountName.div" >
 		             <c:if test="${!empty routingFormInstitutionCostShare.accountNumber}">

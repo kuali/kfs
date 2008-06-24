@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,17 +22,17 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.effort.EffortConstants.SystemParameters;
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.service.LaborModuleService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.util.TestDataPreparator;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.TestDataPreparator;
 
 @ConfigureContext
 public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {

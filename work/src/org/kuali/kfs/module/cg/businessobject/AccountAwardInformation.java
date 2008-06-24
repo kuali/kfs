@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
 
 /**
  * A wrapper for AccountAward, for the purposes of integrating with Account.
@@ -30,56 +30,56 @@ public class AccountAwardInformation implements ContractsAndGrantsAccountAwardIn
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getAwardWorkgroupName()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getAwardWorkgroupName()
      */
     public String getAwardWorkgroupName() {
         return awardAccount.getAward().getWorkgroupName();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getProjectDirectorPersonName()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getProjectDirectorPersonName()
      */
     public String getProjectDirectorPersonName() {
         return awardAccount.getProjectDirector().getUniversalUser().getPersonName();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
     public Long getProposalNumber() {
         return awardAccount.getProposalNumber();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getAwardKualiGroupNames()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getAwardKualiGroupNames()
      */
     public String getAwardKualiGroupNames() {
         return awardAccount.getAward().getKualiGroupNames();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getAwardProposalFederalPassThroughAgencyNumber()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getAwardProposalFederalPassThroughAgencyNumber()
      */
     public String getAwardProposalFederalPassThroughAgencyNumber() {
         return awardAccount.getAward().getProposal().getFederalPassThroughAgencyNumber();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getAwardProposalFederalPassThroughIndicator()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getAwardProposalFederalPassThroughIndicator()
      */
     public boolean getAwardProposalFederalPassThroughIndicator() {
         return awardAccount.getAward().getProposal().getProposalFederalPassThroughIndicator();
     }
     
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
      */
     public String getAccountNumber() {
         return awardAccount.getAccountNumber();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
+     * @see org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
      */
     public String getChartOfAccountsCode() {
         return awardAccount.getChartOfAccountsCode();

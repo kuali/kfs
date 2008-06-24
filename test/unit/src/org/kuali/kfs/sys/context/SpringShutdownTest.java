@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
-import org.kuali.test.suite.TestSuiteBuilder;
+import org.kuali.kfs.suite.TestSuiteBuilder;
 
 /**
  * This class shuts down spring after unit testing

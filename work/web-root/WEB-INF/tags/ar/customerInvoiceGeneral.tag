@@ -50,7 +50,7 @@
                     <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}"/>
                     <c:if test="${not readOnly}">
 	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.module.ar.bo.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
+	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
                     </c:if>
                     <!--  Using accountlingLineDataCellDetail tag because it generates the appropriate div for displaying customer name using DWR -->
 					<fin:accountingLineDataCellDetail

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.maintenance;
+package org.kuali.kfs.module.purap.document;
 
 import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 
 /**
  * A special implementation of Maintainable specifically for PurchaseOrderContractLanguage

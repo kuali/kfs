@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -24,11 +24,11 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.service.ReportGenerationService;
-import org.kuali.kfs.util.ReportInfo;
-import org.kuali.module.effort.service.EffortCertificationReportService;
-import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.batch.service.ReportGenerationService;
+import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.module.ec.service.EffortCertificationReportService;
+import org.kuali.kfs.module.ec.util.ExtractProcessReportDataHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -42,7 +42,7 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
     private ReportInfo effortExtractProcessReportInfo;
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.kfs.module.ec.util.ExtractProcessReportDataHolder, java.util.Date)
      */
     public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, Date runDate) {
         String reportFileName = effortExtractProcessReportInfo.getReportFileName();

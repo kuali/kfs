@@ -7,7 +7,7 @@
   <bean id="FiscalYearFunctionControlMaintenanceDocument" parent="FiscalYearFunctionControlMaintenanceDocument-parentBean" />
 
   <bean id="FiscalYearFunctionControlMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.FiscalYearFunctionControl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -41,7 +41,7 @@
             p:parameterDetailType="FiscalYearFunctionControl" />
     </property>
     <property name="documentTypeName" value="FiscalYearFunctionControlMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BFYC" />
     <property name="workflowProperties" >
       <ref bean="FiscalYearFunctionControlMaintenanceDocument-workflowProperties" />

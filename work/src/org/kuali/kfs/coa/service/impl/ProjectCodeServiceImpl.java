@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.dao.ProjectCodeDao;
-import org.kuali.module.chart.service.ProjectCodeService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
+import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +35,7 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.ProjectCodeService#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.coa.service.ProjectCodeService#getByPrimaryId(java.lang.String)
      */
     public ProjectCode getByPrimaryId(String projectCode) {
         return projectCodeDao.getByPrimaryId(projectCode);
@@ -43,7 +43,7 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.ProjectCodeService#getByName(java.lang.String)
+     * @see org.kuali.kfs.coa.service.ProjectCodeService#getByName(java.lang.String)
      */
     public ProjectCode getByName(String name) {
         return projectCodeDao.getByName(name);

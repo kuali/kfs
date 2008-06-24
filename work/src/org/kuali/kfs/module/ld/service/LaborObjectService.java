@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
 
 /**
  * This interface provides its clients with access to labor object in the backend data store.

@@ -7,7 +7,7 @@
   <bean id="ProposalStatusMaintenanceDocument" parent="ProposalStatusMaintenanceDocument-parentBean" />
 
   <bean id="ProposalStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalStatus" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalStatus" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -30,7 +30,7 @@
             p:parameterDetailType="ProposalStatus" />
     </property>
     <property name="documentTypeName" value="ProposalStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRST" />
     <property name="workflowProperties" >
       <ref bean="ProposalStatusMaintenanceDocument-workflowProperties" />

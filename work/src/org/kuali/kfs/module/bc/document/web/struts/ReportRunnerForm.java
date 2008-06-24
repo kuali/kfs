@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.module.budget.BudgetConstructionDocumentReportMode;
+import org.kuali.kfs.module.bc.BudgetConstructionDocumentReportMode;
 
 /**
  * Form class to display document reports and dumps menu

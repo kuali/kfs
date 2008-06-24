@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +24,15 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.Bank;
-import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.module.gl.util.SufficientFundsItem;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.Bank;
+import org.kuali.kfs.gl.service.SufficientFundsService;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -53,14 +53,14 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#getGeneralLedgerPendingEntries()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#getGeneralLedgerPendingEntries()
      */
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
         return generalLedgerPendingEntries;
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#getGeneralLedgerPendingEntry(int)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#getGeneralLedgerPendingEntry(int)
      */
     public GeneralLedgerPendingEntry getGeneralLedgerPendingEntry(int index) {
         while (generalLedgerPendingEntries.size() <= index) {
@@ -70,21 +70,21 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#setGeneralLedgerPendingEntries(java.util.List)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#setGeneralLedgerPendingEntries(java.util.List)
      */
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
         this.generalLedgerPendingEntries = generalLedgerPendingEntries;
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#isBankCashOffsetEnabled()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#isBankCashOffsetEnabled()
      */
     public boolean isBankCashOffsetEnabled() {
         return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Bank.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG);
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#checkSufficientFunds()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#checkSufficientFunds()
      */
     public List<SufficientFundsItem> checkSufficientFunds() {
         LOG.debug("checkSufficientFunds() started");
@@ -111,7 +111,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#getPendingLedgerEntriesForSufficientFundsChecking()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#getPendingLedgerEntriesForSufficientFundsChecking()
      */
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
         return getGeneralLedgerPendingEntries();

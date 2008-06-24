@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.lang.StringBuilder;
 import org.kuali.core.util.Guid;
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao;
+import org.kuali.kfs.module.bc.BCConstants;
 
 public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionObjectSummaryReportDao {
     
@@ -380,7 +380,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
      */
     public void cleanGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
         this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T","PERSON_UNVL_ID",personUserIdentifier);
@@ -392,7 +392,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String)
      */
     public void updateGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
         String  idForSession      = (new Guid()).toString();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -24,7 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * Types of Contacts for Vendor Contacts. Typically, these types reflect the Contact's position and/or function within the Vendor's
  * organization.
  * 
- * @see org.kuali.module.vendor.bo.VendorContact
+ * @see org.kuali.kfs.vnd.businessobject.VendorContact
  */
 public class ContactType extends PersistableBusinessObjectBase {
 

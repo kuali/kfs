@@ -16,9 +16,9 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderPaymentHoldDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderPaymentHoldDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderPaymentHoldDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderPaymentHoldDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderPaymentHoldDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderPaymentHoldDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderPaymentHoldDocumentAuthorizer" />
     <property name="documentTypeCode" value="POPH" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderPaymentHoldDocument-workflowProperties" />

@@ -17,15 +17,15 @@
  * Created on Jul 18, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentAccountHistory;
-import org.kuali.module.pdp.bo.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
 
 /**

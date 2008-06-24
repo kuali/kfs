@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 
 /**
  * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -36,17 +36,17 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.DisbursementVoucherTaxService;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 /**
  * This is the default implementation of the DisbursementVoucherExtractService interface.
@@ -69,7 +69,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      *                         DisbursementVoucherRuleConstants for examples of valid tax type codes.
      * @return The universal id of the individual who matches the tax id and type code given.  Null if no matching user is found.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getEmployeeNumber(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#getEmployeeNumber(java.lang.String, java.lang.String)
      */
     public String getUniversalId(String taxIDNumber, String taxPayerTypeCode) {
         if (TAX_TYPE_FEIN.equals(taxPayerTypeCode)) {
@@ -101,7 +101,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      *                         DisbursementVoucherRuleConstants for examples of valid tax type codes.
      * @return The id of the vendor found matching the tax id and type code provided.  Null if no matching vendor is found.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPayeeNumber(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#getPayeeNumber(java.lang.String, java.lang.String)
      */
     public String getVendorId(String taxIDNumber, String taxPayerTypeCode) {
         String vendorId = null;
@@ -138,7 +138,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * 
      * @param document The disbursement voucher the NRA tax lines will be added to.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#generateNRATaxLines(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#generateNRATaxLines(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     private void generateNRATaxLines(DisbursementVoucherDocument document) {
         // retrieve first accounting line for tax line attributes
@@ -290,7 +290,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @param document The disbursement voucher document the NRA tax information will be validated and the subsequent 
      *                 tax lines generated for.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#processNonResidentAlienTax(org.kuali.module.financial.document.DisbursementVoucherDocument,
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#processNonResidentAlienTax(org.kuali.kfs.fp.document.DisbursementVoucherDocument,
      *      java.util.List)
      */
     public void processNonResidentAlienTax(DisbursementVoucherDocument document) {
@@ -368,7 +368,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @return The NRA tax amount applicable to the given disbursement voucher or zero if the voucher does not have any 
      *         NRA tax lines.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getNonResidentAlienTaxAmount(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#getNonResidentAlienTaxAmount(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document) {
         KualiDecimal taxAmount = KualiDecimal.ZERO;
@@ -412,8 +412,8 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @param document The disbursement voucher document to validate the tax lines for.
      * @return True if the information associated with non-resident alien tax is correct and valid, false otherwise.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#validateNRATaxInformation(org.kuali.module.financial.document.DisbursementVoucherDocument)
-     * @see org.kuali.module.financial.rules.DisbursementVoucherDocumentRule#validateNonResidentAlienInformation(DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#validateNRATaxInformation(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule#validateNonResidentAlienInformation(DisbursementVoucherDocument)
      */
     private boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();

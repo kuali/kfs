@@ -20,10 +20,10 @@
 		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
 	<allow>
-	   	<convert converter="bean" match="org.kuali.module.financial.bo.Bank">
+	   	<convert converter="bean" match="org.kuali.kfs.fp.businessobject.Bank">
 	   		<param name="include" value="financialDocumentBankCode,financialDocumentBankName,financialDocumentBankShortNm" />
 	   	</convert>
-	   	<convert converter="bean" match="org.kuali.module.financial.bo.BankAccount">
+	   	<convert converter="bean" match="org.kuali.kfs.fp.businessobject.BankAccount">
 	   		<param name="include" value="financialDocumentBankCode,finDocumentBankAccountNumber,finDocumentBankAccountDesc" />
 	   	</convert>
 	    <create creator="spring" javascript="BankService">

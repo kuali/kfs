@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.InputStream;
@@ -25,14 +25,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.batch.EnterpriseFeedStep;
-import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
-import org.kuali.module.gl.util.EnterpriseFeederStatus;
-import org.kuali.module.gl.util.FileReconOkLoadOkStatus;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.EnterpriseFeedStep;
+import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
+import org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus;
+import org.kuali.kfs.gl.batch.service.impl.FileReconOkLoadOkStatus;
 
 /**
  * The base implementation of EnterpriseFeederNotificationService; performs email-based notifications
@@ -56,7 +56,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      * @param dataFile The data file
      * @param reconFile The recon file
      * @param errorMessages Any error messages for which to provide notification
-     * @see org.kuali.module.gl.service.EnterpriseFeederNotificationService#notifyFileFeedStatus(java.lang.String,
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService#notifyFileFeedStatus(java.lang.String,
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.io.File, java.io.File, java.io.File, java.util.List)
      */
     public void notifyFileFeedStatus(String feederProcessName, EnterpriseFeederStatus status, File doneFile, File dataFile, File reconFile, List<Message> errorMessages) {
@@ -82,7 +82,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      * @param reconFileDescription The file name
      * @param reconFileContents Not used; can be set to null
      * @param errorMessages Any error messages for which to provide notification
-     * @see org.kuali.module.gl.service.EnterpriseFeederNotificationService#notifyFileFeedStatus(java.lang.String,
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService#notifyFileFeedStatus(java.lang.String,
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.lang.String, java.io.InputStream, java.lang.String,
      *      java.io.InputStream, java.lang.String, java.io.InputStream, java.util.List)
      */
@@ -158,7 +158,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
      * @param dataFile The data file
      * @param reconFile The recon file
      * @param errorMessages Any error messages for which to provide notification
-     * @see org.kuali.module.gl.service.EnterpriseFeederNotificationService#getFileFeedStatusMessage(java.lang.String,
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService#getFileFeedStatusMessage(java.lang.String,
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.io.File, java.io.File, java.io.File, java.util.List)
      */
     public String getFileFeedStatusMessage(String feederProcessName, EnterpriseFeederStatus status, File doneFile, File dataFile, File reconFile, List<Message> errorMessages) {
@@ -170,7 +170,7 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
     }
 
     /**
-     * @see org.kuali.module.gl.service.EnterpriseFeederNotificationService#getFileFeedStatusMessage(java.lang.String,
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService#getFileFeedStatusMessage(java.lang.String,
      *      org.kuali.module.gl.util.EnterpriseFeederEvent, java.lang.String, java.io.InputStream, java.lang.String,
      *      java.io.InputStream, java.lang.String, java.io.InputStream, java.util.List)
      */

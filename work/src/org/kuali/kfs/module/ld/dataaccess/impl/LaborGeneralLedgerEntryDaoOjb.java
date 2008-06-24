@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -23,19 +23,19 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborGeneralLedgerEntryDao;
 
 /**
  * This is the data access object for labor general ledger entry
  * 
- * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry
  */
 public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborGeneralLedgerEntryDao {
 
     /**
-     * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#getMaxSequenceNumber(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborGeneralLedgerEntryDao#getMaxSequenceNumber(org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry)
      */
     public Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
         Criteria criteria = new Criteria();
@@ -69,7 +69,7 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#save(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborGeneralLedgerEntryDao#save(org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry)
      */
     public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
         getPersistenceBrokerTemplate().store(laborGeneralLedgerEntry);

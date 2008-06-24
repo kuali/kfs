@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.budget.bo;
+package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -24,10 +24,10 @@ import java.util.Map;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.service.SalarySettingService;
-import org.kuali.module.budget.util.SalarySettingCalculator;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.SalarySettingCalculator;
 
 
 public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedger implements PendingBudgetConstructionAppointmentFundingAware {
@@ -172,7 +172,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
     }
     
     /**
-     * @see org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware#getEffectivePendingBudgetConstructionAppointmentFunding()
+     * @see org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware#getEffectivePendingBudgetConstructionAppointmentFunding()
      */
     public List<PendingBudgetConstructionAppointmentFunding> getEffectivePendingBudgetConstructionAppointmentFunding() {
         return SalarySettingCalculator.getEffectiveAppointmentFundings(this.getPendingBudgetConstructionAppointmentFunding());

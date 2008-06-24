@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -23,7 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Payment Terms for Shipping from a particular Vendor. Per Vendor as distinct from <code>PaymentTermType</code>.
  * 
- * @see org.kuali.module.vendor.bo.PaymentTermType
+ * @see org.kuali.kfs.vnd.businessobject.PaymentTermType
  */
 public class ShippingPaymentTerms extends PersistableBusinessObjectBase {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup.keyvalues;
+package org.kuali.kfs.vnd.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,8 +23,8 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.bo.PaymentTermType;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 
 /**
  * Values finder for <code>PaymentTermType</code>. Similar to <code>PaymentTypeValuesFinder</code>, except that the list of
@@ -32,8 +32,8 @@ import org.kuali.module.vendor.bo.PaymentTermType;
  * than a description and a description. That method's signature needs to stay the same to satisfy the core code that uses values
  * finders, so we can't simply employ polymorphism in method signatures; we'll use a separate class instead.
  * 
- * @see org.kuali.module.vendor.bo.PaymentTermType
- * @see org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder
+ * @see org.kuali.kfs.vnd.businessobject.PaymentTermType
+ * @see org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder
  */
 public class PaymentTermsValuesFinder extends KeyValuesBase {
 

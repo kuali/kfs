@@ -7,7 +7,7 @@
   <bean id="NonInvoicedDistributionMove" parent="NonInvoicedDistributionMove-parentBean" />
 
   <bean id="NonInvoicedDistributionMove-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.NonInvoicedDistributionMove" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.NonInvoicedDistributionMove" />
     <property name="inquiryDefinition" >
       <ref bean="NonInvoicedDistributionMove-inquiryDefinition" />
     </property>

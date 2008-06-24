@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao;
+package org.kuali.kfs.coa.dataaccess;
 
-import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.kfs.coa.businessobject.ObjectType;
 
 /**
  * This interface specifies data access methods for {@link ObjectType}

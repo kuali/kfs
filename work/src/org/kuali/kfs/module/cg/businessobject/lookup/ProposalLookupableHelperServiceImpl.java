@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.lookup;
+package org.kuali.kfs.module.cg.businessobject.lookup;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 
 /**
  * Allows custom handling of Proposals within the lookup framework.

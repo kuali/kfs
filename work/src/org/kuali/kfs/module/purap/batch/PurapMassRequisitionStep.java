@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.batch;
+package org.kuali.kfs.module.purap.batch;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,15 +24,15 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.purap.PurapConstants.POCostSources;
-import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
-import org.kuali.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
-import org.kuali.module.purap.bo.RequisitionAccount;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
+import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

@@ -7,8 +7,8 @@
   <bean id="DelegateMaintenanceDocument" parent="DelegateMaintenanceDocument-parentBean" />
 
   <bean id="DelegateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Delegate" />
-    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.KualiDelegateMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Delegate" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.KualiDelegateMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="DelegateMaintenanceDocument-EditAccountDelegate" />
@@ -46,9 +46,9 @@
             p:parameterDetailType="Delegate" />
     </property>
     <property name="documentTypeName" value="DelegateMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.DelegateRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.DelegatePreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.DelegateRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.DelegatePreRules" />
     <property name="documentTypeCode" value="ADEL" />
     <property name="workflowProperties" >
       <ref bean="DelegateMaintenanceDocument-workflowProperties" />
@@ -110,7 +110,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="accountDelegateStartDate"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>

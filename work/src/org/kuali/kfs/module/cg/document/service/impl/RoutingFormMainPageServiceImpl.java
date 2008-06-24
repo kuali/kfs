@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,25 +22,25 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.routingform.bo.DueDateType;
-import org.kuali.module.kra.routingform.bo.PersonRole;
-import org.kuali.module.kra.routingform.bo.ProjectType;
-import org.kuali.module.kra.routingform.bo.Purpose;
-import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
-import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
-import org.kuali.module.kra.routingform.bo.RoutingFormDueDateType;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonRole;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
-import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchTypeCode;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.service.PurposeService;
-import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.DueDateType;
+import org.kuali.kfs.module.cg.businessobject.PersonRole;
+import org.kuali.kfs.module.cg.businessobject.ProjectType;
+import org.kuali.kfs.module.cg.businessobject.Purpose;
+import org.kuali.kfs.module.cg.businessobject.ResearchTypeCode;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormDueDateType;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonRole;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormProjectType;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPurpose;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchTypeCode;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.service.PurposeService;
+import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageService {
@@ -52,7 +52,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#setupMainPageMaintainables(org.kuali.module.kra.routingform.document.RoutingFormDocument)
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#setupMainPageMaintainables(org.kuali.kfs.module.cg.document.RoutingFormDocument)
      */
     public void setupMainPageMaintainables(RoutingFormDocument routingFormDocument) {
         this.setupRoutingFormDueDateTypes(routingFormDocument);
@@ -63,7 +63,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getDueDateTypes()
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getDueDateTypes()
      */
     public List<DueDateType> getDueDateTypes() {
         Map fieldValues = new HashMap();
@@ -73,7 +73,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getPersonRoles()
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getPersonRoles()
      */
     public List<PersonRole> getPersonRoles() {
         Map fieldValues = new HashMap();
@@ -85,7 +85,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getProjectTypes()
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getProjectTypes()
      */
     public List<ProjectType> getProjectTypes() {
         Map fieldValues = new HashMap();
@@ -97,7 +97,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getResearchTypeCodes()
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getResearchTypeCodes()
      */
     public List<ResearchTypeCode> getResearchTypeCodes() {
         Map fieldValues = new HashMap();
@@ -109,7 +109,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#checkCoPdExistance(java.util.List)
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#checkCoPdExistance(java.util.List)
      */
     public boolean checkCoPdExistance(List<RoutingFormPersonnel> routingFormPersonnel) {
         final String CO_PD_ROLE_CODE = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR);
@@ -124,7 +124,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getProjectDirector(java.util.List)
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getProjectDirector(java.util.List)
      */
     public RoutingFormPersonnel getProjectDirector(List<RoutingFormPersonnel> routingFormPersonnel) {
         for (RoutingFormPersonnel person : routingFormPersonnel) {
@@ -137,7 +137,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getContactPerson(java.util.List)
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#getContactPerson(java.util.List)
      */
     public RoutingFormPersonnel getContactPerson(List<RoutingFormPersonnel> routingFormPersonnel) {
         for (RoutingFormPersonnel person : routingFormPersonnel) {

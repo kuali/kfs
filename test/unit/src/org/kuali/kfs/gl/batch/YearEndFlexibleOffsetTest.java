@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -29,40 +29,40 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.A21SubAccountService;
-import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.batch.closing.year.service.impl.helper.NominalActivityClosingHelper;
-import org.kuali.module.gl.batch.closing.year.util.EncumbranceClosingOriginEntryFactory;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.dao.BalanceDao;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
-import org.kuali.module.gl.service.OrganizationReversionProcessService;
-import org.kuali.module.gl.service.impl.OrganizationReversionMockService;
-import org.kuali.module.gl.service.impl.orgreversion.CashOrganizationReversionCategoryLogic;
-import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionProcess;
-import org.kuali.module.gl.util.FatalErrorException;
-import org.kuali.module.gl.util.OriginEntryOffsetPair;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.fp.businessobject.OffsetAccount;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.batch.NominalActivityClosingHelper;
+import org.kuali.kfs.gl.batch.EncumbranceClosingOriginEntryFactory;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.dataaccess.BalanceDao;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
+import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl;
+import org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic;
+import org.kuali.kfs.gl.batch.OrganizationReversionProcess;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
+import org.kuali.kfs.ConfigureContext;
 
 /*
  * Unit tests to verify that flexible offsets are being added to year end origin entries correctly
@@ -298,7 +298,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     
     /**
      * Initialize defaults for each test.
-     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     * @see org.kuali.kfs.gl.businessobject.OriginEntryTestBase#setUp()
      */
     public void setUp() throws Exception {
         super.setUp();

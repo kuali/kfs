@@ -7,7 +7,7 @@
   <bean id="Account" parent="Account-parentBean" />
 
   <bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.Account" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account" />
     <property name="inquiryDefinition" >
       <ref bean="Account-inquiryDefinition" />
     </property>
@@ -281,7 +281,7 @@
     <property name="shortLabel" value="AcctType" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.AcctTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -352,7 +352,7 @@
     <property name="shortLabel" value="RstrcStatCd" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.RestrictedStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -434,7 +434,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -480,7 +480,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -565,7 +565,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -586,7 +586,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -607,7 +607,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -672,7 +672,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -701,7 +701,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BudgetRecordingLevelValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.BudgetRecordingLevelValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -713,7 +713,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SufficientFundsCodeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SufficientFundsCodeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -1177,7 +1177,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="awards" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardAccount" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -1211,7 +1211,7 @@
   <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Account Lookup" />
     <property name="lookupableID" value="accountLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.module.chart.bo.AccountGlobal&quot;&gt;&lt;img src=&quot;${kr.externalizable.images.url}tinybutton-createnewglobal.gif&quot; alt=&quot;create new global&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
+    <property name="menubar" value="&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.coa.businessobject.AccountGlobal&quot;&gt;&lt;img src=&quot;${kr.externalizable.images.url}tinybutton-createnewglobal.gif&quot; alt=&quot;create new global&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
     <property name="instructions" value="Lookup an Account" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

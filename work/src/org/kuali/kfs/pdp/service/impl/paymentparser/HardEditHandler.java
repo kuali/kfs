@@ -17,7 +17,7 @@
  * Created on Jun 28, 2004
  *
  */
-package org.kuali.module.pdp.xml.impl;
+package org.kuali.kfs.pdp.service.impl.paymentparser;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -26,15 +26,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.dao.CustomerProfileDao;
-import org.kuali.module.pdp.dao.PaymentFileLoadDao;
-import org.kuali.module.pdp.xml.PdpFileHandler;
-import org.kuali.module.pdp.xml.XmlDetail;
-import org.kuali.module.pdp.xml.XmlGroup;
-import org.kuali.module.pdp.xml.XmlHeader;
-import org.kuali.module.pdp.xml.XmlTrailer;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
+import org.kuali.kfs.pdp.service.paymentparser.PdpFileHandler;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlDetail;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlGroup;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlTrailer;
 
 /**
  * @author jsissom

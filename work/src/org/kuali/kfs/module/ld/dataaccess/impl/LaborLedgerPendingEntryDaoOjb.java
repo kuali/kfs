@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -23,13 +23,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao;
 
 /**
  * OJB Implementation of LaborLedgerPendingEntryDao.
@@ -39,7 +39,7 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     private final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
 
     /**
-     * @see org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb#getEntryClass()
+     * @see org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb#getEntryClass()
      */
     @Override
     public Class getEntryClass() {
@@ -47,14 +47,14 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerPendingEntryDao#findPendingLedgerEntriesForLedgerBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#findPendingLedgerEntriesForLedgerBalance(java.util.Map, boolean)
      */
     public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
         return this.findPendingEntries(fieldValues, isApproved).iterator();
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerPendingEntryDao#hasPendingLaborLedgerEntry(java.util.Map, java.lang.Object)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#hasPendingLaborLedgerEntry(java.util.Map, java.lang.Object)
      */
     public Collection<LaborLedgerPendingEntry> hasPendingLaborLedgerEntry(Map fieldValues, Object businessObject) {
         LOG.debug("hasPendingLaborLedgerEntry() started");
@@ -76,7 +76,7 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     }
 
     /**
-     * @see org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb#deleteByFinancialDocumentApprovedCode(java.lang.String)
+     * @see org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb#deleteByFinancialDocumentApprovedCode(java.lang.String)
      */
     @Override
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
@@ -91,7 +91,7 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     }
 
     /**
-     * @see org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb#findPendingEntries(java.util.Map, boolean)
+     * @see org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb#findPendingEntries(java.util.Map, boolean)
      */
     @Override
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {

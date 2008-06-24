@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.exception.PaymentLoadException;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.exception.PaymentLoadException;
 
 public interface PaymentFileService {
     /**

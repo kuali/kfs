@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>

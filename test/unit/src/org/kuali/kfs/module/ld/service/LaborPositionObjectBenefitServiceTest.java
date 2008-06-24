@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants.TestConstants.PositionObjectTestData;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.KualiTestConstants.TestConstants.PositionObjectTestData;
 
 /**
  * JUnit test for LaborPositionObjectBenefitService

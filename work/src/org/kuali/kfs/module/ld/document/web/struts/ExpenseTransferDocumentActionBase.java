@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.action;
+package org.kuali.kfs.module.ld.document.web.struts;
 
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,25 +45,25 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
-import org.kuali.module.labor.bo.LaborAccountingLineOverride;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
-import org.kuali.module.labor.service.SegmentedLookupResultsService;
-import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
+import org.kuali.kfs.module.ld.service.SegmentedLookupResultsService;
+import org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -250,7 +250,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     /**
      * Overload the method in order to have balance importing section be populated with the last search criteria
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -416,7 +416,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     /**
      * Processes accounting line overrides for output to JSP
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#processAccountingLineOverrides(java.util.List)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#processAccountingLineOverrides(java.util.List)
      */
     @Override
     protected void processAccountingLineOverrides(List accountingLines) {
@@ -433,7 +433,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     /**
      * Clear all overrides that are not needed.
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#clearOverridesThatBecameUnneeded(org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#clearOverridesThatBecameUnneeded(org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     protected void clearOverridesThatBecameUnneeded(AccountingLine formLine) {

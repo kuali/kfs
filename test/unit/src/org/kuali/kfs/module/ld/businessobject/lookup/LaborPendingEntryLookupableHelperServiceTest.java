@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -23,13 +23,13 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.LookupableSpringContext;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.gl.web.TestDataGenerator;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Unit tests for the Lookup Helper Service of the <code>{@link LaborLedgerPendingEntry}</code> business object
@@ -64,8 +64,8 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
     protected void setUp() throws Exception {
         super.setUp();
 
-        messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
-        propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/laborLedgerPendingEntry.properties";
+        messageFileName = "test/src/org/kuali/kfs/module/ld/testdata/message.properties";
+        propertiesFileName = "test/src/org/kuali/kfs/module/ld/testdata/laborLedgerPendingEntry.properties";
         date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         pendingEntry = new LaborLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);

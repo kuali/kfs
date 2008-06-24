@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.fixtures.PurapTestConstants.PREQInvoice;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PREQInvoice;
 
 public enum PaymentRequestInvoiceTabFixture {
 

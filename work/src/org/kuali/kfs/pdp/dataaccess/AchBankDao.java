@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
-import org.kuali.module.pdp.bo.AchBank;
+import org.kuali.kfs.pdp.businessobject.AchBank;
 
 public interface AchBankDao {
     /**

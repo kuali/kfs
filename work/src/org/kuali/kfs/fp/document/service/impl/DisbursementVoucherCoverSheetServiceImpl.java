@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,15 +30,15 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
-import org.kuali.module.financial.bo.PaymentReasonCode;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder;
-import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
+import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;
@@ -72,8 +72,8 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @param document The DisbursementVoucher the cover sheet will be populated from.
      * @param outputStream The stream the cover sheet file will be written to.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherCoverSheetService#generateDisbursementVoucherCoverSheet(java.lang.String,
-     *      java.lang.String, org.kuali.module.financial.document.DisbursementVoucherDocument, java.io.OutputStream)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService#generateDisbursementVoucherCoverSheet(java.lang.String,
+     *      java.lang.String, org.kuali.kfs.fp.document.DisbursementVoucherDocument, java.io.OutputStream)
      */
     public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException {
         DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();

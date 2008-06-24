@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.rules;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
-import static org.kuali.module.cams.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
+import static org.kuali.kfs.module.cam.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
+import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
 
 import java.util.Collection;
 import java.util.Date;
@@ -31,27 +31,27 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetComponent;
-import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.bo.AssetWarranty;
-import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
-import org.kuali.module.cams.service.AssetComponentService;
-import org.kuali.module.cams.service.AssetDateService;
-import org.kuali.module.cams.service.AssetDispositionService;
-import org.kuali.module.cams.service.AssetLocationService;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.EquipmentLoanInfoService;
-import org.kuali.module.cams.service.PaymentSummaryService;
-import org.kuali.module.cams.service.RetirementInfoService;
-import org.kuali.module.cams.service.AssetLocationService.LocationField;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetWarranty;
+import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
+import org.kuali.kfs.module.cam.document.service.AssetComponentService;
+import org.kuali.kfs.module.cam.document.service.AssetDateService;
+import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * AssetRule for Asset edit.

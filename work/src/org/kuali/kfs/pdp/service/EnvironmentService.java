@@ -17,7 +17,7 @@
  * Created on Jan 19, 2005
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 /**
  * @author local-jsissom

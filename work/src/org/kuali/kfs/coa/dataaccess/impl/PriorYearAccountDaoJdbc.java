@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.jdbc;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.PriorYearAccount;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 
 /**
  * This class performs actions against the database through direct SQL command calls.

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.financial.bo.ServiceBillingControl;
-import org.kuali.module.financial.service.ServiceBillingControlService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
+import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

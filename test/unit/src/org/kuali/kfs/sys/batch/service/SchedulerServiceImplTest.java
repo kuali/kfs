@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.core.service.impl;
+package org.kuali.kfs.sys.batch.service;
 
 import java.util.List;
 
-import org.kuali.kfs.batch.BatchJobStatus;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.SchedulerService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.sys.batch.BatchJobStatus;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.KULUSER, initializeBatchSchedule = true)
 public class SchedulerServiceImplTest extends KualiTestBase {

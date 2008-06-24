@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,9 +31,9 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.MemoryMonitor;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.rice.KNSServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

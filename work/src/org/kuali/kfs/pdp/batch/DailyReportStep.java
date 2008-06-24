@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.batch;
+package org.kuali.kfs.pdp.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.pdp.service.DailyReportService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.pdp.batch.service.DailyReportService;
 
 public class DailyReportStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DailyReportStep.class);
@@ -26,7 +26,7 @@ public class DailyReportStep extends AbstractStep {
     private DailyReportService dailyReportService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -26,10 +26,10 @@ import java.util.TreeSet;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.service.AccountingPeriodService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -51,7 +51,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     /**
      * The default implementation.
      * 
-     * @see org.kuali.module.chart.service.AccountingPeriodService#getAllAccountingPeriods()
+     * @see org.kuali.kfs.coa.service.AccountingPeriodService#getAllAccountingPeriods()
      */
     public Collection getAllAccountingPeriods() {
         return businessObjectService.findAll(AccountingPeriod.class);
@@ -60,7 +60,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     /**
      * Implements by choosing only accounting periods that have a status that is open ("O").
      * 
-     * @see org.kuali.module.chart.service.AccountingPeriodService#getOpenAccountingPeriods()
+     * @see org.kuali.kfs.coa.service.AccountingPeriodService#getOpenAccountingPeriods()
      */
     @Cached
     public Collection getOpenAccountingPeriods() {
@@ -90,7 +90,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     /**
      * This method is a helper method to get the current period.
      * 
-     * @see org.kuali.module.chart.service.AccountingPeriodService#getByDate(java.sql.Date)
+     * @see org.kuali.kfs.coa.service.AccountingPeriodService#getByDate(java.sql.Date)
      */
     @Cached
     public AccountingPeriod getByDate(Date date) {
@@ -140,8 +140,8 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.AccountingPeriodService#compareAccountingPeriodsByDate(org.kuali.module.chart.bo.AccountingPeriod,
-     *      org.kuali.module.chart.bo.AccountingPeriod)
+     * @see org.kuali.kfs.coa.service.AccountingPeriodService#compareAccountingPeriodsByDate(org.kuali.kfs.coa.businessobject.AccountingPeriod,
+     *      org.kuali.kfs.coa.businessobject.AccountingPeriod)
      */
     public int compareAccountingPeriodsByDate(AccountingPeriod tweedleDee, AccountingPeriod tweedleDum) {
         // note the lack of defensive programming here. If you send a null accounting

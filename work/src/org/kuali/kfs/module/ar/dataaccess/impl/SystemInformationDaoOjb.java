@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao.ojb;
+package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.ar.bo.SystemInformation;
-import org.kuali.module.ar.dao.SystemInformationDao;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.dataaccess.SystemInformationDao;
 
 public class SystemInformationDaoOjb extends PlatformAwareDaoBaseOjb implements SystemInformationDao {
 

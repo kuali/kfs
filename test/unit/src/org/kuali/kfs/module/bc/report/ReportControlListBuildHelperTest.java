@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.util;
+package org.kuali.kfs.module.bc.report;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 
-import org.kuali.test.ConfigureContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import org.kuali.kfs.ConfigureContext;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.service.BusinessObjectService;
 
-import org.kuali.module.chart.service.OrganizationService;
+import org.kuali.kfs.coa.service.OrganizationService;
 
-import org.kuali.module.budget.util.ReportControlListBuildHelper;
-import org.kuali.module.budget.util.ReportControlListBuildHelper.BuildState;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
+import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper.BuildState;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 
 @ConfigureContext(session = KHUNTLEY)
 public class ReportControlListBuildHelperTest extends KualiTestBase {

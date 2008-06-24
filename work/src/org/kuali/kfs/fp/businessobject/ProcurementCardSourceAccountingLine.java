@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 
 /**

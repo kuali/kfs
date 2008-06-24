@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 
 /**
  * This defines methods common for all ledger posting.

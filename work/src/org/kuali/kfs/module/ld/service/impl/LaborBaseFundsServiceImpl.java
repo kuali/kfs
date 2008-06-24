@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
-import org.kuali.module.labor.dao.LaborBaseFundsDao;
-import org.kuali.module.labor.service.LaborBaseFundsService;
-import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
+import org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao;
+import org.kuali.kfs.module.ld.service.LaborBaseFundsService;
+import org.kuali.kfs.module.ld.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides its clients with access to labor base fund entries in the backend data store.
  * 
- * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
+ * @see org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds
  */
 
 @NonTransactional
@@ -39,14 +39,14 @@ public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
     private LaborCalculatedSalaryFoundationTrackerService laborCalculatedSalaryFoundationTrackerService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborBaseFundsService#findLaborBaseFunds(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.service.LaborBaseFundsService#findLaborBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findLaborBaseFunds(Map fieldValues, boolean isConsolidated) {
         return laborBaseFundsDao.findLaborBaseFunds(fieldValues, isConsolidated);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborBaseFundsService#findAccountStatusBaseFundsAndCSFTracker(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.service.LaborBaseFundsService#findAccountStatusBaseFundsAndCSFTracker(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findAccountStatusBaseFundsWithCSFTracker(Map fieldValues, boolean isConsolidated) {
         List<AccountStatusBaseFunds> baseFundsCollection = this.findLaborBaseFunds(fieldValues, isConsolidated);

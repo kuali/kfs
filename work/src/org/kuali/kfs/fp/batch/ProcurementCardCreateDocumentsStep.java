@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.batch.pcard;
+package org.kuali.kfs.fp.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService;
 
 /**
  * This step will call a service method to create the procurement card documents from the loaded transaction table.
@@ -28,7 +28,7 @@ public class ProcurementCardCreateDocumentsStep extends AbstractStep {
     private ProcurementCardCreateDocumentService procurementCardDocumentService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         return procurementCardDocumentService.createProcurementCardDocuments();

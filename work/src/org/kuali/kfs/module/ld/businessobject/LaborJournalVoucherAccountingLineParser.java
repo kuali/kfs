@@ -14,39 +14,39 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 /**
  * Labor Base class for parsing serialized AccountingLines for Labor LedgerJournal Voucher
  */
 
-import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
-import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.CREDIT;
-import static org.kuali.kfs.KFSPropertyConstants.DEBIT;
-import static org.kuali.kfs.KFSPropertyConstants.EMPLID;
-import static org.kuali.kfs.KFSPropertyConstants.EMPLOYEE_RECORD;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.OBJECT_TYPE_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.KFSPropertyConstants.POSITION_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.CREDIT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.DEBIT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.EMPLID;
+import static org.kuali.kfs.sys.KFSPropertyConstants.EMPLOYEE_RECORD;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.OBJECT_TYPE_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.sys.KFSPropertyConstants.POSITION_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLineParserBase;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.AccountingLineParserException;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.labor.LaborPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.AccountingLineParserException;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;

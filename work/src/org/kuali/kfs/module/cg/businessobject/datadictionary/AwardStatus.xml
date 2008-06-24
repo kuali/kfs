@@ -7,7 +7,7 @@
   <bean id="AwardStatus" parent="AwardStatus-parentBean" />
 
   <bean id="AwardStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardStatus" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardStatus" />
     <property name="inquiryDefinition" >
       <ref bean="AwardStatus-inquiryDefinition" />
     </property>
@@ -51,7 +51,7 @@
     <property name="name" value="awardStatusCodeDropDown" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.AwardStatusValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AwardStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

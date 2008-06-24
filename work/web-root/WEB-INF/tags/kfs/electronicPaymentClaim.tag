@@ -15,8 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="claimIndex" required="true" description="The index of the org.kuali.kfs.bo.ElectronicPaymentClaim in the form to display." %>
-<%@ attribute name="electronicPaymentClaim" required="true" description="The ElectronicPaymentClaim being displayed" type="org.kuali.kfs.bo.ElectronicPaymentClaim" %>
+<%@ attribute name="claimIndex" required="true" description="The index of the org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim in the form to display." %>
+<%@ attribute name="electronicPaymentClaim" required="true" description="The ElectronicPaymentClaim being displayed" type="org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim" %>
 <%@ attribute name="allowAdministration" required="false" description="Whether the current user is an electronic funds administrator." %>
 
 <c:set var="claimProperty" value="claim[${claimIndex}]" />

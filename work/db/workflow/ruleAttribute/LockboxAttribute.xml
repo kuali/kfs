@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="lockboxNumber" draw="true" service="workflow-org.kuali.module.ar.bo.SystemInformation-Lookupable(workflow-lockboxNumber:lockboxNumber)" />
+          <quickfinder appliesTo="lockboxNumber" draw="true" service="workflow-org.kuali.kfs.module.ar.businessobject.SystemInformation-Lookupable(workflow-lockboxNumber:lockboxNumber)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/lockboxNumber') = wf:ruledata('lockboxNumber')</xpathexpression>
           </fieldEvaluation>

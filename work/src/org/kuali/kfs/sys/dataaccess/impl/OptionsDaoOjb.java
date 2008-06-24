@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao.ojb;
+package org.kuali.kfs.sys.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.dao.OptionsDao;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.dataaccess.OptionsDao;
 
 /**
  * 

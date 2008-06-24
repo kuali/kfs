@@ -10,9 +10,9 @@
     <property name="label" value="Cash Control" />
     <property name="shortLabel" value="Cash Control" />
     <property name="documentTypeName" value="CashControlDocument" />
-    <property name="documentClass" value="org.kuali.module.ar.document.CashControlDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CashControlDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CashControlDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CashControlDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer" />
     <property name="documentTypeCode" value="CTRL" />
     <property name="authorizations" >
       <list>
@@ -61,7 +61,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PaymentMediumValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PaymentMediumValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="customerPaymentMediumCode" />

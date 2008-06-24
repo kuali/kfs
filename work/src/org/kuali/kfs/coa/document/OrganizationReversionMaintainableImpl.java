@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,11 +24,11 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.chart.bo.OrganizationReversionDetail;
-import org.kuali.module.chart.service.OrganizationReversionService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document inner class for doing

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.fixtures.VendorTestConstants.FaxNumbers;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.FaxNumbers;
 
 public enum VendorRuleFaxNumberFixture {
 

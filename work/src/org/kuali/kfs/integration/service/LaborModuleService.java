@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.integration.service;
+package org.kuali.kfs.integration.service;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,16 +21,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
-import org.kuali.module.integration.bo.LaborLedgerEntry;
-import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
-import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
-import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsType;
+import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
+import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

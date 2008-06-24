@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.gl.bo;
+package org.kuali.kfs.gl.businessobject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class represents a GLCP correction change group

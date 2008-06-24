@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.dataaccess.impl;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,14 +32,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.dao.ImageDao;
-import org.kuali.module.purap.document.AssignContractManagerDocument;
-import org.kuali.module.purap.exceptions.PurError;
-import org.kuali.module.purap.exceptions.PurapConfigurationException;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.dataaccess.ImageDao;
+import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 
 /**
  * OJB Implementation of ImageDao.
@@ -59,7 +59,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     }
 
     /**
-     * @see org.kuali.module.purap.dao.ImageDao#getPurchasingDirectorImage(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.purap.dataaccess.ImageDao#getPurchasingDirectorImage(java.lang.String, java.lang.String, java.lang.String)
      */
     public String getPurchasingDirectorImage(String key, String campusCode, String location) {
         LOG.debug("getPurchasingDirectorImage() started");
@@ -70,7 +70,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     }
 
     /**
-     * @see org.kuali.module.purap.dao.ImageDao#getContractManagerImage(java.lang.String, java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.purap.dataaccess.ImageDao#getContractManagerImage(java.lang.String, java.lang.Integer, java.lang.String)
      */
     public String getContractManagerImage(String key, Integer contractManagerId, String location) {
         LOG.debug("getContractManagerImage() started");
@@ -84,7 +84,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     }
 
     /**
-     * @see org.kuali.module.purap.dao.ImageDao#getLogo(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.purap.dataaccess.ImageDao#getLogo(java.lang.String, java.lang.String, java.lang.String)
      */
     public String getLogo(String key, String campusCode, String location) {
         LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
@@ -193,7 +193,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     }
 
     /**
-     * @see org.kuali.module.purap.dao.ImageDao#removeImages(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.purap.dataaccess.ImageDao#removeImages(java.lang.String, java.lang.String)
      */
     public void removeImages(String key, String location) {
         LOG.debug("removeImages() started");

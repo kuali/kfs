@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPurchaseOrderDocumentIncompleteStatuses</name>
-      <className>org.kuali.workflow.module.purap.docsearch.attribute.KualiPurchaseOrderIncompleteStatusesAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.searching.attribute.KualiPurchaseOrderIncompleteStatusesAttribute</className>
       <label>Kuali Purchase Order Document Incomplete Statuses</label>
       <description>Attribute to identify the Purchase Order Status of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>

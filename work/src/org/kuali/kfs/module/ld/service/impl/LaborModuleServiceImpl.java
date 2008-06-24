@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,39 +31,39 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
-import org.kuali.module.integration.bo.LaborLedgerEntry;
-import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
-import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
-import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
-import org.kuali.module.integration.service.LaborModuleService;
-import org.kuali.module.labor.LaborPropertyConstants;
-import org.kuali.module.labor.bo.BenefitsCalculation;
-import org.kuali.module.labor.bo.BenefitsType;
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
-import org.kuali.module.labor.bo.FringeBenefitInformation;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerBalanceForEffortCertification;
-import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
-import org.kuali.module.labor.bo.PositionObjectGroup;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-import org.kuali.module.labor.service.LaborBenefitsCalculationService;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.service.LaborLedgerEntryService;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsType;
+import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
+import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.integration.service.LaborModuleService;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.kfs.module.ld.businessobject.BenefitsType;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.FringeBenefitInformation;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectGroup;
+import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -76,7 +76,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborModuleServiceImpl.class);
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.module.integration.bo.LaborLedgerObject,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefitFromLaborObject(org.kuali.kfs.integration.businessobject.LaborLedgerObject,
      *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
@@ -84,14 +84,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#createAndBlankApproveSalaryExpenseTransferDocument(java.lang.String,
      *      java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
      */
     public void createAndBlankApproveSalaryExpenseTransferDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
@@ -138,7 +138,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
         String documentTypeCode = getDocumentTypeService().getDocumentTypeCodeByClass(SalaryExpenseTransferDocument.class);
@@ -155,7 +155,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#findEmployeesWithPayType(java.util.Map, java.util.List,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#findEmployeesWithPayType(java.util.Map, java.util.List,
      *      java.util.Map)
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
@@ -163,7 +163,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#isEmployeeWithPayType(java.lang.String, java.util.Map,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#isEmployeeWithPayType(java.lang.String, java.util.Map,
      *      java.util.List, java.util.Map)
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
@@ -171,7 +171,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
      *      java.util.List, java.util.List)
      */
     public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
@@ -185,7 +185,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroup(java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroup(java.lang.String)
      */
     public LaborLedgerPositionObjectGroup getLaborLedgerPositionObjectGroup(String positionObjectGroupCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -195,70 +195,70 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#doesLaborLedgerPositionObjectGroupExist(java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#doesLaborLedgerPositionObjectGroupExist(java.lang.String)
      */
     public boolean doesLaborLedgerPositionObjectGroupExist(String positionObjectGroupCode) {
         return this.getLaborLedgerPositionObjectGroup(positionObjectGroupCode) != null;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBalanceClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBalanceClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass() {
         return LedgerBalance.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerEntryClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerEntryClass()
      */
     public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass() {
         return LedgerEntry.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerObjectClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerObjectClass()
      */
     public Class<? extends LaborLedgerObject> getLaborLedgerObjectClass() {
         return LaborObject.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
      */
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
         return PositionObjectBenefit.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBenefitsCalculationClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBenefitsCalculationClass()
      */
     public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass() {
         return BenefitsCalculation.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBenefitsTypeClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBenefitsTypeClass()
      */
     public Class<? extends LaborLedgerBenefitsType> getLaborLedgerBenefitsTypeClass() {
         return BenefitsType.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
      */
     public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass() {
         return PositionObjectGroup.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass() {
         return LedgerBalanceForEffortCertification.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerObject(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerObject(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
 
@@ -271,28 +271,28 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#hasPendingLaborLedgerEntry(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#hasPendingLaborLedgerEntry(java.lang.String, java.lang.String)
      */
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber) {
         return getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(chartOfAccountsCode, accountNumber);
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getExpenseTransferSourceAccountingLineClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getExpenseTransferSourceAccountingLineClass()
      */
     public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferSourceAccountingLineClass() {
         return ExpenseTransferSourceAccountingLine.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getExpenseTransferTargetAccountingLineClass()
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getExpenseTransferTargetAccountingLineClass()
      */
     public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferTargetAccountingLineClass() {
         return ExpenseTransferTargetAccountingLine.class;
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
     public List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
@@ -306,7 +306,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode){
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
@@ -319,7 +319,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
     
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer,
+     * @see org.kuali.kfs.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer,
      *      java.util.List)
      */
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
@@ -346,7 +346,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.module.integration.service.LaborModuleService#getLaborOriginEntryGroupCount(java.lang.Integer)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborOriginEntryGroupCount(java.lang.Integer)
      */
     public Integer getLaborOriginEntryGroupCount(Integer groupId) {
         return getLaborOriginEntryService().getGroupCount(groupId);

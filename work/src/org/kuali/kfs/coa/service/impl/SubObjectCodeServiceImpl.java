@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.dao.SubObjectCodeDao;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.dataaccess.SubObjectCodeDao;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,7 +33,7 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     private UniversityDateService universityDateService;
 
     /**
-     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.coa.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
     public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
@@ -41,7 +41,7 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.coa.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public SubObjCd getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {

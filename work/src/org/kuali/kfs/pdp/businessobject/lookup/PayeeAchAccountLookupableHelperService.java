@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.lookup;
+package org.kuali.kfs.pdp.businessobject.lookup;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,9 +26,9 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorKeyConstants;
-import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorKeyConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * This code mostly copies {@link org.kuali.core.lookup.KualiLookupableHelperServiceImpl}, but differs in that this class will
  * not remove search criteria containing values corresponding to hidden fields.
  * 
- * NOTE: this class is a good candidate for refactoring to combine code with {@link org.kuali.module.vendor.lookup.VendorLookupableHelperServiceImpl}, because
+ * NOTE: this class is a good candidate for refactoring to combine code with {@link org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl}, because
  * it shares some common code with it.
  */
 public class PayeeAchAccountLookupableHelperService extends AbstractLookupableHelperServiceImpl {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,12 +24,12 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.integration.bo.PurchasingAccountsPayableItemBuyerAndSellerSummary;
-import org.kuali.module.integration.bo.PurchasingAccountsPayableItemCostSummary;
-import org.kuali.module.integration.bo.PurchasingAccountsPayableRestrictedMaterial;
-import org.kuali.module.integration.service.PurchasingAccountsPayableModuleService;
-import org.kuali.module.purap.bo.RestrictedMaterial;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableItemBuyerAndSellerSummary;
+import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableItemCostSummary;
+import org.kuali.kfs.integration.businessobject.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
 
 /**
  * 
@@ -37,7 +37,7 @@ import org.kuali.module.purap.bo.RestrictedMaterial;
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
      */
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Integer> assetNumbers) {
         // TODO Auto-generated method stub
@@ -45,7 +45,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#getItemBuyerAndSellerSummarys(java.util.List, java.util.List, java.util.List, java.util.Date, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getItemBuyerAndSellerSummarys(java.util.List, java.util.List, java.util.List, java.util.Date, org.kuali.core.util.KualiDecimal)
      */
     public List<PurchasingAccountsPayableItemBuyerAndSellerSummary> getItemBuyerAndSellerSummarys(List<String> chartCodes, List<String> objectSubTypeCodes, List<String> subFundGroupCodes, Date purchaseOrderOpenAsOfDate, KualiDecimal capitalizationLimit) {
         // TODO Auto-generated method stub
@@ -53,7 +53,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#getItemCostSummarys(java.util.Date)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getItemCostSummarys(java.util.Date)
      */
     public List<PurchasingAccountsPayableItemCostSummary> getItemCostSummarys(Date purchaseOrderOpenAsOfDate) {
         // TODO Auto-generated method stub
@@ -61,7 +61,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#getPurchaseOrderInquiryUrl(java.lang.Integer)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getPurchaseOrderInquiryUrl(java.lang.Integer)
      */
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber) {
         // TODO Auto-generated method stub
@@ -69,7 +69,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#populateAssetBuilderInformation()
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#populateAssetBuilderInformation()
      */
     public void populateAssetBuilderInformation() {
         // TODO Auto-generated method stub
@@ -77,7 +77,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#getAllRestrictedMaterials()
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getAllRestrictedMaterials()
      */
     public List<PurchasingAccountsPayableRestrictedMaterial> getAllRestrictedMaterials() {
         List<PurchasingAccountsPayableRestrictedMaterial> restrictedMaterials = new ArrayList<PurchasingAccountsPayableRestrictedMaterial>();
@@ -89,7 +89,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.module.integration.service.PurchasingAccountsPayableModuleService#getRestrictedMaterialByCode(java.lang.String)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getRestrictedMaterialByCode(java.lang.String)
      */
     public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterialByCode(String restrictedMaterialCode) {
         Map primaryKeys = new HashMap();

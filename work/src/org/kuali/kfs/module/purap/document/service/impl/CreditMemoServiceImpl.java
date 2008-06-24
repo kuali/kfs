@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -36,36 +36,36 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.CreditMemoAccount;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.dao.CreditMemoDao;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.event.ContinuePurapEvent;
-import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.util.VendorGroupingHelper;
-import org.kuali.module.vendor.util.VendorUtils;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.vnd.VendorUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -91,7 +91,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private AccountsPayableService accountsPayableService;
     
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode) {
         LOG.debug("getCreditMemosToExtract() started");
@@ -118,7 +118,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#creditMemoDuplicateMessages(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#creditMemoDuplicateMessages(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public String creditMemoDuplicateMessages(CreditMemoDocument cmDocument) {
         String duplicateMessage = null;
@@ -147,7 +147,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#getPOInvoicedItems(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getPOInvoicedItems(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public List<PurchaseOrderItem> getPOInvoicedItems(PurchaseOrderDocument poDocument) {
         List<PurchaseOrderItem> invoicedItems = new ArrayList<PurchaseOrderItem>();
@@ -176,7 +176,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#calculateCreditMemo(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#calculateCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public void calculateCreditMemo(CreditMemoDocument cmDocument) {
 
@@ -232,7 +232,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemoByDocumentNumber(java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemoByDocumentNumber(java.lang.String)
      */
     public CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber) {
         LOG.debug("getCreditMemoByDocumentNumber() started");
@@ -252,14 +252,14 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemoDocumentById(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemoDocumentById(java.lang.Integer)
      */
     public CreditMemoDocument getCreditMemoDocumentById(Integer purchasingDocumentIdentifier) {
         return getCreditMemoByDocumentNumber(creditMemoDao.getDocumentNumberByCreditMemoId(purchasingDocumentIdentifier));
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
         try {
@@ -279,7 +279,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#saveDocument(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#saveDocument(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public void populateAndSaveCreditMemo(CreditMemoDocument document) {
         try {
@@ -299,7 +299,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#reopenClosedPO(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#reopenClosedPO(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public void reopenClosedPO(CreditMemoDocument cmDocument) {
         // reopen PO if closed
@@ -319,7 +319,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#canHoldPaymentRequest(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
@@ -334,7 +334,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#addHoldOnPaymentRequest(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#addHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
     public CreditMemoDocument addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
@@ -357,7 +357,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
@@ -372,7 +372,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#removeHoldOnCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#removeHoldOnCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
     public CreditMemoDocument removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception {
@@ -396,7 +396,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#canCancelCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canCancelCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
@@ -411,7 +411,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String, org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String, org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
         return updateStatusByNode(currentNodeName, (CreditMemoDocument) apDoc);
@@ -450,7 +450,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#cancelExtractedCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#cancelExtractedCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
     public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note) {
@@ -475,7 +475,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#resetExtractedCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#resetExtractedCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.lang.String)
      */
     public void resetExtractedCreditMemo(CreditMemoDocument cmDocument, String note) {
@@ -551,7 +551,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
         // always return false, never reverse
@@ -559,7 +559,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#getUniversalUserForCancel(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getUniversalUserForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) {
         // return null, since superuser is fine for CM
@@ -567,7 +567,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#takePurchaseOrderCancelAction(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#takePurchaseOrderCancelAction(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
@@ -578,7 +578,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#markPaid(org.kuali.module.purap.document.CreditMemoDocument,
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#markPaid(org.kuali.kfs.module.purap.document.CreditMemoDocument,
      *      java.sql.Date)
      */
     public void markPaid(CreditMemoDocument cm, Date processDate) {
@@ -589,7 +589,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#poItemEligibleForAp(org.kuali.module.purap.document.AccountsPayableDocument, org.kuali.module.purap.bo.PurchaseOrderItem)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#poItemEligibleForAp(org.kuali.kfs.module.purap.document.AccountsPayableDocument, org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem)
      */
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
         // if the po item is not active... skip it
@@ -612,7 +612,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     /**
      * The given document here needs to be a Credit Memo.
      * 
-     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#generateGLEntriesCreateAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#generateGLEntriesCreateAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDocument) {
         CreditMemoDocument creditMemo = (CreditMemoDocument)apDocument;

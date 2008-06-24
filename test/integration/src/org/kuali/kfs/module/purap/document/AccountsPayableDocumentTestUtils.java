@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.util.List;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.purap.bo.AccountsPayableItem;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 
 public class AccountsPayableDocumentTestUtils extends KualiTestBase {
 

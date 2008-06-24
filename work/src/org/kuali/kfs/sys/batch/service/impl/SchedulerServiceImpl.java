@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,18 +28,18 @@ import org.kuali.core.KualiModule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.BatchJobStatus;
-import org.kuali.kfs.batch.BatchSpringContext;
-import org.kuali.kfs.batch.Job;
-import org.kuali.kfs.batch.JobDescriptor;
-import org.kuali.kfs.batch.JobListener;
-import org.kuali.kfs.batch.ScheduleStep;
-import org.kuali.kfs.batch.SimpleTriggerDescriptor;
-import org.kuali.kfs.batch.Step;
-import org.kuali.kfs.batch.TriggerDescriptor;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.BatchJobStatus;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.batch.JobDescriptor;
+import org.kuali.kfs.sys.batch.JobListener;
+import org.kuali.kfs.sys.batch.ScheduleStep;
+import org.kuali.kfs.sys.batch.SimpleTriggerDescriptor;
+import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.batch.TriggerDescriptor;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.ObjectAlreadyExistsException;
@@ -76,7 +76,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#initialize()
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#initialize()
      */
     public void initialize() {
         LOG.info("Initializing the schedule");
@@ -118,7 +118,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#initializeJob(java.lang.String,org.kuali.kfs.batch.Job)
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#initializeJob(java.lang.String,org.kuali.kfs.sys.batch.Job)
      */
     public void initializeJob(String jobName, Job job) {
         job.setSchedulerService(this);
@@ -128,7 +128,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#hasIncompleteJob()
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#hasIncompleteJob()
      */
     public boolean hasIncompleteJob() {
         try {
@@ -175,7 +175,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#isPastScheduleCutoffTime()
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#isPastScheduleCutoffTime()
      */
     public boolean isPastScheduleCutoffTime() {
         return isPastScheduleCutoffTime(dateTimeService.getCurrentCalendar(), true);
@@ -219,7 +219,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#processWaitingJobs()
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#processWaitingJobs()
      */
     public void processWaitingJobs() {
         try {
@@ -241,7 +241,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#logScheduleResults()
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#logScheduleResults()
      */
     public void logScheduleResults() {
         StringBuffer scheduleResults = new StringBuffer("The schedule completed.");
@@ -260,7 +260,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#shouldNotRun(org.quartz.JobDetail)
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#shouldNotRun(org.quartz.JobDetail)
      */
     public boolean shouldNotRun(JobDetail jobDetail) {
         if (SCHEDULED_GROUP.equals(jobDetail.getGroup())) {
@@ -281,7 +281,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.SchedulerService#updateStatus(org.quartz.JobDetail,java.lang.String jobStatus)
+     * @see org.kuali.kfs.sys.batch.service.SchedulerService#updateStatus(org.quartz.JobDetail,java.lang.String jobStatus)
      */
     public void updateStatus(JobDetail jobDetail, String jobStatus) {
         LOG.info(new StringBuffer("Updating status of job: ").append(jobDetail.getName()).append("=").append(jobStatus));

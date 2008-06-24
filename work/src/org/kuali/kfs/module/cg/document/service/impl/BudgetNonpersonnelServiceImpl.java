@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
-import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
+import org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService {

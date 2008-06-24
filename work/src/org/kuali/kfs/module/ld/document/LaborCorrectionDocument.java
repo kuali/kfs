@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.document;
+package org.kuali.kfs.module.ld.document;
 
 import java.util.Iterator;
 
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.service.LaborCorrectionDocumentService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.service.LaborScrubberService;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 

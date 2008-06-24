@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.maintenance;
+package org.kuali.kfs.module.cam.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -29,21 +29,21 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetDepreciationConvention;
-import org.kuali.module.cams.bo.AssetGlobal;
-import org.kuali.module.cams.bo.AssetGlobalDetail;
-import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
-import org.kuali.module.cams.service.AssetDateService;
-import org.kuali.module.cams.service.AssetGlobalService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
+import org.kuali.kfs.module.cam.document.service.AssetDateService;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets

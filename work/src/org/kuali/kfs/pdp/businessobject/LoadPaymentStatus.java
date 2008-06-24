@@ -17,13 +17,13 @@
  * Created on Oct 4, 2004
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.kuali.module.pdp.xml.XmlHeader;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
 
 
 /**

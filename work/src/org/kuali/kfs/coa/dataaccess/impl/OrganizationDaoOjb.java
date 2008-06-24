@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,11 +25,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.dao.OrganizationDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 
 /**
  * This class is the OJB implementation of the OrganizationDao interface.
@@ -38,7 +38,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.OrganizationDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         Criteria criteria = new Criteria();
@@ -49,14 +49,14 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     }
 
     /**
-     * @see org.kuali.module.chart.dao.OrganizationDao#save(org.kuali.module.chart.bo.Org)
+     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#save(org.kuali.kfs.coa.businessobject.Org)
      */
     public void save(Org organization) {
         getPersistenceBrokerTemplate().store(organization);
     }
 
     /**
-     * @see org.kuali.module.chart.dao.OrganizationDao#getActiveAccountsByOrg(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getActiveAccountsByOrg(java.lang.String, java.lang.String)
      */
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
 
@@ -76,7 +76,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     }
 
     /**
-     * @see org.kuali.module.chart.dao.OrganizationDao#getActiveChildOrgs(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getActiveChildOrgs(java.lang.String, java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
 
@@ -96,7 +96,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     }
 
     /**
-     * @see org.kuali.module.chart.dao.OrganizationDao#getActiveOrgsByType(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getActiveOrgsByType(java.lang.String)
      */
     public List<Org> getActiveOrgsByType(String organizationTypeCode) {
         List<Org> orgs = new ArrayList<Org>();
@@ -116,7 +116,7 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     /**
      * we insist that the root organization be active
      * 
-     * @see org.kuali.module.chart.dao.OrganizationDao#getRootOrganizationCode(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getRootOrganizationCode(java.lang.String, java.lang.String)
      */
     public String[] getRootOrganizationCode(String rootChart, String selfReportsOrgTypeCode) {
         String[] returnValues = { null, null };

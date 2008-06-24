@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.util;
+package org.kuali.kfs.module.bc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
 public class SalarySettingCalculator {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingCalculator.class);

@@ -22,13 +22,13 @@
 		<property name="testMode" value="true" />
 	</bean>
 	
-	<bean id="glOrganizationReversionMockService" class="org.kuali.module.gl.service.impl.OrganizationReversionMockService">
+	<bean id="glOrganizationReversionMockService" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl">
 		<property name="organizationReversionDao">
 			<ref bean="organizationReversionDao" />
 		</property>
 	</bean>
 	
-	<bean id="infoForParameterMapReport" class="org.kuali.kfs.util.ReportInfoHolder" >
+	<bean id="infoForParameterMapReport" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Account and SubAccount For Testing" />
 		<property name="reportFileName" value="TestReportWithParameterMap" /> 
 		<property name="reportsDirectory" value="${reports.directory}/" />
@@ -44,7 +44,7 @@
 		</property>
 	</bean>
 	
-	<bean id="infoForDataSourceReport" class="org.kuali.kfs.util.ReportInfoHolder" >
+	<bean id="infoForDataSourceReport" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Account For Testing" />
 		<property name="reportFileName" value="TestReportWithDataSource" />
 		<property name="reportsDirectory" value="${reports.directory}/" />

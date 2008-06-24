@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao;
+package org.kuali.kfs.module.bc.document.dataaccess;
 /**
  * 
  * provides the public method that provides data for a report of the contents of a single budget construction document, with object-level detail

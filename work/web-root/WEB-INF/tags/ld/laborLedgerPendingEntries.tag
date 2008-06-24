@@ -18,7 +18,7 @@
 <kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${KFSConstants.LABOR_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
 		<div class="h2-container">
-		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.module.labor.bo.LaborLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
+		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
 		</div>
 	 <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 
@@ -48,42 +48,42 @@
 			<tr>
 				<th class="datacell center"><html:hidden property="document.laborLedgerPendingEntry[${ctr}].transactionLedgerEntrySequenceNumber" write="true"/></th>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.kfs.bo.Options" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.Options" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalYear" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.Chart" keyValues="chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].chartOfAccountsCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.Account" keyValues="chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&accountNumber=${laborLedgerPendingEntry.accountNumber}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&accountNumber=${laborLedgerPendingEntry.accountNumber}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].accountNumber" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.SubAccount" keyValues="chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&accountNumber=${laborLedgerPendingEntry.accountNumber}&subAccountNumber=${laborLedgerPendingEntry.subAccountNumber}" render="${ ! laborLedgerPendingEntry.subAccountNumberBlank}">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubAccount" keyValues="chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&accountNumber=${laborLedgerPendingEntry.accountNumber}&subAccountNumber=${laborLedgerPendingEntry.subAccountNumber}" render="${ ! laborLedgerPendingEntry.subAccountNumberBlank}">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].subAccountNumber" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.ObjectCode" keyValues="financialObjectCode=${laborLedgerPendingEntry.financialObjectCode}&chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="${ ! laborLedgerPendingEntry.financialObjectCodeBlank}">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${laborLedgerPendingEntry.financialObjectCode}&chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="${ ! laborLedgerPendingEntry.financialObjectCodeBlank}">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialObjectCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.SubObjCd" keyValues="financialSubObjectCode=${laborLedgerPendingEntry.financialSubObjectCode}&financialObjectCode=${laborLedgerPendingEntry.financialObjectCode}&chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="${ ! laborLedgerPendingEntry.financialSubObjectCodeBlank}">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" keyValues="financialSubObjectCode=${laborLedgerPendingEntry.financialSubObjectCode}&financialObjectCode=${laborLedgerPendingEntry.financialObjectCode}&chartOfAccountsCode=${laborLedgerPendingEntry.chartOfAccountsCode}&universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}" render="${ ! laborLedgerPendingEntry.financialSubObjectCodeBlank}">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialSubObjectCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.ProjectCode" keyValues="code=${laborLedgerPendingEntry.projectCode}" render="${ ! laborLedgerPendingEntry.projectCodeBlank}">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" keyValues="code=${laborLedgerPendingEntry.projectCode}" render="${ ! laborLedgerPendingEntry.projectCodeBlank}">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].projectCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.AccountingPeriod" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}&universityFiscalPeriodCode=${laborLedgerPendingEntry.universityFiscalPeriodCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.AccountingPeriod" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}&universityFiscalPeriodCode=${laborLedgerPendingEntry.universityFiscalPeriodCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalPeriodCode" write="true"/>
 					</kul:inquiry>
 					
@@ -95,12 +95,12 @@
 --%>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.codes.BalanceTyp" keyValues="code=${laborLedgerPendingEntry.financialBalanceTypeCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.BalanceTyp" keyValues="code=${laborLedgerPendingEntry.financialBalanceTypeCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialBalanceTypeCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.module.chart.bo.ObjectType" keyValues="code=${laborLedgerPendingEntry.financialObjectTypeCode}" render="${ ! laborLedgerPendingEntry.financialObjectTypeCodeBlank}">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectType" keyValues="code=${laborLedgerPendingEntry.financialObjectTypeCode}" render="${ ! laborLedgerPendingEntry.financialObjectTypeCodeBlank}">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialObjectTypeCode" write="true"/>
 					</kul:inquiry>
 				</td>

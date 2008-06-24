@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch;
+package org.kuali.kfs.module.ld.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.labor.service.LaborNightlyOutService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService;
 
 /**
  * Clean Labor Feed Batch Step.
@@ -33,7 +33,7 @@ public class LaborFeedStep extends AbstractStep {
      * @param jobName
      * @param jobRunDate
      * @return boolean true when success
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         laborNightlyOutService.copyLaborGenerealLedgerEntries();

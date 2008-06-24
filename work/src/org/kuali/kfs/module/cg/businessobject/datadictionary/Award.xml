@@ -7,7 +7,7 @@
   <bean id="Award" parent="Award-parentBean" />
 
   <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Award" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Award" />
     <property name="inquiryDefinition" >
       <ref bean="Award-inquiryDefinition" />
     </property>
@@ -455,7 +455,7 @@
     <property name="shortLabel" value="Purpose" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalPurposeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -465,7 +465,7 @@
     <property name="label" value="Status" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.AwardStatusValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AwardStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -541,7 +541,7 @@
     <property name="shortLabel" value="Description" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.GrantDescriptionValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.GrantDescriptionValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -551,7 +551,7 @@
     <property name="label" value="Letter Of Credit Fund Group" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.LetterOfCreditFundGroupValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.LetterOfCreditFundGroupValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -578,7 +578,7 @@
     <property name="shortLabel" value="Type" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalAwardTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -677,7 +677,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="awardOrganizations" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardOrganization" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -710,7 +710,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="awardProjectDirectors" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardProjectDirector" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -745,7 +745,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="awardSubcontractors" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardSubcontractor" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -778,7 +778,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="awardAccounts" />
-                <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardAccount" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>

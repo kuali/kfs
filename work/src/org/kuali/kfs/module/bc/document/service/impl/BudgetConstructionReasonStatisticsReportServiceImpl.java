@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,19 +25,19 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionOrgReasonStatisticsReport;
-import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
-import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
-import org.kuali.module.budget.bo.BudgetConstructionSalaryTotal;
-import org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.service.BudgetConstructionReasonStatisticsReportService;
-import org.kuali.module.budget.util.BudgetConstructionReportHelper;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonStatisticsReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService;
+import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

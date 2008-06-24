@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 /**
  * An interface of methods to interact with Origin Entry Groups

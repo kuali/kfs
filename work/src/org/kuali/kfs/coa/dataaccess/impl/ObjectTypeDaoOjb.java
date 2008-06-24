@@ -17,20 +17,20 @@
  * Created on Oct 14, 2005
  *
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.dao.ObjectTypeDao;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.dataaccess.ObjectTypeDao;
 
 public class ObjectTypeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectTypeDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.ObjectTypeDao#getByPrimaryKey(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.ObjectTypeDao#getByPrimaryKey(java.lang.String)
      */
     public ObjectType getByPrimaryKey(String code) {
         LOG.debug("getByPrimaryKey() started");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.optionfinder;
+package org.kuali.kfs.module.ld.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
+import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 
 /**
  * Option Finder for Offset.

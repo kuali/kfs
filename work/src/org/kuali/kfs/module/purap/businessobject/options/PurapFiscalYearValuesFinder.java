@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.lookup.keyvalues;
+package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,12 +23,12 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.keyvalues.FiscalYearComparator;
-import org.kuali.module.financial.bo.FiscalYearFunctionControl;
-import org.kuali.module.financial.service.FiscalYearFunctionControlService;
-import org.kuali.module.purap.service.PurapService;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.options.FiscalYearComparator;
+import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 
 /**
  * This class...

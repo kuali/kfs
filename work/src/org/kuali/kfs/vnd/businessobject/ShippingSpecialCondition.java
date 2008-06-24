@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -23,7 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Special Conditions for Shipping. These are typically conditions of products which affect the way they are shipped.
  * 
- * @see org.kuali.module.vendor.bo.VendorShippingSpecialCondition
+ * @see org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition
  */
 public class ShippingSpecialCondition extends PersistableBusinessObjectBase {
 

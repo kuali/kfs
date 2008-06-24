@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.lookup.valuefinder;
+package org.kuali.kfs.module.cam.businessobject.defaultvalue;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.SequenceAccessorService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Returns the next Asset number available.

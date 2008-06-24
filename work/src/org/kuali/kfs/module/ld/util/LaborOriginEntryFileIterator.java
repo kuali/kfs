@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +24,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.gl.exception.LoadException;
-import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 
 /**
  * This class lazy loads the origin entries in a flat file. This implementation uses a limited amount of memory because it does not

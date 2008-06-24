@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,14 +23,14 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 
 /**
  * Validation for Transfer of Funds document that tests if the fund groups represented by a given document are in balance.
@@ -42,7 +42,7 @@ public class TransferOfFundsFundGroupsBalancedValidation extends GenericValidati
     /**
      * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the 
      * application parameter table that is associated with this check. See the document's specification for details.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         return isFundGroupSetBalanceValid(accountingDocumentForValidation, TransferOfFundsDocument.class, AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);

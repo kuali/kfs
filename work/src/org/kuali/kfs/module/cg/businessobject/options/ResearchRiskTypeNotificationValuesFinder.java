@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.lookup.keyvalues;
+package org.kuali.kfs.module.cg.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 
 public class ResearchRiskTypeNotificationValuesFinder extends KeyValuesBase {
 

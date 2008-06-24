@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,12 +27,12 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.EncumbranceDao;
-import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
+import org.kuali.kfs.gl.OJBUtility;
 
 /**
  * An OJB implementation of the EncumbranceDao
@@ -45,7 +45,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @param t the transaction to find the affected encumbrance for
      * @return an Encumbrance that would be affected by the posting of the transaction, or null
-     * @see org.kuali.module.gl.dao.EncumbranceDao#getEncumbranceByTransaction(org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#getEncumbranceByTransaction(org.kuali.kfs.gl.businessobject.Transaction)
      */
     public Encumbrance getEncumbranceByTransaction(Transaction t) {
         LOG.debug("getEncumbranceByTransaction() started");
@@ -71,7 +71,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @param fiscalYear a fiscal year to find encumbrances for
      * @return an Iterator of encumbrances to close
-     * @see org.kuali.module.gl.dao.EncumbranceDao#getEncumbrancesToClose(java.lang.Integer)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#getEncumbrancesToClose(java.lang.Integer)
      */
     public Iterator getEncumbrancesToClose(Integer fiscalYear) {
 
@@ -93,7 +93,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * Saves an encumbrance to the database
      * 
      * @param e an encumbrance to save
-     * @see org.kuali.module.gl.dao.EncumbranceDao#save(org.kuali.module.gl.bo.Encumbrance)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#save(org.kuali.kfs.gl.businessobject.Encumbrance)
      */
     public void save(Encumbrance e) {
         LOG.debug("save() started");
@@ -106,7 +106,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @param chartOfAccountsCode the chart of accounts code purged encumbrances will have
      * @param year the university fiscal year purged encumbrances will have
-     * @see org.kuali.module.gl.dao.EncumbranceDao#purgeYearByChart(java.lang.String, int)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#purgeYearByChart(java.lang.String, int)
      */
     public void purgeYearByChart(String chartOfAccountsCode, int year) {
         LOG.debug("purgeYearByChart() started");
@@ -129,7 +129,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * fetch all encumbrance records from GL open encumbrance table
      * 
      * @return an Iterator with all encumbrances currently in the database
-     * @see org.kuali.module.gl.dao.EncumbranceDao#getAllEncumbrances()
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#getAllEncumbrances()
      */
     public Iterator getAllEncumbrances() {
         Criteria criteria = new Criteria();
@@ -144,7 +144,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * @param documentTypeCode the given document type code
      * @param included indicate if all encumbrances with the given document type are included in the results or not
      * @return an Iterator of arrays of java.lang.Objects holding summarization data about qualifying encumbrances 
-     * @see org.kuali.module.gl.dao.EncumbranceDao#getSummarizedEncumbrances(String, boolean)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#getSummarizedEncumbrances(String, boolean)
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included) {
         Criteria criteria = new Criteria();
@@ -176,7 +176,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @param fieldValues the input fields and values
      * @return a collection of open encumbrances
-     * @see org.kuali.module.gl.dao.EncumbranceDao#findOpenEncumbrance(java.util.Map)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#findOpenEncumbrance(java.util.Map)
      */
     public Iterator findOpenEncumbrance(Map fieldValues) {
         LOG.debug("findOpenEncumbrance() started");
@@ -191,7 +191,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @param fieldValues the input fields and values
      * @return the number of the open encumbrances
-     * @see org.kuali.module.gl.dao.EncumbranceDao#getOpenEncumbranceRecordCount(java.util.Map)
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#getOpenEncumbranceRecordCount(java.util.Map)
      */
     public Integer getOpenEncumbranceRecordCount(Map fieldValues) {
         LOG.debug("getOpenEncumbranceRecordCount() started");

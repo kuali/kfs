@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.struts.form;
+package org.kuali.kfs.gl.web.struts;
 
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * This class is the action form for balance inquiry lookup results
@@ -248,77 +248,77 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getViewedPageNumber()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getViewedPageNumber()
      */
     public int getViewedPageNumber() {
         return tableMetadata.getViewedPageNumber();
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setViewedPageNumber(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setViewedPageNumber(int)
      */
     public void setViewedPageNumber(int pageNumberBeingViewedForMultivalueLookups) {
         tableMetadata.setViewedPageNumber(pageNumberBeingViewedForMultivalueLookups);
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getLookupResultsSequenceNumber()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getLookupResultsSequenceNumber()
      */
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setLookupResultsSequenceNumber(java.lang.String)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setLookupResultsSequenceNumber(java.lang.String)
      */
     public void setLookupResultsSequenceNumber(String lookupResultSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultSequenceNumber;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getTotalNumberOfPages()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getTotalNumberOfPages()
      */
     public int getTotalNumberOfPages() {
         return tableMetadata.getTotalNumberOfPages();
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setTotalNumberOfPages(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setTotalNumberOfPages(int)
      */
     public void setTotalNumberOfPages(int totalNumberOfPages) {
         tableMetadata.setTotalNumberOfPages(totalNumberOfPages);
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getFirstRowIndex()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getFirstRowIndex()
      */
     public int getFirstRowIndex() {
         return tableMetadata.getFirstRowIndex();
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setFirstRowIndex(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setFirstRowIndex(int)
      */
     public void setFirstRowIndex(int firstRowIndex) {
         tableMetadata.setFirstRowIndex(firstRowIndex);
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getLastRowIndex()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getLastRowIndex()
      */
     public int getLastRowIndex() {
         return tableMetadata.getLastRowIndex();
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setLastRowIndex(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setLastRowIndex(int)
      */
     public void setLastRowIndex(int lastRowIndex) {
         tableMetadata.setLastRowIndex(lastRowIndex);
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getSwitchToPageNumber()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getSwitchToPageNumber()
      */
     public int getSwitchToPageNumber() {
         return tableMetadata.getSwitchToPageNumber();
@@ -334,84 +334,84 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getPreviouslySelectedObjectIdSet()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getPreviouslySelectedObjectIdSet()
      */
     public Set<String> getPreviouslySelectedObjectIdSet() {
         return previouslySelectedObjectIdSet;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setPreviouslySelectedObjectIdSet(java.util.Set)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setPreviouslySelectedObjectIdSet(java.util.Set)
      */
     public void setPreviouslySelectedObjectIdSet(Set<String> previouslySelectedObjectIds) {
         this.previouslySelectedObjectIdSet = previouslySelectedObjectIds;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getSelectedObjectIdSet()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getSelectedObjectIdSet()
      */
     public Set<String> getSelectedObjectIdSet() {
         return selectedObjectIdSet;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setSelectedObjectIdSet(java.util.Set)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setSelectedObjectIdSet(java.util.Set)
      */
     public void setSelectedObjectIdSet(Set<String> selectedObjectIdSet) {
         this.selectedObjectIdSet = selectedObjectIdSet;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getDisplayedObjectIdSet()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getDisplayedObjectIdSet()
      */
     public Set<String> getDisplayedObjectIdSet() {
         return displayedObjectIdSet;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setDisplayedObjectIdSet(java.util.Set)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setDisplayedObjectIdSet(java.util.Set)
      */
     public void setDisplayedObjectIdSet(Set<String> displayedObjectIdSet) {
         this.displayedObjectIdSet = displayedObjectIdSet;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getCompositeObjectIdMap()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getCompositeObjectIdMap()
      */
     public Map<String, String> getCompositeObjectIdMap() {
         return compositeObjectIdMap;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setCompositeObjectIdMap(java.util.Map)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setCompositeObjectIdMap(java.util.Map)
      */
     public void setCompositeObjectIdMap(Map<String, String> compositeObjectIdMap) {
         this.compositeObjectIdMap = compositeObjectIdMap;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getColumnToSortIndex()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getColumnToSortIndex()
      */
     public int getColumnToSortIndex() {
         return columnToSortIndex;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setColumnToSortIndex(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setColumnToSortIndex(int)
      */
     public void setColumnToSortIndex(int columnToSortIndex) {
         this.columnToSortIndex = columnToSortIndex;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getPreviouslySortedColumnIndex()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getPreviouslySortedColumnIndex()
      */
     public String getPreviouslySortedColumnIndex() {
         return previouslySortedColumnIndex;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setPreviouslySortedColumnIndex(java.lang.String)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setPreviouslySortedColumnIndex(java.lang.String)
      */
     public void setPreviouslySortedColumnIndex(String previouslySortedColumnIndex) {
         this.previouslySortedColumnIndex = previouslySortedColumnIndex;
@@ -440,49 +440,49 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getResultsActualSize()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getResultsActualSize()
      */
     public int getResultsActualSize() {
         return resultsActualSize;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setResultsActualSize(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setResultsActualSize(int)
      */
     public void setResultsActualSize(int resultsActualSize) {
         this.resultsActualSize = resultsActualSize;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#getResultsLimitedSize()
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#getResultsLimitedSize()
      */
     public int getResultsLimitedSize() {
         return resultsLimitedSize;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#setResultsLimitedSize(int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#setResultsLimitedSize(int)
      */
     public void setResultsLimitedSize(int resultsLimitedSize) {
         this.resultsLimitedSize = resultsLimitedSize;
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#jumpToFirstPage(int, int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#jumpToFirstPage(int, int)
      */
     public void jumpToFirstPage(int listSize, int maxRowsPerPage) {
         tableMetadata.jumpToFirstPage(listSize, maxRowsPerPage);
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#jumpToLastPage(int, int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#jumpToLastPage(int, int)
      */
     public void jumpToLastPage(int listSize, int maxRowsPerPage) {
         tableMetadata.jumpToLastPage(listSize, maxRowsPerPage);
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.LookupResultsSelectable#jumpToPage(int, int, int)
+     * @see org.kuali.kfs.gl.web.struts.LookupResultsSelectable#jumpToPage(int, int, int)
      */
     public void jumpToPage(int pageNumber, int listSize, int maxRowsPerPage) {
         tableMetadata.jumpToPage(pageNumber, listSize, maxRowsPerPage);

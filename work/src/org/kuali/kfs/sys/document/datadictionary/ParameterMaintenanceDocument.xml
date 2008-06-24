@@ -38,7 +38,7 @@
     <property name="summary" value="Parameter Maintenance Document" />
     <property name="description" value="This document can be used to create or update system parameters." />
     <property name="documentTypeName" value="ParameterMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.rules.ParameterRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.ParameterRule" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.ParameterMaintenanceDocumentAuthorizer" />
     <property name="documentTypeCode" value="PARM" />
     <property name="workflowProperties" >

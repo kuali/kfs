@@ -16,10 +16,10 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.PurchaseOrderDocumentPreRules" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules" />
     <property name="documentTypeCode" value="PO" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
@@ -184,7 +184,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurapFiscalYearValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -240,7 +240,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderRetransmissionMethodValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderRetransmissionMethodValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -257,7 +257,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderHeaderValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderHeaderValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -418,7 +418,7 @@
     <property name="shortLabel" value="Address to Vendor" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.AddressToVendorIndicatorValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AddressToVendorIndicatorValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -437,7 +437,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -450,7 +450,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -550,7 +550,7 @@
     <property name="shortLabel" value="Date Reason" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.DateRequiredReasonValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -597,7 +597,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.FundingSourceValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -678,7 +678,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PurchaseOrderCostSourceValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -709,7 +709,7 @@
     <property name="label" value="Method of PO Transmission" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderTransmissionMethodValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -719,7 +719,7 @@
     <property name="label" value="Type of Recurring Payment" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -826,7 +826,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorChoiceValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorChoiceValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -1048,7 +1048,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderQuoteTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderQuoteTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -1105,7 +1105,7 @@
     <property name="label" value="Recurring Payment Frequency" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentFrequencyValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentFrequencyValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -1129,7 +1129,7 @@
     </property>
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.StatusChangeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.StatusChangeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 
 /**
  * Business rule(s) applicable to Requisition document.
@@ -53,7 +53,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * 
      * @param purapDocument the requisition document to be validated
      * @return boolean false when an error is found in any validation
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -69,7 +69,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * 
      * @param document the requisition document to be validated
      * @return boolean false when the Requisition is going to stop at content review route level.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#requiresAccountValidationOnAllEnteredItems(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#requiresAccountValidationOnAllEnteredItems(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean requiresAccountValidationOnAllEnteredItems(PurchasingAccountsPayableDocument document) {
@@ -153,8 +153,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @param accountingLine the accounting line to be validated
      * @param action the AccountingLineAction enum that indicates what is being done to an accounting line
      * @return boolean true if the Requisition is going to stop at Content Review Level.
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
@@ -179,8 +179,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @param accountingLine the accounting line to be validated
      * @return boolean false if the account is closed, otherwise it will return the result of the
      *         processAccAccountingLineBusinessRules in PurchasingDocumentRuleBase.
-     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -200,8 +200,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @param accountingLine the accounting line to be validated
      * @return boolean false if the account is closed, otherwise it will return the result of the
      *         processReviewAccountingLineBusinessRules in PurapAccountingDocumentRuleBase.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     public boolean processReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -221,8 +221,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @param updatedAccountingLine the accounting line that was updated
      * @return boolean false if the account is closed, otherwise it will return the result of the
      *         processUpdateAccountingLineBusinessRules in PurapAccountingDocumentRuleBase.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
@@ -253,7 +253,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
         
     /**
-     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#validateItemCapitalAssetWithErrors(org.kuali.module.purap.bo.PurchasingItemBase, org.kuali.module.purap.bo.RecurringPaymentType, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase#validateItemCapitalAssetWithErrors(org.kuali.kfs.module.purap.businessobject.PurchasingItemBase, org.kuali.kfs.module.purap.businessobject.RecurringPaymentType, java.lang.String)
      */
     @Override
     public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item, boolean apoCheck) {
@@ -267,7 +267,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
     
     /**
-     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#commodityCodeIsRequired()
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase#commodityCodeIsRequired()
      */
     @Override
     protected boolean commodityCodeIsRequired() {

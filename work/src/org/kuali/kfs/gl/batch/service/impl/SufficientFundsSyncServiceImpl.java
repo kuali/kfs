@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Iterator;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.dao.SufficientFundRebuildDao;
-import org.kuali.module.gl.service.SufficientFundsSyncService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
+import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +36,7 @@ public class SufficientFundsSyncServiceImpl implements SufficientFundsSyncServic
 
     /**
      * Goes through all accounts in the database, and generates a sufficient fund rebuild record for each one!
-     * @see org.kuali.module.gl.service.SufficientFundsSyncService#syncSufficientFunds()
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsSyncService#syncSufficientFunds()
      */
     public void syncSufficientFunds() {
         LOG.debug("syncSufficientFunds() started");

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.authorization;
+package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 
 
 /**

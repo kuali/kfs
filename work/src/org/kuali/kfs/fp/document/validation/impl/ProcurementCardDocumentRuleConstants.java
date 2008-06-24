@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 /**
- * Holds constants for <code>{@link org.kuali.module.financial.document.ProcurementCardDocument}</code> business rules.
+ * Holds constants for <code>{@link org.kuali.kfs.fp.document.ProcurementCardDocument}</code> business rules.
  */
 public class ProcurementCardDocumentRuleConstants {
 

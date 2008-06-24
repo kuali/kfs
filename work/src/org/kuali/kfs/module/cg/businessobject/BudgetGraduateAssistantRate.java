@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * 

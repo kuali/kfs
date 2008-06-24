@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -22,28 +22,28 @@ import java.util.List;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.BillingAddress;
-import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
-import org.kuali.module.purap.bo.FundingSource;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.PurchasingItemBase;
-import org.kuali.module.purap.bo.ReceivingAddress;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.bo.RequisitionSource;
-import org.kuali.module.purap.service.ReceivingAddressService;
-import org.kuali.module.purap.util.ItemParser;
-import org.kuali.module.purap.util.ItemParserBase;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
+import org.kuali.kfs.module.purap.businessobject.FundingSource;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
+import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
+import org.kuali.kfs.module.purap.util.ItemParser;
+import org.kuali.kfs.module.purap.util.ItemParserBase;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 /**
  * Base class for Purchasing Documents.
@@ -150,7 +150,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.module.vendor.bo.VendorDetail)
+     * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
     public void templateVendorDetail(VendorDetail vendorDetail) {
         if (vendorDetail == null) {
@@ -165,7 +165,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.module.vendor.bo.VendorContract)
+     * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.kfs.vnd.businessobject.VendorContract)
      */
     public void templateVendorContract(VendorContract vendorContract, VendorDetail vendorDetail) {
         if (vendorContract == null) {
@@ -186,7 +186,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#templateVendorAddress(org.kuali.kfs.vnd.businessobject.VendorAddress)
      */
     public void templateVendorAddress(VendorAddress vendorAddress) {
         super.templateVendorAddress(vendorAddress);
@@ -196,7 +196,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocumentBase#templateBillingAddress(org.kuali.module.purap.bo.BillingAddress).
+     * @see org.kuali.kfs.module.purap.document.PurchasingDocumentBase#templateBillingAddress(org.kuali.kfs.module.purap.businessobject.BillingAddress).
      */
     public void templateBillingAddress(BillingAddress billingAddress) {
         if (ObjectUtils.isNotNull(billingAddress)) {
@@ -212,7 +212,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocumentBase#templateReceivingAddress(org.kuali.module.purap.bo.ReceivingAddress).
+     * @see org.kuali.kfs.module.purap.document.PurchasingDocumentBase#templateReceivingAddress(org.kuali.kfs.module.purap.businessobject.ReceivingAddress).
      */
     public void templateReceivingAddress(ReceivingAddress receivingAddress) {
         if (receivingAddress != null) {
@@ -264,7 +264,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
     
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#addItem(org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#addItem(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     @Override
     public void addItem(PurApItem item) {
@@ -273,7 +273,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
     
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#populateDocumentForRouting()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
@@ -289,7 +289,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     // GETTERS AND SETTERS
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocument.getItemParser().
+     * @see org.kuali.kfs.module.purap.document.PurchasingDocument.getItemParser().
      */
     public ItemParser getItemParser() {
         return new ItemParserBase();

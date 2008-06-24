@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,10 +24,10 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.dao.ChartDao;
-import org.kuali.module.chart.service.ChartService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.dataaccess.ChartDao;
+import org.kuali.kfs.coa.service.ChartService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +41,7 @@ public class ChartServiceImpl implements ChartService {
     private ChartDao chartDao;
 
     /**
-     * @see org.kuali.module.chart.service.ChartService#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
     public Chart getByPrimaryId(String chartOfAccountsCode) {
         return chartDao.getByPrimaryId(chartOfAccountsCode);
@@ -49,14 +49,14 @@ public class ChartServiceImpl implements ChartService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.ChartService#getUniversityChart()
+     * @see org.kuali.kfs.coa.service.ChartService#getUniversityChart()
      */
     public Chart getUniversityChart() {
         return chartDao.getUniversityChart();
     }
 
     /**
-     * @see org.kuali.module.chart.service.ChartService#getAllChartCodes()
+     * @see org.kuali.kfs.coa.service.ChartService#getAllChartCodes()
      */
     public List getAllChartCodes() {
         Collection charts = chartDao.getAll();
@@ -93,7 +93,7 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.core.bo.user.KualiUser)
      */
     public List getChartsThatUserIsResponsibleFor(UniversalUser universalUser) {
         if (LOG.isDebugEnabled()) {

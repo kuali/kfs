@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetDepreciationConvention;
-import org.kuali.module.cams.bo.AssetType;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 
 public interface AssetDateService {
 

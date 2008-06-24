@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -22,10 +22,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.ReceivingAddress;
-import org.kuali.module.purap.dao.ReceivingAddressDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
+import org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao;
 
 /**
  * OJB Implementation of ReceivingAddressDao.
@@ -34,7 +34,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
     private static Logger LOG = Logger.getLogger(ReceivingAddressDaoOjb.class);
 
     /**
-     * @see org.kuali.module.purap.dao.ReceivingAddressDao#findActiveByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao#findActiveByChartOrg(java.lang.String,java.lang.String)
      */
     public Collection<ReceivingAddress> findActiveByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering findActiveByChartOrg(String,String)");
@@ -53,7 +53,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
     }
 
     /**
-     * @see org.kuali.module.purap.dao.ReceivingAddressDao#findDefaultByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao#findDefaultByChartOrg(java.lang.String,java.lang.String)
      */
     public Collection<ReceivingAddress> findDefaultByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering findDefaultByChartOrg(String,String)");
@@ -73,7 +73,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
     }    
     
     /**
-     * @see org.kuali.module.purap.dao.ReceivingAddressDao#countActiveByChartOrg(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao#countActiveByChartOrg(java.lang.String,java.lang.String)
      */
     public int countActiveByChartOrg(String chartCode, String orgCode) {
         LOG.debug("Entering countActiveByChartOrg(String,String)");

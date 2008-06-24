@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE;
+import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE;
 
 import java.util.Iterator;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.module.chart.service.AccountService;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.coa.service.AccountService;
 
 /**
  * A validation that checks that once a given accounting line is deleted, there will still exist
@@ -39,7 +39,7 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
 
     /**
      * <strong>Expects an accounting document as the first parameter and a boolean, signifying whether the line was already deleted or not from the document, as the second</param>
-     * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         // verify that other accountingLines will exist after the deletion which are accessible to this user

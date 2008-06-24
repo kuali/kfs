@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -21,19 +21,19 @@ import java.util.Iterator;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
-import org.kuali.module.labor.service.LaborNightlyOutService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -51,14 +51,14 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     private DateTimeService dateTimeService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborNightlyOutService#deleteCopiedPendingLedgerEntries()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#deleteCopiedPendingLedgerEntries()
      */
     public void deleteCopiedPendingLedgerEntries() {
         laborLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborNightlyOutService#copyApprovedPendingLedgerEntries()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public void copyApprovedPendingLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -82,7 +82,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborNightlyOutService#deleteCopiedLaborGenerealLedgerEntries()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#deleteCopiedLaborGenerealLedgerEntries()
      */
     public void deleteCopiedLaborGenerealLedgerEntries() {
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
@@ -92,7 +92,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborNightlyOutService#copyLaborGenerealLedgerEntries()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#copyLaborGenerealLedgerEntries()
      */
     public void copyLaborGenerealLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();

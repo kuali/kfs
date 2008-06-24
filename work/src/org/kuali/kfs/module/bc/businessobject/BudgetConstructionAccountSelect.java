@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.budget.bo;
+package org.kuali.kfs.module.bc.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 
 import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.actiontaken.ActionTakenService;

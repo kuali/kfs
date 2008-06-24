@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao;
+package org.kuali.kfs.fp.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public interface DisbursementVoucherDao {
     /**

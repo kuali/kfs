@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,10 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.financial.bo.FiscalYearFunctionControl;
-import org.kuali.module.financial.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 
 /**
  * 
@@ -95,7 +95,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     }
     /**
      * 
-     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#getActiveBudgetYear()
+     * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#getActiveBudgetYear()
      */
     public List<Integer> getActiveBudgetYear()
     {
@@ -113,7 +113,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
 
     /**
      * 
-     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isApplicationUpdateFromHumanResourcesAllowed(java.lang.Integer)
+     * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isApplicationUpdateFromHumanResourcesAllowed(java.lang.Integer)
      */
     public boolean isApplicationUpdateFromHumanResourcesAllowed(Integer universityFiscalYear)
     {
@@ -122,7 +122,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
   
     /**
      * 
-     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isBatchUpdateFromHumanResourcesAllowed(java.lang.Integer)
+     * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isBatchUpdateFromHumanResourcesAllowed(java.lang.Integer)
      */
     public boolean isBatchUpdateFromHumanResourcesAllowed(Integer universityFiscalYear)
     {
@@ -131,7 +131,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     
     /**
      * 
-     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isBatchUpdateFromPayrollAllowed(java.lang.Integer)
+     * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isBatchUpdateFromPayrollAllowed(java.lang.Integer)
      */
     public boolean isBatchUpdateFromPayrollAllowed (Integer universityFiscalYear)
     {
@@ -146,7 +146,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
 
     /**
      * 
-     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isBudgetGeneralLedgerUpdateAllowed(java.lang.Integer)
+     * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isBudgetGeneralLedgerUpdateAllowed(java.lang.Integer)
      */
     public boolean isBudgetGeneralLedgerUpdateAllowed(Integer universityFiscalYear)
     {

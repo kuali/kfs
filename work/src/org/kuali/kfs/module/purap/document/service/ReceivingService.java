@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
 import java.util.HashMap;
 
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.module.purap.document.ReceivingDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

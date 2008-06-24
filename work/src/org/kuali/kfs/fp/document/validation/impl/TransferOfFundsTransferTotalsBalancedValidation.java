@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,13 +21,13 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
-import org.kuali.module.financial.service.TransferOfFundsService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 
 /**
  * Transfer of Funds document validation which checks that mandatory and non-mandatory transfer totals are in balance.
@@ -41,7 +41,7 @@ public class TransferOfFundsTransferTotalsBalancedValidation extends GenericVali
      * of the "To" accounting lines with mandatory transfer object codes. In addition, it does the same, but for accounting lines
      * with non-mandatory transfer object code. This is to enforce the rule that the document must balance within the object code
      * object sub-type codes of mandatory transfers and non-mandatory transfers.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         TransferOfFundsDocument tofDoc = (TransferOfFundsDocument)accountingDocumentForValidation;

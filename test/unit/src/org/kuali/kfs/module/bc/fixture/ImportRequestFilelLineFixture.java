@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.fixture;
+package org.kuali.kfs.module.bc.fixture;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.module.budget.BCConstants.RequestImportFieldSeparator;
-import org.kuali.module.budget.BCConstants.RequestImportTextFieldDelimiter;
-import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
+import org.kuali.kfs.module.bc.BCConstants.RequestImportFieldSeparator;
+import org.kuali.kfs.module.bc.BCConstants.RequestImportTextFieldDelimiter;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
 
 /**
  * Test data for ImportRequestFileParsingHelper

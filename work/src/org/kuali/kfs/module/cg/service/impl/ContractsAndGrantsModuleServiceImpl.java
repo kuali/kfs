@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service.impl;
+package org.kuali.kfs.module.cg.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,18 +23,18 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.AccountAwardInformation;
-import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.cg.service.AgencyService;
-import org.kuali.module.cg.service.CfdaService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.module.integration.bo.ContractsAndGrantsAgency;
-import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.AccountAwardInformation;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.service.AgencyService;
+import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsAgency;
+import org.kuali.kfs.integration.businessobject.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 @NonTransactional
@@ -80,7 +80,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
     
     /**
-     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.module.chart.bo.Account)
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
     public UniversalUser getProjectDirectorForAccount(Account account) {
         if(account != null) {
@@ -92,14 +92,14 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
 
     /**
-     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getCfda(java.lang.String)
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getCfda(java.lang.String)
      */
     public ContractsAndGrantsCfda getCfda(String cfdaNumber) {
         return getCfdaService().getByPrimaryId(cfdaNumber);
     }
 
     /**
-     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String, java.lang.String, java.util.List)
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String, java.lang.String, java.util.List)
      */
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
         AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
@@ -143,7 +143,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
     
     /**
-     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getAwardInformationForAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getAwardInformationForAccount(java.lang.String, java.lang.String)
      */
     public List<ContractsAndGrantsAccountAwardInformation> getAwardInformationForAccount(String chartOfAccountsCode, String accountNumber) {
         if (LOG.isDebugEnabled()) {
@@ -165,7 +165,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
 
     /**
-     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getAgencyByAgencyNumber(java.lang.String)
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getAgencyByAgencyNumber(java.lang.String)
      */
     public ContractsAndGrantsAgency getAgencyByAgencyNumber(String agencyNumber) {
         return (ContractsAndGrantsAgency)getAgencyService().getByPrimaryId(agencyNumber);

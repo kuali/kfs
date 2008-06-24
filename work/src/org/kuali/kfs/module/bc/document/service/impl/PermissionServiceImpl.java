@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
-import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.service.OrganizationService;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -55,7 +55,7 @@ public class PermissionServiceImpl implements PermissionService {
     private static final String ORG_REVIEW_RULE_ORG_CODE_NAME = "org_cd";
 
     /**
-     * @see org.kuali.module.budget.service.PermissionService#getOrgReview(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(java.lang.String)
      */
     public List<Org> getOrgReview(String personUserIdentifier) throws Exception {
 
@@ -98,7 +98,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.PermissionService#isOrgReviewApprover(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public boolean isOrgReviewApprover(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) throws Exception {

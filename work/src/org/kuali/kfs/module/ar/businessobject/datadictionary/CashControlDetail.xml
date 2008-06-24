@@ -7,7 +7,7 @@
   <bean id="CashControlDetail" parent="CashControlDetail-parentBean" />
 
   <bean id="CashControlDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CashControlDetail" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CashControlDetail" />
     <property name="inquiryDefinition" >
       <ref bean="CashControlDetail-inquiryDefinition" />
     </property>

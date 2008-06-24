@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 
 /**
  * 

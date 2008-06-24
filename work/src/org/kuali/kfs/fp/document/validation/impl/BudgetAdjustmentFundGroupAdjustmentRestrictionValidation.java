@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,14 +21,14 @@ import java.util.List;
 
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 
 /**
  * Validation for Budget Adjustment document that checks that the fund groups are correctly adjusted.
@@ -40,7 +40,7 @@ public class BudgetAdjustmentFundGroupAdjustmentRestrictionValidation extends Ge
     /**
      * Retrieves the fund group and sub fund group for each accounting line. Then verifies that the codes associated with the
      * 'Budget Adjustment Restriction Code' field are met.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         ErrorMap errors = GlobalVariables.getErrorMap();

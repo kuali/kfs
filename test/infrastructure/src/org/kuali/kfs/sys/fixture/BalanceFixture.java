@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.fixtures;
+package org.kuali.kfs.sys.fixture;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 public enum BalanceFixture {
     BALANCE_PASS1("GF", "ABCD", "1111", "ABCDEF", "", ""), BALANCE_FAIL1("AB", "ABCD", "1111", "ABCDEF", "", ""), BALANCE_FAIL2("GF", "BALS", "1111", "ABCDEF", "", ""), BALANCE_FAIL3("GF", "ABCD", "9890", "ABCDEF", "", ""), BALANCE_FAIL4("GF", "ABCD", "1111", "MPRACT", "", ""), ;

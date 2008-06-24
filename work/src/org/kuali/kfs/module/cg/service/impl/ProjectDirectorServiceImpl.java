@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service.impl;
+package org.kuali.kfs.module.cg.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +24,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 
 /**
  * Implementation of the ProjectDirector service.
@@ -37,7 +37,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.cg.service.ProjectDirectorService#getByPersonUserIdentifier(String)
+     * @see org.kuali.kfs.module.cg.service.ProjectDirectorService#getByPersonUserIdentifier(String)
      */
     @Cached
     public ProjectDirector getByPersonUserIdentifier(String username) {
@@ -51,7 +51,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     }
 
     /**
-     * @see org.kuali.module.cg.service.ProjectDirectorService#getByPrimaryId(String)
+     * @see org.kuali.kfs.module.cg.service.ProjectDirectorService#getByPrimaryId(String)
      */
     @Cached
     public ProjectDirector getByPrimaryId(String universalIdentifier) {
@@ -59,7 +59,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     }
 
     /**
-     * @see org.kuali.module.cg.service.ProjectDirectorService#primaryIdExists(String)
+     * @see org.kuali.kfs.module.cg.service.ProjectDirectorService#primaryIdExists(String)
      */
     @CacheNoCopy
     public boolean primaryIdExists(String universalIdentifier) {

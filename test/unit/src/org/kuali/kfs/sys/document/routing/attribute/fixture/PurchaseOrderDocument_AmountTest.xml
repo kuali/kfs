@@ -148,7 +148,7 @@
       </universalUser>
     </documentInitiator>
   </kualiTransactionalDocumentInformation>
-  <document class="org.kuali.module.purap.document.PurchaseOrderDocument">
+  <document class="org.kuali.kfs.module.purap.document.PurchaseOrderDocument">
     <purchaseOrderCreateDate>2007-06-13</purchaseOrderCreateDate>
     <oldPurchaseOrderCreateDate></oldPurchaseOrderCreateDate>
     <requisitionIdentifier>1492</requisitionIdentifier>
@@ -165,7 +165,7 @@
       </list>
       <org.kuali.core.util.TypedArrayList>
         <default>
-          <listObjectType>org.kuali.module.purap.bo.PurchaseOrderVendorStipulation</listObjectType>
+          <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation</listObjectType>
         </default>
       </org.kuali.core.util.TypedArrayList>
     </purchaseOrderVendorStipulations>
@@ -178,7 +178,7 @@
       </list>
       <org.kuali.core.util.TypedArrayList>
         <default>
-          <listObjectType>org.kuali.module.purap.bo.PurchaseOrderVendorQuote</listObjectType>
+          <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote</listObjectType>
         </default>
       </org.kuali.core.util.TypedArrayList>
     </purchaseOrderVendorQuotes>
@@ -305,7 +305,7 @@
         <incBdgtEliminationsFinObjCd>1209</incBdgtEliminationsFinObjCd>
         <expBdgtEliminationsFinObjCd>1209</expBdgtEliminationsFinObjCd>
         <fundBalanceObjectCode>9899</fundBalanceObjectCode>
-        <incBdgtEliminationsFinObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <incBdgtEliminationsFinObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>1209</financialObjectCode>
@@ -323,8 +323,8 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </incBdgtEliminationsFinObj>
-        <expBdgtEliminationsFinObj class="org.kuali.module.chart.bo.ObjectCodeCurrent" reference="../incBdgtEliminationsFinObj"/>
-        <finAccountsPayableObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <expBdgtEliminationsFinObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" reference="../incBdgtEliminationsFinObj"/>
+        <finAccountsPayableObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>9041</financialObjectCode>
@@ -342,7 +342,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finAccountsPayableObject>
-        <finExternalEncumbranceObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <finExternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>9892</financialObjectCode>
@@ -359,7 +359,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finExternalEncumbranceObj>
-        <finPreEncumbranceObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <finPreEncumbranceObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>9890</financialObjectCode>
@@ -376,7 +376,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finPreEncumbranceObject>
-        <financialCashObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <financialCashObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>8000</financialObjectCode>
@@ -393,7 +393,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </financialCashObject>
-        <icrIncomeFinancialObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <icrIncomeFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>1803</financialObjectCode>
@@ -411,7 +411,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </icrIncomeFinancialObject>
-        <finAccountsReceivableObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>8118</financialObjectCode>
@@ -429,7 +429,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finAccountsReceivableObj>
-        <finInternalEncumbranceObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>9891</financialObjectCode>
@@ -446,7 +446,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finInternalEncumbranceObj>
-        <icrExpenseFinancialObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>5500</financialObjectCode>
@@ -464,7 +464,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </icrExpenseFinancialObject>
-        <fundBalanceObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+        <fundBalanceObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <financialObjectCode>9899</financialObjectCode>
@@ -481,7 +481,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </fundBalanceObject>
-        <reportsToChartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b">
+        <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b">
           <finChartOfAccountDescription>INDIANA UNIV</finChartOfAccountDescription>
           <finChartOfAccountActiveIndicator>true</finChartOfAccountActiveIndicator>
           <finCoaManagerUniversalId>1739701101</finCoaManagerUniversalId>
@@ -498,9 +498,9 @@
           <incBdgtEliminationsFinObjCd> </incBdgtEliminationsFinObjCd>
           <expBdgtEliminationsFinObjCd> </expBdgtEliminationsFinObjCd>
           <fundBalanceObjectCode>9899</fundBalanceObjectCode>
-          <incBdgtEliminationsFinObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-          <expBdgtEliminationsFinObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-          <finAccountsPayableObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <incBdgtEliminationsFinObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+          <expBdgtEliminationsFinObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+          <finAccountsPayableObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>9041</financialObjectCode>
@@ -518,7 +518,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </finAccountsPayableObject>
-          <finExternalEncumbranceObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <finExternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>9892</financialObjectCode>
@@ -536,7 +536,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </finExternalEncumbranceObj>
-          <finPreEncumbranceObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <finPreEncumbranceObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>9890</financialObjectCode>
@@ -554,7 +554,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </finPreEncumbranceObject>
-          <financialCashObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <financialCashObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>8000</financialObjectCode>
@@ -572,7 +572,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </financialCashObject>
-          <icrIncomeFinancialObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <icrIncomeFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>1702</financialObjectCode>
@@ -590,7 +590,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </icrIncomeFinancialObject>
-          <finAccountsReceivableObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>8118</financialObjectCode>
@@ -608,7 +608,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </finAccountsReceivableObj>
-          <finInternalEncumbranceObj class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>9891</financialObjectCode>
@@ -626,7 +626,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </finInternalEncumbranceObj>
-          <icrExpenseFinancialObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>3702</financialObjectCode>
@@ -644,7 +644,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </icrExpenseFinancialObject>
-          <fundBalanceObject class="org.kuali.module.chart.bo.ObjectCodeCurrent">
+          <fundBalanceObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent">
             <universityFiscalYear>2007</universityFiscalYear>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <financialObjectCode>9899</financialObjectCode>
@@ -673,7 +673,7 @@
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
       </chartOfAccounts>
-      <organizationDefaultAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+      <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
       <responsibilityCenter>
         <responsibilityCenterCode>94</responsibilityCenterCode>
         <responsibilityCenterName>VP FOR INFORMATION TECHNOLOGY</responsibilityCenterName>
@@ -714,9 +714,9 @@
         <campusPlantChartCode>UA</campusPlantChartCode>
         <organizationCountryCode>US</organizationCountryCode>
         <organizationLine1Address>BRYAN 114</organizationLine1Address>
-        <chartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
-        <organizationDefaultAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-        <responsibilityCenter class="org.kuali.module.chart.bo.ResponsibilityCenter--EnhancerByCGLIB--f663186e">
+        <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
+        <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+        <responsibilityCenter class="org.kuali.kfs.coa.businessobject.ResponsibilityCenter--EnhancerByCGLIB--f663186e">
           <responsibilityCenterCode>NO</responsibilityCenterCode>
           <responsibilityCenterName>NO RESPONSIBILITY CENTER</responsibilityCenterName>
           <responsibilityCenterShortName>NO RC</responsibilityCenterShortName>
@@ -727,7 +727,7 @@
           <boNotes/>
         </responsibilityCenter>
         <organizationPhysicalCampus reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-        <organizationType class="org.kuali.module.chart.bo.OrgType--EnhancerByCGLIB--ca8e6f2b">
+        <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b">
           <organizationTypeCode>C</organizationTypeCode>
           <organizationTypeName>CAMPUS</organizationTypeName>
           <versionNumber>1</versionNumber>
@@ -735,7 +735,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </organizationType>
-        <reportsToOrganization class="org.kuali.module.chart.bo.Org--EnhancerByCGLIB--e73483c1">
+        <reportsToOrganization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1">
           <organizationCode>UNIV</organizationCode>
           <organizationName>UNIVERSITY LEVEL</organizationName>
           <organizationCityName>BLOOMINGTON</organizationCityName>
@@ -756,11 +756,11 @@
           <campusPlantChartCode>BL</campusPlantChartCode>
           <organizationCountryCode>US</organizationCountryCode>
           <organizationLine1Address>BRYAN 200</organizationLine1Address>
-          <chartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts/reportsToChartOfAccounts"/>
-          <organizationDefaultAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+          <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts/reportsToChartOfAccounts"/>
+          <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
           <responsibilityCenter reference="../../responsibilityCenter"/>
           <organizationPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-          <organizationType class="org.kuali.module.chart.bo.OrgType--EnhancerByCGLIB--ca8e6f2b">
+          <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b">
             <organizationTypeCode>U</organizationTypeCode>
             <organizationTypeName>UNIVERSITY</organizationTypeName>
             <versionNumber>1</versionNumber>
@@ -769,8 +769,8 @@
             <boNotes/>
           </organizationType>
           <reportsToOrganization reference=".."/>
-          <reportsToChartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts/reportsToChartOfAccounts"/>
-          <organizationPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232">
+          <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts/reportsToChartOfAccounts"/>
+          <organizationPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232">
             <chartOfAccountsCode>BL</chartOfAccountsCode>
             <accountNumber>9520000</accountNumber>
             <accountName>NET PLANT INVESTMENT</accountName>
@@ -821,17 +821,17 @@
               <incBdgtEliminationsFinObjCd>1209</incBdgtEliminationsFinObjCd>
               <expBdgtEliminationsFinObjCd>9891</expBdgtEliminationsFinObjCd>
               <fundBalanceObjectCode>9899</fundBalanceObjectCode>
-              <incBdgtEliminationsFinObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <expBdgtEliminationsFinObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <finAccountsPayableObject class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <finExternalEncumbranceObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <finPreEncumbranceObject class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <financialCashObject class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <icrIncomeFinancialObject class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <finAccountsReceivableObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <finInternalEncumbranceObj class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <icrExpenseFinancialObject class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
-              <fundBalanceObject class="org.kuali.module.chart.bo.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <incBdgtEliminationsFinObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <expBdgtEliminationsFinObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <finAccountsPayableObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <finExternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <finPreEncumbranceObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <financialCashObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <icrIncomeFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
+              <fundBalanceObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--83511ed2"/>
               <reportsToChartOfAccounts reference="../../../../../chartOfAccounts/reportsToChartOfAccounts"/>
               <versionNumber>2</versionNumber>
               <objectId>7994AD02-3D66-01EF-4A0A-AF09A25825F3</objectId>
@@ -860,17 +860,17 @@
               <organizationCountryCode>US</organizationCountryCode>
               <organizationLine1Address>PSYCHOLOGY 120</organizationLine1Address>
               <chartOfAccounts reference="../../chartOfAccounts"/>
-              <organizationDefaultAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-              <responsibilityCenter class="org.kuali.module.chart.bo.ResponsibilityCenter--EnhancerByCGLIB--f663186e"/>
+              <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+              <responsibilityCenter class="org.kuali.kfs.coa.businessobject.ResponsibilityCenter--EnhancerByCGLIB--f663186e"/>
               <organizationPhysicalCampus reference="../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-              <organizationType class="org.kuali.module.chart.bo.OrgType--EnhancerByCGLIB--ca8e6f2b"/>
-              <reportsToOrganization class="org.kuali.module.chart.bo.Org--EnhancerByCGLIB--e73483c1"/>
+              <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b"/>
+              <reportsToOrganization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1"/>
               <reportsToChartOfAccounts reference="../../chartOfAccounts"/>
-              <organizationPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-              <campusPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+              <organizationPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+              <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
               <organizationPlantChart reference="../../chartOfAccounts"/>
               <campusPlantChart reference="../../chartOfAccounts"/>
-              <postalZip class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
+              <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
               <organizationCountry>
                 <postalCountryCode>US</postalCountryCode>
                 <postalCountryName>UNITED STATES</postalCountryName>
@@ -941,8 +941,8 @@
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </accountState>
-            <subFundGroup class="org.kuali.module.chart.bo.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
-            <financialHigherEdFunction class="org.kuali.module.chart.bo.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
+            <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
+            <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
             <accountRestrictedStatus>
               <accountRestrictedStatusCode>U</accountRestrictedStatusCode>
               <accountRestrictedStatusName>UNRESTRICTED</accountRestrictedStatusName>
@@ -951,8 +951,8 @@
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </accountRestrictedStatus>
-            <reportsToAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-            <incomeStreamAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+            <reportsToAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+            <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
             <postalZipCode>
               <postalZipCode>47405</postalZipCode>
               <postalStateCode>IN</postalStateCode>
@@ -964,8 +964,8 @@
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </postalZipCode>
-            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
-            <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
+            <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
+            <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
             <accountGuideline>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
@@ -984,11 +984,11 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </organizationPlantAccount>
-          <campusPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232" reference="../organizationPlantAccount"/>
-          <organizationPlantChart class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../organizationPlantAccount/chartOfAccounts"/>
-          <campusPlantChart class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../organizationPlantAccount/chartOfAccounts"/>
-          <postalZip class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../organizationPlantAccount/postalZipCode"/>
-          <organizationCountry class="org.kuali.kfs.bo.Country--EnhancerByCGLIB--25adb78f" reference="../organizationPlantAccount/organization/organizationCountry"/>
+          <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232" reference="../organizationPlantAccount"/>
+          <organizationPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../organizationPlantAccount/chartOfAccounts"/>
+          <campusPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../organizationPlantAccount/chartOfAccounts"/>
+          <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../organizationPlantAccount/postalZipCode"/>
+          <organizationCountry class="org.kuali.kfs.sys.businessobject.Country--EnhancerByCGLIB--25adb78f" reference="../organizationPlantAccount/organization/organizationCountry"/>
           <organizationExtension>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
             <organizationCode>UNIV</organizationCode>
@@ -1029,7 +1029,7 @@
             <hrmsIuTitleAllowedFlag>false</hrmsIuTitleAllowedFlag>
             <hrmsIuOccupationalUnitAllowedFlag>false</hrmsIuOccupationalUnitAllowedFlag>
             <hrmsLastUpdateDate>2002-11-02 00:00:00.0</hrmsLastUpdateDate>
-            <chartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../chartOfAccounts/reportsToChartOfAccounts"/>
+            <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../chartOfAccounts/reportsToChartOfAccounts"/>
             <organization reference="../.."/>
             <hrmsIuCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
             <versionNumber>1</versionNumber>
@@ -1043,13 +1043,13 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </reportsToOrganization>
-        <reportsToChartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts/reportsToChartOfAccounts"/>
-        <organizationPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-        <campusPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-        <organizationPlantChart class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
-        <campusPlantChart class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
-        <postalZip class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../reportsToOrganization/organizationPlantAccount/postalZipCode"/>
-        <organizationCountry class="org.kuali.kfs.bo.Country--EnhancerByCGLIB--25adb78f" reference="../reportsToOrganization/organizationPlantAccount/organization/organizationCountry"/>
+        <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts/reportsToChartOfAccounts"/>
+        <organizationPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+        <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+        <organizationPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
+        <campusPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
+        <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../reportsToOrganization/organizationPlantAccount/postalZipCode"/>
+        <organizationCountry class="org.kuali.kfs.sys.businessobject.Country--EnhancerByCGLIB--25adb78f" reference="../reportsToOrganization/organizationPlantAccount/organization/organizationCountry"/>
         <organizationExtension>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
           <organizationCode>UA</organizationCode>
@@ -1061,7 +1061,7 @@
           <hrmsIuTitleAllowedFlag>false</hrmsIuTitleAllowedFlag>
           <hrmsIuOccupationalUnitAllowedFlag>false</hrmsIuOccupationalUnitAllowedFlag>
           <hrmsLastUpdateDate>2002-12-11 00:00:00.0</hrmsLastUpdateDate>
-          <chartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts"/>
+          <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts"/>
           <organization reference="../.."/>
           <hrmsIuCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
           <versionNumber>1</versionNumber>
@@ -1077,8 +1077,8 @@
         <boNotes/>
       </reportsToOrganization>
       <reportsToChartOfAccounts reference="../chartOfAccounts"/>
-      <organizationPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-      <campusPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+      <organizationPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+      <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
       <organizationPlantChart reference="../chartOfAccounts"/>
       <campusPlantChart reference="../chartOfAccounts"/>
       <postalZip reference="../reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
@@ -1218,7 +1218,7 @@
       </list>
     </statusHistories>
     <items>
-      <org.kuali.module.purap.bo.PurchaseOrderItem>
+      <org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem>
         <documentNumber>296582</documentNumber>
         <itemInvoicedTotalQuantity>
           <value>0.00</value>
@@ -1242,7 +1242,7 @@
         <itemTypeCode>ITEM</itemTypeCode>
         <itemAssignedToTradeInIndicator>false</itemAssignedToTradeInIndicator>
         <sourceAccountingLines>
-          <org.kuali.module.purap.bo.PurchaseOrderAccount>
+          <org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount>
             <purchaseOrderItem reference="../../.."/>
             <accountIdentifier>1143</accountIdentifier>
             <itemIdentifier>1265</itemIdentifier>
@@ -1257,7 +1257,7 @@
             <accountExpiredOverrideNeeded>false</accountExpiredOverrideNeeded>
             <objectBudgetOverride>false</objectBudgetOverride>
             <objectBudgetOverrideNeeded>false</objectBudgetOverrideNeeded>
-            <ojbConcreteClass>org.kuali.module.purap.bo.PurchaseOrderAccount</ojbConcreteClass>
+            <ojbConcreteClass>org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount</ojbConcreteClass>
             <chartOfAccountsCode>BL</chartOfAccountsCode>
             <accountNumber>0211909</accountNumber>
             <financialObjectCode>0646</financialObjectCode>
@@ -1324,7 +1324,7 @@
             <objectId>401BDB2A-0378-0B3E-8CBB-8473081F5DFE</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
-          </org.kuali.module.purap.bo.PurchaseOrderAccount>
+          </org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount>
         </sourceAccountingLines>
         <itemType>
           <itemTypeCode>ITEM</itemTypeCode>
@@ -1342,8 +1342,8 @@
         <objectId>30726F81-B7E7-AAE6-D84F-88E76C3FBBC4</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </org.kuali.module.purap.bo.PurchaseOrderItem>
-      <org.kuali.module.purap.bo.PurchaseOrderItem>
+      </org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem>
+      <org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem>
         <documentNumber>296582</documentNumber>
         <itemInvoicedTotalQuantity reference="../../org.kuali.module.purap.bo.PurchaseOrderItem/itemInvoicedTotalQuantity"/>
         <itemInvoicedTotalAmount reference="../../org.kuali.module.purap.bo.PurchaseOrderItem/itemInvoicedTotalQuantity"/>
@@ -1364,7 +1364,7 @@
           </list>
           <org.kuali.core.util.TypedArrayList>
             <default>
-              <listObjectType>org.kuali.module.purap.bo.PurchaseOrderAccount</listObjectType>
+              <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount</listObjectType>
             </default>
           </org.kuali.core.util.TypedArrayList>
         </sourceAccountingLines>
@@ -1383,8 +1383,8 @@
         <objectId>79C5DC38-E5DB-5BAD-1AD8-DCFC2FF9E635</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </org.kuali.module.purap.bo.PurchaseOrderItem>
-      <org.kuali.module.purap.bo.PurchaseOrderItem>
+      </org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem>
+      <org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem>
         <documentNumber>296582</documentNumber>
         <itemInvoicedTotalQuantity reference="../../org.kuali.module.purap.bo.PurchaseOrderItem/itemInvoicedTotalQuantity"/>
         <itemInvoicedTotalAmount reference="../../org.kuali.module.purap.bo.PurchaseOrderItem/itemInvoicedTotalQuantity"/>
@@ -1405,7 +1405,7 @@
           </list>
           <org.kuali.core.util.TypedArrayList>
             <default>
-              <listObjectType>org.kuali.module.purap.bo.PurchaseOrderAccount</listObjectType>
+              <listObjectType>org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount</listObjectType>
             </default>
           </org.kuali.core.util.TypedArrayList>
         </sourceAccountingLines>
@@ -1424,13 +1424,13 @@
         <objectId>051AE057-3690-0A66-29CD-5C8572B3D8C9</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </org.kuali.module.purap.bo.PurchaseOrderItem>
+      </org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem>
     </items>
-    <status class="org.kuali.module.purap.bo.PurchaseOrderStatus">
+    <status class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus">
       <statusCode>INPR</statusCode>
       <statusDescription>In Process</statusDescription>
       <active>true</active>
-      <ojbConcreteClass>org.kuali.module.purap.bo.PurchaseOrderStatus</ojbConcreteClass>
+      <ojbConcreteClass>org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus</ojbConcreteClass>
       <versionNumber>1</versionNumber>
       <objectId>4E9C52AE-C895-2726-8F11-94CEE1103BA0</objectId>
       <newCollectionRecord>false</newCollectionRecord>
@@ -1451,7 +1451,7 @@
             <size>2</size>
           </default>
           <int>10</int>
-          <org.kuali.module.vendor.bo.VendorAddress>
+          <org.kuali.kfs.vnd.businessobject.VendorAddress>
             <vendorAddressGeneratedIdentifier>1065</vendorAddressGeneratedIdentifier>
             <vendorHeaderGeneratedIdentifier>1046</vendorHeaderGeneratedIdentifier>
             <vendorDetailAssignedIdentifier>0</vendorDetailAssignedIdentifier>
@@ -1487,8 +1487,8 @@
             <objectId>222EFC4C-DFE4-CABD-474E-235AA678ECB2</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
-          </org.kuali.module.vendor.bo.VendorAddress>
-          <org.kuali.module.vendor.bo.VendorAddress>
+          </org.kuali.kfs.vnd.businessobject.VendorAddress>
+          <org.kuali.kfs.vnd.businessobject.VendorAddress>
             <vendorAddressGeneratedIdentifier>1073</vendorAddressGeneratedIdentifier>
             <vendorHeaderGeneratedIdentifier>1046</vendorHeaderGeneratedIdentifier>
             <vendorDetailAssignedIdentifier>0</vendorDetailAssignedIdentifier>
@@ -1524,7 +1524,7 @@
             <objectId>F391737C-5D32-5B08-6A6D-684A39542986</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
-          </org.kuali.module.vendor.bo.VendorAddress>
+          </org.kuali.kfs.vnd.businessobject.VendorAddress>
         </list>
       </vendorAddresses>
       <vendorAliases class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -1541,7 +1541,7 @@
             <size>3</size>
           </default>
           <int>10</int>
-          <org.kuali.module.vendor.bo.VendorContact>
+          <org.kuali.kfs.vnd.businessobject.VendorContact>
             <vendorContactGeneratedIdentifier>1090</vendorContactGeneratedIdentifier>
             <vendorHeaderGeneratedIdentifier>1046</vendorHeaderGeneratedIdentifier>
             <vendorDetailAssignedIdentifier>0</vendorDetailAssignedIdentifier>
@@ -1569,8 +1569,8 @@
             <objectId>34B54FFE-7414-324F-1E42-90A3886A63F2</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
-          </org.kuali.module.vendor.bo.VendorContact>
-          <org.kuali.module.vendor.bo.VendorContact>
+          </org.kuali.kfs.vnd.businessobject.VendorContact>
+          <org.kuali.kfs.vnd.businessobject.VendorContact>
             <vendorContactGeneratedIdentifier>1089</vendorContactGeneratedIdentifier>
             <vendorHeaderGeneratedIdentifier>1046</vendorHeaderGeneratedIdentifier>
             <vendorDetailAssignedIdentifier>0</vendorDetailAssignedIdentifier>
@@ -1582,7 +1582,7 @@
                   <size>1</size>
                 </default>
                 <int>10</int>
-                <org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                <org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
                   <vendorContactPhoneGeneratedIdentifier>1035</vendorContactPhoneGeneratedIdentifier>
                   <vendorContactGeneratedIdentifier>1089</vendorContactGeneratedIdentifier>
                   <vendorPhoneTypeCode>FX</vendorPhoneTypeCode>
@@ -1600,7 +1600,7 @@
                   <objectId>A7A28D9A-8D3C-4C17-98FB-746CF64C834E</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
                   <boNotes/>
-                </org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                </org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
               </list>
             </vendorContactPhoneNumbers>
             <vendorDetail reference="../../../.."/>
@@ -1617,8 +1617,8 @@
             <objectId>052A8DFE-C571-3F87-368F-15C3F932A6BC</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
-          </org.kuali.module.vendor.bo.VendorContact>
-          <org.kuali.module.vendor.bo.VendorContact>
+          </org.kuali.kfs.vnd.businessobject.VendorContact>
+          <org.kuali.kfs.vnd.businessobject.VendorContact>
             <vendorContactGeneratedIdentifier>1084</vendorContactGeneratedIdentifier>
             <vendorHeaderGeneratedIdentifier>1046</vendorHeaderGeneratedIdentifier>
             <vendorDetailAssignedIdentifier>0</vendorDetailAssignedIdentifier>
@@ -1630,7 +1630,7 @@
                   <size>4</size>
                 </default>
                 <int>10</int>
-                <org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                <org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
                   <vendorContactPhoneGeneratedIdentifier>1029</vendorContactPhoneGeneratedIdentifier>
                   <vendorContactGeneratedIdentifier>1084</vendorContactGeneratedIdentifier>
                   <vendorPhoneTypeCode>PH</vendorPhoneTypeCode>
@@ -1648,8 +1648,8 @@
                   <objectId>45352BD7-00E1-46A1-13B2-AE984EDB4627</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
                   <boNotes/>
-                </org.kuali.module.vendor.bo.VendorContactPhoneNumber>
-                <org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                </org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
+                <org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
                   <vendorContactPhoneGeneratedIdentifier>1030</vendorContactPhoneGeneratedIdentifier>
                   <vendorContactGeneratedIdentifier>1084</vendorContactGeneratedIdentifier>
                   <vendorPhoneTypeCode>MB</vendorPhoneTypeCode>
@@ -1667,8 +1667,8 @@
                   <objectId>2C7DD4A2-B8A1-D29B-84A3-A3ED7454CBD8</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
                   <boNotes/>
-                </org.kuali.module.vendor.bo.VendorContactPhoneNumber>
-                <org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                </org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
+                <org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
                   <vendorContactPhoneGeneratedIdentifier>1036</vendorContactPhoneGeneratedIdentifier>
                   <vendorContactGeneratedIdentifier>1084</vendorContactGeneratedIdentifier>
                   <vendorPhoneTypeCode>PG</vendorPhoneTypeCode>
@@ -1686,8 +1686,8 @@
                   <objectId>4DB6BB0C-BA3B-E1D7-B904-85338556B833</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
                   <boNotes/>
-                </org.kuali.module.vendor.bo.VendorContactPhoneNumber>
-                <org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                </org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
+                <org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
                   <vendorContactPhoneGeneratedIdentifier>1037</vendorContactPhoneGeneratedIdentifier>
                   <vendorContactGeneratedIdentifier>1084</vendorContactGeneratedIdentifier>
                   <vendorPhoneTypeCode>PH</vendorPhoneTypeCode>
@@ -1697,7 +1697,7 @@
                   <objectId>8EB28C9A-4C46-FF98-8F45-276B91993E11</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
                   <boNotes/>
-                </org.kuali.module.vendor.bo.VendorContactPhoneNumber>
+                </org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber>
               </list>
             </vendorContactPhoneNumbers>
             <vendorDetail reference="../../../.."/>
@@ -1714,7 +1714,7 @@
             <objectId>687889B2-5AB8-77B6-0CD6-E35E5CD4744B</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
-          </org.kuali.module.vendor.bo.VendorContact>
+          </org.kuali.kfs.vnd.businessobject.VendorContact>
         </list>
       </vendorContacts>
       <vendorContracts class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -1772,7 +1772,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </vendorType>
-        <vendorOwnership class="org.kuali.module.vendor.bo.OwnershipType--EnhancerByCGLIB--e7b05698">
+        <vendorOwnership class="org.kuali.kfs.vnd.businessobject.OwnershipType--EnhancerByCGLIB--e7b05698">
           <vendorOwnershipCode>ID</vendorOwnershipCode>
           <vendorOwnershipDescription>INDIVIDUAL/SOLE PROPRIETOR</vendorOwnershipDescription>
           <vendorOwnershipCategoryAllowedIndicator>true</vendorOwnershipCategoryAllowedIndicator>
@@ -1826,7 +1826,7 @@
     <sourceAccountingLines/>
     <targetAccountingLines/>
     <generalLedgerPendingEntries>
-      <org.kuali.kfs.bo.GeneralLedgerPendingEntry>
+      <org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry>
         <financialSystemOriginationCode>EP</financialSystemOriginationCode>
         <documentNumber>296582</documentNumber>
         <transactionLedgerEntrySequenceNumber>1</transactionLedgerEntrySequenceNumber>
@@ -1885,8 +1885,8 @@
         <objectId>0A0EEE07-76EE-CC86-FCF1-DF252F6928C4</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </org.kuali.kfs.bo.GeneralLedgerPendingEntry>
-      <org.kuali.kfs.bo.GeneralLedgerPendingEntry>
+      </org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry>
+      <org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry>
         <financialSystemOriginationCode>EP</financialSystemOriginationCode>
         <documentNumber>296582</documentNumber>
         <transactionLedgerEntrySequenceNumber>2</transactionLedgerEntrySequenceNumber>
@@ -1915,7 +1915,7 @@
         <acctSufficientFundsFinObjCd>    </acctSufficientFundsFinObjCd>
         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
         <transactionEntryProcessedTs>2007-06-13</transactionEntryProcessedTs>
-        <account class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232">
+        <account class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232">
           <chartOfAccountsCode>BL</chartOfAccountsCode>
           <accountNumber>0211909</accountNumber>
           <accountName>XXXXX-RIP-PSYCHOLOGY</accountName>
@@ -1952,12 +1952,12 @@
           <continuationAccountNumber>2331489</continuationAccountNumber>
           <incomeStreamFinancialCoaCode>BL</incomeStreamFinancialCoaCode>
           <incomeStreamAccountNumber>1023287</incomeStreamAccountNumber>
-          <chartOfAccounts class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
-          <organization class="org.kuali.module.chart.bo.Org--EnhancerByCGLIB--e73483c1" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
-          <accountType class="org.kuali.module.chart.bo.AcctType--EnhancerByCGLIB--a1180de8" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountType"/>
+          <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
+          <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
+          <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--a1180de8" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountType"/>
           <accountPhysicalCampus class="org.kuali.core.bo.Campus--EnhancerByCGLIB--4968dd25" reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-          <accountState class="org.kuali.kfs.bo.State--EnhancerByCGLIB--762d2ec2" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
-          <subFundGroup class="org.kuali.module.chart.bo.SubFundGroup--EnhancerByCGLIB--e1b6a31d">
+          <accountState class="org.kuali.kfs.sys.businessobject.State--EnhancerByCGLIB--762d2ec2" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
+          <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d">
             <subFundGroupCode>DFRES</subFundGroupCode>
             <subFundGroupDescription>FACULTY RESEARCH</subFundGroupDescription>
             <subfundgrpActivityIndicator>true</subfundgrpActivityIndicator>
@@ -1966,30 +1966,30 @@
             <subFundGroupWagesIndicator>true</subFundGroupWagesIndicator>
             <fundGroupCode>DS</fundGroupCode>
             <fundGroupBudgetAdjustmentRestrictionLevelCode>N</fundGroupBudgetAdjustmentRestrictionLevelCode>
-            <fundGroup class="org.kuali.module.chart.bo.FundGroup--EnhancerByCGLIB--7ea7c6c7"/>
-            <subFundGroupType class="org.kuali.module.chart.bo.SubFundGroupType--EnhancerByCGLIB--6df98087"/>
+            <fundGroup class="org.kuali.kfs.coa.businessobject.FundGroup--EnhancerByCGLIB--7ea7c6c7"/>
+            <subFundGroupType class="org.kuali.kfs.coa.businessobject.SubFundGroupType--EnhancerByCGLIB--6df98087"/>
             <versionNumber>1</versionNumber>
             <objectId>015D8807809A6C10E043814FD8816C10</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </subFundGroup>
-          <financialHigherEdFunction class="org.kuali.module.chart.bo.HigherEdFunction--EnhancerByCGLIB--43bd15e9">
+          <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9">
             <financialHigherEdFunctionCd>IPR</financialHigherEdFunctionCd>
             <financialHigherEdFunctionNm>INDIVIDUAL OR PROJECT RESEARCH</financialHigherEdFunctionNm>
             <finUnivBdgtOfficeFunctionCd>IPR</finUnivBdgtOfficeFunctionCd>
             <finAicpaFunctionCode>RE</finAicpaFunctionCode>
             <financialFederalFunctionCode>SR</financialFederalFunctionCode>
-            <universityBudgetOfficeFunction class="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction--EnhancerByCGLIB--17734152"/>
-            <federalFunction class="org.kuali.module.chart.bo.FederalFunction--EnhancerByCGLIB--934072da"/>
-            <aicpaFunction class="org.kuali.module.chart.bo.AicpaFunction--EnhancerByCGLIB--d008fb01"/>
+            <universityBudgetOfficeFunction class="org.kuali.kfs.coa.businessobject.UniversityBudgetOfficeFunction--EnhancerByCGLIB--17734152"/>
+            <federalFunction class="org.kuali.kfs.coa.businessobject.FederalFunction--EnhancerByCGLIB--934072da"/>
+            <aicpaFunction class="org.kuali.kfs.coa.businessobject.AicpaFunction--EnhancerByCGLIB--d008fb01"/>
             <versionNumber>1</versionNumber>
             <objectId>014F3DAF81F6A448E043814FD28EA448</objectId>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </financialHigherEdFunction>
-          <accountRestrictedStatus class="org.kuali.module.chart.bo.RestrictedStatus--EnhancerByCGLIB--834db728" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
-          <reportsToAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-          <continuationAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232">
+          <accountRestrictedStatus class="org.kuali.kfs.coa.businessobject.RestrictedStatus--EnhancerByCGLIB--834db728" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
+          <reportsToAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+          <continuationAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232">
             <chartOfAccountsCode>BL</chartOfAccountsCode>
             <accountNumber>2331489</accountNumber>
             <accountName>PSYCHOLOGY CONTINUATION ACCOUNT</accountName>
@@ -2026,13 +2026,13 @@
             <accountType reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountType"/>
             <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
             <accountState reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
-            <subFundGroup class="org.kuali.module.chart.bo.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
-            <financialHigherEdFunction class="org.kuali.module.chart.bo.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
+            <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
+            <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
             <accountRestrictedStatus reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
-            <incomeStreamAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+            <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
             <postalZipCode reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
-            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
-            <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
+            <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
+            <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
             <accountGuideline>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
@@ -2049,7 +2049,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </continuationAccount>
-          <incomeStreamAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232">
+          <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232">
             <chartOfAccountsCode>BL</chartOfAccountsCode>
             <accountNumber>1023287</accountNumber>
             <accountName>CREATED FOR ICR RI ISSUE KULDBA-379</accountName>
@@ -2083,16 +2083,16 @@
             <incomeStreamAccountNumber>1031400</incomeStreamAccountNumber>
             <chartOfAccounts reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
             <organization reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
-            <accountType class="org.kuali.module.chart.bo.AcctType--EnhancerByCGLIB--a1180de8"/>
+            <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--a1180de8"/>
             <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
             <accountState reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
-            <subFundGroup class="org.kuali.module.chart.bo.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
-            <financialHigherEdFunction class="org.kuali.module.chart.bo.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
+            <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
+            <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
             <accountRestrictedStatus reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
-            <incomeStreamAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-            <postalZipCode class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
-            <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
-            <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
+            <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+            <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
+            <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
+            <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
             <accountGuideline>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
@@ -2119,21 +2119,21 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </incomeStreamAccount>
-          <postalZipCode class="org.kuali.kfs.bo.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
-          <budgetRecordingLevel class="org.kuali.module.chart.bo.codes.BudgetRecordingLevel--EnhancerByCGLIB--3906a848">
+          <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
+          <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--3906a848">
             <code>O</code>
             <name>Object</name>
             <active>true</active>
-            <className>org.kuali.module.chart.bo.codes.BudgetAggregationCode</className>
+            <className>org.kuali.kfs.coa.businessobject.BudgetAggregationCode</className>
             <codeRetrieved>false</codeRetrieved>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </budgetRecordingLevel>
-          <sufficientFundsCode class="org.kuali.module.chart.bo.codes.SufficientFundsCode--EnhancerByCGLIB--55b6171a">
+          <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--55b6171a">
             <code>A</code>
             <name>Account</name>
             <active>true</active>
-            <className>org.kuali.module.chart.bo.codes.BudgetRecordingLevel</className>
+            <className>org.kuali.kfs.coa.businessobject.BudgetRecordingLevel</className>
             <codeRetrieved>false</codeRetrieved>
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
@@ -2151,7 +2151,7 @@
           </accountGuideline>
           <subAccounts class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl"/>
           <awards class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl">
-            <org.kuali.module.cg.bo.AwardAccount>
+            <org.kuali.kfs.module.cg.businessobject.AwardAccount>
               <proposalNumber>80479</proposalNumber>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
               <accountNumber>0211909</accountNumber>
@@ -2222,7 +2222,7 @@
                       <size>1</size>
                     </default>
                     <int>10</int>
-                    <org.kuali.module.cg.bo.AwardProjectDirector>
+                    <org.kuali.kfs.module.cg.businessobject.AwardProjectDirector>
                       <personUniversalIdentifier>1959008511</personUniversalIdentifier>
                       <proposalNumber>80479</proposalNumber>
                       <awardPrimaryProjectDirectorIndicator>true</awardPrimaryProjectDirectorIndicator>
@@ -2231,7 +2231,7 @@
                       <objectId>923DE734-125A-8982-BD2F-9C8E6E85E8B8</objectId>
                       <newCollectionRecord>false</newCollectionRecord>
                       <boNotes/>
-                    </org.kuali.module.cg.bo.AwardProjectDirector>
+                    </org.kuali.kfs.module.cg.businessobject.AwardProjectDirector>
                   </list>
                 </awardProjectDirectors>
                 <awardAccounts class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2240,7 +2240,7 @@
                       <size>1</size>
                     </default>
                     <int>10</int>
-                    <org.kuali.module.cg.bo.AwardAccount reference="../../../.."/>
+                    <org.kuali.kfs.module.cg.businessobject.AwardAccount reference="../../../.."/>
                   </list>
                 </awardAccounts>
                 <awardSubcontractors class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2257,7 +2257,7 @@
                       <size>1</size>
                     </default>
                     <int>10</int>
-                    <org.kuali.module.cg.bo.AwardOrganization>
+                    <org.kuali.kfs.module.cg.businessobject.AwardOrganization>
                       <chartOfAccountsCode>BL</chartOfAccountsCode>
                       <organizationCode>AAAM</organizationCode>
                       <proposalNumber>80479</proposalNumber>
@@ -2285,14 +2285,14 @@
                         <organizationCountryCode>US</organizationCountryCode>
                         <organizationLine1Address>SMITH  RESEARCH 180</organizationLine1Address>
                         <chartOfAccounts reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
-                        <organizationDefaultAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-                        <responsibilityCenter class="org.kuali.module.chart.bo.ResponsibilityCenter--EnhancerByCGLIB--f663186e"/>
+                        <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+                        <responsibilityCenter class="org.kuali.kfs.coa.businessobject.ResponsibilityCenter--EnhancerByCGLIB--f663186e"/>
                         <organizationPhysicalCampus reference="../../../../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-                        <organizationType class="org.kuali.module.chart.bo.OrgType--EnhancerByCGLIB--ca8e6f2b"/>
-                        <reportsToOrganization class="org.kuali.module.chart.bo.Org--EnhancerByCGLIB--e73483c1"/>
+                        <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b"/>
+                        <reportsToOrganization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1"/>
                         <reportsToChartOfAccounts reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
-                        <organizationPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
-                        <campusPlantAccount class="org.kuali.module.chart.bo.Account--EnhancerByCGLIB--4e127232"/>
+                        <organizationPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
+                        <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
                         <organizationPlantChart reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
                         <campusPlantChart reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
                         <postalZip reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
@@ -2356,7 +2356,7 @@
                       <objectId>5CB73365-04CD-A641-20A8-BC9FE1A5E89E</objectId>
                       <newCollectionRecord>false</newCollectionRecord>
                       <boNotes/>
-                    </org.kuali.module.cg.bo.AwardOrganization>
+                    </org.kuali.kfs.module.cg.businessobject.AwardOrganization>
                   </list>
                 </awardOrganizations>
                 <proposal>
@@ -2394,7 +2394,7 @@
                         <size>1</size>
                       </default>
                       <int>10</int>
-                      <org.kuali.module.cg.bo.ProposalOrganization>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalOrganization>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <organizationCode>AAAM</organizationCode>
                         <proposalNumber>80479</proposalNumber>
@@ -2405,7 +2405,7 @@
                         <objectId>68E568A1-C8FB-A478-72D9-62B3BE7DB280</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalOrganization>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalOrganization>
                     </list>
                   </proposalOrganizations>
                   <proposalProjectDirectors class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2422,7 +2422,7 @@
                         <size>6</size>
                       </default>
                       <int>10</int>
-                      <org.kuali.module.cg.bo.ProposalResearchRisk>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                         <researchRiskTypeCode>H</researchRiskTypeCode>
                         <proposalNumber>80479</proposalNumber>
                         <isActive>false</isActive>
@@ -2454,8 +2454,8 @@
                         <objectId>1FB352E6-72E5-6E93-1D59-F695DE303AB1</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalResearchRisk>
-                      <org.kuali.module.cg.bo.ProposalResearchRisk>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                         <researchRiskTypeCode>M</researchRiskTypeCode>
                         <proposalNumber>80479</proposalNumber>
                         <isActive>false</isActive>
@@ -2487,8 +2487,8 @@
                         <objectId>8EDBE9A8-EFE9-BB8D-9C72-97B60505E422</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalResearchRisk>
-                      <org.kuali.module.cg.bo.ProposalResearchRisk>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                         <researchRiskTypeCode>B</researchRiskTypeCode>
                         <proposalNumber>80479</proposalNumber>
                         <isActive>true</isActive>
@@ -2501,7 +2501,7 @@
                           <researchRiskTypeSortNumber>15</researchRiskTypeSortNumber>
                           <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
-                          <controlAttributeType reference="../../../org.kuali.module.cg.bo.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
+                          <controlAttributeType reference="../../../org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
                           <versionNumber>9</versionNumber>
                           <objectId>4C20937E-5F85-383D-791A-86106F0AA07A</objectId>
                           <newCollectionRecord>false</newCollectionRecord>
@@ -2511,8 +2511,8 @@
                         <objectId>B3A2D4AA-4B38-20BF-9D17-C2D73425AF35</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalResearchRisk>
-                      <org.kuali.module.cg.bo.ProposalResearchRisk>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                         <researchRiskTypeCode>T</researchRiskTypeCode>
                         <proposalNumber>80479</proposalNumber>
                         <isActive>false</isActive>
@@ -2525,7 +2525,7 @@
                           <researchRiskTypeSortNumber>20</researchRiskTypeSortNumber>
                           <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
-                          <controlAttributeType reference="../../../org.kuali.module.cg.bo.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
+                          <controlAttributeType reference="../../../org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
                           <versionNumber>4</versionNumber>
                           <objectId>63DD4B22-BAED-EC3D-9F9E-094087A6A699</objectId>
                           <newCollectionRecord>false</newCollectionRecord>
@@ -2535,8 +2535,8 @@
                         <objectId>EEC17B2D-EA26-0B41-E5AC-61E295D6E831</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalResearchRisk>
-                      <org.kuali.module.cg.bo.ProposalResearchRisk>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                         <researchRiskTypeCode>P</researchRiskTypeCode>
                         <proposalNumber>80479</proposalNumber>
                         <isActive>true</isActive>
@@ -2549,7 +2549,7 @@
                           <researchRiskTypeSortNumber>25</researchRiskTypeSortNumber>
                           <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
-                          <controlAttributeType reference="../../../org.kuali.module.cg.bo.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
+                          <controlAttributeType reference="../../../org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
                           <versionNumber>8</versionNumber>
                           <objectId>E6071265-CABF-3943-2DBB-9CDB38FC1F07</objectId>
                           <newCollectionRecord>false</newCollectionRecord>
@@ -2559,8 +2559,8 @@
                         <objectId>1AA475FE-722E-6901-92FE-F29AF9CF2E40</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalResearchRisk>
-                      <org.kuali.module.cg.bo.ProposalResearchRisk>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                         <researchRiskTypeCode>F</researchRiskTypeCode>
                         <proposalNumber>80479</proposalNumber>
                         <isActive>false</isActive>
@@ -2592,7 +2592,7 @@
                         <objectId>5C28072E-0C3E-FB44-F662-0787E5E0BBD2</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalResearchRisk>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk>
                     </list>
                   </proposalResearchRisks>
                   <proposalAwardType>
@@ -2715,8 +2715,8 @@
               <objectId>DEEEB5EA-0EAF-C4E3-32CA-EBA97ECFBC39</objectId>
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
-            </org.kuali.module.cg.bo.AwardAccount>
-            <org.kuali.module.cg.bo.AwardAccount>
+            </org.kuali.kfs.module.cg.businessobject.AwardAccount>
+            <org.kuali.kfs.module.cg.businessobject.AwardAccount>
               <proposalNumber>11</proposalNumber>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
               <accountNumber>0211909</accountNumber>
@@ -2772,7 +2772,7 @@
                       <size>1</size>
                     </default>
                     <int>10</int>
-                    <org.kuali.module.cg.bo.AwardProjectDirector>
+                    <org.kuali.kfs.module.cg.businessobject.AwardProjectDirector>
                       <personUniversalIdentifier>1959008511</personUniversalIdentifier>
                       <proposalNumber>11</proposalNumber>
                       <awardPrimaryProjectDirectorIndicator>true</awardPrimaryProjectDirectorIndicator>
@@ -2781,7 +2781,7 @@
                       <objectId>F9D6F1E0-F174-F6B6-882A-F4250E84B952</objectId>
                       <newCollectionRecord>false</newCollectionRecord>
                       <boNotes/>
-                    </org.kuali.module.cg.bo.AwardProjectDirector>
+                    </org.kuali.kfs.module.cg.businessobject.AwardProjectDirector>
                   </list>
                 </awardProjectDirectors>
                 <awardAccounts class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2790,7 +2790,7 @@
                       <size>1</size>
                     </default>
                     <int>10</int>
-                    <org.kuali.module.cg.bo.AwardAccount reference="../../../.."/>
+                    <org.kuali.kfs.module.cg.businessobject.AwardAccount reference="../../../.."/>
                   </list>
                 </awardAccounts>
                 <awardSubcontractors class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2807,7 +2807,7 @@
                       <size>1</size>
                     </default>
                     <int>10</int>
-                    <org.kuali.module.cg.bo.AwardOrganization>
+                    <org.kuali.kfs.module.cg.businessobject.AwardOrganization>
                       <chartOfAccountsCode>BL</chartOfAccountsCode>
                       <organizationCode>PSY</organizationCode>
                       <proposalNumber>11</proposalNumber>
@@ -2818,7 +2818,7 @@
                       <objectId>5CBD921A-1BF6-B8AA-5E6E-75BC90BF640A</objectId>
                       <newCollectionRecord>false</newCollectionRecord>
                       <boNotes/>
-                    </org.kuali.module.cg.bo.AwardOrganization>
+                    </org.kuali.kfs.module.cg.businessobject.AwardOrganization>
                   </list>
                 </awardOrganizations>
                 <proposal>
@@ -2850,7 +2850,7 @@
                         <size>1</size>
                       </default>
                       <int>10</int>
-                      <org.kuali.module.cg.bo.ProposalSubcontractor>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor>
                         <proposalSubcontractorNumber>1</proposalSubcontractorNumber>
                         <proposalNumber>11</proposalNumber>
                         <subcontractorNumber>00057</subcontractorNumber>
@@ -2865,7 +2865,7 @@
                           <subcontractorStateCode>AZ</subcontractorStateCode>
                           <subcontractorZipCode>85287-1603</subcontractorZipCode>
                           <active>true</active>
-                          <subcontractorState class="org.kuali.kfs.bo.State--EnhancerByCGLIB--762d2ec2"/>
+                          <subcontractorState class="org.kuali.kfs.sys.businessobject.State--EnhancerByCGLIB--762d2ec2"/>
                           <versionNumber>1</versionNumber>
                           <objectId>0292B10044EFBBDEE043814FD881BBDE</objectId>
                           <newCollectionRecord>false</newCollectionRecord>
@@ -2875,7 +2875,7 @@
                         <objectId>3F1E2F1E-B531-340D-387E-4964EEB67522</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalSubcontractor>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor>
                     </list>
                   </proposalSubcontractors>
                   <proposalOrganizations class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2884,7 +2884,7 @@
                         <size>1</size>
                       </default>
                       <int>10</int>
-                      <org.kuali.module.cg.bo.ProposalOrganization>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalOrganization>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <organizationCode>PSY</organizationCode>
                         <proposalNumber>11</proposalNumber>
@@ -2895,7 +2895,7 @@
                         <objectId>C077D368-5EEC-1B50-63F2-65CAE173FD5B</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalOrganization>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalOrganization>
                     </list>
                   </proposalOrganizations>
                   <proposalProjectDirectors class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -2904,7 +2904,7 @@
                         <size>1</size>
                       </default>
                       <int>10</int>
-                      <org.kuali.module.cg.bo.ProposalProjectDirector>
+                      <org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector>
                         <personUniversalIdentifier>1000025979</personUniversalIdentifier>
                         <proposalNumber>11</proposalNumber>
                         <proposalPrimaryProjectDirectorIndicator>true</proposalPrimaryProjectDirectorIndicator>
@@ -2912,7 +2912,7 @@
                         <objectId>5A629D52-FE0E-A16C-E179-59D096F1B5EB</objectId>
                         <newCollectionRecord>false</newCollectionRecord>
                         <boNotes/>
-                      </org.kuali.module.cg.bo.ProposalProjectDirector>
+                      </org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector>
                     </list>
                   </proposalProjectDirectors>
                   <proposalResearchRisks class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
@@ -3062,14 +3062,14 @@
               <objectId>6F549407-2A2E-EC98-3604-ABD9B71CD561</objectId>
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
-            </org.kuali.module.cg.bo.AwardAccount>
+            </org.kuali.kfs.module.cg.businessobject.AwardAccount>
           </awards>
           <versionNumber>1</versionNumber>
           <objectId>1D5F9493A2A09052E043814FD8819052</objectId>
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </account>
-        <financialObject class="org.kuali.module.chart.bo.ObjectCode--EnhancerByCGLIB--8197fd9f">
+        <financialObject class="org.kuali.kfs.coa.businessobject.ObjectCode--EnhancerByCGLIB--8197fd9f">
           <universityFiscalYear>2007</universityFiscalYear>
           <chartOfAccountsCode>BL</chartOfAccountsCode>
           <financialObjectCode>9892</financialObjectCode>
@@ -3114,7 +3114,7 @@
         <objectId>BC38BBD9-4EEE-D07B-8903-EC5D5CA15C7B</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </org.kuali.kfs.bo.GeneralLedgerPendingEntry>
+      </org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry>
     </generalLedgerPendingEntries>
     <tmpPostingYear>2007</tmpPostingYear>
     <accountingPeriod>
@@ -3153,14 +3153,14 @@
         <financialObjectTypeTransferIncomeCd>TI</financialObjectTypeTransferIncomeCd>
         <financialObjectTypeTransferExpenseCd>TE</financialObjectTypeTransferExpenseCd>
         <nominalFinancialBalanceTypeCd>NB</nominalFinancialBalanceTypeCd>
-        <universityFinChartOfAcct class="org.kuali.module.chart.bo.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../organization/chartOfAccounts/reportsToChartOfAccounts"/>
-        <objectType class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <universityFinChartOfAcct class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../organization/chartOfAccounts/reportsToChartOfAccounts"/>
+        <objectType class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>C</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
           <financialReportingSortCode>A1</financialReportingSortCode>
           <basicAccountingCategoryCode>IN</basicAccountingCategoryCode>
-          <basicAccountingCategory class="org.kuali.module.chart.bo.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
+          <basicAccountingCategory class="org.kuali.kfs.coa.businessobject.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
             <code>IN</code>
             <description>INCOME</description>
             <shortName>INCOME</shortName>
@@ -3179,13 +3179,13 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </objectType>
-        <finObjTypeExpenditureexp class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjTypeExpenditureexp class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>D</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>true</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
           <financialReportingSortCode>B1</financialReportingSortCode>
           <basicAccountingCategoryCode>EX</basicAccountingCategoryCode>
-          <basicAccountingCategory class="org.kuali.module.chart.bo.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
+          <basicAccountingCategory class="org.kuali.kfs.coa.businessobject.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
             <code>EX</code>
             <description>EXPENSES</description>
             <shortName>EXPENSES</shortName>
@@ -3204,7 +3204,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjTypeExpenditureexp>
-        <finObjTypeExpendNotExp class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjTypeExpendNotExp class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>D</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>true</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
@@ -3219,7 +3219,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjTypeExpendNotExp>
-        <finObjTypeExpNotExpend class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjTypeExpNotExpend class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>D</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
@@ -3234,13 +3234,13 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjTypeExpNotExpend>
-        <financialObjectTypeAssets class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <financialObjectTypeAssets class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>D</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
           <financialReportingSortCode>C1</financialReportingSortCode>
           <basicAccountingCategoryCode>AS</basicAccountingCategoryCode>
-          <basicAccountingCategory class="org.kuali.module.chart.bo.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
+          <basicAccountingCategory class="org.kuali.kfs.coa.businessobject.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
             <code>AS</code>
             <description>ASSETS</description>
             <shortName>ASSETS</shortName>
@@ -3259,13 +3259,13 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </financialObjectTypeAssets>
-        <finObjectTypeLiabilities class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjectTypeLiabilities class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>C</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
           <financialReportingSortCode>D1</financialReportingSortCode>
           <basicAccountingCategoryCode>LI</basicAccountingCategoryCode>
-          <basicAccountingCategory class="org.kuali.module.chart.bo.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
+          <basicAccountingCategory class="org.kuali.kfs.coa.businessobject.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
             <code>LI</code>
             <description>LIABILITIES</description>
             <shortName>LIABILITIES</shortName>
@@ -3284,13 +3284,13 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjectTypeLiabilities>
-        <finObjectTypeFundBalance class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjectTypeFundBalance class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>C</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>true</fundBalanceIndicator>
           <financialReportingSortCode>F1</financialReportingSortCode>
           <basicAccountingCategoryCode>FB</basicAccountingCategoryCode>
-          <basicAccountingCategory class="org.kuali.module.chart.bo.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
+          <basicAccountingCategory class="org.kuali.kfs.coa.businessobject.BasicAccountingCategory--EnhancerByCGLIB--128627a6">
             <code>FB</code>
             <description>FUND BALANCE</description>
             <shortName>FUND BALANCE</shortName>
@@ -3309,7 +3309,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjectTypeFundBalance>
-        <finObjTypeIncomeNotCash class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjTypeIncomeNotCash class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>C</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
@@ -3324,7 +3324,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjTypeIncomeNotCash>
-        <finObjTypeCshNotIncome class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <finObjTypeCshNotIncome class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>C</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
@@ -3339,7 +3339,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </finObjTypeCshNotIncome>
-        <financialObjectTypeTransferIncome class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <financialObjectTypeTransferIncome class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>C</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
@@ -3354,7 +3354,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </financialObjectTypeTransferIncome>
-        <financialObjectTypeTransferExpense class="org.kuali.module.chart.bo.ObjectType--EnhancerByCGLIB--5c769634">
+        <financialObjectTypeTransferExpense class="org.kuali.kfs.coa.businessobject.ObjectType--EnhancerByCGLIB--5c769634">
           <finObjectTypeDebitcreditCd>D</finObjectTypeDebitcreditCd>
           <finObjectTypeIcrSelectionIndicator>false</finObjectTypeIcrSelectionIndicator>
           <fundBalanceIndicator>false</fundBalanceIndicator>
@@ -3370,7 +3370,7 @@
           <boNotes/>
         </financialObjectTypeTransferExpense>
         <actualFinancialBalanceType reference="../../../items/org.kuali.module.purap.bo.PurchaseOrderItem/sourceAccountingLines/org.kuali.module.purap.bo.PurchaseOrderAccount/balanceTyp"/>
-        <budgetCheckingBalanceType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <budgetCheckingBalanceType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>CURRENT BUDG</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>false</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>false</finBalanceTypeEncumIndicator>
@@ -3382,7 +3382,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </budgetCheckingBalanceType>
-        <extrnlEncumFinBalanceTyp class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <extrnlEncumFinBalanceTyp class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>EXTERNAL ENC</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>true</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>true</finBalanceTypeEncumIndicator>
@@ -3394,7 +3394,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </extrnlEncumFinBalanceTyp>
-        <intrnlEncumFinBalanceTyp class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <intrnlEncumFinBalanceTyp class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>INTERNAL ENC</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>true</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>true</finBalanceTypeEncumIndicator>
@@ -3406,7 +3406,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </intrnlEncumFinBalanceTyp>
-        <preencumbranceFinBalType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <preencumbranceFinBalType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>PRE-ENCUM</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>true</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>true</finBalanceTypeEncumIndicator>
@@ -3418,7 +3418,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </preencumbranceFinBalType>
-        <eliminationsFinBalanceType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <eliminationsFinBalanceType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>TRANSFERS</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>true</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>false</finBalanceTypeEncumIndicator>
@@ -3430,7 +3430,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </eliminationsFinBalanceType>
-        <costShareEncumbranceBalanceType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <costShareEncumbranceBalanceType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>CST SHR ENCS</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>true</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>true</finBalanceTypeEncumIndicator>
@@ -3442,7 +3442,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </costShareEncumbranceBalanceType>
-        <baseBudgetFinancialBalanceType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <baseBudgetFinancialBalanceType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>ADJ BSE BUDG</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>false</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>false</finBalanceTypeEncumIndicator>
@@ -3454,7 +3454,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </baseBudgetFinancialBalanceType>
-        <monthlyBudgetFinancialBalanceType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <monthlyBudgetFinancialBalanceType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>MONTHLY BUDG</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>false</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>false</finBalanceTypeEncumIndicator>
@@ -3466,7 +3466,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </monthlyBudgetFinancialBalanceType>
-        <nominalFinancialBalanceType class="org.kuali.module.chart.bo.codes.BalanceTyp--EnhancerByCGLIB--cf4638e2">
+        <nominalFinancialBalanceType class="org.kuali.kfs.coa.businessobject.BalanceTyp--EnhancerByCGLIB--cf4638e2">
           <financialBalanceTypeShortNm>NOMINAL BAL</financialBalanceTypeShortNm>
           <financialOffsetGenerationIndicator>true</financialOffsetGenerationIndicator>
           <finBalanceTypeEncumIndicator>false</finBalanceTypeEncumIndicator>

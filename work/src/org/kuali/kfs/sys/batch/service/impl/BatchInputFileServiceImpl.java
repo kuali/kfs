@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -41,16 +41,16 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.kfs.exceptions.XmlErrorHandler;
-import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.FileStorageException;
+import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.XmlErrorHandler;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 
@@ -64,7 +64,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * Uses the apache commons digestor to unmarshell the xml. The BatchInputFileType specifies the location of the digestor rules
      * xml which tells the digestor how to build the object graph from the xml.
      * 
-     * @see org.kuali.kfs.service.BatchInputFileService#parse(org.kuali.kfs.batch.BatchInputFileType, byte[])
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#parse(org.kuali.kfs.sys.batch.BatchInputFileType, byte[])
      */
     public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) throws XMLParseException {
         if (batchInputFileType == null || fileByteContent == null) {
@@ -152,7 +152,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * Defers to batch type to do any validation on the parsed contents.
      * 
-     * @see org.kuali.kfs.service.BatchInputFileService#validate(org.kuali.kfs.batch.BatchInputFileType, java.lang.Object)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#validate(org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.Object)
      */
     public boolean validate(BatchInputFileType batchInputFileType, Object parsedObject) {
         if (batchInputFileType == null || parsedObject == null) {
@@ -167,8 +167,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileService#save(org.kuali.core.bo.user.UniversalUser,
-     *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
      */
     public String save(UniversalUser user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
         if (user == null || batchInputFileType == null || fileContents == null) {
@@ -240,8 +240,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileService#delete(org.kuali.core.bo.user.UniversalUser,
-     *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#delete(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String)
      */
     public boolean delete(UniversalUser user, BatchInputFileType batchInputFileType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
         if (user == null || batchInputFileType == null || StringUtils.isBlank(deleteFileNameWithNoPath)) {
@@ -315,8 +315,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileService#download(org.kuali.core.bo.user.UniversalUser,
-     *      org.kuali.kfs.batch.BatchInputFileType, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#download(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String)
      */
     public File download(UniversalUser user, BatchInputFileType batchInputFileType, String downloadFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
         if (user == null || batchInputFileType == null || StringUtils.isBlank(downloadFileNameWithNoPath)) {
@@ -384,7 +384,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileService#isBatchInputTypeActive(org.kuali.kfs.batch.BatchInputFileType)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isBatchInputTypeActive(org.kuali.kfs.sys.batch.BatchInputFileType)
      */
     public boolean isBatchInputTypeActive(BatchInputFileType batchInputFileType) {
         if (batchInputFileType == null) {
@@ -403,7 +403,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileService#isUserAuthorizedForBatchType(org.kuali.kfs.batch.BatchInputFileType,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isUserAuthorizedForBatchType(org.kuali.kfs.sys.batch.BatchInputFileType,
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public boolean isUserAuthorizedForBatchType(BatchInputFileType batchInputFileType, UniversalUser user) {
@@ -420,7 +420,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * type are retrieved. For each file, the file and user is sent through the checkAuthorization method of the batch input type
      * implementation for finer grained security. If the method returns true, the filename is added to the user's list.
      * 
-     * @see org.kuali.kfs.service.BatchInputFileService#listBatchTypeFilesForUser(org.kuali.kfs.batch.BatchInputFileType,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileType,
      *      org.kuali.core.bo.user.UniversalUser)
      */
     public List<String> listBatchTypeFilesForUser(BatchInputFileType batchInputFileType, UniversalUser user) throws AuthorizationException {
@@ -474,7 +474,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.service.BatchInputFileService#listInputFileNamesWithDoneFile(org.kuali.kfs.batch.BatchInputFileType)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listInputFileNamesWithDoneFile(org.kuali.kfs.sys.batch.BatchInputFileType)
      */
     public List<String> listInputFileNamesWithDoneFile(BatchInputFileType batchInputFileType) {
         if (batchInputFileType == null) {
@@ -546,7 +546,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * For this implementation, a file user identifier must consist of letters and digits
      * 
-     * @see org.kuali.kfs.service.BatchInputFileService#isFileUserIdentifierProperlyFormatted(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isFileUserIdentifierProperlyFormatted(java.lang.String)
      */
     public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier) {
         if(ObjectUtils.isNull(fileUserIdentifier)) {

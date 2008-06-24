@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.bo;
+package org.kuali.kfs.sys.businessobject;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
+import org.kuali.kfs.coa.businessobject.Account;
 
 /**
  * This class holds respnsibility information pertaining to an account specifically whether or not the responsibility is of type

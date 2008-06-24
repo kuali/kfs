@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap;
+package org.kuali.kfs.module.purap;
 
-import org.kuali.kfs.ParameterKeyConstants;
+import org.kuali.kfs.sys.ParameterKeyConstants;
 
 /**
  * Holds constants for PURAP business parameters.

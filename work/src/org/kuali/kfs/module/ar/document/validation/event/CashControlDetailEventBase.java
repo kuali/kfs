@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule.event;
+package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 
 public abstract class CashControlDetailEventBase extends KualiDocumentEventBase implements CashControlDetailEvent {
 
@@ -50,7 +50,7 @@ public abstract class CashControlDetailEventBase extends KualiDocumentEventBase 
 
 
     /**
-     * @see org.kuali.module.ar.rule.event.CustomerInvoiceDetailEvent#getCustomerInvoiceDetail()
+     * @see org.kuali.kfs.module.ar.document.validation.event.CustomerInvoiceDetailEvent#getCustomerInvoiceDetail()
      */
     public CashControlDetail getCashControlDetail() {
         return cashControlDetail;

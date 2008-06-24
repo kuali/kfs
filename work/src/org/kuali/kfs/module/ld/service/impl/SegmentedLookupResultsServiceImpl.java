@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.labor.service.SegmentedLookupResultsService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.ld.service.SegmentedLookupResultsService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

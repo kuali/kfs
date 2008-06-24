@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,18 +24,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.PurapConstants.ReceivingCorrectionDocumentStrings;
-import org.kuali.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.module.purap.document.ReceivingDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.service.ReceivingService;
-import org.kuali.module.purap.util.ReceivingQuestionCallback;
-import org.kuali.module.purap.web.struts.form.ReceivingCorrectionForm;
-import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.ReceivingCorrectionDocumentStrings;
+import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
+import org.kuali.kfs.module.purap.document.web.struts.ReceivingCorrectionForm;
+import org.kuali.kfs.module.purap.document.web.struts.ReceivingLineForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

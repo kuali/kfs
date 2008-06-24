@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.bo.HomeOrigination;
+import org.kuali.kfs.sys.businessobject.HomeOrigination;
 
 /**
  * This interface defines methods that a HomeOrigination service implementation must provide.

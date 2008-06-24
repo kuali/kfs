@@ -442,7 +442,7 @@
 						test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}">
 						<fin:accountingLineDataCell field="referenceOriginCode"
 							lookup="true" inquiry="true" boClassSimpleName="OriginationCode"
-							boPackageName="org.kuali.kfs.bo"
+							boPackageName="org.kuali.kfs.sys.businessobject"
 							conversionField="financialSystemOriginationCode"
 							detailFunction="loadOriginationInfo"
 							detailField="referenceOrigin.financialSystemDatabaseName"

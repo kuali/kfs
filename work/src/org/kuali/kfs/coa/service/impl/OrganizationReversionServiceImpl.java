@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,14 +21,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.chart.dao.OrganizationReversionDao;
-import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
+import org.kuali.kfs.coa.dataaccess.OrganizationReversionDao;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,7 +43,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     private OrganizationReversionDao organizationReversionDao;
 
     /**
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.coa.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
@@ -52,7 +52,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     }
 
     /**
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getCategories()
+     * @see org.kuali.kfs.coa.service.OrganizationReversionService#getCategories()
      */
     public Map<String, OrganizationReversionCategoryLogic> getCategories() {
         LOG.debug("getCategories() started");
@@ -84,7 +84,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
     /**
      * 
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getCategoryList()
+     * @see org.kuali.kfs.coa.service.OrganizationReversionService#getCategoryList()
      */
     public List<OrganizationReversionCategory> getCategoryList() {
         LOG.debug("getCategoryList() started");

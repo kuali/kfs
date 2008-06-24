@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPurApDocumentTaxReviewAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurApDocumentTaxReviewAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurApDocumentTaxReviewAttribute</className>
       <label>Purchasing &amp; Accounts Payable Tax Review Routing Role Attribute</label>
       <description>Attribute to determine if document should route for Tax Review</description>
       <type>RuleAttribute</type>

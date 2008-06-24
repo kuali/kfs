@@ -17,7 +17,7 @@
  * Created on Sep 27, 2004
  *
  */
-package org.kuali.module.pdp.xml;
+package org.kuali.kfs.pdp.service.impl.paymentparser;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.kuali.module.pdp.bo.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
 
 /**

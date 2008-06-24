@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,11 +23,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.dao.PurApAccountingDao;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestSummaryAccount;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 
 /**
  * OJB Implementation of PurApAccountingDao.
@@ -35,7 +35,7 @@ import org.kuali.module.purap.dao.PurApAccountingDao;
 public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements PurApAccountingDao {
 
     /**
-     * @see org.kuali.module.purap.dao.PurApAccountingDao#getAccountingLinesForItem(org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getAccountingLinesForItem(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public List getAccountingLinesForItem(PurApItem item) {
         String itemIdentifier = Integer.toString(item.getItemIdentifier());
@@ -55,7 +55,7 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PurApAccountingDao#deleteSummaryAccounts(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#deleteSummaryAccounts(java.lang.Integer)
      */
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
 

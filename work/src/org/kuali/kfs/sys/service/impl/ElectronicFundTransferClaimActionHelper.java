@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,13 +30,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
-import org.kuali.kfs.web.struts.form.ElectronicPaymentClaimClaimedHelper;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
+import org.kuali.kfs.sys.web.struts.ElectronicPaymentClaimClaimedHelper;
 
 /**
  * An Electronic Funds Transfer action which claims the electronic payment claims in a form and redirects
@@ -57,7 +57,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
 
     /**
      * Claims the ElectronicPaymentClaim records with a document and then redirects to that docment.
-     * @see org.kuali.kfs.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramMap, String basePath) {
         // can the user claim electronic payments at all?

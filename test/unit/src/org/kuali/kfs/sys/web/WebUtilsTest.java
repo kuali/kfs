@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.util;
+package org.kuali.kfs.sys.web;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.web.WebUtilities;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.web.WebUtilities;
 
 /**
- * Tests to cover functionality performed in org.kuali.kfs.web.WebUtilities
+ * Tests to cover functionality performed in org.kuali.kfs.sys.web.WebUtilities
  */
 public class WebUtilsTest extends KualiTestBase {
     /**

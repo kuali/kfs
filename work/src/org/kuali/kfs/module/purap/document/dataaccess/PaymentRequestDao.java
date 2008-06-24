@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao;
+package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 
 /**
  * Payment Request DAO Interface.

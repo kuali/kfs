@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.authorization;
+package org.kuali.kfs.fp.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
 public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 

@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocumentSearchResultProcessor</className>
+      <className>org.kuali.kfs.module.purap.document.searching.processor.PaymentRequestDocumentSearchResultProcessor</className>
       <label>Kuali Payment Request Document Search Result Processor</label>
       <description>Kuali Payment Request Document Search Result Processor</description>
       <type>DocumentSearchResultProcessorAttribute</type>

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 
 /**
  * a DAO interface that declares methods needed for CorrectionChangeGroups to deal with the database 

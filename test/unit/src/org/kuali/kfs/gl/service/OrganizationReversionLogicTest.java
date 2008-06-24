@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.orgreversion;
+package org.kuali.kfs.gl.service;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -27,26 +27,26 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.module.gl.service.OrganizationReversionProcessService;
-import org.kuali.module.gl.service.impl.OrganizationReversionMockService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
+import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests that the Organization Reversion process generates the proper origin entries under
@@ -169,7 +169,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
     /**
      * Fixtures that have object codes that will go into certain categories.  OrganizationReversionMockService
      * makes certain that each category represents different logic.
-     * @see org.kuali.module.gl.service.impl.OrganizationReversionMockService
+     * @see org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl
      */
     enum OBJECT_CODE_FIXTURE {
         C01_ORG_WAGES_CODE("3000"), // C01 = A logic
@@ -203,7 +203,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
      * Does the prelinary work of setting up the test...getting the org reversion mock, setting up
      * the parameters for the job, and creates the OrganizationReversionProcess object that will actually
      * complete the job
-     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     * @see org.kuali.kfs.gl.businessobject.OriginEntryTestBase#setUp()
      */
     protected void setUp() throws Exception {
         super.setUp();

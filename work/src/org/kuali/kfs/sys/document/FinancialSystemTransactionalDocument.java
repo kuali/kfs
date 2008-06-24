@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 public interface FinancialSystemTransactionalDocument extends TransactionalDocument {
 

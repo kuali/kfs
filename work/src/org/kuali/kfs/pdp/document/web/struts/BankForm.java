@@ -17,7 +17,7 @@
  * Created on Sep 3, 2004
  *
  */
-package org.kuali.module.pdp.form.bank;
+package org.kuali.kfs.pdp.document.web.struts;
 
 import java.util.Enumeration;
 
@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.module.pdp.bo.Bank;
+import org.kuali.kfs.pdp.businessobject.Bank;
 
 
 /**

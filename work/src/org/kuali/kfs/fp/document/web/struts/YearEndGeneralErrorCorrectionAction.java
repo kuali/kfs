@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 /**
- * Struts Action for <code>{@link org.kuali.module.financial.document.YearEndGeneralErrorCorrectionDocument}</code>. This class
+ * Struts Action for <code>{@link org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument}</code>. This class
  * is purposely empty b/c it needs to be in order to work with the transactional document framework.
  */
 public class YearEndGeneralErrorCorrectionAction extends GeneralErrorCorrectionAction {

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.springframework.beans.factory.BeanNameAware;
 
 public abstract class AbstractStep implements Step, BeanNameAware {
@@ -74,7 +74,7 @@ public abstract class AbstractStep implements Step, BeanNameAware {
      * Returns the boolean value of the interrupted flag
      * 
      * @return boolean
-     * @see org.kuali.kfs.batch.Step#isInterrupted()
+     * @see org.kuali.kfs.sys.batch.Step#isInterrupted()
      */
     public boolean isInterrupted() {
         return interrupted;
@@ -84,7 +84,7 @@ public abstract class AbstractStep implements Step, BeanNameAware {
      * Sets the interruped flag
      * 
      * @param interrupted
-     * @see org.kuali.kfs.batch.Step#setInterrupted(boolean)
+     * @see org.kuali.kfs.sys.batch.Step#setInterrupted(boolean)
      */
     public void setInterrupted(boolean interrupted) {
         this.interrupted = interrupted;
@@ -93,7 +93,7 @@ public abstract class AbstractStep implements Step, BeanNameAware {
     /**
      * Initializes the interrupted flag
      * 
-     * @see org.kuali.kfs.batch.Step#interrupt()
+     * @see org.kuali.kfs.sys.batch.Step#interrupt()
      */
     public void interrupt() {
         this.interrupted = true;

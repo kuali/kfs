@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsType;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsType;
 
 /**
  * Labor business object for Benefits Type

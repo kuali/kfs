@@ -1,13 +1,13 @@
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.integration.service.LaborModuleService;
 
 /**
  * Business Object for the Effort Certification Report Position Table.

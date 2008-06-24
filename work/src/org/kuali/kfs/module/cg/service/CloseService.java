@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service;
+package org.kuali.kfs.module.cg.service;
 
-import org.kuali.module.cg.bo.Close;
+import org.kuali.kfs.module.cg.businessobject.Close;
 
 /**
  * Intended to be initiated periodically via a batch process. The default implementation of this service finds all unclosed Awards

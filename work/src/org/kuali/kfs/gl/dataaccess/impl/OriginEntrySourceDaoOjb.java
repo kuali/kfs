@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -21,8 +21,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.dao.OriginEntrySourceDao;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.dataaccess.OriginEntrySourceDao;
 
 /**
  * An OJB implementation of OriginEntrySourceDao
@@ -54,7 +54,7 @@ public class OriginEntrySourceDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * Fetches all origin entry full records in the database
      * 
      * @return a Collection of all origin entry source records
-     * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findAll()
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntrySourceDao#findAll()
      */
     public Collection findAll() {
         QueryByCriteria query = QueryFactory.newQuery(OriginEntrySource.class, (Criteria) null);// "SELECT * FROM
@@ -69,7 +69,7 @@ public class OriginEntrySourceDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * 
      * @param code the code of the origin entry source record to find
      * @return an Origin Entry Source record if found, or null if not found
-     * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findBySourceCode(java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntrySourceDao#findBySourceCode(java.lang.String)
      */
     public OriginEntrySource findBySourceCode(String code) {
         Criteria criteria = new Criteria();

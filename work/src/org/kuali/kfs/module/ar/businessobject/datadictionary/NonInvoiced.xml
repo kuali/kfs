@@ -7,7 +7,7 @@
   <bean id="NonInvoiced" parent="NonInvoiced-parentBean" />
 
   <bean id="NonInvoiced-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.NonInvoiced" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.NonInvoiced" />
     <property name="inquiryDefinition" >
       <ref bean="NonInvoiced-inquiryDefinition" />
     </property>

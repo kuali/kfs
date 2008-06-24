@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup.keyvalues;
+package org.kuali.kfs.vnd.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.vendor.VendorConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.vnd.VendorConstants;
 
 /**
  * Generator of a list of tax payer type value pairs, including an empty one, as opposed to <code>TaxPayerTypeValuesFinder</code>,
  * which does not include an empty pair.
  * 
- * @see org.kuali.module.financial.lookup.keyvalues.TaxPayerTypeValuesFinder
+ * @see org.kuali.kfs.fp.businessobject.options.TaxPayerTypeValuesFinder
  */
 public class TaxPayerTypeWithNoneValuesFinder extends KeyValuesBase {
 

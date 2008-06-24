@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.util.Message;
+import org.kuali.kfs.sys.Message;
 
 /**
  * This class serves as a wrapper containing references to the feeder status and error messages list. This works around java's

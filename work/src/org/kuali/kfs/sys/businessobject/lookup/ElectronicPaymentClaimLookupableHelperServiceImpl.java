@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

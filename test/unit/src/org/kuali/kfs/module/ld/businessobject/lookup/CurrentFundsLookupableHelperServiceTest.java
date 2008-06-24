@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,18 +26,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.LookupableSpringContext;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.web.TestDataGenerator;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class contains test cases that can be applied to methods in Account Status Current Funds class.
@@ -188,8 +188,8 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
      * This method will add temporary test data to the Ledger Balance table 
      */
     protected void insertCurrentFundsRecords() {
-        String messageFileName    = "test/src/org/kuali/module/labor/web/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/accountStatusCurrentFunds.properties";
+        String messageFileName    = "test/src/org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "test/src/org/kuali/kfs/module/ld/testdata/accountStatusCurrentFunds.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");

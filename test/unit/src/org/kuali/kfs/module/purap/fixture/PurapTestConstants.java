@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.purap.bo.CapitalAssetTransactionType;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.bo.RequisitionAccount;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 public class PurapTestConstants {
 

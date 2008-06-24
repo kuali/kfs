@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule;
+package org.kuali.kfs.module.ar.document.validation;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 
 public interface RecalculateCustomerCreditMemoDetailRule<F extends TransactionalDocument> extends CustomerCreditMemoDetailRule {
 

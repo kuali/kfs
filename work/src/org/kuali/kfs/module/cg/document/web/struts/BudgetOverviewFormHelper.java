@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,26 +23,26 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UserAppointmentTask;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.service.BudgetPeriodService;
-import org.kuali.module.kra.budget.service.BudgetTaskService;
-import org.kuali.module.kra.budget.web.struts.action.BudgetAction;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTask;
+import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
+import org.kuali.kfs.module.cg.document.service.BudgetTaskService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetAction;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render the page properly.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -32,25 +32,25 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rules.KfsMaintenanceDocumentRuleBase;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountDescription;
-import org.kuali.module.chart.bo.AccountGuideline;
-import org.kuali.module.chart.bo.FundGroup;
-import org.kuali.module.chart.bo.IcrAutomatedEntry;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountDescription;
+import org.kuali.kfs.coa.businessobject.AccountGuideline;
+import org.kuali.kfs.coa.businessobject.FundGroup;
+import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.integration.service.LaborModuleService;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.

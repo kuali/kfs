@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.service;
 
 import java.util.List;
 
-import org.kuali.module.financial.bo.Check;
+import org.kuali.kfs.fp.businessobject.Check;
 
 /**
  * This service interface defines methods that a Check service implementation must provide.

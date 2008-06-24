@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 
 /**
  * struts action class for <code>YearEndDistributionOfIncomeAndExpenseDocument</code> the only functional difference between the
  * YearEnd version and the non-yearEnd version of a document is the glpe's generation.
  * 
- * @see org.kuali.module.financial.web.struts.action.DistributionOfIncomeAndExpenseAction
+ * @see org.kuali.kfs.fp.document.web.struts.DistributionOfIncomeAndExpenseAction
  */
 
 public class YearEndDistributionOfIncomeAndExpenseAction extends DistributionOfIncomeAndExpenseAction {

@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao.ojb;
+package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.dao.CustomerDao;
-import org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
+import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
 
 public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerDao {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
 
     /**
-     * @see org.kuali.module.ar.dao.CustomerDao#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerDao#getByPrimaryId(java.lang.String)
      */
     public Customer getByPrimaryId(String customerNumber) {
         Criteria criteria = new Criteria();

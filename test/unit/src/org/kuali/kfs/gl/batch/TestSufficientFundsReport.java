@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
+import org.kuali.kfs.gl.batch.SufficientFundsReport;
 
 /**
  * A mock implementation of SufficientFundsReport that doesn't generate a report
@@ -33,7 +33,7 @@ public class TestSufficientFundsReport implements SufficientFundsReport {
     /**
      * This is a mock...so it doesn't generate a report at all, but sets the parameter values to 
      * be checked later.
-     * @see org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport#generateReport(java.util.Map, java.util.List, java.util.Date, int)
+     * @see org.kuali.kfs.gl.batch.SufficientFundsReport#generateReport(java.util.Map, java.util.List, java.util.Date, int)
      */
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
         this.reportErrors = reportErrors;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.struts.action;
+package org.kuali.kfs.gl.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,17 +41,17 @@ import org.kuali.core.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.KFSUtils;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.util.ObjectHelper;
-import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
-import org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm;
-import org.kuali.module.integration.bo.SegmentedBusinessObject;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.KFSUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
+import org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm;
+import org.kuali.kfs.integration.businessobject.SegmentedBusinessObject;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -59,13 +59,13 @@ import org.kuali.rice.KNSServiceLocator;
  * inquiries only show the end-user data, and allow the end-user to drill-down into inquiries. A traditional lookup allows the user
  * to return data to a form. This class is for balance inquiries implemented in the sense of a traditional lookup for forms that
  * pull data out of inquiries.<br/> <br/> One example of this is the
- * <code>{@link org.kuali.module.labor.document.SalaryExpenseTransferDocument}</code> which creates source lines from a labor
+ * <code>{@link org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument}</code> which creates source lines from a labor
  * ledger balance inquiry screen.<br/> <br/> This is a <code>{@link KualiMultipleValueLookupAction}</code> which required some
  * customization because requirements were not possible with displaytag.
  * 
- * @see org.kuali.module.labor.document.SalaryExpenseTransferDocument
- * @see org.kuali.module.labor.web.struts.action.SalaryExpenseTransferAction;
- * @see org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
+ * @see org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument
+ * @see org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferAction;
+ * @see org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm;
  */
 public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BalanceInquiryLookupAction.class);

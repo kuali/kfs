@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.AcctType;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.AcctType;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
 
 public class Threshold extends PersistableBusinessObjectBase {
 

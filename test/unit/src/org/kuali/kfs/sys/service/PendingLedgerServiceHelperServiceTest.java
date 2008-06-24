@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * A test that covers PendingLedgerService

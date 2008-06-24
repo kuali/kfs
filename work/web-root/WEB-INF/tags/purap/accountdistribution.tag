@@ -87,7 +87,7 @@
 	                            readOnly="${not (fullEntryMode or amendmentEntry)}"
 	                            onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
                         <c:if test="${fullEntryMode}">   
-                            <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
+                            <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
                         </c:if>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.form.disbursementnumbermaintenance;
+package org.kuali.kfs.pdp.document.web.struts;
 
 import java.sql.Timestamp;
 
@@ -24,9 +24,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.bo.DisbursementNumberRange;
-import org.kuali.module.pdp.utilities.DateHandler;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
+import org.kuali.kfs.pdp.DateHandler;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 public class DisbursementNumberMaintenanceForm extends ActionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberMaintenanceForm.class);

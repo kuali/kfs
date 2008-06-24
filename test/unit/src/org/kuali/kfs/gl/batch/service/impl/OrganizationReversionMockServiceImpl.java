@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionDetail;
-import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl;
 
 /**
  * A mock implementation of OrganizationReversionService, used by the OrganizationReversionLogicTest
- * @see org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionLogicTest
+ * @see org.kuali.kfs.gl.service.OrganizationReversionLogicTest
  */
 
 @NonTransactional
@@ -40,7 +40,7 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
      * @param chart the chart of the organization reversion record that will be returned
      * @param orgCode the organization code of the organization reversion record that will be returned
      * @return an OrganizationReversion record with the given chart, org, and year, but everything else--budget reversion and cash reversion account information and category details--pre-set
-     * @see org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl#getByPrimaryId(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
     @Override

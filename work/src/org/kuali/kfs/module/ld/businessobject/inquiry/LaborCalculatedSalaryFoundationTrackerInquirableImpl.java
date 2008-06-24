@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.inquirable;
+package org.kuali.kfs.module.ld.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the CSF tracker screen. It is entended the
@@ -33,7 +33,7 @@ public class LaborCalculatedSalaryFoundationTrackerInquirableImpl extends Abstra
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCalculatedSalaryFoundationTrackerInquirableImpl.class);
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
+     * @see org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
         List<String> keys = new ArrayList<String>();

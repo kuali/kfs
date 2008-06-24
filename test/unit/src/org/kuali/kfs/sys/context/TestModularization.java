@@ -1,4 +1,4 @@
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
@@ -7,11 +7,11 @@ import java.util.Set;
 
 import org.kuali.core.authorization.KualiModuleAuthorizerBase;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.ConfigureContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestModularization extends KualiTestBase {
-    private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/KualiSpringBeansKfs.xml,org/kuali/module/integration/SpringBeansModules.xml,org/kuali/module/chart/KualiSpringBeansChart.xml,org/kuali/module/financial/KualiSpringBeansFinancial.xml,org/kuali/module/gl/KualiSpringBeansGl.xml,org/kuali/module/pdp/KualiSpringBeansPdp.xml,org/kuali/module/vendor/KualiSpringBeansVendor.xml";
+    private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/sys/KualiSpringBeansKfs.xml,org/kuali/kfs/integration/SpringBeansModules.xml,org/kuali/kfs/coa/KualiSpringBeansChart.xml,org/kuali/kfs/fp/KualiSpringBeansFinancial.xml,org/kuali/kfs/gl/KualiSpringBeansGl.xml,org/kuali/kfs/pdp/KualiSpringBeansPdp.xml,org/kuali/kfs/vnd/KualiSpringBeansVendor.xml";
     private static final Set<String> OPTIONAL_MODULE_IDS = new HashSet<String>();
     static {
         OPTIONAL_MODULE_IDS.add("ar");

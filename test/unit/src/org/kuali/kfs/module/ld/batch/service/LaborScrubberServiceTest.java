@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor;
+package org.kuali.kfs.module.ld.batch.service;
 
 import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.labor.batch.LaborScrubberStep;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.service.LaborScrubberService;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.gl.service.ScrubberValidator;
+import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
+import org.kuali.kfs.ConfigureContext;
 
 
 @ConfigureContext

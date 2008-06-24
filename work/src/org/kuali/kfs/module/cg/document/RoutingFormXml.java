@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.kra.routingform.xml;
+package org.kuali.kfs.module.cg.document;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,30 +29,30 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
-import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
-import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
-import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
-import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormApprovalStatusValuesFinder;
-import org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormStudyReviewCodeValuesFinder;
-import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormKeyword;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOtherCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormProjectType;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPurpose;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormQuestion;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRiskStudy;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormSubcontractor;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.businessobject.options.RoutingFormApprovalStatusValuesFinder;
+import org.kuali.kfs.module.cg.businessobject.options.RoutingFormStudyReviewCodeValuesFinder;
+import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

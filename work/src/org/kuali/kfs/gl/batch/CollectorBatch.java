@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.collector;
+package org.kuali.kfs.gl.batch;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -25,18 +25,18 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.CollectorHeader;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.CollectorDetailService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.CollectorHeader;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.CollectorDetailService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.report.CollectorReportData;
 
 /**
  * Object representation of collector xml input.

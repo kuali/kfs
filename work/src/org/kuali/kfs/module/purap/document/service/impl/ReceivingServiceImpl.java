@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -33,29 +33,29 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.bo.ReceivingCorrectionItem;
-import org.kuali.module.purap.bo.ReceivingItem;
-import org.kuali.module.purap.bo.ReceivingLineItem;
-import org.kuali.module.purap.dao.ReceivingDao;
-import org.kuali.module.purap.document.PurchaseOrderAmendmentDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.ReceivingCorrectionDocument;
-import org.kuali.module.purap.document.ReceivingDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.rule.event.ContinuePurapEvent;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.service.ReceivingService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -101,7 +101,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
      */
     public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc) {
         
@@ -142,7 +142,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.ReceivingService#populateAndSaveReceivingLineDocument(org.kuali.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateAndSaveReceivingLineDocument(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
      */
     public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException {
         try {            
@@ -156,7 +156,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.ReceivingService#populateReceivingCorrectionDocument(org.kuali.module.purap.document.ReceivingCorrectionDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#populateReceivingCorrectionDocument(org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument)
      */
     public void populateReceivingCorrectionDocument(ReceivingCorrectionDocument rcDoc)  {
             populateReceivingCorrectionFromReceivingLine(rcDoc);
@@ -164,7 +164,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.ReceivingService#canCreateReceivingLineDocument(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#canCreateReceivingLineDocument(java.lang.Integer, java.lang.String)
      */
     public boolean canCreateReceivingLineDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException {
         
@@ -175,7 +175,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.ReceivingService#canCreateReceivingLineDocument(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#canCreateReceivingLineDocument(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException {
         return canCreateReceivingLineDocument(po, null);
@@ -314,7 +314,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.ReceivingService#receivingLineDuplicateMessages(org.kuali.module.purap.document.ReceivingLineDocument)
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#receivingLineDuplicateMessages(org.kuali.kfs.module.purap.document.ReceivingLineDocument)
      */
     public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc) {
         HashMap<String, String> msgs;

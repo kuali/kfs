@@ -5,7 +5,7 @@
       <name>AuxiliaryVoucherDocument</name>
       <parent>KualiFinancialDocument</parent>
       <label>Auxiliary Voucher</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler</docHandler>

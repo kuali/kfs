@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -39,12 +39,12 @@ import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
 import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.batch.Step;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants.COMPONENT;
-import org.kuali.kfs.service.impl.ParameterConstants.NAMESPACE;
+import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.COMPONENT;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -69,7 +69,7 @@ public class ParameterServiceImpl implements ParameterService {
     private ThreadLocal<Map<String,Parameter>> parameterCache = new ThreadLocal<Map<String,Parameter>>();
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#parameterExists(java.lang.Class componentClass, java.lang.String parameterName)
+     * @see org.kuali.kfs.sys.service.ParameterService#parameterExists(java.lang.Class componentClass, java.lang.String parameterName)
      */
     public boolean parameterExists(Class componentClass, String parameterName) {
         return getParameterWithoutExceptions(getNamespace(componentClass), getDetailType(componentClass), parameterName) != null;
@@ -88,7 +88,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#getParameterValue(java.lang.Class componentClass, java.lang.String parameterName)
+     * @see org.kuali.kfs.sys.service.ParameterService#getParameterValue(java.lang.Class componentClass, java.lang.String parameterName)
      */
     public String getParameterValue(Class componentClass, String parameterName) {
         return getParameter(componentClass, parameterName).getParameterValue();
@@ -209,7 +209,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
+     * @see org.kuali.kfs.sys.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
      *      constrainedValue)
      */
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue) {
@@ -221,7 +221,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
+     * @see org.kuali.kfs.sys.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
      *      constrainingValue, java.lang.String constrainedValue)
      */
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainingValue, String constrainedValue) {
@@ -277,7 +277,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#setParameterForTesting(java.lang.Class componentClass, java.lang.String
+     * @see org.kuali.kfs.sys.service.ParameterService#setParameterForTesting(java.lang.Class componentClass, java.lang.String
      *      parameterName, java.lang.String parameterText)
      */
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {

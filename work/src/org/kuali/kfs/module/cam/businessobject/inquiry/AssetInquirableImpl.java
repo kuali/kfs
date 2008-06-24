@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.web.inquirable;
+package org.kuali.kfs.module.cam.businessobject.inquiry;
 
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.inquiry.KfsInquirableImpl;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.service.AssetDispositionService;
-import org.kuali.module.cams.service.AssetLocationService;
-import org.kuali.module.cams.service.EquipmentLoanInfoService;
-import org.kuali.module.cams.service.PaymentSummaryService;
-import org.kuali.module.cams.service.RetirementInfoService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.EquipmentLoanInfoService;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 
 public class AssetInquirableImpl extends KfsInquirableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetInquirableImpl.class);

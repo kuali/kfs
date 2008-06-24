@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rule.event;
+package org.kuali.kfs.sys.document.validation.event;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.rule.AccountingRuleEngineRule;
+import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
 
 /**
  * Base abstract implementation of an attributed document event.
@@ -49,14 +49,14 @@ public class AttributedDocumentEventBase extends KualiDocumentEventBase implemen
     }
 
     /**
-     * @see org.kuali.kfs.rule.event.AttributedDocumentEvent#getAttribute(java.lang.String)
+     * @see org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent#getAttribute(java.lang.String)
      */
     public Object getAttribute(String attributeName) {
         return attributes.get(attributeName);
     }
 
     /**
-     * @see org.kuali.kfs.rule.event.AttributedDocumentEvent#setAttribute(java.lang.String, java.lang.Object)
+     * @see org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent#setAttribute(java.lang.String, java.lang.Object)
      */
     public void setAttribute(String attributeName, Object attributeValue) {
         attributes.put(attributeName, attributeValue);

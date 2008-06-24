@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import junit.framework.TestSuite;
 
@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
  * or reopened state. IDEs or Ant can run this as JUnit tests. It takes well over a minute to get the list of open issues from JIRA,
  * so have patience.
  * 
- * @see org.kuali.test.suite.RelatesTo
+ * @see org.kuali.kfs.suite.RelatesTo
  */
 public class OpenOrInProgressOrReopenedSuite extends JiraRelatedSuite {
 

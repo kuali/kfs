@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.rule.event;
+package org.kuali.kfs.module.cam.document.validation.event;
 
 import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
-import org.kuali.module.cams.document.BarcodeInventoryErrorDocument;
-import org.kuali.module.cams.rules.BarcodeInventoryErrorDocumentRule;
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
+import org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule;
 
 public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase {
     

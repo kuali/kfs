@@ -17,7 +17,7 @@
  * Created on Jul 21, 2004
  *
  */
-package org.kuali.module.pdp.exception;
+package org.kuali.kfs.pdp.exception;
 
 public class SystemUnavailableError extends PdpError {
 

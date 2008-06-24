@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.service.LaborScrubberService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.ScrubberValidator;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -52,7 +52,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private ScrubberValidator scrubberValidator;
 
     /**
-     * @see org.kuali.module.labor.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.module.labor.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");

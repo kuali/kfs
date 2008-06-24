@@ -7,7 +7,7 @@
   <bean id="RecurringPaymentType" parent="RecurringPaymentType-parentBean" />
 
   <bean id="RecurringPaymentType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.purap.bo.RecurringPaymentType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RecurringPaymentType" />
     <property name="inquiryDefinition" >
       <ref bean="RecurringPaymentType-inquiryDefinition" />
     </property>

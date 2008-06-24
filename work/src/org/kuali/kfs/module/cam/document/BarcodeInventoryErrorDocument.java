@@ -1,12 +1,12 @@
-package org.kuali.module.cams.document;
+package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 
 
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {

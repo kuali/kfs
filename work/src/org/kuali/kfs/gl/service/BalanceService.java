@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 /**
  * An interface which declares methods needed for using Balance

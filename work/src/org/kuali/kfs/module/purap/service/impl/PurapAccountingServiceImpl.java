@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,20 +24,20 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.bo.AccountingLineBase;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurApSummaryItem;
-import org.kuali.module.purap.dao.PurApAccountingDao;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.util.PurApItemUtils;
-import org.kuali.module.purap.util.PurApObjectUtils;
-import org.kuali.module.purap.util.SummaryAccount;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
+import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
+import org.kuali.kfs.module.purap.util.PurApObjectUtils;
+import org.kuali.kfs.module.purap.util.SummaryAccount;
 /**
  * 
  * Contains a number of helper methods to deal with accounts on Purchasing Accounts Payable Documents
@@ -92,7 +92,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * @deprecated
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
      *      org.kuali.core.util.KualiDecimal, java.lang.Integer)
      */
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale) {
@@ -100,7 +100,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
      *      org.kuali.core.util.KualiDecimal, java.lang.Integer)
      */
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz) {
@@ -215,7 +215,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateAccountDistributionForProrationWithZeroTotal(java.util.List,
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProrationWithZeroTotal(java.util.List,
      *      java.lang.Integer)
      */
     public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale) {
@@ -279,7 +279,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummary(java.util.List)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummary(java.util.List)
      */
     public List<SourceAccountingLine> generateSummary(List<PurApItem> items) {
         String methodName = "generateSummary()";
@@ -295,7 +295,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     
     /**
      * 
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryAccounts(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryAccounts(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public List<SummaryAccount> generateSummaryAccounts(PurchasingAccountsPayableDocument document) {
         // always update the amounts first
@@ -305,7 +305,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryAccountsWithNoZeroTotals(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryAccountsWithNoZeroTotals(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotals(PurchasingAccountsPayableDocument document) {
         // always update the amounts first
@@ -357,7 +357,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotals(java.util.List)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotals(java.util.List)
      */
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
@@ -372,7 +372,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotalsUsingAlternateAmount(java.util.List)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotalsUsingAlternateAmount(java.util.List)
      */
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
@@ -387,7 +387,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypes(java.util.List, java.util.Set)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypes(java.util.List, java.util.Set)
      */
     public List<SourceAccountingLine> generateSummaryExcludeItemTypes(List<PurApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypes()";
@@ -402,7 +402,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypesAndNoZeroTotals(java.util.List,
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypesAndNoZeroTotals(java.util.List,
      *      java.util.Set)
      */
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set includedItemTypeCodes) {
@@ -418,7 +418,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypes(java.util.List, java.util.Set)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypes(java.util.List, java.util.Set)
      */
     public List<SourceAccountingLine> generateSummaryIncludeItemTypes(List<PurApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypes()";
@@ -433,7 +433,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypesAndNoZeroTotals(java.util.List,
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypesAndNoZeroTotals(java.util.List,
      *      java.util.Set)
      */
     public List<SourceAccountingLine> generateSummaryExcludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set excludedItemTypeCodes) {
@@ -524,7 +524,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * return items "ITEM", "FRHT"<br>
      * 
      * @param items - list of {@link PurchasingApItem} objects that need to be parsed
-     * @param itemTypeCodes - list of {@link org.kuali.module.purap.bo.ItemType} codes used in conjunction with
+     * @param itemTypeCodes - list of {@link org.kuali.kfs.module.purap.businessobject.ItemType} codes used in conjunction with
      *        itemTypeCodesAreIncluded parameter
      * @param itemTypeCodesAreIncluded - value to tell whether the itemTypeCodes parameter lists inclusion or exclusion variables
      *        (see {@link #ITEM_TYPES_INCLUDED_VALUE})
@@ -581,7 +581,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.PurapAccountingService#updateAccountAmounts(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updateAccountAmounts(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
         // the percent at fiscal approve
@@ -597,7 +597,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.PurapAccountingService#updateItemAccountAmounts(org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updateItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public void updateItemAccountAmounts(PurApItem item) {
         if ((item.getExtendedPrice() != null) && KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0) {
@@ -633,7 +633,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * 
-     * @see org.kuali.module.purap.service.PurapAccountingService#deleteSummaryAccounts(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#deleteSummaryAccounts(java.lang.Integer)
      */
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier) {
         purApAccountingDao.deleteSummaryAccounts(purapDocumentIdentifier);

@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_TYPE_CODE;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_TYPE_CODE;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 
 /**
  * Validation that if the Journal Voucher is using an external encumbrance balance type, reference fields are included on each accounting line 
@@ -40,7 +40,7 @@ public class JournalVoucherAccountingLineExternalEncumbranceReferenceValidation 
     /**
      * This method checks that values exist in the three reference fields (referenceOriginCode, referenceTypeCode, referenceNumber)
      * that are required if the balance type is set to EXTERNAL ENCUMBRANCE.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         if (BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(getAccountingLineForValidation().getBalanceTypeCode())) {

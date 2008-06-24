@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.service.PosterService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.gl.batch.service.PosterService;
 
 /**
  * The step that runs the poster service on entries.
@@ -33,7 +33,7 @@ public class PosterEntriesStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         posterService.postMainEntries();
@@ -44,7 +44,7 @@ public class PosterEntriesStep extends AbstractStep {
      * Sets the posterService attribute, allowing the injection of an implementation of the service
      * 
      * @param ps the implementation of the posterService to set
-     * @see org.kuali.module.gl.service.PosterService
+     * @see org.kuali.kfs.gl.batch.service.PosterService
      */
     public void setPosterService(PosterService ps) {
         posterService = ps;

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.batch.TestingStep;
-import org.kuali.module.gl.service.SufficientFundsSyncService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.TestingStep;
+import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
 
 /**
  * A step to run the sufficient funds sync process. One typically doesn't need to do this - which is why it's marked as TestingStep -
@@ -36,7 +36,7 @@ public class SufficientFundsSyncStep extends AbstractStep implements TestingStep
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         sufficientFundsSyncService.syncSufficientFunds();
@@ -47,7 +47,7 @@ public class SufficientFundsSyncStep extends AbstractStep implements TestingStep
      * Sets the sufficientFundsSyncService, allowing the injection of an implementation of that service
      * 
      * @param sufficientFundsSyncService an implementation sufficientFundsSyncService to set
-     * @see org.kuali.module.gl.service.SufficientFundsSyncService
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsSyncService
      */
     public void setSufficientFundsSyncService(SufficientFundsSyncService sfss) {
         sufficientFundsSyncService = sfss;

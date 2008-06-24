@@ -7,8 +7,8 @@
   <bean id="AssetMaintenanceDocument" parent="AssetMaintenanceDocument-parentBean" />
 
   <bean id="AssetMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cams.bo.Asset" />
-    <property name="maintainableClass" value="org.kuali.module.cams.maintenance.AssetMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AssetMaintenanceDocument-AssetDetailInformation" />
@@ -69,8 +69,8 @@
     <property name="summary" value="Asset maintenance document" />
     <property name="description" value="Document used to create or update Asset objects" />
     <property name="documentTypeName" value="AssetMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.AssetAuthorizer" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer" />
     <property name="documentTypeCode" value="AA" />
     <property name="authorizations" >
       <list>
@@ -238,7 +238,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationAssetTypeIdentifier" 
               p:overrideFieldConversions="organizationAssetTypeIdentifier:assetOrganization.organizationAssetTypeIdentifier"
-              p:overrideLookupClass="org.kuali.module.cams.bo.AssetOrganization"
+              p:overrideLookupClass="org.kuali.kfs.module.cam.businessobject.AssetOrganization"
               />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.versionNumber" />
@@ -292,7 +292,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetPayments" />
-          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetPayment" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment" />
           <property name="includeAddLine" value="false" />
           <property name="summaryTitle" value="Payment Information" />
           <property name="summaryFields" >
@@ -458,7 +458,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="mergeHistory" />
-          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" />
           <property name="includeAddLine" value="false" />
           <property name="summaryTitle" value="Source Asset" />
           <property name="summaryFields" >
@@ -669,7 +669,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetRepairHistory" />
-          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRepairHistory" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory" />
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -717,7 +717,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetComponents" />
-          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetComponent" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetComponent" />
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -793,7 +793,7 @@
             <list>
               <bean parent="MaintainableCollectionDefinition">
                 <property name="name" value="componentRepairHistory" />
-                <property name="businessObjectClass" value="org.kuali.module.cams.bo.ComponentRepairHistory" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.ComponentRepairHistory" />
                 <property name="maintainableFields" >
                   <list>
                     <bean parent="MaintainableFieldDefinition"

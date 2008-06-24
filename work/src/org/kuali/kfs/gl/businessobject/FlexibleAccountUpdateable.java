@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.bo;
+package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.module.chart.bo.Account;
+import org.kuali.kfs.coa.businessobject.Account;
 
 /**
  * An interface that declares the methods that a Business Object must implement, if it should have its flexible offset account updated by
  * the FlexibleOffsetAccountService.
- * @see org.kuali.module.financial.service.FlexibleOffsetAccountService
+ * @see org.kuali.kfs.sys.service.FlexibleOffsetAccountService
  */
 public interface FlexibleAccountUpdateable {
     /**

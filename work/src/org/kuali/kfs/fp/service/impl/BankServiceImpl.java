@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.financial.bo.Bank;
-import org.kuali.module.financial.service.BankService;
+import org.kuali.kfs.fp.businessobject.Bank;
+import org.kuali.kfs.fp.service.BankService;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class BankServiceImpl implements BankService {
      * @param financialDocumentBankCode The bank code to be used to perform the database lookup.
      * @return The bank object which has a matching primary key to the values provided.
      * 
-     * @see org.kuali.module.financial.service.BankService#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.fp.service.BankService#getByPrimaryId(java.lang.String)
      */
     public Bank getByPrimaryId(String financialDocumentBankCode) {
         Map primaryKeys = new HashMap();

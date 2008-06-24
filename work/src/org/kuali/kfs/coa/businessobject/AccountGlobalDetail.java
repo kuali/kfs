@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -25,8 +25,8 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Business Object representing the account change details entity

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.report;
 
 import java.io.FileOutputStream;
 import java.text.NumberFormat;
@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;

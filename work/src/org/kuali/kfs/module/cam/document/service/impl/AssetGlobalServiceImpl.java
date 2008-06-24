@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,28 +23,28 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetAcquisitionType;
-import org.kuali.module.cams.bo.AssetGlobal;
-import org.kuali.module.cams.bo.AssetGlobalDetail;
-import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
-import org.kuali.module.cams.service.AssetGlobalService;
-import org.kuali.module.cams.service.AssetObjectCodeService;
-import org.kuali.module.cams.service.AssetPaymentService;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetGlobalServiceImpl implements AssetGlobalService {
 
@@ -132,7 +132,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetGlobalService#createGLPostables(org.kuali.module.cams.document.AssetGlobal)
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#createGLPostables(org.kuali.module.cams.document.AssetGlobal)
      */
     public boolean createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster) {
 
@@ -319,7 +319,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentEligibleForGLPosting(org.kuali.module.cams.bo.AssetPaymentDetail)
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isPaymentEligibleForGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
      */
     private boolean isPaymentEligibleForGLPosting(AssetPaymentDetail assetPaymentDetail) {
         boolean isEligible = true;
@@ -331,7 +331,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentFinancialObjectActive(org.kuali.module.cams.bo.AssetPaymentDetail)
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isPaymentFinancialObjectActive(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
      */
     private boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
         ObjectCode financialObjectCode = new ObjectCode();
@@ -346,7 +346,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetGlobalService#isPaymentFederalContribution(org.kuali.module.cams.bo.AssetPaymentDetail)
+     * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isPaymentFederalContribution(org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail)
      */
     private boolean isPaymentFederalContribution(AssetPaymentDetail assetPaymentDetail) {
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);

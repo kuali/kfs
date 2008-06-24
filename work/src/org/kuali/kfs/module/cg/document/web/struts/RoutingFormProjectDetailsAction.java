@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +24,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
-import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOtherCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormQuestion;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormSubcontractor;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
 
 public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 

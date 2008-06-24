@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
-import org.kuali.module.budget.bo.BudgetConstructionObjectDump;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.BudgetConstructionSalaryFunding;
-import org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectDump;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 
 public interface BudgetConstructionReportsServiceHelper {

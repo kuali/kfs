@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 public interface PaymentDetailService {
     /**

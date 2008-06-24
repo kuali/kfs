@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl.helper;
+package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 import java.util.List;
@@ -21,19 +21,19 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.NominalActivityClosingStep;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.util.FatalErrorException;
-import org.kuali.module.gl.util.ObjectHelper;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.NominalActivityClosingStep;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
+import org.kuali.kfs.gl.ObjectHelper;
 
 /**
  * This class helps generate the entries for the nominal activity closing year end job.

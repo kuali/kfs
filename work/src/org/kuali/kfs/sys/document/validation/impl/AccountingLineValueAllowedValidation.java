@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
@@ -23,12 +23,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 /**
  * A validation which uses parameters to determine if a value on an accounting line is valid.
@@ -44,7 +44,7 @@ public class AccountingLineValueAllowedValidation extends GenericValidation {
     /**
      * Checks if a value in a given accounting line is allowed, based on system parameters.
      * <strong>Expects an accounting document as the first parameter and accounting line as the second</strong>
-     * @see org.kuali.kfs.validation.GenericValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         

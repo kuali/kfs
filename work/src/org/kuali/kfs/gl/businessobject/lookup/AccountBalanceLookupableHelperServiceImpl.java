@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,20 +26,20 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
-import org.kuali.module.gl.service.AccountBalanceService;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.AccountBalanceCalculator;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.kfs.gl.service.AccountBalanceService;
+import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.businessobject.inquiry.AccountBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

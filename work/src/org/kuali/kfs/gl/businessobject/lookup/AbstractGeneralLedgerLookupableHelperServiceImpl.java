@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,10 +28,10 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.gl.web.Constant;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.gl.Constant;
 
 /**
  * The abstract parent class for GL Lookupables, providing base implementations of methods

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.SufficientFundBalances;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 
 /**
  * A DAO interface declaring methods needed to help SufficientFundBalance records interact with the database

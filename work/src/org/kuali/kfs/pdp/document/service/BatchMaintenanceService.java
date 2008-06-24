@@ -16,10 +16,10 @@
 /*
  * Created on Aug 12, 2004
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.document.service;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.exception.PdpException;
+import org.kuali.kfs.pdp.exception.PdpException;
 
 /**
  * @author HSTAPLET

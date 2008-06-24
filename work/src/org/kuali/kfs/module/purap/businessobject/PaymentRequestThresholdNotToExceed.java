@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.coa.businessobject.Chart;
 
 /**
  * Payment Request Threshold Not To Exceed Business Object.

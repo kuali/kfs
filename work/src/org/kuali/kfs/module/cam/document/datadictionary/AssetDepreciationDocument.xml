@@ -12,9 +12,9 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Asset Depreciation Document - Batch." />
     <property name="documentTypeName" value="AssetDepreciationDocument" />
-    <property name="documentClass" value="org.kuali.module.cams.document.AssetDepreciationDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetDepreciationDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.AssetDepreciationDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetDepreciationDocumentAuthorizer" />
     <property name="documentTypeCode" value="DEPR" />
     <property name="authorizations" >
       <list>

@@ -16,9 +16,9 @@
             p:parameterDetailType="ReceivingLine" />
     </property>     -->
     <property name="documentTypeName" value="BulkReceivingDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.BulkReceivingDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.BulkReceivingDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.BulkReceivingDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentAuthorizer" />
     <property name="documentTypeCode" value="BRNG" />
     <property name="authorizations" >
       <list>
@@ -139,7 +139,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CarrierValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CarrierValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="carrierCode" />
@@ -189,7 +189,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -231,7 +231,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -22,13 +22,13 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.closing.year.service.YearEndService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.YearEndService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.springframework.util.StopWatch;
 
 /**
@@ -48,7 +48,7 @@ public class EncumbranceForwardStep extends AbstractStep {
      * @param jobName the name of the job that this step is being run as part of
      * @param jobRunDate the time/date when the job was started
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#performStep()
+     * @see org.kuali.kfs.sys.batch.Step#performStep()
      */
     public boolean execute(String jobName, java.util.Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
@@ -104,7 +104,7 @@ public class EncumbranceForwardStep extends AbstractStep {
      * Sets the originEntryGroupService attribute value.
      * 
      * @param originEntryGroupService The originEntryGroupService to set.
-     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;

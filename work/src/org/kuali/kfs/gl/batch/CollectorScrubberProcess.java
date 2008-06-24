@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.scrubber;
+package org.kuali.kfs.gl.batch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,20 +26,20 @@ import java.util.Map.Entry;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.ScrubberService;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.CollectorScrubberStatus;
-import org.kuali.module.gl.util.DocumentGroupData;
-import org.kuali.module.gl.util.OriginEntryTotals;
-import org.kuali.module.gl.util.ScrubberStatus;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.service.ScrubberService;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
+import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
+import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 
 /**
  * This class scrubs the billing details in a collector batch. Note that all services used by this class are passed in as parameters

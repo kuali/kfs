@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,21 +29,21 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.dao.LaborLedgerEntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao;
 
 /**
  * This is the data access object for ledger entry.
  * 
- * @see org.kuali.module.labor.bo.LedgerEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LedgerEntry
  */
 public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryDaoOjb.class);
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#getMaxSquenceNumber(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
      */
     public Integer getMaxSquenceNumber(LedgerEntry ledgerEntry) {
         Criteria criteria = new Criteria();
@@ -77,7 +77,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#find(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#find(java.util.Map)
      */
     public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerEntry());
@@ -87,14 +87,14 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#save(org.kuali.module.labor.bo.LedgerEntry)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#save(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
      */
     public void save(LedgerEntry ledgerEntry) {
         getPersistenceBrokerTemplate().store(ledgerEntry);
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.List)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.List)
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         Criteria criteria = this.buildPayTypeCriteria(payPeriods, balanceTypes, earnCodePayGroupMap);
@@ -115,7 +115,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getLedgerEntriesForEmployeeWithPayType(java.lang.String, java.util.Map,
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#getLedgerEntriesForEmployeeWithPayType(java.lang.String, java.util.Map,
      *      java.util.List, java.util.Map)
      */
     public Collection<LedgerEntry> getLedgerEntriesForEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
@@ -127,7 +127,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List,
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List,
      *      java.util.Map)
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
@@ -139,7 +139,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#deleteLedgerEntriesPriorToYear(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#deleteLedgerEntriesPriorToYear(java.lang.Integer, java.lang.String)
      */
     public void deleteLedgerEntriesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
         LOG.debug("deleteLedgerEntriesPriorToYear() started");

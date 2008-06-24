@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.form;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.math.BigDecimal;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.RequisitionAccount;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**
  * Struts Action Form for Requisition document.
@@ -72,7 +72,7 @@ public class RequisitionForm extends PurchasingFormBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingItemLine()
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewPurchasingItemLine()
      */
     @Override
     public PurApItem setupNewPurchasingItemLine() {
@@ -81,7 +81,7 @@ public class RequisitionForm extends PurchasingFormBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingAccountingLine()
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewPurchasingAccountingLine()
      */
     @Override
     public RequisitionAccount setupNewPurchasingAccountingLine() {
@@ -89,7 +89,7 @@ public class RequisitionForm extends PurchasingFormBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
      */
     @Override
     public RequisitionAccount setupNewAccountDistributionAccountingLine() {

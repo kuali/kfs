@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util;
+package org.kuali.kfs.module.ld.util;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 
 /**
  * This class provides a set of utilities that handle the debit credit logic.

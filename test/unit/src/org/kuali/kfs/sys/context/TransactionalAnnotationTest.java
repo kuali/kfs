@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,10 +32,10 @@ import org.kuali.core.service.impl.LookupServiceImpl;
 import org.kuali.core.service.impl.PersistenceServiceImpl;
 import org.kuali.core.service.impl.PostDataLoadEncryptionServiceImpl;
 import org.kuali.core.service.impl.SequenceAccessorServiceImpl;
-import org.kuali.module.chart.service.impl.SubFundGroupServiceImpl;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.PreCommitSuite;
+import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.PreCommitSuite;
 import org.springframework.aop.framework.AopProxyUtils;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -158,7 +158,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
             if (beanClass.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
                 hasClassAnnotation = true;
             }
-            if (beanClass.getAnnotation(org.kuali.kfs.annotation.NonTransactional.class) != null){
+            if (beanClass.getAnnotation(org.kuali.kfs.sys.service.NonTransactional.class) != null){
                 hasClassAnnotation =  true;
             }
 
@@ -169,7 +169,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                 if (Modifier.isPublic(beanMethod.getModifiers())){
                     hasMethodAnnotation = false;
                     if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) hasMethodAnnotation = true;
-                    if (beanMethod.getAnnotation(org.kuali.kfs.annotation.NonTransactional.class) != null) hasMethodAnnotation = true;
+                    if (beanMethod.getAnnotation(org.kuali.kfs.sys.service.NonTransactional.class) != null) hasMethodAnnotation = true;
                     if (hasMethodAnnotation == false && hasClassAnnotation == false) {
                         nonAnnotatedTransactionalServices.put(beanName, beanMethod.getName());
                         return false; 

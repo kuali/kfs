@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,18 +25,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.util.PurQuestionCallback;
-import org.kuali.module.purap.web.struts.form.CreditMemoForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.PurQuestionCallback;
+import org.kuali.kfs.module.purap.document.web.struts.CreditMemoForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -121,7 +121,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * @param creditMemoDocument The CreditMemoDocument
      * @throws Exception
      * @return An ActionForward
-     * @see org.kuali.module.purap.service.CreditMemoService
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService
      */
     private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CreditMemoDocument creditMemoDocument) throws Exception {
         ActionForward forward = null;
@@ -206,7 +206,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#cancelPOActionCallbackMethod()
+     * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#cancelPOActionCallbackMethod()
      */
     @Override
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
@@ -220,7 +220,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     }
 
     /**
-     * @see org.kuali.module.purap.web.struts.action.AccountsPayableActionBase#getActionName()
+     * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#getActionName()
      */
     @Override
     public String getActionName() {

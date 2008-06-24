@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup;
+package org.kuali.kfs.vnd.businessobject.lookup;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,10 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.bo.VendorContact;
-import org.kuali.module.vendor.bo.VendorContactPhoneNumber;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.businessobject.VendorContact;
+import org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber;
 
 public class VendorContactLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 

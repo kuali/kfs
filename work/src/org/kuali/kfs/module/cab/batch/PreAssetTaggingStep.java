@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.capitalAssetBuilder.batch;
+package org.kuali.kfs.module.cab.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.capitalAssetBuilder.service.impl.PreAssetTaggingService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.cab.batch.service.PreAssetTaggingService;
 
 /**
  * Cams Batch Step.
@@ -33,7 +33,7 @@ public class PreAssetTaggingStep extends AbstractStep {
      * 
      * @param String jobName
      * @return boolean
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.sys.batch.Step#execute()
      */
     public boolean execute(String jobName, Date jobRunDate) {
         try {

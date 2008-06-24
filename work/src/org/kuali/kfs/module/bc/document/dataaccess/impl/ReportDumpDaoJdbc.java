@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.List;
 
-import org.kuali.module.budget.bo.BudgetConstructionAccountDump;
-import org.kuali.module.budget.dao.ReportDumpDao;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountDump;
+import org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao;
 
 /**
  * JCBC implementation of ReportDumpDao
  * 
- * @see org.kuali.module.budget.dao.ReportDumpDao
+ * @see org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao
  */
 public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements ReportDumpDao {
     private static String updateAccountDump = new String();
@@ -46,7 +46,7 @@ public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements 
     }
 
     /**
-     * @see org.kuali.module.budget.dao.ReportDumpDao#cleanAccountDump(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao#cleanAccountDump(java.lang.String)
      */
     public void cleanAccountDump(String personUserIdentifier) {
         // clear out previous account dump data for user
@@ -54,7 +54,7 @@ public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements 
     }
 
     /**
-     * @see org.kuali.module.budget.dao.ReportDumpDao#updateAccountDump(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao#updateAccountDump(java.lang.String)
      */
     public void updateAccountDump(String personUniversalIdentifier) {
         cleanAccountDump(personUniversalIdentifier);

@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountGlobal;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global accounts

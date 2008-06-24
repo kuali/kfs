@@ -7,8 +7,8 @@
   <bean id="AwardMaintenanceDocument" parent="AwardMaintenanceDocument-parentBean" />
 
   <bean id="AwardMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Award" />
-    <property name="maintainableClass" value="org.kuali.module.cg.maintenance.AwardMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Award" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.cg.document.AwardMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AwardMaintenanceDocument-AwardMaintenance" />
@@ -85,9 +85,9 @@
             p:parameterDetailType="Award" />
     </property>
     <property name="documentTypeName" value="AwardMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cg.rules.AwardRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.cg.rules.AwardPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardPreRules" />
     <property name="documentTypeCode" value="AWRD" />
     <property name="displayTopicFieldInNotes" value="true" />
     <property name="webScriptFiles" >
@@ -226,7 +226,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="awardAccounts" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardAccount" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -254,7 +254,7 @@
                     p:name="projectDirector.personUserIdentifier"
                     p:required="true"
                     p:overrideFieldConversions="personUniversalIdentifier:personUniversalIdentifier"
-                    p:overrideLookupClass="org.kuali.module.cg.bo.ProjectDirector"
+                    p:overrideLookupClass="org.kuali.kfs.module.cg.businessobject.ProjectDirector"
                     p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectDirector.personName"
@@ -281,7 +281,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="awardProjectDirectors" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardProjectDirector" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -327,7 +327,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="awardOrganizations" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardOrganization" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -373,7 +373,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="awardSubcontractors" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.AwardSubcontractor" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"

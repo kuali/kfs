@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.State;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.fixtures.VendorTestConstants.StatesZips;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.StatesZips;
 
 public enum VendorRuleAddressStateZipFixture {
 

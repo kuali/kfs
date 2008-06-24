@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
 import java.beans.Beans;
 import java.lang.reflect.InvocationTargetException;

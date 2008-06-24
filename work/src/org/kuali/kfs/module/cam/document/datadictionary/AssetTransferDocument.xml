@@ -12,10 +12,10 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Asset Transfer Document" />
     <property name="documentTypeName" value="AssetTransferDocument" />
-    <property name="documentClass" value="org.kuali.module.cams.document.AssetTransferDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetTransferDocumentRule" />
-    <property name="preRulesCheckClass" value="org.kuali.module.cams.rules.AssetTransferDocumentPreRules" />    
-    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.AssetTransferDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetTransferDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentRule" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetTransferDocumentPreRules" />    
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetTransferDocumentAuthorizer" />
     <property name="documentTypeCode" value="AT" />
     <property name="workflowProperties" >
       <ref bean="AssetTransferDocument-workflowProperties" />

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,16 +24,16 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionOrgSalaryStatisticsReport;
-import org.kuali.module.budget.bo.BudgetConstructionSalaryTotal;
-import org.kuali.module.budget.dao.BudgetConstructionSalaryStatisticsReportDao;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.service.BudgetConstructionSalaryStatisticsReportService;
-import org.kuali.module.budget.util.BudgetConstructionReportHelper;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalaryStatisticsReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStatisticsReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalaryStatisticsReportService;
+import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

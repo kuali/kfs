@@ -7,7 +7,7 @@
   <bean id="RequisitionItemCapitalAsset" parent="RequisitionItemCapitalAsset-parentBean" />
 
   <bean id="RequisitionItemCapitalAsset-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.purap.bo.RequisitionItemCapitalAsset" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset" />
     <property name="attributes" >
       <list>
         <ref bean="RequisitionItemCapitalAsset-capitalAssetNumber" />

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.purap.attribute;
+package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,14 +26,14 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingDocumentBase;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.Id;
 import edu.iu.uis.eden.engine.RouteContext;
@@ -53,7 +53,7 @@ import edu.iu.uis.eden.workgroup.GroupNameId;
  * <li>The 'routing user' was not a contract manager
  * <li>The 'po internal amount limit' is not null and the document total amount is greater than the 'po internal amount limit'<br>
  * (see
- * {@link org.kuali.module.purap.service.PurchaseOrderService#getInternalPurchasingDollarLimit(org.kuali.module.purap.document.PurchaseOrderDocument, String, String)}
+ * {@link org.kuali.kfs.module.purap.document.service.PurchaseOrderService#getInternalPurchasingDollarLimit(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, String, String)}
  * for more details on the 'po internal amount limit')
  * </ol>
  */

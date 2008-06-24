@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +25,7 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * This class overrides the getCoreSections method to provide specific field conversions for the postal code

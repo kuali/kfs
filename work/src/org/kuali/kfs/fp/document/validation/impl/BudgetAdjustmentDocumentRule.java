@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_10_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_11_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_12_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_1_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_2_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_3_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_4_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_5_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_6_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_7_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_8_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_9_PERIOD_CODE;
-import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
+import static org.kuali.kfs.sys.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.sys.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_10_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_11_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_12_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_1_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_2_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_3_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_4_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_5_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_6_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_7_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_8_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.MONTH_9_PERIOD_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,27 +50,27 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
-import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.service.FiscalYearFunctionControlService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.

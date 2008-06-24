@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.action.customerprofile;
+package org.kuali.kfs.pdp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,16 +25,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.bo.CustomerBank;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.DisbursementType;
-import org.kuali.module.pdp.form.customerprofile.CustomerBankForm;
-import org.kuali.module.pdp.form.customerprofile.CustomerProfileForm;
-import org.kuali.module.pdp.service.CustomerProfileService;
-import org.kuali.module.pdp.service.ReferenceService;
-import org.kuali.module.pdp.service.SecurityRecord;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.businessobject.CustomerBank;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.DisbursementType;
+import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
+import org.kuali.kfs.pdp.document.web.struts.CustomerProfileForm;
+import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 
 public class CustomerProfileAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileAction.class);

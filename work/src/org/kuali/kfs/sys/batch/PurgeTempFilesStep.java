@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 import java.util.Calendar;
@@ -21,8 +21,8 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class PurgeTempFilesStep extends AbstractStep {
     /**
      * Deletes all files in the temp directory that are over 1 day old
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         Calendar calendar = getDateTimeService().getCurrentCalendar();

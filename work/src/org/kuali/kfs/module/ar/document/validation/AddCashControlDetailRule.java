@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule;
+package org.kuali.kfs.module.ar.document.validation;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 
 /**
  * Rule invoked when a new customer invoice detail is added

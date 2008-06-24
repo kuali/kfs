@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.dao.OffsetDefinitionDao;
-import org.kuali.module.chart.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.dataaccess.OffsetDefinitionDao;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,7 +31,7 @@ public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
     private OffsetDefinitionDao offsetDefinitionDao;
 
     /**
-     * @see org.kuali.module.chart.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.coa.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {

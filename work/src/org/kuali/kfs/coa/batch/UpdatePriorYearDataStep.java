@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.batch;
+package org.kuali.kfs.coa.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.chart.service.PriorYearOrganizationService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.PriorYearOrganizationService;
 
 /**
  * This class updates the prior year data in the prior year account and prior year org tables to set it to the new year This is
@@ -33,7 +33,7 @@ public class UpdatePriorYearDataStep extends AbstractStep {
     /**
      * Executes the table updates when
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         priorYearAccountService.populatePriorYearAccountsFromCurrent();

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * An abstract class that creates an easy way to branch between validations.  Basically,
@@ -43,7 +43,7 @@ public abstract class BranchingValidation extends ParameterizedValidation implem
     
     /**
      * Note: these parameter properties only help determine what branching should take place; these properties will not affect in anyway the branch children
-     * @see org.kuali.kfs.validation.Validation#getParameterProperties()
+     * @see org.kuali.kfs.sys.document.validation.Validation#getParameterProperties()
      */
     public List<ValidationFieldConvertible> getParameterProperties() {
         return this.parameterProperties;
@@ -58,7 +58,7 @@ public abstract class BranchingValidation extends ParameterizedValidation implem
     }
 
     /**
-     * @see org.kuali.kfs.validation.Validation#shouldQuitOnFail()
+     * @see org.kuali.kfs.sys.document.validation.Validation#shouldQuitOnFail()
      */
     public boolean shouldQuitOnFail() {
         return shouldQuitOnFail;
@@ -74,7 +74,7 @@ public abstract class BranchingValidation extends ParameterizedValidation implem
 
     /**
      * 
-     * @see org.kuali.kfs.validation.Validation#stageValidation(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#stageValidation(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean stageValidation(AttributedDocumentEvent event) {
         populateParametersFromEvent(event);
@@ -86,7 +86,7 @@ public abstract class BranchingValidation extends ParameterizedValidation implem
      * branch in the branch map.  If a null or empty string is returned from determineBrach(), this method
      * simply returns true; if there is no validation in the branchMap for the given name, an IllegalStateException
      * is thrown.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         String branchName = determineBranch(event);

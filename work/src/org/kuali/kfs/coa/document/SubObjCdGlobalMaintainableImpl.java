@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.SubObjCdGlobal;
-import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
+import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
 
 /**
  * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document generateMaintenanceLocks -

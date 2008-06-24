@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -21,8 +21,8 @@ import java.util.Iterator;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * A validation that runs a list of child validations over each member of a collection.
@@ -32,7 +32,7 @@ public class CollectionValidation extends CompositeValidation {
 
     /**
      * Iterates over each member of the collection, which is assumed to be the property of the validation event named by the given collectionProperty
-     * @see org.kuali.kfs.validation.CompositeValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.impl.CompositeValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;

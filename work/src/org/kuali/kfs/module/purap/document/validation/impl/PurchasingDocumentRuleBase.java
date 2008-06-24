@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -35,42 +35,42 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.UnitOfMeasure;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.ItemFields;
-import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.module.purap.bo.CapitalAssetTransactionType;
-import org.kuali.module.purap.bo.CapitalAssetTransactionTypeRule;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.PurchasingItemBase;
-import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.rule.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
-import org.kuali.module.vendor.VendorPropertyConstants;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
+import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.validation.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 /**
  * Business rule(s) applicable to Purchasing document.
@@ -82,7 +82,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * 
      * @param purapDocument the purchasing document to be validated
      * @return boolean false if there is any validation that fails.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -100,7 +100,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * 
      * @param purDocument the purchasing document to be validated
      * @return boolean false if there is any validation that fails.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -198,7 +198,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to also invoke the validateAccountNotExpired for each of
      * the accounts.
      * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAccountValidation(org.kuali.kfs.document.AccountingDocument,
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processAccountValidation(org.kuali.kfs.sys.document.AccountingDocument,
      *      java.util.List, java.lang.String)
      */
     @Override
@@ -216,7 +216,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#newIndividualItemValidation(boolean, java.lang.String, org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#newIndividualItemValidation(boolean, java.lang.String, org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     @Override
     public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
@@ -349,7 +349,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param financialDocument the purchasing document to be validated
      * @param item the item to be validated
      * @return boolean false if there is any fail validation
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processAddItemBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processAddItemBusinessRules(financialDocument, item);
@@ -372,7 +372,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param financialDocument the purchasing document to be validated
      * @param item the item to be validated
      * @return boolean false if there is any fail validation
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processImportItemBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processImportItemBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processImportItemBusinessRules(financialDocument, item);
@@ -641,7 +641,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * 
      * @param purapDocument the purchasing document to be validated
      * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processVendorValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processVendorValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -728,7 +728,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param originalAccountingLine the original accounting line
      * @param updatedAccountingLine the updated accounting line
      * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -748,7 +748,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param financialDocument the purchasing document to be validated
      * @param accountingLine the accounting line to be validated before being added
      * @return boolean false if there's any validation that fails.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -799,7 +799,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public boolean processCapitalAssetsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;

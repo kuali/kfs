@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.module.gl.batch.poster.VerifyTransaction;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.gl.batch.service.VerifyTransaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * A general use implementation of VerifyTransaction
@@ -43,7 +43,7 @@ public class VerifyTransactionImpl implements VerifyTransaction {
      * 
      * @param t the transaction to verify
      * @return a List of String error messages
-     * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.batch.service.VerifyTransaction#verifyTransaction(org.kuali.kfs.gl.businessobject.Transaction)
      */
     public List verifyTransaction(Transaction t) {
         LOG.debug("verifyTransaction() started");

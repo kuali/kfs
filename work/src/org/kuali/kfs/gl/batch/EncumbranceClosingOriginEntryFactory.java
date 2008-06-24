@@ -13,32 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.util;
+package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.service.A21SubAccountService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.EncumbranceForwardStep;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.util.OriginEntryOffsetPair;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.EncumbranceForwardStep;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 
 /**
  * A helper to create origin entries to carry forward different types of encumbrances.

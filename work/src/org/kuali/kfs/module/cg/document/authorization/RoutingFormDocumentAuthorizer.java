@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.document;
+package org.kuali.kfs.module.cg.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,15 +24,15 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.document.ResearchDocumentAuthorizer;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.kfs.module.cg.document.authorization.ResearchDocumentAuthorizer;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
@@ -101,7 +101,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
     /**
      * Overriding to check for Budget Overwrite Mode. It was being bypassed in most cases.
      * 
-     * @see org.kuali.module.kra.document.ResearchDocumentAuthorizer#finalizeEditMode(org.kuali.module.kra.document.ResearchDocument,
+     * @see org.kuali.kfs.module.cg.document.authorization.ResearchDocumentAuthorizer#finalizeEditMode(org.kuali.kfs.module.cg.document.ResearchDocument,
      *      java.lang.String)
      */
     @Override

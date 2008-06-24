@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.module.kra.budget.service.BudgetPeriodService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
+import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render nonpersonnel copy over properly.
@@ -181,7 +181,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
         }
 
         /**
-         * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper#deconstruct(BudgetForm budgetForm)
+         * @see org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverFormHelper#deconstruct(BudgetForm budgetForm)
          * @param budgetDocument Budget.document
          */
         public void deconstruct(BudgetDocument budgetDocument) {
@@ -194,7 +194,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
         }
 
         /**
-         * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper#refresh()
+         * @see org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverFormHelper#refresh()
          * @param periodsSize number of periods
          */
         public void refresh(int periodsSize) {
@@ -439,7 +439,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
             }
 
             /**
-             * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper#deconstruct(BudgetForm
+             * @see org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverFormHelper#deconstruct(BudgetForm
              *      budgetForm)
              * @param budgetDocument Budget.document
              */
@@ -508,7 +508,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
             }
 
             /**
-             * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper#refresh()
+             * @see org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverFormHelper#refresh()
              */
             public void refresh() {
                 BudgetNonpersonnelCopyOverBoHelper originItem = (BudgetNonpersonnelCopyOverBoHelper) periodAmounts.get(this.findOriginItemIndex());
@@ -533,7 +533,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
              * for those. This could be handled via the tag but since struts does the same thing when evaluating hidden variables,
              * we might as well do the same via the constructor.
              * 
-             * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper.NonpersonnelCopyOverCategoryHelper.NonpersonnelCopyOverLineItemHelper#getPeriodAmount(int
+             * @see org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverFormHelper.NonpersonnelCopyOverCategoryHelper.NonpersonnelCopyOverLineItemHelper#getPeriodAmount(int
              *      index)
              * @param periodAmountsArr array passed from constructor so that it's avoided to asList / toArray unnecessarily
              * @param originItemIndex index of the originItem in the array (note: originItemIndex !=

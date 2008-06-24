@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class PurgeOldLookupResultsStep extends AbstractStep {
     private LookupResultsService lookupResultsService;
@@ -29,7 +29,7 @@ public class PurgeOldLookupResultsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeOldLookupResultsStep.class);
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         try {

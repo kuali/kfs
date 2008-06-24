@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.lookup;
+package org.kuali.kfs.coa.businessobject.lookup;
 
 import java.util.Map;
 import java.util.Properties;
@@ -21,8 +21,8 @@ import java.util.Properties;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.DelegateGlobal;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.DelegateGlobal;
 
 /**
  * This class overrides the getBackLocation, getReturnUrl, setFieldConversions and getActionUrls for

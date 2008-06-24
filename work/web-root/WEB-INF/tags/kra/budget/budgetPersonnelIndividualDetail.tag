@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="person" required="true" type="org.kuali.module.kra.budget.bo.BudgetUser"%>
+<%@ attribute name="person" required="true" type="org.kuali.kfs.module.cg.businessobject.BudgetUser"%>
 <%@ attribute name="firstInList" required="true" %>
 <%@ attribute name="listIndex" required="true" %>
 
@@ -100,7 +100,7 @@
                     <td height="30" colspan="10" class="datacell">
                       <c:if test="${person.fiscalCampusCode ne null and person.primaryDepartmentCode ne null}">${person.fiscalCampusCode} / ${person.primaryDepartmentCode}</c:if>
                       <c:if test="${!viewOnly}">
-                        <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.budget.personnel[${listIndex}].fiscalCampusCode,organizationCode:document.budget.personnel[${listIndex}].primaryDepartmentCode" anchor="${currentTabIndex}" />
+                        <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.budget.personnel[${listIndex}].fiscalCampusCode,organizationCode:document.budget.personnel[${listIndex}].primaryDepartmentCode" anchor="${currentTabIndex}" />
                       </c:if>
                     </td>
                   </tr>

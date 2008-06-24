@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,14 +28,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.rules.event.UpdateNonpersonnelEventBase;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper;
-import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.document.validation.event.UpdateNonpersonnelEventBase;
+import org.kuali.kfs.module.cg.document.service.BudgetNonpersonnelService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelFormHelper;
 
 public class BudgetNonpersonnelAction extends BudgetAction {
 

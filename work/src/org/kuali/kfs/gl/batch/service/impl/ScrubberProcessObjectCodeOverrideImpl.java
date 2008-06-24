@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
+import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
 
 /**
  * The default implementation of ScrubberProcessObjectCodeOverride
@@ -28,7 +28,7 @@ public class ScrubberProcessObjectCodeOverrideImpl implements ScrubberProcessObj
      * @param originEntryObjectLevelCode the current level code of the object code that could potentially be overriden
      * @param originEntryObjectCode current originEntryObjectCode
      * @return the overriden object code, or the same object code if overriding wasn't necessary
-     * @see org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride#getOriginEntryObjectCode(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride#getOriginEntryObjectCode(java.lang.String, java.lang.String)
      */
     public String getOriginEntryObjectCode(String originEntryObjectLevelCode, String originEntryObjectCode) {
         boolean done = false;

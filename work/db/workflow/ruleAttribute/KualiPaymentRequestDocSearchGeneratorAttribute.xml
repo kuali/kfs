@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPaymentRequestDocSearchGeneratorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.purap.document.searching.generator.PaymentRequestDocSearchGenerator</className>
       <label>Kuali Payment Request Document Search Generator</label>
       <description>Document search generator class for Kuali Payment Request Documents</description>
       <type>DocumentSearchGeneratorAttribute</type>

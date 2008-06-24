@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
-import static org.kuali.module.labor.LaborConstants.DestinationNames.LEDGER_BALANCE;
-import static org.kuali.module.labor.LaborConstants.DestinationNames.ORIGN_ENTRY;
+import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
+import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.LEDGER_BALANCE;
+import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.ORIGN_ENTRY;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -31,33 +31,33 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.kfs.util.Message;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.LaborConstants.YearEnd;
-import org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
-import org.kuali.module.labor.util.DebitCreditUtil;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.LaborConstants.YearEnd;
+import org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForYearEndBalanceForward;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
+import org.kuali.kfs.module.ld.util.DebitCreditUtil;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -83,7 +83,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private final static int LINE_INTERVAL = 2;
 
     /**
-     * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance()
      */
     public void forwardBalance() {
         Integer fiscalYear = Integer.valueOf(parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.OLD_FISCAL_YEAR));
@@ -91,14 +91,14 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer)
      */
     public void forwardBalance(Integer fiscalYear) {
         forwardBalance(fiscalYear, fiscalYear + 1);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer, java.lang.Integer)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer, java.lang.Integer)
      */
     public void forwardBalance(Integer fiscalYear, Integer newFiscalYear) {
         String reportsDirectory = ReportRegistry.getReportsDirectory();

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import java.lang.reflect.Method;
 
@@ -27,12 +27,12 @@ import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
 import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.util.spring.ClassOrMethodAnnotationFilter;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.chart.service.impl.BalanceTypServiceImpl;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.PreCommitSuite;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.impl.BalanceTypServiceImpl;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.PreCommitSuite;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.transaction.TransactionDefinition;

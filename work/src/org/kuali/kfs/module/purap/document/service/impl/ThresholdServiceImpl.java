@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.purap.bo.Threshold;
-import org.kuali.module.purap.dao.ThresholdDao;
-import org.kuali.module.purap.service.ThresholdService;
+import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.document.dataaccess.ThresholdDao;
+import org.kuali.kfs.module.purap.document.service.ThresholdService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

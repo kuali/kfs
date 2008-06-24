@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao.ojb;
+package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -23,9 +23,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CustomerAddress;
-import org.kuali.module.ar.dao.CustomerAddressDao;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.dataaccess.CustomerAddressDao;
 
 public class CustomerAddressDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerAddressDao {
 

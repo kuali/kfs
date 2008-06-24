@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.document.service;
 
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 
 /**
  * 

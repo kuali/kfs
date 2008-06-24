@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch.poster.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -22,17 +22,17 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
-import org.kuali.module.labor.util.DebitCreditUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
+import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
+import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,7 +44,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, java.util.Date postDate) {
         String operationType = KFSConstants.OperationType.INSERT;
@@ -133,7 +133,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     }
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
         return LaborConstants.DestinationNames.LABOR_GL_ENTRY;

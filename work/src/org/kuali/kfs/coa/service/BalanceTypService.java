@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
 
 /**
  * This service interface defines methods necessary for retrieving fully populated BalanceType business objects from the database

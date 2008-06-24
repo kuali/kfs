@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,24 +27,24 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineBase;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.AccountingLineParserBase;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
-import org.kuali.kfs.rule.event.AccountingLineEvent;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
-import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
-import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.service.AccountingLineService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
+import org.kuali.kfs.sys.service.AccountingLineService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -73,28 +73,28 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLines()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLines()
      */
     public List getSourceAccountingLines() {
         return this.sourceAccountingLines;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#setSourceAccountingLines(java.util.List)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#setSourceAccountingLines(java.util.List)
      */
     public void setSourceAccountingLines(List sourceLines) {
         this.sourceAccountingLines = sourceLines;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLines()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
      */
     public List getTargetAccountingLines() {
         return this.targetAccountingLines;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#setTargetAccountingLines(java.util.List)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#setTargetAccountingLines(java.util.List)
      */
     public void setTargetAccountingLines(List targetLines) {
         this.targetAccountingLines = targetLines;
@@ -105,7 +105,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * been stored in the nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and
      * then handles incrementing the nextSourceLineNumber variable for you.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
     public void addSourceAccountingLine(SourceAccountingLine line) {
         line.setSequenceNumber(this.getNextSourceLineNumber());
@@ -118,7 +118,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * been stored in the nextTargetLineNumber variable, adds the accounting line to the list that is aggregated by this object, and
      * then handles incrementing the nextTargetLineNumber variable for you.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#addTargetAccountingLine(TargetAccountingLine)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#addTargetAccountingLine(TargetAccountingLine)
      */
     public void addTargetAccountingLine(TargetAccountingLine line) {
         line.setSequenceNumber(this.getNextTargetLineNumber());
@@ -133,7 +133,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
      * if you add more than one item to the list.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLine(int)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLine(int)
      */
     public SourceAccountingLine getSourceAccountingLine(int index) {
         while (getSourceAccountingLines().size() <= index) {
@@ -157,7 +157,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
      * if you add more than one item to the list.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLine(int)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLine(int)
      */
     public TargetAccountingLine getTargetAccountingLine(int index) {
         while (getTargetAccountingLines().size() <= index) {
@@ -175,14 +175,14 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return KFSConstants.SOURCE;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.TARGET;
@@ -200,7 +200,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceTotal()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceTotal()
      */
     public KualiDecimal getSourceTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -218,7 +218,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetTotal()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetTotal()
      */
     public KualiDecimal getTargetTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -236,28 +236,28 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getNextSourceLineNumber()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getNextSourceLineNumber()
      */
     public Integer getNextSourceLineNumber() {
         return this.nextSourceLineNumber;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#setNextSourceLineNumber(java.lang.Integer)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#setNextSourceLineNumber(java.lang.Integer)
      */
     public void setNextSourceLineNumber(Integer nextLineNumber) {
         this.nextSourceLineNumber = nextLineNumber;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getNextTargetLineNumber()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getNextTargetLineNumber()
      */
     public Integer getNextTargetLineNumber() {
         return this.nextTargetLineNumber;
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#setNextTargetLineNumber(java.lang.Integer)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#setNextTargetLineNumber(java.lang.Integer)
      */
     public void setNextTargetLineNumber(Integer nextLineNumber) {
         this.nextTargetLineNumber = nextLineNumber;
@@ -266,7 +266,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     /**
      * Returns the default Source accounting line class.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()
      */
     public Class getSourceAccountingLineClass() {
         return SourceAccountingLine.class;
@@ -275,7 +275,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     /**
      * Returns the default Target accounting line class.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLineClass()
      */
     public Class getTargetAccountingLineClass() {
         return TargetAccountingLine.class;
@@ -322,7 +322,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#toCopy()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {
@@ -333,7 +333,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
      */
     @Override
     public void toErrorCorrection() throws WorkflowException {
@@ -652,7 +652,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public abstract boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable);
 

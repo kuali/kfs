@@ -7,7 +7,7 @@
   <bean id="Cfda" parent="Cfda-parentBean" />
 
   <bean id="Cfda-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Cfda" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Cfda" />
     <property name="inquiryDefinition" >
       <ref bean="Cfda-inquiryDefinition" />
     </property>
@@ -42,7 +42,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.Map;
 import java.util.Properties;
@@ -38,24 +38,24 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.CashDrawerConstants;
-import org.kuali.kfs.KFSConstants.DepositConstants;
-import org.kuali.kfs.KFSKeyConstants.CashManagement;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.authorization.CashManagementDocumentAuthorizer;
-import org.kuali.module.financial.rule.event.AddCheckEvent;
-import org.kuali.module.financial.rule.event.DeleteCheckEvent;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashManagementService;
-import org.kuali.module.financial.service.CashReceiptService;
-import org.kuali.module.financial.web.struts.form.CashManagementForm;
-import org.kuali.module.financial.web.struts.form.CashManagementForm.CashDrawerSummary;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.sys.KFSConstants.DepositConstants;
+import org.kuali.kfs.sys.KFSKeyConstants.CashManagement;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer;
+import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.document.service.CashManagementService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.document.web.struts.CashManagementForm;
+import org.kuali.kfs.fp.document.web.struts.CashManagementForm.CashDrawerSummary;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

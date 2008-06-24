@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.exceptions;
+package org.kuali.kfs.sys.exception;
 
 /**
  * this class represents an exception that is thrown when a piece of the <code>AccountingLineParser</code> fails

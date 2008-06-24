@@ -16,9 +16,9 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderVoidDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderVoidDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderVoidDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderVoidDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderVoidDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderVoidDocumentAuthorizer" />
     <property name="documentTypeCode" value="POV" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderVoidDocument-workflowProperties" />

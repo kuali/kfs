@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.batch.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.module.chart.dao.FiscalYearMakersCopyAction;
-import org.kuali.module.chart.dao.FiscalYearMakersDao;
-import org.kuali.module.chart.service.DateMakerService;
-import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.kfs.coa.batch.service.FiscalYearMakersCopyAction;
+import org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakersDao;
+import org.kuali.kfs.coa.batch.service.DateMakerService;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +35,7 @@ public class DateMakerServiceImpl implements DateMakerService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.DateMakerService#fiscalYearMakers(boolean)
+     * @see org.kuali.kfs.coa.batch.service.DateMakerService#fiscalYearMakers(boolean)
      */
     public void fiscalYearMakers(boolean replaceMode) {
         Integer BaseYear = fiscalYearMakersDao.fiscalYearFromToday();
@@ -45,7 +45,7 @@ public class DateMakerServiceImpl implements DateMakerService {
 
     /**
      *  
-     * @see org.kuali.module.chart.service.DateMakerService#fiscalYearMakers(java.lang.Integer, boolean)
+     * @see org.kuali.kfs.coa.batch.service.DateMakerService#fiscalYearMakers(java.lang.Integer, boolean)
      */
     public void fiscalYearMakers(Integer baseYear, boolean replaceMode) {
         Integer requestYear = baseYear + 1;

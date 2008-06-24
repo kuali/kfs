@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 
 /**
  * This is the business object that represents the ServiceBillingDocument in Kuali. See
- * {@link org.kuali.module.financial.rules.ServiceBillingDocumentRule} for details on how it differs from
+ * {@link org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRule} for details on how it differs from
  * {@link InternalBillingDocument}.
  */
 public class ServiceBillingDocument extends InternalBillingDocument {
 
     /**
-     * @see org.kuali.module.financial.document.InternalBillingDocument#getAccountingLineParser()
+     * @see org.kuali.kfs.fp.document.InternalBillingDocument#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
@@ -49,7 +49,7 @@ public class ServiceBillingDocument extends InternalBillingDocument {
      * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined
      * by super.isDebit() method.
      * 
-     * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#isDebit(org.kuali.core.document.FinancialDocument,
+     * @see org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override

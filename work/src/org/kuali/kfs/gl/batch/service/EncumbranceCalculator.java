@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * An interface which declares the methods needed to post a transaction against an encumbrance

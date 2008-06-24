@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -29,19 +29,19 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.CashReceiptHeader;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.rule.event.AddCheckEvent;
-import org.kuali.module.financial.rule.event.DeleteCheckEvent;
-import org.kuali.module.financial.rule.event.UpdateCheckEvent;
-import org.kuali.module.financial.service.CashReceiptService;
-import org.kuali.module.financial.service.CheckService;
-import org.kuali.module.gl.util.SufficientFundsItem;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.service.CheckService;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -193,7 +193,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#checkSufficientFunds()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#checkSufficientFunds()
      */
     @Override
     public List<SufficientFundsItem> checkSufficientFunds() {
@@ -314,7 +314,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     /**
      * This method returns the overall total of the document - coin plus check plus cash.
      * 
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override

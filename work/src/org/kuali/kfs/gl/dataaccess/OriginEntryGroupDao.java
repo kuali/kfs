@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 public interface OriginEntryGroupDao {
     /**
@@ -27,7 +27,7 @@ public interface OriginEntryGroupDao {
      * 
      * @param sourceCode the source code of the groups to find
      * @return a OriginEntryGroup with the given source code and max ORIGIN_ENTRY_GRP_ID
-     * @see org.kuali.module.gl.bo.OriginEntrySource
+     * @see org.kuali.kfs.gl.businessobject.OriginEntrySource
      */
     public OriginEntryGroup getGroupWithMaxIdFromSource(String sourceCode);
 

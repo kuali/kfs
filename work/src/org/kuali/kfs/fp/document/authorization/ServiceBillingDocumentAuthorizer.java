@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.authorization;
+package org.kuali.kfs.fp.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,15 +25,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.module.financial.bo.ServiceBillingControl;
-import org.kuali.module.financial.document.ServiceBillingDocument;
-import org.kuali.module.financial.rules.ServiceBillingDocumentRuleUtil;
-import org.kuali.module.financial.service.ServiceBillingControlService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
+import org.kuali.kfs.fp.document.ServiceBillingDocument;
+import org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRuleUtil;
+import org.kuali.kfs.fp.document.service.ServiceBillingControlService;
 
 /**
  * Authorization permissions specific to the Service Billing document.
@@ -63,7 +63,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the SB doc.
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
@@ -97,7 +97,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * cannot be changed, so if this user isn't authorized for all those income accounts then he won't be able to save or submit the
      * error correction. We avoid this frustration by hiding that button in the first place.
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override

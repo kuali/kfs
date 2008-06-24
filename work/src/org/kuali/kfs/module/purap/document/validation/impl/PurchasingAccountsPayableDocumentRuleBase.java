@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -28,21 +28,21 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
-import org.kuali.module.purap.rule.ImportPurchasingAccountsPayableItemRule;
-import org.kuali.module.purap.service.PurapAccountingLineRuleHelperService;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
+import org.kuali.kfs.module.purap.document.validation.ImportPurchasingAccountsPayableItemRule;
+import org.kuali.kfs.module.purap.service.PurapAccountingLineRuleHelperService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -87,8 +87,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param financialDocument The PurchasingAccountsPayableDocument to be validated.
      * @param accountingLine The accounting line that is being added.
      * @return boolean true.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -104,8 +104,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param accountingLine The accounting line to be deleted.
      * @param lineWasAlreadyDeletedFromDocument boolean true if the line was already deleted from document.
      * @return boolean true.
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processDeleteAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, boolean)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#processDeleteAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, boolean)
      */
     @Override
     public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
@@ -347,8 +347,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param financialDocument The document containing the item to be validated.
      * @param item The item to be validated.
      * @return boolean true if it passes the validation.
-     * @see org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule#processAddItemBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
 
@@ -362,8 +362,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param financialDocument The document containing the item to be validated.
      * @param item The item to be validated.
      * @return boolean true if it passes the validation.
-     * @see org.kuali.module.purap.rule.ImportPurchasingAccountsPayableItemRule#processImportItemBusinessRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.validation.ImportPurchasingAccountsPayableItemRule#processImportItemBusinessRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
 
@@ -391,8 +391,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      * @param document The document to be validated.
      * @param accountingLine The accounting line whose amount to be validated.
      * @return boolean true.
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {

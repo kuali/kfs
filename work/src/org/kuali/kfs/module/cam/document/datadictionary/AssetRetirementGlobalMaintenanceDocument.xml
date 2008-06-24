@@ -7,8 +7,8 @@
   <bean id="AssetRetirementGlobalMaintenanceDocument" parent="AssetRetirementGlobalMaintenanceDocument-parentBean" />
 
   <bean id="AssetRetirementGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobal" />
-    <property name="maintainableClass" value="org.kuali.module.cams.maintenance.AssetRetirementGlobalMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetRetirementGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AssetRetirementGlobalMaintenanceDocument-RetirementInformation" />
@@ -36,8 +36,8 @@
     <property name="summary" value="Retirement Global Asset Maintenance Document" />
     <property name="description" value="Document used to create or update global retirement asset document." />
     <property name="documentTypeName" value="AssetRetirementGlobalMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetRetirementGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.AssetRetirementAuthorizer" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementAuthorizer" />
     <property name="documentTypeCode" value="AR" />
     <property name="authorizations" >
       <list>
@@ -152,8 +152,8 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetRetirementGlobalDetails" />
-          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" />
-          <property name="sourceClassName" value="org.kuali.module.cams.bo.Asset" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
           <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Asset Retired" />
           <property name="summaryFields" >

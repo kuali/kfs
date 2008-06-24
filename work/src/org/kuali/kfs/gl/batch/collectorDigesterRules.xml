@@ -20,7 +20,7 @@
 
 <digester-rules>
     <pattern value="batch">
-        <object-create-rule classname="org.kuali.module.gl.batch.collector.CollectorBatch" />
+        <object-create-rule classname="org.kuali.kfs.gl.batch.CollectorBatch" />
 
         <pattern value="header">
             <call-method-rule pattern="chartOfAccountsCode" methodname="setChartOfAccountsCode" paramcount="0" />
@@ -36,7 +36,7 @@
         </pattern>
         
         <pattern value="glEntry">  
-            <object-create-rule classname="org.kuali.module.gl.bo.OriginEntryFull" />
+            <object-create-rule classname="org.kuali.kfs.gl.businessobject.OriginEntryFull" />
 
             <call-method-rule pattern="universityFiscalYear"              methodname="setUniversityFiscalYear" paramcount="0" paramtypes="java.lang.Integer" />
             <call-method-rule pattern="chartOfAccountsCode"               methodname="setChartOfAccountsCode" paramcount="0" />
@@ -68,7 +68,7 @@
         </pattern>
         
         <pattern value="detail">
-            <object-create-rule classname="org.kuali.module.gl.bo.CollectorDetail" />
+            <object-create-rule classname="org.kuali.kfs.gl.businessobject.CollectorDetail" />
             
             <call-method-rule pattern="universityFiscalAccountingPeriod"       methodname="setUniversityFiscalPeriodCode" paramcount="0" />
             <call-method-rule pattern="universityFiscalYear"                   methodname="setUniversityFiscalYear" paramcount="0" paramtypes="java.lang.Integer"/>

@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="moduleCode" draw="true" service="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable(null)" />
+          <quickfinder appliesTo="moduleCode" draw="true" service="workflow-org.kuali.kfs.sys.businessobject.KualiModuleBO-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//businessObject/changedModuleCodes/string') = wf:ruledata('moduleCode')</xpathexpression>
           </fieldEvaluation>

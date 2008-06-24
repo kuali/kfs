@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.Map;
 
@@ -25,13 +25,13 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.document.authorization.BudgetAdjustmentDocumentAuthorizer;
-import org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer;
+import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
 
 /**
  * Checks warnings and prompt conditions for ba document.

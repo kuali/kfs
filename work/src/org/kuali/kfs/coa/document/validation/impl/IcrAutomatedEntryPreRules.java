@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.IcrAutomatedEntry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
 
 /**
  * PreRules checks for the {@link IcrAutomatedEntry} that needs to occur while still in the Struts processing. This includes
@@ -43,7 +43,7 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
      * <li>{@link IcrAutomatedEntryPreRules#setSubObjectToDashesIfBlank()}</li>
      * </ul>
      * 
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
@@ -83,7 +83,7 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * This sets the {@link org.kuali.module.chart.bo.SubObjCd} code to padded dashes ("-") if blank
+     * This sets the {@link org.kuali.kfs.coa.businessobject.SubObjCd} code to padded dashes ("-") if blank
      */
     protected void setSubObjectToDashesIfBlank() {
         String newSubObject = icrAutomatedEntry.getFinancialSubObjectCode();

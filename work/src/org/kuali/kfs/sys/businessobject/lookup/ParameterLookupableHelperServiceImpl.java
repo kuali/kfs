@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import org.kuali.core.bo.Parameter;
 import org.kuali.core.bo.ParameterDetailType;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Customizes the lookup of parameter objects to handle ParameterDetailTypes which are not in the database.

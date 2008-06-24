@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.batch.service;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 /**
  * Defines methods that must be implemented by classes providing a LaborScrubberServiceImpl.

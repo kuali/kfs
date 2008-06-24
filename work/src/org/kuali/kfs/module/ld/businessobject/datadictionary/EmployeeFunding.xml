@@ -7,7 +7,7 @@
   <bean id="EmployeeFunding" parent="EmployeeFunding-parentBean" />
 
   <bean id="EmployeeFunding-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.labor.bo.EmployeeFunding" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.EmployeeFunding" />
     <property name="inquiryDefinition" >
       <ref bean="EmployeeFunding-inquiryDefinition" />
     </property>
@@ -226,7 +226,7 @@
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="emplid" />
@@ -242,10 +242,10 @@
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.pendingEntryOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.blankLineOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.BlankLineOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.BlankLineOptionFinder" />
       </list>
     </property>
     <property name="resultFields" >

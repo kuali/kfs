@@ -7,7 +7,7 @@
   <bean id="AddressTypeMaintenanceDocument" parent="AddressTypeMaintenanceDocument-parentBean" />
 
   <bean id="AddressTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.AddressType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.AddressType" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -28,7 +28,7 @@
             p:parameterDetailType="AddressType" />
     </property>
     <property name="documentTypeName" value="AddressTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMAT" />
     <property name="workflowProperties" >
       <ref bean="AddressTypeMaintenanceDocument-workflowProperties" />

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 /**
  * An interface that represents the logic of a category associated with the Organization Reversion Process

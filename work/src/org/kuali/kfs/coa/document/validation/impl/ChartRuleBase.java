@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -22,8 +22,8 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.rule.RouteDocumentRule;
 import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.module.chart.bo.Account;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.coa.businessobject.Account;
 
 /**
  * This class provides some basic saving and routing rules for Chart documents

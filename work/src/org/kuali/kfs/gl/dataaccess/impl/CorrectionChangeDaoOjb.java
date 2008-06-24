@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.dao.CorrectionChangeDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.CorrectionChange;
+import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
 
 /**
  * The OJB implementation of the CorrectionChangeDao
@@ -35,7 +35,7 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
      * Delete a CorrectionChange from the database
      * 
      * @param spec the CorrectionChange to delete
-     * @see org.kuali.module.gl.dao.CorrectionChangeDao#delete(org.kuali.module.gl.bo.CorrectionChange)
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeDao#delete(org.kuali.kfs.gl.businessobject.CorrectionChange)
      */
     public void delete(CorrectionChange spec) {
         LOG.debug("delete() started");
@@ -49,7 +49,7 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
      * @param documentHeaderId the document number of a GLCP document
      * @param correctionGroupLineNumber the line number of the group within the GLCP document to find correction chagnes for
      * @return a List of correction changes
-     * @see org.kuali.module.gl.dao.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
      *      java.lang.Integer)
      */
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupLineNumber) {
@@ -68,7 +68,7 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
      * Save a CorrectionChange to the database
      * 
      * @param spec a CorrectionChange to save to the database
-     * @see org.kuali.module.gl.dao.CorrectionChangeDao#save(org.kuali.module.gl.bo.CorrectionChange)
+     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeDao#save(org.kuali.kfs.gl.businessobject.CorrectionChange)
      */
     public void save(CorrectionChange spec) {
         LOG.debug("save() started");

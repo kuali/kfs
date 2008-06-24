@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * A validation to have the data dictionary perform its validations upon a business object
@@ -29,7 +29,7 @@ public class BusinessObjectDataDictionaryValidation extends GenericValidation {
     /**
      * Validates a business object against the data dictionary
      * <strong>expects a business object to be the first parameter</strong>
-     * @see org.kuali.kfs.validation.GenericValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         return getDictionaryValidationService().isBusinessObjectValid(businessObjectForValidation);

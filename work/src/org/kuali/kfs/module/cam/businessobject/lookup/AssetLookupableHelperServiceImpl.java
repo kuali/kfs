@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.lookup;
+package org.kuali.kfs.module.cam.businessobject.lookup;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -22,13 +22,13 @@ import java.util.Properties;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetGlobal;
-import org.kuali.module.cams.service.AssetService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 
 /**
  * This class overrids the base getActionUrls method
@@ -67,7 +67,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private Object getMergeUrl(BusinessObject bo) {
         // TODO use system parameter
         Asset asset = (Asset) bo;
-        return "<a href=\"maintenance.do?methodToCall=newWithExisting&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal&" + KFSConstants.OVERRIDE_KEYS + "=retirementReasonCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "mergedTargetCapitalAssetNumber&docFormKey=88888888&retirementReasonCode=M&mergedTargetCapitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.MERGE + "</a>";
+        return "<a href=\"maintenance.do?methodToCall=newWithExisting&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal&" + KFSConstants.OVERRIDE_KEYS + "=retirementReasonCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "mergedTargetCapitalAssetNumber&docFormKey=88888888&retirementReasonCode=M&mergedTargetCapitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.MERGE + "</a>";
     }
 
     private String getLoanUrl(BusinessObject bo) {

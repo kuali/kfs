@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Batch" />
 <div class="body">
     <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Batch Schedule" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
+		<li><portal:portalLink displayTitle="true" title="Batch Schedule" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.batch.BatchJobStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&conversionFields=name:name,group:group" /></li>
 		<li><portal:portalLink displayTitle="true" title="Collector Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=collectorInputFileType" /></li>				
 		<li><portal:portalLink displayTitle="true" title="Enterprise Feed Batch Upload" url="batchUploadFileSet.do?methodToCall=start&batchUpload.batchInputTypeName=enterpriseFeederFileSetType" /></li>
 		<li><portal:portalLink displayTitle="true" title="Procurement Card Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=procurementCardInputFileType" /></li>

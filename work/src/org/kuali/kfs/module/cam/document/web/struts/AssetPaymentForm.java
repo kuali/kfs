@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.web.struts.form;
+package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,15 +29,15 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.document.AssetPaymentDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 
 import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
@@ -68,7 +68,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
     /**
      * 
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
      */
     @Override
     public Map<String, String> getForcedLookupOptionalFields() {
@@ -101,7 +101,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
     /**
      * 
-     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getNewSourceLine()
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getNewSourceLine()
      */
     @Override
     public SourceAccountingLine getNewSourceLine() {

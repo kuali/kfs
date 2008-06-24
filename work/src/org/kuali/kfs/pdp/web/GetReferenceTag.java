@@ -17,13 +17,13 @@
  * Created on Feb 26, 2004
  *
  */
-package org.kuali.module.pdp.tag;
+package org.kuali.kfs.pdp.web;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.dao.ReferenceDao;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
 
 
 /**

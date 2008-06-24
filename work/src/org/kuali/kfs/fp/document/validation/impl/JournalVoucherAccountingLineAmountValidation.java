@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_BASE_BUDGET;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_BUDGET_STATISTICS;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
-import static org.kuali.kfs.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.kfs.KFSConstants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_LEFT;
-import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_RIGHT;
-import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
-import static org.kuali.kfs.KFSKeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS;
-import static org.kuali.kfs.KFSPropertyConstants.BALANCE_TYPE;
+import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BASE_BUDGET;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BUDGET_STATISTICS;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
+import static org.kuali.kfs.sys.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.SQUARE_BRACKET_LEFT;
+import static org.kuali.kfs.sys.KFSConstants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.kfs.sys.KFSConstants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.kfs.sys.KFSKeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 
 /**
  * The Journal Voucher's version of the accounting line amount validation
@@ -55,7 +55,7 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
      * Additionally, accounting lines cannot have negative dollar amounts if the balance type of the 
      * journal voucher allows for general ledger pending entry offset generation or the balance type 
      * is not a budget type code.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         KualiDecimal amount = getAccountingLineForValidation().getAmount();

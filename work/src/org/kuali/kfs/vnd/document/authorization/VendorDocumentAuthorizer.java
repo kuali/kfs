@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.document.authorization;
+package org.kuali.kfs.vnd.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,21 +27,21 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.authorization.FinancialSystemDocumentActionFlags;
-import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.vendor.VendorAuthorizationConstants;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorPropertyConstants;
-import org.kuali.module.vendor.bo.VendorCommodityCode;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorContractOrganization;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.bo.VendorSupplierDiversity;
-import org.kuali.module.vendor.util.VendorUtils;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.VendorAuthorizationConstants;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
+import org.kuali.kfs.vnd.VendorUtils;
 
 /**
  * Authorizer class for Vendor maintenance document

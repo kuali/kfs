@@ -7,7 +7,7 @@
   <bean id="EffortCertificationDetail" parent="EffortCertificationDetail-parentBean" />
 
   <bean id="EffortCertificationDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationDetail" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail" />
     <property name="inquiryDefinition" >
       <ref bean="EffortCertificationDetail-inquiryDefinition" />
     </property>
@@ -96,7 +96,7 @@
     <property name="label" value="Chart" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -119,7 +119,7 @@
   <bean id="EffortCertificationDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.ObjectCodeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.ObjectCodeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -129,7 +129,7 @@
     <property name="shortLabel" value="Position" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PositionNumberValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.PositionNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

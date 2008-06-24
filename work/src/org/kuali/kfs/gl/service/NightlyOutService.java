@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 /**
  * This interface defines the batch jobs that would be run nightly against the pending general ledger entries. These jobs are

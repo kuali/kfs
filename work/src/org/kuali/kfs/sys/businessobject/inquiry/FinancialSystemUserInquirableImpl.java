@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.inquiry;
+package org.kuali.kfs.sys.businessobject.inquiry;
 
-import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 
 public class FinancialSystemUserInquirableImpl extends KfsInquirableImpl {
 

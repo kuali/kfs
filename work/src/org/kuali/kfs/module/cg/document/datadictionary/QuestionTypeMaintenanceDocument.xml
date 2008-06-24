@@ -7,7 +7,7 @@
   <bean id="QuestionTypeMaintenanceDocument" parent="QuestionTypeMaintenanceDocument-parentBean" />
 
   <bean id="QuestionTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.QuestionType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.QuestionType" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -30,7 +30,7 @@
             p:parameterDetailType="QuestionType" />
     </property>
     <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.kra.routingform.document.QuestionTypeMaintenanceDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer" />
     <property name="documentTypeCode" value="QNT" />
     <property name="workflowProperties" >
       <ref bean="QuestionTypeMaintenanceDocument-workflowProperties" />

@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.ScrubberStep;
-import org.kuali.module.gl.service.RunDateService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.ScrubberStep;
+import org.kuali.kfs.gl.batch.service.RunDateService;
 
 /**
  * The default implementation of RunDateService
@@ -35,7 +35,7 @@ public class RunDateServiceImpl implements RunDateService {
 
     /**
      * 
-     * @see org.kuali.module.gl.service.RunDateService#calculateRunDate(java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.RunDateService#calculateRunDate(java.util.Date)
      */
     public Date calculateRunDate(Date executionDate) {
         Calendar currentCal = Calendar.getInstance();

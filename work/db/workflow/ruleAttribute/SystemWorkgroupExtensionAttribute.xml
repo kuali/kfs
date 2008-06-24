@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>SystemWorkgroupExtensionAttribute</name>
-      <className>org.kuali.workflow.attribute.SystemWorkgroupExtensionAttribute</className>
+      <className>org.kuali.kfs.sys.document.workflow.SystemWorkgroupExtensionAttribute</className>
       <label>System Workgroup Extension Attribute</label>
       <description>Attributes associated with KFS System Workgroups</description>
       <type>ExtensionAttribute</type>

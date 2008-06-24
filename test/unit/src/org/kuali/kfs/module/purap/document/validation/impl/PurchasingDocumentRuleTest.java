@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,32 +23,32 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.module.chart.bo.ObjSubTyp;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.bo.CapitalAssetTransactionType;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.bo.RequisitionAccount;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.fixtures.DeliveryRequiredDateFixture;
-import org.kuali.module.purap.fixtures.ItemFieldsFixture;
-import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
-import org.kuali.module.purap.fixtures.PurchaseOrderDocumentWithCommodityCodeFixture;
-import org.kuali.module.purap.fixtures.PurchasingCapitalAssetFixture;
-import org.kuali.module.purap.fixtures.RecurringPaymentBeginEndDatesFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentWithCommodityCodeFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.fixture.DeliveryRequiredDateFixture;
+import org.kuali.kfs.module.purap.fixture.ItemFieldsFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
+import org.kuali.kfs.module.purap.fixture.RecurringPaymentBeginEndDatesFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests

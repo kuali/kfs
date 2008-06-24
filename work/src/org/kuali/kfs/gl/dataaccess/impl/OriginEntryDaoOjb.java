@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,12 +29,12 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.OriginEntryDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
 
 /**
  * An OJB implementation of the OriginEntryDao
@@ -95,7 +95,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * @param the id of the origin entry group to total
      * @param isCredit whether the total should be of credits or not
      * @return the sum of all queried origin entries
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getGroupTotal(java.lang.Integer, boolean)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getGroupTotal(java.lang.Integer, boolean)
      */
     public KualiDecimal getGroupTotal(Integer groupId, boolean isCredit) {
         LOG.debug("getGroupTotal() started");
@@ -126,7 +126,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * Counts the number of entries in a group
      * @param the id of an origin entry group
      * @return the count of the entries in that group
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getGroupCount(java.lang.Integer)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getGroupCount(java.lang.Integer)
      */
     public Integer getGroupCount(Integer groupId) {
         LOG.debug("getGroupCount() started");
@@ -157,7 +157,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * Counts of rows of all the origin entry groups
      * 
      * @return iterator of Object[] {[BigDecimal id,BigDecimal count]}
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getGroupCounts()
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getGroupCounts()
      */
     public Iterator getGroupCounts() {
         LOG.debug("getGroupCounts() started");
@@ -174,7 +174,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     /**
      * Delete an entry from the database
      * @param oe the entry to delete
-     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteEntry(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#deleteEntry(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public void deleteEntry(OriginEntry oe) {
         LOG.debug("deleteEntry() started");
@@ -187,7 +187,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param oeg Group the origin entry group to find entries in, by origin entry
      * @return Iterator of java.lang.Object[] with report data about all of the distinct document numbers/type code/origination code combinations of origin entries in the group
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getDocumentsByGroup(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public Iterator getDocumentsByGroup(OriginEntryGroup oeg) {
         LOG.debug("getDocumentsByGroup() started");
@@ -208,7 +208,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param searchCriteria Map of field, value pairs
      * @return collection of entries
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntries(java.util.Map)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getMatchingEntries(java.util.Map)
      */
     public Iterator<OriginEntryFull> getMatchingEntries(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
@@ -229,7 +229,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param groups a Collection of groups to remove bad entries in
      * @return an Iterator of no good, won't use, bad balance entries
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getBadBalanceEntries(java.util.Collection)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getBadBalanceEntries(java.util.Collection)
      */
     public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups) {
         LOG.debug("getBadBalanceEntries() started");
@@ -416,7 +416,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * and one has to use both to really delete the whole group
      * 
      * @param groups a Collection of Origin Entry Groups to delete entries in
-     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteGroups(java.util.Collection)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#deleteGroups(java.util.Collection)
      */
     public void deleteGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("deleteGroups() started");
@@ -448,7 +448,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param searchCriteria Map of field, value pairs
      * @return collection of entries
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
      */
     public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
@@ -469,7 +469,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param groupIdList the ids of origin entry groups
      * @return a set of summarized information of the entries within the specified groups
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getSummaryByGroupId(java.util.List)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getSummaryByGroupId(java.util.List)
      */
     public Iterator getSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getSummaryByGroupId() started");
@@ -509,7 +509,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param entryId an entry id to find an entry for
      * @return the entry for the given entry id, or a newly created entry
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getExactMatchingEntry(java.lang.Integer)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getExactMatchingEntry(java.lang.Integer)
      */
     public OriginEntryFull getExactMatchingEntry(Integer entryId) {
         LOG.debug("getMatchingEntries() started");
@@ -530,7 +530,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param groups the origin entry groups
      * @return a set of summarized information of poster input entries within the specified groups
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getPosterOutputSummaryByGroupId(java.util.Collection)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#getPosterOutputSummaryByGroupId(java.util.Collection)
      */
     public Iterator getPosterOutputSummaryByGroupId(Collection groups) {
         LOG.debug("getPosterInputSummaryByGroupId() started");

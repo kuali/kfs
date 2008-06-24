@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.util;
+package org.kuali.kfs.module.ec.util;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * To enumerate the accounting periods as months and provides a set of utilities to manage the period code.

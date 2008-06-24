@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent;
-import org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent;
-import org.kuali.module.chart.service.AccountService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.kfs.coa.service.AccountService;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not
@@ -51,7 +51,7 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
     /**
      * Validates that the given accounting line is accessible for editing by the current user.
      * <strong>This method expects a document as the first parameter and an accounting line as the second</strong>
-     * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, GlobalVariables.getUserSession().getFinancialSystemUser());

@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.web.struts.form;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;

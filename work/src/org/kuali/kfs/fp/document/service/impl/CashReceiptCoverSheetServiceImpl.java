@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,10 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.document.authorization.CashReceiptDocumentAuthorizer;
-import org.kuali.module.financial.service.CashReceiptCoverSheetService;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer;
+import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -107,8 +107,8 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param crDoc The document the cover sheet is being printed for.
      * @return True if the cover sheet is printable, false otherwise.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptCoverSheetService#isCoverSheetPrintingAllowed(org.kuali.module.financial.document.CashReceiptDocument)
-     * @see org.kuali.module.financial.rules.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.module.financial.document.CashReceiptFamilyBase)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService#isCoverSheetPrintingAllowed(org.kuali.kfs.fp.document.CashReceiptDocument)
+     * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.kfs.fp.document.CashReceiptFamilyBase)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
         CashReceiptDocumentAuthorizer authorizer = getCashReceiptDocumentAuthorizer(crDoc);

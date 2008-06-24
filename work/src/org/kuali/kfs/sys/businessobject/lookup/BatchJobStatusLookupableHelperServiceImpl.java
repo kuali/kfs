@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.BatchJobStatus;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.BatchJobStatus;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

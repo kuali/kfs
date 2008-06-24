@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.gl.service.AccountBalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.gl.service.AccountBalanceService;
 
 /**
  * A step to run the process that purges old data from gl_acct_balances_t.
@@ -40,7 +40,7 @@ public class PurgeAccountBalancesStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR);
@@ -58,7 +58,7 @@ public class PurgeAccountBalancesStep extends AbstractStep {
      * Sets the accountBalanceService attribute, allowing the injection of an implementation of the service.
      * 
      * @param accountBalanceService the accountBalanceService implementation to set
-     * @see org.kuali.module.gl.service.AccountBalanceService
+     * @see org.kuali.kfs.gl.service.AccountBalanceService
      */
     public void setAccountBalanceService(AccountBalanceService accountBalanceService) {
         this.accountBalanceService = accountBalanceService;
@@ -68,7 +68,7 @@ public class PurgeAccountBalancesStep extends AbstractStep {
      * Sets the chartService attribute, allowing the injection of an implementation of the service.
      * 
      * @param chartService the chartService implementation to set
-     * @see org.kuali.module.chart.service.ChartService
+     * @see org.kuali.kfs.coa.service.ChartService
      */
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;

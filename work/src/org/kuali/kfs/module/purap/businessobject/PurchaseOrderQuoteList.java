@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.module.vendor.bo.ContractManager;
+import org.kuali.kfs.vnd.businessobject.ContractManager;
 
 /**
  * Purchase Order Quote List Business Object.

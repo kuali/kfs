@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -22,18 +22,18 @@ import java.util.List;
 
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
-import org.kuali.core.util.UnitTestSqlDao;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.SufficientFundBalances;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.dao.SufficientFundBalancesDao;
-import org.kuali.module.gl.dao.SufficientFundRebuildDao;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
+import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests the SufficientFundsRebuilderService

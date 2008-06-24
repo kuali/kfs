@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.Iterator;
 
@@ -21,10 +21,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.dao.RequisitionDao;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**
  * OJB implementation of RequisitionDao.
@@ -33,7 +33,7 @@ public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements Requis
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDaoOjb.class);
 
     /**
-     * @see org.kuali.module.purap.dao.RequisitionDao#getDocumentNumberForRequisitionId(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao#getDocumentNumberForRequisitionId(java.lang.Integer)
      */
     public String getDocumentNumberForRequisitionId(Integer id) {
         Criteria criteria = new Criteria();

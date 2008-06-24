@@ -23,7 +23,7 @@
         <object-create-rule classname="java.util.ArrayList" />
 
         <pattern value="transaction">
-            <object-create-rule classname="org.kuali.module.financial.bo.ProcurementCardTransaction" />
+            <object-create-rule classname="org.kuali.kfs.fp.businessobject.ProcurementCardTransaction" />
 
             <call-method-rule pattern="transactionCreditCardNumber" methodname="setTransactionCreditCardNumber" paramcount="0" />
             <call-method-rule pattern="financialDocumentTotalAmount" methodname="setFinancialDocumentTotalAmount" paramcount="0" />

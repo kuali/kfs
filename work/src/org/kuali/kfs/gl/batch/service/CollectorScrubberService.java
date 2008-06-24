@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.CollectorScrubberStatus;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 
 /**
  * An interface declaring the methods needed to scrub Collector data

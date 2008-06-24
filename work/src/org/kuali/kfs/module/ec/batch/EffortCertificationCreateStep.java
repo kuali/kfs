@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.batch;
+package org.kuali.kfs.module.ec.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.effort.service.EffortCertificationCreateService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService;
 
 /**
  * Batch Step that executes the Effort Certification Extract Process.
@@ -29,7 +29,7 @@ public class EffortCertificationCreateStep extends AbstractStep {
     private EffortCertificationCreateService effortCertificationCreateService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         effortCertificationCreateService.create();

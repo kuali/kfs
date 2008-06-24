@@ -42,12 +42,12 @@
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="newCreditCardReceipt.financialDocumentCreditCardTypeCode" />
                 	&nbsp;
-                	<kul:lookup boClassName="org.kuali.module.financial.bo.CreditCardType" fieldConversions="financialDocumentCreditCardTypeCode:newCreditCardReceipt.financialDocumentCreditCardTypeCode" />
+                	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.CreditCardType" fieldConversions="financialDocumentCreditCardTypeCode:newCreditCardReceipt.financialDocumentCreditCardTypeCode" />
                 </td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardVendorNumber}" property="newCreditCardReceipt.financialDocumentCreditCardVendorNumber" />
                 	&nbsp;
-                	<kul:lookup boClassName="org.kuali.module.financial.bo.CreditCardVendor" fieldConversions="financialDocumentCreditCardTypeCode:newCreditCardReceipt.financialDocumentCreditCardTypeCode,financialDocumentCreditCardVendorNumber:newCreditCardReceipt.financialDocumentCreditCardVendorNumber" lookupParameters="newCreditCardReceipt.financialDocumentCreditCardTypeCode:financialDocumentCreditCardTypeCode" />
+                	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.CreditCardVendor" fieldConversions="financialDocumentCreditCardTypeCode:newCreditCardReceipt.financialDocumentCreditCardTypeCode,financialDocumentCreditCardVendorNumber:newCreditCardReceipt.financialDocumentCreditCardVendorNumber" lookupParameters="newCreditCardReceipt.financialDocumentCreditCardTypeCode:financialDocumentCreditCardTypeCode" />
                 </td>
                 <td class="infoline">
                 	<kul:dateInput attributeEntry="${ccrAttributes.creditCardDepositDate}" property="newCreditCardReceipt.creditCardDepositDate" />
@@ -80,14 +80,14 @@
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" readOnly="${readOnly}" />
                 	<c:if test="${not readOnly}">
 	                	&nbsp;
-    	            	<kul:lookup boClassName="org.kuali.module.financial.bo.CreditCardType" fieldConversions="financialDocumentCreditCardTypeCode:document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" />
+    	            	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.CreditCardType" fieldConversions="financialDocumentCreditCardTypeCode:document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" />
                 	</c:if>
                 </td>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardVendorNumber}" property="document.creditCardReceipt[${ctr}].financialDocumentCreditCardVendorNumber" readOnly="${readOnly}" />
                 	<c:if test="${not readOnly}">
 	                	&nbsp;
-    	            	<kul:lookup boClassName="org.kuali.module.financial.bo.CreditCardVendor" fieldConversions="financialDocumentCreditCardTypeCode:document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode,financialDocumentCreditCardVendorNumber:document.creditCardReceipt[${ctr}].financialDocumentCreditCardVendorNumber" lookupParameters="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode:financialDocumentCreditCardTypeCode" />
+    	            	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.CreditCardVendor" fieldConversions="financialDocumentCreditCardTypeCode:document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode,financialDocumentCreditCardVendorNumber:document.creditCardReceipt[${ctr}].financialDocumentCreditCardVendorNumber" lookupParameters="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode:financialDocumentCreditCardTypeCode" />
     	            </c:if>
                 </td>
                 <td class="datacell">

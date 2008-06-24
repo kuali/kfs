@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.testdata;
+package org.kuali.kfs.module.ec.testdata;
 
 public class EffortTestDataPropertyConstants {
     public static final String TEST_DATA_PACKAGE_NAME = EffortTestDataPropertyConstants.class.getPackage().getName().replace('.', '/');

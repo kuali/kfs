@@ -45,13 +45,13 @@
     		                        <div align="left">
             		                	<p align="center"><strong>Currently Selected:</strong><strong><br><br></strong>
 	                                <kul:htmlControlAttribute property="pointOfViewOrg.chartOfAccountsCode" attributeEntry="${pointOfViewOrgAttributes.chartOfAccountsCode}" readOnly="true" readOnlyBody="true">
-    	                        	<kul:inquiry boClassName="org.kuali.module.chart.bo.Chart" keyValues="chartOfAccountsCode=${pointOfViewOrg.chartOfAccountsCode}" render="${!empty KualiForm.pointOfViewOrg.chartOfAccountsCode}">
+    	                        	<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${pointOfViewOrg.chartOfAccountsCode}" render="${!empty KualiForm.pointOfViewOrg.chartOfAccountsCode}">
 	                                <html:hidden write="true" property="pointOfViewOrg.chartOfAccountsCode" />
     	                        	</kul:inquiry>
         	                  		</kul:htmlControlAttribute>
             	               		-
                 	          		<kul:htmlControlAttribute property="pointOfViewOrg.organizationCode" attributeEntry="${pointOfViewOrgAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
-                    	        	<kul:inquiry boClassName="org.kuali.module.chart.bo.Org" keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}" render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
+                    	        	<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org" keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}" render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
 	      		        	      	<html:hidden write="true" property="pointOfViewOrg.organizationCode" />
       			            		</kul:inquiry>
 	                      			</kul:htmlControlAttribute>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget;
+package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.UserSession;
@@ -21,13 +21,13 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.dao.GenesisDao;
-import org.kuali.module.budget.service.GenesisService;
-import org.kuali.module.chart.service.DateMakerService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
+import org.kuali.kfs.module.bc.batch.service.GenesisService;
+import org.kuali.kfs.coa.batch.service.DateMakerService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

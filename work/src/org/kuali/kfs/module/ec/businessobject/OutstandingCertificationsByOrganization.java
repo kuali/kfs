@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +23,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

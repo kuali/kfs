@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Collection;
 import java.util.Map;
 
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
 /**
  * The LaborInquiryOptionsService interface provides hooks for Pending Ledger and Consilidation options for balance inquiries.
@@ -75,7 +75,7 @@ public interface LaborInquiryOptionsService {
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
      * @param isConsolidated indicate if the collection balances have been consolidated
-     * @see org.kuali.module.labor.bo.LedgerBalance
+     * @see org.kuali.kfs.module.ld.businessobject.LedgerBalance
      */
     public void updateLedgerBalanceByPendingLedgerEntry(Collection<LedgerBalance> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
 
@@ -86,7 +86,7 @@ public interface LaborInquiryOptionsService {
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
      * @param isConsolidated indicate if the collection balances have been consolidated
-     * @see org.kuali.module.labor.bo.LedgerBalance
+     * @see org.kuali.kfs.module.ld.businessobject.LedgerBalance
      */
     public void updateCurrentFundsByPendingLedgerEntry(Collection<AccountStatusCurrentFunds> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
 
@@ -96,7 +96,7 @@ public interface LaborInquiryOptionsService {
      * @param entryCollection the given ledger entry collection
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
-     * @see org.kuali.module.labor.bo.LedgerEntry
+     * @see org.kuali.kfs.module.ld.businessobject.LedgerEntry
      */
     public void updateLedgerEntryByPendingLedgerEntry(Collection<LedgerEntry> entryCollection, Map fieldValues, String pendingEntryOption);
 

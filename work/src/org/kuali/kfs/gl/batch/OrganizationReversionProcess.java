@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.orgreversion;
+package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -26,34 +26,34 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.AccountIntf;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.chart.bo.OrganizationReversionDetail;
-import org.kuali.module.chart.service.OrganizationReversionService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.FatalErrorException;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.AccountIntf;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
+import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWorkCategoryAmount;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.rules;
+package org.kuali.kfs.module.cam.document.validation.impl;
 
 
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.module.cams.bo.Pretag;
-import org.kuali.module.cams.bo.PretagDetail;
-import org.kuali.module.chart.bo.OrganizationReversionGlobal;
+import org.kuali.kfs.module.cam.businessobject.Pretag;
+import org.kuali.kfs.module.cam.businessobject.PretagDetail;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
 
 
 /**

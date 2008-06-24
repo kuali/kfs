@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao;
+package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
+import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 
 /**
  * Negative Payment Request Approval Limit DAO Interface.

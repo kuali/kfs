@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.lookup.keyvalues;
+package org.kuali.kfs.module.bc.businessobject.options;
 
-import static org.kuali.module.budget.BCConstants.SalaryAdjustmentMeasurement.AMOUNT;
-import static org.kuali.module.budget.BCConstants.SalaryAdjustmentMeasurement.PERCENT;
+import static org.kuali.kfs.module.bc.BCConstants.SalaryAdjustmentMeasurement.AMOUNT;
+import static org.kuali.kfs.module.bc.BCConstants.SalaryAdjustmentMeasurement.PERCENT;
 
 import java.util.ArrayList;
 import java.util.List;

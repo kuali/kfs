@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.util.Date;
 
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * A surprisingly small DAO interface that declares methods to help Entries interact with the database

@@ -17,16 +17,16 @@
  * Created on Jan 19, 2005
  *
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author local-jsissom
  */
-public class EnvironmentServiceImpl implements org.kuali.module.pdp.service.EnvironmentService {
+public class EnvironmentServiceImpl implements org.kuali.kfs.pdp.service.EnvironmentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EnvironmentServiceImpl.class);
 
     private KualiConfigurationService kualiConfigurationService;

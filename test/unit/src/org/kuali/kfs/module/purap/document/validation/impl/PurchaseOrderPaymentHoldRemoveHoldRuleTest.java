@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.*;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.*;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.fixtures.PurchaseOrderChangeDocumentFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = PARKE)
 public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBase {

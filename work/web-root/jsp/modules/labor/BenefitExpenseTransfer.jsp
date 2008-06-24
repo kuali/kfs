@@ -66,7 +66,7 @@
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
 					property="universityFiscalYear" readOnly="${readOnly}" /> 
 					<c:if test="${!readOnly}">
-						<kul:lookup	boClassName="org.kuali.kfs.bo.Options"
+						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.Options"
 						lookupParameters="universityFiscalYear:universityFiscalYear"
 						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
 					</c:if>
@@ -83,7 +83,7 @@
 					property="chartOfAccountsCode" readOnly="${disabled}" /> 
 					
 					<c:if test="${!disabled}">
-						<kul:lookup	boClassName="org.kuali.module.chart.bo.Chart"
+						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
 					</c:if>
@@ -101,7 +101,7 @@
 					property="accountNumber" readOnly="${disabled}" />
 					
 					<c:if test="${!disabled}">
-						 <kul:lookup boClassName="org.kuali.module.chart.bo.Account"
+						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" />
 					</c:if>
@@ -117,7 +117,7 @@
 					attributeEntry="${balanceInquiryAttributes.subAccountNumber}"
 					property="subAccountNumber" readOnly="${disabled}" /> 
 					<c:if test="${!disabled}">
-						<kul:lookup	boClassName="org.kuali.module.chart.bo.SubAccount"
+						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.subAccountNumber.label}" />
 					</c:if>
@@ -129,7 +129,7 @@
             	<td height="30" class="infoline">
 	            	<c:if test="${!readOnly}">
 		                <gl:balanceInquiryLookup
-								boClassName="org.kuali.module.labor.bo.LedgerBalanceForBenefitExpenseTransfer"
+								boClassName="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForBenefitExpenseTransfer"
 								actionPath="glBalanceInquiryLookup.do"
 								lookupParameters="universityFiscalYear:universityFiscalYear,accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode,emplid:emplid"
 								tabindexOverride="KualiForm.currentTabIndex"

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.document.service.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,22 +38,22 @@ import org.kuali.core.web.comparator.StringValueComparator;
 import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.CorrectionChangeDao;
-import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
-import org.kuali.module.gl.dao.CorrectionCriteriaDao;
-import org.kuali.module.gl.dao.CorrectionDocumentDao;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.service.CorrectionDocumentService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
-import org.kuali.module.gl.util.CorrectionDocumentUtils;
-import org.kuali.module.gl.util.OriginEntryFileIterator;
-import org.kuali.module.gl.util.OriginEntryStatistics;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
+import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
+import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
+import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
+import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -83,7 +83,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param docId the document id of a GLCP document
      * @param i the number of the correction group within the document
      * @return a CorrectionChangeGroup
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
      *      int)
      */
     public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String docId, int i) {
@@ -97,7 +97,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param docId the document id of a GLCP document
      * @param i the number of the correction group within the document
      * @return a List of qualifying CorrectionChange records
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
      *      int)
      */
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(String docId, int i) {
@@ -111,7 +111,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param docId the document id of a GLCP document
      * @param i the number of the correction group within the document
      * @return a List of qualifying CorrectionCriteria
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String,
      *      int)
      */
     public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i) {
@@ -124,7 +124,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param docId the document id of the GLCP to find
      * @return a CorrectionDocument if found
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
      */
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId) {
 
@@ -154,7 +154,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param docId the document id of a GLCP document
      * @return a List of Columns to render
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
      */
     public List<Column> getTableRenderColumnMetadata(String docId) {
         synchronized (this) {
@@ -365,7 +365,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param document an initiated or saved document
      * @param entries an Iterator of origin entries
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
      */
     public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -382,7 +382,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param document an initiated or saved document
      * @param entries an Iterator of origin entries
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument,
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument,
      *      java.util.Iterator)
      */
     public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
@@ -448,7 +448,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * Removes input origin entries that were saved to the database associated with the given document
      * 
      * @param document a GLCP document
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument)
      */
     public void removePersistedInputOriginEntries(CorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -459,7 +459,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * Removes all output origin entries persisted in the database created by the given document 
      * 
      * @param document a GLCP document
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument)
      */
     public void removePersistedOutputOriginEntries(CorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -471,7 +471,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * Removes input origin entries that were saved to the database associated with the given document
      * 
      * @param docId the document id of a GLCP document
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntries(java.lang.String)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedInputOriginEntries(java.lang.String)
      */
     public void removePersistedInputOriginEntries(String docId) {
         removePersistedOriginEntries(generateInputOriginEntryFileName(docId));
@@ -481,7 +481,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * Removes all output origin entries persisted in the database created by the given document 
      *
      * @param docId the document id of a GLCP document
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedOutputOriginEntries(java.lang.String)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedOutputOriginEntries(java.lang.String)
      */
     public void removePersistedOutputOriginEntries(String docId) {
         removePersistedOriginEntries(generateOutputOriginEntryFileName(docId));
@@ -507,7 +507,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      *        signifies that there is no limit
      * @return the list, or null if there are too many origin entries
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument,
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.kfs.gl.document.CorrectionDocument,
      *      int)
      */
     public List<OriginEntryFull> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold) {
@@ -522,7 +522,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      *        signifies that there is no limit
      * @return the list, or null if there are too many origin entries
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument,
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.kfs.gl.document.CorrectionDocument,
      *      int)
      */
     public List<OriginEntryFull> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold) {
@@ -588,7 +588,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param document the document
      * @return the iterator
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.kfs.gl.document.CorrectionDocument)
      */
     public Iterator<OriginEntryFull> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -602,7 +602,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document the document
      * @return the iterator
      * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.kfs.gl.document.CorrectionDocument)
      */
     public Iterator<OriginEntryFull> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -640,7 +640,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     /**
      * Returns true if and only if the file corresponding to this document's input origin entries are on the file system.
      * 
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.kfs.gl.document.CorrectionDocument)
      */
     public boolean areInputOriginEntriesPersisted(CorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -652,7 +652,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * Returns true if and only if the file corresponding to this document's output origin entries are on the file system.
      * @param document a GLCP document to query
      * @return true if origin entries are stored to the system, false otherwise
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.kfs.gl.document.CorrectionDocument)
      */
     public boolean areOutputOriginEntriesPersisted(CorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -667,7 +667,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document a GLCP document
      * @param out axn open and ready output stream
      * @throws IOException thrown if IOExceptions occurred in writing the persisted origin entries
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
      */
     public void writePersistedInputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -680,7 +680,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @param document a GLCP document
      * @param out axn open and ready output stream
      * @throws IOException thrown if IOExceptions occurred in writing the persisted origin entries
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#writePersistedOutputOriginEntriesToStream(java.io.OutputStream)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#writePersistedOutputOriginEntriesToStream(java.io.OutputStream)
      */
     public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -715,7 +715,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param document a GLCP document
      * @param correctionDocumentEntryMetadata metadata about this GLCP document
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOriginEntryGroupsForDocumentSave(org.kuali.module.gl.document.CorrectionDocument, org.kuali.module.gl.util.CorrectionDocumentEntryMetadata)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntryGroupsForDocumentSave(org.kuali.kfs.gl.document.CorrectionDocument, org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata)
      */
     public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
         if (correctionDocumentEntryMetadata.getAllEntries() == null && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
@@ -899,7 +899,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#getCorrectionDocumentsFinalizedOn(java.sql.Date)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#getCorrectionDocumentsFinalizedOn(java.sql.Date)
      */
     public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date) {
         return correctionDocumentDao.getCorrectionDocumentsFinalizedOn(date);

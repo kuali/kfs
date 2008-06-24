@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -40,26 +40,26 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.AccountsPayableDocumentStrings;
-import org.kuali.module.purap.PurapConstants.CMDocumentsStrings;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.AccountsPayableDocumentBase;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.event.CancelAccountsPayableEvent;
-import org.kuali.module.purap.rule.event.PreCalculateAccountsPayableEvent;
-import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.util.PurQuestionCallback;
-import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
+import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.validation.event.CancelAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.event.PreCalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.PurQuestionCallback;
+import org.kuali.kfs.module.purap.document.web.struts.AccountsPayableFormBase;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;

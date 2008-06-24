@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -38,37 +38,37 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ReportGenerationService;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BudgetConstructionReportMode;
-import org.kuali.module.budget.BCConstants.Report.ReportSelectMode;
-import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
-import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
-import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
-import org.kuali.module.budget.service.BudgetConstructionAccountFundingDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionAccountObjectDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionList2PLGReportService;
-import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionPositionFundingDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionReasonStatisticsReportService;
-import org.kuali.module.budget.service.BudgetConstructionReasonSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionSalaryStatisticsReportService;
-import org.kuali.module.budget.service.BudgetConstructionSalarySummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionSynchronizationProblemsReportService;
-import org.kuali.module.budget.service.BudgetReportsControlListService;
-import org.kuali.module.budget.util.ReportControlListBuildHelper;
-import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.service.ReportGenerationService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFundingDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountObjectDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionList2PLGReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionObjectSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalaryStatisticsReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalarySummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionSubFundSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionSynchronizationProblemsReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
+import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
+import org.kuali.kfs.module.bc.document.web.struts.OrganizationReportSelectionForm;
 
 /**
  * Struts Action Class for the Organization Report Selection Screen.

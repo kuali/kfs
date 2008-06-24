@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,16 +25,16 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
-import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.rule.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
-import org.kuali.module.labor.rule.event.GenerateLaborLedgerPendingEntriesEvent;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao;
+import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
+import org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
+import org.kuali.kfs.module.ld.document.validation.event.GenerateLaborLedgerPendingEntriesEvent;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -49,7 +49,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(org.kuali.module.chart.bo.Account)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(org.kuali.kfs.coa.businessobject.Account)
      */
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber) {
         Map fieldValues = new HashMap();
@@ -60,7 +60,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(java.util.Map)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(java.util.Map)
      */
     public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
         LOG.info("hasPendingLaborLedgerEntry(Map fieldValues) started");
@@ -177,14 +177,14 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#findApprovedPendingLedgerEntries()
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#findApprovedPendingLedgerEntries()
      */
     public Iterator<LaborLedgerPendingEntry> findApprovedPendingLedgerEntries() {
         return laborLedgerPendingEntryDao.findApprovedPendingLedgerEntries();
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#deleteByFinancialDocumentApprovedCode(java.lang.String)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#deleteByFinancialDocumentApprovedCode(java.lang.String)
      */
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
         laborLedgerPendingEntryDao.deleteByFinancialDocumentApprovedCode(financialDocumentApprovedCode);

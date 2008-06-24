@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.action;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 /**
  * Struts action class for Year End Salary Expense Transfer Document. This class extends the parent

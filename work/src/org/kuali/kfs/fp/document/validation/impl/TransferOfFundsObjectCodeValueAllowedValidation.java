@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.validation.AccountingLineValueAllowedValidation;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 
 /**
  * A validation for the transfer of funds document that makes sure that an object code in any accounting line represents either income or expense.
@@ -30,7 +30,7 @@ public class TransferOfFundsObjectCodeValueAllowedValidation extends AccountingL
 
     /**
      * Overrides the parent to make sure that the chosen object code's object code is Income/Expense.
-     * @see org.kuali.kfs.validation.AccountingLineValueAllowedValidation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {

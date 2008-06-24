@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.document.service;
 
 import java.util.List;
 
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 
 /**
  * Contains service methods for the Effort Certification Automatic Period Update Process

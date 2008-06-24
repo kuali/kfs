@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="researchRiskTypeCode" draw="true" service="workflow-org.kuali.module.kra.routingform.bo.ResearchRiskType-Lookupable(null)" />
+          <quickfinder appliesTo="researchRiskTypeCode" draw="true" service="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//org.kuali.module.cg.bo.ProposalResearchRisk/researchRiskTypeCode') = wf:ruledata('ProposalResearchRisk')</xpathexpression>
           </fieldEvaluation>

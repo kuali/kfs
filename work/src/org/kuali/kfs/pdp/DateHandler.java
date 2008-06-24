@@ -19,7 +19,7 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.kuali.module.pdp.utilities;
+package org.kuali.kfs.pdp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

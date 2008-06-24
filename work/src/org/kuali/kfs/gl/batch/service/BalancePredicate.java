@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service;
+package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 /**
  * This class represents business logic, specifically to decide whether a balance should be selected by a FilteringBalanceIterator
  * or not.
  * 
- * @see org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator
+ * @see org.kuali.kfs.gl.batch.service.FilteringBalanceIterator
  */
 public interface BalancePredicate {
 

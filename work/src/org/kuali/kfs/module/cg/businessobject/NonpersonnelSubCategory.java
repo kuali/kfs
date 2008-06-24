@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 // import com.sun.rsasign.s;
 import org.kuali.core.bo.KualiCodeBase;

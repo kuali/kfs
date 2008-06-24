@@ -17,7 +17,7 @@
  * Created on Aug 30, 2004
  *
  */
-package org.kuali.module.pdp.action.format;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,14 +32,14 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.form.format.FormatProcessForm;
-import org.kuali.module.pdp.form.format.FormatSelectionForm;
-import org.kuali.module.pdp.service.FormatResult;
-import org.kuali.module.pdp.service.FormatService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.DateHandler;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.web.struts.FormatProcessForm;
+import org.kuali.kfs.pdp.web.struts.FormatSelectionForm;
+import org.kuali.kfs.pdp.businessobject.FormatResult;
+import org.kuali.kfs.pdp.service.FormatService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.DateHandler;
 
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.kuali.core.service.impl.BusinessObjectServiceImpl;
 import org.kuali.core.util.DateUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
-import org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanInfoServiceImpl;
 
 public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     private static final int THREE_DAYS_LATER = 3;

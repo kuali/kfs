@@ -19,7 +19,7 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.kuali.module.pdp.exception;
+package org.kuali.kfs.pdp.exception;
 
 /**
  * @author HSTAPLET To change the template for this generated type comment go to Window&gt;Preferences&gt;Java&gt;Code

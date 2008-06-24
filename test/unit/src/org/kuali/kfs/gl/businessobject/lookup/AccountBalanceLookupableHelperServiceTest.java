@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.LookupableSpringContext;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
-import org.kuali.module.gl.service.AccountBalanceService;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.AccountBalanceByConsolidation;
+import org.kuali.kfs.gl.service.AccountBalanceService;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class contains the test cases that can be applied to the method in AccountBalanceLookupableImpl class.
@@ -38,7 +38,7 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
 
     /**
      * Initializes the services needed for this test
-     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableHelperServiceTestBase#setUp()
+     * @see org.kuali.kfs.gl.businessobject.lookup.AbstractGeneralLedgerLookupableHelperServiceTestBase#setUp()
      */
     @Override
     protected void setUp() throws Exception {

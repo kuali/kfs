@@ -7,7 +7,7 @@
   <bean id="AccountReportsMaintenanceDocument" parent="AccountReportsMaintenanceDocument-parentBean" />
 
   <bean id="AccountReportsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAccountReports" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -50,8 +50,8 @@
     <property name="summary" value="Budget Construction Account Reports Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Account Reports Maintenance Document objects" />
     <property name="documentTypeName" value="AccountReportsMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.budget.rules.BudgetConstructionAccountReportsRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionAccountReportsRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BCAR" />
     <property name="authorizations" >
       <list>

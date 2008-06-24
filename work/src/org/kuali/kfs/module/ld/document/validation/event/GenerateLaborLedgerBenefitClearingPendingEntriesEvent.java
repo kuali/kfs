@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.rule.event;
+package org.kuali.kfs.module.ld.document.validation.event;
 
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.module.labor.document.LaborLedgerPostingDocument;
-import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
+import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
+import org.kuali.kfs.module.ld.document.validation.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 
 /**
  * Event used to re/generate general ledger pending entries for a transactional document.

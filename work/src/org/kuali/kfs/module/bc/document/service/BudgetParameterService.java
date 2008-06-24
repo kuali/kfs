@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
-import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
 /**
  * This provides methods specific to system parameters for the Budget module

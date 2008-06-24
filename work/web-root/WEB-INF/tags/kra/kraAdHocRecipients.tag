@@ -253,7 +253,7 @@
 							</c:otherwise>
 						</c:choose>
 						&nbsp;&nbsp;
-						<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				      </div>
 					</td>

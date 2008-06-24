@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.dao.SufficientFundRebuildDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
 
 /**
  * An OJB implementation of the SufficientFundRebuildDao
@@ -42,7 +42,7 @@ public class SufficientFundRebuildDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * Returns all sufficient fund rebuild balances in the database
      * 
      * @return a Collection with all sufficient fund rebuild balances
-     * @see org.kuali.module.gl.dao.SufficientFundRebuildDao#getAll()
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao#getAll()
      */
     public Collection getAll() {
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, (Criteria) null);
@@ -58,7 +58,7 @@ public class SufficientFundRebuildDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * 
      * @param accountFinancialObjectTypeCode the object type code of sufficient fund balances to return
      * @return a Collection of qualifying sufficient fund balances
-     * @see org.kuali.module.gl.dao.SufficientFundRebuildDao#getByType(java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao#getByType(java.lang.String)
      */
     public Collection getByType(String accountFinancialObjectTypeCode) {
         Criteria criteria = new Criteria();
@@ -74,7 +74,7 @@ public class SufficientFundRebuildDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * @param chartOfAccountsCode the chart of the rebuild balance to return
      * @param accountNumberFinancialObjectCode the account number or object code of the rebuild balance to returnd
      * @return a qualifying sufficient fund rebuild record if found in the database, or null
-     * @see org.kuali.module.gl.dao.SufficientFundRebuildDao#getByAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao#getByAccount(java.lang.String, java.lang.String)
      */
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {
         Criteria criteria = new Criteria();
@@ -92,7 +92,7 @@ public class SufficientFundRebuildDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * @param accountFinancialObjectTypeCode the object type code of the rebuild balance to return
      * @param accountNumberFinancialObjectCode the account number or fiscal object of the rebuild balance to return
      * @return the qualifying rebuild balance, or null if not found in the database
-     * @see org.kuali.module.gl.dao.SufficientFundRebuildDao#get(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao#get(java.lang.String, java.lang.String, java.lang.String)
      */
     public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode) {
         Criteria criteria = new Criteria();
@@ -108,7 +108,7 @@ public class SufficientFundRebuildDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * Saves a sufficient fund rebuild record to the database
      * 
      * @param sfrb the sufficient fund rebuild balance to save
-     * @see org.kuali.module.gl.dao.SufficientFundRebuildDao#save(org.kuali.module.gl.bo.SufficientFundRebuild)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao#save(org.kuali.kfs.gl.businessobject.SufficientFundRebuild)
      */
     public void save(SufficientFundRebuild sfrb) {
         LOG.debug("save() started");
@@ -118,7 +118,7 @@ public class SufficientFundRebuildDaoOjb extends PlatformAwareDaoBaseOjb impleme
     /**
      * Deletes a sufficient fund rebuild record from the database
      * @param sfrb the sufficient fund rebuild balance to delete
-     * @see org.kuali.module.gl.dao.SufficientFundRebuildDao#delete(org.kuali.module.gl.bo.SufficientFundRebuild)
+     * @see org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao#delete(org.kuali.kfs.gl.businessobject.SufficientFundRebuild)
      */
     public void delete(SufficientFundRebuild sfrb) {
         getPersistenceBrokerTemplate().delete(sfrb);

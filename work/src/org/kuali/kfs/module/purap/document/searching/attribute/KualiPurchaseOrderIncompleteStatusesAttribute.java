@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.purap.docsearch.attribute;
+package org.kuali.kfs.module.purap.document.searching.attribute;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl;
 
 import edu.iu.uis.eden.docsearch.SearchableAttributeStringValue;

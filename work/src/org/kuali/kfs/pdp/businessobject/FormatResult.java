@@ -17,7 +17,7 @@
  * Created on Aug 17, 2004
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,8 +25,8 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.DisbursementType;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.DisbursementType;
 
 
 /**

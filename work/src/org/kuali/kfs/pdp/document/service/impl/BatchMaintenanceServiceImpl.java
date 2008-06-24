@@ -16,24 +16,24 @@
 /*
  * Created on Aug 12, 2004
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.document.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.bo.PaymentChange;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.dao.BatchMaintenanceDao;
-import org.kuali.module.pdp.dao.PaymentGroupDao;
-import org.kuali.module.pdp.dao.PaymentGroupHistoryDao;
-import org.kuali.module.pdp.exception.CancelPaymentException;
-import org.kuali.module.pdp.exception.PdpException;
-import org.kuali.module.pdp.service.BatchMaintenanceService;
-import org.kuali.module.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.businessobject.Code;
+import org.kuali.kfs.pdp.businessobject.PaymentChange;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
+import org.kuali.kfs.pdp.exception.CancelPaymentException;
+import org.kuali.kfs.pdp.exception.PdpException;
+import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.ReferenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 

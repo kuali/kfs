@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.gl.bo;
+package org.kuali.kfs.gl.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.coa.businessobject.Chart;
 
 
 /**

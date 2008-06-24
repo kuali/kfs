@@ -7,8 +7,8 @@
   <bean id="OrganizationOptionsMaintenanceDocument" parent="OrganizationOptionsMaintenanceDocument-parentBean" />
 
   <bean id="OrganizationOptionsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.OrganizationOptions" />
-    <property name="maintainableClass" value="org.kuali.module.ar.maintenance.OrganizationOptionsMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.OrganizationOptions" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.OrganizationOptionsMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions" />
@@ -45,9 +45,9 @@
     <property name="description" value="Document used to create or update Organization Options
 			objects" />
     <property name="documentTypeName" value="OrganizationOptionsMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.OrganizationOptionsRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.OrganizationOptionsAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.OrganizationOptionsPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsPreRules" />
     <property name="documentTypeCode" value="OOPT" />
     <property name="authorizations" >
       <list>
@@ -76,19 +76,19 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="processingChartOfAccountCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="processingOrganizationCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
       </list>
@@ -103,7 +103,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCheckPayableToName"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.InstitutionNameValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationPaymentTermsText"
               p:defaultValue="NET 30 DAYS" />
@@ -125,26 +125,26 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToAddressName"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToAddressNameValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToAddressNameValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToLine1StreetAddress"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine1AddressValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToLine1AddressValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToLine2StreetAddress"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToLine2AddressValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToLine2AddressValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToCityName"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToCityNameValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToCityNameValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToStateCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToStateCodeValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToStateCodeValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationRemitToZipCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrganizationRemitToZipCodeValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToZipCodeValueFinder" />
       </list>
     </property>
   </bean>

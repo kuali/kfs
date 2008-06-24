@@ -17,7 +17,7 @@
  * Created on Aug 11, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,10 +28,10 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.dao.BatchMaintenanceDao;
-import org.kuali.module.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
+import org.kuali.kfs.pdp.service.ReferenceService;
 
 
 /**

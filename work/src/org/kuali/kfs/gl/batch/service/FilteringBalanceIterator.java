@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Iterator;
 
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.kfs.gl.businessobject.Balance;
 
 /**
  * An extension of the Iterator interface that allows for balances to be selected or not
  * 
- * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate
+ * @see org.kuali.kfs.gl.batch.service.BalancePredicate
  */
 public interface FilteringBalanceIterator extends Iterator, Iterable {
 
@@ -30,7 +30,7 @@ public interface FilteringBalanceIterator extends Iterator, Iterable {
      * Set the balance predicate that should be used to filter this iterator
      * 
      * @param balancePredicate the BalancePredicate with the logic to use for this filtering balance iterator
-     * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate
+     * @see org.kuali.kfs.gl.batch.service.BalancePredicate
      */
     public void setBalancePredicate(BalancePredicate balancePredicate);
 

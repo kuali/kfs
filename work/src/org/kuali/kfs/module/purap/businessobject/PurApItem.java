@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
  * Purap Item Business Object.

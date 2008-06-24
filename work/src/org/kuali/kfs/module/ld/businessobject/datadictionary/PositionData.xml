@@ -7,7 +7,7 @@
   <bean id="PositionData" parent="PositionData-parentBean" />
 
   <bean id="PositionData-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.labor.bo.PositionData" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionData" />
     <property name="inquiryDefinition" >
       <ref bean="PositionData-inquiryDefinition" />
     </property>
@@ -379,7 +379,7 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl" />
+    <property name="inquirableClass" value="org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

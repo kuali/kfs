@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.web.struts.form;
+package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -32,22 +32,22 @@ import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
-import org.kuali.module.effort.util.PayrollAmountHolder;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
+import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
 
 /**
  * Action form for Effort Certification Document.

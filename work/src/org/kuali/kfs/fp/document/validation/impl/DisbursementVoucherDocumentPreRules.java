@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -24,15 +24,15 @@ import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
-import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
 
 /**
  * Checks warnings and prompt conditions for dv document.

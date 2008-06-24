@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.coa.businessobject.Chart;
 
 /**
  * This interface defines methods that a Chart Service must provide

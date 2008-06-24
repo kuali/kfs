@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service;
+package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.InvoicePaidApplied;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 /**
  * This class provides services related to the customer invoice document

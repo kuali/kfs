@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 
 public class CustomerCreditMemoDocumentPreRules extends PreRulesContinuationBase {
 

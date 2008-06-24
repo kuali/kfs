@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.lookup;
+package org.kuali.kfs.module.cam.businessobject.lookup;
 
 import java.util.Map;
 import java.util.Properties;
@@ -21,9 +21,9 @@ import java.util.Properties;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 
 /**
  * This class overrides the getReturnUrl, setFieldConversions and getActionUrls for

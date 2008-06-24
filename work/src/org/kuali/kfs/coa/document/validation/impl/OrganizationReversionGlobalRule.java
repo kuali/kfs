@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.Iterator;
 
@@ -23,17 +23,17 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OrganizationReversionGlobal;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
-import org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder;
-import org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainableImpl;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OrganizationReversionService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
+import org.kuali.kfs.coa.businessobject.options.OrganizationReversionCodeValuesFinder;
+import org.kuali.kfs.coa.document.OrganizationReversionGlobalMaintainableImpl;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
 
 /**
  * 

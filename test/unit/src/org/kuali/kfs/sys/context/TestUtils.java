@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.context;
+package org.kuali.kfs.sys.context;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,10 +31,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.util.properties.PropertyTree;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.PreCommitSuite;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.PreCommitSuite;
 
 /**
  * This class provides utility methods for use during manual testing.

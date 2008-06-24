@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
 import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.purap.bo.PurApSummaryItem;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 
 /**
  * 

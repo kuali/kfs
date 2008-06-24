@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.kfs.batch.BatchInputFileTypeTest;
-import org.kuali.module.financial.batch.PcdoLoadStepTest;
-import org.kuali.module.gl.batch.CollectorStepTest;
-import org.kuali.module.gl.service.CollectorServiceTest;
+import org.kuali.kfs.sys.batch.BatchInputFileTypeTest;
+import org.kuali.kfs.fp.batch.service.PcdoLoadStepTest;
+import org.kuali.kfs.gl.batch.CollectorStepTest;
+import org.kuali.kfs.gl.batch.service.CollectorServiceTest;
 
 /**
  * Builds Suite for all batch tests.

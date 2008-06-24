@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -26,7 +26,7 @@ import org.kuali.core.datadictionary.DataDictionaryException;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

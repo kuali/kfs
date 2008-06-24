@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiOverrideCodeTargetAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Override Code Target Line</label>
       <description>Override Code Target Accounting Line</description>
       <type>RuleXmlAttribute</type>

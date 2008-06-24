@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.batch.service;
 
 
 import java.util.List;
 
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 
 /**
  * The interface defines the methods that extract Labor Ledger records of the employees who were paid on a grant or cost shared

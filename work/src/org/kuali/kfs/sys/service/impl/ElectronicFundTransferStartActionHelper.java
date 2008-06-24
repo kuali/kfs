@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.Map;
 import java.util.Properties;
@@ -22,10 +22,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -35,7 +35,7 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
 
     /**
-     * @see org.kuali.kfs.service.ElectronicFundTransferActionHelper#performAction(org.kuali.kfs.web.struts.form.ElectronicFundTransferForm, org.apache.struts.action.ActionMapping, java.util.Map)
+     * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm, org.apache.struts.action.ActionMapping, java.util.Map)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map parameterMap, String basePath) {
         return new ActionForward((electronicPaymentClaimingService.isUserMemberOfClaimingGroup(GlobalVariables.getUserSession().getFinancialSystemUser()) ? getClaimingLookupUrl(form, basePath) : getNonClaimingLookupUrl(form, basePath) ), true);

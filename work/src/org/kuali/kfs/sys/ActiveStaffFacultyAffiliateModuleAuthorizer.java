@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.authorization;
+package org.kuali.kfs.sys;
 
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.service.ParameterEvaluator;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class ActiveStaffFacultyAffiliateModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {

@@ -7,8 +7,8 @@
   <bean id="CustomerMaintenanceDocument" parent="CustomerMaintenanceDocument-parentBean" />
 
   <bean id="CustomerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.Customer" />
-    <property name="maintainableClass" value="org.kuali.module.ar.maintenance.CustomerMaintenableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.CustomerMaintenableImpl" />
    
     <property name="maintainableSections" >
       <list>
@@ -36,9 +36,9 @@
             p:parameterDetailType="Customer" />
     </property>
     <property name="documentTypeName" value="CustomerMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerRule" />
-    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.CustomerPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CustomerAuthorizer" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerAuthorizer" />
     <property name="documentTypeCode" value="CUS" />
     <property name="webScriptFiles" >
       <list>
@@ -162,7 +162,7 @@
       <list>
       <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="customerAddresses" />
-          <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerAddress" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"

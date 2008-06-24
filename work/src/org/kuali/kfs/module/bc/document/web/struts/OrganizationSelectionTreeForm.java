@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,11 +26,11 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants.OrgSelControlOption;
-import org.kuali.module.budget.BCConstants.OrgSelOpMode;
-import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 
 /**
  * This class...

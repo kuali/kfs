@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 /**
  * This class works with the Deposit Wizard form to figure out which cashiering checks are to be included in a given deposit

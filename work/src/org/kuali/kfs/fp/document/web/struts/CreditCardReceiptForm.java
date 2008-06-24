@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.fp.businessobject.CreditCardDetail;
+import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 
 /**
  * This class is the struts form for Credit Card Receipt document.

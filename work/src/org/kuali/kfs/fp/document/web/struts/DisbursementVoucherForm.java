@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,16 +21,16 @@ import java.util.Map;
 
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.module.financial.bo.TravelPerDiem;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
+import org.kuali.kfs.fp.businessobject.TravelPerDiem;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * This class is the action form for the Disbursement Voucher.

@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.service.impl.ParameterServiceImpl;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.fixture.PaymentSummaryFixture;
-import org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.financial.service.impl.UniversityDateServiceImpl;
-import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.service.impl.ParameterServiceImpl;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.fixture.PaymentSummaryFixture;
+import org.kuali.kfs.module.cam.document.service.impl.PaymentSummaryServiceImpl;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 
 public class PaymentSummaryServiceTest extends KualiTestBase {
 

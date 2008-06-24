@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,13 +30,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.service.PayrateImportService;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
-import org.kuali.module.budget.web.struts.form.PayrateImportExportForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.service.PayrateImportService;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportForm;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportForm;
+import org.kuali.kfs.module.bc.document.web.struts.PayrateImportExportForm;
 
 public class PayrateImportExportAction extends BudgetExpansionAction {
     

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.util;
+package org.kuali.kfs.module.ec.util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +23,17 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Logged;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.Log4jConfigurer;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.service.EffortCertificationCreateService;
-import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.bo.LaborLedgerEntry;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.Log4jConfigurer;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.batch.service.EffortCertificationCreateService;
+import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
+import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.test.util.SpringContextForBatchRunner;
-import org.kuali.test.util.TestDataPreparator;
+import org.kuali.kfs.TestDataPreparator;
 
 /**
  * This batch runner is just for testing purpose and used by effort team members.

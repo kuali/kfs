@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.document;
+package org.kuali.kfs.module.cg.document;
 
 import java.sql.Date;
 
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 /**
  * Instances of CloseDocument indicate dates on which the {@link CloseBatchStep} should be executed.

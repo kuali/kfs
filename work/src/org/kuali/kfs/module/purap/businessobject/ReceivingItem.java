@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.UnitOfMeasure;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 
 
 public interface ReceivingItem {

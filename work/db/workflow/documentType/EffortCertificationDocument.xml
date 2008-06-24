@@ -5,7 +5,7 @@
       <name>EffortCertificationDocument</name>
       <parent>KualiBaseDocument</parent>
       <label>Effort Certification</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
@@ -68,7 +68,7 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>org.kuali.workflow.module.effort.node.DoEffortCertificationAwardRoutingSplitNode</type>
+          <type>org.kuali.kfs.module.ec.document.routing.node.DoEffortCertificationAwardRoutingSplitNode</type>
         </split>
         <requests name="Award Workgroup">
           <activationType>S</activationType>
@@ -97,7 +97,7 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>org.kuali.workflow.module.effort.node.DoEffortCertificationRecreateRoutingSplitNode</type>
+          <type>org.kuali.kfs.module.ec.document.routing.node.DoEffortCertificationRecreateRoutingSplitNode</type>
         </split>
         <requests name="Recreate Workgroup">
           <activationType>S</activationType>

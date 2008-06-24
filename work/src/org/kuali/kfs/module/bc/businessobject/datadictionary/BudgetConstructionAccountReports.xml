@@ -7,7 +7,7 @@
   <bean id="BudgetConstructionAccountReports" parent="BudgetConstructionAccountReports-parentBean" />
 
   <bean id="BudgetConstructionAccountReports-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAccountReports" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetConstructionAccountReports-inquiryDefinition" />
     </property>
@@ -39,7 +39,7 @@
   <bean id="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -62,7 +62,7 @@
     <property name="shortLabel" value="Repts to Cht" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="description" value="The Chart for the Reports To organization." />

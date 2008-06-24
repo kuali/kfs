@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.document;
+package org.kuali.kfs.module.ld.document;
 
-import org.kuali.module.financial.document.YearEndDocument;
+import org.kuali.kfs.fp.document.YearEndDocument;
 
 /**
  * Labor Document Class for the Year End Salary Expense Transfer Document.

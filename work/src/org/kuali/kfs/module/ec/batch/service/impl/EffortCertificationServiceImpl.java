@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.effort.EffortConstants.SystemParameters;
-import org.kuali.module.effort.batch.EffortCertificationExtractStep;
-import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
-import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
-import org.kuali.module.effort.util.AccountingPeriodMonth;
-import org.kuali.module.integration.bo.EffortCertificationReport;
-import org.kuali.module.integration.service.EffortCertificationService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
+import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
+import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
+import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
+import org.kuali.kfs.integration.service.EffortCertificationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @see org.kuali.module.integration.service.EffortCertificationService
+ * @see org.kuali.kfs.integration.service.EffortCertificationService
  */
 @Transactional
 public class EffortCertificationServiceImpl implements EffortCertificationService {
@@ -40,7 +40,7 @@ public class EffortCertificationServiceImpl implements EffortCertificationServic
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.module.integration.service.EffortCertificationService#findReportDefinitionsForPeriod(java.lang.Integer,
+     * @see org.kuali.kfs.integration.service.EffortCertificationService#findReportDefinitionsForPeriod(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
     public List<EffortCertificationReport> findReportDefinitionsForPeriod(Integer fiscalYear, String periodCode, String positionObjectGroupCode) {
@@ -59,7 +59,7 @@ public class EffortCertificationServiceImpl implements EffortCertificationServic
     }
 
     /**
-     * @see org.kuali.module.integration.service.EffortCertificationService#isEmployeeWithOpenCertification(java.util.List,
+     * @see org.kuali.kfs.integration.service.EffortCertificationService#isEmployeeWithOpenCertification(java.util.List,
      *      java.lang.String)
      */
     public EffortCertificationReport isEmployeeWithOpenCertification(List<EffortCertificationReport> effortCertificationReports, String emplid) {
@@ -73,7 +73,7 @@ public class EffortCertificationServiceImpl implements EffortCertificationServic
     }
 
     /**
-     * @see org.kuali.module.integration.service.EffortCertificationService#getCostShareSubAccountTypeCodes()
+     * @see org.kuali.kfs.integration.service.EffortCertificationService#getCostShareSubAccountTypeCodes()
      */
     public List<String> getCostShareSubAccountTypeCodes() {
         return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);

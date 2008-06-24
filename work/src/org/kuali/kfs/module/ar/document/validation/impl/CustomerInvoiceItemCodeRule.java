@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -24,14 +24,14 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.ArConstants.InvoiceItemCode;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
-import org.kuali.module.ar.bo.OrganizationOptions;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArConstants.InvoiceItemCode;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 
 public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {

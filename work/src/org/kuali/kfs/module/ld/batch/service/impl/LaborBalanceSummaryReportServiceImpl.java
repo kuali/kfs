@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.module.gl.GLConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR;
-import static org.kuali.module.gl.GLConstants.GlSummaryReport.CURRENT_YEAR_LOWER;
-import static org.kuali.module.gl.GLConstants.GlSummaryReport.CURRENT_YEAR_UPPER;
+import static org.kuali.kfs.gl.GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR;
+import static org.kuali.kfs.gl.GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER;
+import static org.kuali.kfs.gl.GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -27,13 +27,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.gl.batch.PosterSummaryReportStep;
-import org.kuali.module.labor.service.LaborBalanceSummaryReportService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
+import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,7 +48,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports()
      */
     public void generateBalanceSummaryReports() {
         LOG.info("generateBalanceSummaryReports() started");
@@ -58,7 +58,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports(java.sql.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports(java.sql.Date)
      */
     public void generateBalanceSummaryReports(Date runDate) {
         LOG.info("generateBalanceSummaryReports(Date) started");

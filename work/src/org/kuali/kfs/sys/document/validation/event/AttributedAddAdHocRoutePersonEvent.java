@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rule.event;
+package org.kuali.kfs.sys.document.validation.event;
 
 import java.util.List;
 import java.util.Map;

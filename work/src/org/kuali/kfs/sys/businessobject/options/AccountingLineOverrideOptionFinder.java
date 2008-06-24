@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup.keyvalues;
+package org.kuali.kfs.sys.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.bo.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 
 public class AccountingLineOverrideOptionFinder extends KeyValuesBase implements ValueFinder {
 

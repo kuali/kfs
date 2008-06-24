@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -29,25 +29,25 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.UnitOfMeasure;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule;
-import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
-import org.kuali.module.ar.service.CustomerAddressService;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.validation.DiscountCustomerInvoiceDetailRule;
+import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerInvoiceDetailRule;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument>, DiscountCustomerInvoiceDetailRule<AccountingDocument> {
@@ -64,7 +64,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document doc) {
@@ -442,8 +442,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     /**
      * Overriding AccountingDocumentRuleBase.isValid() because the error message doesn't make sense for the CustomerInvoiceDocument.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
@@ -545,8 +545,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * @see org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule#processRecalculateCustomerInvoiceDetailRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.validation.RecalculateCustomerInvoiceDetailRule#processRecalculateCustomerInvoiceDetailRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public boolean processRecalculateCustomerInvoiceDetailRules(AccountingDocument financialDocument, CustomerInvoiceDetail customerInvoiceDetail) {
         boolean success = true;
@@ -627,8 +627,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * @see org.kuali.module.ar.rule.DiscountCustomerInvoiceDetailRule#processDiscountCustomerInvoiceDetailRules(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.validation.DiscountCustomerInvoiceDetailRule#processDiscountCustomerInvoiceDetailRules(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public boolean processDiscountCustomerInvoiceDetailRules(AccountingDocument financialDocument, CustomerInvoiceDetail parentCustomerInvoiceDetail) {
 

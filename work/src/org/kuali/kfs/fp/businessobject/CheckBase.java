@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -233,7 +233,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
 
     /**
-     * @see org.kuali.module.financial.bo.Check#isLike(org.kuali.module.financial.bo.Check)
+     * @see org.kuali.kfs.fp.businessobject.Check#isLike(org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean isLike(Check other) {
         boolean like = false;

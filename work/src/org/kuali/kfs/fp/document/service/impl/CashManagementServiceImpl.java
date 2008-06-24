@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,36 +32,36 @@ import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.CashDrawerConstants;
-import org.kuali.kfs.KFSConstants.CurrencyCoinSources;
-import org.kuali.kfs.KFSConstants.DepositConstants;
-import org.kuali.kfs.KFSConstants.DocumentStatusCodes;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.Bank;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashReceiptHeader;
-import org.kuali.module.financial.bo.CashieringItemInProcess;
-import org.kuali.module.financial.bo.CashieringTransaction;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.bo.DepositCashReceiptControl;
-import org.kuali.module.financial.dao.CashManagementDao;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.exceptions.CashDrawerStateException;
-import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
-import org.kuali.module.financial.rules.CashieringTransactionRule;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashManagementService;
-import org.kuali.module.financial.service.CashReceiptService;
-import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.sys.KFSConstants.CurrencyCoinSources;
+import org.kuali.kfs.sys.KFSConstants.DepositConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.Bank;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
+import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
+import org.kuali.kfs.fp.businessobject.CashieringTransaction;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.businessobject.DepositCashReceiptControl;
+import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.exception.CashDrawerStateException;
+import org.kuali.kfs.fp.exception.InvalidCashReceiptState;
+import org.kuali.kfs.fp.document.validation.impl.CashieringTransactionRule;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.document.service.CashManagementService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.businessobject.format.CashDrawerStatusCodeFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -90,7 +90,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param documentId The id of the cash receipt document linked to the cash management document.
      * @return An instance of a CashManagementDocument matching the provided search criteria, or null if no value is found.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#getCashManagementDocumentForCashReceiptId(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#getCashManagementDocumentForCashReceiptId(java.lang.String)
      */
     public CashManagementDocument getCashManagementDocumentForCashReceiptId(String documentId) {
         CashManagementDocument cmdoc = null;
@@ -134,7 +134,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param annotation 
      * @return A new instance of a CashManagementDocument (not persisted).
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.lang.String,
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#createCashManagementDocument(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public CashManagementDocument createCashManagementDocument(String workgroupName, String docDescription, String annotation) {
@@ -246,8 +246,8 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param selectedCashieringChecks The collection of checks associated with the new deposit.
      * @param isFinalDeposit A flag used to identify if a deposit is the final deposit to be added to a cash management document.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#addInterimDeposit(org.kuali.module.financial.document.CashManagementDocument,
-     *      java.lang.String, org.kuali.module.financial.bo.BankAccount, java.util.List)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#addInterimDeposit(org.kuali.kfs.fp.document.CashManagementDocument,
+     *      java.lang.String, org.kuali.kfs.fp.businessobject.BankAccount, java.util.List)
      */
     @SuppressWarnings("deprecation")
     public void addDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts, List selectedCashieringChecks, boolean isFinalDeposit) {
@@ -458,7 +458,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param cmDoc The CashManagementDocument to be canceled.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#cancelCashManagementDocument(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#cancelCashManagementDocument(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public void cancelCashManagementDocument(CashManagementDocument cmDoc) {
         if (cmDoc == null) {
@@ -505,7 +505,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * <li>Delete the deposit.</li>
      * </ul>
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#cancelDeposit(org.kuali.module.financial.bo.Deposit)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#cancelDeposit(org.kuali.kfs.fp.businessobject.Deposit)
      */
     public void cancelDeposit(Deposit deposit) {
         if (deposit == null) {
@@ -572,7 +572,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param cmDoc The CashManagementDocument to be finalized.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#finalizeCashManagementDocument(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#finalizeCashManagementDocument(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public void finalizeCashManagementDocument(CashManagementDocument cmDoc) {
         if (cmDoc == null) {
@@ -639,7 +639,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param deposit The deposit to retrieve all the cash receipts for.
      * @return A collection of cash receipts associated with the deposit given.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#retrieveCashReceipts(org.kuali.module.financial.bo.Deposit)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#retrieveCashReceipts(org.kuali.kfs.fp.businessobject.Deposit)
      */
     public List retrieveCashReceipts(Deposit deposit) {
         List cashReceiptDocuments = null;
@@ -741,8 +741,8 @@ public class CashManagementServiceImpl implements CashManagementService {
      * retrieving a CashieringTransactionRule object and running the appropriate methods to process the cashiering 
      * application rules.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#applyCashieringTransaction(org.kuali.module.financial.document.CashManagementDocument, org.kuali.module.financial.bo.CashieringTransaction)
-     * @see org.kuali.module.financial.rules.CashieringTransactionRule#processCashieringTransactionApplicationRules(CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#applyCashieringTransaction(org.kuali.kfs.fp.document.CashManagementDocument, org.kuali.kfs.fp.businessobject.CashieringTransaction)
+     * @see org.kuali.kfs.fp.document.validation.impl.CashieringTransactionRule#processCashieringTransactionApplicationRules(CashManagementDocument)
      */
     public void applyCashieringTransaction(CashManagementDocument cmDoc) {
         if (cmDoc.getCashDrawer() == null) {
@@ -940,7 +940,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The document the open items in process will be retrieved from.
      * @return The collection of open items.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#getOpenItemsInProcess(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#getOpenItemsInProcess(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public List<CashieringItemInProcess> getOpenItemsInProcess(CashManagementDocument cmDoc) {
         List<CashieringItemInProcess> itemsInProcess = cashManagementDao.findOpenItemsInProcessByWorkgroupName(cmDoc.getWorkgroupName());
@@ -954,7 +954,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management document the recently closed items will be retrieved from.
      * @return The collection of recently closed items.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#getRecentlyClosedItemsInProcess(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#getRecentlyClosedItemsInProcess(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public List<CashieringItemInProcess> getRecentlyClosedItemsInProcess(CashManagementDocument cmDoc) {
         return cashManagementDao.findRecentlyClosedItemsInProcess(cmDoc.getWorkgroupName());
@@ -973,7 +973,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The document the master coin detail will be generated from.
      * @return The resulting coin detail.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#generateMasterCoinDetail(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#generateMasterCoinDetail(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public CoinDetail generateMasterCoinDetail(CashManagementDocument cmDoc) {
         CoinDetail masterDetail = new CoinDetail();
@@ -1020,7 +1020,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The document the master currency detail will be generated from.
      * @return The resulting currency detail.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#generateMasterCurrencyDetail(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#generateMasterCurrencyDetail(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public CurrencyDetail generateMasterCurrencyDetail(CashManagementDocument cmDoc) {
         CurrencyDetail masterDetail = new CurrencyDetail();
@@ -1081,7 +1081,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param depositLineNumber The line number of the deposit to be found.
      * @return A collection of checks for the deposit and document given.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#selectCashieringChecksForDeposit(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#selectCashieringChecksForDeposit(java.lang.String, java.lang.Integer)
      */
     public List<Check> selectCashieringChecksForDeposit(String documentNumber, Integer depositLineNumber) {
         return cashManagementDao.selectCashieringChecksForDeposit(documentNumber, depositLineNumber);
@@ -1093,7 +1093,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param documentNumber The id of the document to search for the undeposited checks within.
      * @return A collection of any undeposited checks for the document given.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#selectUndepositedCashieringChecks(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#selectUndepositedCashieringChecks(java.lang.String)
      */
     public List<Check> selectUndepositedCashieringChecks(String documentNumber) {
         return cashManagementDao.selectUndepositedCashieringChecks(documentNumber);
@@ -1105,7 +1105,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param documentNumber The document to retrieve the deposited checks from.
      * @return A collection of all deposited checks for the document given.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#selectDepositedCashieringChecks(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#selectDepositedCashieringChecks(java.lang.String)
      */
     public List<Check> selectDepositedCashieringChecks(String documentNumber) {
         return cashManagementDao.selectDepositedCashieringChecks(documentNumber);
@@ -1134,7 +1134,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param documentNumber The id of the cash management document to pull the undeposited checks from.
      * @return The total amount of all undeposited checks for the document given.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#calculateUndepositedCheckTotal(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#calculateUndepositedCheckTotal(java.lang.String)
      */
     public KualiDecimal calculateUndepositedCheckTotal(String documentNumber) {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -1157,7 +1157,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The document that would be canceled.
      * @return True if the document can be canceled, false otherwise.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#allowDocumentCancellation(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#allowDocumentCancellation(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public boolean allowDocumentCancellation(CashManagementDocument cmDoc) {
         return !existCashReceipts(cmDoc) && !existCashieringChecks(cmDoc) && !existCashDetails(cmDoc);
@@ -1217,7 +1217,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param documentNumber The document to get the next check line number from.
      * @return The next available check line number.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#selectNextAvailableCheckLineNumber(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#selectNextAvailableCheckLineNumber(java.lang.String)
      */
     public Integer selectNextAvailableCheckLineNumber(String documentNumber) {
         return cashManagementDao.selectNextAvailableCheckLineNumber(documentNumber);
@@ -1231,7 +1231,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param documentNumber The document the details will be generated from.
      * @return A map of the resulting cash details.  This map is keyed by the detail class object.
      * 
-     * @see org.kuali.module.financial.service.CashManagementService#getCashDetailsForFinalDeposit(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashManagementService#getCashDetailsForFinalDeposit(java.lang.String)
      */
     public Map<Class, Object> getCashDetailsForFinalDeposit(String documentNumber) {
         CurrencyDetail finalDepositCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);

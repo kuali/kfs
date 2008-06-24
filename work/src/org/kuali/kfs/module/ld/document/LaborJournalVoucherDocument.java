@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.document;
+package org.kuali.kfs.module.ld.document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentType;
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
-import org.kuali.module.labor.bo.LaborJournalVoucherAccountingLineParser;
-import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
+import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherAccountingLineParser;
+import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherDetail;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 
 // @latex.ClassSignatureStart
 /**
@@ -52,7 +52,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
     public Class getSourceAccountingLineClass() {
@@ -60,7 +60,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * @see org.kuali.module.labor.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntry(int)
+     * @see org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntry(int)
      */
     public LaborLedgerPendingEntry getLaborLedgerPendingEntry(int index) {
         while (laborLedgerPendingEntries.size() <= index) {
@@ -70,7 +70,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

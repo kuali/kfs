@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 
 /**
  * This is the data access object for labor general ledger entry
  * 
- * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry
  */
 public interface LaborGeneralLedgerEntryDao {
 

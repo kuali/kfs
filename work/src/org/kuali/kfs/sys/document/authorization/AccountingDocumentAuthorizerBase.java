@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document.authorization;
+package org.kuali.kfs.sys.document.authorization;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,17 +31,17 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -196,7 +196,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     }
 
     /**
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(java.util.List,
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(java.util.List,
      *      org.kuali.module.chart.bo.KfsUser)
      */
     public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {

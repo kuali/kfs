@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.web.struts.action;
+package org.kuali.kfs.module.cg.web.struts;
 
-import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 
 public class CloseAction extends FinancialSystemTransactionalDocumentActionBase {
 }

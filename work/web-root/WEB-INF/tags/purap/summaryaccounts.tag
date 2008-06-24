@@ -57,37 +57,37 @@
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.module.chart.bo.Chart" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.chartOfAccountsCode" write="true"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.module.chart.bo.Account" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&accountNumber=${summaryAccount.account.accountNumber}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&accountNumber=${summaryAccount.account.accountNumber}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.accountNumber" write="true"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.module.chart.bo.SubAccount" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&accountNumber=${summaryAccount.account.accountNumber}&subAccountNumber=${summaryAccount.account.subAccountNumber}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubAccount" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&accountNumber=${summaryAccount.account.accountNumber}&subAccountNumber=${summaryAccount.account.subAccountNumber}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.subAccountNumber" write="true"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.module.chart.bo.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.financialObjectCode" write="true"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.module.chart.bo.SubObjCd" keyValues="financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" keyValues="financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.financialSubObjectCode" write="true"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
-							<kul:inquiry boClassName="org.kuali.module.chart.bo.ProjectCode" keyValues="projectCode=${summaryAccount.account.projectCode}" render="true">
+							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" keyValues="projectCode=${summaryAccount.account.projectCode}" render="true">
 								<html:hidden property="summaryAccounts[${ctr}].account.projectCode" write="true"/>
 							</kul:inquiry>
 							&nbsp;

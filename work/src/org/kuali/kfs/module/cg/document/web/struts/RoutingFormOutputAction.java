@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,15 +42,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.web.struts.action.BudgetOutputAction;
-import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.xml.RoutingFormXml;
-import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetOutputAction;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.RoutingFormXml;
+import org.kuali.kfs.module.cg.document.web.struts.ResearchDocumentFormBase;
 import org.w3c.dom.Document;
 
 public class RoutingFormOutputAction extends RoutingFormAction {

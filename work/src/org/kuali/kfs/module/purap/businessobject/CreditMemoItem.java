@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -22,10 +22,10 @@ import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.service.AccountsPayableService;
-import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 
 /**
  * Item line Business Object for Credit Memo Document.
@@ -208,7 +208,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItemBase#getAccountingLineClass()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItemBase#getAccountingLineClass()
      */
     @Override
     public Class<CreditMemoAccount> getAccountingLineClass() {

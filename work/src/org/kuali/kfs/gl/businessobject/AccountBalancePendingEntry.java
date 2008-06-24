@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.bo;
+package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
  * Represents an account balance pending entry that extends GeneralLedgerPendingEntry

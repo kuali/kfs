@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.dao.CollectorDetailDao;
-import org.kuali.module.gl.service.CollectorDetailService;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.dataaccess.CollectorDetailDao;
+import org.kuali.kfs.gl.service.CollectorDetailService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,7 +34,7 @@ public class CollectorDetailServiceImpl implements CollectorDetailService {
      * 
      * @param chart chart of CollectorDetails to purge
      * @param year year of CollectorDetails to purage
-     * @see org.kuali.module.gl.service.CollectorDetailService#purgeYearByChart(java.lang.String, int)
+     * @see org.kuali.kfs.gl.service.CollectorDetailService#purgeYearByChart(java.lang.String, int)
      */
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear) {
         LOG.debug("purgeYearByChart() started");
@@ -46,7 +46,7 @@ public class CollectorDetailServiceImpl implements CollectorDetailService {
      * Saves a CollectorDetail
      * 
      * @param detail the detail to save
-     * @see org.kuali.module.gl.service.CollectorDetailService#save(org.kuali.module.gl.bo.CollectorDetail)
+     * @see org.kuali.kfs.gl.service.CollectorDetailService#save(org.kuali.kfs.gl.businessobject.CollectorDetail)
      */
     public void save(CollectorDetail detail) {
         LOG.debug("save() started");

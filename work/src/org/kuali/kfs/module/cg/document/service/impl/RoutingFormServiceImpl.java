@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,37 +29,37 @@ import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.ProposalOrganization;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
-import org.kuali.module.cg.bo.ProposalResearchRisk;
-import org.kuali.module.cg.bo.ProposalSubcontractor;
-import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
-import org.kuali.module.cg.maintenance.ProposalMaintainableImpl;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UserAppointmentTask;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
-import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.service.RoutingFormService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.businessobject.Proposal;
+import org.kuali.kfs.module.cg.businessobject.ProposalOrganization;
+import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk;
+import org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor;
+import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder;
+import org.kuali.kfs.module.cg.document.ProposalMaintainableImpl;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriodInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriodThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOtherCostShare;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormProjectType;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormSubcontractor;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.service.RoutingFormService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -72,7 +72,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormService#prepareRoutingFormForSave(org.kuali.module.kra.routingform.document.RoutingFormDocument)
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormService#prepareRoutingFormForSave(org.kuali.kfs.module.cg.document.RoutingFormDocument)
      */
     public void prepareRoutingFormForSave(RoutingFormDocument routingFormDocument) throws WorkflowException {
         // TODO

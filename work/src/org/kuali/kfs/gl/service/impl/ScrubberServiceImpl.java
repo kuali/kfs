@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryLiteService;
-import org.kuali.module.gl.service.OriginEntryLookupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.RunDateService;
-import org.kuali.module.gl.service.ScrubberProcessObjectCodeOverride;
-import org.kuali.module.gl.service.ScrubberService;
-import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.ScrubberStatus;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryLiteService;
+import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.gl.batch.service.RunDateService;
+import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
+import org.kuali.kfs.gl.service.ScrubberService;
+import org.kuali.kfs.gl.service.ScrubberValidator;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -67,7 +67,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * entry. It will create a the scrubber report
      * @param group the origin entry group to scrub for report
      * @param documentNumber the id of documents which generated origin entries that should be scrubbed
-     * @see org.kuali.module.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
@@ -83,7 +83,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
     /**
      * Scrubs all of the entries in all origin entry groups that are up for scrubbing
-     * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
+     * @see org.kuali.kfs.gl.service.ScrubberService#scrubEntries()
      */
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
@@ -105,7 +105,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * @param overrideOriginEntryService the implementation of origin entry service to use for this specific Collector scrub
      * @param overrideOriginEntryGroupService the implementation of origin entry group service to use for this specific Collector scrub
      * @return the status returned by the Scrubber
-     * @see org.kuali.module.gl.service.ScrubberService#scrubCollectorBatch(org.kuali.module.gl.batch.collector.CollectorBatch, org.kuali.module.gl.util.CollectorReportData, org.kuali.module.gl.service.OriginEntryService, org.kuali.module.gl.service.OriginEntryGroupService)
+     * @see org.kuali.kfs.gl.service.ScrubberService#scrubCollectorBatch(org.kuali.kfs.gl.batch.CollectorBatch, org.kuali.kfs.gl.report.CollectorReportData, org.kuali.kfs.gl.service.OriginEntryService, org.kuali.kfs.gl.service.OriginEntryGroupService)
      */
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService) {
         if (overrideOriginEntryService == null && overrideOriginEntryGroupService == null) {

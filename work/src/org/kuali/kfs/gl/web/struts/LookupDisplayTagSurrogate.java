@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.struts.action;
+package org.kuali.kfs.gl.web.struts;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.module.gl.web.struts.form.LookupResultsSelectable;
+import org.kuali.kfs.gl.web.struts.LookupResultsSelectable;
 
 /**
  * This class serves as the struts action for implementing multiple value lookups
@@ -110,7 +110,7 @@ public interface LookupDisplayTagSurrogate {
      * implement something where a user can decide how many results to display per page, this method is the place to do it. Make
      * this method read form values to determine the max rows per page based on the user inputs
      * 
-     * @see org.kuali.kfs.KFSConstants.SystemGroupParameterNames#MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE
+     * @see org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames#MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE
      * @see #DEFAULT_MAX_ROWS_PER_PAGE
      * @param multipleValueLookupForm the form
      * @return

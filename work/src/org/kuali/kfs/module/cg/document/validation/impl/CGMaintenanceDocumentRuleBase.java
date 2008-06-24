@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.rules;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.sql.Date;
 import java.util.Arrays;
@@ -25,13 +25,13 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.Agency;
-import org.kuali.module.cg.bo.CGProjectDirector;
-import org.kuali.module.cg.bo.Primaryable;
-import org.kuali.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.Primaryable;
+import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 
 /**
  * Rules for the Proposal/Award maintenance document.

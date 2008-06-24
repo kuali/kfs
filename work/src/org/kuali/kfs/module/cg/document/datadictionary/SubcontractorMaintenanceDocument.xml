@@ -7,7 +7,7 @@
   <bean id="SubcontractorMaintenanceDocument" parent="SubcontractorMaintenanceDocument-parentBean" />
 
   <bean id="SubcontractorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Subcontractor" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Subcontractor" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -30,8 +30,8 @@
             p:parameterDetailType="Subcontractor" />
     </property>
     <property name="documentTypeName" value="SubcontractorMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cg.rules.SubcontractorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SUBC" />
     <property name="workflowProperties" >
       <ref bean="SubcontractorMaintenanceDocument-workflowProperties" />
@@ -64,7 +64,7 @@
               p:name="subcontractorNumber"
               p:readOnly="true"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.cg.lookup.valuefinder.NextSubcontractorNumberFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextSubcontractorNumberFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="subcontractorName"
               p:required="true" />

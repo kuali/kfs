@@ -17,14 +17,14 @@
  * Created on Aug 12, 2004
  *
  */
-package org.kuali.module.pdp.form.format;
+package org.kuali.kfs.pdp.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.module.pdp.utilities.DateHandler;
+import org.kuali.kfs.pdp.DateHandler;
 
 
 /**

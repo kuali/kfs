@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorType;
-import org.kuali.module.vendor.fixtures.VendorTestConstants.AddressTypes;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorType;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.AddressTypes;
 
 /**
  * This is an enumeration of configurations of 'type codes' and 'address type codes' which should be useful for testing the code

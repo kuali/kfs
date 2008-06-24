@@ -17,7 +17,7 @@
  * Created on Sep 2, 2004
  *
  */
-package org.kuali.module.pdp.bo;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,9 +28,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.gl.bo.FlexibleAccountUpdateable;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 /**
  * @author jsissom

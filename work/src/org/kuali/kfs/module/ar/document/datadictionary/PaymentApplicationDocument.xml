@@ -10,9 +10,9 @@
     <property name="label" value="Application" />
     <property name="shortLabel" value="Application" />
     <property name="documentTypeName" value="PaymentApplicationDocument" />
-    <property name="documentClass" value="org.kuali.module.ar.document.PaymentApplicationDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.PaymentApplicationDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer" />
     <property name="documentTypeCode" value="APP" />
     <property name="authorizations" >
       <list>

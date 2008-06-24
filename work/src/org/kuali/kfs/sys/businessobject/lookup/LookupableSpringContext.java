@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.lookup.LookupableHelperService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.plugin.attributes.WorkflowLookupable;
 

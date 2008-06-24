@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao.ojb;
+package org.kuali.kfs.module.ar.document.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.ar.bo.Customer;
-import org.kuali.module.ar.dao.CustomerInvoiceDocumentDao;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
 
 public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerInvoiceDocumentDao {
 
@@ -29,7 +29,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentDaoOjb.class);
 
     /**
-     * @see org.kuali.module.ar.dao.CustomerInvoiceDocumentDao#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao#getInvoiceByOrganizationInvoiceNumber(java.lang.String)
      */
     public CustomerInvoiceDocument getInvoiceByOrganizationInvoiceNumber(String organizationInvoiceNumber) {
         Criteria criteria = new Criteria();
@@ -39,7 +39,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
     }
 
     /**
-     * @see org.kuali.module.ar.dao.CustomerInvoiceDocumentDao#getInvoiceByInvoiceDocumentNumber(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao#getInvoiceByInvoiceDocumentNumber(java.lang.String)
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String documentNumber) {
         Criteria criteria = new Criteria();

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.PriorYearAccount;
-import org.kuali.module.chart.dao.PriorYearAccountDao;
+import org.kuali.kfs.coa.businessobject.PriorYearAccount;
+import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
 
 /**
  * This class implements the {@link PriorYearAccountDao} data access methods using Ojb
@@ -27,7 +27,7 @@ import org.kuali.module.chart.dao.PriorYearAccountDao;
 public class PriorYearAccountDaoOjb extends PlatformAwareDaoBaseOjb implements PriorYearAccountDao {
 
     /**
-     * @see org.kuali.module.chart.dao.PriorYearAccountDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.PriorYearAccountDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public PriorYearAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber) {
 

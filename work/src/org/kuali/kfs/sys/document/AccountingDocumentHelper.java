@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 
@@ -23,15 +23,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AccountingLineEvent;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
-import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
-import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.service.AccountingLineService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
+import org.kuali.kfs.sys.service.AccountingLineService;
 
 
 /**
@@ -43,10 +43,10 @@ import org.kuali.kfs.service.AccountingLineService;
  * This is the result of having <code>{@link SourceAccountingLine}</code> and <code>{@link TargetAccountingLine}</code> parallel
  * hierarchies that may need to be extended at the <code>{@link AccountingLine}</code> hierarchical level and the higher.
  * 
- * @see org.kuali.kfs.bo.SourceAccountingLine
- * @see org.kuali.kfs.bo.TargetAccountingLine
- * @see org.kuali.kfs.document.AccountingDocument
- * @see org.kuali.kfs.document.AccountingDocumentBase
+ * @see org.kuali.kfs.sys.businessobject.SourceAccountingLine
+ * @see org.kuali.kfs.sys.businessobject.TargetAccountingLine
+ * @see org.kuali.kfs.sys.document.AccountingDocument
+ * @see org.kuali.kfs.sys.document.AccountingDocumentBase
  */
 public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDocument> implements java.io.Serializable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AccountingDocumentHelper.class);

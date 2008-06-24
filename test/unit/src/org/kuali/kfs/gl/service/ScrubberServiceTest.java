@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.util.Calendar;
 
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests the ScrubberService

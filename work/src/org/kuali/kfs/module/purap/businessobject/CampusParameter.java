@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.State;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.State;
 
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.

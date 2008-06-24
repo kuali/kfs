@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,14 +23,14 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Delegate;
-import org.kuali.module.chart.dao.AccountDao;
-import org.kuali.module.chart.service.AccountService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.dataaccess.AccountDao;
+import org.kuali.kfs.coa.service.AccountService;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
     /**
      * Method is used by KualiAccountAttribute to enable caching of accounts for routing.
      * 
-     * @see org.kuali.module.chart.service.impl.AccountServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.impl.AccountServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
     @Cached
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
@@ -74,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.AccountService#getAccountsThatUserIsResponsibleFor(org.kuali.bo.user.KualiUser)
+     * @see org.kuali.kfs.coa.service.AccountService#getAccountsThatUserIsResponsibleFor(org.kuali.bo.user.KualiUser)
      */
     public List getAccountsThatUserIsResponsibleFor(UniversalUser universalUser) {
         if (LOG.isDebugEnabled()) {
@@ -90,15 +90,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.AccountService#hasResponsibilityOnAccount(org.kuali.core.bo.user.UniversalUser,
-     *      org.kuali.module.chart.bo.Account)
+     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.kfs.coa.businessobject.Account)
      */
     public boolean hasResponsibilityOnAccount(UniversalUser kualiUser, Account account) {
         return accountDao.determineUserResponsibilityOnAccount(kualiUser, account);
     }
 
     /**
-     * @see org.kuali.module.chart.service.AccountService#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
+     * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.Delegate,
      *      java.lang.String)
      */
     public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount) {
@@ -106,7 +106,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.AccountService#getSecondaryDelegationsByExample(org.kuali.module.chart.bo.Delegate,
+     * @see org.kuali.kfs.coa.service.AccountService#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.Delegate,
      *      java.lang.String)
      */
     public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount) {
@@ -130,7 +130,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.AccountService#accountIsAccessible(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.module.chart.bo.ChartUser)
+     * @see org.kuali.kfs.coa.service.AccountService#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.module.chart.bo.ChartUser)
      */
     public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, FinancialSystemUser user) {
         LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");

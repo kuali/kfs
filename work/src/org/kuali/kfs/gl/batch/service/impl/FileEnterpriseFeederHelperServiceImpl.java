@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,19 +23,19 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.FileEnterpriseFeederHelperService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.ReconciliationParserService;
-import org.kuali.module.gl.service.ReconciliationService;
-import org.kuali.module.gl.util.EnterpriseFeederStatusAndErrorMessagesWrapper;
-import org.kuali.module.gl.util.ExceptionCaughtStatus;
-import org.kuali.module.gl.util.FileReconBadLoadAbortedStatus;
-import org.kuali.module.gl.util.FileReconOkLoadOkStatus;
-import org.kuali.module.gl.util.OriginEntryFileIterator;
-import org.kuali.module.gl.util.ReconciliationBlock;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
+import org.kuali.kfs.gl.batch.service.ReconciliationService;
+import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
+import org.kuali.kfs.gl.batch.service.impl.ExceptionCaughtStatus;
+import org.kuali.kfs.gl.batch.service.impl.FileReconBadLoadAbortedStatus;
+import org.kuali.kfs.gl.batch.service.impl.FileReconOkLoadOkStatus;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
+import org.kuali.kfs.gl.batch.service.impl.ReconciliationBlock;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -66,7 +66,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * @param reconciliationTableId the name of the block to use for reconciliation within the reconciliation file
      * @param statusAndErrors any status information should be stored within this object
      * @see org.kuali.module.gl.service.impl.FileEnterpriseFeederHelperService#feedOnFile(java.io.File, java.io.File, java.io.File,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void feedOnFile(File doneFile, File dataFile, File reconFile, OriginEntryGroup originEntryGroup, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors) {
         LOG.info("Processing done file: " + doneFile.getAbsolutePath());

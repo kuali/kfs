@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts;
+package org.kuali.kfs.sys.web.struts;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.MessageResources;
 import org.apache.struts.util.PropertyMessageResourcesFactory;
-import org.kuali.kfs.context.PropertyLoadingFactoryBean;
+import org.kuali.kfs.sys.context.PropertyLoadingFactoryBean;
 
 public class KFSMessageResourcesFactory extends PropertyMessageResourcesFactory {
 

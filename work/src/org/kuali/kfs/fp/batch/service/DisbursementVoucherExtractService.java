@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.batch.service;
 
 import java.util.Date;
 
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 
 /**
  * 

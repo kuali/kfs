@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.SortedSet;
 
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
-import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 
 /**
  * This class defines a BudgetConstructionLockStatus object. This object is used by many of the methods in the Budget module's

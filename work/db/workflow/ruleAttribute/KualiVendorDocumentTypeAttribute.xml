@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="false" />
-          <quickfinder appliesTo="vendorTypeCode" draw="true" service="workflow-org.kuali.module.vendor.bo.VendorType-Lookupable(workflow-vendorTypeCode:vendorTypeCode)" />
+          <quickfinder appliesTo="vendorTypeCode" draw="true" service="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable(workflow-vendorTypeCode:vendorTypeCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/vendorHeader/vendorTypeCode') = wf:ruledata('vendorTypeCode')</xpathexpression>
           </fieldEvaluation>

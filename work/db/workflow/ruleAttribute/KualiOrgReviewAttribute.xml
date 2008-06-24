@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiOrgReviewAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiOrgReviewAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>

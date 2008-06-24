@@ -26,17 +26,17 @@
 		<property name="moduleAuthorizer" ref="vendorModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/vendor/datadictionary</value>
+				<value>org/kuali/kfs/sys/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
             <list>
-                <value>org/kuali/module/vendor/dwr-vendor.xml</value>
+                <value>org/kuali/kfs/vnd/dwr-vendor.xml</value>
             </list>
         </property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/vendor/OJB-repository-vendor.xml</value>
+				<value>org/kuali/kfs/vnd/OJB-repository-vendor.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -44,49 +44,49 @@
     <bean id="vendorModuleAuthorizer" parent="activeStaffFacultyAffiliateModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.vendor.</value>
+                <value>org.kuali.kfs.vnd.</value>
             </list>
         </property>
     </bean>   
 
-	<bean id="workflow-org.kuali.module.vendor.bo.VendorType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.module.vendor.bo.VendorType</value>
+			<value>org.kuali.kfs.vnd.businessobject.VendorType</value>
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.vendor.bo.ContractManager-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.module.vendor.bo.ContractManager</value>
+			<value>org.kuali.kfs.vnd.businessobject.ContractManager</value>
 		</property>
 	</bean>
 
-    <bean id="workflow-org.kuali.module.vendor.bo.CommodityCode-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.vnd.businessobject.CommodityCode-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
-            <value>org.kuali.module.vendor.bo.CommodityCode</value>
+            <value>org.kuali.kfs.vnd.businessobject.CommodityCode</value>
         </property>
     </bean>
     
-    <bean id="vendorService" class="org.kuali.module.vendor.service.impl.VendorServiceImpl">
+    <bean id="vendorService" class="org.kuali.kfs.vnd.document.service.impl.VendorServiceImpl">
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
         <property name="persistenceService" ref="persistenceService" />
         <property name="universalUserService" ref="universalUserService" />
     </bean>
 
-    <bean id="phoneNumberService" class="org.kuali.module.vendor.service.impl.PhoneNumberServiceImpl">
+    <bean id="phoneNumberService" class="org.kuali.kfs.vnd.service.impl.PhoneNumberServiceImpl">
         <property name="parameterService">
             <ref bean="parameterService"/>
         </property>
     </bean>
     
-    <bean id="taxNumberService" class="org.kuali.module.vendor.service.impl.TaxNumberServiceImpl">
+    <bean id="taxNumberService" class="org.kuali.kfs.vnd.service.impl.TaxNumberServiceImpl">
         <property name="parameterService">
             <ref bean="parameterService"/>
         </property>
     </bean>
     
-    <bean id="vendorLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -113,7 +113,7 @@
         </property>
     </bean>
 
-    <bean id="vendorContactLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorContactLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorContactLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContactLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -131,7 +131,7 @@
         </property>
     </bean>
     
-    <bean id="vendorPhoneLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorPhoneLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorPhoneLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorPhoneLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -149,7 +149,7 @@
         </property>
     </bean>
     
-    <bean id="vendorContractLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorContractLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorContractLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContractLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -173,7 +173,7 @@
         </property>
     </bean>
     
-    <bean id="vendorAddressLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorAddressLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorAddressLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorAddressLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -194,7 +194,7 @@
         </property>
     </bean>
   
-    <bean id="vendorCustomerNumberLookupableHelperService" class="org.kuali.module.vendor.lookup.VendorCustomerNumberLookupableHelperServiceImpl" singleton="false">
+    <bean id="vendorCustomerNumberLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -251,9 +251,9 @@
         </property>
     </bean>
    
-   <bean id="commodityCodeDao" parent="platformAwareDao" class="org.kuali.module.vendor.dao.ojb.CommodityCodeDaoOjb" />
+   <bean id="commodityCodeDao" parent="platformAwareDao" class="org.kuali.kfs.vnd.dataaccess.impl.CommodityCodeDaoOjb" />
    
-    <bean id="commodityCodeService" class="org.kuali.module.vendor.service.impl.CommodityCodeServiceImpl">
+    <bean id="commodityCodeService" class="org.kuali.kfs.vnd.service.impl.CommodityCodeServiceImpl">
          <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property> 

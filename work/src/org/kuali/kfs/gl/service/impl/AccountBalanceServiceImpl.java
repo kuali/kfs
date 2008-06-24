@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,15 +22,15 @@ import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.dao.AccountBalanceDao;
-import org.kuali.module.gl.service.AccountBalanceService;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
+import org.kuali.kfs.gl.service.AccountBalanceService;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.Constant;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,7 +48,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * 
      * @param fieldValues the input fields and values
      * @return the summary records of account balance entries
-     * @see org.kuali.module.gl.service.AccountBalanceService#findConsolidatedAvailableAccountBalance(java.util.Map)
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#findConsolidatedAvailableAccountBalance(java.util.Map)
      */
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findConsolidatedAvailableAccountBalance() started");
@@ -62,7 +62,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param fieldValues the input fields and values
      * @param isConsolidated determine whether the search results are consolidated
      * @return a collection of account balance entries
-     * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableAccountBalance(java.util.Map)
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#findAvailableAccountBalance(java.util.Map)
      */
     public Iterator findAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findAvailableAccountBalance() started");
@@ -81,7 +81,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param isConsolidated should account balances found be consolidated?
      * @param pendingEntryCode should pending entries be included in the query?
      * @return a List of qualifying account balance records
-     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
      */
     public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
         LOG.debug("findAccountBalanceByConsolidation() started");
@@ -257,7 +257,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param isConsolidated should account balances found be consolidated?
      * @param pendingEntryCode should pending entries be included in the query?
      * @return a List of qualifying account balance records
-     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
@@ -305,7 +305,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param isConsolidated should account balances found be consolidated?
      * @param pendingEntryCode should pending entries be included in the query?
      * @return a List of qualifying account balance records
-     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
@@ -344,7 +344,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * Defers to the DAO to save the account balance.
      * 
      * @param ab account balance record to save
-     * @see org.kuali.module.gl.service.AccountBalanceService#save(org.kuali.module.gl.bo.AccountBalance)
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#save(org.kuali.kfs.gl.businessobject.AccountBalance)
      */
     public void save(AccountBalance ab) {
         accountBalanceDao.save(ab);
@@ -368,7 +368,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param fieldValues the input fields and values
      * @param isConsolidated determine whether the search results are consolidated
      * @return the number of the available account balances
-     * @see org.kuali.module.gl.service.AccountBalanceService#getAvailableAccountBalanceCount(java.util.Map, boolean)
+     * @see org.kuali.kfs.gl.service.AccountBalanceService#getAvailableAccountBalanceCount(java.util.Map, boolean)
      */
     public Integer getAvailableAccountBalanceCount(Map fieldValues, boolean isConsolidated) {
         Integer recordCount = null;

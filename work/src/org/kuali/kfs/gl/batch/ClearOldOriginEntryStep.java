@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
 
 /**
  * A step which runs the process to remove old origin entry groups and associated origin entries
@@ -34,7 +34,7 @@ public class ClearOldOriginEntryStep extends AbstractStep {
      * @param the name of the job that this step is a part of
      * @param jobRunDate the time/date the job is run
      * @return that the job completed successfully
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         LOG.debug("performStep() started");
@@ -48,7 +48,7 @@ public class ClearOldOriginEntryStep extends AbstractStep {
      * Sets the originEntryService attribute, allowing injection of an implementation of the service
      * 
      * @param oes
-     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService oes) {
         originEntryGroupService = oes;

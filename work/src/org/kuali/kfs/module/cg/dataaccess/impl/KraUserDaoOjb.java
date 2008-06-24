@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.dao.ojb;
+package org.kuali.kfs.module.cg.dataaccess.impl;
 
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.dao.ojb.KualiModuleUserDaoOjb;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
 
 public class KraUserDaoOjb extends KualiModuleUserDaoOjb {
 

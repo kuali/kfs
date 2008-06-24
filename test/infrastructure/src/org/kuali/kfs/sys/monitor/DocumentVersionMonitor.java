@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.monitor;
+package org.kuali.kfs.sys.document.routing;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
@@ -35,7 +35,7 @@ public class DocumentVersionMonitor extends ChangeMonitor {
     /**
      * Returns true if the version number of the given projectCode changes from startVersion.
      * 
-     * @see org.kuali.test.monitor.ChangeMonitor#valueChanged()
+     * @see org.kuali.kfs.sys.document.routing.ChangeMonitor#valueChanged()
      */
     public boolean valueChanged() throws Exception {
         boolean changed = false;

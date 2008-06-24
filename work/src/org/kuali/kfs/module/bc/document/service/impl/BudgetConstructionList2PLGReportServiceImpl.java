@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,15 +23,15 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgList2PLGReport;
-import org.kuali.module.budget.bo.BudgetConstructionTwoPlugListMove;
-import org.kuali.module.budget.dao.BudgetConstructionList2PLGReportDao;
-import org.kuali.module.budget.service.BudgetConstructionList2PLGReportService;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgAccountSummaryReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgList2PLGReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionTwoPlugListMove;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionList2PLGReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

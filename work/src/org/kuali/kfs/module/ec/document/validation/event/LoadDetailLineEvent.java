@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.rule.event;
+package org.kuali.kfs.module.ec.document.validation.event;
 
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rule.LoadDetailLineRule;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule;
 
 public class LoadDetailLineEvent extends KualiDocumentEventBase {
     private EffortCertificationDocument effortCertificationDocument;

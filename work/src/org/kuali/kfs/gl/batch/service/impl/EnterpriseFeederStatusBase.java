@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Base implementation for the enterprise feeder status
@@ -29,7 +29,7 @@ public abstract class EnterpriseFeederStatusBase implements EnterpriseFeederStat
      * Retrieves the description in ApplicationResources.properties
      * 
      * @return the description for this class
-     * @see org.kuali.module.gl.util.EnterpriseFeederStatus#getStatusDescription()
+     * @see org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus#getStatusDescription()
      */
     public String getStatusDescription() {
         try {

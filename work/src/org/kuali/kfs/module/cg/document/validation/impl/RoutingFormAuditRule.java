@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.rules;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,21 +28,21 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
-import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.util.AuditCluster;
-import org.kuali.module.kra.util.AuditError;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormProjectType;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormQuestion;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.validation.impl.AuditCluster;
+import org.kuali.kfs.module.cg.document.validation.impl.AuditError;
 
 public class RoutingFormAuditRule {
 

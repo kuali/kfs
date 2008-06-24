@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.cg.docsearch;
+package org.kuali.kfs.module.cg.document.searching.generator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder;
+import org.kuali.kfs.module.cg.businessobject.options.DocumentSearchTypeOfSearchValuesFinder;
 
 import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
 import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;

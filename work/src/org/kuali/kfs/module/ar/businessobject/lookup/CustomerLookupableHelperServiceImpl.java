@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.lookup;
+package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.util.List;
 import java.util.Map;
@@ -24,11 +24,11 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.util.ARUtil;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.util.ARUtil;
+import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.bo;
+package org.kuali.kfs.sys.businessobject;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
@@ -23,18 +23,18 @@ import java.util.List;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.exceptions.AccountingLineParserException;
-import org.kuali.module.financial.document.InternalBillingDocument;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.exception.AccountingLineParserException;
+import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.CrossSectionSuite;
 
 /**
  * Test class for testing <code>{@link AccountingLineParserBase}</code>

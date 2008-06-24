@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -24,17 +24,17 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 /**
  * Purap Accounting Line Base Business Object.
@@ -73,14 +73,14 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLine#isEmpty()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#isEmpty()
      */
     public boolean isEmpty() {
         return !(StringUtils.isNotEmpty(getAccountNumber()) || StringUtils.isNotEmpty(getChartOfAccountsCode()) || StringUtils.isNotEmpty(getFinancialObjectCode()) || StringUtils.isNotEmpty(getFinancialSubObjectCode()) || StringUtils.isNotEmpty(getOrganizationReferenceId()) || StringUtils.isNotEmpty(getProjectCode()) || StringUtils.isNotEmpty(getSubAccountNumber()) || ObjectUtils.isNotNull(getAccountLinePercent()));
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLine#createBlankAmountsCopy()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#createBlankAmountsCopy()
      */
     public PurApAccountingLine createBlankAmountsCopy() {
         PurApAccountingLine newAccount = (PurApAccountingLine) ObjectUtils.deepCopy(this);
@@ -91,7 +91,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 
 
     /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLine#accountStringsAreEqual(org.kuali.kfs.bo.SourceAccountingLine)
+     * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#accountStringsAreEqual(org.kuali.kfs.sys.businessobject.SourceAccountingLine)
      */
     public boolean accountStringsAreEqual(SourceAccountingLine accountingLine) {
         if (accountingLine == null) {
@@ -107,7 +107,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLine#generateSourceAccountingLine()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#generateSourceAccountingLine()
      */
     public SourceAccountingLine generateSourceAccountingLine() {
         // the fields here should probably match method 'accountStringsAreEqual' above
@@ -124,7 +124,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLineBase#toStringMapper()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -162,7 +162,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLineBase#getSequenceNumber()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#getSequenceNumber()
      */
     @Override
     public Integer getSequenceNumber() {

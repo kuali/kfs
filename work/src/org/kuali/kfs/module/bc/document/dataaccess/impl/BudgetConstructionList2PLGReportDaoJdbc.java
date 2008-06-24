@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionList2PLGReportDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGReportDao;
 
-import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 
 import java.util.ArrayList;
 
@@ -71,7 +71,7 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionList2PLGReportDao#updateReportsList2PLGTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGReportDao#updateReportsList2PLGTable(java.lang.String)
      */
     public void updateList2PLGReportsTable(String personUserIdentifier) {
         // get rid of any rows from a previous report requested by this user

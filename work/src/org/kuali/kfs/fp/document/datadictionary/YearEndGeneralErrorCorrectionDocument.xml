@@ -21,9 +21,9 @@
             p:parameterDetailType="YearEndGeneralErrorCorrection" />
     </property>
     <property name="documentTypeName" value="YearEndGeneralErrorCorrectionDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.YearEndGeneralErrorCorrectionDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.YearEndGeneralErrorCorrectionDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndGeneralErrorCorrectionDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="YEGE" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

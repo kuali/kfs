@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,23 +38,23 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BudgetConstructionReportMode;
-import org.kuali.module.budget.BCConstants.OrgSelControlOption;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSelect;
-import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.service.BudgetOrganizationTreeService;
-import org.kuali.module.budget.service.BudgetPushPullService;
-import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
-import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.budget.util.ReportControlListBuildHelper;
-import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService;
+import org.kuali.kfs.module.bc.document.service.BudgetPushPullService;
+import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
+import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeForm;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -518,7 +518,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             parameters.put(KFSConstants.DOC_FORM_KEY, docFormKey);
             parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionPositionSelect");
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
@@ -570,7 +570,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
             parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect");
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
@@ -624,7 +624,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
             parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionAccountSelect");
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());

@@ -18,17 +18,17 @@
 <dwr>
 	<init>
 		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
-		<converter id="kualinumber" class="org.kuali.kfs.web.dwr.converter.KualiNumberConverter"/>
+		<converter id="kualinumber" class="org.kuali.kfs.sys.KualiNumberConverter"/>
 	</init>
 	<allow>		
 		<create creator="new" javascript="PayrollAmountUtil" scope="application">
-	    	<param name="class" value="org.kuali.module.effort.util.PayrollAmountHolder" />
+	    	<param name="class" value="org.kuali.kfs.module.ec.util.PayrollAmountHolder" />
 	    	<include method="recalculatePayrollAmount" />
 	    	<include method="recalculateEffortPercent" />
 	    </create>	
 	    
 	    <create creator="new" javascript="EffortCertificationForm" scope="application">
-	    	<param name="class" value="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />
+	    	<param name="class" value="org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm" />
 	    	<include method="loadAccountInfo" />
 	    </create>	
 		

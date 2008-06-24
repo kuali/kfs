@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiContractsAndGrantsDocSearchGenerator</name>
-      <className>org.kuali.workflow.module.cg.docsearch.KualiContractsAndGrantsDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.cg.document.searching.generator.KualiContractsAndGrantsDocSearchGenerator</className>
       <label>Kuali Contracts And Grants Doc Search Generator</label>
       <description>Kuali Contracts And Grants Doc Search Generator</description>
       <type>DocumentSearchGeneratorAttribute</type>

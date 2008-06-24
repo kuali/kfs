@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapConstants.ItemFields;
-import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
-import org.kuali.module.purap.rule.CancelAccountsPayableRule;
-import org.kuali.module.purap.rule.ContinuePurapRule;
-import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.validation.CalculateAccountsPayableRule;
+import org.kuali.kfs.module.purap.document.validation.CancelAccountsPayableRule;
+import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
+import org.kuali.kfs.module.purap.document.validation.PreCalculateAccountsPayableRule;
 
 /**
  * Business Rule(s) applicable to Accounts Payable documents.
@@ -40,7 +40,7 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
     /**
      * Determines if approval at accounts payable review is allowed.
      * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -76,7 +76,7 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
     /**
      * Performs additional validation on above the line indicator items.
      * 
-     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
@@ -117,7 +117,7 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
     }
 
     /**
-     * @see org.kuali.module.purap.rule.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public abstract boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document);
 

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 
 /**
  * utils for <code>YearEndDocument</code>s
  * 
- * @see org.kuali.module.gl.service.SufficientFundsService
+ * @see org.kuali.kfs.gl.service.SufficientFundsService
  */
 public class YearEndDocumentUtil {
     private static final String FINAL_ACCOUNTING_PERIOD = "13";

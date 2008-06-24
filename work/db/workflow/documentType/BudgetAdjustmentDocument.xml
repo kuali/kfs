@@ -5,7 +5,7 @@
       <name>BudgetAdjustmentDocument</name>
       <parent>KualiFinancialDocument</parent>
       <label>Budget Adjustment</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
@@ -46,7 +46,7 @@
           <activationType>S</activationType>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
-          <type>org.kuali.workflow.node.BudgetAdjustmentDocumentApprovalNoApprovalSplitNode</type>
+          <type>org.kuali.kfs.fp.document.routing.node.BudgetAdjustmentDocumentApprovalNoApprovalSplitNode</type>
         </split>
         <requests name="Account Review">
           <activationType>S</activationType>

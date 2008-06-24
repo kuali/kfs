@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 public enum CommodityCodeFixture {
 

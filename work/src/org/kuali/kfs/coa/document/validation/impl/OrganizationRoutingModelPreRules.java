@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.module.chart.bo.OrganizationRoutingModel;
-import org.kuali.module.chart.bo.OrganizationRoutingModelName;
+import org.kuali.kfs.coa.businessobject.OrganizationRoutingModel;
+import org.kuali.kfs.coa.businessobject.OrganizationRoutingModelName;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
      * <ul>
      * <li>{@link OrganizationRoutingModelPreRules#copyKeyAttributesToModelDetail(OrganizationRoutingModelName)}</li>
      * </ul>
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {

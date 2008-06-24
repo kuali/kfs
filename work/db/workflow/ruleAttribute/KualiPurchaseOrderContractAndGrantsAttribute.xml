@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPurchaseOrderContractAndGrantsAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurchaseOrderContractAndGrantsAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurchaseOrderContractAndGrantsAttribute</className>
       <label>Purchase Order Contracts &amp; Grants Routing Attribute</label>
       <description>Attribute to determine if Purchase Order document should route for Contracts &amp; Grants Review</description>
       <type>RuleAttribute</type>

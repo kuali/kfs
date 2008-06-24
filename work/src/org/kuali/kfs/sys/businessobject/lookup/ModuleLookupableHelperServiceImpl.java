@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +26,9 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.KualiModuleBO;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.KualiModuleBO;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -69,7 +69,7 @@ public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServ
             returnKeys = new ArrayList(fieldConversions.keySet());
         }
         else {
-            returnKeys = SpringContext.getBean(BusinessObjectDictionaryService.class).getLookupFieldNames(org.kuali.kfs.bo.KualiModuleBO.class);
+            returnKeys = SpringContext.getBean(BusinessObjectDictionaryService.class).getLookupFieldNames(org.kuali.kfs.sys.businessobject.KualiModuleBO.class);
         }
 
         return returnKeys;

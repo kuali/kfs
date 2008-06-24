@@ -17,7 +17,7 @@
  * Created on Sep 22, 2004
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 

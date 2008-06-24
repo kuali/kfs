@@ -7,7 +7,7 @@
   <bean id="LedgerBalanceForSalaryExpenseTransfer" parent="LedgerBalanceForSalaryExpenseTransfer-parentBean" />
 
   <bean id="LedgerBalanceForSalaryExpenseTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.labor.bo.LedgerBalanceForSalaryExpenseTransfer" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForSalaryExpenseTransfer" />
     <property name="inquiryDefinition" >
       <ref bean="LedgerBalanceForSalaryExpenseTransfer-inquiryDefinition" />
     </property>
@@ -434,7 +434,7 @@
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
               p:defaultValue="S"
               p:required="true"

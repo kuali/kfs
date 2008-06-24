@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 
 
 /**
- * Holds constants for <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code> business rules.
+ * Holds constants for <code>{@link org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument}</code> business rules.
  */
 public interface GeneralErrorCorrectionDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups

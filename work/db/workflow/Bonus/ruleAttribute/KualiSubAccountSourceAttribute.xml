@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiSubAccountSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>SubAccount Source Routing</label>
       <description>SubAccount Source Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>
@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="subAccountNumber" draw="true" service="workflow-org.kuali.module.chart.bo.SubAccount-Lookupable(null)" />
+          <quickfinder appliesTo="subAccountNumber" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.SubAccount-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/subAccountNumber') = wf:ruledata('subAccountNumber')</xpathexpression>
           </fieldEvaluation>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.lookupable;
+package org.kuali.kfs.module.ld.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,14 +24,14 @@ import java.util.Properties;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.lookup.LookupableSpringContext;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.web.TestDataGenerator;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class contains the test cases that can be applied to the method in LedgerBalanceLookupableImpl class.
@@ -109,8 +109,8 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
     }
 
     protected void insertLedgerBalanceRecords() {
-        String messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/ledgerBalance.properties";
+        String messageFileName = "test/src/org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "test/src/org/kuali/kfs/module/ld/testdata/ledgerBalance.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");

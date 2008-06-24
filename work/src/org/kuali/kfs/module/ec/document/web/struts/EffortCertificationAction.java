@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.web.struts.action;
+package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.util.List;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 
 /**
  * To define Actions for EffortCertification document.

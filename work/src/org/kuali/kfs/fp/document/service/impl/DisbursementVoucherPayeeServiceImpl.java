@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,13 +30,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -52,7 +52,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     private DocumentService documentService;
     
     /**
-     * @see org.kuali.module.financial.service.DisbursementVoucherPayeeService#checkPayeeAddressForChanges(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#checkPayeeAddressForChanges(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public void checkPayeeAddressForChanges(DisbursementVoucherDocument dvDoc) {
         Map<String, String> pks = new HashMap<String, String>();

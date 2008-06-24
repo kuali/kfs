@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class LaborOriginEntryTest extends KualiTestBase {

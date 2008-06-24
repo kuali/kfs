@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
-import org.kuali.module.gl.dao.ExpenditureTransactionDao;
-import org.kuali.module.gl.service.ExpenditureTransactionService;
+import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
+import org.kuali.kfs.gl.service.ExpenditureTransactionService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,7 +29,7 @@ public class ExpenditureTransactionServiceImpl implements ExpenditureTransaction
     /**
      * Removes all of the expenditure transactions, which are temporary records for ICR generation
      *
-     * @see org.kuali.module.gl.service.ExpenditureTransactionService#deleteAllExpenditureTransactions()
+     * @see org.kuali.kfs.gl.service.ExpenditureTransactionService#deleteAllExpenditureTransactions()
      */
     public void deleteAllExpenditureTransactions() {
         expenditureTransactionDao.deleteAllExpenditureTransactions();

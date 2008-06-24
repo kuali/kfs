@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.maintenance;
+package org.kuali.kfs.sys.document;
 
 import java.security.GeneralSecurityException;
 import java.util.Iterator;
@@ -37,12 +37,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
-import org.kuali.kfs.authorization.FinancialSystemUserDocumentAuthorizer;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.bo.FinancialSystemUserOrganizationSecurity;
-import org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;

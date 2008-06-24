@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,14 +21,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.dao.OptionsDao;
-import org.kuali.kfs.service.KualiCodeService;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.dao.BalanceTypeDao;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.dataaccess.OptionsDao;
+import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -62,7 +62,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.BalanceTypService#getAllBalanceTyps()
+     * @see org.kuali.kfs.coa.service.BalanceTypService#getAllBalanceTyps()
      */
     public Collection getAllBalanceTyps() {
         loadBalanceTypes();
@@ -115,7 +115,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.BalanceTypService#getCostShareEncumbranceBalanceType(java.lang.Integer)
+     * @see org.kuali.kfs.coa.service.BalanceTypService#getCostShareEncumbranceBalanceType(java.lang.Integer)
      */
     @CacheNoCopy
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
@@ -124,7 +124,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.BalanceTypService#getEncumbranceBalanceTypes(java.lang.Integer)
+     * @see org.kuali.kfs.coa.service.BalanceTypService#getEncumbranceBalanceTypes(java.lang.Integer)
      */
     @CacheNoCopy
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
@@ -139,7 +139,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.BalanceTypService#getCurrentYearCostShareEncumbranceBalanceType()
+     * @see org.kuali.kfs.coa.service.BalanceTypService#getCurrentYearCostShareEncumbranceBalanceType()
      */
     @CacheNoCopy
     public String getCurrentYearCostShareEncumbranceBalanceType() {
@@ -148,7 +148,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.BalanceTypService#getCurrentYearEncumbranceBalanceTypes()
+     * @see org.kuali.kfs.coa.service.BalanceTypService#getCurrentYearEncumbranceBalanceTypes()
      */
     @CacheNoCopy
     public List<String> getCurrentYearEncumbranceBalanceTypes() {
@@ -157,7 +157,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.BalanceTypService#getContinuationAccountBypassBalanceTypeCodes(java.lang.Integer)
+     * @see org.kuali.kfs.coa.service.BalanceTypService#getContinuationAccountBypassBalanceTypeCodes(java.lang.Integer)
      */
     @CacheNoCopy
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {

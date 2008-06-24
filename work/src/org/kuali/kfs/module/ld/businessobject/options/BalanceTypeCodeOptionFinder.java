@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.optionfinder;
+package org.kuali.kfs.module.ld.businessobject.options;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE;
-import static org.kuali.module.labor.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE;
+import static org.kuali.kfs.module.ld.LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21;
 
 import java.util.ArrayList;
 import java.util.List;

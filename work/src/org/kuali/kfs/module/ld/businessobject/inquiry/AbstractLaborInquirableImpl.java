@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.inquirable;
+package org.kuali.kfs.module.ld.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,13 +27,13 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.inquiry.KfsInquirableImpl;
-import org.kuali.module.chart.bo.KualiSystemCode;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.coa.businessobject.KualiSystemCode;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.module.ld.LaborConstants;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.

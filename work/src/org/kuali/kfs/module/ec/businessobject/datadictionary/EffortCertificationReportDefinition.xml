@@ -7,7 +7,7 @@
   <bean id="EffortCertificationReportDefinition" parent="EffortCertificationReportDefinition-parentBean" />
 
   <bean id="EffortCertificationReportDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.effort.bo.EffortCertificationReportDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" />
     <property name="inquiryDefinition" >
       <ref bean="EffortCertificationReportDefinition-inquiryDefinition" />
     </property>
@@ -47,7 +47,7 @@
     <property name="shortLabel" value="Expense Transfer Period Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="ExpenseTransferFiscalPeriodCode" />
@@ -122,7 +122,7 @@
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode-parentBean" abstract="true" parent="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PeriodStatusCodeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.PeriodStatusCodeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -142,7 +142,7 @@
     <property name="shortLabel" value="Begin Period Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Effort Certification ReportBeginPeriodCode" />
@@ -165,7 +165,7 @@
     <property name="shortLabel" value="End Period Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Effort Certification ReportEndPeriodCode" />

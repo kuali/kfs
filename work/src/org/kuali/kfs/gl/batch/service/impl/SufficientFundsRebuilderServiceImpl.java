@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -26,26 +26,26 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.dao.OptionsDao;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.SufficientFundBalances;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.dao.BalanceDao;
-import org.kuali.module.gl.dao.SufficientFundBalancesDao;
-import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.SufficientFundRebuildService;
-import org.kuali.module.gl.service.SufficientFundsRebuilderService;
-import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.module.gl.util.Summary;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.OptionsDao;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.dataaccess.BalanceDao;
+import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
+import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.gl.service.SufficientFundRebuildService;
+import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService;
+import org.kuali.kfs.gl.service.SufficientFundsService;
+import org.kuali.kfs.gl.report.Summary;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -103,7 +103,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     /**
      * Rebuilds all necessary sufficient funds balances.
-     * @see org.kuali.module.gl.service.SufficientFundsRebuilderService#rebuildSufficientFunds()
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService#rebuildSufficientFunds()
      */
     public void rebuildSufficientFunds() { // driver
         LOG.debug("rebuildSufficientFunds() started");

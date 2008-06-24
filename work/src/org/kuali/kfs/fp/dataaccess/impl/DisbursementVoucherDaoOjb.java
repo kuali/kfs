@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao.ojb;
+package org.kuali.kfs.fp.dataaccess.impl;
 
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.module.financial.dao.DisbursementVoucherDao;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implements DisbursementVoucherDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDaoOjb.class);
@@ -36,7 +36,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getDocument(java.lang.String)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocument(java.lang.String)
      */
     public DisbursementVoucherDocument getDocument(String fdocNbr) {
         LOG.debug("getDocument() started");
@@ -48,7 +48,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String)
      */
     public Collection getDocumentsByHeaderStatus(String statusCode) {
         LOG.debug("getDocumentsByHeaderStatus() started");
@@ -61,7 +61,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getVendor(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getVendor(java.lang.String, java.lang.String)
      */
     public VendorDetail getVendor(String vendorHeaderId, String vendorDetailId) {
         LOG.debug("getVendor() started");
@@ -75,7 +75,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     
     /**
      * 
-     * @see org.kuali.module.financial.dao.DisbursementVoucherDao#getEmployee(java.lang.String)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getEmployee(java.lang.String)
      */
     public FinancialSystemUser getEmployee(String uuid) {
         LOG.debug("getEmployee() started");

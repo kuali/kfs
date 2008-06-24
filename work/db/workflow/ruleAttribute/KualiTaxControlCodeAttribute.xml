@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="taxControlCode" draw="true" service="workflow-org.kuali.module.financial.bo.TaxControlCode-Lookupable(workflow-code:taxControlCode)" />
+          <quickfinder appliesTo="taxControlCode" draw="true" service="workflow-org.kuali.kfs.fp.businessobject.TaxControlCode-Lookupable(workflow-code:taxControlCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/disbVchrPayeeTaxControlCode') = wf:ruledata('taxControlCode')</xpathexpression>
           </fieldEvaluation>

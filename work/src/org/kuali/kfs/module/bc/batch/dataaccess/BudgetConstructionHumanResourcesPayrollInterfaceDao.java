@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao;
+package org.kuali.kfs.module.bc.batch.dataaccess;
 
 public interface BudgetConstructionHumanResourcesPayrollInterfaceDao {
 

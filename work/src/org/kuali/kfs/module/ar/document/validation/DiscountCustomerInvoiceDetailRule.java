@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule;
+package org.kuali.kfs.module.ar.document.validation;
 
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 
 public interface DiscountCustomerInvoiceDetailRule<F extends AccountingDocument> extends CustomerInvoiceDetailRule {
 

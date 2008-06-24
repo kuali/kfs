@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.purap.util.PurApItemUtils;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 
 /**
  * Base class for Accounts Payable Item Business Objects.
@@ -108,7 +108,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * we'll return null and the item won't be added
      * to the list of account summary.
      * 
-     * @see org.kuali.module.purap.bo.PurApItemBase#getSummaryItem()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItemBase#getSummaryItem()
      */
     @Override
     public PurApSummaryItem getSummaryItem() {

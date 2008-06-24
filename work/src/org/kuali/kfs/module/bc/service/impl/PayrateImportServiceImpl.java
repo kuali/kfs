@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.service.impl;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -29,17 +29,17 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionPayRateHolding;
-import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
-import org.kuali.module.budget.bo.PayrateImportExport;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.service.LockService;
-import org.kuali.module.budget.service.PayrateImportService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
+import org.kuali.kfs.module.bc.businessobject.PayrateImportExport;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.service.PayrateImportService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -54,7 +54,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     
     /**
      * 
-     * @see org.kuali.module.budget.service.PayrateImportService#importFile(java.io.InputStream)
+     * @see org.kuali.kfs.module.bc.service.PayrateImportService#importFile(java.io.InputStream)
      */
     @Transactional
     public StringBuilder importFile(InputStream fileImportStream) {
@@ -87,7 +87,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     
     /**
      * 
-     * @see org.kuali.module.budget.service.PayrateImportService#update()
+     * @see org.kuali.kfs.module.bc.service.PayrateImportService#update()
      */
     @Transactional
     public StringBuilder update(Integer budgetYear, UniversalUser user) {
@@ -115,7 +115,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     
     /**
      * 
-     * @see org.kuali.module.budget.service.PayrateImportService#generatePdf(java.lang.StringBuilder, java.io.ByteArrayOutputStream)
+     * @see org.kuali.kfs.module.bc.service.PayrateImportService#generatePdf(java.lang.StringBuilder, java.io.ByteArrayOutputStream)
      */
     @NonTransactional
     public void generatePdf(StringBuilder logMessages, ByteArrayOutputStream baos) throws DocumentException {

@@ -18,7 +18,7 @@
 <beans>
     <bean id="budgetModule" parent="budgetModule-parentBean" />
 
-    <bean id="budgetModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="budgetModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="budget" />
 		<property name="moduleName" value="Budget Construction" />
 		<property name="moduleCode" value="BC" />
@@ -26,17 +26,17 @@
 		<property name="moduleAuthorizer" ref="budgetModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/budget/datadictionary</value>
+				<value>org/kuali/kfs/module/bc/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/budget/OJB-repository-budget.xml</value>
+				<value>org/kuali/kfs/module/bc/OJB-repository-budget.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/module/budget/dwr-budget.xml</value>
+				<value>org/kuali/kfs/module/bc/dwr-budget.xml</value>
 			</list>
 		</property>
 		<property name="jobNames">
@@ -51,15 +51,15 @@
 		</property>
 	</bean>
 
-    <bean id="budgetModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.module.budget.authorization.BudgetModuleAuthorizer">
+    <bean id="budgetModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.kfs.module.bc.BudgetModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.budget.</value>
+                <value>org.kuali.kfs.module.bc.</value>
             </list>
         </property>
     </bean>
 
-	<bean id="budgetDocumentService" class="org.kuali.module.budget.service.impl.BudgetDocumentServiceImpl">
+	<bean id="budgetDocumentService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetDocumentServiceImpl">
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
 		</property>
@@ -95,7 +95,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetOrganizationTreeService" class="org.kuali.module.budget.service.impl.BudgetOrganizationTreeServiceImpl">
+	<bean id="budgetOrganizationTreeService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetOrganizationTreeServiceImpl">
 		<property name="budgetConstructionOrganizationReportsService">
 			<ref bean="budgetConstructionOrganizationReportsService" />
 		</property>
@@ -110,25 +110,25 @@
 		</property>
 	</bean>
 
-	<bean id="budgetPushPullService" class="org.kuali.module.budget.service.impl.BudgetPushPullServiceImpl">
+	<bean id="budgetPushPullService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetPushPullServiceImpl">
 		<property name="budgetOrganizationPushPullDao">
 			<ref bean="bcBudgetOrganizationPushPullDao" />
 		</property>
 	</bean>
 
-	<bean id="budgetOrganizationSalarySettingSearchService" class="org.kuali.module.budget.service.impl.OrganizationSalarySettingSearchServiceImpl">
+	<bean id="budgetOrganizationSalarySettingSearchService" class="org.kuali.kfs.module.bc.document.service.impl.OrganizationSalarySettingSearchServiceImpl">
 		<property name="organizationSalarySettingSearchDao">
 			<ref bean="bcOrganizationSalarySettingSearchDao" />
 		</property>
 	</bean>
 
-	<bean id="budgetOrganizationBCDocumentSearchService" class="org.kuali.module.budget.service.impl.OrganizationBCDocumentSearchServiceImpl">
+	<bean id="budgetOrganizationBCDocumentSearchService" class="org.kuali.kfs.module.bc.document.service.impl.OrganizationBCDocumentSearchServiceImpl">
 		<property name="organizationBCDocumentSearchDao">
 			<ref bean="bcOrganizationBCDocumentSearchDao" />
 		</property>
 	</bean>
 
-	<bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">
+	<bean id="lockService" class="org.kuali.kfs.module.bc.document.service.impl.LockServiceImpl">
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
 		</property>
@@ -137,13 +137,13 @@
 		</property>
 	</bean>
 
-	<bean id="permissionService" class="org.kuali.module.budget.service.impl.PermissionServiceImpl">
+	<bean id="permissionService" class="org.kuali.kfs.module.bc.document.service.impl.PermissionServiceImpl">
 		<property name="organizationService">
 			<ref bean="organizationService" />
 		</property>
 	</bean>
 
-	<bean id="salarySettingService" class="org.kuali.module.budget.service.impl.SalarySettingServiceImpl">
+	<bean id="salarySettingService" class="org.kuali.kfs.module.bc.document.service.impl.SalarySettingServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -155,7 +155,7 @@
 		</property>		
 	</bean>
 
-	<bean id="benefitsCalculationService" class="org.kuali.module.budget.service.impl.BenefitsCalculationServiceImpl">
+	<bean id="benefitsCalculationService" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -167,7 +167,7 @@
 		</property>
 	</bean>
 	
-	<bean id="intendedIncumbentSelectLookupableHelperService" class="org.kuali.module.budget.web.lookupable.IntendedIncumbentSelectLookupableHelperServiceImpl" singleton="false">
+	<bean id="intendedIncumbentSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentSelectLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -191,7 +191,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="positionSelectLookupableHelperService" class="org.kuali.module.budget.web.lookupable.PositionSelectLookupableHelperServiceImpl" singleton="false">
+	<bean id="positionSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionSelectLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -215,7 +215,7 @@
 		</property>
 	</bean>	
 
-	<bean id="accountSelectLookupableHelperService" class="org.kuali.module.budget.web.lookupable.AccountSelectLookupableHelperServiceImpl" singleton="false">
+	<bean id="accountSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.AccountSelectLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -239,7 +239,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="lockMonitorLookupableHelperService" class="org.kuali.module.budget.web.lookupable.LockMonitorLookupableHelperServiceImpl" singleton="false">
+	<bean id="lockMonitorLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.LockMonitorLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -269,7 +269,7 @@
 		</property>
 	</bean>	
 
-	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb">
+	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoOjb">
 	    <property name="documentTypeService">
 	       <ref bean="documentTypeService"/>
 	    </property>   
@@ -285,7 +285,7 @@
     	</property>
 	</bean>
 	
-	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDaoJdbcBase">
+	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase">
 	    <property name="parameterService">
 	       <ref bean="parameterService"/>
 	    </property> 
@@ -295,22 +295,22 @@
 	    </property>
 	</bean>
 	
-	<bean id="bcOrganizationSalarySettingSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationSalarySettingSearchDaoJdbc">
+	<bean id="bcOrganizationSalarySettingSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.OrganizationSalarySettingSearchDaoJdbc">
 	</bean>
 
-	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationBCDocumentSearchDaoJdbc">
+	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.OrganizationBCDocumentSearchDaoJdbc">
 	</bean>
 	
-	<bean id="bcBudgetPullupDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetPullupDaoJdbc">
+	<bean id="bcBudgetPullupDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetPullupDaoJdbc">
 	</bean>
 
-	<bean id="bcBudgetOrganizationPushPullDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetOrganizationPushPullDaoJdbc">
+	<bean id="bcBudgetOrganizationPushPullDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetOrganizationPushPullDaoJdbc">
 	</bean>
 
-	<bean id="budgetReportsControlListDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetReportsControlListDaoJdbc">
+	<bean id="budgetReportsControlListDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetReportsControlListDaoJdbc">
 	</bean>
 	
-	<bean id="budgetReportsControlListService" class="org.kuali.module.budget.service.impl.BudgetReportsControlListServiceImpl">
+	<bean id="budgetReportsControlListService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetReportsControlListServiceImpl">
 		<property name="budgetReportsControlListDao">
 			<ref bean="budgetReportsControlListDao" />
 		</property>
@@ -319,13 +319,13 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationReportsServiceImpl">
+	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionOrganizationReportsServiceImpl">
 		<property name="budgetConstructionOrganizationReportsDao">
 			<ref bean="budgetConstructionOrganizationReportsDao" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionAccountSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSummaryReportServiceImpl">
+	<bean id="budgetConstructionAccountSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionAccountSummaryReportServiceImpl">
 	<property name="budgetConstructionAccountSummaryReportDao">
 		<ref bean="budgetConstructionAccountSummaryReportDao" />
 	</property>
@@ -337,7 +337,7 @@
     </property>
 	</bean>
 	
-	<bean id="budgetConstructionSubFundSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSubFundSummaryReportServiceImpl">
+	<bean id="budgetConstructionSubFundSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSubFundSummaryReportServiceImpl">
 	<property name="budgetConstructionAccountSummaryReportDao">
 		<ref bean="budgetConstructionAccountSummaryReportDao" />
 	</property>
@@ -349,7 +349,7 @@
     </property>
 	</bean>
 	
-	<bean id="budgetConstructionLevelSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionLevelSummaryReportServiceImpl">
+	<bean id="budgetConstructionLevelSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLevelSummaryReportServiceImpl">
 	<property name="budgetConstructionLevelSummaryReportDao">
 		<ref bean="budgetConstructionLevelSummaryReportDao" />
 	</property>
@@ -361,7 +361,7 @@
 	</property>
 	</bean>
 	
-	<bean id="budgetConstructionObjectSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionObjectSummaryReportServiceImpl">
+	<bean id="budgetConstructionObjectSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionObjectSummaryReportServiceImpl">
 	<property name="budgetConstructionObjectSummaryReportDao">
 		<ref bean="budgetConstructionObjectSummaryReportDao" />
 	</property>
@@ -373,7 +373,7 @@
 	</property>
 	</bean>
 	
-	<bean id="budgetConstructionAccountObjectDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountObjectDetailReportServiceImpl">
+	<bean id="budgetConstructionAccountObjectDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionAccountObjectDetailReportServiceImpl">
 	<property name="budgetConstructionAccountObjectDetailReportDao">
 		<ref bean="budgetConstructionAccountObjectDetailReportDao" />
 	</property>
@@ -388,7 +388,7 @@
     </property>
 	</bean>
 	
-	<bean id="budgetConstructionAccountFundingDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountFundingDetailReportServiceImpl">
+	<bean id="budgetConstructionAccountFundingDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionAccountFundingDetailReportServiceImpl">
 	<property name="budgetConstructionAccountFundingDetailReportDao">
 		<ref bean="budgetConstructionAccountFundingDetailReportDao" />
 	</property>
@@ -400,7 +400,7 @@
     </property>
 	</bean>
     
-    <bean id="budgetConstructionPositionFundingDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionPositionFundingDetailReportServiceImpl">
+    <bean id="budgetConstructionPositionFundingDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionPositionFundingDetailReportServiceImpl">
 	<property name="budgetConstructionPositionFundingDetailReportDao">
 		<ref bean="budgetConstructionPositionFundingDetailReportDao" />
 	</property>
@@ -412,7 +412,7 @@
 	</property>
 	</bean>
     
-    <bean id="budgetConstructionMonthSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthSummaryReportServiceImpl">
+    <bean id="budgetConstructionMonthSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionMonthSummaryReportServiceImpl">
 	<property name="budgetConstructionMonthSummaryReportDao">
 		<ref bean="budgetConstructionMonthSummaryReportDao" />
 	</property>
@@ -424,7 +424,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionSalarySummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSalarySummaryReportServiceImpl">
+    <bean id="budgetConstructionSalarySummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSalarySummaryReportServiceImpl">
 	<property name="budgetConstructionSalarySummaryReportDao">
 		<ref bean="budgetConstructionSalarySummaryReportDao" />
 	</property>
@@ -436,7 +436,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionSalaryStatisticsReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSalaryStatisticsReportServiceImpl">
+    <bean id="budgetConstructionSalaryStatisticsReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSalaryStatisticsReportServiceImpl">
 	<property name="budgetConstructionSalaryStatisticsReportDao">
 		<ref bean="budgetConstructionSalaryStatisticsReportDao" />
 	</property>
@@ -451,7 +451,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionReasonSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionReasonSummaryReportServiceImpl">
+    <bean id="budgetConstructionReasonSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonSummaryReportServiceImpl">
 	<property name="budgetConstructionSalarySummaryReportDao">
 		<ref bean="budgetConstructionSalarySummaryReportDao" />
 	</property>
@@ -466,7 +466,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionReasonStatisticsReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionReasonStatisticsReportServiceImpl">
+    <bean id="budgetConstructionReasonStatisticsReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonStatisticsReportServiceImpl">
 	<property name="budgetConstructionReasonStatisticsReportDao">
 		<ref bean="budgetConstructionReasonStatisticsReportDao" />
 	</property>
@@ -481,7 +481,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionList2PLGReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionList2PLGReportServiceImpl">
+    <bean id="budgetConstructionList2PLGReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionList2PLGReportServiceImpl">
 	<property name="budgetConstructionList2PLGReportDao">
 		<ref bean="budgetConstructionList2PLGReportDao" />
 	</property>
@@ -496,7 +496,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionSynchronizationProblemsReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSynchronizationProblemsReportServiceImpl">
+    <bean id="budgetConstructionSynchronizationProblemsReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSynchronizationProblemsReportServiceImpl">
 	<property name="budgetConstructionSynchronizationProblemsReportDao">
 		<ref bean="budgetConstructionSynchronizationProblemsReportDao" />
 	</property>
@@ -511,7 +511,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionReportsServiceHelper" class="org.kuali.module.budget.service.impl.BudgetConstructionReportsServiceHelperImpl">
+    <bean id="budgetConstructionReportsServiceHelper" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReportsServiceHelperImpl">
     <property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
@@ -520,7 +520,7 @@
 		</property>
     </bean>
     
-    <bean id="BudgetConstructionDocumentAccountObjectDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionDocumentAccountObjectDetailReportServiceImpl">
+    <bean id="BudgetConstructionDocumentAccountObjectDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionDocumentAccountObjectDetailReportServiceImpl">
 	<property name="budgetConstructionDocumentAccountObjectDetailReportDao">
 		<ref bean="budgetConstructionDocumentAccountObjectDetailReportDao" />
 	</property>
@@ -532,7 +532,7 @@
     </property>
     </bean>
     
-    <bean id="BudgetConstructionAccountSalaryDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSalaryDetailReportServiceImpl">
+    <bean id="BudgetConstructionAccountSalaryDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionAccountSalaryDetailReportServiceImpl">
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
@@ -541,7 +541,7 @@
     </property>
 	</bean>
 	
-    <bean id="BudgetConstructionAccountMonthlyDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountMonthlyDetailReportServiceImpl">
+    <bean id="BudgetConstructionAccountMonthlyDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionAccountMonthlyDetailReportServiceImpl">
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
@@ -550,94 +550,94 @@
     </property>
 	</bean>
     
-    <bean id="budgetParameterService" class="org.kuali.module.budget.service.impl.BudgetParameterServiceImpl">
+    <bean id="budgetParameterService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetParameterServiceImpl">
     <property name="parameterService">
     	<ref bean="parameterService" />
     </property>
     </bean>
  	
-	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountSummaryReportDaoJdbc">
+	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionAccountSummaryReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 	
-	<bean id="budgetConstructionLevelSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionLevelSummaryReportDaoJdbc">
+	<bean id="budgetConstructionLevelSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionLevelSummaryReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionAccountFundingDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountFundingDetailReportDaoJdbc">
+	<bean id="budgetConstructionAccountFundingDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionAccountFundingDetailReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 	
 
-	<bean id="budgetConstructionPositionFundingDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionPositionFundingDetailReportDaoJdbc">
+	<bean id="budgetConstructionPositionFundingDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionPositionFundingDetailReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountObjectDetailReportDaoJdbc">
+	<bean id="budgetConstructionAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionAccountObjectDetailReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionList2PLGReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionList2PLGReportDaoJdbc">
+	<bean id="budgetConstructionList2PLGReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionList2PLGReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionMonthSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthSummaryReportDaoJdbc">
+	<bean id="budgetConstructionMonthSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionMonthSummaryReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionObjectSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionObjectSummaryReportDaoJdbc">
+	<bean id="budgetConstructionObjectSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionObjectSummaryReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionReasonStatisticsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionReasonStatisticsReportDaoJdbc">
+	<bean id="budgetConstructionReasonStatisticsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionReasonStatisticsReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionSalaryStatisticsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSalaryStatisticsReportDaoJdbc">
+	<bean id="budgetConstructionSalaryStatisticsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionSalaryStatisticsReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionSalarySummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSalarySummaryReportDaoJdbc">
+	<bean id="budgetConstructionSalarySummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionSalarySummaryReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionSynchronizationProblemsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSynchronizationProblemsReportDaoJdbc">
+	<bean id="budgetConstructionSynchronizationProblemsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionSynchronizationProblemsReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 	
-	<bean id="budgetConstructionDocumentAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc">
+	<bean id="budgetConstructionDocumentAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
 	</bean>
 
-	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
+	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionOrganizationReportsDaoOjb" />
 	
-    <bean id="genesisService" class="org.kuali.module.budget.service.impl.GenesisServiceImpl">
+    <bean id="genesisService" class="org.kuali.kfs.module.bc.batch.service.impl.GenesisServiceImpl">
         <property name="genesisDao">
             <ref bean="genesisDao" />
         </property>
@@ -646,7 +646,7 @@
         </property>    
     </bean>
 
-    <bean id="genesisDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.module.budget.dao.ojb.GenesisDaoOjb">
+    <bean id="genesisDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.GenesisDaoOjb">
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>
@@ -661,7 +661,7 @@
         </property>
     </bean>
     
-    <bean id="glBudgetLoadService" class="org.kuali.module.budget.service.impl.GLBudgetLoadServiceImpl">
+    <bean id="glBudgetLoadService" class="org.kuali.kfs.module.bc.batch.service.impl.GLBudgetLoadServiceImpl">
         <property name="generalLedgerBudgetLoadDao">
             <ref bean="generalLedgerBudgetLoadDao" />
         </property>
@@ -670,22 +670,22 @@
         </property>
     </bean>
     
-    <bean id="budgetConstructionHumanResourcesPayrollInterfaceService" class="org.kuali.module.budget.service.impl.BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl">
+    <bean id="budgetConstructionHumanResourcesPayrollInterfaceService" class="org.kuali.kfs.module.bc.batch.service.impl.BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl">
         <property name="budgetConstructionHumanResourcesPayrollInterfaceDao">
             <ref bean="budgetConstructionHumanResourcesPayrollInterfaceDao" />
         </property>
     </bean>
     
-    <bean id="benefitsCalculationDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BenefitsCalculationDaoJdbc">
+    <bean id="benefitsCalculationDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BenefitsCalculationDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
     </bean>
     
-    <bean id="budgetConstructionHumanResourcesPayrollInterfaceDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc">
+    <bean id="budgetConstructionHumanResourcesPayrollInterfaceDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc">
     </bean>
 
-    <bean id="generalLedgerBudgetLoadDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">
+    <bean id="generalLedgerBudgetLoadDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.GeneralLedgerBudgetLoadDaoOjb">
         <property name="homeOriginationService">
             <ref bean="homeOriginationService"/>
         </property>
@@ -694,10 +694,10 @@
         </property>
     </bean>
     
-    <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
+    <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.kfs.module.bc.document.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>
         
-    <bean id="genesisBatchStep" class="org.kuali.module.budget.batch.GenesisBatchStep" parent="step"> </bean>
+    <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step"> </bean>
     	
     <bean id="genesisBatchJob" parent="scheduledJobDescriptor">
     	<property name="steps">
@@ -713,19 +713,19 @@
     	<property name="repeatCount" value="0" />
     </bean>
     
-    <bean id="budgetConstructionMonthlyBudgetsCreateDeleteDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc">
+    <bean id="budgetConstructionMonthlyBudgetsCreateDeleteDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
     </bean>
     
-    <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl">
+    <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl">
       <property name="budgetConstructionMonthlyBudgetsCreateDeleteDao">
         <ref bean="budgetConstructionMonthlyBudgetsCreateDeleteDao"/>
       </property>
     </bean>
 
-	<bean id="budgetRequestImportService" class="org.kuali.module.budget.service.impl.BudgetRequestImportServiceImpl" >
+	<bean id="budgetRequestImportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetRequestImportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -755,10 +755,10 @@
 		</property>					
 	</bean>
 	
-	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.ImportRequestDaoOjb">
+	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">
     </bean>
     
-    <bean id="reportDumpService" class="org.kuali.module.budget.service.impl.ReportExportServiceImpl" >
+    <bean id="reportDumpService" class="org.kuali.kfs.module.bc.document.service.impl.ReportExportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -767,10 +767,10 @@
 		</property>					
 	</bean>
 	
-	<bean id="reportDumpDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.ReportDumpDaoJdbc">
+	<bean id="reportDumpDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ReportDumpDaoJdbc">
     </bean>
     
-	<bean id="budgetConstructionBatchHelperDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionBatchHelperDaoOjb">
+	<bean id="budgetConstructionBatchHelperDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.BudgetConstructionBatchHelperDaoOjb">
 	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
 	    <property name="ojbOraclePlatform">
 	    <ref bean="oracleIndicator" />
@@ -780,7 +780,7 @@
 	    </property>
 	</bean>
 
-    <bean id="budgetConstructionLockDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionLockDaoOjb">
+    <bean id="budgetConstructionLockDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionLockDaoOjb">
   		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
 		</property>  

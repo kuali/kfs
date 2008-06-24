@@ -17,7 +17,7 @@
  * Created on Aug 2, 2004
  *
  */
-package org.kuali.module.pdp.form.paymentsearch;
+package org.kuali.kfs.pdp.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,9 +25,9 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.module.pdp.bo.PaymentDetailSearch;
-import org.kuali.module.pdp.utilities.DateHandler;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.pdp.businessobject.PaymentDetailSearch;
+import org.kuali.kfs.pdp.DateHandler;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

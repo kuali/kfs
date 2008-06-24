@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -36,14 +36,14 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.service.BudgetRequestImportService;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportForm;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportForm;
 
 
 /**
@@ -128,7 +128,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
     
     /**
      * 
-     * @see org.kuali.module.budget.web.struts.action.BudgetConstructionImportExportAction#validateFormData(org.kuali.module.budget.web.struts.form.BudgetConstructionImportExportForm)
+     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportAction#validateFormData(org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportForm)
      */
     public boolean validateFormData(BudgetConstructionImportExportForm form) {
         boolean isValid = super.validateFormData(form);

@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl.helper;
+package org.kuali.kfs.gl.batch;
 
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.PriorYearAccount;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.A21SubAccountService;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.util.FatalErrorException;
-import org.kuali.module.gl.util.ObjectHelper;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.PriorYearAccount;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
+import org.kuali.kfs.gl.ObjectHelper;
 
 /**
  * A helper class which contains the more complicated logic involved in the year end encumbrance closing process. This logic is

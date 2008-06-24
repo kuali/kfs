@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget;
+package org.kuali.kfs.module.bc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.web.struts.action.BudgetConstructionRequestImportAction;
-import org.kuali.module.budget.web.struts.action.MonthlyBudgetAction;
-import org.kuali.module.budget.web.struts.action.OrganizationSelectionTreeAction;
-import org.kuali.module.budget.web.struts.action.QuickSalarySettingAction;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportAction;
+import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction;
+import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
+import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.rice.util.JSTLConstants;
 
 public class BCConstants extends JSTLConstants {
@@ -249,7 +249,7 @@ public class BCConstants extends JSTLConstants {
         public final static String SELECTED_OBJECT_CODES_MESSAGE_KEY = "message.budget.selectedObjectCodes";
 
         // report file name
-        public static final String REPORT_TEMPLATE_CLASSPATH = "org/kuali/module/budget/report/";
+        public static final String REPORT_TEMPLATE_CLASSPATH = "org/kuali/kfs/module/bc/report/";
         public static final String REPORT_MESSAGES_CLASSPATH = REPORT_TEMPLATE_CLASSPATH + "BudgetOrgReport";
 
         // Represents the three modes in which report data is restricted

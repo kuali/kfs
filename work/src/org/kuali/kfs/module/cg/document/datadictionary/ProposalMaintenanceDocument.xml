@@ -7,8 +7,8 @@
   <bean id="ProposalMaintenanceDocument" parent="ProposalMaintenanceDocument-parentBean" />
 
   <bean id="ProposalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cg.bo.Proposal" />
-    <property name="maintainableClass" value="org.kuali.module.cg.maintenance.ProposalMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.cg.document.ProposalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="ProposalMaintenanceDocument-ProposalMaintenance" />
@@ -72,8 +72,8 @@
             p:parameterDetailType="Proposal" />
     </property>
     <property name="documentTypeName" value="ProposalMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cg.rules.ProposalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PRPL" />
     <property name="displayTopicFieldInNotes" value="true" />
     <property name="webScriptFiles" >
@@ -116,7 +116,7 @@
               p:name="proposalNumber"
               p:readOnly="true"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="proposalStatusCode"
               p:defaultValue="P"
@@ -194,7 +194,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="proposalOrganizations" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalOrganization" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -240,7 +240,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="proposalProjectDirectors" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalProjectDirector" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -286,7 +286,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="proposalSubcontractors" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalSubcontractor" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" />
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
@@ -325,7 +325,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="proposalResearchRisks" />
-          <property name="businessObjectClass" value="org.kuali.module.cg.bo.ProposalResearchRisk" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
           <property name="includeAddLine" value="false" />
           <property name="summaryFields" >
             <list>

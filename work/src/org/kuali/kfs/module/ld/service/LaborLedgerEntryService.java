@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
 /**
  * This interface provides its clients with access to labor leger entries in the backend data store.

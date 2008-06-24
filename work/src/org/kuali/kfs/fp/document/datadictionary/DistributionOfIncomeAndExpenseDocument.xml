@@ -19,9 +19,9 @@
             p:parameterDetailType="DistributionOfIncomeAndExpense" />
     </property>
     <property name="documentTypeName" value="DistributionOfIncomeAndExpenseDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.DistributionOfIncomeAndExpenseDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.DistributionOfIncomeAndExpenseDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DI" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

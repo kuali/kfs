@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.batch.dataaccess;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 /**
  * This class is used to support the enterprise feeder reconciliation process

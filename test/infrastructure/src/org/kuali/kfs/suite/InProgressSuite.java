@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import junit.framework.TestSuite;
 
 /**
- * The suite of all test classes or methods which {@link org.kuali.test.suite.RelatesTo} a Kuali JIRA issue in-progress. IDEs or Ant
+ * The suite of all test classes or methods which {@link org.kuali.kfs.suite.RelatesTo} a Kuali JIRA issue in-progress. IDEs or Ant
  * can run this as JUnit tests.
  * 
  * @see RelatesTo
@@ -31,7 +31,7 @@ public class InProgressSuite extends JiraRelatedSuite {
 
     /**
      * The suite of all test methods (including those within test class sub-suites) which do not
-     * {@link org.kuali.test.suite.RelatesTo} a JIRA issue in-progress. IDEs or Ant can run this as JUnit tests.
+     * {@link org.kuali.kfs.suite.RelatesTo} a JIRA issue in-progress. IDEs or Ant can run this as JUnit tests.
      */
     public static class Not extends JiraRelatedSuite {
         public static TestSuite suite() throws Exception {

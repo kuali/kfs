@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
 
 /**
  * This is the data access object for Labor Object
  * 
- * @see org.kuali.module.labor.bo.LaborObject
+ * @see org.kuali.kfs.module.ld.businessobject.LaborObject
  */
 public interface LaborObjectDao {
     

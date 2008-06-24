@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,27 +25,27 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.GeneralLedgerPostingDocument;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.ObjectLevelService;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.financial.document.YearEndDocument;
-import org.kuali.module.gl.bo.SufficientFundBalances;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.SufficientFundBalancesDao;
-import org.kuali.module.gl.dao.SufficientFundsDao;
-import org.kuali.module.gl.service.SufficientFundRebuildService;
-import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.module.gl.service.SufficientFundsServiceConstants;
-import org.kuali.module.gl.util.SufficientFundsItem;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectLevelService;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.fp.document.YearEndDocument;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
+import org.kuali.kfs.gl.batch.dataaccess.SufficientFundsDao;
+import org.kuali.kfs.gl.service.SufficientFundRebuildService;
+import org.kuali.kfs.gl.service.SufficientFundsService;
+import org.kuali.kfs.gl.service.SufficientFundsServiceConstants;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -78,7 +78,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @param financialObject the object code being checked against
      * @param accountSufficientFundsCode the kind of sufficient funds checking turned on in this system
      * @return the object code that should be used for the sufficient funds inquiry, or a blank String
-     * @see org.kuali.module.gl.service.SufficientFundsService#getSufficientFundsObjectCode(org.kuali.module.chart.bo.ObjectCode,
+     * @see org.kuali.kfs.gl.service.SufficientFundsService#getSufficientFundsObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode,
      *      java.lang.String)
      */
     public String getSufficientFundsObjectCode(ObjectCode financialObject, String accountSufficientFundsCode) {
@@ -114,7 +114,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * 
      * @param document document to check
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
-     * @see org.kuali.module.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.FinancialDocument)
+     * @see org.kuali.kfs.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.FinancialDocument)
      */
     public List<SufficientFundsItem> checkSufficientFunds(GeneralLedgerPostingDocument document) {
         LOG.debug("checkSufficientFunds() started");
@@ -137,7 +137,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * 
      * @param transactions list of transactions
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
-     * @see org.kuali.module.gl.service.SufficientFundsService#checkSufficientFunds(java.util.List)
+     * @see org.kuali.kfs.gl.service.SufficientFundsService#checkSufficientFunds(java.util.List)
      */
     public List<SufficientFundsItem> checkSufficientFunds(List<? extends Transaction> transactions) {
         LOG.debug("checkSufficientFunds() started");

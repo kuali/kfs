@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiAmountSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Amount Source Line Routing</label>
       <description>Total Dollar Amount Source Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>

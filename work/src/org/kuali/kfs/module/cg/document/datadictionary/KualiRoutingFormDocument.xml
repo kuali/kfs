@@ -18,9 +18,9 @@
             p:parameterDetailType="RoutingForm" />
     </property>
     <property name="documentTypeName" value="KualiRoutingFormDocument" />
-    <property name="documentClass" value="org.kuali.module.kra.routingform.document.RoutingFormDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.kra.routingform.rules.RoutingFormDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.kra.routingform.document.RoutingFormDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.cg.document.RoutingFormDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.RoutingFormDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.RoutingFormDocumentAuthorizer" />
     <property name="documentTypeCode" value="KRFD" />
     <property name="allowsNoteDelete" value="true" />
     <property name="displayTopicFieldInNotes" value="true" />

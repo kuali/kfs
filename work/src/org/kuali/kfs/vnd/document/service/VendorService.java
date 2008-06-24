@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service;
+package org.kuali.kfs.vnd.document.service;
 
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 public interface VendorService {
 
@@ -43,22 +43,22 @@ public interface VendorService {
     /**
      * Gets the apo limit for the given parameters using the following logic:<br>
      * <br>
-     * First it checks to see if an existing {@link org.kuali.module.vendor.bo.VendorContractOrganization} object exists for the
+     * First it checks to see if an existing {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} object exists for the
      * associated parameters. If one exists and it is not excluded (see
-     * {@link org.kuali.module.vendor.bo.VendorContractOrganization#isVendorContractExcludeIndicator()}) this will return the value
-     * of {@link org.kuali.module.vendor.bo.VendorContractOrganization#getVendorContractPurchaseOrderLimitAmount()}.<br>
+     * {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization#isVendorContractExcludeIndicator()}) this will return the value
+     * of {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization#getVendorContractPurchaseOrderLimitAmount()}.<br>
      * <br>
-     * If an associated {@link org.kuali.module.vendor.bo.VendorContractOrganization} object cannot be found then a valid
-     * {@link org.kuali.module.vendor.bo.VendorContract} object will be sought. If one is found this method will return the value of
-     * {@link org.kuali.module.vendor.bo.VendorContract#getOrganizationAutomaticPurchaseOrderLimit()}.<br>
+     * If an associated {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} object cannot be found then a valid
+     * {@link org.kuali.kfs.vnd.businessobject.VendorContract} object will be sought. If one is found this method will return the value of
+     * {@link org.kuali.kfs.vnd.businessobject.VendorContract#getOrganizationAutomaticPurchaseOrderLimit()}.<br>
      * <br>
-     * If no valid {@link org.kuali.module.vendor.bo.VendorContractOrganization} or
-     * {@link org.kuali.module.vendor.bo.VendorContract} objects can be found for the given parameters this method will return null.
+     * If no valid {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} or
+     * {@link org.kuali.kfs.vnd.businessobject.VendorContract} objects can be found for the given parameters this method will return null.
      * 
-     * @param contractId id used to find {@link org.kuali.module.vendor.bo.VendorContractOrganization} object and
-     *        {@link org.kuali.module.vendor.bo.VendorContract} object
-     * @param chart chart code for use in finding {@link org.kuali.module.vendor.bo.VendorContractOrganization} object
-     * @param org org code for use in finding {@link org.kuali.module.vendor.bo.VendorContractOrganization} object
+     * @param contractId id used to find {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} object and
+     *        {@link org.kuali.kfs.vnd.businessobject.VendorContract} object
+     * @param chart chart code for use in finding {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} object
+     * @param org org code for use in finding {@link org.kuali.kfs.vnd.businessobject.VendorContractOrganization} object
      * @return the automatic purchase order limit amount from the contract found using the parameters. If parameters do not find
      *         valid vendor contract objects then null is returned.
      */
@@ -125,7 +125,7 @@ public interface VendorService {
     /**
      * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code> is an employee of the
      * institution. The vendor must have a valid tax id and it must be of type SSN (see
-     * {@link org.kuali.module.vendor.VendorConstants#TAX_TYPE_SSN}).
+     * {@link org.kuali.kfs.vnd.VendorConstants#TAX_TYPE_SSN}).
      * 
      * @param vendorHeaderGeneratedIdentifier The Header Id in Integer form
      * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is an employee of the
@@ -135,7 +135,7 @@ public interface VendorService {
 
     /**
      * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code> is a non-resident alien
-     * by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorForeignIndicator()}.
+     * by checking the value of {@link org.kuali.kfs.vnd.businessobject.VendorHeader#getVendorForeignIndicator()}.
      * 
      * @param vendorHeaderGeneratedIdentifier The Header Id in Integer form
      * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and is marked as a
@@ -145,7 +145,7 @@ public interface VendorService {
 
     /**
      * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code> is a subject payment vendor
-     * by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorTypeCode()} to see if it equals "SP".
+     * by checking the value of {@link org.kuali.kfs.vnd.businessobject.VendorHeader#getVendorTypeCode()} to see if it equals "SP".
      * 
      * @param vendorHeaderGeneratedIdentifier The Header Id in Integer form
      * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and has a vendor type code of "SP"
@@ -154,7 +154,7 @@ public interface VendorService {
 
     /**
      * Indicates whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code> is a revolving fund code vendor
-     * by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorTypeCode()} to see if it equals "RF".
+     * by checking the value of {@link org.kuali.kfs.vnd.businessobject.VendorHeader#getVendorTypeCode()} to see if it equals "RF".
      * 
      * @param vendorHeaderGeneratedIdentifier The Header Id in Integer form
      * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and has a vendor type code of "RF"

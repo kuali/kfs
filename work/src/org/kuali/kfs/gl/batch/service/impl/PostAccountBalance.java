@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.AccountBalanceDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.AccountBalanceCalculator;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -53,7 +53,7 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
      * @return the accomplished post type
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");

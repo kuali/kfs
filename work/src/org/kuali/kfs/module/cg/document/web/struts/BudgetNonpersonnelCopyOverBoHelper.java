@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 
 /**
  * This is a wrapper for BudgetNonpersonnel business object. It's useful on the copy over page because it assists in housing and

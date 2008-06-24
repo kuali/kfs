@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +25,16 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.service.GlCorrectionProcessOriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This implementation of GlCorrectionProcessOriginEntryService uses the database to temporarily store lists of origin entries.
  * While this implementation does not clear out persisted origin entries, the batch job defined using the
- * org.kuali.kfs.batch.PurgeOldLookupResultsStep class may cause the purging of origin entries persisted with this implementation.
+ * org.kuali.kfs.sys.batch.PurgeOldLookupResultsStep class may cause the purging of origin entries persisted with this implementation.
  * 
  * @see GlCorrectionProcessOriginEntryService
  */
@@ -50,7 +50,7 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
      * @param glcpSearchResuiltsSequenceNumber a sequence number
      * @param allEntries a list of origin entries
      * @throws Exception thrown if anything goes wrong
-     * @see org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService#persistAllEntries(java.lang.String, java.util.List)
+     * @see org.kuali.kfs.gl.service.GlCorrectionProcessOriginEntryService#persistAllEntries(java.lang.String, java.util.List)
      */
     public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntryFull> allEntries) throws Exception {
         String serializedOriginEntries = new String(Base64.encodeBase64(ObjectUtils.toByteArray(allEntries)));
@@ -72,7 +72,7 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
      * @param glcpSearchResuiltsSequenceNumber a sequence number
      * @return a list of origin entries, or null if no results are currently not in the system.
      * @throws Exception thrown if something goes wrong - vague documentation for a vague exception
-     * @see org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService#retrieveAllEntries(java.lang.String)
+     * @see org.kuali.kfs.gl.service.GlCorrectionProcessOriginEntryService#retrieveAllEntries(java.lang.String)
      */
     public List<OriginEntryFull> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception {
         LookupResults lookupResults = retrieveGlcpAllOriginEntries(glcpSearchResuiltsSequenceNumber);

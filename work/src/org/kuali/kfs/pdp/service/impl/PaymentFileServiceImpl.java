@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,24 +32,24 @@ import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.MailService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.dao.PaymentFileLoadDao;
-import org.kuali.module.pdp.exception.PaymentLoadException;
-import org.kuali.module.pdp.service.CustomerProfileService;
-import org.kuali.module.pdp.service.EnvironmentService;
-import org.kuali.module.pdp.service.LoadPaymentStatus;
-import org.kuali.module.pdp.service.PaymentFileService;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
-import org.kuali.module.pdp.xml.PaymentFileParser;
-import org.kuali.module.pdp.xml.XmlHeader;
-import org.kuali.module.pdp.xml.XmlTrailer;
-import org.kuali.module.pdp.xml.impl.DataLoadHandler;
-import org.kuali.module.pdp.xml.impl.HardEditHandler;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
+import org.kuali.kfs.pdp.exception.PaymentLoadException;
+import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.service.EnvironmentService;
+import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
+import org.kuali.kfs.pdp.service.PaymentFileService;
+import org.kuali.kfs.pdp.GeneralUtilities;
+import org.kuali.kfs.pdp.service.paymentparser.PaymentFileParser;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlTrailer;
+import org.kuali.kfs.pdp.service.impl.paymentparser.DataLoadHandler;
+import org.kuali.kfs.pdp.service.impl.paymentparser.HardEditHandler;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -647,7 +647,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentFileService#sendLoadEmail(org.kuali.module.pdp.bo.Batch)
+     * @see org.kuali.kfs.pdp.service.PaymentFileService#sendLoadEmail(org.kuali.kfs.pdp.businessobject.Batch)
      */
     public void sendLoadEmail(Batch batch) {
         LOG.debug("sendLoadEmail() starting");

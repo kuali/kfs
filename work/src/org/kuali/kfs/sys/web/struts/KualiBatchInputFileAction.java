@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.action;
+package org.kuali.kfs.sys.web.struts;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -40,16 +40,16 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.batch.BatchSpringContext;
-import org.kuali.kfs.bo.BatchUpload;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.kfs.web.struts.form.KualiBatchInputFileForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.businessobject.BatchUpload;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.FileStorageException;
+import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.web.struts.KualiBatchInputFileForm;
 
 /**
  * Handles actions from the batch upload screen.

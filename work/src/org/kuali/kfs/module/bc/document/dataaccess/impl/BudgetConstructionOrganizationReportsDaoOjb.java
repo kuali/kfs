@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.ojb;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,9 +28,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
-import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao;
 
 public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionOrganizationReportsDao {
 
@@ -38,7 +38,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
 
     /**
@@ -56,7 +56,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
     }
     
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getBySearchCriteria(java.lang.Class, java.util.Map)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#getBySearchCriteria(java.lang.Class, java.util.Map)
      */
     public Collection getBySearchCriteria(Class cls, Map searchCriteria) {
         Criteria criteria = new Criteria();
@@ -70,7 +70,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
     }
     
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getBySearchCriteriaWithOrderByList(java.lang.Class, java.util.Map, java.util.List)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#getBySearchCriteriaWithOrderByList(java.lang.Class, java.util.Map, java.util.List)
      */
     public Collection getBySearchCriteriaWithOrderByList(Class cls, Map searchCriteria, List<String> list) {
         Criteria criteria = new Criteria();
@@ -87,7 +87,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getActiveChildOrgs(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#getActiveChildOrgs(java.lang.String,
      *      java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
@@ -112,7 +112,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#isLeafOrg(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#isLeafOrg(java.lang.String, java.lang.String)
      */
     public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode) {
 

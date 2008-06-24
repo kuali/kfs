@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.lookup;
+package org.kuali.kfs.module.purap.businessobject.lookup;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,9 +26,9 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorKeyConstants;
-import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorKeyConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

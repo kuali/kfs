@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.document;
+package org.kuali.kfs.gl.document;
 
 /**
  * A set of constants that show where in an array of a parsed collection criterion certain

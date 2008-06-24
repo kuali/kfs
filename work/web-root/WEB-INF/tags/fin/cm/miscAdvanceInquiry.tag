@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="itemInProcess" required="true" description="An item in process to provide an inquirable link to." type="org.kuali.module.financial.bo.CashieringItemInProcess" %>
+<%@ attribute name="itemInProcess" required="true" description="An item in process to provide an inquirable link to." type="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" %>
 
 <p>
-  <kul:inquiry boClassName="org.kuali.module.financial.bo.CashieringItemInProcess" keyValues="workgroupName=${itemInProcess.workgroupName}&itemIdentifier=${itemInProcess.itemIdentifier}" render="true">
+  <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" keyValues="workgroupName=${itemInProcess.workgroupName}&itemIdentifier=${itemInProcess.itemIdentifier}" render="true">
     #${itemInProcess.itemIdentifier}
   </kul:inquiry>
 </p>

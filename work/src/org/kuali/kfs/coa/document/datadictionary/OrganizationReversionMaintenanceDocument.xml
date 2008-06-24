@@ -7,8 +7,8 @@
   <bean id="OrganizationReversionMaintenanceDocument" parent="OrganizationReversionMaintenanceDocument-parentBean" />
 
   <bean id="OrganizationReversionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversion" />
-    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.OrganizationReversionMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversion" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.OrganizationReversionMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="OrganizationReversionMaintenanceDocument-EditOrganizationReversion" />
@@ -66,9 +66,9 @@
             p:parameterDetailType="OrganizationReversion" />
     </property>
     <property name="documentTypeName" value="OrganizationReversionMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.OrganizationReversionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.OrganizationReversionPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionPreRules" />
     <property name="documentTypeCode" value="ORGR" />
     <property name="webScriptFiles" >
       <list>
@@ -140,7 +140,7 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="organizationReversionDetail" />
-          <property name="businessObjectClass" value="org.kuali.module.chart.bo.OrganizationReversionDetail" />
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversionDetail" />
           <property name="includeAddLine" value="false" />
           <property name="maintainableFields" >
             <list>

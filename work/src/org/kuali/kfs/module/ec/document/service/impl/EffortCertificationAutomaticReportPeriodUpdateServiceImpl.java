@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
-import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
+import org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,14 +32,14 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
     private EffortCertificationReportDefinitionDao reportDefinitionDao;
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#getAllReportDefinitions()
+     * @see org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService#getAllReportDefinitions()
      */
     public List<EffortCertificationReportDefinition> getAllReportDefinitions() {
         return this.reportDefinitionDao.getAll();
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
         List<EffortCertificationReportDefinition> potentialOverlappingRecords = reportDefinitionDao.getAllOtherActiveByType(reportDefinition);

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.globals;
+package org.kuali.kfs.coa.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,15 +29,15 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.AccountGlobal;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
-import org.kuali.module.chart.bo.DelegateGlobal;
-import org.kuali.module.chart.bo.DelegateGlobalDetail;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.DelegateGlobal;
+import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.CrossSectionSuite;
 
 @SuppressWarnings("deprecation")
 @ConfigureContext(session = KHUNTLEY)
@@ -54,7 +54,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         MaintenanceDocument doc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
-        assertEquals("org.kuali.module.chart.bo.DelegateGlobal", doc.getNewMaintainableObject().getBoClass().getName());
+        assertEquals("org.kuali.kfs.coa.businessobject.DelegateGlobal", doc.getNewMaintainableObject().getBoClass().getName());
     }
 
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {

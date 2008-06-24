@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,18 +33,18 @@ import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
-import org.kuali.module.kra.util.AuditCluster;
-import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.validation.event.RunRoutingFormAuditEvent;
+import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
+import org.kuali.kfs.module.cg.document.validation.impl.AuditCluster;
+import org.kuali.kfs.module.cg.document.web.struts.ResearchDocumentActionBase;
 
 public class RoutingFormAction extends ResearchDocumentActionBase {
 

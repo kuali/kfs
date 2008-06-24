@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,20 +35,20 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
-import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
-import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.module.financial.document.VoucherDocument;
-import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
-import org.kuali.module.financial.web.struts.form.VoucherForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
+import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.fp.document.VoucherDocument;
+import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
+import org.kuali.kfs.fp.document.web.struts.VoucherForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -147,7 +147,7 @@ public class JournalVoucherAction extends VoucherAction {
      * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a JV
      * error correction.
      * 
-     * @see org.kuali.module.financial.web.struts.action.VoucherAction#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.fp.document.web.struts.VoucherAction#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

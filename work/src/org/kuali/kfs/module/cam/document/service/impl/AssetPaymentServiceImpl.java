@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -27,21 +27,21 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.dao.AssetPaymentDao;
-import org.kuali.module.cams.document.AssetPaymentDocument;
-import org.kuali.module.cams.service.AssetPaymentService;
-import org.kuali.module.cams.service.AssetRetirementService;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.dataaccess.AssetPaymentDao;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -57,14 +57,14 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     private AssetService assetService;
 
     /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#getMaxSequenceNumber(org.kuali.module.cams.bo.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getMaxSequenceNumber(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public Integer getMaxSequenceNumber(Long capitalAssetNumber) {
         return this.getAssetPaymentDao().getMaxSquenceNumber(capitalAssetNumber);
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentFederalContribution(org.kuali.module.cams.bo.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentFederalContribution(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public boolean isPaymentFederalContribution(AssetPayment assetPayment) {
         assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
@@ -75,7 +75,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentFinancialObjectActive(org.kuali.module.cams.bo.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentFinancialObjectActive(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public boolean isPaymentFinancialObjectActive(AssetPayment assetPayment) {
         ObjectCode financialObjectCode = new ObjectCode();
@@ -91,7 +91,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
 
     /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.module.cams.document.AssetPaymentDocument)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#processApprovedAssetPayment(org.kuali.kfs.module.cam.document.AssetPaymentDocument)
      */
     public void processApprovedAssetPayment(AssetPaymentDocument document) {        
         // Creating new asset payment records
@@ -192,7 +192,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#adjustPaymentAmounts(org.kuali.module.cams.bo.AssetPayment, boolean,
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#adjustPaymentAmounts(org.kuali.kfs.module.cam.businessobject.AssetPayment, boolean,
      *      boolean)
      */
     public void adjustPaymentAmounts(AssetPayment assetPayment, boolean reverseAmount, boolean nullPeriodDepreciation) throws IllegalAccessException, InvocationTargetException {
@@ -280,7 +280,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentEligibleForGLPosting(org.kuali.module.cams.bo.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentEligibleForGLPosting(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
         // Transfer payment code flag is not Y

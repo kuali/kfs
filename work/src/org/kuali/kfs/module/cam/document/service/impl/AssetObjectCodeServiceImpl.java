@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.service.AssetObjectCodeService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetObjectCodeServiceImpl implements AssetObjectCodeService {
     UniversityDateService universityDateService;
     BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.cams.service.AssetObjectCodeService#findAssetObjectCode(java.lang.String,
-     *      org.kuali.module.cams.bo.AssetPayment)
+     * @see org.kuali.kfs.module.cam.document.service.AssetObjectCodeService#findAssetObjectCode(java.lang.String,
+     *      org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, String financialObjectSubTypeCode) {
         Map<String, Object> pkKeys = new HashMap<String, Object>();

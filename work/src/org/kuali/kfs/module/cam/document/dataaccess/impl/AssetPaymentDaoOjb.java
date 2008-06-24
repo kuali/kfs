@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.dao.ojb;
+package org.kuali.kfs.module.cam.document.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -24,15 +24,15 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.dao.AssetPaymentDao;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.dataaccess.AssetPaymentDao;
 
 public class AssetPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements AssetPaymentDao {
 
     /**
      * 
-     * @see org.kuali.module.cams.dao.AssetPaymentDao#getMaxSquenceNumber(java.lang.Long)
+     * @see org.kuali.kfs.module.cam.document.dataaccess.AssetPaymentDao#getMaxSquenceNumber(java.lang.Long)
      */
     public Integer getMaxSquenceNumber(Long capitalAssetNumber) {
         Criteria criteria = new Criteria();

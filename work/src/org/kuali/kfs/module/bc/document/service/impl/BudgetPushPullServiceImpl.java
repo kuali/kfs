@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.kuali.core.util.spring.Logged;
-import org.kuali.module.budget.dao.BudgetOrganizationPushPullDao;
-import org.kuali.module.budget.service.BudgetPushPullService;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao;
+import org.kuali.kfs.module.bc.document.service.BudgetPushPullService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,7 +33,7 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
     private BudgetOrganizationPushPullDao budgetOrganizationPushPullDao;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetPushPullService#pullupSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#pullupSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
      */
     @Logged
     public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
@@ -43,7 +43,7 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetPushPullService#pushdownSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#pushdownSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
      */
     @Logged
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {

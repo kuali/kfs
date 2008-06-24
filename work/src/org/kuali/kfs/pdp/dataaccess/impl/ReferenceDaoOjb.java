@@ -17,7 +17,7 @@
  * Created on Aug 7, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,10 +30,10 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.bo.UserRequired;
-import org.kuali.module.pdp.dao.ReferenceDao;
-import org.kuali.module.pdp.exception.ConfigurationError;
+import org.kuali.kfs.pdp.businessobject.Code;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
+import org.kuali.kfs.pdp.exception.ConfigurationError;
 
 
 /**
@@ -70,7 +70,7 @@ public class ReferenceDaoOjb extends PlatformAwareDaoBaseOjb implements Referenc
     }
 
     private Class getClass(String name) {
-        String fullName = "org.kuali.module.pdp.bo." + name;
+        String fullName = "org.kuali.kfs.pdp.businessobject." + name;
 
         try {
             return Class.forName(fullName);

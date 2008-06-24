@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,16 +22,16 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -45,14 +45,14 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     private LaborLedgerBalanceService laborLedgerBalanceService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getConsolidationFieldName()
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getConsolidationFieldName()
      */
     public String getConsolidationFieldName() {
         return Constant.CONSOLIDATION_OPTION;
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getConsolidationField(java.util.Collection)
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getConsolidationField(java.util.Collection)
      */
     public Field getConsolidationField(Collection<Row> rows) {
         for (Row row : rows) {
@@ -66,7 +66,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getSelectedPendingEntryOption(java.util.Map)
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getSelectedPendingEntryOption(java.util.Map)
      */
     public String getSelectedPendingEntryOption(Map fieldValues) {
         // truncate the non-property filed
@@ -77,7 +77,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#getConsolidationOption(java.util.Map)
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getConsolidationOption(java.util.Map)
      */
     public String getConsolidationOption(Map fieldValues) {
         String consolidationOption = (String) fieldValues.get(getConsolidationFieldName());
@@ -87,7 +87,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map, java.util.Collection)
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map, java.util.Collection)
      */
     public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows) {
         boolean isConsolidationSelected = isConsolidationSelected(fieldValues);
@@ -100,7 +100,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map)
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map)
      */
     public boolean isConsolidationSelected(Map fieldValues) {
         String consolidationOption = getConsolidationOption(fieldValues);
@@ -120,7 +120,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateLedgerBalanceByPendingLedgerEntry(java.util.Collection,
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#updateLedgerBalanceByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
     public void updateLedgerBalanceByPendingLedgerEntry(Collection<LedgerBalance> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
@@ -134,7 +134,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateCurrentFundsByPendingLedgerEntry(java.util.Collection,
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#updateCurrentFundsByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
     public void updateCurrentFundsByPendingLedgerEntry(Collection<AccountStatusCurrentFunds> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
@@ -148,7 +148,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborInquiryOptionsService#updateByPendingLedgerEntry(java.util.Collection,
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#updateByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
     public void updateLedgerEntryByPendingLedgerEntry(Collection<LedgerEntry> entryCollection, Map fieldValues, String pendingEntryOption) {

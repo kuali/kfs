@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.ObjectCons;
-import org.kuali.module.chart.dao.ObjectConsDao;
+import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
 
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.
@@ -28,7 +28,7 @@ public class ObjectConsDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectConsDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.ObjectConsDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.ObjectConsDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
         Criteria criteria = new Criteria();

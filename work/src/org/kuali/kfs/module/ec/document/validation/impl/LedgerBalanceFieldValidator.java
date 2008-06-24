@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.rules;
+package org.kuali.kfs.module.ec.document.validation.impl;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,17 +21,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.Message;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.service.ContractsAndGrantsModuleService;
 
 /**
  * The validator provides a set of facilities to determine whether the given ledger balances meet the specified requirements. As a

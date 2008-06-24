@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.FundGroup;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.dao.SubFundGroupDao;
-import org.kuali.module.chart.service.SubFundGroupService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.FundGroup;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.dataaccess.SubFundGroupDao;
+import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +35,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     private SubFundGroupDao subFundGroupDao;
 
     /**
-     * @see org.kuali.module.chart.service.SubFundGroupService#isForContractsAndGrants(org.kuali.module.chart.bo.SubFundGroup)
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#isForContractsAndGrants(org.kuali.kfs.coa.businessobject.SubFundGroup)
      */
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup) {
         if (ObjectUtils.isNull(subFundGroup)) {
@@ -50,7 +50,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingAttributeLabel()
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingAttributeLabel()
      */
     public String getContractsAndGrantsDenotingAttributeLabel() {
         if (fundGroupDenotesContractsAndGrants()) {
@@ -63,7 +63,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingValue(org.kuali.module.chart.bo.SubFundGroup)
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValue(org.kuali.kfs.coa.businessobject.SubFundGroup)
      */
     public String getContractsAndGrantsDenotingValue(SubFundGroup subFundGroup) {
         if (fundGroupDenotesContractsAndGrants()) {
@@ -76,7 +76,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
 
 
     /**
-     * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingValue()
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValue()
      */
     public String getContractsAndGrantsDenotingValue() {
         return parameterService.getParameterValue(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
@@ -92,14 +92,14 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.SubFundGroupService#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
         return subFundGroupDao.getByPrimaryId(subFundGroupCode);
     }
 
     /**
-     * @see org.kuali.module.chart.service.SubFundGroupService#getByChartAndAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {
         return subFundGroupDao.getByChartAndAccount(chartCode, accountNumber);

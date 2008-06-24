@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao.ojb;
+package org.kuali.kfs.sys.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,12 +25,12 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.dao.AccountingLineDao;
-import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.dataaccess.AccountingLineDao;
+import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.springframework.dao.DataAccessException;
 
 /**

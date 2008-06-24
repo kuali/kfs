@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,8 +23,8 @@ import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.exceptions.FileStorageException;
+import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.exception.FileStorageException;
 
 /**
  * This interface defines the methods needed to save/download/delete file sets in the batch upload system

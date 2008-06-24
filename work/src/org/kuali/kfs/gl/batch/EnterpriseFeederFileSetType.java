@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.enterprisefeeder;
+package org.kuali.kfs.gl.batch;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,12 +31,12 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.batch.EnterpriseFeedStep;
-import org.kuali.module.gl.service.EnterpriseFeederService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.batch.EnterpriseFeedStep;
+import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 
 /**
  * This class provides metadata for the batch upload screen to work for files associated with the enterprise feeder.
@@ -52,7 +52,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * 
      * @param fileType file type (not used)
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getDirectoryPath(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDirectoryPath(java.lang.String)
      */
     public String getDirectoryPath(String fileType) {
         // all files in the file set go into the same directory
@@ -64,7 +64,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * 
      * @return List<String> including "DATA", "RECON" file types
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getFileTypes()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileTypes()
      */
     public List<String> getFileTypes() {
         List<String> types = new ArrayList<String>();
@@ -94,7 +94,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * 
      * @return a map containing the following key/description pairs: DATA/Data Files, RECON/Reconciliation File
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getFileTypeDescription()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileTypeDescription()
      */
     public Map<String, String> getFileTypeDescription() {
         Map<String, String> values = new HashMap<String, String>();
@@ -110,7 +110,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param fileUserIdentifer String representing user who uploaded file
      * @return String enterprise feeder formated file name string using information from user and file user identifier
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.core.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.core.bo.user.UniversalUser, java.lang.String)
      */
     public String getFileName(String fileType, UniversalUser user, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
@@ -121,7 +121,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getFileSetTypeIdentifer()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileSetTypeIdentifer()
      */
     public String getFileSetTypeIdentifer() {
         return KFSConstants.ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER;
@@ -134,7 +134,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param batchFile file being checked for authorization
      * @return true if user is authorized to view file
      * 
-     * @see org.kuali.kfs.batch.BatchInputType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         boolean isAuthorized = false;
@@ -157,14 +157,14 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputType#getUploadWorkgroupParameterComponent()
+     * @see org.kuali.kfs.sys.batch.BatchInputType#getUploadWorkgroupParameterComponent()
      */
     public Class getUploadWorkgroupParameterComponent() {
         return EnterpriseFeedStep.class;
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputType#getTitleKey()
+     * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {
         return KFSKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_ENTERPRISE_FEEDER;
@@ -176,7 +176,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param fileType type of file
      * @return true if file type is required
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#isFileRequired(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#isFileRequired(java.lang.String)
      */
     public boolean isFileRequired(String fileType) {
         if (KFSConstants.DATA_FILE_TYPE.equals(fileType) || KFSConstants.RECON_FILE_TYPE.equals(fileType)) {
@@ -186,21 +186,21 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#isSupportsDoneFileCreation()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#isSupportsDoneFileCreation()
      */
     public boolean isSupportsDoneFileCreation() {
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getDoneFileDirectoryPath()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileDirectoryPath()
      */
     public String getDoneFileDirectoryPath() {
         return SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getDoneFileExtension()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileExtension()
      */
     protected String getDoneFileExtension() {
         return EnterpriseFeederService.DONE_FILE_SUFFIX;
@@ -213,7 +213,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param fileUserIdentifier the file identifier
      * @return String done file name
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#getDoneFileName(org.kuali.core.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.core.bo.user.UniversalUser, java.lang.String)
      */
     public String getDoneFileName(UniversalUser user, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
@@ -230,7 +230,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param files list of files objects
      * @return Set containing all user identifiers from list of files
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.core.bo.user.UniversalUser, java.util.List)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.core.bo.user.UniversalUser, java.util.List)
      */
     public Set<String> extractFileUserIdentifiers(UniversalUser user, List<File> files) {
         Set<String> extractedFileUserIdentifiers = new TreeSet<String>();

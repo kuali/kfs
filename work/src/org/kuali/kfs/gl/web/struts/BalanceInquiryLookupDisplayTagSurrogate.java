@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.struts.action;
+package org.kuali.kfs.gl.web.struts;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,9 +32,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.web.struts.form.LookupResultsSelectable;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.web.struts.LookupResultsSelectable;
 
 /**
  * This class serves as the struts action for implementing multiple value lookups

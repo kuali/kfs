@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.rules;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.KraPropertyConstants;
-import org.kuali.module.kra.budget.bo.AppointmentType;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.AppointmentType;
 
 
 /**

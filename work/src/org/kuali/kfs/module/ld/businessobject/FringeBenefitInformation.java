@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
+import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
 
 /**
 * A simple wrapper for fringe benefits information
@@ -33,14 +33,14 @@ public class FringeBenefitInformation implements LaborFringeBenefitInformation {
     }
 
     /**
-     * @see org.kuali.module.integration.bo.LaborFringeBenefitInformation#getPositionFringeBenefitObjectCode()
+     * @see org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation#getPositionFringeBenefitObjectCode()
      */
     public String getPositionFringeBenefitObjectCode() {
         return benefitsCalculation.getPositionFringeBenefitObjectCode();
     }
 
     /**
-     * @see org.kuali.module.integration.bo.LaborFringeBenefitInformation#getPositionFringeBenefitPercent()
+     * @see org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation#getPositionFringeBenefitPercent()
      */
     public KualiDecimal getPositionFringeBenefitPercent() {
         return benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal();

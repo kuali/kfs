@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.batch.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -35,38 +35,38 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
-import org.kuali.kfs.service.FinancialSystemDocumentService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
-import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
-import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.module.financial.dao.DisbursementVoucherDao;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.DisbursementVoucherExtractService;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.PaymentAccountDetail;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentNoteText;
-import org.kuali.module.pdp.bo.PaymentStatus;
-import org.kuali.module.pdp.service.CustomerProfileService;
-import org.kuali.module.pdp.service.PaymentFileService;
-import org.kuali.module.pdp.service.PaymentGroupService;
-import org.kuali.module.pdp.service.ReferenceService;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
+import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.service.PaymentFileService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -101,7 +101,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * 
      * @return Always returns true if the method completes.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#extractPayments()
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractPayments()
      */
     public boolean extractPayments() {
         LOG.debug("extractPayments() started");
@@ -599,7 +599,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * This cancels the disbursement voucher
      * @param dv the disbursement voucher document to cancel
      * @param processDate the date of the cancelation
-     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public void cancelExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         if (dv.getCancelDate() == null) {
@@ -667,7 +667,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * This updates the disbursement voucher so that when it is re-extracted, information about it will be accurate
      * @param dv the disbursement voucher document to reset
      * @param processDate the date of the reseting
-     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public void resetExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         try {
@@ -687,7 +687,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * Looks up the document using document service, and deals with any nasty WorkflowException or ClassCastExceptions that pop up
      * @param documentNumber the number of the document to look up
      * @return the dv doc if found, or null otherwise
-     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#getDocumentById(java.lang.String)
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#getDocumentById(java.lang.String)
      */
     public DisbursementVoucherDocument getDocumentById(String documentNumber) {
         DisbursementVoucherDocument dv = null;
@@ -705,7 +705,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * Marks the disbursement voucher as paid by setting its paid date
      * @param dv the dv document to mark as paid
      * @param processDate the date when the dv was paid
-     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public void markDisbursementVoucherAsPaid(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         try {

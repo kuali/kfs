@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 
 /**
@@ -53,7 +53,7 @@ public class CompositeValidation implements Validation {
 
     /**
      * Just call validate!
-     * @see org.kuali.kfs.validation.Validation#stageValidation(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#stageValidation(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean stageValidation(AttributedDocumentEvent event) {
         return validate(event);

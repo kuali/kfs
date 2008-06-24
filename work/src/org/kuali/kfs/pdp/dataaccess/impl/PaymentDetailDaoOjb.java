@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -36,19 +36,19 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.DailyReport;
-import org.kuali.module.pdp.bo.DisbursementNumberRange;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.UserRequired;
-import org.kuali.module.pdp.dao.PaymentDetailDao;
-import org.kuali.module.pdp.service.ReferenceService;
-import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.DailyReport;
+import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
+import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);
@@ -64,7 +64,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getAchPaymentsWithUnsentEmail()
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getAchPaymentsWithUnsentEmail()
      */
     public Iterator getAchPaymentsWithUnsentEmail() {
         LOG.debug("getAchPaymentsWithUnsentEmail() started");
@@ -78,7 +78,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getByDisbursementNumber(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getByDisbursementNumber(java.lang.Integer)
      */
     public Iterator getByDisbursementNumber(Integer disbursementNumber) {
         LOG.debug("getByDisbursementNumber() started");
@@ -95,7 +95,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getDailyReportData()
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDailyReportData()
      */
     public List<DailyReport> getDailyReportData() {
         LOG.debug("getDailyReportData() started");
@@ -228,7 +228,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#get(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#get(java.lang.Integer)
      */
     public PaymentDetail get(Integer id) {
         LOG.debug("get(id) started");
@@ -252,7 +252,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#save(org.kuali.module.pdp.bo.PaymentDetail)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#save(org.kuali.kfs.pdp.businessobject.PaymentDetail)
      */
     public void save(PaymentDetail pd) {
         LOG.debug("save(paymentDetail) started... ID: " + pd.getId());
@@ -261,7 +261,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getDetailForEpic(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDetailForEpic(java.lang.String, java.lang.String)
      */
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode) {
         LOG.debug("getDetailForEpic(custPaymentDocNbr, fdocTypeCode) started");
@@ -306,7 +306,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getDisbursementNumberRanges(java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDisbursementNumberRanges(java.lang.String)
      */
     public List getDisbursementNumberRanges(String campus) {
         LOG.debug("getDisbursementNumberRanges() started");
@@ -328,7 +328,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#saveDisbursementNumberRange(org.kuali.module.pdp.bo.DisbursementNumberRange)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#saveDisbursementNumberRange(org.kuali.kfs.pdp.businessobject.DisbursementNumberRange)
      */
     public void saveDisbursementNumberRange(DisbursementNumberRange range) {
         LOG.debug("saveDisbursementNumberRange() started");
@@ -337,7 +337,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
      */
     public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedCancelledDetails() started");
@@ -356,7 +356,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
     public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedPaidDetails() started");

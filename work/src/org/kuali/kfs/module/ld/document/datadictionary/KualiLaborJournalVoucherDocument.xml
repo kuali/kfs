@@ -19,9 +19,9 @@
             p:parameterDetailType="JournalVoucher" />
     </property>
     <property name="documentTypeName" value="KualiLaborJournalVoucherDocument" />
-    <property name="documentClass" value="org.kuali.module.labor.document.LaborJournalVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.labor.rules.LaborJournalVoucherDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.JournalVoucherDocumentAuthorizer" />
     <property name="documentTypeCode" value="LLJV" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
@@ -102,7 +102,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.module.labor.web.optionfinder.OffsetOptionFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ld.businessobject.options.OffsetOptionFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

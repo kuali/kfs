@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.dao.ojb;
+package org.kuali.kfs.fp.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,9 +24,9 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
-import org.kuali.module.financial.bo.TravelMileageRate;
-import org.kuali.module.financial.dao.TravelMileageRateDao;
+import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
+import org.kuali.kfs.fp.businessobject.TravelMileageRate;
+import org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao;
 
 /**
  * This class is the OJB implementation of the TravelMileageRate interface.
@@ -35,7 +35,7 @@ public class TravelMileageRateDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
 
     /**
-     * @see org.kuali.module.financial.dao.TravelMileageRateDao#retrieveMostEffectiveMileageRates(java.sql.Timestamp)
+     * @see org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao#retrieveMostEffectiveMileageRates(java.sql.Timestamp)
      */
     public Collection retrieveMostEffectiveMileageRates(Date effectiveDate) {
         Criteria criteria = new Criteria();

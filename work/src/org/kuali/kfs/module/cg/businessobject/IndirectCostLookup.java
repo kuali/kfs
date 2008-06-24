@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.module.kra.budget.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.kra.routingform.bo.Purpose;
+import org.kuali.kfs.module.cg.businessobject.Purpose;
 
 /**
  * 

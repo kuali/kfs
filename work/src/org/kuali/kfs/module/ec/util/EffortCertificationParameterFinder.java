@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.util;
+package org.kuali.kfs.module.ec.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.effort.EffortConstants.SystemParameters;
-import org.kuali.module.effort.batch.EffortCertificationCreateStep;
-import org.kuali.module.effort.batch.EffortCertificationExtractStep;
-import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.batch.EffortCertificationCreateStep;
+import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 
 /**
  * A convenient utility that can delegate the calling client to retrieve system parameters of effor certification module.

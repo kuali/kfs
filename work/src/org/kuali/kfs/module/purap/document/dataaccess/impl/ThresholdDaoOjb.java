@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,11 +26,11 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.bo.Threshold;
-import org.kuali.module.purap.dao.ThresholdDao;
-import org.kuali.module.purap.util.ThresholdField;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.document.dataaccess.ThresholdDao;
+import org.kuali.kfs.module.purap.util.ThresholdField;
 
 public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements ThresholdDao {
 

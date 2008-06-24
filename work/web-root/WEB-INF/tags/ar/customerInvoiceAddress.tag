@@ -42,7 +42,7 @@
 			readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
 			    &nbsp;
-			    <kul:lookup boClassName="org.kuali.module.ar.bo.CustomerAddress"
+			    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.CustomerAddress"
 				fieldConversions="${lookupFieldConversion}"
 				lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
 				&nbsp;

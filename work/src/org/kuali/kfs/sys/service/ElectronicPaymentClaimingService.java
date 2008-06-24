@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 
 /**
  * A service which helps in the claiming of ElectronicPaymentClaim records

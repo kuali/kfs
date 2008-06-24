@@ -17,14 +17,14 @@
  * Created on Jul 7, 2004
  *
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.CustomerBank;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.dao.CustomerProfileDao;
-import org.kuali.module.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.businessobject.CustomerBank;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
+import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.springframework.transaction.annotation.Transactional;
 
 

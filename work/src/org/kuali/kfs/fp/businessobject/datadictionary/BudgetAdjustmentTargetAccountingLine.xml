@@ -7,7 +7,7 @@
   <bean id="BudgetAdjustmentTargetAccountingLine" parent="BudgetAdjustmentTargetAccountingLine-parentBean" />
 
   <bean id="BudgetAdjustmentTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine" />
     <property name="attributes" >
       <list>
         <ref bean="BudgetAdjustmentTargetAccountingLine-budgetAdjustmentPeriodCode" />
@@ -422,7 +422,7 @@
   <bean id="BudgetAdjustmentTargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
@@ -466,7 +466,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="&amp;nbsp;" />

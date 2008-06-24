@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.lookup.keyvalues;
+package org.kuali.kfs.fp.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * <code>{@link KeyValuesBase}</code> class that handles
- * <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.
+ * <code>{@link org.kuali.kfs.fp.document.AuxiliaryVoucherDocument}</code> types.
  */
 public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
 

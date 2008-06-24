@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.document;
+package org.kuali.kfs.module.cg.document;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,13 +25,13 @@ import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.module.kra.bo.AdhocOrg;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.bo.AdhocWorkgroup;
-import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
-import org.kuali.module.kra.service.ResearchDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
+import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
+import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

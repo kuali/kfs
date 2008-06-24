@@ -18,9 +18,9 @@
             p:parameterDetailType="CreditCardReceipt" />
     </property>
     <property name="documentTypeName" value="CreditCardReceiptDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.CreditCardReceiptDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.CreditCardReceiptDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.CreditCardReceiptDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CCR" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

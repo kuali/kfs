@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.bo;
+package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 /**
  * define the interfacce that references a collection of PendingBudgetConstructionAppointmentFunding objects
  * 
- * @see org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding
+ * @see org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding
  */
 public interface PendingBudgetConstructionAppointmentFundingAware extends PersistableBusinessObject {
 

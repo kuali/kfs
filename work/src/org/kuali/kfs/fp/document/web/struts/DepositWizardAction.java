@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,29 +41,29 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.CashDrawerConstants;
-import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.Bank;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashieringTransaction;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.bo.DepositWizardCashieringCheckHelper;
-import org.kuali.module.financial.bo.DepositWizardHelper;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.exceptions.CashDrawerStateException;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashManagementService;
-import org.kuali.module.financial.service.CashReceiptService;
-import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
-import org.kuali.module.financial.web.struts.form.DepositWizardForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.Bank;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashieringTransaction;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.businessobject.DepositWizardCashieringCheckHelper;
+import org.kuali.kfs.fp.businessobject.DepositWizardHelper;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.exception.CashDrawerStateException;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.document.service.CashManagementService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.fp.businessobject.format.CashDrawerStatusCodeFormatter;
+import org.kuali.kfs.fp.document.web.struts.DepositWizardForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

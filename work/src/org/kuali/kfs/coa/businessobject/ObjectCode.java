@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -23,13 +23,13 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.module.chart.bo.codes.FederalFundedCode;
-import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
+import org.kuali.kfs.coa.businessobject.FederalFundedCode;
+import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 
 /**
  * 

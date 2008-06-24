@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
-import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.batch.collector.CollectorInputFileType;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests for the service parse method.
@@ -68,7 +68,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
      * Verifies the correct object graph is being built from the pcdo file contents in the service parse method. The PCDO
      * unmarshalling rules specify the result should be a ArrayList of ProcurementCardTransaction objects.
      * 
-     * @see org.kuali.module.financial.bo.ProcurementCardTransaction
+     * @see org.kuali.kfs.fp.businessobject.ProcurementCardTransaction
      */
     public final void testParse_pcdoValidContents() throws Exception {
         Object parsedObject = batchInputFileService.parse(pcdoBatchInputFileType, validPCDOFileContents);

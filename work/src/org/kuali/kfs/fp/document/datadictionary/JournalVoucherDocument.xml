@@ -19,9 +19,9 @@
             p:parameterDetailType="JournalVoucher" />
     </property>
     <property name="documentTypeName" value="JournalVoucherDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.JournalVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.JournalVoucherDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.JournalVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.JournalVoucherDocumentAuthorizer" />
     <property name="documentTypeCode" value="JV" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
@@ -117,35 +117,35 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>JournalVoucher-routeDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedSaveDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
 				<value>JournalVoucher-saveDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
 				<value>JournalVoucher-approveDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
 				<value>JournalVoucher-blanketApproveDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
 				<value>JournalVoucher-addAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
 				<value>JournalVoucher-deleteAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
 				<value>JournalVoucher-updateAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
 				<value>JournalVoucher-reviewAccountingLineValidation</value>
 			</entry>
     	</map>

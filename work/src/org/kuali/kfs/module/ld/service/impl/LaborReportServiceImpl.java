@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,31 +25,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.bo.GlSummary;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
-import org.kuali.module.gl.util.BalanceEncumbranceReport;
-import org.kuali.module.gl.util.BalanceReport;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.LedgerReport;
-import org.kuali.module.gl.util.PosterOutputSummaryEntry;
-import org.kuali.module.gl.util.PosterOutputSummaryReport;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.gl.util.TransactionListingReport;
-import org.kuali.module.gl.util.TransactionReport;
-import org.kuali.module.labor.bo.LaborBalanceSummary;
-import org.kuali.module.labor.document.LaborCorrectionDocument;
-import org.kuali.module.labor.report.LaborCorrectionOnlineReport;
-import org.kuali.module.labor.report.TransactionSummaryReport;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.businessobject.GlSummary;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.service.ScrubberReportData;
+import org.kuali.kfs.gl.report.BalanceEncumbranceReport;
+import org.kuali.kfs.gl.report.BalanceReport;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.report.LedgerReport;
+import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
+import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
+import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.gl.report.TransactionListingReport;
+import org.kuali.kfs.gl.report.TransactionReport;
+import org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary;
+import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.kfs.module.ld.report.LaborCorrectionOnlineReport;
+import org.kuali.kfs.module.ld.report.TransactionSummaryReport;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -64,8 +64,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     private LaborLedgerBalanceService laborLedgerBalanceService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateInputSummaryReport(java.util.Collection,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateInputSummaryReport(java.util.Collection,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateInputSummaryReport() started");
@@ -78,8 +78,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateInputSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateInputSummaryReport(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateInputSummaryReport() started");
@@ -91,8 +91,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateErrorTransactionListing(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateErrorTransactionListing(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateErrorTransactionListing() started");
@@ -103,8 +103,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateStatisticsReport(java.util.List, java.util.Map,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateStatisticsReport(java.util.List, java.util.Map,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateStatisticsReport() started");
@@ -114,8 +114,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateStatisticsReport(java.util.List,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateStatisticsReport(java.util.List,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateStatisticsReport(List<String> reportSummary, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateStatisticsReport() started");
@@ -125,8 +125,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateOutputSummaryReport(java.util.Collection,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateOutputSummaryReport(java.util.Collection,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateOutputSummaryReport() started");
@@ -137,8 +137,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateOutputSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateOutputSummaryReport(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateOutputSummaryReport() started");
@@ -149,8 +149,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateMonthlyBalanceSummaryReport(java.lang.Integer, java.util.List,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateMonthlyBalanceSummaryReport(java.lang.Integer, java.util.List,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateMonthlyBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateMonthlyBalanceSummaryReport() started");
@@ -165,8 +165,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateBalanceSummaryReport(java.lang.Integer, java.util.List,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateBalanceSummaryReport(java.lang.Integer, java.util.List,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateBalanceSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateBalanceSummaryReport() started");
@@ -181,8 +181,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateFeedSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateFeedSummaryReport(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
+     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateGLSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LOG.info("generateFeedSummaryReport() started");
@@ -198,7 +198,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateScrubberLedgerSummaryReportBatch(java.util.Collection,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberLedgerSummaryReportBatch(java.util.Collection,
      *      java.lang.String, java.util.Date)
      */
     public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate) {
@@ -214,7 +214,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateScrubberLedgerSummaryReportOnline(org.kuali.module.gl.bo.OriginEntryGroup,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberLedgerSummaryReportOnline(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.util.Date)
      */
     public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate) {
@@ -232,7 +232,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateBatchScrubberStatisticsReport(org.kuali.module.gl.service.impl.scrubber.ScrubberReportData,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateBatchScrubberStatisticsReport(org.kuali.kfs.gl.service.ScrubberReportData,
      *      java.util.Map, java.lang.String, java.util.Date)
      */
     public void generateBatchScrubberStatisticsReport(ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String reportsDirectory, Date runDate) {
@@ -271,8 +271,8 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateOnlineScrubberStatisticsReport(java.lang.Integer,
-     *      org.kuali.module.gl.service.impl.scrubber.ScrubberReportData, java.util.Map, java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateOnlineScrubberStatisticsReport(java.lang.Integer,
+     *      org.kuali.kfs.gl.service.ScrubberReportData, java.util.Map, java.lang.String, java.lang.String,
      *      java.util.Date)
      */
     public void generateOnlineScrubberStatisticsReport(Integer groupId, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String documentNumber, String reportsDirectory, Date runDate) {
@@ -285,7 +285,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateScrubberDemergerStatisticsReports(org.kuali.module.gl.service.impl.scrubber.DemergerReportData,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberDemergerStatisticsReports(org.kuali.kfs.gl.businessobject.DemergerReportData,
      *      java.lang.String, java.util.Date)
      */
     public void generateScrubberDemergerStatisticsReports(DemergerReportData demergerReport, String reportsDirectory, Date runDate) {
@@ -300,7 +300,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateScrubberBadBalanceTypeListingReport(java.util.Collection,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberBadBalanceTypeListingReport(java.util.Collection,
      *      java.lang.String, java.util.Date)
      */
     public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate) {
@@ -316,7 +316,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateScrubberTransactionsOnline(org.kuali.module.gl.bo.OriginEntryGroup,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberTransactionsOnline(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.util.Date)
      */
     public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate) {
@@ -329,7 +329,7 @@ public class LaborReportServiceImpl implements LaborReportService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateScrubberRemovedTransactions(org.kuali.module.gl.bo.OriginEntryGroup,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberRemovedTransactions(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.lang.String, java.util.Date)
      */
     public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate) {
@@ -343,7 +343,7 @@ public class LaborReportServiceImpl implements LaborReportService {
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generateCorrectionOnlineReport(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateCorrectionOnlineReport(org.kuali.kfs.module.ld.document.LaborCorrectionDocument,
      *      java.lang.String, java.util.Date)
      */
     public void generateCorrectionOnlineReport(LaborCorrectionDocument cDocument, String reportsDirectory, Date runDate) {

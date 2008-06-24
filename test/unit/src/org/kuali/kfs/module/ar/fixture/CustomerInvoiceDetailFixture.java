@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.fixture;
+package org.kuali.kfs.module.ar.fixture;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.purap.bo.CreditMemoItem;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 
 /**
  * Fixture class for customer invoice details

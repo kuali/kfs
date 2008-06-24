@@ -20,37 +20,37 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AssetPayment-lockValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentLockValidation" abstract="true">
+	<bean id="AssetPayment-lockValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentLockValidation" abstract="true">
 		<property name="assetService" ref="assetService" />
 	</bean>
 	
-	<bean id="AssetPayment-documentTypeValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentDocumentTypeValidation" abstract="true">
+	<bean id="AssetPayment-documentTypeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentTypeValidation" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	
-	<bean id="AssetPayment-fiscalPeriodValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentFiscalPeriodValidation" abstract="true">
+	<bean id="AssetPayment-fiscalPeriodValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentFiscalPeriodValidation" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean> 
 		
-	<bean id="AssetPayment-orginCodeValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentOrginCodeValidation" abstract="true">
+	<bean id="AssetPayment-orginCodeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentOrginCodeValidation" abstract="true">
 		<property name="originationCodeService" ref="originationCodeService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>	
 	
-	<bean id="AssetPayment-postingDateValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentPostingDateValidation" abstract="true">
+	<bean id="AssetPayment-postingDateValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentPostingDateValidation" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="universityDateService" ref="universityDateService" />
 	</bean>	
 	
-	<bean id="AssetPayment-zeroAmountValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentZeroAmountValidation" abstract="true"/>
+	<bean id="AssetPayment-zeroAmountValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentZeroAmountValidation" abstract="true"/>
 	
-	<bean id="AssetPayment-accountingLineCountValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentAccountingLineCountValidation" abstract="true"/>
+	<bean id="AssetPayment-accountingLineCountValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAccountingLineCountValidation" abstract="true"/>
 	
-	<bean id="AssetPayment-objectCodeSubtypeValidation" class="org.kuali.module.cams.document.validation.impl.AssetPaymentObjectCodeValidation" abstract="true">
+	<bean id="AssetPayment-objectCodeSubtypeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentObjectCodeValidation" abstract="true">
 		<property name="assetService" ref="assetService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>	

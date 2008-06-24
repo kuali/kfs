@@ -7,7 +7,7 @@
   <bean id="SystemInformation" parent="SystemInformation-parentBean" />
 
   <bean id="SystemInformation-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.SystemInformation" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" />
     <property name="inquiryDefinition" >
       <ref bean="SystemInformation-inquiryDefinition" />
     </property>

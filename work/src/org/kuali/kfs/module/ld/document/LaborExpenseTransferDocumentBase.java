@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.document;
+package org.kuali.kfs.module.ld.document;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.document.Correctable;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 
 /**
  * Labor Base class for Expense Transfer Documents
@@ -106,7 +106,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
      * Gets the emplid
      * 
      * @return Returns the emplid.
-     * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#getEmplid()
+     * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocument#getEmplid()
      */
     public String getEmplid() {
         return emplid;
@@ -115,7 +115,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Sets the emplid
      * 
-     * @see org.kuali.module.labor.document.LaborExpenseTransferDocument#setEmplid(String)
+     * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocument#setEmplid(String)
      * @param emplid
      */
     public void setEmplid(String emplid) {
@@ -142,7 +142,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
 
     /**
      * @return Returns the ExpenseTransferSourceAccountingLine
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     public Class getSourceAccountingLineClass() {
         return ExpenseTransferSourceAccountingLine.class;
@@ -150,7 +150,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
 
     /**
      * @return Returns the ExpenseTransferTargetAccountingLine
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTargetAccountingLineClass()
      */
     public Class getTargetAccountingLineClass() {
         return ExpenseTransferTargetAccountingLine.class;

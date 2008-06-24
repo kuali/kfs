@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service;
+package org.kuali.kfs.module.ar.document.service;
 
-import org.kuali.module.ar.bo.SystemInformation;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 
 public interface SystemInformationService {
     

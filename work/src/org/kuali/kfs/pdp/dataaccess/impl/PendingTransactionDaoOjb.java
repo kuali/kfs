@@ -17,15 +17,15 @@
  * Created on Sep 2, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.pdp.bo.GlPendingTransaction;
-import org.kuali.module.pdp.dao.GlPendingTransactionDao;
+import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
+import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
 
 
 /**
@@ -39,7 +39,7 @@ public class GlPendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implemen
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.GlPendingTransactionDao#getUnextractedTransactions()
+     * @see org.kuali.kfs.pdp.dataaccess.PendingTransactionDao#getUnextractedTransactions()
      */
     public Iterator getUnextractedTransactions() {
         LOG.debug("save() started");
@@ -50,7 +50,7 @@ public class GlPendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implemen
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.GlPendingTransactionDao#save(org.kuali.module.pdp.bo.GlPendingTransaction)
+     * @see org.kuali.kfs.pdp.dataaccess.PendingTransactionDao#save(org.kuali.kfs.pdp.businessobject.GlPendingTransaction)
      */
     public void save(GlPendingTransaction gpt) {
         LOG.debug("save() starting");

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.enums.Enum;
-import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 
 public final class ThresholdField extends Enum {
 

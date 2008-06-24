@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.bo.State;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.codes.SufficientFundsCode;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 
 /**
  * 

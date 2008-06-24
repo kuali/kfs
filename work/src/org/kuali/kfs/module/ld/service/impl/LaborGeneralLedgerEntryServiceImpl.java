@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.dao.LaborDao;
-import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
-import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborDao;
+import org.kuali.kfs.module.ld.dataaccess.LaborGeneralLedgerEntryDao;
+import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements LaborGeneralLedgerEntryService to provide the access to labor general ledger entries in data stores.
  * 
- * @see org.kuali.module.labor.bo.LaborGeneralLedgerEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry
  */
 @Transactional
 public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEntryService {
@@ -33,14 +33,14 @@ public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEnt
     private LaborDao laborDao;
 
     /**
-     * @see org.kuali.module.labor.service.LaborGeneralLedgerEntryService#getMaxSequenceNumber()
+     * @see org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService#getMaxSequenceNumber()
      */
     public Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
         return laborGeneralLedgerEntryDao.getMaxSequenceNumber(laborGeneralLedgerEntry);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborGeneralLedgerEntryService#save(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
+     * @see org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService#save(org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry)
      */
     public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
         laborDao.insert(laborGeneralLedgerEntry);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
 
@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import org.kuali.core.util.Guid;
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
-import org.kuali.module.budget.dao.BudgetConstructionLevelSummaryReportDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLevelSummaryReportDao;
 
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants;
 
 /**
  * report general ledger amounts and FTE from the pending budget by object level

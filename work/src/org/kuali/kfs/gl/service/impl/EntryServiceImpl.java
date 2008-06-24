@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.Map;
 
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.dao.EntryDao;
-import org.kuali.module.gl.service.EntryService;
-import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.dataaccess.EntryDao;
+import org.kuali.kfs.gl.service.EntryService;
+import org.kuali.kfs.gl.OJBUtility;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,7 +37,7 @@ public class EntryServiceImpl implements EntryService {
      * 
      * @param chart chart of entries to purge
      * @param year fiscal year of entries to purge
-     * @see org.kuali.module.gl.service.EntryService#purgeYearByChart(java.lang.String, int)
+     * @see org.kuali.kfs.gl.service.EntryService#purgeYearByChart(java.lang.String, int)
      */
     public void purgeYearByChart(String chart, int year) {
         LOG.debug("purgeYearByChart() started");
@@ -54,7 +54,7 @@ public class EntryServiceImpl implements EntryService {
      * 
      * @param fieldValues the input fields and values
      * @return the number of the open encumbrances
-     * @see org.kuali.module.gl.service.EntryService#getEntryRecordCount(java.util.Map)
+     * @see org.kuali.kfs.gl.service.EntryService#getEntryRecordCount(java.util.Map)
      */
     public Integer getEntryRecordCount(Map fieldValues) {
         return OJBUtility.getResultSizeFromMap(fieldValues, new Entry()).intValue();

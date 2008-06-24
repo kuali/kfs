@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.jdbc;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * A base class to support the JDBC operations done for AccountBalance inquiries

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,19 +26,19 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectCons;
-import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.ObjectConsService;
-import org.kuali.module.chart.service.ObjectLevelService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.ObjLevel;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectCons;
+import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.ObjectConsService;
+import org.kuali.kfs.coa.service.ObjectLevelService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * This class implements the business rules for {@link ObjectCode}

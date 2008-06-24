@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.authorization;
+package org.kuali.kfs.sys;
 
 import org.kuali.core.authorization.KualiModuleAuthorizer;
-import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 
 public interface FinancialSystemModuleAuthorizer extends KualiModuleAuthorizer {
     public boolean canAccessModule( FinancialSystemUser user );

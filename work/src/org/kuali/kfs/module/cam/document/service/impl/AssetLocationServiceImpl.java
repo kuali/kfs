@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -22,18 +22,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.bo.AssetType;
-import org.kuali.module.cams.service.AssetLocationService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
 
 
     /**
-     * @see org.kuali.module.cams.service.AssetLocationService#setOffCampusLocation(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetLocationService#setOffCampusLocation(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public void setOffCampusLocation(Asset asset) {
         List<AssetLocation> assetLocations = asset.getAssetLocations();
@@ -56,7 +56,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetLocationService#updateOffCampusLocation(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetLocationService#updateOffCampusLocation(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public void updateOffCampusLocation(Asset asset) {
         List<AssetLocation> assetLocations = asset.getAssetLocations();
@@ -67,7 +67,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetLocationService#validateLocation(java.lang.Object, org.kuali.module.cams.bo.Asset,
+     * @see org.kuali.kfs.module.cam.document.service.AssetLocationService#validateLocation(java.lang.Object, org.kuali.kfs.module.cam.businessobject.Asset,
      *      java.util.Map)
      */
     public boolean validateLocation(Map<LocationField, String> fieldMap, BusinessObject businessObject, boolean isCapital, AssetType assetType) {

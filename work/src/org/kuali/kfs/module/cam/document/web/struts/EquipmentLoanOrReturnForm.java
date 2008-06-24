@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.web.struts.form;
+package org.kuali.kfs.module.cam.document.web.struts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,10 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.document.EquipmentLoanOrReturnDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 
 public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocumentFormBase {
 

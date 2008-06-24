@@ -22,7 +22,7 @@
 
 	<bean id="TransferOfFunds-routeDocumentValidation" parent="TransferOfFunds-routeDocumentValidation-parentBean" scope="prototype" />
 
-	<bean id="TransferOfFunds-routeDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="TransferOfFunds-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
@@ -93,7 +93,7 @@
 	
 	<bean id="TransferOfFunds-accountingLineValuesAllowedValidation" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation">
 		<property name="objectCodeAllowedValidation">
-			<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype">
+			<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 				<property name="validations">
 					<list>
 						<bean parent="AccountingDocument-IsObjectCodeAllowed-DefaultValidation" scope="prototype" />
@@ -109,10 +109,10 @@
 	
 	<bean id="TransferOfFunds-addAccountingLineValidation" parent="TransferOfFunds-addAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-addAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="TransferOfFunds-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
@@ -172,7 +172,7 @@
 	
 	<bean id="TransferOfFunds-reviewAccountingLineValidation" parent="TransferOfFunds-reviewAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="TransferOfFunds-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
@@ -209,10 +209,10 @@
 	
 	<bean id="TransferOfFunds-updateAccountingLineValidation" parent="TransferOfFunds-updateAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="TransferOfFunds-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">

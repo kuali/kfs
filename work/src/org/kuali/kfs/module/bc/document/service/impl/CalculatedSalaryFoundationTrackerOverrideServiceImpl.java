@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
-import org.kuali.module.budget.service.CalculatedSalaryFoundationTrackerOverrideService;
+import org.kuali.kfs.module.bc.document.service.CalculatedSalaryFoundationTrackerOverrideService;
 
 /**
  * This class...

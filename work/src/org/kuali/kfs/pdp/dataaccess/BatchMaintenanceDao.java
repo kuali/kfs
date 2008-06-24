@@ -17,7 +17,7 @@
  * Created on Aug 11, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 
 /**

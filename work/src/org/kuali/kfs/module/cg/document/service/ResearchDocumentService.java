@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.service;
+package org.kuali.kfs.module.cg.document.service;
 
-import org.kuali.module.kra.document.ResearchDocument;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

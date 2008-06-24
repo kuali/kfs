@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.module.ar.service.CustomerCreditMemoDocumentService;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 
 public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemoDocumentService {
 

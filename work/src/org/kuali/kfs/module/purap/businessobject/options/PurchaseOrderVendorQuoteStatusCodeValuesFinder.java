@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.lookup.keyvalues;
+package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
-import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 
 /**
  * Value Finder for Purchase Order Vendor Quote Statuses.

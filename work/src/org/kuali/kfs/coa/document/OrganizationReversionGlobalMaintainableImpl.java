@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,14 +25,14 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.bo.OrganizationReversionCategory;
-import org.kuali.module.chart.bo.OrganizationReversionGlobal;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
-import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
-import org.kuali.module.chart.service.OrganizationReversionService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobal;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalDetail;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document inner class for

@@ -17,7 +17,7 @@
  * Created on Jul 27, 2004
  *
  */
-package org.kuali.module.pdp.xml;
+package org.kuali.kfs.pdp.service.impl.paymentparser;
 
 import java.io.Serializable;
 import java.text.ParseException;

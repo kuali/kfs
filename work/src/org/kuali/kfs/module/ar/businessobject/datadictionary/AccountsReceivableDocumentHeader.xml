@@ -7,7 +7,7 @@
   <bean id="AccountsReceivableDocumentHeader" parent="AccountsReceivableDocumentHeader-parentBean" />
 
   <bean id="AccountsReceivableDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
     <property name="inquiryDefinition" >
       <ref bean="AccountsReceivableDocumentHeader-inquiryDefinition" />
     </property>

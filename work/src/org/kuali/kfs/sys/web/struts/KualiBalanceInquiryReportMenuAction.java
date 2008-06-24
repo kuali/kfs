@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.action;
+package org.kuali.kfs.sys.web.struts;
 
 import java.util.Properties;
 
@@ -28,8 +28,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuForm;
 
 /**
  * This class handles Actions for the balance inquiry report menu

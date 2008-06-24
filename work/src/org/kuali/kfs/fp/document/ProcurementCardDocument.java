@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,21 +24,21 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.document.AmountTotaling;
-import org.kuali.kfs.document.FinancialSystemMaintenanceDocument;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.module.financial.bo.ProcurementCardHolder;
-import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
-import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
-import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
+import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
@@ -114,7 +114,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to set the accounting line in the transaction detail object.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
     @Override
     public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
@@ -135,7 +135,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to set the accounting line in the transaction detail object.
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#addTargetAccountingLine(TargetAccountingLine)
+     * @see org.kuali.kfs.sys.document.AccountingDocument#addTargetAccountingLine(TargetAccountingLine)
      */
     @Override
     public void addTargetAccountingLine(TargetAccountingLine targetLine) {
@@ -156,7 +156,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to get source accounting lines out of transactions
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLines()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLines()
      */
     @Override
     public List getSourceAccountingLines() {
@@ -176,7 +176,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to get target accounting lines out of transactions
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLines()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
      */
     @Override
     public List getTargetAccountingLines() {
@@ -194,7 +194,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
     public Class getSourceAccountingLineClass() {
@@ -202,7 +202,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTargetAccountingLineClass()
      */
     @Override
     public Class getTargetAccountingLineClass() {
@@ -245,7 +245,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
      *         is zero or the accounting line is not an expense or income accounting line.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         // disallow error correction

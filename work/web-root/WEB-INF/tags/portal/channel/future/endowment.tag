@@ -20,7 +20,7 @@
     <ul class="chan">
 	      <%--
 	          TODO: these will eventually be portal links like the example below:
-	               <portal:portalLink displayTitle="true" title="Budget Construction Control" url="lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.gl.bo.CashBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />
+	               <portal:portalLink displayTitle="true" title="Budget Construction Control" url="lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.CashBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />
 	      --%>
 	    <li>Adjust Pooled Unit Holdings</li>
 	    <li>Create Beneficiary Disbursement</li>

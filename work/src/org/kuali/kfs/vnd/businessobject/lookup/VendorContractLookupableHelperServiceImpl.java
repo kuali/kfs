@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup;
+package org.kuali.kfs.vnd.businessobject.lookup;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ import org.kuali.core.dao.LookupDao;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.springframework.transaction.annotation.Transactional;
 
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {

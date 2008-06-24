@@ -63,7 +63,7 @@
 		                <td align=left valign=middle class="datacell">
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].contractManagerCode" attributeEntry="${purchaseOrderAttributes.contractManagerCode}" readOnly="${readOnly}" />
 					        <c:if test="${!readOnly}" >
-		                        <kul:lookup boClassName="org.kuali.module.vendor.bo.ContractManager" fieldConversions="contractManagerCode:document.assignContractManagerDetail[${ctr}].contractManagerCode" /></div>
+		                        <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.ContractManager" fieldConversions="contractManagerCode:document.assignContractManagerDetail[${ctr}].contractManagerCode" /></div>
 					        </c:if>
 		                </td>
 		                <td align=left valign=middle class="datacell">

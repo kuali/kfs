@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.kuali.module.budget.bo;
+package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.ResponsibilityCenter;
+import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 
 /**
  * 

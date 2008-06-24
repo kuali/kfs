@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.maintenance.util;
+package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerInvoiceItemCodeMaintainableImplUtil {

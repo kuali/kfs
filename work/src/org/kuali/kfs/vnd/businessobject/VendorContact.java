@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.State;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.State;
 
 /**
  * Container for information about how to get in Contact with a person at a Vendor for a particular purpose.

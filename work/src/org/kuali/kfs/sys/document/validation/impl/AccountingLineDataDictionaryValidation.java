@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 
 /**
  * A validation which uses the AccountingLineRuleHelperService to validate the values on an accounting line
@@ -30,7 +30,7 @@ public class AccountingLineDataDictionaryValidation extends GenericValidation {
      * Okay, okay, so yeah, I could have handled this through a bunch of DD validations.  But it's late Thursday afternoon
      * and someone has already written this code for me...
      * <strong>Expects an accounting line as the first parameter</strong>
-     * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         return ruleHelperService.validateAccountingLine(accountingLineForValidation);

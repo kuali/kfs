@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
@@ -23,9 +23,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.ClassNotPersistableException;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.dao.CollectorDetailDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.dataaccess.CollectorDetailDao;
 
 /**
  * An OJB implementation of the CollectorDetailDao
@@ -44,7 +44,7 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
      * Purge the table by year/chart.  Clears persistence broker template at the end to ensure OJB has to to DB again
      * to retrieve the post-purged state of the DB. 
      * 
-     * @see org.kuali.module.gl.dao.CollectorDetailDao#purgeYearByChart(java.lang.String, int)
+     * @see org.kuali.kfs.gl.dataaccess.CollectorDetailDao#purgeYearByChart(java.lang.String, int)
      */
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear) {
         LOG.debug("purgeYearByChart() started");
@@ -64,7 +64,7 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
     /**
      * Save specific collector detail
      * @param detail the CollectorDetail to save
-     * @see org.kuali.module.gl.dao.CollectorDetailDao#save(org.kuali.module.gl.bo.CollectorDetail)
+     * @see org.kuali.kfs.gl.dataaccess.CollectorDetailDao#save(org.kuali.kfs.gl.businessobject.CollectorDetail)
      */
     public void save(CollectorDetail detail) {
         LOG.debug("saveOriginEntry() started");
@@ -76,7 +76,7 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
      * Retrieves the DB table name that's mapped to instances of CollectorDetail by finding the class descriptor name from the
      * class descriptor respository 
      * @return the table name where collector details are saved to
-     * @see org.kuali.module.gl.dao.CollectorDetailDao#retrieveCollectorDetailTableName()
+     * @see org.kuali.kfs.gl.dataaccess.CollectorDetailDao#retrieveCollectorDetailTableName()
      */
     public String retrieveCollectorDetailTableName() {
         ClassDescriptor classDescriptor = null;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.document.service.impl;
 
 import java.sql.Date;
 import java.text.MessageFormat;
@@ -26,14 +26,14 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.ObjectTypeService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.ObjectTypeService;
 
 /**
  * The default implementation of the AccountingDocumentRuleHelperService
@@ -43,7 +43,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     private ObjectTypeService objectTypeService;
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isExpense(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isExpense(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable) {
         // return SpringContext.getBean(KualiConfigurationService.class).succeedsRule(KFSConstants.FINANCIAL_NAMESPACE,
@@ -54,7 +54,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isIncome(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isIncome(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isIncome(GeneralLedgerPendingEntrySourceDetail postable) {
         List<String> incomeObjectTypes = objectTypeService.getCurrentYearBasicIncomeObjectTypes();
@@ -73,7 +73,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.module.chart.bo.codes.BalanceTyp, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp, java.lang.String)
      */
     public boolean isValidBalanceType(BalanceTyp balanceType, String errorPropertyName) {
         return isValidBalanceType(balanceType, BalanceTyp.class, errorPropertyName, errorPropertyName);
@@ -98,7 +98,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.module.chart.bo.codes.BalanceTyp, java.lang.Class, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp, java.lang.Class, java.lang.String, java.lang.String)
      */
     public boolean isValidBalanceType(BalanceTyp balanceType, Class entryClass, String attributeName, String errorPropertyName) {
         String label = getLabelFromDataDictionary(entryClass, attributeName);
@@ -115,7 +115,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isValidOpenAccountingPeriod(org.kuali.module.chart.bo.AccountingPeriod, java.lang.Class, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidOpenAccountingPeriod(org.kuali.kfs.coa.businessobject.AccountingPeriod, java.lang.Class, java.lang.String, java.lang.String)
      */
     public boolean isValidOpenAccountingPeriod(AccountingPeriod accountingPeriod, Class entryClass, String attribueName, String errorPropertyName) {
         // retrieve from system to make sure it exists
@@ -135,7 +135,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isValidReversalDate(java.sql.Date, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidReversalDate(java.sql.Date, java.lang.String)
      */
     public boolean isValidReversalDate(Date reversalDate, String errorPropertyName) {
         java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();

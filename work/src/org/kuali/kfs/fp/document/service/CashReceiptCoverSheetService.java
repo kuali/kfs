@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.document.service;
 
 import java.io.OutputStream;
 
-import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 
 
 /**

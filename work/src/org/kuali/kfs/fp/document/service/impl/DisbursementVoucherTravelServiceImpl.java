@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -26,10 +26,10 @@ import java.util.List;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.financial.bo.TravelMileageRate;
-import org.kuali.module.financial.dao.TravelMileageRateDao;
-import org.kuali.module.financial.service.DisbursementVoucherTravelService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.fp.businessobject.TravelMileageRate;
+import org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 
 /**
  * This is the default implementation of the DisbursementVoucherTravelService interface.
@@ -69,7 +69,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
      * @param rate The per diem rate used to calculate the per diem amount.
      * @return The per diem amount for the period specified, at the rate given.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculatePerDiemAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService#calculatePerDiemAmount(org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel)
      */
     public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal rate) {
         KualiDecimal perDiemAmount = KualiDecimal.ZERO;
@@ -173,7 +173,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
      * @param travelStartDate The start date of the travel, which will be used to retrieve the mileage reimbursement rate.
      * @return The total reimbursement due to the traveler for the mileage traveled.
      * 
-     * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculateMileageAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService#calculateMileageAmount(org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel)
      */
     public KualiDecimal calculateMileageAmount(Integer totalMileage, Timestamp travelStartDate) {
         KualiDecimal mileageAmount = KualiDecimal.ZERO;

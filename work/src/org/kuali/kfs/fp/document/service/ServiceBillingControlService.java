@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.document.service;
 
-import org.kuali.module.financial.bo.ServiceBillingControl;
+import org.kuali.kfs.fp.businessobject.ServiceBillingControl;
 
 /**
  * This service interface defines methods that a ServiceBillingControlService implementation must provide.

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.web.struts;
 
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
 
 public class CashDrawerCorrectionForm extends KualiForm {
     private CashDrawer cashDrawer;

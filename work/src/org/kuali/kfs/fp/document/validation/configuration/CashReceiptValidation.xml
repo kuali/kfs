@@ -22,7 +22,7 @@
 
 	<bean id="CashReceipt-routeDocumentValidation" parent="CashReceipt-routeDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-routeDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
@@ -52,7 +52,7 @@
 	
 	<bean id="CashReceipt-saveDocumentValidation" parent="CashReceipt-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-saveDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="CashReceiptFamily-accountingLineTotalValidation" scope="prototype">
@@ -75,7 +75,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean class="org.kuali.kfs.validation.CollectionValidation" scope="prototype">
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
 					<property name="collectionProperty" value="document.sourceAccountingLines" />
 					<property name="validations">
 						<list>
@@ -98,7 +98,7 @@
 	
 	<bean id="CashReceipt-approveDocumentValidation" parent="CashReceipt-approveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-approveDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-accountingLineGroupTotalsUnchangedValidation" scope="prototype">
@@ -127,7 +127,7 @@
 	
 	<bean id="CashReceipt-blanketApproveDocumentValidation" parent="CashReceipt-blanketApproveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="CashReceipt-cashDrawerOpenValidation" scope="prototype">
@@ -146,10 +146,10 @@
 	
 	<bean id="CashReceipt-addAccountingLineValidation" parent="CashReceipt-addAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-addAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
@@ -216,10 +216,10 @@
 	
 	<bean id="CashReceipt-updateAccountingLineValidation" parent="CashReceipt-updateAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
@@ -271,7 +271,7 @@
 	
 	<bean id="CashReceipt-reviewAccountingLineValidation" parent="CashReceipt-reviewAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
@@ -305,7 +305,7 @@
 	
 	<bean id="CashReceipt-addCheckValidation" parent="CashReceipt-addCheckValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-addCheckValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-addCheckValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -345,7 +345,7 @@
 	
 	<bean id="CashReceipt-updateCheckValidation" parent="CashReceipt-updateCheckValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-updateCheckValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-updateCheckValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">

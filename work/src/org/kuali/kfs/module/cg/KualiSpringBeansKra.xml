@@ -18,7 +18,7 @@
 <beans>
     <bean id="kraModule" parent="kraModule-parentBean" />
 
-    <bean id="kraModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="kraModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="kra" />
 		<property name="moduleName" value="Pre-Award" />
 		<property name="moduleCode" value="RA" />
@@ -26,32 +26,32 @@
 		<property name="moduleAuthorizer" ref="kraModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/kra/datadictionary</value>
-				<value>org/kuali/module/kra/budget/datadictionary</value>
-				<value>org/kuali/module/kra/routingform/datadictionary</value>
+				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
+				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
+				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/kra/OJB-repository-kra.xml</value>
+				<value>org/kuali/kfs/module/cg/OJB-repository-kra.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/module/kra/dwr-kra.xml</value>
+				<value>org/kuali/kfs/module/cg/dwr-kra.xml</value>
 			</list>
 		</property>		
 	</bean>
 
-    <bean id="kraModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.module.kra.authorization.KraModuleAuthorizer">
+    <bean id="kraModuleAuthorizer" parent="financialSystemModuleAuthorizer" class="org.kuali.kfs.module.cg.KraModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.kra.</value>
+                <value>org.kuali.kfs.module.cg.</value>
             </list>
         </property>
     </bean>
 
-	<bean id="budgetService" class="org.kuali.module.kra.budget.service.impl.BudgetServiceImpl">
+	<bean id="budgetService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -81,7 +81,7 @@
 		</property>
 	</bean>
 
-	<bean id="routingFormService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormServiceImpl">
+	<bean id="routingFormService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -91,7 +91,7 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
-	<bean id="budgetFringeRateService" class="org.kuali.module.kra.budget.service.impl.BudgetFringeRateServiceImpl">
+	<bean id="budgetFringeRateService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetFringeRateServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
@@ -103,31 +103,31 @@
     </property>
 	</bean>
 
-	<bean id="budgetNonpersonnelService" class="org.kuali.module.kra.budget.service.impl.BudgetNonpersonnelServiceImpl">
+	<bean id="budgetNonpersonnelService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetNonpersonnelServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="budgetModularService" class="org.kuali.module.kra.budget.service.impl.BudgetModularServiceImpl">
+	<bean id="budgetModularService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetModularServiceImpl">
 		<property name="budgetNonpersonnelService">
 			<ref bean="budgetNonpersonnelService" />
 		</property>
 	</bean>
 
-	<bean id="budgetTypeCodeService" class="org.kuali.module.kra.budget.service.impl.BudgetTypeCodeServiceImpl">
+	<bean id="budgetTypeCodeService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetTypeCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="budgetGraduateAssistantRateService" class="org.kuali.module.kra.budget.service.impl.BudgetGraduateAssistantRateServiceImpl">
+	<bean id="budgetGraduateAssistantRateService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetGraduateAssistantRateServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="budgetPeriodService" class="org.kuali.module.kra.budget.service.impl.BudgetPeriodServiceImpl">
+	<bean id="budgetPeriodService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetPeriodServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -136,13 +136,13 @@
 		</property>
 	</bean>
 
-	<bean id="budgetTaskService" class="org.kuali.module.kra.budget.service.impl.BudgetTaskServiceImpl">
+	<bean id="budgetTaskService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetTaskServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="researchDocumentService" class="org.kuali.module.kra.service.impl.ResearchDocumentServiceImpl">
+	<bean id="researchDocumentService" class="org.kuali.kfs.module.cg.document.service.impl.ResearchDocumentServiceImpl">
 		<property name="budgetService">
 			<ref bean="budgetService" />
 		</property>
@@ -151,7 +151,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetPersonnelService" class="org.kuali.module.kra.budget.service.impl.BudgetPersonnelServiceImpl">
+	<bean id="budgetPersonnelService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetPersonnelServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -163,9 +163,9 @@
 		</property>
 	</bean>
 
-	<bean id="budgetCostShareService" class="org.kuali.module.kra.budget.service.impl.BudgetCostShareServiceImpl" />
+	<bean id="budgetCostShareService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetCostShareServiceImpl" />
 
-	<bean id="budgetIndirectCostService" class="org.kuali.module.kra.budget.service.impl.BudgetIndirectCostServiceImpl">
+	<bean id="budgetIndirectCostService" class="org.kuali.kfs.module.cg.document.service.impl.BudgetIndirectCostServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -177,31 +177,31 @@
 		</property>
 	</bean>
 
-	<bean id="researchDocumentPermissionsService" class="org.kuali.module.kra.service.impl.ResearchDocumentPermissionsServiceImpl">
+	<bean id="researchDocumentPermissionsService" class="org.kuali.kfs.module.cg.document.service.impl.ResearchDocumentPermissionsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="researchDocumentControlAttributeTypeService" class="org.kuali.module.kra.service.impl.ResearchDocumentControlAttributeTypeServiceImpl">
+	<bean id="researchDocumentControlAttributeTypeService" class="org.kuali.kfs.module.cg.document.service.impl.ResearchDocumentControlAttributeTypeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="routingFormResearchRiskService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormResearchRiskServiceImpl">
+	<bean id="routingFormResearchRiskService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="purposeService" class="org.kuali.module.kra.routingform.service.impl.PurposeServiceImpl">
+	<bean id="purposeService" class="org.kuali.kfs.module.cg.document.service.impl.PurposeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="routingFormMainPageService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormMainPageServiceImpl">
+	<bean id="routingFormMainPageService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormMainPageServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -213,7 +213,7 @@
 		</property>
 	</bean>
 
-	<bean id="routingFormProjectDetailsService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormProjectDetailsServiceImpl">
+	<bean id="routingFormProjectDetailsService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormProjectDetailsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -221,9 +221,9 @@
 	
 	<!-- Workflow Lookupables-->
 	
-	<bean id="workflow-org.kuali.module.kra.routingform.bo.ResearchRiskType-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
-            <value>org.kuali.module.kra.routingform.bo.ResearchRiskType</value>
+            <value>org.kuali.kfs.module.cg.businessobject.ResearchRiskType</value>
         </property>
     </bean>
 </beans>

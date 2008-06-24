@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup.valuefinder;
+package org.kuali.kfs.sys.businessobject.defaultvalue;
 
 import java.util.Collection;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.CacheNoCopy;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.MessageOfTheDay;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.MessageOfTheDay;
 
 public class MessageOfTheDayFinder implements ValueFinder {
 

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.util.Guid;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCConstants.OrgSelControlOption;
-import org.kuali.module.budget.dao.BudgetOrganizationPushPullDao;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao;
 
 /**
  * Implements BudgetOrganizationPushPullDao using raw SQL and populating temporary tables with the potential set of documents to
@@ -445,7 +445,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetOrganizationPushPullDao#pullupSelectedOrganizationDocuments(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao#pullupSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
     public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
@@ -470,7 +470,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetOrganizationPushPullDao#pushdownSelectedOrganizationDocuments(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao#pushdownSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {

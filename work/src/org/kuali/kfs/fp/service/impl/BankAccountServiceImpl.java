@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.service.BankAccountService;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.service.BankAccountService;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class BankAccountServiceImpl implements BankAccountService {
      * @param finDocumentBankAccountNumber Bank account number to use for retrieving the associated bank account object.
      * @return A BankAccount object which matches the criteria provided.  
      * 
-     * @see org.kuali.module.financial.service.BankAccountService#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.fp.service.BankAccountService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public BankAccount getByPrimaryId(String financialDocumentBankCode, String finDocumentBankAccountNumber) {
         Map primaryKeys = new HashMap();

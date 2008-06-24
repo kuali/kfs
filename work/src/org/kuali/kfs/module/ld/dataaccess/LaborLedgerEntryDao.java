@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -21,13 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
 /**
  * This is the data access object for ledger entry.
  * 
- * @see org.kuali.module.labor.bo.LedgerEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LedgerEntry
  */
 public interface LaborLedgerEntryDao {
 

@@ -1,4 +1,4 @@
-package org.kuali.module.ar.bo;
+package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -7,8 +7,8 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.module.ar.document.CashControlDocument;
-import org.kuali.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

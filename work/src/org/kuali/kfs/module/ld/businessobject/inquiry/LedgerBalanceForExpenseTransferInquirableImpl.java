@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.inquirable;
+package org.kuali.kfs.module.ld.businessobject.inquiry;
 
 import java.util.Properties;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LedgerEntryForExpenseTransfer;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntryForExpenseTransfer;
 
 /**
  * Inquirable Implementation for Ledger Balance for Expense Transfer. This class is used to generate the URL for the user-defined

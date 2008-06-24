@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.capitalAssetBuilder.batch;
+package org.kuali.kfs.module.cab.batch;
 
 
 import java.text.SimpleDateFormat;
@@ -21,12 +21,12 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.test.ConfigureContext;
-import org.kuali.module.cams.bo.Pretag;
-import org.kuali.module.capitalAssetBuilder.batch.PreAssetTaggingStep;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.module.cam.businessobject.Pretag;
+import org.kuali.kfs.module.cab.batch.PreAssetTaggingStep;
 
 /**
  * Test the PreAssetTaggingSetp.

@@ -19,10 +19,10 @@
             p:parameterDetailType="YearEndBudgetAdjustment" />
     </property>
     <property name="documentTypeName" value="YearEndBudgetAdjustmentDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.YearEndBudgetAdjustmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.YearEndBudgetAdjustmentDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.YearEndBudgetAdjustmentDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.financial.rules.BudgetAdjustmentDocumentPreRules" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndBudgetAdjustmentDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndBudgetAdjustmentDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
     <property name="documentTypeCode" value="YEBA" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
@@ -97,7 +97,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFiscalYearValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFiscalYearValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

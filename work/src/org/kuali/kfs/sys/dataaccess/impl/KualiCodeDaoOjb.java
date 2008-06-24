@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao.ojb;
+package org.kuali.kfs.sys.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,23 +23,23 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.dao.KualiCodeDao;
-import org.kuali.module.cg.bo.AgencyType;
-import org.kuali.module.chart.bo.FundGroup;
-import org.kuali.module.chart.bo.KualiSystemCode;
-import org.kuali.module.chart.bo.ObjSubTyp;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.RestrictedStatus;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.module.chart.bo.codes.FederalFundedCode;
-import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
-import org.kuali.module.financial.bo.PaymentReasonCode;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.kra.budget.bo.NonpersonnelSubCategory;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
+import org.kuali.kfs.module.cg.businessobject.AgencyType;
+import org.kuali.kfs.coa.businessobject.FundGroup;
+import org.kuali.kfs.coa.businessobject.KualiSystemCode;
+import org.kuali.kfs.coa.businessobject.ObjSubTyp;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.RestrictedStatus;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
+import org.kuali.kfs.coa.businessobject.FederalFundedCode;
+import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
+import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory;
 import org.springframework.dao.DataAccessException;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,22 +26,22 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSalaryDetailReport;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSalaryDetailReportTotal;
-import org.kuali.module.budget.bo.BudgetConstructionAdministrativePost;
-import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.BudgetConstructionOrgPositionFundingDetailReportTotal;
-import org.kuali.module.budget.bo.BudgetConstructionPosition;
-import org.kuali.module.budget.bo.BudgetConstructionPositionFunding;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.module.budget.service.BudgetConstructionAccountSalaryDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
-import org.kuali.module.budget.util.BudgetConstructionReportHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSalaryDetailReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSalaryDetailReportTotal;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgPositionFundingDetailReportTotal;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSalaryDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
+import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -54,7 +54,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
     public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {

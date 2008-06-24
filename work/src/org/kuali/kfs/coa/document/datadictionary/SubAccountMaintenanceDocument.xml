@@ -7,7 +7,7 @@
   <bean id="SubAccountMaintenanceDocument" parent="SubAccountMaintenanceDocument-parentBean" />
 
   <bean id="SubAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.SubAccount" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubAccount" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -59,9 +59,9 @@
             p:parameterDetailType="SubAccount" />
     </property>
     <property name="documentTypeName" value="SubAccountMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.SubAccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.chart.document.SubAccountDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.SubAccountPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.SubAccountDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules" />
     <property name="documentTypeCode" value="SACC" />
     <property name="webScriptFiles" >
       <list>

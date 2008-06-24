@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.service.A21SubAccountService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper;
-import org.kuali.module.gl.batch.closing.year.util.EncumbranceClosingOriginEntryFactory;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.util.OriginEntryOffsetPair;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.batch.EncumbranceClosingRuleHelper;
+import org.kuali.kfs.gl.batch.EncumbranceClosingOriginEntryFactory;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests that the forward encumbrance process is generating cost share encumbrance forwarding origin entries correctly

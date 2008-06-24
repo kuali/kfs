@@ -18,7 +18,7 @@
 <beans>
     <bean id="laborModule" parent="laborModule-parentBean" />
 
-    <bean id="laborModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="laborModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
 		<property name="moduleId" value="labor" />
 		<property name="moduleName" value="Labor Distribution" />
 		<property name="moduleCode" value="LD" />
@@ -26,17 +26,17 @@
 		<property name="moduleAuthorizer" ref="laborModuleAuthorizer" />
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org/kuali/module/labor/datadictionary</value>
+				<value>org/kuali/kfs/module/ld/businessobject/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/module/labor/OJB-repository-labor.xml</value>
+				<value>org/kuali/kfs/module/ld/OJB-repository-labor.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/module/labor/dwr-labor.xml</value>
+				<value>org/kuali/kfs/module/ld/dwr-labor.xml</value>
 			</list>
 		</property>
 		
@@ -56,14 +56,14 @@
     <bean id="laborModuleAuthorizer" parent="financialSystemModuleAuthorizer">
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.module.labor.</value>
+                <value>org.kuali.kfs.module.ld.</value>
             </list>
         </property>
     </bean>
 
     <!--  Section 1: Spring Beans for Business Objects -->
 		
-	<bean id="laborLedgerPendingEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerPendingEntryServiceImpl">
+	<bean id="laborLedgerPendingEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerPendingEntryServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -75,7 +75,7 @@
 		</property>	
 	</bean>
 
-    <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">
+    <bean id="laborGeneralLedgerEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborGeneralLedgerEntryServiceImpl">
         <property name="laborGeneralLedgerEntryDao">
             <ref bean="laborGeneralLedgerEntryDao" />
         </property>
@@ -84,13 +84,13 @@
 		</property>	
     </bean>
     
-    <bean id="laborLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerEntryServiceImpl">
+    <bean id="laborLedgerEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerEntryServiceImpl">
         <property name="laborLedgerEntryDao">
             <ref bean="laborLedgerEntryDao" />
         </property>
     </bean>
     
-	<bean id="laborOriginEntryService" class="org.kuali.module.labor.service.impl.LaborOriginEntryServiceImpl">
+	<bean id="laborOriginEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryServiceImpl">
 		<property name="laborOriginEntryDao">
 			<ref bean="laborOriginEntryDao" />
 		</property>
@@ -105,19 +105,19 @@
 		</property>
 	</bean>
 
-	<bean id="laborPositionObjectBenefitService" class="org.kuali.module.labor.service.impl.LaborPositionObjectBenefitServiceImpl">
+	<bean id="laborPositionObjectBenefitService" class="org.kuali.kfs.module.ld.service.impl.LaborPositionObjectBenefitServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="laborBenefitsTypeService" class="org.kuali.module.labor.service.impl.LaborBenefitsTypeServiceImpl">
+	<bean id="laborBenefitsTypeService" class="org.kuali.kfs.module.ld.service.impl.LaborBenefitsTypeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="laborBenefitsCalculationService" class="org.kuali.module.labor.service.impl.LaborBenefitsCalculationServiceImpl">
+	<bean id="laborBenefitsCalculationService" class="org.kuali.kfs.module.ld.service.impl.LaborBenefitsCalculationServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -126,7 +126,7 @@
 		</property>
 	</bean>
 			
-	<bean id="laborBaseFundsService" class="org.kuali.module.labor.service.impl.LaborBaseFundsServiceImpl">
+	<bean id="laborBaseFundsService" class="org.kuali.kfs.module.ld.service.impl.LaborBaseFundsServiceImpl">
 		<property name="laborBaseFundsDao">
 			<ref bean="laborBaseFundsDao" />
 		</property>
@@ -135,7 +135,7 @@
 		</property>
 	</bean>	
 			
-	<bean id="laborLedgerBalanceService" class="org.kuali.module.labor.service.impl.LaborLedgerBalanceServiceImpl">
+	<bean id="laborLedgerBalanceService" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerBalanceServiceImpl">
 		<property name="laborLedgerBalanceDao">
 			<ref bean="laborLedgerBalanceDao" />
 		</property>
@@ -144,7 +144,7 @@
 		</property>
 	</bean>
 	
-	<bean id="laborObjectService" class="org.kuali.module.labor.service.impl.LaborObjectServiceImpl">
+	<bean id="laborObjectService" class="org.kuali.kfs.module.ld.service.impl.LaborObjectServiceImpl">
 		<property name="laborObjectDao">
 			<ref bean="laborObjectDao" />
 		</property>
@@ -152,29 +152,29 @@
 	
     <!-- Section 2: Spring Beans for DAO -->
 
-	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
-	    <property name="entryClass" value="org.kuali.module.labor.bo.LaborOriginEntry"/>
+	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborOriginEntryDaoOjb">
+	    <property name="entryClass" value="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry"/>
             </bean>
 	
-    <bean id="laborLedgerEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerEntryDaoOjb" />
+    <bean id="laborLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerEntryDaoOjb" />
 
-    <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborGeneralLedgerEntryDaoOjb" />
+    <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborGeneralLedgerEntryDaoOjb" />
 
-	<bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerBalanceDaoOjb">
+	<bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceDaoOjb">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 			
-	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborBaseFundsDaoOjb" />
-	<bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborCalculatedSalaryFoundationTrackerDaoOjb" />
-	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb" />
+	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborBaseFundsDaoOjb" />
+	<bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCalculatedSalaryFoundationTrackerDaoOjb" />
+	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerPendingEntryDaoOjb" />
 	
-	<bean id="laborObjectDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborObjectDaoOjb" />
+	<bean id="laborObjectDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborObjectDaoOjb" />
 	
     <!-- Section 3: Spring Bean for Batch processes -->
     
-    <bean id="laborNightlyOutService" class="org.kuali.module.labor.service.impl.LaborNightlyOutServiceImpl">
+    <bean id="laborNightlyOutService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborNightlyOutServiceImpl">
     	<property name="laborLedgerPendingEntryService">
             <ref bean="laborLedgerPendingEntryService" />
         </property>
@@ -193,7 +193,7 @@
         </property>
     </bean>
 
-	<bean id="laborScrubberService" class="org.kuali.module.labor.service.impl.LaborScrubberServiceImpl">
+	<bean id="laborScrubberService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl">
 		<property name="flexibleOffsetAccountService">
 			<ref bean="flexibleOffsetAccountService" />
 		</property>
@@ -232,7 +232,7 @@
 		</property>
 	</bean>
 	
-    <bean id="laborScrubberValidator" class="org.kuali.module.labor.service.impl.ScrubberValidatorImpl">
+    <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">
         <property name="scrubberValidator">
             <ref bean="scrubberValidator" />
         </property>
@@ -259,7 +259,7 @@
 		</property>
     </bean>
 	
-    <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl">
+    <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>
@@ -292,7 +292,7 @@
         </property>
     </bean>
     
-    <bean id="laborBalanceSummaryReportService" class="org.kuali.module.labor.service.impl.LaborBalanceSummaryReportServiceImpl">
+    <bean id="laborBalanceSummaryReportService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalanceSummaryReportServiceImpl">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
@@ -307,7 +307,7 @@
         </property>
     </bean>    
 
-    <bean id="laborReportService" class="org.kuali.module.labor.service.impl.LaborReportServiceImpl">
+    <bean id="laborReportService" class="org.kuali.kfs.module.ld.service.impl.LaborReportServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>
@@ -322,13 +322,13 @@
 		</property>	
     </bean>
 
-    <bean id="laborLedgerEntryPoster" class="org.kuali.module.labor.batch.poster.impl.LaborLedgerEntryPoster">
+    <bean id="laborLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster">
         <property name="laborLedgerEntryService">
             <ref bean="laborLedgerEntryService" />
         </property>
     </bean>
 
-    <bean id="laborLedgerBalancePoster" class="org.kuali.module.labor.batch.poster.impl.LaborLedgerBalancePoster">
+    <bean id="laborLedgerBalancePoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -337,15 +337,15 @@
 		</property>	
     </bean>
 
-    <bean id="laborGLLedgerEntryPoster" class="org.kuali.module.labor.batch.poster.impl.LaborGLLedgerEntryPoster">
+    <bean id="laborGLLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster">
         <property name="laborGeneralLedgerEntryService">
             <ref bean="laborGeneralLedgerEntryService" />
         </property>
     </bean>
 
-    <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator"/> 
+    <bean id="laborPosterTransactionValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator"/> 
 		
-	<bean id="laborYearEndBalanceForwardService" class="org.kuali.module.labor.service.impl.LaborYearEndBalanceForwardServiceImpl">
+	<bean id="laborYearEndBalanceForwardService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborYearEndBalanceForwardServiceImpl">
         <property name="laborLedgerBalanceService">
             <ref bean="laborLedgerBalanceService" />
         </property>
@@ -375,57 +375,57 @@
         </property>
     </bean>
         	
-	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep" parent="step">
+	<bean id="laborNightlyOutStep" class="org.kuali.kfs.module.ld.batch.LaborNightlyOutStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>  
 	
-	<bean id="clearLaborPendingStep" class="org.kuali.module.labor.batch.ClearLaborPendingStep" parent="step">
+	<bean id="clearLaborPendingStep" class="org.kuali.kfs.module.ld.batch.ClearLaborPendingStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>  
 		
-	<bean id="laborClearGLEntryStep" class="org.kuali.module.labor.batch.ClearLaborGLEntryStep" parent="step">
+	<bean id="laborClearGLEntryStep" class="org.kuali.kfs.module.ld.batch.ClearLaborGLEntryStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean> 
 		
-	<bean id="laborFeedStep" class="org.kuali.module.labor.batch.LaborFeedStep" parent="step">
+	<bean id="laborFeedStep" class="org.kuali.kfs.module.ld.batch.LaborFeedStep" parent="step">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean> 
 
-	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step" />         
+	<bean id="createLaborBackupGroupStep" class="org.kuali.kfs.module.ld.batch.CreateLaborBackupGroupStep" parent="step" />         
            
-	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep" parent="step">
+	<bean id="laborScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberStep" parent="step">
 		<property name="laborScrubberService">
 			<ref bean="laborScrubberService" />
 		</property>
 	</bean>
 	
-	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep" parent="step">
+	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="step">
 		<property name="laborPosterService">
 			<ref bean="laborPosterService" />
 		</property>
 	</bean>
 		           
-	<bean id="laborBalanceSummaryStep" class="org.kuali.module.labor.batch.LaborBalanceSummaryStep" parent="step">
+	<bean id="laborBalanceSummaryStep" class="org.kuali.kfs.module.ld.batch.LaborBalanceSummaryStep" parent="step">
 		<property name="laborBalanceSummaryReportService">
 			<ref bean="laborBalanceSummaryReportService" />
 		</property>
 	</bean>
 	  
-    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" parent="step">
+    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep" parent="step">
 		<property name="laborYearEndBalanceForwardService">
 			<ref bean="laborYearEndBalanceForwardService" />
 		</property>
 	</bean>
 	
-	<bean id="laborPurgeEntryStep" class="org.kuali.module.labor.batch.LaborPurgeEntryStep" parent="step">
+	<bean id="laborPurgeEntryStep" class="org.kuali.kfs.module.ld.batch.LaborPurgeEntryStep" parent="step">
 		<property name="laborLedgerEntryService">
 			<ref bean="laborLedgerEntryService" />
 		</property>
@@ -434,7 +434,7 @@
 		</property>
 	</bean>
 
-	<bean id="laborPurgeBalanceStep" class="org.kuali.module.labor.batch.LaborPurgeBalanceStep" parent="step">
+	<bean id="laborPurgeBalanceStep" class="org.kuali.kfs.module.ld.batch.LaborPurgeBalanceStep" parent="step">
 		<property name="laborLedgerBalanceService">
 			<ref bean="laborLedgerBalanceService" />
 		</property>
@@ -530,7 +530,7 @@
 		</property>
 	</bean>
 
-	<bean id="laborPendingEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LaborPendingEntryLookupableHelperServiceImpl" singleton="false">
+	<bean id="laborPendingEntryLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LaborPendingEntryLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -554,7 +554,7 @@
 		</property>
     </bean> 
     
-    <bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
+    <bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -584,7 +584,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl" singleton="false">
+	<bean id="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -608,7 +608,7 @@
 		</property>	
 	</bean>
 	
-    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl" singleton="false">
+    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -632,7 +632,7 @@
 		</property>	
 	</bean>
 			
-    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerEntryForExpenseTransferLookupableHelperServiceImpl" singleton="false">
+    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerEntryForExpenseTransferLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -656,7 +656,7 @@
 		</property>
 	</bean>	
 	
-    <bean id="laborLedgerEntryLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerEntryLookupableHelperServiceImpl" singleton="false">
+    <bean id="laborLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerEntryLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -701,7 +701,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="laborCalculatedSalaryFoundationTrackerLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl" singleton="false">
+	<bean id="laborCalculatedSalaryFoundationTrackerLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -722,7 +722,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="laborPositionDataLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionDataLookupableHelperServiceImpl" singleton="false">
+	<bean id="laborPositionDataLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionDataLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -746,7 +746,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="laborCalculatedSalaryFoundationTrackerService" class="org.kuali.module.labor.service.impl.LaborCalculatedSalaryFoundationTrackerServiceImpl">
+	<bean id="laborCalculatedSalaryFoundationTrackerService" class="org.kuali.kfs.module.ld.service.impl.LaborCalculatedSalaryFoundationTrackerServiceImpl">
 		<property name="laborCalculatedSalaryFoundationTrackerDao">
 			<ref bean="laborCalculatedSalaryFoundationTrackerDao" />
 		</property>
@@ -761,7 +761,7 @@
 		</property>
 	</bean>
 	
-	<bean id="CurrentFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.CurrentFundsLookupableHelperServiceImpl" singleton="false">
+	<bean id="CurrentFundsLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.CurrentFundsLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -797,7 +797,7 @@
 		</property>
 	</bean>
 	
-	<bean id="BaseFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.BaseFundsLookupableHelperServiceImpl" singleton="false">
+	<bean id="BaseFundsLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.BaseFundsLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>	
@@ -827,7 +827,7 @@
 		</property>
 	</bean>
 	
-	<bean id="EmployeeFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.EmployeeFundingLookupableHelperServiceImpl" singleton="false">
+	<bean id="EmployeeFundingLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.EmployeeFundingLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -854,7 +854,7 @@
 		</property>		
 	</bean>
 
-	<bean id="segmentedLookupResultsService" class="org.kuali.module.labor.service.impl.SegmentedLookupResultsServiceImpl">
+	<bean id="segmentedLookupResultsService" class="org.kuali.kfs.module.ld.service.impl.SegmentedLookupResultsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -863,9 +863,9 @@
         </property>
 	</bean>
 
-	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb" />
+	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborDaoOjb" />
 	
-	<bean id="laborCorrectionDocumentService" class="org.kuali.module.labor.service.impl.LaborCorrectionDocumentServiceImpl">
+	<bean id="laborCorrectionDocumentService" class="org.kuali.kfs.module.ld.document.service.impl.LaborCorrectionDocumentServiceImpl">
 		<property name="correctionChangeGroupDao">
 			<ref bean="glCorrectionChangeGroupDao" />
 		</property>
@@ -887,7 +887,7 @@
 		<property name="llcpDirectoryName" value="${staging.directory}/LLCP"/>
 	</bean>
 	
-	<bean id="laborInquiryOptionsService" class="org.kuali.module.labor.service.impl.LaborInquiryOptionsServiceImpl">
+	<bean id="laborInquiryOptionsService" class="org.kuali.kfs.module.ld.service.impl.LaborInquiryOptionsServiceImpl">
 		<property name="laborLedgerPendingEntryService">
 			<ref bean="laborLedgerPendingEntryService" />
 		</property>	
@@ -902,7 +902,7 @@
 		</property>
 	</bean>
 	
-	<bean id="july1PositionFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.July1PositionFundingLookupableHelperServiceImpl" singleton="false">
+	<bean id="july1PositionFundingLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.July1PositionFundingLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -923,7 +923,7 @@
 		</property>		
 	</bean>   
 	
-	<bean id="salaryTransferPeriodValidationService" class="org.kuali.module.labor.service.impl.SalaryTransferPeriodValidationServiceImpl">
+	<bean id="salaryTransferPeriodValidationService" class="org.kuali.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl">
 		<property name="effortCertificationService">
 			<ref bean="effortCertificationService" />
 		</property>	
@@ -944,13 +944,13 @@
 		</property>											
 	</bean>	
 		
-	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
+	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">
-			<bean parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.ExpenseTransferAccountingLineDaoOjb" />
+			<bean parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.ExpenseTransferAccountingLineDaoOjb" />
 		</property>
 	</bean>
 	
-    <bean id="positionObjectBenefitLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionObjectBenefitLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+    <bean id="positionObjectBenefitLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionObjectBenefitLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="positionObjectBenefitLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -959,7 +959,7 @@
 	</bean>	
 
 	
-	<bean id="laborPositionFundingLookupableHelperService" class="org.kuali.module.labor.web.lookupable.PositionFundingLookupableHelperServiceImpl" singleton="false">
+	<bean id="laborPositionFundingLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionFundingLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -989,5 +989,5 @@
 		</property>
 	</bean>
 
-	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl" autowire="byName" singleton="false"/>	 
+	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl" autowire="byName" singleton="false"/>	 
 </beans>

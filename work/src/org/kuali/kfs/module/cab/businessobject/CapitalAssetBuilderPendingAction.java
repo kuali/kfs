@@ -1,4 +1,4 @@
-package org.kuali.module.capitalAssetBuilder.bo;
+package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 

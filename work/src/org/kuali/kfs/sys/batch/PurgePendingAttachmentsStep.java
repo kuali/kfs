@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import org.kuali.core.service.AttachmentService;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 
 /**
@@ -41,7 +41,7 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
     /**
      * Deletes all pending attachments that are older than a configured time (see class description)
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();

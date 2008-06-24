@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.DisbursementNumberRange;
+import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 
 public interface DisbursementNumberRangeService {
     public List getAll();

@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionMonthSummary;
-import org.kuali.module.budget.bo.BudgetConstructionOrgMonthSummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgMonthSummaryReportTotal;
-import org.kuali.module.budget.dao.BudgetConstructionMonthSummaryReportDao;
-import org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionReportsServiceHelper;
-import org.kuali.module.budget.util.BudgetConstructionReportHelper;
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgMonthSummaryReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgMonthSummaryReportTotal;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
+import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,7 +44,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)
      */
     public void updateMonthSummaryReport(String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
         budgetConstructionMonthSummaryReportDao.updateReportsMonthSummaryTable(personUserIdentifier, consolidateToObjectCodeLevel);
@@ -52,7 +52,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionMonthSummaryReportService#buildReports(java.lang.Integer,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
     public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel) {

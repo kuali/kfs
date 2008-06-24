@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
@@ -36,26 +36,26 @@ import org.kuali.core.service.MailService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.batch.collector.CollectorStep;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.CollectorReportService;
-import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.DocumentGroupData;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.LedgerReport;
-import org.kuali.module.gl.util.OriginEntryTotals;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.gl.util.TransactionReport;
-import org.kuali.module.gl.util.TransactionReport.PageHelper;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.batch.CollectorStep;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.batch.service.CollectorReportService;
+import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.service.ScrubberReportData;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.report.LedgerReport;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
+import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.gl.report.TransactionReport;
+import org.kuali.kfs.gl.report.TransactionReport.PageHelper;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -101,7 +101,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * Sends out e-mails about the validation and demerger of the Collector run
      * 
      * @param collectorReportData data gathered from the run of the Collector
-     * @see org.kuali.module.gl.service.CollectorReportService#sendEmails(org.kuali.module.gl.util.CollectorReportData)
+     * @see org.kuali.kfs.gl.batch.service.CollectorReportService#sendEmails(org.kuali.kfs.gl.report.CollectorReportData)
      */
     public void sendEmails(CollectorReportData collectorReportData) {
         // send out the validation status messages
@@ -124,7 +124,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * Generates the reports about a given Collector run
      * 
      * @param collectorReportData data gathered from the run of the Collector
-     * @see org.kuali.module.gl.service.CollectorReportService#generateCollectorRunReports(org.kuali.module.gl.util.CollectorReportData)
+     * @see org.kuali.kfs.gl.batch.service.CollectorReportService#generateCollectorRunReports(org.kuali.kfs.gl.report.CollectorReportData)
      */
     public void generateCollectorRunReports(CollectorReportData collectorReportData) {
         try {

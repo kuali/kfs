@@ -11,7 +11,7 @@
         <fieldDef name="payeeType" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
           <display>
             <type>radio</type>
-            <values>kuali_values_finder_class(org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.fp.businessobject.options.PayeeTypeValuesFinder)</values>
           </display>
           <validation required="true" />
           <fieldEvaluation>

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.labor.bo.BenefitsType;
-import org.kuali.module.labor.service.LaborBenefitsTypeService;
+import org.kuali.kfs.module.ld.businessobject.BenefitsType;
+import org.kuali.kfs.module.ld.service.LaborBenefitsTypeService;
 
 public class LaborBenefitsTypeServiceImpl implements LaborBenefitsTypeService {
 

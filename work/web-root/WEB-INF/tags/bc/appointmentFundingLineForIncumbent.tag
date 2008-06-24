@@ -144,7 +144,7 @@
             detailField="budgetConstructionPosition.positionDescription"
             attributes="${pbcafAttributes}" inquiry="true" lookup="true" 
             boClassSimpleName="BudgetConstructionPosition"
-            boPackageName="org.kuali.module.budget.bo"
+            boPackageName="org.kuali.kfs.module.bc.businessobject"
             readOnly="${hasBeenAdded}"
             displayHidden="false"
             lookupOrInquiryKeys="positionNumber"

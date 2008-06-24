@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 
 /**
  * This is the data access object for labor origin entry.
  * 
- * @see org.kuali.module.labor.bo.LaborOriginEntry
+ * @see org.kuali.kfs.module.ld.businessobject.LaborOriginEntry
  */
 public interface LaborOriginEntryDao extends OriginEntryDao {
 

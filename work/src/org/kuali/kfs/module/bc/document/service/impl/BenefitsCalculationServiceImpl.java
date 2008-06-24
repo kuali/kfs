@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.budget.dao.BenefitsCalculationDao;
-import org.kuali.module.budget.service.BenefitsCalculationService;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
+import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,7 +32,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     private OptionsService optionsService;
 
     /**
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
      */
     public boolean isBenefitsCalculationDisabled() {
         // TODO for now just return false, implement application parameter if decision is made implement this functionality
@@ -43,7 +43,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
 
@@ -64,7 +64,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
@@ -84,7 +84,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     }
 
     /**
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {

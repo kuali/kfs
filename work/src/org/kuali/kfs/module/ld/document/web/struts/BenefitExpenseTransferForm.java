@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.form;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 
 /**
  * Struts Action Form for the Benefit Expense Transfer Document.
@@ -106,7 +106,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      * Returns forced read only target fields (i.e only source target fields without chart of accounts code, 
      * account number, sub-account number, financial sub object code, project code, organization reference id, and amount)
      * 
-     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#getForcedReadOnlyTargetFields()
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase#getForcedReadOnlyTargetFields()
      */
     @Override
     public Map getForcedReadOnlyTargetFields() {
@@ -125,7 +125,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     /**
      * Sets university fiscal year, chart of accounts code, account number, sub-account number from first source accounting line
      * 
-     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#populateSearchFields()
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase#populateSearchFields()
      */
     @Override
     public void populateSearchFields() {

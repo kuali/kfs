@@ -1,10 +1,10 @@
-package org.kuali.module.ar.bo;
+package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

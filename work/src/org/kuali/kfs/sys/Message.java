@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.util;
+package org.kuali.kfs.sys;
 
 /**
  * This class represents an error message (severity type and actual message).

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 
 
 /**
- * Action class for <code>{@link org.kuali.module.financial.document.NonCheckDisbursementDocument}</code> It doesn't do anything
+ * Action class for <code>{@link org.kuali.kfs.fp.document.NonCheckDisbursementDocument}</code> It doesn't do anything
  * because it doesn't need to.
  */
 public class NonCheckDisbursementAction extends KualiAccountingDocumentActionBase {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.batch.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,26 +37,26 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.batch.barcode.BarcodeInventory;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.BarcodeInventoryErrorDetail;
-import org.kuali.module.cams.document.BarcodeInventoryErrorDocument;
-import org.kuali.module.cams.rule.event.ValidateBarcodeInventoryEvent;
-import org.kuali.module.cams.service.AssetBarcodeInventoryLoadService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.batch.BarcodeInventory;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
+import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInventoryEvent;
+import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 /**
  * This is the default implementation of the ProcurementCardLoadTransactionsService interface. Handles loading, parsing, and storing
  * of incoming procurement card batch files.
  * 
- * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
+ * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService
  */
 public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInventoryLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryLoadServiceImpl.class);
@@ -71,7 +71,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetBarcodeInventoryLoadService#isFileFormatValid(java.io.File)
+     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isFileFormatValid(java.io.File)
      */
     public boolean isFileFormatValid(File file) {
         LOG.debug("isFileFormatValid(File file) - start");
@@ -180,7 +180,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetBarCodeInventoryLoadService#processFile(java.io.File)
+     * @see org.kuali.kfs.module.cam.batch.service.AssetBarCodeInventoryLoadService#processFile(java.io.File)
      */
     public boolean processFile(File file) {
         LOG.debug("processFile(File file) - start");

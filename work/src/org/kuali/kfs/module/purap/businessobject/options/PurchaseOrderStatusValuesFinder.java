@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.lookup.keyvalues;
+package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.bo.PurchaseOrderStatus;
-import org.kuali.module.purap.bo.Status;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus;
+import org.kuali.kfs.module.purap.businessobject.Status;
 
 /**
  * Value Finder for Purchase Order Statuses.
@@ -34,7 +34,7 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
     /**
      * Overide this method to sort the PO statuses for proper display. 
      * 
-     * @see org.kuali.module.purap.lookup.keyvalues.PurApStatusKeyValuesBase#getKeyValues()
+     * @see org.kuali.kfs.module.purap.businessobject.options.PurApStatusKeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
         // get all PO statuses
@@ -58,7 +58,7 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
     }
     
     /**
-     * @see org.kuali.module.purap.lookup.keyvalues.PurApStatusKeyValuesBase#getStatusClass()
+     * @see org.kuali.kfs.module.purap.businessobject.options.PurApStatusKeyValuesBase#getStatusClass()
      */
     @Override
     public Class getStatusClass() {

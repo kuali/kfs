@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,12 +24,12 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
-import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
-import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate;
+import org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate;
+import org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAssistantRateService {
@@ -37,7 +37,7 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService#getAllGraduateAssistantRates()
+     * @see org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService#getAllGraduateAssistantRates()
      */
     public List getAllGraduateAssistantRates() {
         Map fieldValues = new HashMap();

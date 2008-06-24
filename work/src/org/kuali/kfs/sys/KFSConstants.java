@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs;
+package org.kuali.kfs.sys;
 
 import java.util.HashMap;
 
@@ -21,13 +21,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.util.JSTLConstants;
-import org.kuali.workflow.attribute.OrgReviewRoutingData;
-import org.kuali.workflow.attribute.RoutingAccount;
-import org.kuali.workflow.attribute.RoutingData;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 
 /**
  * This class is used to define global constants.
@@ -1031,10 +1031,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     /**
-     * The base implementation of {@link org.kuali.module.gl.util.EnterpriseFeederStatusBase} uses strings contained within
+     * The base implementation of {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatusBase} uses strings contained within
      * ApplicationResources.properties to store the human-readable descriptions of each status object. The fully qualified class
      * name is appended to the end of this key to generate the true key. For example,
-     * gl.EnterpriseFeeder.StatusDescriptionPrefix.org.kuali.module.gl.util.FileReconBadLoadAbortedStatus
+     * gl.EnterpriseFeeder.StatusDescriptionPrefix.org.kuali.kfs.gl.batch.service.impl.FileReconBadLoadAbortedStatus
      */
     public static final String ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX = "gl.EnterpriseFeeder.StatusDescription.";
 

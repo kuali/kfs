@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.Properties;
 
@@ -30,12 +30,12 @@ import org.apache.struts.action.ActionMessages;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.exceptions.CashDrawerStateException;
-import org.kuali.module.financial.web.struts.form.CashManagementStatusForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.exception.CashDrawerStateException;
+import org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm;
 
 
 /**

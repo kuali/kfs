@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.bo;
+package org.kuali.kfs.sys.businessobject;
 
-import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_FILE_FORMAT;
-import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
-import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
-import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.KFSPropertyConstants.OVERRIDE_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.POSTING_YEAR;
-import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.SEQUENCE_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_FILE_FORMAT;
+import static org.kuali.kfs.sys.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.AMOUNT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.sys.KFSPropertyConstants.OVERRIDE_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.POSTING_YEAR;
+import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.SEQUENCE_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,11 +48,11 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.exceptions.AccountingLineParserException;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.exception.AccountingLineParserException;
 
 /**
  * Base class for parsing serialized <code>AccountingLine</code>s for <code>TransactionalDocument</code>s

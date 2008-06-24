@@ -7,7 +7,7 @@
   <bean id="DocumentRecurrence" parent="DocumentRecurrence-parentBean" />
 
   <bean id="DocumentRecurrence-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.DocumentRecurrence" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.DocumentRecurrence" />
     <property name="inquiryDefinition" >
       <ref bean="DocumentRecurrence-inquiryDefinition" />
     </property>

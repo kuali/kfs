@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSPropertyConstants.BALANCE_TYPE_CODE;
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE_CODE;
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.datadictionary.DataDictionaryEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.financial.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.fp.document.JournalVoucherDocument;
 
 /**
  * Validation for the balance type on a Journal Voucher
@@ -39,7 +39,7 @@ public class JournalVoucherBalanceTypeValidation extends GenericValidation {
 
     /**
      * Checks that the balance type on a Journal Voucher document is in the database and currently active
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         String label = getLabelFromDataDictionary(JournalVoucherDocument.class, KFSPropertyConstants.BALANCE_TYPE_CODE);

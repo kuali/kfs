@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.maintenance;
+package org.kuali.kfs.module.cg.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,11 +27,11 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.web.ui.SectionBridge;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.inquiry.KfsInquirableImpl;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.cg.CGConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 
 /**
  * Used for wiring up {@link Proposal} for inquiries.

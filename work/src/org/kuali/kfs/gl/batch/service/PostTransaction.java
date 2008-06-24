@@ -17,11 +17,11 @@
  * Created on Oct 12, 2005
  *
  */
-package org.kuali.module.gl.batch.poster;
+package org.kuali.kfs.gl.batch.service;
 
 import java.util.Date;
 
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * An interface that delcares the methods that the Poster needs to post a transaction.

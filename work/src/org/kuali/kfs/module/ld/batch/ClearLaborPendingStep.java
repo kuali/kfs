@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch;
+package org.kuali.kfs.module.ld.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.labor.service.LaborNightlyOutService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService;
 
 /**
  * Clear Labor Batch Step.
@@ -33,7 +33,7 @@ public class ClearLaborPendingStep extends AbstractStep {
      * @param jobName String that contains the job that will be executed.
      * @param jobRunDate the time/date the job is run
      * @return boolean
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();

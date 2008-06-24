@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.dao.SubFundGroupDao;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.dataaccess.SubFundGroupDao;
 
 /**
  * This class implements the {@link SubFundGroupDao} data access methods using Ojb
@@ -28,7 +28,7 @@ import org.kuali.module.chart.dao.SubFundGroupDao;
 public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFundGroupDao {
 
     /**
-     * @see org.kuali.module.chart.dao.SubFundGroupDao#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.SubFundGroupDao#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
         Criteria criteria = new Criteria();
@@ -38,7 +38,7 @@ public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFu
     }
 
     /**
-     * @see org.kuali.module.chart.dao.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {
         Criteria criteria = new Criteria();

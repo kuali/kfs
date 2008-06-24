@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,15 +24,15 @@ import java.util.Set;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.service.EffortCertificationDetailBuildService;
-import org.kuali.module.effort.service.EffortCertificationDocumentBuildService;
-import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
-import org.kuali.module.effort.util.PayrollAmountHolder;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
+import org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService;
+import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
+import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -46,7 +46,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#removeExistingDocumentBuild(java.util.Map)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService#removeExistingDocumentBuild(java.util.Map)
      */
     public void removeExistingDocumentBuild(Map<String, String> fieldValues) {
         List<PersistableBusinessObject> documents = (List<PersistableBusinessObject>) businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
@@ -54,7 +54,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition,
      *      java.util.List, java.util.Map)
      */
     public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
@@ -72,7 +72,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition,
      *      java.util.List, java.util.Map)
      */
     public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {

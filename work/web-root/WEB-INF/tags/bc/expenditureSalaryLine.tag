@@ -114,7 +114,7 @@
 			<kul:htmlControlAttribute property="salarySettingExpansion.account.subFundGroupCode" 
 				attributeEntry="${accountAttributes.subFundGroupCode}" readOnly="true" readOnlyBody="true">
 				
-				<kul:inquiry boClassName="org.kuali.module.chart.bo.SubFundGroup" 
+				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubFundGroup" 
 					keyValues="subFundGroupCode=${KualiForm.salarySettingExpansion.account.subFundGroupCode}" render="true">
 					<html:hidden write="true" property="salarySettingExpansion.account.subFundGroupCode" />
 				</kul:inquiry>
@@ -128,7 +128,7 @@
 			<kul:htmlControlAttribute property="salarySettingExpansion.account.organizationCode" 
 				attributeEntry="${accountAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
 				
-				<kul:inquiry boClassName="org.kuali.module.chart.bo.Org"
+				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org"
 					keyValues="chartOfAccountsCode=${KualiForm.salarySettingExpansion.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.salarySettingExpansion.account.organizationCode}" render="true">
 					<html:hidden write="true" property="salarySettingExpansion.account.organizationCode" />
 				</kul:inquiry>

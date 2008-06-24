@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.core.datadictionary;
+package org.kuali.kfs.sys.context;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,11 +32,11 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.PreCommitSuite;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.AnnotationTestSuite;
+import org.kuali.kfs.suite.PreCommitSuite;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext

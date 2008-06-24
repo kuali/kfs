@@ -7,8 +7,8 @@
   <bean id="CustomerInvoiceItemCodeMaintenanceDocument" parent="CustomerInvoiceItemCodeMaintenanceDocument-parentBean" />
 
   <bean id="CustomerInvoiceItemCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerInvoiceItemCode" />
-    <property name="maintainableClass" value="org.kuali.module.ar.maintenance.CustomerInvoiceItemCodeMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceItemCodeMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="CustomerInvoiceItemCodeMaintenanceDocument-EditInvoiceItemCodes" />
@@ -55,8 +55,8 @@
     <property name="summary" value="Invoice Item Code maintenance document" />
     <property name="description" value="Document used to create or update Invoice Item Codes" />
     <property name="documentTypeName" value="CustomerInvoiceItemCodeMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerInvoiceItemCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IICO" />
     <property name="authorizations" >
       <list>
@@ -85,11 +85,11 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCode"
               p:required="true"
-              p:defaultValueFinderClass="org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="invoiceItemCode"
               p:required="true" />
@@ -120,25 +120,25 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceChartOfAccountsCode"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.ChartOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.ChartOrganizationAccountingDefaultValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceAccountNumber"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.AccountOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.AccountOrganizationAccountingDefaultValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceSubAccountNumber"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.SubAccountOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.SubAccountOrganizationAccountingDefaultValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceFinancialObjectCode"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.ObjectOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.ObjectOrganizationAccountingDefaultValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceFinancialSubObjectCode"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.SubObjectOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.SubObjectOrganizationAccountingDefaultValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceProjectCode"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.ProjectOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.ProjectOrganizationAccountingDefaultValueFinder" />
         <bean parent="MaintainableFieldDefinition"
               p:name="defaultInvoiceOrganizationReferenceIdentifier"
-              p:defaultValueFinderClass="org.kuali.module.ar.lookup.valuefinder.OrgReferenceOrganizationAccountingDefaultValueFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrgReferenceOrganizationAccountingDefaultValueFinder" />
       </list>
     </property>
   </bean>

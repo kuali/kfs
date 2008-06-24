@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,30 +28,30 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
-import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UserAppointmentTask;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetCostShareService;
-import org.kuali.module.kra.budget.service.BudgetFringeRateService;
-import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
-import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.service.BudgetPeriodService;
-import org.kuali.module.kra.budget.service.BudgetPersonnelService;
-import org.kuali.module.kra.budget.service.BudgetService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate;
+import org.kuali.kfs.module.cg.businessobject.BudgetModular;
+import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTask;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetCostShareService;
+import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
+import org.kuali.kfs.module.cg.document.service.BudgetGraduateAssistantRateService;
+import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
+import org.kuali.kfs.module.cg.document.service.BudgetPeriodService;
+import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
+import org.kuali.kfs.module.cg.document.service.BudgetService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverBoHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -70,7 +70,7 @@ public class BudgetServiceImpl implements BudgetService {
     private DateTimeService dateTimeService;
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetService#initializeBudget(org.kuali.module.kra.budget.bo.Budget)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetService#initializeBudget(org.kuali.kfs.module.cg.businessobject.Budget)
      */
     public void initializeBudget(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
@@ -81,7 +81,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetService#prepareBudgetForSave(org.kuali.module.kra.budget.document.BudgetDocument)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetService#prepareBudgetForSave(org.kuali.kfs.module.cg.document.BudgetDocument)
      */
     public void prepareBudgetForSave(BudgetDocument budgetDocument) throws WorkflowException {
         // Materialize tasks/periods if necessary (i.e., they are proxy objects currently)
@@ -185,7 +185,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetService#isCostShareInclusionModified(org.kuali.module.kra.budget.document.BudgetDocument)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetService#isCostShareInclusionModified(org.kuali.kfs.module.cg.document.BudgetDocument)
      */
     public String buildCostShareRemovedCode(BudgetDocument budgetDocument) {
 

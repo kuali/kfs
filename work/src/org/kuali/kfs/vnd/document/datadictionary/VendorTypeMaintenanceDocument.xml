@@ -7,7 +7,7 @@
   <bean id="VendorTypeMaintenanceDocument" parent="VendorTypeMaintenanceDocument-parentBean" />
 
   <bean id="VendorTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorType" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -28,7 +28,7 @@
             p:parameterDetailType="VendorType" />
     </property>
     <property name="documentTypeName" value="VendorTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMVT" />
     <property name="workflowProperties" >
       <ref bean="VendorTypeMaintenanceDocument-workflowProperties" />

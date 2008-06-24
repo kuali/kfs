@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.form;
+package org.kuali.kfs.sys.web.struts;
 
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.bo.BatchUpload;
+import org.kuali.kfs.sys.businessobject.BatchUpload;
 
 /**
  * Struts action form for the batch upload screen.

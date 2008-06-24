@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the AccountingPeriod business object.

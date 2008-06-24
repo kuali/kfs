@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 
 /**
  * This represents one "controller" action performed by the ElectronicFundTransfer Action 

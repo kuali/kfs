@@ -7,7 +7,7 @@
   <bean id="RoutingFormPurpose" parent="RoutingFormPurpose-parentBean" />
 
   <bean id="RoutingFormPurpose-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.kra.routingform.bo.RoutingFormPurpose" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.RoutingFormPurpose" />
     <property name="inquiryDefinition" >
       <ref bean="RoutingFormPurpose-inquiryDefinition" />
     </property>

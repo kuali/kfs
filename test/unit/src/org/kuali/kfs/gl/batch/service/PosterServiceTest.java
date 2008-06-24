@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -24,10 +24,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Tests the PosterService
@@ -40,7 +40,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
 
     /**
      * 
-     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     * @see org.kuali.kfs.gl.businessobject.OriginEntryTestBase#setUp()
      */
     @Override
     protected void setUp() throws Exception {

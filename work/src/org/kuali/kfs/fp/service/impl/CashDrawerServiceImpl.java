@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +21,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.service.CashDrawerService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -39,7 +39,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * Retrieves the CashDrawer associated with the workgroup provided and sets the state of the drawer to closed.
      * 
      * @param workgroupName The name of the workgroup associated with the cash drawer being retrieved.
-     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#closeCashDrawer(java.lang.String)
      */
     public void closeCashDrawer(String workgroupName) {
         CashDrawer drawer = getByWorkgroupName(workgroupName, true);
@@ -50,7 +50,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * Sets the status of the drawer provided to closed and saves the new state.
      * 
      * @param drawer The instance of the cash drawer to be closed.
-     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(org.kuali.module.financial.bo.CashDrawer)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#closeCashDrawer(org.kuali.kfs.fp.businessobject.CashDrawer)
      */
     public void closeCashDrawer(CashDrawer drawer) {
         drawer.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
@@ -67,7 +67,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param documentId The id of the reference document linked to the drawer.
      * @return  A new instance of the cash drawer in open status.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#openCashDrawer(java.lang.String, java.lang.String)
      */
     public CashDrawer openCashDrawer(String workgroupName, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -85,7 +85,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param documentId The id of the reference document linked to the drawer.
      * @return An instance of the cash drawer with a status of open.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(org.kuali.module.financial.bo.CashDrawer, java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#openCashDrawer(org.kuali.kfs.fp.businessobject.CashDrawer, java.lang.String)
      */
     public CashDrawer openCashDrawer(CashDrawer drawer, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -105,7 +105,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param workgroupName The workgroup name associated with the cash drawer.
      * @param documentId The reference document id to be set to the cash drawer.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#lockCashDrawer(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#lockCashDrawer(java.lang.String,java.lang.String)
      */
     public void lockCashDrawer(String workgroupName, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -122,7 +122,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param drawer The cash drawer to be locked.
      * @param documentId The reference document id to be set to the cash drawer.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#lockCashDrawer(org.kuali.module.financial.bo.CashDrawer, java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#lockCashDrawer(org.kuali.kfs.fp.businessobject.CashDrawer, java.lang.String)
      */
     public void lockCashDrawer(CashDrawer drawer, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -148,7 +148,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param workgroupName The workgroup name associated with the cash drawer.
      * @param documentId The reference document id to be set to the cash drawer.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#unlockCashDrawer(java.lang.String,java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#unlockCashDrawer(java.lang.String,java.lang.String)
      */
     public void unlockCashDrawer(String workgroupName, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -165,7 +165,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param drawer The cash drawer to be unlocked.
      * @param documentId The reference document id to be set to the cash drawer.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#unlockCashDrawer(org.kuali.module.financial.bo.CashDrawer, java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#unlockCashDrawer(org.kuali.kfs.fp.businessobject.CashDrawer, java.lang.String)
      */
     public void unlockCashDrawer(CashDrawer drawer, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -196,7 +196,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param autocreate Flag used to identify if a new cash drawer should be created if one cannot be found for the value provided.
      * @return An instance of a cash drawer matching the value provided.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#findByWorkgroupName(java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#findByWorkgroupName(java.lang.String)
      */
     public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate) {
         if (StringUtils.isBlank(workgroupName)) {
@@ -260,7 +260,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param drawer The drawer being totaled.
      * @return The sum of all the coin amounts in the drawer.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#getCoinTotal(org.kuali.module.financial.bo.CashDrawer)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#getCoinTotal(org.kuali.kfs.fp.businessobject.CashDrawer)
      */
     public KualiDecimal getCoinTotal(CashDrawer drawer) {
         KualiDecimal sum = new KualiDecimal(0.0);
@@ -298,7 +298,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param drawer The drawer being totaled.
      * @return The sum of all the currency amounts in the drawer.
      * 
-     * @see org.kuali.module.financial.service.CashDrawerService#getCurrencyTotal(org.kuali.module.financial.bo.CashDrawer)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#getCurrencyTotal(org.kuali.kfs.fp.businessobject.CashDrawer)
      */
     public KualiDecimal getCurrencyTotal(CashDrawer drawer) {
         KualiDecimal sum = new KualiDecimal(0.0);

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.authorization;
+package org.kuali.kfs.module.bc;
 
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase;
-import org.kuali.module.budget.web.struts.action.OrganizationSelectionTreeAction;
+import org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase;
+import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
 
 /**
  * This class...
@@ -26,7 +26,7 @@ import org.kuali.module.budget.web.struts.action.OrganizationSelectionTreeAction
 public class BudgetModuleAuthorizer extends FinancialSystemModuleAuthorizerBase {
 
     /**
-     * @see org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser,
      *      org.kuali.core.authorization.AuthorizationType)
      */
     @Override

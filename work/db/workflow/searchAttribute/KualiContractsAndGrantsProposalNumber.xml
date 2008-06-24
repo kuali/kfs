@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <searchDefinition dataType="long" />
-          <quickfinder appliesTo="proposalNumber" draw="true" service="workflow-org.kuali.module.cg.bo.Proposal-Lookupable(null)" />
+          <quickfinder appliesTo="proposalNumber" draw="true" service="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/proposalNumber')</xpathexpression>
           </fieldEvaluation>

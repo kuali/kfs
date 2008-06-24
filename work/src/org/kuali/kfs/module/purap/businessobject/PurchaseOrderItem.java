@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import static org.kuali.core.util.KualiDecimal.ZERO;
 
@@ -25,10 +25,10 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 
 /**
  * Purchase Order Item Business Object.
@@ -248,7 +248,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItem#getAccountingLineClass()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#getAccountingLineClass()
      */
     public Class getAccountingLineClass() {
         return PurchaseOrderAccount.class;
@@ -328,7 +328,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * which is if the item is inactive, we'll return null and
      * the item won't be added to the list of account summary.
      * 
-     * @see org.kuali.module.purap.bo.PurApItemBase#getSummaryItem()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItemBase#getSummaryItem()
      */
     @Override
     public PurApSummaryItem getSummaryItem() {

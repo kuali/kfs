@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.monitor;
+package org.kuali.kfs.monitor;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.document.FinancialSystemMaintenanceDocument;
-import org.kuali.kfs.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 
 /**
  * DocumentStatusMonitor

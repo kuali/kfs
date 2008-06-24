@@ -59,7 +59,7 @@
 			    </th>
 			    <td>
 			         <kul:inquiry 
-						boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" 
+						boClassName="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" 
 						keyValues="universityFiscalYear=${document.universityFiscalYear}&effortCertificationReportNumber=${document.effortCertificationReportNumber}" 
 						render="true">
 			         	${document.universityFiscalYear}-${document.effortCertificationReportNumber}

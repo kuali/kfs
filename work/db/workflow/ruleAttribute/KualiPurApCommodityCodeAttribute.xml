@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPurApCommodityCodeAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurApCommodityCodeAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurApCommodityCodeAttribute</className>
       <label>Kuali PurAp Commodity Code Attribute</label>
       <description>Commodity Code Routing Attribute for Kuali Documents</description>
       <type>RuleAttribute</type>

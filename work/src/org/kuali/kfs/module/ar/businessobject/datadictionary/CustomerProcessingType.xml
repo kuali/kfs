@@ -7,7 +7,7 @@
   <bean id="CustomerProcessingType" parent="CustomerProcessingType-parentBean" />
 
   <bean id="CustomerProcessingType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.ar.bo.CustomerProcessingType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerProcessingType" />
     <property name="inquiryDefinition" >
       <ref bean="CustomerProcessingType-inquiryDefinition" />
     </property>

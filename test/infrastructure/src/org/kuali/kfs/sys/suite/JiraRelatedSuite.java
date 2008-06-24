@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -38,7 +38,7 @@ import org.w3c.dom.NodeList;
  * The abstract superclass of suites of all test classes or methods which {@link RelatesTo} a Kuali JIRA issue that is currently in
  * a certain state (e.g., in-progress). IDEs or Ant can run the concrete subclasses as JUnit tests.
  * 
- * @see org.kuali.test.suite.RelatesTo
+ * @see org.kuali.kfs.suite.RelatesTo
  */
 public abstract class JiraRelatedSuite {
 

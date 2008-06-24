@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetOverviewFormHelper;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.rules;
+package org.kuali.kfs.module.ec.document.validation.impl;
 
 import java.util.List;
 
@@ -27,26 +27,26 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rule.AddDetailLineRule;
-import org.kuali.module.effort.rule.LoadDetailLineRule;
-import org.kuali.module.effort.rule.UpdateDetailLineRule;
-import org.kuali.module.effort.service.EffortCertificationDocumentService;
-import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.validation.AddDetailLineRule;
+import org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule;
+import org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule;
+import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
+import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
+import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
+import org.kuali.kfs.integration.service.LaborModuleService;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -63,8 +63,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
 
     /**
-     * @see org.kuali.module.effort.rule.AddDetailLineRule#processAddDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument,
-     *      org.kuali.module.effort.bo.EffortCertificationDetail)
+     * @see org.kuali.kfs.module.ec.document.validation.AddDetailLineRule#processAddDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
+     *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
     public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddDetailLineRules() start");
@@ -109,8 +109,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.module.effort.rule.UpdateDetailLineRule#processUpdateDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument,
-     *      org.kuali.module.effort.bo.EffortCertificationDetail)
+     * @see org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule#processUpdateDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
+     *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddLineBusinessRules() start");
@@ -216,7 +216,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.module.effort.rule.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument)
+     * @see org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {
         LOG.info("processLoadDetailLineRules() start");

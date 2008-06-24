@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.form;
+package org.kuali.kfs.sys.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 
 public class ElectronicFundTransferForm extends KualiForm {
     private List<ElectronicPaymentClaim> claims;

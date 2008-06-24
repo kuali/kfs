@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao;
+package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 
 /**
  * Credit Memo DAO Interface. Defines DB access methods that a CreditMemoDaoImpl must implement.

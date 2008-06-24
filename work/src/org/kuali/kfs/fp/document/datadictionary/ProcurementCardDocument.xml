@@ -12,9 +12,9 @@
     <property name="summary" value="Procurement Card Document" />
     <property name="description" value="Document for the distribution of procurement card expenses." />
     <property name="documentTypeName" value="ProcurementCardDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.ProcurementCardDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.ProcurementCardDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.ProcurementCardDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
     <property name="documentTypeCode" value="PCDO" />
     <property name="workflowProperties" >
       <ref bean="ProcurementCardDocument-workflowProperties" />

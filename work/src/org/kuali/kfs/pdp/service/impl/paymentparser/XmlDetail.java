@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.xml;
+package org.kuali.kfs.pdp.service.impl.paymentparser;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.kuali.module.pdp.bo.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 
 public class XmlDetail implements Serializable {

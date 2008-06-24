@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiVerificationWorkgroupAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiVerificationWorkgroupAttribute</className>
+      <className>org.kuali.kfs.fp.document.routing.attribute.KualiVerificationWorkgroupAttribute</className>
       <label>KualiVerificationWorkgroupAttribute</label>
       <description>KualiVerificationWorkgroupAttribute</description>
       <type>RoleAttribute</type>

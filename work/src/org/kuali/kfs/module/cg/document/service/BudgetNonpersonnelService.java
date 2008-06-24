@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 
 /**
  * This interface defines methods that a service must provide

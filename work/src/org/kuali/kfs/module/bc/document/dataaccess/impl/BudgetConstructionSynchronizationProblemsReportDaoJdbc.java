@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionSynchronizationProblemsReportDao;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchronizationProblemsReportDao;
+import org.kuali.kfs.module.bc.BCConstants;
 
-import org.kuali.kfs.KFSConstants.BudgetConstructionPositionConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 
 import java.util.ArrayList;
 
@@ -106,7 +106,7 @@ public class BudgetConstructionSynchronizationProblemsReportDaoJdbc extends Budg
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionSynchronizationProblemsReportDao#updateReportsSynchronizationProblemsTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchronizationProblemsReportDao#updateReportsSynchronizationProblemsTable(java.lang.String)
      */
     public void updateReportsSynchronizationProblemsTable(String personUserIdentifier) {
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);

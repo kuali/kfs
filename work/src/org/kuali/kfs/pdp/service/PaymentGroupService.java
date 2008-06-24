@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 
 public interface PaymentGroupService {
     /**

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.List;
 
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BudgetPropertyConstants;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFundingAware;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent;
-import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BudgetPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFundingAware;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 
 
 public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
@@ -39,7 +39,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * @see org.kuali.module.budget.web.struts.form.DetailSalarySettingForm#populateBCAFLines()
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#populateBCAFLines()
      */
     @Override
     public void populateBCAFLines() {
@@ -68,7 +68,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * @see org.kuali.module.budget.web.struts.form.DetailSalarySettingForm#getBudgetConstructionDetail()
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getBudgetConstructionDetail()
      */
     @Override
     public PendingBudgetConstructionAppointmentFundingAware getBudgetConstructionDetail() {
@@ -76,7 +76,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * @see org.kuali.module.budget.web.struts.form.DetailSalarySettingForm#getRefreshCallerName()
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getRefreshCallerName()
      */
     @Override
     public String getRefreshCallerName() {

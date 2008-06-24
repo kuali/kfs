@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.web.struts.form;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.web.ui.Column;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.web.struts.form.CorrectionForm;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.document.LaborCorrectionDocument;
-import org.kuali.module.labor.service.LaborCorrectionDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.document.web.struts.CorrectionForm;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 
 
 /**
@@ -69,7 +69,7 @@ public class LaborCorrectionForm extends CorrectionForm {
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.CorrectionForm#clearForm()
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionForm#clearForm()
      */
     public void clearForm() {
         super.clearForm();
@@ -102,7 +102,7 @@ public class LaborCorrectionForm extends CorrectionForm {
     }
 
     /**
-     * @see org.kuali.module.gl.web.struts.form.CorrectionForm#setDocType()
+     * @see org.kuali.kfs.gl.document.web.struts.CorrectionForm#setDocType()
      */
     public void setDocType() {
         setDocumentType("LLCP");

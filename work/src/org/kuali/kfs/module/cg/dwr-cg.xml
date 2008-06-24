@@ -20,21 +20,21 @@
 		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
     <allow>
-        <convert converter="bean" match="org.kuali.module.cg.bo.ProjectDirector">
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.ProjectDirector">
             <param name="include" value="personUniversalIdentifier,personName,primaryDepartmentCode" />
         </convert>
         <create creator="spring" javascript="ProjectDirectorService">
             <param name="beanName" value="projectDirectorService" />
             <include method="getByPersonUserIdentifier" />
         </create>
-        <convert converter="bean" match="org.kuali.module.cg.bo.Subcontractor">
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.Subcontractor">
             <param name="include" value="subcontractorName" />
         </convert>
         <create creator="spring" javascript="SubcontractorService">
             <param name="beanName" value="subcontractorService" />
             <include method="getByPrimaryId" />
         </create>
-        <convert converter="bean" match="org.kuali.module.cg.bo.Agency">
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.Agency">
             <param name="include" value="fullName,agencyTypeCode" />
         </convert>
         <create creator="spring" javascript="AgencyService">

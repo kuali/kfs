@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiResearchProjectDirectorRoleAttribute</name>
-      <className>org.kuali.workflow.module.kra.attribute.ResearchProjectDirectorRoleAttribute</className>
+      <className>org.kuali.kfs.module.cg.document.routing.attribute.ResearchProjectDirectorRoleAttribute</className>
       <label>KualiResearchProjectDirectorRoleAttribute</label>
       <description>KualiResearchProjectDirectorRoleAttribute</description>
       <type>RoleAttribute</type>

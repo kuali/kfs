@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -21,13 +21,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.budget.BCConstants.OrgSelControlOption;
-import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.dao.BudgetConstructionDao;
-import org.kuali.module.budget.dao.BudgetPullupDao;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
-import org.kuali.module.budget.service.BudgetOrganizationTreeService;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -47,7 +47,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private int curLevel;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#buildPullup(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#buildPullup(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public void buildPullup(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
@@ -89,7 +89,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#buildPullupSql(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#buildPullupSql(java.lang.String, java.lang.String, java.lang.String)
      */
     public void buildPullupSql(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
         cleanPullup(personUserIdentifier);
@@ -112,7 +112,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#cleanPullup(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#cleanPullup(java.lang.String)
      */
     public void cleanPullup(String personUserIdentifier) {
 
@@ -121,7 +121,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
@@ -140,7 +140,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#resetPullFlag(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#resetPullFlag(java.lang.String)
      */
     public void resetPullFlag(String personUniversalIdentifier) {
 
@@ -158,7 +158,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#getSelectedOrgs(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getSelectedOrgs(java.lang.String)
      */
     public List getSelectedOrgs(String personUniversalIdentifier) {
 

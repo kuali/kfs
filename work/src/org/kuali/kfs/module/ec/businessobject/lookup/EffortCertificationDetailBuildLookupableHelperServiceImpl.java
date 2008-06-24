@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.lookup;
+package org.kuali.kfs.module.ec.businessobject.lookup;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl;
 
 public class EffortCertificationDetailBuildLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

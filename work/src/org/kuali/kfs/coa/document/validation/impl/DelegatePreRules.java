@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +23,7 @@ import org.kuali.core.rule.PreRulesCheck;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.chart.bo.Delegate;
+import org.kuali.kfs.coa.businessobject.Delegate;
 
 /**
  * PreRules checks for the {@link Delegate} that needs to occur while still in the Struts processing. This includes defaults

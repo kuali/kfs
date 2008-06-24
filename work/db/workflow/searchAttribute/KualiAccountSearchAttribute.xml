@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiAccountSearchAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountNumberSearchAttributeImpl</className>
+      <className>org.kuali.kfs.sys.document.searching.attribute.AccountNumberSearchAttributeImpl</className>
       <label>KualiAccountSearchAttribute</label>
       <description>Allows searches on documents with account numbers.</description>
       <type>SearchableXmlAttribute</type>

@@ -17,7 +17,7 @@
  * Created on Jan 11, 2006
  *
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,11 +29,11 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.Reversal;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.ReversalDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.ReversalDao;
 
 /**
  * An OJB implementation of the Reversal DAO
@@ -110,7 +110,7 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
      * 
      * @param t the transaction to find the related reversal for
      * @return the reversal affected by the given transaction
-     * @see org.kuali.module.gl.dao.ReversalDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.dataaccess.ReversalDao#getByTransaction(org.kuali.kfs.gl.businessobject.Transaction)
      */
     public Reversal getByTransaction(Transaction t) {
         LOG.debug("getByTransaction() started");
@@ -139,7 +139,7 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
      * Saves a reversal record
      * 
      * @param re a reversal record to save
-     * @see org.kuali.module.gl.dao.ReversalDao#save(org.kuali.module.gl.bo.Reversal)
+     * @see org.kuali.kfs.gl.dataaccess.ReversalDao#save(org.kuali.kfs.gl.businessobject.Reversal)
      */
     public void save(Reversal re) {
         LOG.debug("save() started");
@@ -153,7 +153,7 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
      * 
      * @param before the date that reversals must reverse on or before
      * @return an Iterator of reversal records to reverse
-     * @see org.kuali.module.gl.dao.ReversalDao#getByDate(java.util.Date)
+     * @see org.kuali.kfs.gl.dataaccess.ReversalDao#getByDate(java.util.Date)
      */
     public Iterator getByDate(Date before) {
         LOG.debug("getByDate() started");
@@ -169,7 +169,7 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
      * Deletes a reversal record
      * 
      * @param re reversal to delete
-     * @see org.kuali.module.gl.dao.ReversalDao#delete(org.kuali.module.gl.bo.Reversal)
+     * @see org.kuali.kfs.gl.dataaccess.ReversalDao#delete(org.kuali.kfs.gl.businessobject.Reversal)
      */
     public void delete(Reversal re) {
         LOG.debug("delete() started");

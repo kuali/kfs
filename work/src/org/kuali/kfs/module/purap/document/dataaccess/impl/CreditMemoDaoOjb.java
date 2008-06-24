@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 
 import java.sql.Date;
@@ -26,13 +26,13 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
-import org.kuali.module.purap.dao.CreditMemoDao;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 
 /**
  * OJB Implementation of CreditMemoDao. Provides persistence layer methods for the credit memo document.
@@ -41,7 +41,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoDaoOjb.class);
 
     /**
-     * @see org.kuali.module.purap.dao.CreditMemoDao#getCreditMemosToExtract(java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao#getCreditMemosToExtract(java.lang.String)
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode) {
         LOG.debug("getCreditMemosToExtract() started");
@@ -57,7 +57,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
 
     
     /**
-     * @see org.kuali.module.purap.dao.CreditMemoDao#getCreditMemosToExtractByVendor(java.lang.String, java.lang.Integer, java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao#getCreditMemosToExtractByVendor(java.lang.String, java.lang.Integer, java.lang.Integer)
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
         LOG.debug("getCreditMemosToExtractByVendor() started");
@@ -131,7 +131,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     }
 
     /**
-     * @see org.kuali.module.purap.dao.CreditMemoDao#getDocumentNumberByCreditMemoId(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao#getDocumentNumberByCreditMemoId(java.lang.Integer)
      */
     public String getDocumentNumberByCreditMemoId(Integer id) {
         Criteria criteria = new Criteria();

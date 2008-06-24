@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**
  * This class...

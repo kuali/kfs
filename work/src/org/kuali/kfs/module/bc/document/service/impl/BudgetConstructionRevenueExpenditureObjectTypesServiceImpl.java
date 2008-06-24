@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import org.kuali.module.budget.BCParameterKeyConstants;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService;
 
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 import org.apache.log4j.*;
 
@@ -68,7 +68,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
     
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureObjectTypes()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureObjectTypes()
      */
     public ArrayList<String> getBudgetConstructionExpenditureObjectTypes() {
         return expenditureObjectTypes;
@@ -76,7 +76,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureObjectTypesINList()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureObjectTypesINList()
      */
     public String getBudgetConstructionExpenditureObjectTypesINList() {
         return expenditureObjectTypesINList;
@@ -84,7 +84,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueObjectTypes()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueObjectTypes()
      */
     public ArrayList<String> getBudgetConstructionRevenueObjectTypes() {
         return revenueObjectTypes;
@@ -92,7 +92,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueObjectTypesINList()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueObjectTypesINList()
      */
     public String getBudgetConstructionRevenueObjectTypesINList() {
         return revenueObjectTypesINList;
@@ -100,7 +100,7 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureReportObjectTypes()
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureReportObjectTypes()
      */
     public ArrayList<String> getBudgetConstructionExpenditureReportObjectTypes() {
         return expenditureReportObjectTypes;

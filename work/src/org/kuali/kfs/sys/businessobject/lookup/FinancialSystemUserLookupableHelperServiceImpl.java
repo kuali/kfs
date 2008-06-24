@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +25,8 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.authorization.FinancialSystemUserDocumentAuthorizer;
-import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 

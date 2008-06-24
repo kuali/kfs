@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PostDataLoadEncryptionService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.core.io.FileSystemResource;
 
 public class PostDataLoadEncryptionStep extends AbstractStep {
@@ -35,7 +35,7 @@ public class PostDataLoadEncryptionStep extends AbstractStep {
     private String attributesToEncryptProperties;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         Properties attributesToEncryptProperties = new Properties();

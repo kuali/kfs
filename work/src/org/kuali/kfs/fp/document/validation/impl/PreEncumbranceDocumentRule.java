@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.core.util.AssertionUtils.assertThat;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
-import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.REVERSAL_DATE;
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.service.HomeOriginationService;
-import org.kuali.module.financial.document.PreEncumbranceDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.service.HomeOriginationService;
+import org.kuali.kfs.fp.document.PreEncumbranceDocument;
 
 /**
  * Business rule(s) applicable to PreEncumbrance documents.
@@ -122,7 +122,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param document The document being routed.
      * @return True if all the business rules pass, false otherwise.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -153,7 +153,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      * @param financialDocument The document being routed.
      * @return True if the number of source and target accounting lines are both greater than zero, false otherwise.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.kfs.document.AccountingDocument)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.kfs.sys.document.AccountingDocument)
      */
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -39,31 +39,31 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BCParameterKeyConstants;
-import org.kuali.module.budget.BCPropertyConstants;
-import org.kuali.module.budget.BCConstants.AccountSalarySettingOnlyCause;
-import org.kuali.module.budget.BCConstants.MonthSpreadDeleteType;
-import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.BudgetConstructionDao;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.budget.rule.event.DeleteMonthlySpreadEvent;
-import org.kuali.module.budget.service.BenefitsCalculationService;
-import org.kuali.module.budget.service.BudgetDocumentService;
-import org.kuali.module.budget.service.BudgetParameterService;
-import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.chart.bo.Delegate;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.financial.service.FiscalYearFunctionControlService;
-import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEvent;
+import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.rice.config.ConfigurationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +92,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private FiscalYearFunctionControlService fiscalYearFunctionControlService;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.Integer)
      */
     public BudgetConstructionHeader getByCandidateKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear) {
@@ -101,7 +101,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocument(org.kuali.core.document.Document) similar to
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocument(org.kuali.core.document.Document) similar to
      *      DocumentService.saveDocument()
      */
     public Document saveDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException, ValidationException {
@@ -130,7 +130,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.core.document.Document)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.core.document.Document)
      * 
      *  TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls add to interface this
      *  should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass) above instead
@@ -160,7 +160,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateBenefitsIfNeeded(org.kuali.module.budget.document.BudgetConstructionDocument)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateBenefitsIfNeeded(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     public void calculateBenefitsIfNeeded(BudgetConstructionDocument bcDoc) {
 
@@ -198,7 +198,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateBenefits(org.kuali.module.budget.document.BudgetConstructionDocument)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     public void calculateBenefits(BudgetConstructionDocument bcDoc) {
 
@@ -207,7 +207,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateAnnualBenefits(org.kuali.module.budget.document.BudgetConstructionDocument)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateAnnualBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc) {
 
@@ -227,7 +227,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#calculateMonthlyBenefits(org.kuali.module.budget.document.BudgetConstructionDocument)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateMonthlyBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc) {
 
@@ -381,14 +381,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#getPendingBudgetConstructionAppointmentFundingRequestSum(org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getPendingBudgetConstructionAppointmentFundingRequestSum(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger)
      */
     public KualiInteger getPendingBudgetConstructionAppointmentFundingRequestSum(PendingBudgetConstructionGeneralLedger salaryDetailLine) {
         return budgetConstructionDao.getPendingBudgetConstructionAppointmentFundingRequestSum(salaryDetailLine);
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, org.kuali.core.bo.user.UniversalUser)
      */
     public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {

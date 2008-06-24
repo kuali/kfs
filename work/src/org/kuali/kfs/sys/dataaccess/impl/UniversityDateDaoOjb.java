@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.sys.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -25,9 +25,9 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.UniversityDateDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 
 /**
  * The OJB implementation of the UniversityDateDao
@@ -40,7 +40,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * 
      * @param date a Date to find the corresponding University Date record
      * @return a University Date record if found, null if not
-     * @see org.kuali.module.gl.dao.UniversityDateDao#getByPrimaryKey(java.sql.Date)
+     * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getByPrimaryKey(java.sql.Date)
      */
     @CacheNoCopy
     public UniversityDate getByPrimaryKey(Date date) {
@@ -59,7 +59,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * 
      * @param date a java.util.Date to find the corresponding University Date record
      * @return a University Date record if found, null if not
-     * @see org.kuali.module.gl.dao.UniversityDateDao#getByPrimaryKey(java.sql.Date)
+     * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getByPrimaryKey(java.sql.Date)
      */
     @CacheNoCopy
     public UniversityDate getByPrimaryKey(java.util.Date date) {
@@ -81,7 +81,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * 
      * @param fiscalYear the fiscal year to find the last date for
      * @return a UniversityDate record for the last day in the given fiscal year, or null if nothing can be found
-     * @see org.kuali.module.gl.dao.UniversityDateDao#getLastFiscalYearDate(java.lang.Integer)
+     * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getLastFiscalYearDate(java.lang.Integer)
      */
     public UniversityDate getLastFiscalYearDate(Integer fiscalYear) {
         ReportQueryByCriteria subQuery;
@@ -104,7 +104,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * 
      * @param fiscalYear the fiscal year to find the first date for
      * @return a UniversityDate record for the first day of the given fiscal year, or null if nothing can be found
-     * @see org.kuali.module.gl.dao.UniversityDateDao#getFirstFiscalYearDate(java.lang.Integer)
+     * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getFirstFiscalYearDate(java.lang.Integer)
      */
     public UniversityDate getFirstFiscalYearDate(Integer fiscalYear) {
         ReportQueryByCriteria subQuery;
@@ -126,7 +126,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * Returns all distinct accounting period codes from the table
      * 
      * @return a Collection of all distinct accounting period codes represented by UniversityDate records in the database
-     * @see org.kuali.module.gl.dao.UniversityDateDao#getAccountingPeriodCode()
+     * @see org.kuali.kfs.sys.dataaccess.UniversityDateDao#getAccountingPeriodCode()
      */
     public Collection getAccountingPeriodCode() {
         Criteria criteria = new Criteria();

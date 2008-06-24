@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.authorization;
+package org.kuali.kfs.sys;
 
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.authorization.KualiModuleAuthorizerBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.bo.FinancialSystemUser;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
 
 import edu.iu.uis.eden.EdenConstants;
 

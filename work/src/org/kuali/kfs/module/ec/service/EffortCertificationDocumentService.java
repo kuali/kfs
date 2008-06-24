@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service;
+package org.kuali.kfs.module.ec.service;
 
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -32,7 +32,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * To define the services related to the effort certification document
  * 
- * @see org.kuali.module.effort.document.EffortCertificationDocument
+ * @see org.kuali.kfs.module.ec.document.EffortCertificationDocument
  */
 public interface EffortCertificationDocumentService {
 

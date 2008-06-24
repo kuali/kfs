@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 /**
  * This interface defines methods that an AccountingLine service implementation must provide.

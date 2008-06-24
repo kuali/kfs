@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiFundGroupSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Fund Group Source Routing</label>
       <description>Fund Group Source Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>
@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="fundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable(workflow-code:fundGroupCode)" />
+          <quickfinder appliesTo="fundGroupCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.FundGroup-Lookupable(workflow-code:fundGroupCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/account/subFundGroup/fundGroupCode') = wf:ruledata('fundGroupCode')</xpathexpression>
           </fieldEvaluation>

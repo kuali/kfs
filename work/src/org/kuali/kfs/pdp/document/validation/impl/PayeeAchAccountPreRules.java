@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.rules;
+package org.kuali.kfs.pdp.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.module.chart.rules.MaintenancePreRulesBase;
-import org.kuali.module.pdp.bo.PayeeAchAccount;
+import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
+import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 
 public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
 

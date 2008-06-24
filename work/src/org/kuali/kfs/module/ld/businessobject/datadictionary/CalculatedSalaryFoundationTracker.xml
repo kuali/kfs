@@ -7,7 +7,7 @@
   <bean id="CalculatedSalaryFoundationTracker" parent="CalculatedSalaryFoundationTracker-parentBean" />
 
   <bean id="CalculatedSalaryFoundationTracker-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.CalculatedSalaryFoundationTracker" />
     <property name="inquiryDefinition" >
       <ref bean="CalculatedSalaryFoundationTracker-inquiryDefinition" />
     </property>
@@ -373,7 +373,7 @@
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="chartOfAccountsCode" />

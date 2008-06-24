@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.rules;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.kra.document.ResearchDocument;
+import org.kuali.kfs.module.cg.document.ResearchDocument;
 
 /**
  * This class...

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.dao.LaborOriginEntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
+import org.kuali.kfs.gl.dataaccess.impl.OriginEntryDaoOjb;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao;
 
 /**
  * OJB Implementation of LaborOriginEntryDao.
@@ -48,7 +48,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     private static final String SCRUB = "scrub";
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroups(java.util.Collection)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getEntriesByGroups(java.util.Collection)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("getEntriesByGroups() started");
@@ -67,7 +67,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getCountOfEntriesInGroups(java.util.Collection)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getCountOfEntriesInGroups(java.util.Collection)
      */
     public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("getCountOfEntriesInGroups() started");
@@ -89,7 +89,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getConsolidatedEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getConsolidatedEntriesByGroup(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup group) {
         LOG.debug("getConsolidatedEntriesByGroup() started");
@@ -139,7 +139,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#testingLaborGetAllEntries()
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#testingLaborGetAllEntries()
      */
     public Collection<LaborOriginEntry> testingLaborGetAllEntries() {
         LOG.debug("testingGetAllEntries() started");
@@ -151,7 +151,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup, int)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getLaborEntriesByGroup(org.kuali.kfs.gl.businessobject.OriginEntryGroup, int)
      */
     public Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort) {
         LOG.debug("getEntriesByGroup() started");
@@ -226,7 +226,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb#getMatchingEntriesByCollection(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.impl.LaborOriginEntryDaoOjb#getMatchingEntriesByCollection(java.util.Map)
      */
     @Override
     public Collection getMatchingEntriesByCollection(Map searchCriteria) {
@@ -257,7 +257,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb#getSummaryByGroupId(java.util.Collection)
+     * @see org.kuali.kfs.module.ld.dataaccess.impl.LaborOriginEntryDaoOjb#getSummaryByGroupId(java.util.Collection)
      */
     @Override
     public Iterator getSummaryByGroupId(Collection groupIdList) {
@@ -294,7 +294,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getEntryCollectionByGroup(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group) {
         LOG.debug("getEntriesByGroups() started");
@@ -311,7 +311,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
      * 
      * @param groupDate this parameter isn't really used
      * @return a Collection of Labor backup groups
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborBackupGroups(java.sql.Date)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getLaborBackupGroups(java.sql.Date)
      */
     public Collection getLaborBackupGroups(Date groupDate) {
         LOG.debug("getGroupsToBackup() started");
@@ -334,7 +334,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
      * @param groupDate the date returned origin entry groups must have been created on or before
      * @return a Collection of Labor Origin Entry Groups to backup
      * 
-     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborScrubberGroups(java.sql.Date)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao#getLaborScrubberGroups(java.sql.Date)
      */
     public Collection getLaborGroupsToBackup(Date groupDate) {
         LOG.debug("getLaborGroupsToBackup() started");

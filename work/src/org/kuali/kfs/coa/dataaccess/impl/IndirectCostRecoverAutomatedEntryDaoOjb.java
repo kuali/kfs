@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -21,9 +21,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.IcrAutomatedEntry;
-import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoverAutomatedEntryDao;
 
 /**
  * This class implements the {@link IcrAutomatedEntryDao} data access methods using Ojb
@@ -32,7 +32,7 @@ public class IcrAutomatedEntryDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.IcrAutomatedEntryDao#getEntriesBySeries(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoverAutomatedEntryDao#getEntriesBySeries(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
     public Collection getEntriesBySeries(Integer universityFiscalYear, String financialIcrSeriesIdentifier, String balanceTypeCode) {

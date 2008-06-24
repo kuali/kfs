@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.bo;
+package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineOverride;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests AccountingLineOverride.

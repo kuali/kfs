@@ -17,7 +17,7 @@
  * Created on Aug 16, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -25,8 +25,8 @@ import java.util.Date;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.pdp.bo.FormatProcess;
-import org.kuali.module.pdp.dao.FormatProcessDao;
+import org.kuali.kfs.pdp.businessobject.FormatProcess;
+import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
 
 
 /**

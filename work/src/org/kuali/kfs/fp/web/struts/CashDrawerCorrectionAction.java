@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.web.struts;
 
 import java.util.Properties;
 
@@ -29,13 +29,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.web.struts.form.CashDrawerCorrectionForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.web.struts.CashDrawerCorrectionForm;
 
 public class CashDrawerCorrectionAction extends KualiAction {
     public static final String CASH_MANAGEMENT_FORWARD = "cashManagementReturn";

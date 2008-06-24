@@ -7,7 +7,7 @@
   <bean id="FunctionControlCodeMaintenanceDocument" parent="FunctionControlCodeMaintenanceDocument-parentBean" />
 
   <bean id="FunctionControlCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.FunctionControlCode" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FunctionControlCode" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -30,7 +30,7 @@
             p:parameterDetailType="FiscalYearFunctionControl" />
     </property>
     <property name="documentTypeName" value="FunctionControlCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BFNC" />
     <property name="workflowProperties" >
       <ref bean="FunctionControlCodeMaintenanceDocument-workflowProperties" />

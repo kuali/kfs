@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget;
+package org.kuali.kfs.module.bc;
 
-import static org.kuali.module.budget.BCConstants.Report.BuildMode.PBGL;
-import static org.kuali.module.budget.BCConstants.Report.BuildMode.BCAF;
-import static org.kuali.module.budget.BCConstants.Report.BuildMode.MONTH;
-import static org.kuali.module.budget.BCConstants.Report.ReportSelectMode.ACCOUNT;
-import static org.kuali.module.budget.BCConstants.Report.ReportSelectMode.SUBFUND;
-import static org.kuali.module.budget.BCConstants.Report.ReportSelectMode.OBJECT_CODE;
-import static org.kuali.module.budget.BCConstants.Report.ReportSelectMode.REASON;
+import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.PBGL;
+import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.BCAF;
+import static org.kuali.kfs.module.bc.BCConstants.Report.BuildMode.MONTH;
+import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.ACCOUNT;
+import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.SUBFUND;
+import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.OBJECT_CODE;
+import static org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode.REASON;
 
 import java.util.EnumSet;
 
-import org.kuali.module.budget.BCConstants.Report.BuildMode;
-import org.kuali.module.budget.BCConstants.Report.ReportSelectMode;
+import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
+import org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode;
 
 /**
  * Contains properties related to a budget construction report.

@@ -19,9 +19,9 @@
             p:parameterDetailType="ServiceBilling" />
     </property>
     <property name="documentTypeName" value="ServiceBillingDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.ServiceBillingDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.ServiceBillingDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.ServiceBillingDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer" />
     <property name="documentTypeCode" value="SB" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

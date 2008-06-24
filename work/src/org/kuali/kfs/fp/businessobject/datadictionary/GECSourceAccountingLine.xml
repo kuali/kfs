@@ -7,7 +7,7 @@
   <bean id="GECSourceAccountingLine" parent="GECSourceAccountingLine-parentBean" />
 
   <bean id="GECSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.GECSourceAccountingLine" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine" />
     <property name="attributes" >
       <list>
         <ref bean="GECSourceAccountingLine-objectCode.financialObjectTypeCode" />
@@ -153,7 +153,7 @@
   <bean id="GECSourceAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
@@ -197,7 +197,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.AccountingLineOverrideOptionFinder"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="&amp;nbsp;" />

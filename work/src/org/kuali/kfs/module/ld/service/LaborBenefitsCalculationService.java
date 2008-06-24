@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.integration.bo.LaborLedgerObject;
-import org.kuali.module.labor.bo.BenefitsCalculation;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 
 /**
  * The interface provides its clients with access to the benefit calculation.
  * 
- * @see org.kuali.module.labor.bo.BenefitsCalculation
+ * @see org.kuali.kfs.module.ld.businessobject.BenefitsCalculation
  */
 public interface LaborBenefitsCalculationService {
 

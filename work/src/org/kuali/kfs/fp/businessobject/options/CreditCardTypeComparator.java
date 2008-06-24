@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.lookup.keyvalues;
+package org.kuali.kfs.fp.businessobject.options;
 
 import java.util.Comparator;
 
-import org.kuali.module.financial.bo.CreditCardType;
+import org.kuali.kfs.fp.businessobject.CreditCardType;
 
 public class CreditCardTypeComparator implements Comparator {
 

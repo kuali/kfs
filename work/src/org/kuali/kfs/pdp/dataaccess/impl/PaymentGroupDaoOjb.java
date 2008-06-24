@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,12 +27,12 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.UserRequired;
-import org.kuali.module.pdp.dao.PaymentGroupDao;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 
 public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentGroupDaoOjb.class);
@@ -44,7 +44,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String)
      */
     public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType) {
         LOG.debug("getDisbursementNumbersByDisbursementType() started");
@@ -70,7 +70,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
      */
     public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode) {
         LOG.debug("getByDisbursementTypeStatusCode() started");
@@ -86,7 +86,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByProcessId(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getByProcessId(java.lang.Integer)
      */
     public Iterator getByProcessId(Integer pid) {
         LOG.debug("getByProcessId() started");
@@ -103,7 +103,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByProcess(org.kuali.module.pdp.bo.PaymentProcess)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getByProcess(org.kuali.kfs.pdp.businessobject.PaymentProcess)
      */
     public Iterator getByProcess(PaymentProcess p) {
         LOG.debug("getByProcess() started");

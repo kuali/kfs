@@ -12,9 +12,9 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Equipment Loan/Return Document" />
     <property name="documentTypeName" value="EquipmentLoanOrReturnDocument" />
-    <property name="documentClass" value="org.kuali.module.cams.document.EquipmentLoanOrReturnDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.EquipmentLoanOrReturnDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.EquipmentLoanOrReturnDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.EquipmentLoanOrReturnDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.EquipmentLoanOrReturnDocumentAuthorizer" />
     <property name="documentTypeCode" value="ELR" />
     <property name="workflowProperties" >
       <ref bean="EquipmentLoanOrReturnDocument-workflowProperties" />
@@ -141,7 +141,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
     <property name="summary" value="borrowerCountryCode" />
     <property name="description" value="borrowerCountryCode description..." />
@@ -224,7 +224,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
     <property name="summary" value="borrowerStorageCountryCode" />
     <property name="description" value="borrowerStorageCountryCode description..." />

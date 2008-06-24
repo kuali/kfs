@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.rules.budget;
+package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,13 +22,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
-import org.kuali.module.kra.util.AuditCluster;
-import org.kuali.module.kra.util.AuditError;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
+import org.kuali.kfs.module.cg.document.validation.impl.AuditCluster;
+import org.kuali.kfs.module.cg.document.validation.impl.AuditError;
 
 public class BudgetCostShareRule {
 

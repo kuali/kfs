@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.maintenance;
+package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,12 +28,12 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.web.ui.SectionBridge;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.inquiry.KfsInquirableImpl;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
     

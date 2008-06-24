@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.batch;
+package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 
 /**
  * Step used to auto approve payment requests that meet a certain criteria
@@ -34,7 +34,7 @@ public class AutoApprovePaymentRequestsStep extends AbstractStep {
     /**
      * Calls service method to approve payment requests
      * 
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         return paymentRequestService.autoApprovePaymentRequests();

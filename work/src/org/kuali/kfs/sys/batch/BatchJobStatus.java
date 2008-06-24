@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.batch;
+package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.SchedulerService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.quartz.JobDetail;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {

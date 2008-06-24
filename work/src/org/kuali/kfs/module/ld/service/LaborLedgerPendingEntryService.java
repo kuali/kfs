@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.document.LaborLedgerPostingDocument;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 
 /**
  * Defines methods that must be implemented by classes providing a LaborLedgerPendingEntryServiceImpl.

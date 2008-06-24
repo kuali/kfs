@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.exceptions;
+package org.kuali.kfs.fp.exception;
 
 public class InvalidCashReceiptState extends RuntimeException {
     public InvalidCashReceiptState(String s) {

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.dao;
+package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.Collection;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.bo.ReceivingAddress;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 
 /**
  * Receiving Address DAO Interface.

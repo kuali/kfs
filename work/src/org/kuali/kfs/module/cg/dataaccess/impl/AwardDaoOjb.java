@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.dao.ojb;
+package org.kuali.kfs.module.cg.dataaccess.impl;
 
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.module.cg.dao.AwardDao;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 
 /**
  * @see AwardDao
@@ -30,14 +30,14 @@ import org.kuali.module.cg.dao.AwardDao;
 public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
 
     /**
-     * @see org.kuali.module.cg.dao.AwardDao#deleteAll()
+     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#deleteAll()
      */
     public void deleteAll() {
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(Award.class, new Criteria()));
     }
 
     /**
-     * @see org.kuali.module.cg.dao.AwardDao#getAwardsToClose(org.kuali.module.cg.bo.Close)
+     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
      */
     public Collection<Award> getAwardsToClose(Close close) {
 
@@ -50,7 +50,7 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     }
 
     /**
-     * @see org.kuali.module.cg.dao.AwardDao#save(org.kuali.module.cg.bo.Award)
+     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#save(org.kuali.kfs.module.cg.businessobject.Award)
      */
     public void save(Award award) {
         getPersistenceBrokerTemplate().store(award);

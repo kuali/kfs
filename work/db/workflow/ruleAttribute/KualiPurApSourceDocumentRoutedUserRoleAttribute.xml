@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPurApSourceDocumentRoutedUserRoleAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.PurApSourceDocumentRouteUserRoleAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.PurApSourceDocumentRouteUserRoleAttribute</className>
       <label>Purchasing &amp; Accounts Payable Source Document Routed By User Role</label>
       <description>Attribute to determine the user who routed the source document of the current document</description>
       <type>RuleAttribute</type>

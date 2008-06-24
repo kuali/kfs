@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.dao;
+package org.kuali.kfs.module.ec.dataaccess;
 
 import java.util.List;
 
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.integration.bo.EffortCertificationReport;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 
 /**
  * Provides interface for data operations on the EffortCertificationReportDefinition table

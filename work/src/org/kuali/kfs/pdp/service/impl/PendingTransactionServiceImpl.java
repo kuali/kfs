@@ -17,7 +17,7 @@
  * Created on Aug 30, 2004
  *
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -28,24 +28,24 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.pdp.bo.GlPendingTransaction;
-import org.kuali.module.pdp.bo.PaymentAccountDetail;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.dao.GlPendingTransactionDao;
-import org.kuali.module.pdp.service.GlPendingTransactionService;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.fp.businessobject.OffsetAccount;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
+import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
+import org.kuali.kfs.pdp.service.PendingTransactionService;
+import org.kuali.kfs.pdp.GeneralUtilities;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -94,7 +94,7 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
 
 
     /**
-     * @see org.kuali.module.pdp.service.GlPendingTransactionService#save(org.kuali.module.pdp.bo.GlPendingTransaction)
+     * @see org.kuali.kfs.pdp.service.PendingTransactionService#save(org.kuali.kfs.pdp.businessobject.GlPendingTransaction)
      */
     public void save(GlPendingTransaction tran) {
         LOG.debug("save() started");
@@ -103,7 +103,7 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
     }
 
     /**
-     * @see org.kuali.module.pdp.service.GlPendingTransactionService#getUnextractedTransactions()
+     * @see org.kuali.kfs.pdp.service.PendingTransactionService#getUnextractedTransactions()
      */
     public Iterator getUnextractedTransactions() {
         LOG.debug("getUnextractedTransactions() started");
@@ -112,7 +112,7 @@ public class GlPendingTransactionServiceImpl implements GlPendingTransactionServ
     }
 
     /**
-     * @see org.kuali.module.pdp.service.GlPendingTransactionService#createProcessPaymentTransaction(org.kuali.module.pdp.bo.PaymentDetail, java.lang.Boolean)
+     * @see org.kuali.kfs.pdp.service.PendingTransactionService#createProcessPaymentTransaction(org.kuali.kfs.pdp.businessobject.PaymentDetail, java.lang.Boolean)
      */
     public void createProcessPaymentTransaction(PaymentDetail pd, Boolean relieveLiabilities) {
 

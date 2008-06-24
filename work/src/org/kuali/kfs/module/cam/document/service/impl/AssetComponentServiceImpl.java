@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
-import org.kuali.module.cams.bo.AssetComponent;
-import org.kuali.module.cams.dao.AssetComponentDao;
-import org.kuali.module.cams.service.AssetComponentService;
+import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.document.dataaccess.AssetComponentDao;
+import org.kuali.kfs.module.cam.document.service.AssetComponentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -36,7 +36,7 @@ public class AssetComponentServiceImpl implements AssetComponentService {
 
 
     /**
-     * @see org.kuali.module.cams.service.AssetComponentService#getMaxSequenceNumber(org.kuali.module.cams.bo.AssetComponent)
+     * @see org.kuali.kfs.module.cam.document.service.AssetComponentService#getMaxSequenceNumber(org.kuali.kfs.module.cam.businessobject.AssetComponent)
      */
     public Integer getMaxSequenceNumber(AssetComponent assetComponent) {
         return this.assetComponentDao.getMaxSquenceNumber(assetComponent);

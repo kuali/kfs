@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.web.struts.action;
+package org.kuali.kfs.module.cam.web.struts;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,14 +33,14 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.batch.BatchInputFileSetType;
-import org.kuali.kfs.bo.BatchUpload;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.BatchInputFileSetService;
-import org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction;
-import org.kuali.kfs.web.struts.form.KualiBatchInputFileSetForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.businessobject.BatchUpload;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
+import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
+import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
 
 
 public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSetAction {
@@ -48,7 +48,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
 
     /**
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction#download(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#download(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

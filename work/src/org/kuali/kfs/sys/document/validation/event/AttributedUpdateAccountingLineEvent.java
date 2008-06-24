@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rule.event;
+package org.kuali.kfs.sys.document.validation.event;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,10 +26,10 @@ import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class AttributedUpdateAccountingLineEvent extends AttributedDocumentEventBase {
     private final AccountingLine accountingLine;
@@ -64,7 +64,7 @@ public class AttributedUpdateAccountingLineEvent extends AttributedDocumentEvent
     }
     
     /**
-     * @see org.kuali.kfs.rule.event.AttributedDocumentEventBase#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {

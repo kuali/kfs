@@ -16,9 +16,9 @@
         	from one or more accounts to another account (or accounts). This document is used in
         	the case where an employee&apos;s payroll expense was charged to an incorrect account or object code." />
     <property name="documentTypeName" value="YearEndSalaryExpenseTransferDocument" />
-    <property name="documentClass" value="org.kuali.module.labor.document.YearEndSalaryExpenseTransferDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.labor.rules.YearEndSalaryExpenseTransferDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.labor.document.authorization.LaborExpenseDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndSalaryExpenseTransferDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.YearEndSalaryExpenseTransferDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="YEST" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

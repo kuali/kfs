@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.exceptions;
+package org.kuali.kfs.sys.exception;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

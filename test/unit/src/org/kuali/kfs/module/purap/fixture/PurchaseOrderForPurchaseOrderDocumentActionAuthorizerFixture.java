@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
     PO_VALID_RETRANSMIT(

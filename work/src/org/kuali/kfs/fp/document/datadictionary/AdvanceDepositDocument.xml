@@ -18,9 +18,9 @@
             p:parameterDetailType="AdvanceDeposit" />
     </property>
     <property name="documentTypeName" value="AdvanceDepositDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.AdvanceDepositDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.AdvanceDepositDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.financial.document.authorization.AdvanceDepositDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
     <property name="documentTypeCode" value="AD" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

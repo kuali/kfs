@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 /**
  * Purchasing Item Base Business Object.
@@ -35,7 +35,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     private CommodityCode commodityCode;
     
     /**
-     * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#isConsideredEntered()
      */
     public boolean isConsideredEntered() {
         if (this instanceof PurchaseOrderItem) {

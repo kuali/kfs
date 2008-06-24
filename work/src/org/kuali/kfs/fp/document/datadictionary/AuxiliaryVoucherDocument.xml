@@ -19,9 +19,9 @@
             p:parameterDetailType="AuxiliaryVoucher" />
     </property>
     <property name="documentTypeName" value="AuxiliaryVoucherDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.AuxiliaryVoucherDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.rules.AccountingRuleEngineRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="AV" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
@@ -86,7 +86,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.AuxiliaryVoucherTypeCodeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.AuxiliaryVoucherTypeCodeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="&amp;nbsp;" />
@@ -134,31 +134,31 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedRouteDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>AuxiliaryVoucher-routeDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedApproveDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
 				<value>AuxiliaryVoucher-approveDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
 				<value>AuxiliaryVoucher-blanketApproveDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
 				<value>AuxiliaryVoucher-addAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
 				<value>AuxiliaryVoucher-deleteAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
 				<value>AuxiliaryVoucher-updateAccountingLineValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent</value></key>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
 				<value>AuxiliaryVoucher-reviewAccountingLineValidation</value>
 			</entry>
     	</map>

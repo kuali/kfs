@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.Iterator;
 
@@ -21,11 +21,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.dao.PurchaseOrderDao;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 /**
  * OJB implementation of PurchaseOrderDao.
@@ -34,7 +34,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
 
     /**
-     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getDocumentNumberForPurchaseOrderId(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getDocumentNumberForPurchaseOrderId(java.lang.Integer)
      */
     public String getDocumentNumberForPurchaseOrderId(Integer id) {
         Criteria criteria = new Criteria();
@@ -43,7 +43,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getDocumentNumberForCurrentPurchaseOrder(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getDocumentNumberForCurrentPurchaseOrder(java.lang.Integer)
      */
     public String getDocumentNumberForCurrentPurchaseOrder(Integer id) {
         Criteria criteria = new Criteria();
@@ -53,7 +53,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getOldestPurchaseOrderDocumentNumber(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getOldestPurchaseOrderDocumentNumber(java.lang.Integer)
      */
     public String getOldestPurchaseOrderDocumentNumber(Integer id) {
         Criteria criteria = new Criteria();
@@ -106,7 +106,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PurchaseOrderDao#itemExistsOnPurchaseOrder(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#itemExistsOnPurchaseOrder(java.lang.Integer, java.lang.String)
      */
     public boolean itemExistsOnPurchaseOrder(Integer poItemLineNumber, String docNumber){
         boolean existsInPo = false;

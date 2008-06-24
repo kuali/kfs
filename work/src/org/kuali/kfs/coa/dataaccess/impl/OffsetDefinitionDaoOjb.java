@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.dao.OffsetDefinitionDao;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.dataaccess.OffsetDefinitionDao;
 
 
 /**
@@ -29,7 +29,7 @@ public class OffsetDefinitionDaoOjb extends PlatformAwareDaoBaseOjb implements O
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OffsetDefinitionDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.OffsetDefinitionDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.coa.dataaccess.OffsetDefinitionDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {

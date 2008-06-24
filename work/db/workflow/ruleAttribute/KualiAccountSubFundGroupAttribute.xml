@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
           </fieldEvaluation>

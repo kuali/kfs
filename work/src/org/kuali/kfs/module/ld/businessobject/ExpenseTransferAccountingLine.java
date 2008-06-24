@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.integration.businessobject.LaborLedgerExpenseTransferAccountingLine;
 
 /**
  * Labor contract methods to accounting line implementations for Expense Transfer Documents.

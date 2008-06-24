@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.dao.PaymentGroupDao;
-import org.kuali.module.pdp.service.PaymentGroupService;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -37,7 +37,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String)
      */
     public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType) {
         LOG.debug("getDisbursementNumbersByDisbursementType() started");
@@ -46,7 +46,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
      */
     public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode) {
         LOG.debug("getByDisbursementTypeStatusCode() started");
@@ -55,7 +55,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getByProcessId(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByProcessId(java.lang.Integer)
      */
     public Iterator getByProcessId(Integer pid) {
         LOG.debug("getByProcessId() started");
@@ -64,7 +64,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getByProcess(org.kuali.module.pdp.bo.PaymentProcess)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByProcess(org.kuali.kfs.pdp.businessobject.PaymentProcess)
      */
     public Iterator getByProcess(PaymentProcess p) {
         LOG.debug("getByProcess() started");
@@ -73,7 +73,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#save(org.kuali.module.pdp.bo.PaymentGroup)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#save(org.kuali.kfs.pdp.businessobject.PaymentGroup)
      */
     public void save(PaymentGroup pg) {
         LOG.debug("save() started");
@@ -82,7 +82,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#get(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#get(java.lang.Integer)
      */
     public PaymentGroup get(Integer id) {
         LOG.debug("get() started");
@@ -91,7 +91,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getByBatchId(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByBatchId(java.lang.Integer)
      */
     public List getByBatchId(Integer batchId) {
         LOG.debug("getByBatchId() started");
@@ -100,7 +100,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getByDisbursementNumber(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByDisbursementNumber(java.lang.Integer)
      */
     public List getByDisbursementNumber(Integer disbursementNbr) {
         LOG.debug("getByDisbursementNumber() started");
@@ -109,7 +109,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#processPaidGroup(org.kuali.module.pdp.bo.PaymentGroup, java.sql.Date)
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#processPaidGroup(org.kuali.kfs.pdp.businessobject.PaymentGroup, java.sql.Date)
      */
     public void processPaidGroup(PaymentGroup group, Date processDate) {
         LOG.debug("processPaidGroup() started");
@@ -121,7 +121,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#processCancelledGroup(org.kuali.module.pdp.bo.PaymentGroup,
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#processCancelledGroup(org.kuali.kfs.pdp.businessobject.PaymentGroup,
      *      java.sql.Date)
      */
     public void processCancelledGroup(PaymentGroup group, Date processDate) {

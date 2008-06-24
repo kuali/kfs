@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.KFSConstants.FROM;
-import static org.kuali.kfs.KFSConstants.TO;
+import static org.kuali.kfs.sys.KFSConstants.FROM;
+import static org.kuali.kfs.sys.KFSConstants.TO;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.kfs.document.Correctable;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.module.financial.bo.GECSourceAccountingLine;
-import org.kuali.module.financial.bo.GECTargetAccountingLine;
-import org.kuali.module.financial.bo.GeneralErrorCorrectionDocumentAccountingLineParser;
+import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
+import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
 
 
 /**
@@ -52,7 +52,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -62,7 +62,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     /**
      * Overrides the base implementation to return "To".
      * 
-     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
@@ -70,7 +70,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
@@ -78,7 +78,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
     public Class getSourceAccountingLineClass() {
@@ -86,7 +86,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTargetAccountingLineClass()
      */
     @Override
     public Class getTargetAccountingLineClass() {

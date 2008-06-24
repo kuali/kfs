@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rule.event;
+package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 
 /**
  * 

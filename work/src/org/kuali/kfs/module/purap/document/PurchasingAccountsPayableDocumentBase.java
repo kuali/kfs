@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,32 +25,32 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.dao.ojb.DocumentDaoOjb;
-import org.kuali.kfs.document.AmountTotaling;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PurApAccountingLineBase;
-import org.kuali.module.purap.bo.PurApAccountingLineParser;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.Status;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.util.PurApOjbCollectionHelper;
-import org.kuali.module.purap.util.PurApRelatedViews;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.Status;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.PurApOjbCollectionHelper;
+import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -107,7 +107,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#isPostingYearNext()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isPostingYearNext()
      */
     public boolean isPostingYearNext() {
         Integer currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
@@ -115,7 +115,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPostingYearNextOrCurrent()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPostingYearNextOrCurrent()
      */
     public Integer getPostingYearNextOrCurrent() {
         if (isPostingYearNext()) {
@@ -127,7 +127,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
-     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLineClass()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLineClass()
      */
     @Override
     public Class getSourceAccountingLineClass() {
@@ -136,17 +136,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }    
     
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
      */
     public abstract Class getItemClass();
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentIfPossible()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentIfPossible()
      */
     public abstract PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentLabelIfPossible()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentLabelIfPossible()
      */
     public abstract String getPurApSourceDocumentLabelIfPossible();
 
@@ -165,7 +165,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * route of any PURAP documents. Only the Purchase Order performs a sufficient funds check and it is manually forced during
      * routing.
      * 
-     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#documentPerformsSufficientFundsCheck()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#documentPerformsSufficientFundsCheck()
      */
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
@@ -190,7 +190,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#isDocumentStoppedInRouteNode(NodeDetails nodeDetails)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isDocumentStoppedInRouteNode(NodeDetails nodeDetails)
      */
     public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
         List<String> currentRouteLevels = new ArrayList<String>();
@@ -262,7 +262,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
@@ -270,7 +270,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()
      */
     @Override
     protected List getPersistedSourceAccountingLinesForComparison() {
@@ -287,7 +287,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLinesForComparison()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLinesForComparison()
      */
     @Override
     protected List getSourceAccountingLinesForComparison() {
@@ -300,7 +300,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -333,7 +333,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addItem(PurApItem item)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#addItem(PurApItem item)
      */
     public void addItem(PurApItem item) {
         int itemLinePosition = getItemLinePosition();
@@ -349,7 +349,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#deleteItem(int lineNum)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#deleteItem(int lineNum)
      */
     public void deleteItem(int lineNum) {
         if (items.remove(lineNum) == null) {
@@ -359,7 +359,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#renumberItems(int start)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#renumberItems(int start)
      */
     public void renumberItems(int start) {
         for (int i = start; i < items.size(); i++) {
@@ -372,7 +372,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#itemSwap(int positionFrom, int positionTo)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#itemSwap(int positionFrom, int positionTo)
      */
     public void itemSwap(int positionFrom, int positionTo) {
         // if out of range do nothing
@@ -391,7 +391,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItemLinePosition()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItemLinePosition()
      */
     public int getItemLinePosition() {
         int belowTheLineCount = 0;
@@ -404,7 +404,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItem(int pos)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItem(int pos)
      */
     public PurApItem getItem(int pos) {
         return (PurApItem) items.get(pos);
@@ -431,7 +431,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Overriding the parent method so that we can just set the posting year without the other stuff that the parent does to the
      * accounting period. We only store the posting year on the doc and don't want the other stuff.
      * 
-     * @see org.kuali.kfs.document.LedgerPostingDocumentBase#setPostingYear(java.lang.Integer)
+     * @see org.kuali.kfs.sys.document.LedgerPostingDocumentBase#setPostingYear(java.lang.Integer)
      */
     @Override
     public void setPostingYear(Integer postingYear) {
@@ -439,7 +439,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
@@ -447,7 +447,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#setTotalDollarAmount(KualiDecimal amount)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#setTotalDollarAmount(KualiDecimal amount)
      */
     public void setTotalDollarAmount(KualiDecimal amount) {
         // do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
@@ -463,7 +463,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getTotalDollarAmountAllItems(String[] excludedTypes)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getTotalDollarAmountAllItems(String[] excludedTypes)
      */
     public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes) {
         return getTotalDollarAmountWithExclusions(excludedTypes, true);
@@ -514,7 +514,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#templateVendorAddress(VendorAddress)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#templateVendorAddress(VendorAddress)
      */
     public void templateVendorAddress(VendorAddress vendorAddress) {
         if (vendorAddress == null) {
@@ -532,7 +532,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Returns the vendor number for this document.
      * 
      * @return the vendor number for this document.
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getVendorNumber()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getVendorNumber()
      */
     public String getVendorNumber() {
         if (StringUtils.isNotEmpty(vendorNumber)) {
@@ -716,7 +716,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * Added only to allow for {@link org.kuali.module.purap.util.PurApObjectUtils} class to work correctly.
+     * Added only to allow for {@link org.kuali.kfs.module.purap.util.PurApObjectUtils} class to work correctly.
      * 
      * @deprecated
      */
@@ -738,8 +738,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param financialDocument The document containing the account to be validated.
      * @param accountingLine The account to be validated.
      * @return boolean false.
-     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isDebit(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return false;

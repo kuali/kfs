@@ -20,14 +20,14 @@
 		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
 	<allow>
-        <convert converter="bean" match="org.kuali.module.cg.bo.Cfda">
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.Cfda">
             <param name="include" value="cfdaNumber,cfdaProgramTitleName" />
         </convert>
         <create creator="spring" javascript="CfdaService">
             <param name="beanName" value="cfdaService" />
             <include method="getByPrimaryId" />
         </create>
-	    <convert converter="bean" match="org.kuali.module.kra.budget.bo.Budget">
+	    <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.Budget">
             <param name="include" value="documentNumber,budgetName" />
         </convert>
         

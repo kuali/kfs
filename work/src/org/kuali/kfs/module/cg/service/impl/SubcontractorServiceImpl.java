@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service.impl;
+package org.kuali.kfs.module.cg.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.cg.bo.Subcontractor;
-import org.kuali.module.cg.service.SubcontractorService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.Subcontractor;
+import org.kuali.kfs.module.cg.service.SubcontractorService;
 
 /**
  * Implementation of the Subcontractor service.
@@ -32,7 +32,7 @@ public class SubcontractorServiceImpl implements SubcontractorService {
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.cg.service.SubcontractorService#getByPrimaryId(String)
+     * @see org.kuali.kfs.module.cg.service.SubcontractorService#getByPrimaryId(String)
      */
     @Cached
     public Subcontractor getByPrimaryId(String subcontractorNumber) {

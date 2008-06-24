@@ -16,7 +16,7 @@
       Converts a property name so that it is correct for the purposes of populating a business object in the maintenance framework
     </description>
     <name>renamePropertyForMaintenanceFramework</name>
-    <function-class>org.kuali.kfs.web.WebUtilities</function-class>
+    <function-class>org.kuali.kfs.sys.web.WebUtilities</function-class>
     <function-signature>java.lang.String renamePropertyForMaintenanceFramework(java.lang.String)</function-signature>
     <example>
       &lt;html:hidden property="${kfs-func:renamePropertyForMaintenanceFramework(propertyName)}" /&gt;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.document.maintenance;
+package org.kuali.kfs.pdp.document;
 
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;

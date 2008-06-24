@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.util;
+package org.kuali.kfs.module.ec.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.DynamicCollectionComparator;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 
 /**
  * grouping a set of detail lines. The class is implemented to manage: summary line and delegating line.

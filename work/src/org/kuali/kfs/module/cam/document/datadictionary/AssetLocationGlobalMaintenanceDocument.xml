@@ -7,8 +7,8 @@
   <bean id="AssetLocationGlobalMaintenanceDocument" parent="AssetLocationGlobalMaintenanceDocument-parentBean" />
 
   <bean id="AssetLocationGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationGlobal" />
-    <property name="maintainableClass" value="org.kuali.module.cams.maintenance.AssetLocationGlobalMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetLocationGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="AssetLocationGlobalMaintenanceDocument-EditListofAssets" />
@@ -32,8 +32,8 @@
     <property name="summary" value="Location Global Asset Maintenance Document" />
     <property name="description" value="Document used to create or update global location asset document." />
     <property name="documentTypeName" value="AssetLocationGlobalMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.AssetLocationGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ALOC" />
     <property name="authorizations" >
       <list>
@@ -61,8 +61,8 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetLocationGlobalDetails" />
-          <property name="businessObjectClass" value="org.kuali.module.cams.bo.AssetLocationGlobalDetail" />
-          <property name="sourceClassName" value="org.kuali.module.cams.bo.Asset" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
           <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Asset Location" />
           <property name="summaryFields" >

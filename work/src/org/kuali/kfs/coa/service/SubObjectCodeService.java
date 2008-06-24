@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
-import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
 
 /**
  * This interface defines methods that a SubObjectCode Service must provide.

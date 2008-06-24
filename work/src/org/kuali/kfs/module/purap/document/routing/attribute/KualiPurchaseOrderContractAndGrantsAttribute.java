@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.purap.attribute;
+package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,21 +33,21 @@ import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -142,7 +142,7 @@ public class KualiPurchaseOrderContractAndGrantsAttribute implements WorkflowAtt
      * This method returns true if all the following conditions are met:
      * <ol>
      * <li>Account is marked as a 'Contract and Grants' account (see
-     * {@link org.kuali.module.chart.bo.Account#isForContractsAndGrants()})
+     * {@link org.kuali.kfs.coa.businessobject.Account#isForContractsAndGrants()})
      * <li>Account has a Contract and Grants Restricted Object Code as defined in the system business rules
      * <li>Account has Sub Fund Group Code matching rule value
      * </ol>

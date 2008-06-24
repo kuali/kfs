@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.cg.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -29,8 +29,8 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 
 /**
  * See functional documentation.

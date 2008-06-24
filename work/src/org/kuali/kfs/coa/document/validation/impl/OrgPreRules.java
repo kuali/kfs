@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.HashMap;
 
@@ -22,11 +22,11 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.OrganizationExtension;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.OrganizationExtension;
 
 /**
  * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -43,7 +43,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     /**
      * This checks to see if a continuation account is necessary and if the HRMS data has changed
      * 
-     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {

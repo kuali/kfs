@@ -16,10 +16,10 @@
             p:parameterDetailType="CustomerCreditMemo" />
     </property>
     <property name="documentTypeName" value="CustomerCreditMemoDocument" />
-    <property name="documentClass" value="org.kuali.module.ar.document.CustomerCreditMemoDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerCreditMemoDocumentRule" />
-    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.CustomerCreditMemoDocumentPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CustomerCreditMemoDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentRule" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerCreditMemoDocumentPreRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerCreditMemoDocumentAuthorizer" />
     <property name="documentTypeCode" value="CRM" />
     <property name="authorizations" >
       <list>

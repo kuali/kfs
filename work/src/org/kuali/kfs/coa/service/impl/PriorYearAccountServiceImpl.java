@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 
 import org.apache.log4j.Logger;
-import org.kuali.module.chart.bo.PriorYearAccount;
-import org.kuali.module.chart.dao.PriorYearAccountDao;
-import org.kuali.module.chart.dao.jdbc.PriorYearAccountDaoJdbc;
-import org.kuali.module.chart.service.PriorYearAccountService;
+import org.kuali.kfs.coa.businessobject.PriorYearAccount;
+import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
+import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbc;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -39,14 +39,14 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 
     /**
      * 
-     * @see org.kuali.module.chart.service.PriorYearAccountService#getByPrimaryKey(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.PriorYearAccountService#getByPrimaryKey(java.lang.String, java.lang.String)
      */
     public PriorYearAccount getByPrimaryKey(String chartCode, String accountNumber) {
         return priorYearAccountDao.getByPrimaryId(chartCode, accountNumber);
     }
 
     /**
-     * @see org.kuali.module.chart.service.PriorYearAccountService#populatePriorYearAccountsFromCurrent()
+     * @see org.kuali.kfs.coa.service.PriorYearAccountService#populatePriorYearAccountsFromCurrent()
      */
     public void populatePriorYearAccountsFromCurrent() {
 

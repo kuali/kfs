@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.suite;
+package org.kuali.kfs.suite;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -35,13 +35,13 @@ import org.kuali.core.util.AssertionUtils;
  * Another purpose of this annotation is for KualiTestBase to wrap any test errors or failures with a notice that the annotated JIRA
  * issues are related. If the {@value #SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES} system property is set, then the test will
  * pass (without running its contents) any test that {@link RelatesTo} a JIRA issue that is currently open or in-progress or
- * reopened. This is an alternative to {@link org.kuali.test.suite.OpenOrInProgressOrReopenedSuite} for Anthill to retain the same
+ * reopened. This is an alternative to {@link org.kuali.kfs.suite.OpenOrInProgressOrReopenedSuite} for Anthill to retain the same
  * format of its test report while not revealing any failures of such tests. When using this system property, keep in mind that it
  * takes well over a minute to get the list of open issues from JIRA. The list is cached statically, so it's insignificant to add a
  * minute or two to the time it takes for the whole Anthill build. But, developers will probably not want to add this system
  * property to their own environments, because of this delay and so that they can still work on those tests.
  * 
- * @see org.kuali.test.suite.InProgressSuite.Not
+ * @see org.kuali.kfs.suite.InProgressSuite.Not
  * @see org.kuali.test.KualiTestBase
  */
 @Retention(RetentionPolicy.RUNTIME)

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,23 +24,23 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashDrawerTest;
-import org.kuali.module.financial.bo.CashieringItemInProcess;
-import org.kuali.module.financial.bo.CashieringTransaction;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CoinDetailTest;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.CurrencyDetailTest;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashManagementService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashDrawerTest;
+import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
+import org.kuali.kfs.fp.businessobject.CashieringTransaction;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.datadictionary.CoinDetailTest;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetailTest;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.document.service.CashManagementService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.TWATSON)
 public class CashieringTransactionRuleTest extends KualiTestBase {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.purap.attribute;
+package org.kuali.kfs.module.purap.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,15 +32,15 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.lookup.keyvalues.CampusValuesFinder;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.RestrictedMaterial;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.service.CommodityCodeService;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.service.CommodityCodeService;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -315,7 +315,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                     commodityCodeValues.addAll(attemptCommodityCodeRetrieval(purchasingCommodityCode));
                 }
                 else {
-                    String xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("org.kuali.module.vendor.bo.CommodityCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    String xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("org.kuali.kfs.vnd.businessobject.CommodityCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     NodeList nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
                     for (int i = 0; i < nodes.getLength(); i++) {
                         Node commodityCodeNode = nodes.item(i);

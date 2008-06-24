@@ -152,7 +152,7 @@
 					attributeEntry="${customerAttributes.customerNumber}"
 					property="customerNumber"
 					readOnly="${readOnly}" />
-				<kul:lookup boClassName="org.kuali.module.ar.bo.Customer" 
+				<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
 					fieldConversions="customerNumber:customer.customerNumber" />
 			</td>
 		</tr>

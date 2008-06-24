@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.service.impl;
 
 import static org.kuali.core.util.KualiDecimal.ZERO;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
-import static org.kuali.kfs.KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD;
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-import static org.kuali.kfs.KFSConstants.MONTH1;
-import static org.kuali.module.purap.PurapConstants.HUNDRED;
-import static org.kuali.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
+import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
+import static org.kuali.kfs.sys.KFSConstants.ENCUMB_UPDT_DOCUMENT_CD;
+import static org.kuali.kfs.sys.KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD;
+import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.MONTH1;
+import static org.kuali.kfs.module.purap.PurapConstants.HUNDRED;
+import static org.kuali.kfs.module.purap.PurapConstants.PURAP_ORIGIN_CODE;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,40 +42,40 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.util.SummaryAccount;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestSummaryAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -94,8 +94,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private SubObjectCodeService subObjectCodeService;
     
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#customizeGeneralLedgerPendingEntry(org.kuali.module.purap.document.PurchasingAccountsPayableDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry, java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#customizeGeneralLedgerPendingEntry(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, java.lang.Integer, java.lang.String,
      *      java.lang.String, boolean)
      */
     public void customizeGeneralLedgerPendingEntry(PurchasingAccountsPayableDocument purapDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, Integer referenceDocumentNumber, String debitCreditCode, String docType, boolean isEncumbrance) {
@@ -221,7 +221,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }// end purapCustomizeGeneralLedgerPendingEntry()
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     public void generateEntriesCancelAccountsPayableDocument(AccountsPayableDocument apDocument) {
         LOG.debug("generateEntriesCancelAccountsPayableDocument() started");
@@ -239,7 +239,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesCreatePaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCreatePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     public void generateEntriesCreatePaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesCreatePaymentRequest() started");
@@ -252,7 +252,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * Called from generateEntriesCancelAccountsPayableDocument() for Payment Request Document
      * 
      * @param preq Payment Request document to cancel
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     private void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesCreatePaymentRequest() started");
@@ -262,7 +262,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesModifyPaymentRequest(org.kuali.module.purap.document.PaymentRequestDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesModifyPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     public void generateEntriesModifyPaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesModifyPaymentRequest() started");
@@ -320,7 +320,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesCreateCreditMemo(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCreateCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument)
      */
     public void generateEntriesCreateCreditMemo(CreditMemoDocument cm) {
         LOG.debug("generateEntriesCreateCreditMemo() started");
@@ -331,7 +331,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * Called from generateEntriesCancelAccountsPayableDocument() for Payment Request Document
      * 
      * @param preq Payment Request document to cancel
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     private void generateEntriesCancelCreditMemo(CreditMemoDocument cm) {
         LOG.debug("generateEntriesCancelCreditMemo() started");
@@ -498,7 +498,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesApproveAmendPurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesApproveAmendPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void generateEntriesApproveAmendPurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("generateEntriesApproveAmendPurchaseOrder() started");
@@ -611,7 +611,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesClosePurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesClosePurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void generateEntriesClosePurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("generateEntriesClosePurchaseOrder() started");
@@ -676,7 +676,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesReopenPurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesReopenPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void generateEntriesReopenPurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("generateEntriesReopenPurchaseOrder() started");
@@ -741,7 +741,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurapGeneralLedgerService#generateEntriesVoidPurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
+     * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesVoidPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
     public void generateEntriesVoidPurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("generateEntriesVoidPurchaseOrder() started");

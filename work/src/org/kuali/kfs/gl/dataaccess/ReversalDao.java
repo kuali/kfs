@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.module.gl.bo.Reversal;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * An interface that declares the methods needed for reversal services to interact with the database

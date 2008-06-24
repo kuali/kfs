@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 
 /**
  * Purchase Order View Business Object.
@@ -46,7 +46,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
      * The next four methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why at
      * this point! (AAP)
      * 
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getPurapDocumentIdentifier()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
@@ -59,7 +59,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getDocumentNumber()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentNumber()
      */
     @Override
     public String getDocumentNumber() {
@@ -67,7 +67,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getNotes()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getNotes()
      */
     @Override
     public List<Note> getNotes() {
@@ -87,7 +87,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getUrl()
      */
     @Override
     public String getUrl() {

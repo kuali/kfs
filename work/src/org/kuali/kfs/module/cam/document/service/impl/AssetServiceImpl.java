@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,17 +27,17 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.DocumentLockingService;
-import org.kuali.module.cams.service.PaymentSummaryService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetServiceImpl implements AssetService {
     private ParameterService parameterService;
@@ -78,14 +78,14 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isAssetLoaned(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetLoaned(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public boolean isAssetLoaned(Asset asset) {
         return ObjectUtils.isNotNull(asset.getExpectedReturnDate()) && ObjectUtils.isNull(asset.getLoanReturnDate());
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isAssetTaggedInPriorFiscalYear(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetTaggedInPriorFiscalYear(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public boolean isAssetTaggedInPriorFiscalYear(Asset asset) {
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
@@ -94,7 +94,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isTagNumberCheckExclude(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isTagNumberCheckExclude(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public boolean isTagNumberCheckExclude(Asset asset) {
         String status = asset.getInventoryStatusCode();
@@ -103,7 +103,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isOffCampusLocationEntered(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isOffCampusLocationEntered(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public boolean isOffCampusLocationEntered(Asset asset) {
         AssetLocation offCampus = asset.getOffCampusLocation();
@@ -111,16 +111,16 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isFinancialObjectSubTypeCodeChanged(org.kuali.module.cams.bo.Asset,
-     *      org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isFinancialObjectSubTypeCodeChanged(org.kuali.kfs.module.cam.businessobject.Asset,
+     *      org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public boolean isFinancialObjectSubTypeCodeChanged(Asset oldAsset, Asset newAsset) {
         return !StringUtils.equalsIgnoreCase(oldAsset.getFinancialObjectSubTypeCode(), newAsset.getFinancialObjectSubTypeCode());
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isAssetTypeCodeChanged(org.kuali.module.cams.bo.Asset,
-     *      org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetTypeCodeChanged(org.kuali.kfs.module.cam.businessobject.Asset,
+     *      org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public boolean isAssetTypeCodeChanged(Asset oldAsset, Asset newAsset) {
         return !StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode());
@@ -131,7 +131,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isCapitalAssetNumberDuplicate(java.lang.Long, java.lang.Long)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isCapitalAssetNumberDuplicate(java.lang.Long, java.lang.Long)
      */
     public boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2) {
         if (capitalAssetNumber1 != null && capitalAssetNumber2 != null && capitalAssetNumber1.compareTo(capitalAssetNumber2) == 0) {
@@ -141,7 +141,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#generateAssetLock(java.lang.String, java.lang.Long)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#generateAssetLock(java.lang.String, java.lang.Long)
      */
     public MaintenanceLock generateAssetLock(String documentNumber, Long capitalAssetNumber) {
         MaintenanceLock maintenanceLock = new MaintenanceLock();
@@ -158,7 +158,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isAssetLocked(java.lang.String, java.lang.Long)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetLocked(java.lang.String, java.lang.Long)
      */
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
@@ -195,7 +195,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
      */
     public boolean isMovableFinancialObjectSubtypeCode(String financialObjectSubTypeCode) {
         if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
@@ -228,7 +228,7 @@ public class AssetServiceImpl implements AssetService {
 
     /**
      * 
-     * @see org.kuali.module.cams.service.AssetService#isObjectSubTypeCompatible(java.util.List)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isObjectSubTypeCompatible(java.util.List)
      */
     public boolean isObjectSubTypeCompatible(List<String> financialObjectSubTypeCode) {
         if (financialObjectSubTypeCode == null || financialObjectSubTypeCode.size() <= 1) {

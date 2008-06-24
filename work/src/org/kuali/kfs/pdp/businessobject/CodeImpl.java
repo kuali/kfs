@@ -17,7 +17,7 @@
  * Created on Jun 29, 2004
  *
  */
-package org.kuali.module.pdp.bo;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

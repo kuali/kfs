@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao;
-import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
+import org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao;
+import org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,7 +30,7 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     private OrganizationSalarySettingSearchDao organizationSalarySettingSearchDao;
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildIntendedIncumbentSelect(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#buildIntendedIncumbentSelect(java.lang.String,
      *      java.lang.Integer)
      */
     public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear) {
@@ -40,7 +40,7 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#cleanIntendedIncumbentSelect(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#cleanIntendedIncumbentSelect(java.lang.String)
      */
     public void cleanIntendedIncumbentSelect(String personUserIdentifier) {
 
@@ -48,7 +48,7 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildPositionSelect(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#buildPositionSelect(java.lang.String,
      *      java.lang.Integer)
      */
     public void buildPositionSelect(String personUserIdentifier, Integer universityFiscalYear) {
@@ -58,7 +58,7 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#cleanPositionSelect(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#cleanPositionSelect(java.lang.String)
      */
     public void cleanPositionSelect(String personUserIdentifier) {
 

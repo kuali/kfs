@@ -11,7 +11,7 @@
         <fieldDef name="creditMemoStatusCode" title="kuali_dd_label(CreditMemoDocument)">
           <display>
             <type>multibox</type>
-            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.CreditMemoStatusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.purap.businessobject.options.CreditMemoStatusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />

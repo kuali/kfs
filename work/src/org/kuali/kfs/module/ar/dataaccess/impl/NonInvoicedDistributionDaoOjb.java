@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao.ojb;
+package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,14 +21,14 @@ import java.util.Map;
 
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.ar.bo.NonInvoicedDistribution;
-import org.kuali.module.ar.dao.NonInvoicedDistributionDao;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.dataaccess.NonInvoicedDistributionDao;
 
 public class NonInvoicedDistributionDaoOjb extends PlatformAwareDaoBaseOjb implements NonInvoicedDistributionDao {
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.ar.dao.NonInvoicedDistributionDao#getNonInvoicedDistributionsForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.dataaccess.NonInvoicedDistributionDao#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();

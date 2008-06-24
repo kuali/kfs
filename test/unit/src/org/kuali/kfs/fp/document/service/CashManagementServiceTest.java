@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.document.service;
 
-import static org.kuali.test.fixtures.UserNameFixture.TWATSON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.TWATSON;
 
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -30,21 +30,21 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashReceiptHeader;
-import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.exceptions.CashDrawerStateException;
-import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
-import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
+import org.kuali.kfs.fp.businessobject.Deposit;
+import org.kuali.kfs.fp.document.CashManagementDocument;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.exception.CashDrawerStateException;
+import org.kuali.kfs.fp.exception.InvalidCashReceiptState;
+import org.kuali.kfs.fp.document.CashReceiptFamilyTestUtil;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

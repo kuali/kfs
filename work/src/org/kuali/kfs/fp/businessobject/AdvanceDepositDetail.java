@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 
 /**
  * This business object represents the advance deposit detail business object that is used by the Advance Deposit Document.

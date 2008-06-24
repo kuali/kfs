@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.Collection;
 
-import org.kuali.module.budget.bo.BudgetConstructionAccountObjectDetailReport;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSalaryDetailReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountObjectDetailReport;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSalaryDetailReport;
 
 /**
  * This interface defines the methods for BudgetConstructionLevelSummaryReports

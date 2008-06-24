@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.util;
+package org.kuali.kfs.module.ec.util;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 
 /**
  * To hold the neccessary information of ledger balance for the report generation

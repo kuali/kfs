@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertEquality;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetNonpersonnelCopyOverBoHelper;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverBoHelper.

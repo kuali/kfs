@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.closing.year.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,36 +25,36 @@ import java.util.Set;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.chart.service.PriorYearAccountService;
-import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.NominalActivityClosingStep;
-import org.kuali.module.gl.batch.closing.year.service.YearEndService;
-import org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper;
-import org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper;
-import org.kuali.module.gl.batch.closing.year.service.impl.helper.NominalActivityClosingHelper;
-import org.kuali.module.gl.batch.closing.year.util.EncumbranceClosingOriginEntryFactory;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.EncumbranceDao;
-import org.kuali.module.gl.dao.YearEndDao;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.util.FatalErrorException;
-import org.kuali.module.gl.util.ObjectHelper;
-import org.kuali.module.gl.util.OriginEntryOffsetPair;
-import org.kuali.module.gl.util.Summary;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.NominalActivityClosingStep;
+import org.kuali.kfs.gl.batch.service.YearEndService;
+import org.kuali.kfs.gl.batch.BalanceForwardRuleHelper;
+import org.kuali.kfs.gl.batch.EncumbranceClosingRuleHelper;
+import org.kuali.kfs.gl.batch.NominalActivityClosingHelper;
+import org.kuali.kfs.gl.batch.EncumbranceClosingOriginEntryFactory;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
+import org.kuali.kfs.gl.batch.dataaccess.YearEndDao;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
+import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
+import org.kuali.kfs.gl.report.Summary;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -96,7 +96,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param nominalClosingOriginEntryGroup the origin entry group to save the generated nominal closing entries to
      * @param nominalClosingJobParameters a map of parameters for the job:
      * @param nominalClosingCounts various statistical counts
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#closeNominalActivity()
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#closeNominalActivity()
      */
     public void closeNominalActivity(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalClosingCounts) {
 
@@ -276,7 +276,7 @@ public class YearEndServiceImpl implements YearEndService {
     /**
      * This method generates PDF report (there's only one) about the nominal activity closing job that was just completed.
      * 
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateCloseNominalActivityReports(org.kuali.module.gl.bo.OriginEntryGroup,
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#generateCloseNominalActivityReports(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.util.Map, java.util.Map)
      */
     public void generateCloseNominalActivityReports(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalActivityClosingCounts) {
@@ -381,9 +381,9 @@ public class YearEndServiceImpl implements YearEndService {
      * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with closed
      *        accounts are stored
      * @param balanceForwardRuleHelper the BalanceForwardRuleHelper that held the state of the balance forward job to report on
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardBalanceReports(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper)
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#generateForwardBalanceReports(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup,
+     *      org.kuali.kfs.gl.batch.BalanceForwardRuleHelper)
      */
     public void generateForwardBalanceReports(OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup, OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         // Assemble statistics.
@@ -515,7 +515,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param originEntryGroup the origin entry group that encumbrance forwarding origin entries were saved in
      * @param jobParameters the parameters needed to run the job in the first place
      * @param forwardEncumbrancesCounts the statistical counts generated by the forward encumbrances job
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardEncumbrancesReports(org.kuali.module.gl.bo.OriginEntryGroup,
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#generateForwardEncumbrancesReports(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.util.Map, java.util.Map)
      */
     public void generateForwardEncumbrancesReports(OriginEntryGroup originEntryGroup, Map jobParameters, Map<String, Integer> forwardEncumbrancesCounts) {
@@ -545,7 +545,7 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer)
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer)
      */
     public void logAllMissingPriorYearAccounts(Integer fiscalYear) {
         Set<Map<String, String>> missingPriorYearAccountKeys = yearEndDao.findKeysOfMissingPriorYearAccountsForBalances(fiscalYear);
@@ -557,7 +557,7 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer)
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer)
      */
     public void logAllMissingSubFundGroups(Integer fiscalYear) {
         Set missingSubFundGroupKeys = yearEndDao.findKeysOfMissingSubFundGroupsForBalances(fiscalYear);
@@ -573,7 +573,7 @@ public class YearEndServiceImpl implements YearEndService {
      * O/R mechanism.
      * 
      * @param encumbranceDao the implementation of encumbranceDao to set
-     * @see org.kuali.module.gl.dao.EncumbranceDao
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao
      */
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {
         this.encumbranceDao = encumbranceDao;
@@ -583,7 +583,7 @@ public class YearEndServiceImpl implements YearEndService {
      * Sets the originEntryService attribute, allowing the injection of an implementation of that service
      * 
      * @param originEntryService the implementation of originEntryService to set
-     * @see org.kuali.module.gl.service.OriginEntryService
+     * @see org.kuali.kfs.gl.service.OriginEntryService
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
@@ -593,7 +593,7 @@ public class YearEndServiceImpl implements YearEndService {
      * Sets the reportService attribute, allowing the injection of an implementation of that service
      * 
      * @param originEntryService the implementation of reportService to set
-     * @see org.kuali.module.gl.service.ReportService
+     * @see org.kuali.kfs.gl.service.ReportService
      */
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;

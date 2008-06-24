@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,24 +27,24 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
-import org.kuali.module.effort.bo.EffortCertificationReportPosition;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
-import org.kuali.module.integration.bo.EffortCertificationReport;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 
 /**
  * Provide the implementation of the service methods related to EffortCertificationReportDefinition
  * 
- * @see org.kuali.module.effort.bo.EffortCertificationReportDefinition
+ * @see org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition
  */
 public class EffortCertificationReportDefinitionServiceImpl implements EffortCertificationReportDefinitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportDefinitionServiceImpl.class);
@@ -52,14 +52,14 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#findReportDefinitionByPrimaryKey(java.util.Map)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#findReportDefinitionByPrimaryKey(java.util.Map)
      */
     public EffortCertificationReportDefinition findReportDefinitionByPrimaryKey(Map<String, String> fieldValues) {        
         return (EffortCertificationReportDefinition) businessObjectService.findByPrimaryKey(EffortCertificationReportDefinition.class, fieldValues);
     }
     
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#validateEffortCertificationReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#validateEffortCertificationReportDefinition(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public String validateEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Integer fiscalYear = effortCertificationReportDefinition.getUniversityFiscalYear();
@@ -92,7 +92,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#findPositionObjectGroupCodes(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#findPositionObjectGroupCodes(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public List<String> findPositionObjectGroupCodes(EffortCertificationReportDefinition reportDefinition) {
         Map<String, String> fieldValues = reportDefinition.buildKeyMapForCurrentReportDefinition();
@@ -109,7 +109,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#findReportEarnCodePayGroups(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#findReportEarnCodePayGroups(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public Map<String, Set<String>> findReportEarnCodePayGroups(EffortCertificationReportDefinition reportDefinition) {
         Collection<EffortCertificationReportEarnPaygroup> reportEarnPay = this.findReportEarnPay(reportDefinition);
@@ -134,7 +134,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#findReportEarnPay(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#findReportEarnPay(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public Collection<EffortCertificationReportEarnPaygroup> findReportEarnPay(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -146,7 +146,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
     
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#existsPendingEffortCertification(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#existsPendingEffortCertification(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public boolean hasPendingEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -166,7 +166,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
     
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#hasApprovedEffortCertification(java.lang.String, org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#hasApprovedEffortCertification(java.lang.String, org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public boolean hasApprovedEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();        
@@ -179,7 +179,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#hasBeenUsedForEffortCertificationGeneration(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#hasBeenUsedForEffortCertificationGeneration(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public boolean hasBeenUsedForEffortCertificationGeneration(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -190,7 +190,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     }
     
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#hasBeenUsedForEffortCertificationGeneration(java.lang.String, org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService#hasBeenUsedForEffortCertificationGeneration(java.lang.String, org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReport reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();

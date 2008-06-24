@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service;
+package org.kuali.kfs.module.cg.service;
 
-import org.kuali.module.cg.bo.Agency;
+import org.kuali.kfs.module.cg.businessobject.Agency;
 
 /**
  * Services for Agency

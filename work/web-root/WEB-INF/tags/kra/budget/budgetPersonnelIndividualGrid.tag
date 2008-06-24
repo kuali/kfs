@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="person" required="true" type="org.kuali.module.kra.budget.bo.BudgetUser"%>
+<%@ attribute name="person" required="true" type="org.kuali.kfs.module.cg.businessobject.BudgetUser"%>
 <%@ attribute name="personListIndex" required="true"%>
 
                  <c:choose>

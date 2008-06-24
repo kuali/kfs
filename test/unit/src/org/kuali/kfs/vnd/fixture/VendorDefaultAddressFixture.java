@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
-import org.kuali.module.vendor.bo.VendorDefaultAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 
 public enum VendorDefaultAddressFixture {
 

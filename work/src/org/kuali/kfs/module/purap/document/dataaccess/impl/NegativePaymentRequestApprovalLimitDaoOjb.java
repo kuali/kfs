@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.Collection;
 
@@ -23,8 +23,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit;
-import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
+import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
+import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
 
 /**
  * OJB Implementation of NegativePaymentRequestApprovalLimitDao.
@@ -33,7 +33,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitDaoOjb.class);
 
     /**
-     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findByChart(java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findByChart(java.lang.String)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode) {
         LOG.debug("Entering findByChart(String)");
@@ -45,7 +45,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findByChartAndAccount(java.lang.String,
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findByChartAndAccount(java.lang.String,
      *      java.lang.String)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber) {
@@ -59,7 +59,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findByChartAndOrganization(java.lang.String,
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findByChartAndOrganization(java.lang.String,
      *      java.lang.String)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode) {
@@ -73,7 +73,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.core.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
         LOG.debug("Entering findAboveLimit(KualiDecimal)");
@@ -85,7 +85,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.core.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
         LOG.debug("Entering findBelowLimit(KualiDecimal)");

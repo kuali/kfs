@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiCGAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiCGAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute</className>
       <label>Award Workgroup Routing</label>
       <description>Award Workgroup Routing</description>
       <type>RuleAttribute</type>

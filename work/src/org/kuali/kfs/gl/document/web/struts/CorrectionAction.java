@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.gl.web.struts.action;
+package org.kuali.kfs.gl.document.web.struts;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -51,30 +51,30 @@ import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.document.CorrectionDocumentAuthorizer;
-import org.kuali.module.gl.exception.LoadException;
-import org.kuali.module.gl.service.CorrectionDocumentService;
-import org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.CorrectionDocumentUtils;
-import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.gl.web.optionfinder.CorrectionGroupEntriesFinder;
-import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
-import org.kuali.module.gl.web.struts.form.CorrectionForm;
-import org.kuali.module.gl.web.struts.form.GroupHolder;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.businessobject.CorrectionChange;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.document.CorrectionDocumentAuthorizer;
+import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.gl.service.GlCorrectionProcessOriginEntryService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.gl.businessobject.options.CorrectionGroupEntriesFinder;
+import org.kuali.kfs.gl.businessobject.options.OriginEntryFieldFinder;
+import org.kuali.kfs.gl.document.web.struts.CorrectionForm;
+import org.kuali.kfs.gl.document.web.struts.GroupHolder;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 

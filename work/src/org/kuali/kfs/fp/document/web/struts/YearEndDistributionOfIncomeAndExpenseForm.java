@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
  * form for <code>YearEndDistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd version
  * and the non-yearEnd version of a document is the glpe's generation.
  * 
- * @see org.kuali.module.financial.web.struts.form.DistributionOfIncomeAndExpenseForm
+ * @see org.kuali.kfs.fp.document.web.struts.DistributionOfIncomeAndExpenseForm
  */
 
 public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfIncomeAndExpenseForm {

@@ -17,11 +17,11 @@
  * Created on Aug 12, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.DisbursementNumberRange;
+import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 
 
 /**

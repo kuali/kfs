@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.util.Calendar;
 
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * Test Flexible Offset in the scrubber
@@ -36,7 +36,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
 
     /**
      * Sets up the services neede for this test and also sets the date/time service's date time to one minute before midnight January 1, 2006
-     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     * @see org.kuali.kfs.gl.businessobject.OriginEntryTestBase#setUp()
      */
     @Override
     protected void setUp() throws Exception {

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow;
+package org.kuali.kfs.sys.document.workflow;
 
-import org.kuali.module.financial.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.InternalBillingDocument;
 
 public class TestWorkflowDocument extends InternalBillingDocument {
 

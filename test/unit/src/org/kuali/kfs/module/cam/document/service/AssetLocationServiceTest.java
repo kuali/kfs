@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.cams.bo.AssetType;
-import org.kuali.module.cams.service.AssetLocationService.LocationField;
-import org.kuali.module.cams.service.impl.AssetLocationServiceImpl;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl;
 
 public class AssetLocationServiceTest extends KualiTestBase {
     private AssetLocationService assetLocationService;

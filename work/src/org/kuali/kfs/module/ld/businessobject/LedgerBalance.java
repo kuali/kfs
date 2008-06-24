@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ import java.util.List;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
-import org.kuali.module.integration.bo.LaborLedgerObject;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
+import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 
 /**
  * Labor business object for LedgerBalance.
@@ -229,7 +229,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Gets the getFinancialBalanceTypeCode
      * 
      * @return getFinancialBalanceTypeCode
-     * @see org.kuali.module.gl.bo.Balance#getBalanceTypeCode()
+     * @see org.kuali.kfs.gl.businessobject.Balance#getBalanceTypeCode()
      */
     @Override
     public String getBalanceTypeCode() {
@@ -240,7 +240,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Sets the setFinancialBalanceTypeCode
      * 
      * @param balanceTypeCode
-     * @see org.kuali.module.gl.bo.Balance#setBalanceTypeCode(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.Balance#setBalanceTypeCode(java.lang.String)
      */
     @Override
     public void setBalanceTypeCode(String balanceTypeCode) {
@@ -251,7 +251,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Gets the getChartOfAccounts
      * 
      * @return getChartOfAccounts
-     * @see org.kuali.module.gl.bo.Balance#getChart()
+     * @see org.kuali.kfs.gl.businessobject.Balance#getChart()
      */
     @Override
     public Chart getChart() {
@@ -262,7 +262,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Sets the setChartOfAccounts
      * 
      * @param chart
-     * @see org.kuali.module.gl.bo.Balance#setChart(org.kuali.module.chart.bo.Chart)
+     * @see org.kuali.kfs.gl.businessobject.Balance#setChart(org.kuali.kfs.coa.businessobject.Chart)
      */
     @Override
     public void setChart(Chart chart) {
@@ -309,7 +309,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Adds amounts in a period.
      * 
      * @param period, amount
-     * @see org.kuali.module.gl.bo.Balance#addAmount(java.lang.String, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.core.util.KualiDecimal)
      */
     @Override
     public void addAmount(String period, KualiDecimal amount) {
@@ -514,7 +514,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     }
 
     /**
-     * @see org.kuali.module.gl.bo.Balance#toStringMapper()
+     * @see org.kuali.kfs.gl.businessobject.Balance#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

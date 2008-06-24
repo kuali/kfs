@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,11 +21,11 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.purap.document.AssignContractManagerDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.vendor.bo.CommodityContractManager;
-import org.kuali.module.vendor.bo.ContractManager;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.vnd.businessobject.CommodityContractManager;
+import org.kuali.kfs.vnd.businessobject.ContractManager;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

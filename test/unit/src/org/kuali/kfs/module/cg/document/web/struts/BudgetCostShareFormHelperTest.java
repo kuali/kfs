@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.web.struts.form;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
-import org.kuali.module.kra.bo.BudgetPeriodTest;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
-import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
-import org.kuali.module.kra.budget.bo.UserAppointmentTask;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
-import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriodTest;
+import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriodInstitutionCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriodThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
+import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
+import org.kuali.kfs.module.cg.businessobject.BudgetUser;
+import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetIndirectCostFormHelper;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.node;
+package org.kuali.kfs.fp.document.routing.node;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,12 +24,12 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.bo.AccountResponsibility;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.sys.businessobject.AccountResponsibility;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.engine.RouteHelper;

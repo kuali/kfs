@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow;
+package org.kuali.kfs.sys.document.workflow;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.ConfigureContext;
-import org.kuali.workflow.attribute.KualiAttributeTestUtil;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAttributeTestUtil;
 
 import edu.iu.uis.eden.routeheader.DocumentContent;
 

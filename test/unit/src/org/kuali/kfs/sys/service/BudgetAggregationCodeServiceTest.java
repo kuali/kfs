@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.core.service;
+package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.KualiCodeService;
-import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests the BudgetAggregationCode service.

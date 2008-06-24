@@ -16,9 +16,9 @@
             p:parameterDetailType="Close" />
     </property>
     <property name="documentTypeName" value="CloseDocument" />
-    <property name="documentClass" value="org.kuali.module.cg.bo.Close" />
-    <property name="businessRulesClass" value="org.kuali.module.cg.rules.CloseDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.cg.document.authorization.CloseDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.Close" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.CloseDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.CloseDocumentAuthorizer" />
     <property name="documentTypeCode" value="CLOS" />
     <property name="workflowProperties" >
       <ref bean="CloseDocument-workflowProperties" />

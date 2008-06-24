@@ -97,7 +97,7 @@
 	      <tr>
 	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.transactionCreditCardNumber}" readOnly="true"/></div></th>
 	        <td>
-	          <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardHolder" 
+	          <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardHolder" 
                keyValues="documentNumber=${currentTransaction.documentNumber}" 
                render="true">
 	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
@@ -116,7 +116,7 @@
           <td valign=top><html:hidden write="true" property="document.transactionEntries[${ctr}].transactionDate"/></td>
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionReferenceNumber}"/></div></th>
           <td valign=top>
-            <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" 
+            <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
               <html:hidden write="true" property="document.transactionEntries[${ctr}].transactionReferenceNumber"/>
@@ -126,7 +126,7 @@
        <tr>  
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorAttributes.vendorName}"/></div></th> 
           <td valign=top>
-            <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardVendor" 
+            <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
               <html:hidden write="true" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.util;
+package org.kuali.kfs.module.bc.service;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
-import org.kuali.module.budget.fixture.ImportRequestFilelLineFixture;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
+import org.kuali.kfs.module.bc.fixture.ImportRequestFilelLineFixture;
 
 public class ImportRequestFileParsingHelperparseLineTest extends KualiTestBase {
 

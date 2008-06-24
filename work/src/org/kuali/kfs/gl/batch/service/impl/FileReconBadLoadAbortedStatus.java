@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.batch.service.impl;
 
 /**
  * Enterprise feeder status if the reconciliation has failed and the loading of origin entries has not been atempted
@@ -21,7 +21,7 @@ package org.kuali.module.gl.util;
 public class FileReconBadLoadAbortedStatus extends EnterpriseFeederStatusBase {
 
     /**
-     * @see org.kuali.module.gl.util.EnterpriseFeederStatus#isErrorEvent()
+     * @see org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus#isErrorEvent()
      */
     public boolean isErrorEvent() {
         return true;

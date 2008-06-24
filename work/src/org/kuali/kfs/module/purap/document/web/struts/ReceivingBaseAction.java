@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -31,12 +31,12 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.action.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.document.ReceivingDocument;
-import org.kuali.module.purap.util.ReceivingQuestionCallback;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 
 public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentActionBase {
 

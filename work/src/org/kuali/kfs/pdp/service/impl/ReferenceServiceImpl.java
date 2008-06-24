@@ -17,15 +17,15 @@
  * Created on Jul 8, 2004
  *
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.bo.Code;
-import org.kuali.module.pdp.dao.ReferenceDao;
-import org.kuali.module.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.businessobject.Code;
+import org.kuali.kfs.pdp.dataaccess.ReferenceDao;
+import org.kuali.kfs.pdp.service.ReferenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 

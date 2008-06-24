@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.purap.PurapConstants.CAMSValidationStrings;
-import org.kuali.module.purap.bo.CapitalAssetTransactionType;
-import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.fixtures.PurapTestConstants.PurCams;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.purap.PurapConstants.CAMSValidationStrings;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PurCams;
 
 public enum PurchasingCapitalAssetFixture {
     

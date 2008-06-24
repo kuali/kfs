@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.CorrectionCriteria;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 
 /**
  * A DAO interface that 

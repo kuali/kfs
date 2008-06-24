@@ -16,11 +16,11 @@
 
 
 // This class is a comparator for sorting AccountType with Code name.
-package org.kuali.module.chart.lookup.keyvalues;
+package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.Comparator;
 
-import org.kuali.module.chart.bo.AcctType;
+import org.kuali.kfs.coa.businessobject.AcctType;
 
 /**
  * This class is a comparator for Account Type Codes

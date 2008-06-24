@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KFSConstants.DOCUMENT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSConstants.DOCUMENT_PROPERTY_NAME;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,17 +27,17 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.document.CashReceiptFamilyBase;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
+import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.
@@ -131,7 +131,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule {
     /**
      * We are overriding here and always returning true since we don't care about 
      * cash drawers for this doc type but want the other rules in the super class.
-     * @see org.kuali.module.financial.rules.CashReceiptFamilyRule#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptFamilyRule#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
      */
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         return true;

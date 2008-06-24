@@ -17,16 +17,16 @@
  * Created on Apr 7, 2006
  *
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.gl.service.EncumbranceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.gl.service.EncumbranceService;
 
 /**
  * A step to remove old encumbrances from the database.
@@ -44,7 +44,7 @@ public class PurgeEncumbranceStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR);
@@ -62,7 +62,7 @@ public class PurgeEncumbranceStep extends AbstractStep {
      * Sets the encumbranceService attribute, allowing the injection of an implementation of the service.
      * 
      * @param encumbranceService the encumbranceService implementation to set
-     * @see org.kuali.module.gl.service.EncumbranceService
+     * @see org.kuali.kfs.gl.service.EncumbranceService
      */
     public void setEncumbranceService(EncumbranceService encumbranceService) {
         this.encumbranceService = encumbranceService;
@@ -72,7 +72,7 @@ public class PurgeEncumbranceStep extends AbstractStep {
      * Sets the chartService attribute, allowing the injection of an implementation of the service.
      * 
      * @param chartService the chartService implementation to set
-     * @see org.kuali.module.chart.service.ChartService
+     * @see org.kuali.kfs.coa.service.ChartService
      */
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;

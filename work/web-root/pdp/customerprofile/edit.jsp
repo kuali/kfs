@@ -16,8 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
 <%@page import="java.util.ArrayList, java.util.Iterator, java.util.List, 
-                org.kuali.module.pdp.bo.Bank, org.kuali.module.pdp.form.customerprofile.CustomerProfileForm,
-                org.kuali.module.pdp.bo.Bank, org.kuali.module.pdp.form.customerprofile.CustomerBankForm" %>
+                org.kuali.kfs.pdp.businessobject.Bank, org.kuali.kfs.pdp.document.web.struts.CustomerProfileForm,
+                org.kuali.kfs.pdp.businessobject.Bank, org.kuali.kfs.pdp.web.struts.CustomerBankForm" %>
 <app:getBank active="Y" />
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">

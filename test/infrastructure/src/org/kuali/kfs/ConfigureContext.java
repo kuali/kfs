@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test;
+package org.kuali.kfs;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 /**
  * Use this annotation to configure the appropriate context for the methods in a test that extends KualiTestBase.

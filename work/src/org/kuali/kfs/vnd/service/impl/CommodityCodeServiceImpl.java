@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service.impl;
+package org.kuali.kfs.vnd.service.impl;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.dao.CommodityCodeDao;
-import org.kuali.module.vendor.service.CommodityCodeService;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.dataaccess.CommodityCodeDao;
+import org.kuali.kfs.vnd.service.CommodityCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

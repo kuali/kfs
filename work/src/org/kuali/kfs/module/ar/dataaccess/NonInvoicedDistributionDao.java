@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao;
+package org.kuali.kfs.module.ar.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.module.ar.bo.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 
 public interface NonInvoicedDistributionDao {
     /**

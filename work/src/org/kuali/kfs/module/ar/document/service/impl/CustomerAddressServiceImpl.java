@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,10 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.CustomerAddress;
-import org.kuali.module.ar.dao.CustomerAddressDao;
-import org.kuali.module.ar.service.CustomerAddressService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.dataaccess.CustomerAddressDao;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -60,7 +60,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerAddressService#customerAddressExists(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerAddressService#customerAddressExists(java.lang.String, java.lang.Integer)
      */
     public boolean customerAddressExists(String customerNumber, Integer customerAddressIdentifier) {
         return ObjectUtils.isNotNull(getByPrimaryKey(customerNumber, customerAddressIdentifier));
@@ -86,7 +86,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerAddressService#getNextCustomerAddressIdentifier()
+     * @see org.kuali.kfs.module.ar.document.service.CustomerAddressService#getNextCustomerAddressIdentifier()
      */
     public Integer getNextCustomerAddressIdentifier() {
 

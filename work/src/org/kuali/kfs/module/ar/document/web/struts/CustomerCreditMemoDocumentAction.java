@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.web.struts.action;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.List;
 
@@ -29,17 +29,17 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.CustomerCreditMemoDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.module.ar.rule.event.ContinueCustomerCreditMemoDocumentEvent;
-import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDetailEvent;
-import org.kuali.module.ar.rule.event.RecalculateCustomerCreditMemoDocumentEvent;
-import org.kuali.module.ar.service.CustomerCreditMemoDetailService;
-import org.kuali.module.ar.service.CustomerCreditMemoDocumentService;
-import org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerCreditMemoDocumentEvent;
+import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDetailEvent;
+import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDocumentEvent;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
+import org.kuali.kfs.module.ar.document.web.struts.CustomerCreditMemoDocumentForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.datadictionary;
+package org.kuali.kfs.sys.document.datadictionary;
 
 import org.kuali.core.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 
 /**
  * This class allows the system to define a custom document base class for

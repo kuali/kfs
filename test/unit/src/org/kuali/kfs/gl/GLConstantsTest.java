@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl;
+package org.kuali.kfs.gl;
 
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * A test to cover GLConstants

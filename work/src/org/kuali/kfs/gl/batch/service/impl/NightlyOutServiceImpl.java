@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Date;
 import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.NightlyOutService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.ReportService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.NightlyOutService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.service.ReportService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -52,7 +52,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
     /**
      * Deletes all the pending general ledger entries that have now been copied to origin entries
-     * @see org.kuali.module.gl.service.NightlyOutService#deleteCopiedPendingLedgerEntries()
+     * @see org.kuali.kfs.gl.service.NightlyOutService#deleteCopiedPendingLedgerEntries()
      */
     public void deleteCopiedPendingLedgerEntries() {
         LOG.debug("deleteCopiedPendingLedgerEntries() started");
@@ -62,7 +62,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
     /**
      * Copies the approved pending ledger entries to orign entry table and generates a report
-     * @see org.kuali.module.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
+     * @see org.kuali.kfs.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public void copyApprovedPendingLedgerEntries() {
         LOG.debug("copyApprovedPendingLedgerEntries() started");

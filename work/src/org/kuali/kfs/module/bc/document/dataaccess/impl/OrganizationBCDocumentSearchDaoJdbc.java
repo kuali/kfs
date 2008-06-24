@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
-import org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao;
+import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
 
 /**
  * This class...
@@ -118,7 +118,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
-     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
     public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
@@ -129,7 +129,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
-     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
     public int buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
@@ -140,7 +140,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
-     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
      */
     public void cleanAccountSelectPullList(String personUserIdentifier) {
         clearTempTableByUnvlId("ld_bcn_acctsel_t", "PERSON_UNVL_ID", personUserIdentifier);

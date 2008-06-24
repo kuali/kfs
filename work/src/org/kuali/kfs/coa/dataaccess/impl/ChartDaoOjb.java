@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,8 +25,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.dao.ChartDao;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.dataaccess.ChartDao;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.
@@ -36,7 +36,7 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.ChartDao#getAll()
+     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getAll()
      */
     public Collection getAll() {
         QueryByCriteria qbc = QueryFactory.newQuery(Chart.class, (Criteria) null);
@@ -47,7 +47,7 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     }
 
     /**
-     * @see org.kuali.module.chart.dao.ChartDao#getUniversityChart()
+     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getUniversityChart()
      */
     public Chart getUniversityChart() {
         Criteria criteria = new Criteria();
@@ -56,7 +56,7 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     }
 
     /**
-     * @see org.kuali.module.chart.dao.ChartDao#getByPrimaryId(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getByPrimaryId(java.lang.String)
      */
     public Chart getByPrimaryId(String chartOfAccountsCode) {
         Criteria criteria = new Criteria();

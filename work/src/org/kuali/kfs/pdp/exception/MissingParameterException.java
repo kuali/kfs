@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.exception;
+package org.kuali.kfs.pdp.exception;
 
 public class MissingParameterException extends PdpError {
     public MissingParameterException() {

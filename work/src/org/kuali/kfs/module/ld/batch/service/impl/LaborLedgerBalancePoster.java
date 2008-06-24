@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.batch.poster.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborTransaction;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.service.LaborLedgerBalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -39,7 +39,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
     private LaborLedgerBalanceService laborLedgerBalanceService;
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, Date postDate) {
         String operationType = KFSConstants.OperationType.INSERT;
@@ -63,7 +63,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
     }
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
         return LaborConstants.DestinationNames.LEDGER_BALANCE;

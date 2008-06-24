@@ -19,7 +19,7 @@
     xmlns:kfs="http://www.kuali.org/kfsTypes"
     xmlns="http://www.kuali.org/modules/gl/collector" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="../../../../../../org/kuali/kfs/batch/kfsTypes.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="../../../../../../org/kuali/kfs/sys/batch/kfsTypes.xsd" />
 
     <!-- header fields -->   
     <xsd:element name="organizationCode" type="kfs:oneToFourCharType"/>

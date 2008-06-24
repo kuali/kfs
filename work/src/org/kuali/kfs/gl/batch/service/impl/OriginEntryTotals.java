@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 /**
  * This class holds information about the sums of a list of origin entries. This information includes

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.web.struts.action;
+package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,23 +33,23 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.DynamicCollectionComparator;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rule.event.AddDetailLineEvent;
-import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
-import org.kuali.module.effort.util.DetailLineGroup;
-import org.kuali.module.effort.web.struts.form.CertificationReportForm;
-import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.validation.event.AddDetailLineEvent;
+import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
+import org.kuali.kfs.module.ec.util.DetailLineGroup;
+import org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm;
+import org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 

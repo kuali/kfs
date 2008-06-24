@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.batch.service.impl;
 
-import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_ACCOUNT_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_CHART_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_OBJECT_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_ACCOUNT_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
+import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_ACCOUNT_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_CHART_CODE_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_OBJECT_CODE_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.ERROR_TRANS_ACCOUNT_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM;
+import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -42,23 +42,23 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.service.FinancialSystemDocumentService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.batch.pcard.ProcurementCardAutoApproveDocumentsStep;
-import org.kuali.module.financial.batch.pcard.ProcurementCardCreateDocumentsStep;
-import org.kuali.module.financial.batch.pcard.ProcurementCardLoadStep;
-import org.kuali.module.financial.bo.ProcurementCardHolder;
-import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
-import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
-import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
-import org.kuali.module.financial.bo.ProcurementCardVendor;
-import org.kuali.module.financial.document.ProcurementCardDocument;
-import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
+import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
+import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
+import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
+import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
+import org.kuali.kfs.fp.businessobject.ProcurementCardVendor;
+import org.kuali.kfs.fp.document.ProcurementCardDocument;
+import org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -67,7 +67,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This is the default implementation of the ProcurementCardCreateDocumentService interface.
  * 
- * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
+ * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService
  */
 @Transactional
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
@@ -89,7 +89,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @return True if the procurement card documents were created successfully.  If any problem occur while creating the 
      * documents, a runtime exception will be thrown.
      * 
-     * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#createProcurementCardDocuments()
+     * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#createProcurementCardDocuments()
      */
     public boolean createProcurementCardDocuments() {
         List documents = new ArrayList();
@@ -122,7 +122,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * 
      * @return True if the routing was performed successfully.  A runtime exception will be thrown if any errors occur while routing.
      * 
-     * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
+     * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
      */
     public boolean routeProcurementCardDocuments() {
         List documentList = new ArrayList();
@@ -159,7 +159,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * 
      * @return This method always returns true.
      * 
-     * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#autoApproveProcurementCardDocuments()
+     * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#autoApproveProcurementCardDocuments()
      */
     public boolean autoApproveProcurementCardDocuments() {
         // check if auto approve is turned on

@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.pdp.bo.AchBank;
-import org.kuali.module.pdp.dao.AchBankDao;
+import org.kuali.kfs.pdp.businessobject.AchBank;
+import org.kuali.kfs.pdp.dataaccess.AchBankDao;
 
 public class AchBankDaoOjb extends PlatformAwareDaoBaseOjb implements AchBankDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchBankDaoOjb.class);
 
     /**
-     * @see org.kuali.module.pdp.dao.AchBankDao#save(org.kuali.module.pdp.bo.AchBank)
+     * @see org.kuali.kfs.pdp.dataaccess.AchBankDao#save(org.kuali.kfs.pdp.businessobject.AchBank)
      */
     public void save(AchBank ab) {
         LOG.debug("save() started");
@@ -34,7 +34,7 @@ public class AchBankDaoOjb extends PlatformAwareDaoBaseOjb implements AchBankDao
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.AchBankDao#getBank(java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.AchBankDao#getBank(java.lang.String)
      */
     public AchBank getBank(String bankRoutingNumber) {
         LOG.debug("getBank() started");

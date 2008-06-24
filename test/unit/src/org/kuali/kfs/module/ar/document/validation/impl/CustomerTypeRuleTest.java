@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.core.maintenance.MaintenanceRuleTestBase;
-import org.kuali.module.ar.bo.CustomerType;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
+import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class CustomerTypeRuleTest extends MaintenanceRuleTestBase {

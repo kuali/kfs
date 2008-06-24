@@ -3,63 +3,63 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiAccountAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiAccountAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurchaseOrderBudgetAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurchaseOrderBudgetAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurchaseOrderBudgetAttribute</className>
       <label>Purchase Order Budget Routing Attribute</label>
       <description>Attribute to determine if Purchase Order document should route for Budget Review</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurchaseOrderContractAndGrantsAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurchaseOrderContractAndGrantsAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurchaseOrderContractAndGrantsAttribute</className>
       <label>Purchase Order Contracts &amp; Grants Routing Attribute</label>
       <description>Attribute to determine if Purchase Order document should route for Contracts &amp; Grants Review</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiOrgReviewAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiOrgReviewAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiChartAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiChartAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiChartAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiInternalPurchasingRoleAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiInternalPurchasingRoleAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiInternalPurchasingRoleAttribute</className>
       <label>Purchase Order Internal Purchasing Routing Role Attribute</label>
       <description>Attribute to determine if Purchase Order document should route for Internal Purchasing Review</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiSeparationOfDutiesRoleAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiSeparationOfDutiesRoleAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiSeparationOfDutiesRoleAttribute</className>
       <label>Separation of Duties Routing Role Attribute</label>
       <description>Attribute to determine if document should route for Separation of Duties Review</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurApDocumentTaxReviewAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurApDocumentTaxReviewAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurApDocumentTaxReviewAttribute</className>
       <label>Purchasing &amp; Accounts Payable Tax Review Routing Role Attribute</label>
       <description>Attribute to determine if document should route for Tax Review</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiAccountsPayableReviewAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiAccountsPayableReviewAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiAccountsPayableReviewAttribute</className>
       <label>Accounts Payable review Routing Role Attribute</label>
       <description>Attribute to determine if document should route for Accounts Payable Review</description>
       <type>RuleAttribute</type>
@@ -80,7 +80,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiCGAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiCGAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute</className>
       <label>Award Workgroup Routing</label>
       <description>Award Workgroup Routing</description>
       <type>RuleAttribute</type>
@@ -241,7 +241,7 @@
             <column visible="false" />
           </visibility>
           <searchDefinition caseSensitive="false" />
-          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.module.chart.bo.Chart-Lookupable(null)" />
+          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.Chart-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/chartOfAccountsCode')</xpathexpression>
           </fieldEvaluation>
@@ -254,7 +254,7 @@
             <column visible="false" />
           </visibility>
           <searchDefinition caseSensitive="false" />
-          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/organizationCode')</xpathexpression>
           </fieldEvaluation>
@@ -357,7 +357,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiRequisitionDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.RequisitionDocumentSearchResultProcessor</className>
+      <className>org.kuali.kfs.module.purap.document.searching.processor.RequisitionDocumentSearchResultProcessor</className>
       <label>Kuali Requisition Document Search Result Processor</label>
       <description>Kuali Requisition Document Search Result Processor</description>
       <type>DocumentSearchResultProcessorAttribute</type>
@@ -393,7 +393,7 @@
         <fieldDef name="requisitionDocumentStatusCode" title="kuali_dd_label(RequisitionDocument)">
           <display>
             <type>multibox</type>
-            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.RequisitionStatusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.purap.businessobject.options.RequisitionStatusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
@@ -426,7 +426,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurchaseOrderDocumentIncompleteStatuses</name>
-      <className>org.kuali.workflow.module.purap.docsearch.attribute.KualiPurchaseOrderIncompleteStatusesAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.searching.attribute.KualiPurchaseOrderIncompleteStatusesAttribute</className>
       <label>Kuali Purchase Order Document Incomplete Statuses</label>
       <description>Attribute to identify the Purchase Order Status of the Purchase Order Document</description>
       <type>SearchableXmlAttribute</type>
@@ -593,7 +593,7 @@
             <regex>^[0-9]{0,}$</regex>
             <message>Invalid Contract Manager Code Value.  A valid contract manager code value must be numeric.</message>
           </validation>
-          <quickfinder appliesTo="contractManagerCode" draw="true" service="workflow-org.kuali.module.vendor.bo.ContractManager-Lookupable(null)" />
+          <quickfinder appliesTo="contractManagerCode" draw="true" service="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/contractManagerCode')</xpathexpression>
           </fieldEvaluation>
@@ -697,7 +697,7 @@
         <fieldDef name="purchaseOrderDocumentStatusCode" title="kuali_dd_label(PurchaseOrderDocument)">
           <display>
             <type>multibox</type>
-            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.PurchaseOrderStatusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
@@ -771,7 +771,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiContractsAndGrantsDocSearchGenerator</name>
-      <className>org.kuali.workflow.module.cg.docsearch.KualiContractsAndGrantsDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.cg.document.searching.generator.KualiContractsAndGrantsDocSearchGenerator</className>
       <label>Kuali Contracts And Grants Doc Search Generator</label>
       <description>Kuali Contracts And Grants Doc Search Generator</description>
       <type>DocumentSearchGeneratorAttribute</type>
@@ -788,7 +788,7 @@
             <type>text</type>
           </display>
           <searchDefinition dataType="long" />
-          <quickfinder appliesTo="proposalNumber" draw="true" service="workflow-org.kuali.module.cg.bo.Proposal-Lookupable(null)" />
+          <quickfinder appliesTo="proposalNumber" draw="true" service="workflow-org.kuali.kfs.module.cg.businessobject.Proposal-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/proposalNumber')</xpathexpression>
           </fieldEvaluation>
@@ -809,7 +809,7 @@
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="agencyNumber" draw="true" service="workflow-org.kuali.module.cg.bo.Agency-Lookupable(null)" />
+          <quickfinder appliesTo="agencyNumber" draw="true" service="workflow-org.kuali.kfs.module.cg.businessobject.Agency-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/agencyNumber')</xpathexpression>
           </fieldEvaluation>
@@ -857,7 +857,7 @@
         <fieldDef name="statusCode" title="kuali_dd_label(AwardStatus)">
           <display>
             <type>select</type>
-            <values>kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchStatusCriteriaValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.cg.businessobject.options.DocumentSearchStatusCriteriaValuesFinder)</values>
           </display>
           <fieldEvaluation>
             <xpathexpression>concat(wf:xstreamsafe('//newMaintainableObject/businessObject/awardStatusCode'), wf:xstreamsafe('//newMaintainableObject/businessObject/proposalStatusCode'))</xpathexpression>
@@ -875,7 +875,7 @@
         <fieldDef name="searchType" title="kuali_dd_label(GenericAttributes)">
           <display>
             <type>multibox</type>
-            <values selected="true">kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder)</values>
+            <values selected="true">kuali_values_finder_class(org.kuali.kfs.module.cg.businessobject.options.DocumentSearchTypeOfSearchValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
@@ -968,7 +968,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurchaseOrderDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.PurchaseOrderDocumentSearchResultProcessor</className>
+      <className>org.kuali.kfs.module.purap.document.searching.processor.PurchaseOrderDocumentSearchResultProcessor</className>
       <label>Kuali Purchase Order Document Search Result Processor</label>
       <description>Kuali Purchase Order Document Search Result Processor</description>
       <type>DocumentSearchResultProcessorAttribute</type>
@@ -985,7 +985,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="moduleCode" draw="true" service="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable(null)" />
+          <quickfinder appliesTo="moduleCode" draw="true" service="workflow-org.kuali.kfs.sys.businessobject.KualiModuleBO-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//businessObject/changedModuleCodes/string') = wf:ruledata('moduleCode')</xpathexpression>
           </fieldEvaluation>
@@ -994,42 +994,42 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiRequisitionDocSearchGeneratorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.RequisitionDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.purap.document.searching.generator.RequisitionDocSearchGenerator</className>
       <label>Kuali Requisition Document Search Generator</label>
       <description>Document search generator class for Kuali Requisition Documents</description>
       <type>DocumentSearchGeneratorAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurchaseOrderDocSearchGeneratorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.PurchaseOrderDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.purap.document.searching.generator.PurchaseOrderDocSearchGenerator</className>
       <label>Kuali Purchase Order Document Search Generator</label>
       <description>Document search generator class for Kuali Purchase Order Documents</description>
       <type>DocumentSearchGeneratorAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPaymentRequestDocSearchGeneratorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.purap.document.searching.generator.PaymentRequestDocSearchGenerator</className>
       <label>Kuali Payment Request Document Search Generator</label>
       <description>Document search generator class for Kuali Payment Request Documents</description>
       <type>DocumentSearchGeneratorAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocumentSearchResultProcessor</className>
+      <className>org.kuali.kfs.module.purap.document.searching.processor.PaymentRequestDocumentSearchResultProcessor</className>
       <label>Kuali Payment Request Document Search Result Processor</label>
       <description>Kuali Payment Request Document Search Result Processor</description>
       <type>DocumentSearchResultProcessorAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiCreditMemoDocSearchGeneratorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.CreditMemoDocSearchGenerator</className>
+      <className>org.kuali.kfs.module.purap.document.searching.generator.CreditMemoDocSearchGenerator</className>
       <label>Kuali Credit Memo Document Search Generator</label>
       <description>Document search generator class for Kuali Credit Memo Documents</description>
       <type>DocumentSearchGeneratorAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiCreditMemoDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.workflow.module.purap.docsearch.CreditMemoDocumentSearchResultProcessor</className>
+      <className>org.kuali.kfs.module.purap.document.searching.processor.CreditMemoDocumentSearchResultProcessor</className>
       <label>Kuali Credit Memo Document Search Result Processor</label>
       <description>Kuali Credit Memo Document Search Result Processor</description>
       <type>DocumentSearchResultProcessorAttribute</type>
@@ -1210,7 +1210,7 @@
         <fieldDef name="paymentRequestStatusCode" title="kuali_dd_label(PaymentRequestDocument)">
           <display>
             <type>multibox</type>
-            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.PaymentRequestStatusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.purap.businessobject.options.PaymentRequestStatusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
@@ -1581,7 +1581,7 @@
         <fieldDef name="creditMemoStatusCode" title="kuali_dd_label(CreditMemoDocument)">
           <display>
             <type>multibox</type>
-            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.CreditMemoStatusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.purap.businessobject.options.CreditMemoStatusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />
@@ -1747,21 +1747,21 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurApSourceDocumentRoutedUserRoleAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.PurApSourceDocumentRouteUserRoleAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.PurApSourceDocumentRouteUserRoleAttribute</className>
       <label>Purchasing &amp; Accounts Payable Source Document Routed By User Role</label>
       <description>Attribute to determine the user who routed the source document of the current document</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>ChartOrgExtensionAttribute</name>
-      <className>org.kuali.workflow.attribute.ChartOrgExtensionAttribute</className>
+      <className>org.kuali.kfs.sys.document.workflow.ChartOrgExtensionAttribute</className>
       <label>Chart Org Extension Attribute</label>
       <description>Chart Org Extension Attribute</description>
       <type>ExtensionAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiSubFundGroupAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>SubFund Group Routing</label>
       <description>SubFund Group Both Accounting Lines Routing</description>
       <type>RuleXmlAttribute</type>
@@ -1771,7 +1771,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(null)" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.SubFundGroup-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/account/subFundGroupCode') = wf:ruledata('subFundGroupCode') or wf:xstreamsafe('//kfs_targetAccountingLineClass/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
           </fieldEvaluation>
@@ -1805,7 +1805,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiVerificationWorkgroupAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiVerificationWorkgroupAttribute</className>
+      <className>org.kuali.kfs.fp.document.routing.attribute.KualiVerificationWorkgroupAttribute</className>
       <label>KualiVerificationWorkgroupAttribute</label>
       <description>KualiVerificationWorkgroupAttribute</description>
       <type>RoleAttribute</type>
@@ -1837,14 +1837,14 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>SystemWorkgroupExtensionAttribute</name>
-      <className>org.kuali.workflow.attribute.SystemWorkgroupExtensionAttribute</className>
+      <className>org.kuali.kfs.sys.document.workflow.SystemWorkgroupExtensionAttribute</className>
       <label>System Workgroup Extension Attribute</label>
       <description>Attributes associated with KFS System Workgroups</description>
       <type>ExtensionAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiSubFundGroupTargetAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>SubFund Group Target Routing</label>
       <description>SubFund Group Target Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>
@@ -1854,7 +1854,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//kfs_targetAccountingLineClass/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
           </fieldEvaluation>
@@ -1871,7 +1871,7 @@
         <fieldDef name="disbVchrPaymentMethodCode" title="kuali_dd_label(DisbursementVoucherDocument)" workflowType="ALL">
           <display>
             <type>radio</type>
-            <values>kuali_values_finder_class(org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder)</values>
           </display>
           <validation required="true" />
           <fieldEvaluation>
@@ -1892,7 +1892,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="paymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:paymentReasonCode)" />
+          <quickfinder appliesTo="paymentReasonCode" draw="true" service="workflow-org.kuali.kfs.fp.businessobject.PaymentReasonCode-Lookupable(workflow-code:paymentReasonCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode') = wf:ruledata('disbVchrPaymentReasonCode')</xpathexpression>
           </fieldEvaluation>
@@ -1931,7 +1931,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="taxControlCode" draw="true" service="workflow-org.kuali.module.financial.bo.TaxControlCode-Lookupable(workflow-code:taxControlCode)" />
+          <quickfinder appliesTo="taxControlCode" draw="true" service="workflow-org.kuali.kfs.fp.businessobject.TaxControlCode-Lookupable(workflow-code:taxControlCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/disbVchrPayeeTaxControlCode') = wf:ruledata('taxControlCode')</xpathexpression>
           </fieldEvaluation>
@@ -2029,14 +2029,14 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPDAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiPDAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute</className>
       <label>Project Director Routing</label>
       <description>Effort Reporting Project Director Routing</description>
       <type>RuleAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPurApCommodityCodeAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiPurApCommodityCodeAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiPurApCommodityCodeAttribute</className>
       <label>Kuali PurAp Commodity Code Attribute</label>
       <description>Commodity Code Routing Attribute for Kuali Documents</description>
       <type>RuleAttribute</type>
@@ -2053,7 +2053,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="lockboxNumber" draw="true" service="workflow-org.kuali.module.ar.bo.SystemInformation-Lookupable(workflow-lockboxNumber:lockboxNumber)" />
+          <quickfinder appliesTo="lockboxNumber" draw="true" service="workflow-org.kuali.kfs.module.ar.businessobject.SystemInformation-Lookupable(workflow-lockboxNumber:lockboxNumber)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/lockboxNumber') = wf:ruledata('lockboxNumber')</xpathexpression>
           </fieldEvaluation>
@@ -2091,7 +2091,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
           </fieldEvaluation>
@@ -2100,7 +2100,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiAccountSearchAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountNumberSearchAttributeImpl</className>
+      <className>org.kuali.kfs.sys.document.searching.attribute.AccountNumberSearchAttributeImpl</className>
       <label>KualiAccountSearchAttribute</label>
       <description>Allows searches on documents with account numbers.</description>
       <type>SearchableXmlAttribute</type>
@@ -2117,7 +2117,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiPayeeTaxIdAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiPayeeTaxIdAttribute</className>
+      <className>org.kuali.kfs.fp.document.routing.attribute.KualiPayeeTaxIdAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>
@@ -2170,7 +2170,7 @@
           <display>
             <type>text</type>
           </display>
-          <quickfinder appliesTo="disbVchrPaymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:disbVchrPaymentReasonCode)" />
+          <quickfinder appliesTo="disbVchrPaymentReasonCode" draw="true" service="workflow-org.kuali.kfs.fp.businessobject.PaymentReasonCode-Lookupable(workflow-code:disbVchrPaymentReasonCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode')</xpathexpression>
           </fieldEvaluation>
@@ -2196,7 +2196,7 @@
             <type>text</type>
           </display>
           <validation required="false" />
-          <quickfinder appliesTo="vendorTypeCode" draw="true" service="workflow-org.kuali.module.vendor.bo.VendorType-Lookupable(workflow-vendorTypeCode:vendorTypeCode)" />
+          <quickfinder appliesTo="vendorTypeCode" draw="true" service="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable(workflow-vendorTypeCode:vendorTypeCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/vendorHeader/vendorTypeCode') = wf:ruledata('vendorTypeCode')</xpathexpression>
           </fieldEvaluation>
@@ -2215,7 +2215,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.module.chart.bo.Chart-Lookupable(workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.Chart-Lookupable(workflow-chartOfAccountsCode:chartOfAccountsCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/chartOfAccountsCode') = wf:ruledata('chartOfAccountsCode')</xpathexpression>
           </fieldEvaluation>
@@ -2225,7 +2225,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/organizationCode') = wf:ruledata('organizationCode')</xpathexpression>
           </fieldEvaluation>
@@ -2234,7 +2234,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiResearchProjectDirectorRoleAttribute</name>
-      <className>org.kuali.workflow.module.kra.attribute.ResearchProjectDirectorRoleAttribute</className>
+      <className>org.kuali.kfs.module.cg.document.routing.attribute.ResearchProjectDirectorRoleAttribute</className>
       <label>KualiResearchProjectDirectorRoleAttribute</label>
       <description>KualiResearchProjectDirectorRoleAttribute</description>
       <type>RoleAttribute</type>
@@ -2251,7 +2251,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="researchRiskTypeCode" draw="true" service="workflow-org.kuali.module.kra.routingform.bo.ResearchRiskType-Lookupable(null)" />
+          <quickfinder appliesTo="researchRiskTypeCode" draw="true" service="workflow-org.kuali.kfs.module.cg.businessobject.ResearchRiskType-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//org.kuali.module.cg.bo.ProposalResearchRisk/researchRiskTypeCode') = wf:ruledata('ProposalResearchRisk')</xpathexpression>
           </fieldEvaluation>
@@ -2260,7 +2260,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>KualiSubAccountAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiSubAccountAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiSubAccountAttribute</className>
       <label>Kuali Sub Account Attribute</label>
       <description>Sub Account Routing Attribute for Kuali Documents</description>
       <type>RuleAttribute</type>
@@ -2277,7 +2277,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="purchaseOrderTransmissionMethodCode" draw="true" service="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable(workflow-purchaseOrderTransmissionMethodCode:purchaseOrderTransmissionMethodCode)" />
+          <quickfinder appliesTo="purchaseOrderTransmissionMethodCode" draw="true" service="workflow-org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod-Lookupable(workflow-purchaseOrderTransmissionMethodCode:purchaseOrderTransmissionMethodCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/purchaseOrderTransmissionMethodCode') = wf:ruledata('purchaseOrderTransmissionMthdCd')</xpathexpression>
           </fieldEvaluation>

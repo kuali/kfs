@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.lookup.keyvalues;
+package org.kuali.kfs.coa.businessobject.options;
 
-import org.kuali.module.chart.bo.codes.SufficientFundsCode;
+import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 
 
 /**

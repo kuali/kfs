@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.util.Calendar;
 import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.bo.FlexibleAccountUpdateable;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.fp.businessobject.OffsetAccount;
+import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
+import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 
 /**
  * This is the default implementation of the FlexibleOffsetAccountService interface.
@@ -87,7 +87,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      * @param originEntry The origin entry to be updated with offset account details.
      * @return False if the flexible offset flag is false, if there is no corresponding flexbile offset account, true otherwise.
      * 
-     * @see org.kuali.module.financial.service.FlexibleOffsetAccountService#updateOffset(org.kuali.module.gl.bo.OriginEntryFull)
+     * @see org.kuali.kfs.sys.service.FlexibleOffsetAccountService#updateOffset(org.kuali.kfs.gl.businessobject.OriginEntryFull)
      */
     public boolean updateOffset(FlexibleAccountUpdateable transaction) {
         LOG.debug("setBusinessObjectService() started");

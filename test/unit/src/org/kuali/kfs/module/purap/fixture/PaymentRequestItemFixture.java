@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.module.purap.bo.AccountsPayableItem;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 
 public enum PaymentRequestItemFixture {
 

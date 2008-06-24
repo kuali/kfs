@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="AuxiliaryVoucher-routeDocumentValidation" parent="AuxiliaryVoucher-routeDocumentValidation-parentBean" />
 	
-	<bean id="AuxiliaryVoucher-routeDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AuxiliaryVoucher-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
@@ -121,7 +121,7 @@
 	
 	<bean id="AuxiliaryVoucher-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
 	
-	<bean id="AuxiliaryVoucher-accountingLineValuesAllowedValidation" class="org.kuali.kfs.validation.AccountingLineValuesAllowedValidationHutch" abstract="true">
+	<bean id="AuxiliaryVoucher-accountingLineValuesAllowedValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
 		<property name="objectTypeAllowedValidation" ref="AccountingDocument-IsObjectTypeAllowed-DefaultValidation" />
 		<property name="fundGroupAllowedValidation" ref="AccountingDocument-IsFundGroupAllowed-DefaultValidation" />
 		<property name="subFundGroupAllowedValidation" ref="AccountingDocument-IsSubFundGroupAllowed-DefaultValidation" />
@@ -132,14 +132,14 @@
 	
 	<bean id="AuxiliaryVoucher-addAccountingLineValidation" parent="AuxiliaryVoucher-addAccountingLineValidation-parentBean" />
 	
-	<bean id="AuxiliaryVoucher-addAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AuxiliaryVoucher-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype">
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />
 					<property name="validations">
 						<list>
-							<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+							<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 								<property name="validations">
 									<list>
 										<bean parent="AuxiliaryVoucher-accountingLineAmountValidation" scope="prototype">
@@ -208,7 +208,7 @@
 	
 	<bean id="AuxiliaryVoucher-updateAccountingLineValidation" parent="AuxiliaryVoucher-updateAccountingLineValidation-parentBean" />
 	
-	<bean id="AuxiliaryVoucher-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AuxiliaryVoucher-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AuxiliaryVoucher-accountingLineAmountValidation" scope="prototype">
@@ -243,10 +243,10 @@
 	
 	<bean id="AuxiliaryVoucher-reviewAccountingLineValidation" parent="AuxiliaryVoucher-reviewAccountingLineValidation-parentBean" />
 	
-	<bean id="AuxiliaryVoucher-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AuxiliaryVoucher-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype">
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />
 					<property name="validations">
 						<list>

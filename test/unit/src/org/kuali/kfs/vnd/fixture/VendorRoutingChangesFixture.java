@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.bo.VendorShippingSpecialCondition;
-import org.kuali.module.vendor.bo.VendorSupplierDiversity;
-import org.kuali.module.vendor.fixtures.VendorTestConstants.VendorParts;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition;
+import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.VendorParts;
 
 public enum VendorRoutingChangesFixture {
 

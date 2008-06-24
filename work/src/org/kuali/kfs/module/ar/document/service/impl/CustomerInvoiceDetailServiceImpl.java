@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -25,22 +25,22 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.ChartOrgHolder;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.FinancialSystemUserService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
-import org.kuali.module.ar.bo.InvoicePaidApplied;
-import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.ar.bo.SystemInformation;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.CustomerInvoiceDetailService;
-import org.kuali.module.ar.service.InvoicePaidAppliedService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailService {
 
@@ -51,7 +51,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private InvoicePaidAppliedService invoicePaidAppliedService;
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public KualiDecimal getAppliedAmountForInvoiceDetail(CustomerInvoiceDetail invoiceDetail) {
         KualiDecimal total = new KualiDecimal(0);
@@ -64,42 +64,42 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getInvoicePaidAppliedsForInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getInvoicePaidAppliedsForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
         return invoicePaidAppliedService.getInvoicePaidAppliedsForCustomerInvoiceDetail(customerInvoiceDetail);
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getInvoicePaidAppliedsForInvoiceDetail(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getInvoicePaidAppliedsForInvoiceDetail(java.lang.String, java.lang.Integer)
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoiceDetail(String documentNumber, Integer sequenceNumber) {
         return getInvoicePaidAppliedsForInvoiceDetail(getCustomerInvoiceDetail(documentNumber, sequenceNumber));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAppliedAmountForInvoiceDetail(java.lang.String, java.lang.Integer)
      */
     public KualiDecimal getAppliedAmountForInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber) {
         return getAppliedAmountForInvoiceDetail(getCustomerInvoiceDetail(customerInvoiceDocumentNumber, sequenceNumber));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getBalanceForCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getBalanceForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public KualiDecimal getBalanceForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
         return customerInvoiceDetail.getAmount().subtract(getAppliedAmountForInvoiceDetail(customerInvoiceDetail));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getBalanceForCustomerInvoiceDetail(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getBalanceForCustomerInvoiceDetail(java.lang.String, java.lang.Integer)
      */
     public KualiDecimal getBalanceForCustomerInvoiceDetail(String customerInvoiceDocumentNumber, Integer sequenceNumber) {
         return getBalanceForCustomerInvoiceDetail(getCustomerInvoiceDetail(customerInvoiceDocumentNumber, sequenceNumber));
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
     @SuppressWarnings("unchecked")
@@ -131,7 +131,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAddLineCustomerInvoiceDetailForCurrentUserAndYear()
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAddLineCustomerInvoiceDetailForCurrentUserAndYear()
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear() {
         Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
@@ -140,7 +140,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCode(java.lang.String,
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCode(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String chartOfAccountsCode, String organizationCode) {
@@ -183,7 +183,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(java.lang.String)
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(String invoiceItemCode) {
         ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
@@ -191,7 +191,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail,
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
     @SuppressWarnings("unchecked")
@@ -216,7 +216,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetailForCurrentYear(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetailForCurrentYear(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
@@ -227,7 +227,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#recalculateCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#recalculateCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public void recalculateCustomerInvoiceDetail(CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail) {
 
@@ -242,7 +242,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#updateAccountsForCorrespondingDiscount(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsForCorrespondingDiscount(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public void updateAccountsForCorrespondingDiscount(CustomerInvoiceDetail parent) {
 
@@ -259,7 +259,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetail(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetail(java.lang.String, java.lang.Integer)
      */
     @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber, Integer sequenceNumber) {
@@ -271,7 +271,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getOpenAmount(java.lang.Integer, org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getOpenAmount(java.lang.Integer, org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     @SuppressWarnings("unchecked")
     public KualiDecimal getOpenAmount(Integer invoiceItemNumber,CustomerInvoiceDetail customerInvoiceDetail) {
@@ -298,14 +298,14 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         return openInvoiceAmount;
     }
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public void updateAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
         customerInvoiceDetail.setAccountsReceivableObjectCode(getAccountsReceivableObjectCodeBasedOnReceivableParameter(customerInvoiceDetail));
     }
     
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAccountsReceivableObjectCodeBasedOnReceivableParameter(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAccountsReceivableObjectCodeBasedOnReceivableParameter(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail) {
         String receivableOffsetOption = parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
@@ -326,7 +326,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }    
 
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#prepareCustomerInvoiceDetailForAdd(org.kuali.module.ar.bo.CustomerInvoiceDetail, org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#prepareCustomerInvoiceDetailForAdd(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public void prepareCustomerInvoiceDetailForAdd(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
@@ -367,14 +367,14 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     }
     
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(CustomerInvoiceDocument customerInvoiceDocument) {
         return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
     }
     
     /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(java.lang.String)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber) {
         Map <String, String> criteria = new HashMap<String, String>();

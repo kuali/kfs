@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.rules.event;
+package org.kuali.kfs.module.cg.document.validation.event;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 
 /**
  * Defines methods common to all PeriodLine events.

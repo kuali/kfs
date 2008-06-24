@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.struts.form;
+package org.kuali.kfs.gl.document.web.struts;
 
 import java.io.Serializable;
 
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.bo.CorrectionCriteria;
+import org.kuali.kfs.gl.businessobject.CorrectionChange;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 
 /**
  * This represents a Group Holder which contains correction change and criteria objects

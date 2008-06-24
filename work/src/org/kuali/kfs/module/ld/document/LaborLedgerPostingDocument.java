@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.document;
+package org.kuali.kfs.module.ld.document;
 
 import java.util.List;
 
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 
 /**
  * Labor Document Defines methods that must be implements for a labor ledger posting document.

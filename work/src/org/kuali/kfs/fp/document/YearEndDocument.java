@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.document;
+package org.kuali.kfs.fp.document;
 
 
 /**
@@ -22,7 +22,7 @@ package org.kuali.module.financial.document;
  * interface.
  * 
  * @link http://en.wikipedia.org/wiki/Marker_interface_pattern
- * @see org.kuali.module.gl.service.SufficientFundsService
+ * @see org.kuali.kfs.gl.service.SufficientFundsService
  */
 public interface YearEndDocument {
     // empty do not change. see above.

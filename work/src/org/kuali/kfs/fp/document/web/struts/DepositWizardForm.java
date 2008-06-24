@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.financial.bo.Bank;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.DepositWizardCashieringCheckHelper;
-import org.kuali.module.financial.bo.DepositWizardHelper;
-import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.fp.businessobject.Bank;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.businessobject.CheckBase;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.businessobject.DepositWizardCashieringCheckHelper;
+import org.kuali.kfs.fp.businessobject.DepositWizardHelper;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 
 /**
  * This class is the action form for the deposit document wizard.

@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.kuali.core.util.DateUtils;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.service.impl.ParameterServiceImpl;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.service.impl.AssetServiceImpl;
-import org.kuali.module.cams.service.impl.RetirementInfoServiceImpl;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.service.impl.ParameterServiceImpl;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
+import org.kuali.kfs.module.cam.document.service.impl.AssetServiceImpl;
+import org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
     private RetirementInfoServiceImpl retirementInfoService;

@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPDAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiPDAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute</className>
       <label>Project Director Routing</label>
       <description>Effort Reporting Project Director Routing</description>
       <type>RuleAttribute</type>

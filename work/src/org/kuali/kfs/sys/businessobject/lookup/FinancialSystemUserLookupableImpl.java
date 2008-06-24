@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.lookup;
+package org.kuali.kfs.sys.businessobject.lookup;
 
 import org.kuali.core.lookup.KualiLookupableImpl;
-import org.kuali.kfs.bo.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 
 /**
  *  Overrides the base lookupable to force the FinancialSystemUser class in wherever this used.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.HashMap;
 import java.util.Properties;
@@ -28,15 +28,15 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.document.BulkReceivingDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.service.BulkReceivingService;
-import org.kuali.module.purap.service.ReceivingService;
-import org.kuali.module.purap.web.struts.form.BulkReceivingForm;
-import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.web.struts.BulkReceivingForm;
+import org.kuali.kfs.module.purap.document.web.struts.ReceivingLineForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

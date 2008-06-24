@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -27,20 +27,20 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapRuleConstants;
-import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.dao.RequisitionDao;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.rule.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.RequisitionService;
-import org.kuali.module.vendor.bo.VendorCommodityCode;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
+import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -65,7 +65,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 
 
     /**
-     * @see org.kuali.module.purap.service.RequisitionService#saveDocumentWithoutValidation(org.kuali.module.purap.document.RequisitionDocument)
+     * @see org.kuali.kfs.module.purap.document.service.RequisitionService#saveDocumentWithoutValidation(org.kuali.kfs.module.purap.document.RequisitionDocument)
      */
     public void saveDocumentWithoutValidation(RequisitionDocument document) {
         try {
@@ -79,7 +79,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.RequisitionService#getRequisitionById(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getRequisitionById(java.lang.Integer)
      */
     public RequisitionDocument getRequisitionById(Integer id) {
         String documentNumber = requisitionDao.getDocumentNumberForRequisitionId(id);
@@ -100,7 +100,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.RequisitionService#isAutomaticPurchaseOrderAllowed(org.kuali.module.purap.document.RequisitionDocument)
+     * @see org.kuali.kfs.module.purap.document.service.RequisitionService#isAutomaticPurchaseOrderAllowed(org.kuali.kfs.module.purap.document.RequisitionDocument)
      */
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition) {
         LOG.debug("isAutomaticPurchaseOrderAllowed() started");

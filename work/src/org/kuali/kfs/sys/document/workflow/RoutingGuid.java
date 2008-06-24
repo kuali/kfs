@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.attribute;
+package org.kuali.kfs.sys.document.workflow;
 
 import org.kuali.core.util.Guid;
 

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
+import static org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants.YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.document.YearEndDocumentUtil;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.fp.document.YearEndDocumentUtil;
 
 /**
  * Business rules applicable to <code>YearEndBudgetAdjustmentDocument</code>
@@ -36,7 +36,7 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
      * @param financialDocument The financial document the class will be determined for.
      * @return The class type of the document passed in.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.sys.document.AccountingDocument)
      */
     @Override
     protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {

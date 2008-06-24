@@ -7,7 +7,7 @@
   <bean id="IcrAutomatedEntryMaintenanceDocument" parent="IcrAutomatedEntryMaintenanceDocument-parentBean" />
 
   <bean id="IcrAutomatedEntryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.IcrAutomatedEntry" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IcrAutomatedEntry" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -43,9 +43,9 @@
             p:parameterDetailType="IcrAutomatedEntry" />
     </property>
     <property name="documentTypeName" value="IcrAutomatedEntryMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.IcrAutomatedEntryRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.IcrAutomatedEntryPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IcrAutomatedEntryRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.IcrAutomatedEntryPreRules" />
     <property name="documentTypeCode" value="ICRE" />
     <property name="workflowProperties" >
       <ref bean="IcrAutomatedEntryMaintenanceDocument-workflowProperties" />

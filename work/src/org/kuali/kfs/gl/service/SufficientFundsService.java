@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
-import org.kuali.kfs.document.GeneralLedgerPostingDocument;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.util.SufficientFundsItem;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 
 
 /**

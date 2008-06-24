@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.kra.routingform.bo.ControlAttributeType;
-import org.kuali.module.kra.service.ResearchDocumentControlAttributeTypeService;
+import org.kuali.kfs.module.cg.businessobject.ControlAttributeType;
+import org.kuali.kfs.module.cg.document.service.ResearchDocumentControlAttributeTypeService;
 
 /**
  * This class is used to access and retrieve ControlAttributeType attributes and related information.
@@ -33,7 +33,7 @@ public class ResearchDocumentControlAttributeTypeServiceImpl implements Research
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.kra.service.ResearchDocumentControlAttributeTypeService#getControlAttributeTypeCodes()
+     * @see org.kuali.kfs.module.cg.document.service.ResearchDocumentControlAttributeTypeService#getControlAttributeTypeCodes()
      */
     public List<ControlAttributeType> getControlAttributeTypeCodes() {
         Collection<ControlAttributeType> allTypes = new ArrayList();

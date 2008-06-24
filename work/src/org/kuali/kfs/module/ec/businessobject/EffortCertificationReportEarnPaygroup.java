@@ -1,10 +1,10 @@
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.sys.businessobject.Options;
 
 /**
  * Business Object for the Effort Certification Report Earn Paygroup Table.

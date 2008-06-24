@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.util.testobject;
+package org.kuali.kfs.module.ld.util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 
 public class PendingLedgerEntryForTesting extends LaborLedgerPendingEntry {
 

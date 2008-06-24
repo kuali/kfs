@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,16 +36,16 @@ import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.authorization.KfsAuthorizationConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
-import org.kuali.module.budget.service.BenefitsCalculationService;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
-import org.kuali.module.budget.web.struts.form.MonthlyBudgetForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sysKfsAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionForm;
+import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 
 
 public class MonthlyBudgetAction extends BudgetExpansionAction {
@@ -54,7 +54,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
     /**
      * added for testing - remove if not needed
      * 
-     * @see org.kuali.module.budget.web.struts.action.BudgetConstructionAction#execute(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

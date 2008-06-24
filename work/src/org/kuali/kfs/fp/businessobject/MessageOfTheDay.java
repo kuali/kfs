@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
 
 /**
  * This class is used to represent a "message of the day" object.  These messages are displayed on the associated 

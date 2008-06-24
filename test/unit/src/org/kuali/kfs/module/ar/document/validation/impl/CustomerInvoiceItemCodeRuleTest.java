@@ -1,13 +1,13 @@
-package org.kuali.module.ar.rules;
+package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.maintenance.MaintenanceRuleTestBase;
+import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {

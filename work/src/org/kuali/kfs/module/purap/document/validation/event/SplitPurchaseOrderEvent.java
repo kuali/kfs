@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rule.event;
+package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.rule.PurchaseOrderSplitRule;
-import org.kuali.module.purap.rules.PurchaseOrderSplitDocumentRule;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.validation.PurchaseOrderSplitRule;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderSplitDocumentRule;
 
 public class SplitPurchaseOrderEvent extends KualiDocumentEventBase {
 

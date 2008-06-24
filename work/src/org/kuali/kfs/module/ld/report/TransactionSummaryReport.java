@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.report;
+package org.kuali.kfs.module.ld.report;
 
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.module.gl.util.AbstractPdfReportGenerator;
+import org.kuali.kfs.gl.report.AbstractPdfReportGenerator;
 
 import com.lowagie.text.Element;
 import com.lowagie.text.Phrase;
@@ -48,7 +48,7 @@ public class TransactionSummaryReport extends AbstractPdfReportGenerator {
     }
 
     /**
-     * @see org.kuali.module.gl.util.AbstractPdfReportGenerator#getReportContents()
+     * @see org.kuali.kfs.gl.report.AbstractPdfReportGenerator#getReportContents()
      */
     @Override
     public Element getReportContents() {

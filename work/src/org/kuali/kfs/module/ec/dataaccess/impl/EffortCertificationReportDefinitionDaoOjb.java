@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.dao.ojb;
+package org.kuali.kfs.module.ec.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,27 +23,27 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
-import org.kuali.module.integration.bo.EffortCertificationReport;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
 
 /**
- * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao
+ * @see org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao
  */
 public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoBaseOjb implements EffortCertificationReportDefinitionDao {
 
     /**
      * 
-     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getAll()
+     * @see org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao#getAll()
      */
     public List<EffortCertificationReportDefinition> getAll() {
         return (List<EffortCertificationReportDefinition>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, new Criteria()));
     }
 
     /**
-     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getOverlappingReportDefinitions(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao#getOverlappingReportDefinitions(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
     public List<EffortCertificationReportDefinition> getAllOtherActiveByType(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Criteria criteria = new Criteria();
@@ -73,7 +73,7 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getAllByYearAndPositionCode(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao#getAllByYearAndPositionCode(java.lang.Integer, java.lang.String)
      */
     public List<EffortCertificationReport> getAllByYearAndPositionCode(Integer fiscalYear, String positionObjectCode) {
         Criteria criteria = new Criteria();

@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.bo.Reversal;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.ReversalDao;
-import org.kuali.module.gl.service.ReversalService;
-import org.kuali.module.gl.util.LedgerEntry;
-import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.ReversalDao;
+import org.kuali.kfs.gl.service.ReversalService;
+import org.kuali.kfs.gl.businessobject.LedgerEntry;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This transactional class provides the default implementation of the services required in ReversalService
  * 
- * @see org.kuali.module.gl.service.ReversalService
+ * @see org.kuali.kfs.gl.service.ReversalService
  */
 @Transactional
 public class ReversalServiceImpl implements ReversalService {
@@ -46,7 +46,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Deletes a reversal record
      * 
      * @param re the reversal to delete, remove, or otherwise expiate from the database
-     * @see org.kuali.module.gl.service.ReversalService#delete(org.kuali.module.gl.bo.Reversal)
+     * @see org.kuali.kfs.gl.service.ReversalService#delete(org.kuali.kfs.gl.businessobject.Reversal)
      */
     public void delete(Reversal re) {
         LOG.debug("delete() started");
@@ -58,7 +58,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Returns all the reversal records set to reverse on or before the given date
      * 
      * @param before the date to find reversals on or before
-     * @see org.kuali.module.gl.service.ReversalService#getByDate(java.util.Date)
+     * @see org.kuali.kfs.gl.service.ReversalService#getByDate(java.util.Date)
      */
     public Iterator getByDate(Date before) {
         LOG.debug("getByDate() started");
@@ -76,7 +76,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Summarizes all of the reversal records set to reverse before or on the given date
      * @param before the date reversals summarized should be on or before
      * @return a LedgerEntryHolder with a summary of
-     * @see org.kuali.module.gl.service.ReversalService#getSummaryByDate(java.util.Date)
+     * @see org.kuali.kfs.gl.service.ReversalService#getSummaryByDate(java.util.Date)
      */
     public LedgerEntryHolder getSummaryByDate(Date before) {
         LOG.debug("getSummaryByDate() started");
@@ -121,7 +121,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Saves a reversal record
      * 
      * @param re the reversal to save
-     * @see org.kuali.module.gl.service.ReversalService#save(org.kuali.module.gl.bo.Reversal)
+     * @see org.kuali.kfs.gl.service.ReversalService#save(org.kuali.kfs.gl.businessobject.Reversal)
      */
     public void save(Reversal re) {
         LOG.debug("save() started");
@@ -133,7 +133,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Sets the reversalDao attribute, allowing injection of an implementation of that data access object
      * 
      * @param reversalDao the reversalDao implementation to set
-     * @see org.kuali.module.gl.dao.ReversalDao
+     * @see org.kuali.kfs.gl.dataaccess.ReversalDao
      */
     public void setReversalDao(ReversalDao reversalDao) {
         this.reversalDao = reversalDao;
@@ -143,7 +143,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Sets the accountingPeriodService attribute, allowing injection of an implementation of that service
      * 
      * @param accountingPeriodService the accountingPeriodService implementation to set
-     * @see org.kuali.module.chart.service.AccountingPeriodService
+     * @see org.kuali.kfs.coa.service.AccountingPeriodService
      */
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
         this.accountingPeriodService = accountingPeriodService;
@@ -153,7 +153,7 @@ public class ReversalServiceImpl implements ReversalService {
      * Sets the unversityDateService attribute, allowing injection of an implementation of that service
      * 
      * @param universityDateService the universityDateService implementation to set
-     * @see org.kuali.module.financial.service.UniversityDateService
+     * @see org.kuali.kfs.sys.service.UniversityDateService
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;

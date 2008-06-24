@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.document.authorization;
+package org.kuali.kfs.pdp.document.authorization;
 
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.module.pdp.PdpAuthorizationConstants;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.pdp.PdpAuthorizationConstants;
 
 
 public class PayeeAchAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {

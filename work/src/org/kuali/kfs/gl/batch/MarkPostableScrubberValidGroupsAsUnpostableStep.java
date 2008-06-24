@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.batch.TestingStep;
-import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.TestingStep;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
 
 /**
  * This step, which would only be run in testing or extraordinary production circumstances, stops the posting fo any postable
@@ -34,7 +34,7 @@ public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractSte
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job is being run
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         originEntryGroupService.markPostableScrubberValidGroupsAsUnpostable();
@@ -45,7 +45,7 @@ public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractSte
      * Sets the originEntryGroupSerivce, allowing the injection of an implementation of that service
      * 
      * @param originEntryGroupService the originEntryGroupService to set
-     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;

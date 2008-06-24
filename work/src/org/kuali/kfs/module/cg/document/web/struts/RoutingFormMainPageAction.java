@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,14 +32,14 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.routingform.bo.Keyword;
-import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
-import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.Keyword;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormKeyword;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.web.struts.RoutingForm;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
 
@@ -171,7 +171,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping,
+     * @see org.kuali.kfs.module.cg.document.web.struts.RoutingFormAction#save(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

@@ -7,7 +7,7 @@
   <bean id="TravelPerDiemMaintenanceDocument" parent="TravelPerDiemMaintenanceDocument-parentBean" />
 
   <bean id="TravelPerDiemMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.TravelPerDiem" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelPerDiem" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -31,7 +31,7 @@
             p:parameterDetailType="TravelPerDiem" />
     </property>
     <property name="documentTypeName" value="TravelPerDiemMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVPD" />
     <property name="workflowProperties" >
       <ref bean="TravelPerDiemMaintenanceDocument-workflowProperties" />

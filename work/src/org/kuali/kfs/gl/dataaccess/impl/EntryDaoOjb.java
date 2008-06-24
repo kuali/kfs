@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,10 +24,10 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.EntryDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.EntryDao;
 
 /**
  * An OJB implementation of EntryDao
@@ -61,7 +61,7 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
      * 
      * @param t the transaction to save
      * @param postDate the officially reported posting date
-     * @see org.kuali.module.gl.dao.EntryDao#addEntry(org.kuali.module.gl.bo.Transaction, java.util.Date)
+     * @see org.kuali.kfs.gl.dataaccess.EntryDao#addEntry(org.kuali.kfs.gl.businessobject.Transaction, java.util.Date)
      */
     public void addEntry(Transaction t, Date postDate) {
         LOG.debug("addEntry() started");

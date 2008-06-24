@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
 import java.io.File;
 
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.util.EnterpriseFeederStatusAndErrorMessagesWrapper;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
 
 
 /**
@@ -35,11 +35,11 @@ public interface FileEnterpriseFeederHelperService {
      * @param doneFile the done file. Must exist and be non-empty
      * @param dataFile the data file. A connection to this file may be opened multiple times by this method.
      * @param reconFile the reconciliation file. See implementations of
-     *        {@link org.kuali.module.gl.service.ReconciliationParserService} to determine the format of the data in a file.
+     *        {@link org.kuali.kfs.gl.batch.service.ReconciliationParserService} to determine the format of the data in a file.
      * @param originEntryGroup the group in which to place the origin entries
      * @param feederProcessName the name of the process that's invoking this method.
      * @param reconciliationTableId the name of the reconciliation block to use within the reconciliation file
-     * @param statusAndErrors a class with references to a {@link org.kuali.module.gl.util.EnterpriseFeederStatus} object and a list
+     * @param statusAndErrors a class with references to a {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus} object and a list
      *        of error messages. Implementations of this method may need to throw an exception to force a transaction rollback,
      *        which means that it can't return a value. This parameter allows the method to output status/error information
      */

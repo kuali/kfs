@@ -19,7 +19,7 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.kuali.module.pdp.utilities;
+package org.kuali.kfs.pdp;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,8 +29,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.pdp.exception.ConfigurationError;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.pdp.exception.ConfigurationError;
 
 
 /**

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="person" required="true"
-  type="org.kuali.module.kra.budget.bo.BudgetUser"%>
+  type="org.kuali.kfs.module.cg.businessobject.BudgetUser"%>
 <%@ attribute name="personListIndex" required="true"%>
 <%@ attribute name="matchAppointmentType" required="true"%>
 

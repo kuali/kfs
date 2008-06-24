@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.lookupable;
+package org.kuali.kfs.gl.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,14 +22,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.service.EncumbranceService;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.inquirable.EncumbranceInquirableImpl;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.gl.service.EncumbranceService;
+import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.businessobject.inquiry.EncumbranceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

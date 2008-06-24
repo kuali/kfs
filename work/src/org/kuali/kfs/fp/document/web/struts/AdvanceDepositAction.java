@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.web.struts.action;
+package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.Iterator;
 
@@ -25,13 +25,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
-import org.kuali.module.financial.document.AdvanceDepositDocument;
-import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
-import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentRuleUtil;
+import org.kuali.kfs.fp.document.web.struts.AdvanceDepositForm;
 
 /**
  * This is the action class for the Advance Deposit document.

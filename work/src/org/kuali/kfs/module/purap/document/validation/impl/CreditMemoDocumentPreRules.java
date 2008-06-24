@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.module.purap.document.AccountsPayableDocument;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 
 /**
  * Business rule(s) applicable to the Credit Memo document.
@@ -43,7 +43,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
     }
 
     /**
-     * @see org.kuali.module.purap.rules.AccountsPayableDocumentPreRulesBase#getDocumentName()
+     * @see org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableDocumentPreRulesBase#getDocumentName()
      */
     @Override
     public String getDocumentName() {
@@ -51,7 +51,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
     }
     
     /** 
-     * @see org.kuali.module.purap.rules.AccountsPayableDocumentPreRulesBase#createInvoiceNoMatchQuestionText(org.kuali.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableDocumentPreRulesBase#createInvoiceNoMatchQuestionText(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     @Override
     public String createInvoiceNoMatchQuestionText(AccountsPayableDocument accountsPayableDocument){

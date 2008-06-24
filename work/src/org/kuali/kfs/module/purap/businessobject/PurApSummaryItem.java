@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
  * Purap Summary Item Business Object.
@@ -42,21 +42,21 @@ public class PurApSummaryItem extends PurApItemBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItem#getAccountingLineClass()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#getAccountingLineClass()
      */
     public Class getAccountingLineClass() {
         return SourceAccountingLine.class;
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#isConsideredEntered()
      */
     public boolean isConsideredEntered() {
         return false;
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItemBase#resetAccount()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItemBase#resetAccount()
      */
     @Override
     public void resetAccount() {

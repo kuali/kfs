@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.attribute;
+package org.kuali.kfs.module.cg.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,10 @@ public class KualiResearchRiskAttribute implements WorkflowAttribute {
     public String getDocContent() {
         // TODO Auto-generated method stub
         /*
-         * <newMaintainableObject class="org.kuali.module.cg.maintenance.AwardMaintainableImpl"> <businessObject
-         * class="org.kuali.module.cg.bo.Award"> <proposalNumber>81159</proposalNumber> <proposal> <proposalResearchRisks
+         * <newMaintainableObject class="org.kuali.kfs.module.cg.document.AwardMaintainableImpl"> <businessObject
+         * class="org.kuali.kfs.module.cg.businessobject.Award"> <proposalNumber>81159</proposalNumber> <proposal> <proposalResearchRisks
          * class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom"> <list> <default> <size>6</size>
-         * </default> <int>10</int> <org.kuali.module.cg.bo.ProposalResearchRisk> <researchRiskTypeCode>H</researchRiskTypeCode>
+         * </default> <int>10</int> <org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk> <researchRiskTypeCode>H</researchRiskTypeCode>
          * <proposalNumber>81159</proposalNumber> <isActive>false</isActive> <proposal reference="../../../.."/>
          * <researchRiskType> <researchRiskTypeCode>H</researchRiskTypeCode> <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
          * <researchRiskTypeDescription>Human Subjects</researchRiskTypeDescription>

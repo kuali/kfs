@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.web.struts.action;
+package org.kuali.kfs.module.cg.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +25,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
-import org.kuali.module.kra.budget.bo.BudgetIndirectCostLookup;
-import org.kuali.module.kra.budget.rules.event.RecalculateIndirectCostEvent;
-import org.kuali.module.kra.budget.rules.event.UpdateIndirectCostEvent;
-import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
+import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCostLookup;
+import org.kuali.kfs.module.cg.document.validation.event.RecalculateIndirectCostEvent;
+import org.kuali.kfs.module.cg.document.validation.event.UpdateIndirectCostEvent;
+import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetForm;
+import org.kuali.kfs.module.cg.document.web.struts.BudgetIndirectCostFormHelper;
 
 /**
  * This class handles Actions for Research Administration.

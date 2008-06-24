@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.form;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 /**
  * Interface for defining a <code>{@link ActionForm}</code> that has multiple value lookups on it; however, it should not be

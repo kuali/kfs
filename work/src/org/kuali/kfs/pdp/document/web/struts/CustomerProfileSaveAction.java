@@ -19,7 +19,7 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.kuali.module.pdp.action.customerprofile;
+package org.kuali.kfs.pdp.document.web.struts;
 
 import java.util.Iterator;
 import java.util.List;
@@ -33,28 +33,28 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.ProjectCodeService;
-import org.kuali.module.chart.service.SubAccountService;
-import org.kuali.module.chart.service.SubObjectCodeService;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.bo.Bank;
-import org.kuali.module.pdp.bo.CustomerBank;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.bo.DisbursementType;
-import org.kuali.module.pdp.form.customerprofile.CustomerBankForm;
-import org.kuali.module.pdp.form.customerprofile.CustomerProfileForm;
-import org.kuali.module.pdp.service.BankService;
-import org.kuali.module.pdp.service.CustomerProfileService;
-import org.kuali.module.pdp.service.ReferenceService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.ProjectCodeService;
+import org.kuali.kfs.coa.service.SubAccountService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.businessobject.Bank;
+import org.kuali.kfs.pdp.businessobject.CustomerBank;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.DisbursementType;
+import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
+import org.kuali.kfs.pdp.document.web.struts.CustomerProfileForm;
+import org.kuali.kfs.pdp.service.BankService;
+import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

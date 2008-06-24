@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.lookup;
+package org.kuali.kfs.module.ec.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +24,9 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.bo.DuplicateCertificationsReport;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.businessobject.DuplicateCertificationsReport;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**

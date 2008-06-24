@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,9 +22,9 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.gl.service.ReconciliationParserService;
-import org.kuali.module.gl.util.ColumnReconciliation;
-import org.kuali.module.gl.util.ReconciliationBlock;
+import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
+import org.kuali.kfs.gl.batch.service.impl.ColumnReconciliation;
+import org.kuali.kfs.gl.batch.service.impl.ReconciliationBlock;
 
 /**
  * Format of the reconciliation file:
@@ -80,7 +80,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
      * @param tableId defined within the reconciliation file; defines which block to parse
      * @return parsed reconciliation data
      * @throws IOException thrown if the file cannot be written for any reason
-     * @see org.kuali.module.gl.service.ReconciliationParserService#parseReconciliatioData(java.io.Reader)
+     * @see org.kuali.kfs.gl.batch.service.ReconciliationParserService#parseReconciliatioData(java.io.Reader)
      */
     public ReconciliationBlock parseReconciliationBlock(Reader reader, String tableId) throws IOException {
         BufferedReader bufReader;

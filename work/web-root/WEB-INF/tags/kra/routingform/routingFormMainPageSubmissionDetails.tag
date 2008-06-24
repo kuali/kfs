@@ -182,7 +182,7 @@
 		              <tr>
 		                <td class="nobord"> <div align="left">
 					    	<c:if test="${!viewOnly}">
-						    	<kul:multipleValueLookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookedUpCollectionName="routingFormKeywords" lookedUpBODisplayName="Keyword" anchor="${currentTabIndex}"/>
+						    	<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cg.businessobject.Keyword" lookedUpCollectionName="routingFormKeywords" lookedUpBODisplayName="Keyword" anchor="${currentTabIndex}"/>
 		                	</c:if>
 		                </div></td>
 		                <td class="nobord"> <div align="center">

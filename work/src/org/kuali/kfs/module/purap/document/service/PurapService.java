@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.util.List;
@@ -21,10 +21,10 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.PurapItemOperations;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurapItemOperations;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -111,14 +111,14 @@ public interface PurapService {
 
     /**
      * Retrieve the Automatic Purchase Order Limit amount based first on the derived contract limit (see
-     * {@link org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)}) and if that is null
-     * then based on the {@link org.kuali.module.purap.bo.OrganizationParameter} associated with the given 'chart' and 'org' values.
+     * {@link org.kuali.kfs.vnd.document.service.VendorService#getApoLimitFromContract(Integer, String, String)}) and if that is null
+     * then based on the {@link org.kuali.kfs.module.purap.businessobject.OrganizationParameter} associated with the given 'chart' and 'org' values.
      * 
      * @param vendorContractGeneratedIdentifier
-     * @param chart chart code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} and
-     *        {@link org.kuali.module.purap.bo.OrganizationParameter}
-     * @param org organization code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} and
-     *        {@link org.kuali.module.purap.bo.OrganizationParameter}
+     * @param chart chart code to use when looking up limit amount on {@link org.kuali.kfs.vnd.businessobject.VendorContract} and
+     *        {@link org.kuali.kfs.module.purap.businessobject.OrganizationParameter}
+     * @param org organization code to use when looking up limit amount on {@link org.kuali.kfs.vnd.businessobject.VendorContract} and
+     *        {@link org.kuali.kfs.module.purap.businessobject.OrganizationParameter}
      * @return a KualiDecimal if a valid limit amount is found or null if one is not found
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service.impl;
+package org.kuali.kfs.vnd.document.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,16 +31,16 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.VendorConstants;
-import org.kuali.module.vendor.VendorPropertyConstants;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.bo.VendorContractOrganization;
-import org.kuali.module.vendor.bo.VendorDefaultAddress;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.service.VendorService;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
+import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
+import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -56,7 +56,7 @@ public class VendorServiceImpl implements VendorService {
 
     /**
      * 
-     * @see org.kuali.module.vendor.service.VendorService#saveVendorHeader(org.kuali.module.vendor.bo.VendorDetail)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#saveVendorHeader(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
     public void saveVendorHeader(VendorDetail vendorDetail) {
         businessObjectService.save(vendorDetail.getVendorHeader());
@@ -64,7 +64,7 @@ public class VendorServiceImpl implements VendorService {
 
     /**
      * 
-     * @see org.kuali.module.vendor.service.VendorService#getVendorDetail(java.lang.Integer, java.lang.Integer)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(java.lang.Integer, java.lang.Integer)
      */
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId) {
         LOG.debug("Entering getVendorDetail for headerId:" + headerId + ", detailId:" + detailId);
@@ -75,7 +75,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getApoLimitFromContract(Integer, String, String)
      */
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
         LOG.debug("Entering getApoLimitFromContract with contractId:" + contractId + ", chart:" + chart + ", org:" + org);
@@ -113,7 +113,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#getParentVendor(java.lang.Integer)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getParentVendor(java.lang.Integer)
      */
     public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier) {
         LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:" + vendorHeaderGeneratedIdentifier);
@@ -146,7 +146,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#getVendorDefaultAddress(Integer, Integer, String, String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(Integer, Integer, String, String)
      */
     public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus) {
         LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:" + vendorHeaderId + ", vendorDetailId:" + vendorDetailId + ", addressType:" + addressType + ", campus:" + campus);
@@ -160,7 +160,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#getVendorDefaultAddress(List, String, String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(List, String, String)
      */
     public VendorAddress getVendorDefaultAddress(List<VendorAddress> addresses, String addressType, String campus) {
         LOG.debug("Entering getVendorDefaultAddress.");
@@ -193,7 +193,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#shouldVendorRouteForApproval(java.lang.String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#shouldVendorRouteForApproval(java.lang.String)
      */
     public boolean shouldVendorRouteForApproval(String documentId) {
         LOG.debug("Entering shouldVendorRouteForApproval.");
@@ -225,9 +225,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#noRouteSignificantChangeOccurred(org.kuali.module.vendor.bo.VendorDetail,
-     *      org.kuali.module.vendor.bo.VendorHeader, org.kuali.module.vendor.bo.VendorDetail,
-     *      org.kuali.module.vendor.bo.VendorHeader)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#noRouteSignificantChangeOccurred(org.kuali.kfs.vnd.businessobject.VendorDetail,
+     *      org.kuali.kfs.vnd.businessobject.VendorHeader, org.kuali.kfs.vnd.businessobject.VendorDetail,
+     *      org.kuali.kfs.vnd.businessobject.VendorHeader)
      */
     public boolean noRouteSignificantChangeOccurred(VendorDetail newVDtl, VendorHeader newVHdr, VendorDetail oldVDtl, VendorHeader oldVHdr) {
         LOG.debug("Entering noRouteSignificantChangeOccurred.");
@@ -240,7 +240,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#equalMemberLists(java.util.List, java.util.List)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#equalMemberLists(java.util.List, java.util.List)
      */
     public boolean equalMemberLists(List<? extends VendorRoutingComparable> list_a, List<? extends VendorRoutingComparable> list_b) {
         LOG.debug("Entering equalMemberLists.");
@@ -263,7 +263,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#isVendorInstitutionEmployee(java.lang.Integer)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorInstitutionEmployee(java.lang.Integer)
      */
     public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
@@ -289,7 +289,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.module.vendor.service.VendorService#isVendorNonResidentAlien(java.lang.Integer)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorNonResidentAlien(java.lang.Integer)
      */
     public boolean isVendorForeign(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
@@ -303,7 +303,7 @@ public class VendorServiceImpl implements VendorService {
     
     /**
      * 
-     * @see org.kuali.module.vendor.service.VendorService#isSubjectPaymentVendor(java.lang.Integer)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#isSubjectPaymentVendor(java.lang.Integer)
      */
     public boolean isSubjectPaymentVendor(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
@@ -317,7 +317,7 @@ public class VendorServiceImpl implements VendorService {
 
     /**
      * 
-     * @see org.kuali.module.vendor.service.VendorService#isRevolvingFundCodeVendor(java.lang.Integer)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#isRevolvingFundCodeVendor(java.lang.Integer)
      */
     public boolean isRevolvingFundCodeVendor(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);

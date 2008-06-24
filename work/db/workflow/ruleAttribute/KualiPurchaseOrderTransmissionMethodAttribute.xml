@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="purchaseOrderTransmissionMethodCode" draw="true" service="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable(workflow-purchaseOrderTransmissionMethodCode:purchaseOrderTransmissionMethodCode)" />
+          <quickfinder appliesTo="purchaseOrderTransmissionMethodCode" draw="true" service="workflow-org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod-Lookupable(workflow-purchaseOrderTransmissionMethodCode:purchaseOrderTransmissionMethodCode)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//document/purchaseOrderTransmissionMethodCode') = wf:ruledata('purchaseOrderTransmissionMthdCd')</xpathexpression>
           </fieldEvaluation>

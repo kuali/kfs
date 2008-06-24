@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.fixture.AmountsLimitsFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class RequisitionDocumentRuleTest extends PurapRuleTestBase {

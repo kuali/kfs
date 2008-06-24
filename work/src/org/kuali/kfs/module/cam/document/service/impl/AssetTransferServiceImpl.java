@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,25 +26,25 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
-import org.kuali.module.cams.bo.AssetLocation;
-import org.kuali.module.cams.bo.AssetObjectCode;
-import org.kuali.module.cams.bo.AssetOrganization;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.service.AssetObjectCodeService;
-import org.kuali.module.cams.service.AssetPaymentService;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.AssetTransferService;
-import org.kuali.module.cams.util.ObjectValueUtils;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.AssetTransferService;
+import org.kuali.kfs.module.cam.ObjectValueUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
     private static enum AmountCategory {
@@ -127,7 +127,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.AssetTransferService#createGLPostables(org.kuali.module.cams.document.AssetTransferDocument)
+     * @see org.kuali.kfs.module.cam.document.service.AssetTransferService#createGLPostables(org.kuali.kfs.module.cam.document.AssetTransferDocument)
      */
     public void createGLPostables(AssetTransferDocument document) {
         // Create GL entries only for capital assets
@@ -366,7 +366,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
 
     /**
-     * @see org.kuali.module.cams.service.AssetTransferService#saveApprovedChanges(org.kuali.module.cams.document.AssetTransferDocument)
+     * @see org.kuali.kfs.module.cam.document.service.AssetTransferService#saveApprovedChanges(org.kuali.kfs.module.cam.document.AssetTransferDocument)
      */
     public void saveApprovedChanges(AssetTransferDocument document) {
         // save new asset location details to asset table, inventory date

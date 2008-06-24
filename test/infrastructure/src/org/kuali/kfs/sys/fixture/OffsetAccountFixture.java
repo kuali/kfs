@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.fixtures;
+package org.kuali.kfs.sys.fixture;
 
-import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.kfs.fp.businessobject.OffsetAccount;
 
 public enum OffsetAccountFixture {
     OFFSET_ACCOUNT1("BL", "2231401", "8000", "UA", "1912201"), ;

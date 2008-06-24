@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,35 +33,35 @@ import org.kuali.core.service.MailService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.XMLParseException;
-import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.batch.collector.CollectorStep;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.CollectorHeader;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.CollectorDetailService;
-import org.kuali.module.gl.service.CollectorHelperService;
-import org.kuali.module.gl.service.CollectorScrubberService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.CollectorReportData;
-import org.kuali.module.gl.util.CollectorScrubberStatus;
-import org.kuali.module.gl.util.OriginEntryTotals;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.batch.CollectorStep;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.CollectorHeader;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.CollectorDetailService;
+import org.kuali.kfs.gl.batch.service.CollectorHelperService;
+import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 
 /**
  * The base implementation of CollectorHelperService
- * @see org.kuali.module.gl.service.CollectorService
+ * @see org.kuali.kfs.gl.batch.service.CollectorService
  */
 public class CollectorHelperServiceImpl implements CollectorHelperService {
     private static Logger LOG = Logger.getLogger(CollectorHelperServiceImpl.class);
@@ -87,7 +87,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param collectorScrubberStatuses if the collector scrubber is able to be invoked upon this collector batch, then the status
      *        info of the collector status run is added to the end of this list
      * @return boolean - true if load was successful, false if errors were encountered
-     * @see org.kuali.module.gl.service.CollectorService#loadCollectorFile(java.lang.String)
+     * @see org.kuali.kfs.gl.batch.service.CollectorService#loadCollectorFile(java.lang.String)
      */
     public boolean loadCollectorFile(String fileName, OriginEntryGroup originEntryGroup, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
         boolean isValid = true;
@@ -196,7 +196,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * 
      * @param batch - batch to validate
      * @return boolean - true if validation was OK, false if there were errors
-     * @see org.kuali.module.gl.service.CollectorHelperService#performValidation(org.kuali.module.gl.batch.collector.CollectorBatch)
+     * @see org.kuali.kfs.gl.batch.service.CollectorHelperService#performValidation(org.kuali.kfs.gl.batch.CollectorBatch)
      */
     public boolean performValidation(CollectorBatch batch) {
         return performValidation(batch, GlobalVariables.getErrorMap());
@@ -423,8 +423,8 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * 
      * @param batch batch to check totals for
      * @param collectorReportData collector report data (optional)
-     * @see org.kuali.module.gl.service.CollectorHelperService#checkTrailerTotals(org.kuali.module.gl.batch.collector.CollectorBatch,
-     *      org.kuali.module.gl.util.CollectorReportData)
+     * @see org.kuali.kfs.gl.batch.service.CollectorHelperService#checkTrailerTotals(org.kuali.kfs.gl.batch.CollectorBatch,
+     *      org.kuali.kfs.gl.report.CollectorReportData)
      */
     public boolean checkTrailerTotals(CollectorBatch batch, CollectorReportData collectorReportData) {
         return checkTrailerTotals(batch, collectorReportData, GlobalVariables.getErrorMap());

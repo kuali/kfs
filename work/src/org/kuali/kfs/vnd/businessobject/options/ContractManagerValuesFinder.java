@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.lookup.keyvalues;
+package org.kuali.kfs.vnd.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,13 +23,13 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.bo.ContractManager;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.ContractManager;
 
 /**
  * Values finder for <code>ContractManager</code>.
  * 
- * @see org.kuali.module.vendor.bo.ContractManager
+ * @see org.kuali.kfs.vnd.businessobject.ContractManager
  */
 public class ContractManagerValuesFinder extends KeyValuesBase {
 

@@ -7,7 +7,7 @@
   <bean id="AccountStatusCurrentFunds" parent="AccountStatusCurrentFunds-parentBean" />
 
   <bean id="AccountStatusCurrentFunds-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.labor.bo.AccountStatusCurrentFunds" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds" />
     <property name="inquiryDefinition" >
       <ref bean="AccountStatusCurrentFunds-inquiryDefinition" />
     </property>
@@ -214,7 +214,7 @@
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
         <bean parent="FieldDefinition"
               p:required="true"
               p:attributeName="chartOfAccountsCode" />
@@ -229,10 +229,10 @@
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.consolidationOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.pendingEntryOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
       </list>
     </property>
     <property name="resultFields" >

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.ojb;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.apache.ojb.broker.util.ObjectModification;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
-import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.ImportRequestDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
 
 public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements ImportRequestDao {
    
@@ -42,7 +42,7 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.ImportRequestDao#findAllNonErrorCodeRecords()
+     * @see org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao#findAllNonErrorCodeRecords()
      */
     public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String personUniversalIdentifier) {
         Criteria criteria = new Criteria();

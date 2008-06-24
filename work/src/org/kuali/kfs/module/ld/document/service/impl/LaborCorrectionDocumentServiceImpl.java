@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.document.service.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -37,23 +37,23 @@ import org.kuali.core.web.comparator.StringValueComparator;
 import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.CorrectionChangeDao;
-import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
-import org.kuali.module.gl.dao.CorrectionCriteriaDao;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl;
-import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
-import org.kuali.module.gl.util.CorrectionDocumentUtils;
-import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.labor.LaborPropertyConstants;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.document.LaborCorrectionDocument;
-import org.kuali.module.labor.service.LaborCorrectionDocumentService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.util.LaborOriginEntryFileIterator;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
+import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
+import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.document.service.impl.CorrectionDocumentServiceImpl;
+import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -76,7 +76,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     public final static int UNLIMITED_ABORT_THRESHOLD = CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED;
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
      *      int)
      */
     public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String docId, int i) {
@@ -85,7 +85,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
      *      int)
      */
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(String docId, int i) {
@@ -94,7 +94,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String,
      *      int)
      */
     public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i) {
@@ -103,7 +103,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
      */
     public LaborCorrectionDocument findByCorrectionDocumentHeaderId(String docId) {
 
@@ -150,7 +150,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     private List<Column> cachedColumns = null;
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#generateInputOriginEntryFileName(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#generateInputOriginEntryFileName(java.lang.String)
      */
     protected String generateInputOriginEntryFileName(LaborCorrectionDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
@@ -158,7 +158,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#generateOutputOriginEntryFileName(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#generateOutputOriginEntryFileName(java.lang.String)
      */
     protected String generateOutputOriginEntryFileName(LaborCorrectionDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
@@ -167,21 +167,21 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#generateInputOriginEntryFileName(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#generateInputOriginEntryFileName(java.lang.String)
      */
     protected String generateInputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#generateOutputOriginEntryFileName(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#generateOutputOriginEntryFileName(java.lang.String)
      */
     protected String generateOutputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#persistOriginEntriesToFile(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#persistOriginEntriesToFile(org.kuali.kfs.module.ld.document.LaborCorrectionDocument,
      *      java.util.Iterator)
      */
     public void persistInputOriginEntriesForInitiatedOrSavedDocument(LaborCorrectionDocument document, Iterator<LaborOriginEntry> entries) {
@@ -195,7 +195,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#persistOutputLaborOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#persistOutputLaborOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.module.ld.document.LaborCorrectionDocument,
      *      java.util.Iterator)
      */
     public void persistOutputLaborOriginEntriesForInitiatedOrSavedDocument(LaborCorrectionDocument document, Iterator<LaborOriginEntry> entries) {
@@ -208,7 +208,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#persistLaborOriginEntries(java.lang.String,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#persistLaborOriginEntries(java.lang.String,
      *      java.util.Iterator)
      */
     protected void persistLaborOriginEntries(String fullPathUniqueFileName, Iterator<LaborOriginEntry> entries) {
@@ -243,7 +243,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#openEntryOutputStreamForOutputGroup(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#openEntryOutputStreamForOutputGroup(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     protected BufferedOutputStream openEntryOutputStreamForOutputGroup(LaborCorrectionDocument document) throws IOException {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -252,7 +252,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public void removePersistedInputOriginEntries(LaborCorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -260,7 +260,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public void removePersistedOutputOriginEntries(LaborCorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -269,21 +269,21 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedInputOriginEntries(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedInputOriginEntries(java.lang.String)
      */
     public void removePersistedInputOriginEntries(String docId) {
         removePersistedOriginEntries(generateInputOriginEntryFileName(docId));
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntries(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedOutputOriginEntries(java.lang.String)
      */
     public void removePersistedOutputOriginEntries(String docId) {
         removePersistedOriginEntries(generateOutputOriginEntryFileName(docId));
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#removePersistedOriginEntries(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#removePersistedOriginEntries(java.lang.String)
      */
     protected void removePersistedOriginEntries(String fullPathUniqueFileName) {
         File fileOut = new File(fullPathUniqueFileName);
@@ -294,7 +294,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.kfs.module.ld.document.LaborCorrectionDocument,
      *      int)
      */
     public List<LaborOriginEntry> retrievePersistedInputOriginEntries(LaborCorrectionDocument document, int abortThreshold) {
@@ -302,7 +302,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.kfs.module.ld.document.LaborCorrectionDocument,
      *      int)
      */
     public List<LaborOriginEntry> retrievePersistedOutputOriginEntries(LaborCorrectionDocument document, int abortThreshold) {
@@ -310,7 +310,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#retrievePersistedLaborOriginEntries(java.lang.String, int)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedLaborOriginEntries(java.lang.String, int)
      */
     protected List<LaborOriginEntry> retrievePersistedLaborOriginEntries(String fullPathUniqueFileName, int abortThreshold) {
         File fileIn = new File(fullPathUniqueFileName);
@@ -359,7 +359,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public Iterator<LaborOriginEntry> retrievePersistedInputOriginEntriesAsIterator(LaborCorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -367,7 +367,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public Iterator<LaborOriginEntry> retrievePersistedOutputOriginEntriesAsIterator(LaborCorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -375,7 +375,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#retrievePersistedLaborOriginEntriesAsIterator(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedLaborOriginEntriesAsIterator(java.lang.String)
      */
     protected Iterator<LaborOriginEntry> retrievePersistedLaborOriginEntriesAsIterator(String fullPathUniqueFileName) {
         File fileIn = new File(fullPathUniqueFileName);
@@ -402,7 +402,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     /**
      * Returns true if and only if the file corresponding to this document's input origin entries are on the file system.
      * 
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public boolean areInputOriginEntriesPersisted(LaborCorrectionDocument document) {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -413,7 +413,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     /**
      * Returns true if and only if the file corresponding to this document's output origin entries are on the file system.
      * 
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.module.labor.document.LaborCorrectionDocument)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
      */
     public boolean areOutputOriginEntriesPersisted(LaborCorrectionDocument document) {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -423,7 +423,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
      */
     public void writePersistedInputOriginEntriesToStream(LaborCorrectionDocument document, OutputStream out) throws IOException {
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
@@ -431,7 +431,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#writePersistedOutputOriginEntriesToStream(java.io.OutputStream)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#writePersistedOutputOriginEntriesToStream(java.io.OutputStream)
      */
     public void writePersistedOutputOriginEntriesToStream(LaborCorrectionDocument document, OutputStream out) throws IOException {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
@@ -439,7 +439,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#writePersistedOriginEntriesToStream(java.lang.String,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#writePersistedOriginEntriesToStream(java.lang.String,
      *      java.io.OutputStream)
      */
     protected void writePersistedOriginEntriesToStream(String fullPathUniqueFileName, OutputStream out) throws IOException {
@@ -459,7 +459,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#writePersistedOriginEntriesToStream(org.kuali.module.labor.document.LaborCorrectionDocument,
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#writePersistedOriginEntriesToStream(org.kuali.kfs.module.ld.document.LaborCorrectionDocument,
      *      org.kuali.module.gl.util)
      */
     public void persistOriginEntryGroupsForDocumentSave(LaborCorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
@@ -638,7 +638,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
 
 
     /**
-     * @see org.kuali.module.labor.service.LaborCorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
      */
     public List<Column> getTableRenderColumnMetadata(String docId) {
         synchronized (this) {

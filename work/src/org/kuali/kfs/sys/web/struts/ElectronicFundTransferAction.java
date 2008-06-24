@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.action;
+package org.kuali.kfs.sys.web.struts;
 
 import java.util.Map;
 
@@ -25,10 +25,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
-import org.kuali.kfs.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 
 public class ElectronicFundTransferAction extends KualiAction {
     private final static String START_BEAN = "electronicFundTransferStartAction";

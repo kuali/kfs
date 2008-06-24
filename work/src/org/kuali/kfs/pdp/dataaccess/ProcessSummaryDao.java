@@ -17,12 +17,12 @@
  * Created on Oct 1, 2004
  *
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.ProcessSummary;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 
 
 /**

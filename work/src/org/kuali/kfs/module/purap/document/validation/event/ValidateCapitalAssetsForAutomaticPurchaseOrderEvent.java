@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rule.event;
+package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.validation.ValidateCapitalAssetsForAutomaticPurchaseOrderRule;
 
 public final class ValidateCapitalAssetsForAutomaticPurchaseOrderEvent extends KualiDocumentEventBase {
 

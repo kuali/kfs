@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.service.impl;
+package org.kuali.kfs.module.ec.batch.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,15 +21,15 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortConstants.SystemParameters;
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.effort.service.EffortCertificationDetailBuildService;
-import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
-import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
+import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
+import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
+import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,8 +41,8 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDetailBuildServiceImpl.class);
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
-     *      org.kuali.module.labor.bo.LedgerBalance, org.kuali.module.effort.bo.EffortCertificationReportDefinition, java.util.Map)
+     * @see org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
+     *      org.kuali.kfs.module.ld.businessobject.LedgerBalance, org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition, java.util.Map)
      */
     public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LaborLedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         EffortCertificationDetailBuild detailLine = new EffortCertificationDetailBuild();

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
@@ -45,7 +45,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      * @return True if the account is accessible, false otherwise.
      * 
      * @see AccountingDocumentRuleBase#accountIsAccessible(FinancialDocument, AccountingLine)
-     * @see ServiceBillingDocumentRuleUtil#serviceBillingIncomeAccountIsAccessible(AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
+     * @see ServiceBillingDocumentRuleUtil#serviceBillingIncomeAccountIsAccessible(AccountingLine, org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {

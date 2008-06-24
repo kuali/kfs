@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
-import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
 
 /**
  * This class implements the {@link IndirectCostRecoveryExclusionTypeDao} data access methods using Ojb
@@ -29,7 +29,7 @@ public class IndirectCostRecoveryExclusionTypeDaoOjb extends PlatformAwareDaoBas
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionTypeDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao#getByPrimaryKey(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao#getByPrimaryKey(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public IndirectCostRecoveryExclusionType getByPrimaryKey(String accountIndirectCostRecoveryTypeCode, String chartOfAccountsCode, String objectCode) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.batch.pcard;
+package org.kuali.kfs.fp.batch;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 
 /**
  * This step will call a service method to load the kuali pcard xml file into the transaction table. Validates the data before the

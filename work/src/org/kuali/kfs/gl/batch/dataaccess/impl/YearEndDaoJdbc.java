@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.jdbc;
+package org.kuali.kfs.gl.batch.dataaccess.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.module.gl.dao.YearEndDao;
+import org.kuali.kfs.gl.batch.dataaccess.YearEndDao;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
@@ -74,7 +74,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * 
      * @param balanceFiscalyear the fiscal year of balances to check for missing prior year accounts for
      * @return a Set of Maps holding the primary keys of missing prior year accounts
-     * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingPriorYearAccountsForBalances(java.lang.Integer)
+     * @see org.kuali.kfs.gl.batch.dataaccess.YearEndDao#findKeysOfMissingPriorYearAccountsForBalances(java.lang.Integer)
      */
     public Set<Map<String, String>> findKeysOfMissingPriorYearAccountsForBalances(Integer balanceFiscalYear) {
         // 1. get a sorted list of the prior year account keys that are used by balances for the given fiscal year
@@ -108,7 +108,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * 
      * @param balanceFiscalYear the fiscal year of the balance to find missing sub fund groups for
      * @return a Set of Maps holding the primary keys of missing sub fund groups
-     * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingSubFundGroupsForBalances(java.lang.Integer)
+     * @see org.kuali.kfs.gl.batch.dataaccess.YearEndDao#findKeysOfMissingSubFundGroupsForBalances(java.lang.Integer)
      */
     public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForBalances(Integer balanceFiscalYear) {
         // see algorithm for findKeysOfMissingPriorYearAccountsForBalances
@@ -140,7 +140,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * 
      * @param encumbranceFiscalYear the fiscal year of balances to find missing encumbrance records for
      * @return a Set of Maps holding the primary keys of missing prior year accounts
-     * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingPriorYearAccountsForOpenEncumbrances(java.lang.Integer)
+     * @see org.kuali.kfs.gl.batch.dataaccess.YearEndDao#findKeysOfMissingPriorYearAccountsForOpenEncumbrances(java.lang.Integer)
      */
     public Set<Map<String, String>> findKeysOfMissingPriorYearAccountsForOpenEncumbrances(Integer encumbranceFiscalYear) {
         List priorYearKeys = getJdbcTemplate().query("select distinct fin_coa_cd, account_nbr from gl_encumbrance_t where univ_fiscal_yr = ? and acln_encum_amt <> acln_encum_cls_amt order by fin_coa_cd, account_nbr", new Object[] { encumbranceFiscalYear }, priorYearAccountRowMapper);
@@ -152,7 +152,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * 
      * @param  encumbranceFiscalYear the fiscal year of encumbrances to find missing sub fund group records for
      * @return a Set of Maps holding the primary keys of missing sub fund group records
-     * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingSubFundGroupsForOpenEncumbrances(java.lang.Integer)
+     * @see org.kuali.kfs.gl.batch.dataaccess.YearEndDao#findKeysOfMissingSubFundGroupsForOpenEncumbrances(java.lang.Integer)
      */
     public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForOpenEncumbrances(Integer encumbranceFiscalYear) {
         List subFundGroupKeys = getJdbcTemplate().query("select distinct ca_prior_yr_acct_t.sub_fund_grp_cd from ca_prior_yr_acct_t, gl_encumbrance_t where ca_prior_yr_acct_t.fin_coa_cd = gl_encumbrance_t.fin_coa_cd and ca_prior_yr_acct_t.account_nbr = gl_encumbrance_t.account_nbr and gl_encumbrance_t.univ_fiscal_yr = ? and gl_encumbrance_t.acln_encum_amt <> gl_encumbrance_t.acln_encum_cls_amt and ca_prior_yr_acct_t.sub_fund_grp_cd is not null order by ca_prior_yr_acct_t.sub_fund_grp_cd", new Object[] { encumbranceFiscalYear }, subFundGroupRowMapper);

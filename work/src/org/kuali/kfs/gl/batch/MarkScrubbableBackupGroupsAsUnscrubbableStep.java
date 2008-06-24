@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.batch.TestingStep;
-import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.TestingStep;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
 
 /**
  * This step will mark all backup groups in the database so that they will not be scrubbed when the nightly scrubber step runs
@@ -34,7 +34,7 @@ public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep i
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job is being run
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         originEntryGroupService.markScrubbableBackupGroupsAsUnscrubbable();
@@ -45,7 +45,7 @@ public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep i
      * Sets the originEntryGroupSerivce, allowing the injection of an implementation of that service
      * 
      * @param originEntryGroupService an implementation originEntryGroupService to set
-     * @see org.kuali.module.gl.service.OriginEntryGroupService
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;

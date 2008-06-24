@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
 import java.util.Collection;
 
-import org.kuali.module.purap.bo.ReceivingAddress;
+import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 
 public interface ReceivingAddressService {
 

@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiSeparationOfDutiesRoleAttribute</name>
-      <className>org.kuali.workflow.module.purap.attribute.KualiSeparationOfDutiesRoleAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.routing.attribute.KualiSeparationOfDutiesRoleAttribute</className>
       <label>Separation of Duties Routing Role Attribute</label>
       <description>Attribute to determine if document should route for Separation of Duties Review</description>
       <type>RuleAttribute</type>

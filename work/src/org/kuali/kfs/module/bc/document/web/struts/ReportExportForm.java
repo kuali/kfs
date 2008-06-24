@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.form;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants;
 
 /**
  * Struts action formm for report dumps.

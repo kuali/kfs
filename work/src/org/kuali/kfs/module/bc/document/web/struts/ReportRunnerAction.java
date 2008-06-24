@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -36,17 +36,17 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ReportGenerationService;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BudgetConstructionReportMode;
-import org.kuali.module.budget.service.BudgetConstructionAccountMonthlyDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionAccountSalaryDetailReportService;
-import org.kuali.module.budget.service.BudgetConstructionDocumentAccountObjectDetailReportService;
-import org.kuali.module.budget.web.struts.form.ReportRunnerForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.service.ReportGenerationService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountMonthlyDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSalaryDetailReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionDocumentAccountObjectDetailReportService;
+import org.kuali.kfs.module.bc.document.web.struts.ReportRunnerForm;
 
 /**
  * Action class to display document reports and dumps menu

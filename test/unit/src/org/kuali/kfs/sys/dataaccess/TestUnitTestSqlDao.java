@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.sys.dataaccess;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.core.util.UnitTestSqlDao;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.ConfigureContext;
 
 @ConfigureContext
 public class TestUnitTestSqlDao extends KualiTestBase {

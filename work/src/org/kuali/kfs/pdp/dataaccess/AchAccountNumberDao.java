@@ -16,9 +16,9 @@
 /*
  * Created on Aug 19, 2004
  */
-package org.kuali.module.pdp.dao;
+package org.kuali.kfs.pdp.dataaccess;
 
-import org.kuali.module.pdp.bo.AchAccountNumber;
+import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 
 /**
  * @author HSTAPLET

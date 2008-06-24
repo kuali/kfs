@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.budget.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,25 +26,25 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetBaseCode;
-import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
-import org.kuali.module.kra.budget.bo.BudgetIndirectCostLookup;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
-import org.kuali.module.kra.budget.bo.IndirectCostLookup;
-import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.businessobject.Budget;
+import org.kuali.kfs.module.cg.businessobject.BudgetBaseCode;
+import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost;
+import org.kuali.kfs.module.cg.businessobject.BudgetIndirectCostLookup;
+import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
+import org.kuali.kfs.module.cg.businessobject.BudgetTask;
+import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
+import org.kuali.kfs.module.cg.businessobject.IndirectCostLookup;
+import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.module.cg.document.BudgetDocument;
+import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
+import org.kuali.kfs.module.cg.document.service.BudgetModularService;
 
 public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService {
 
@@ -512,7 +512,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetIndirectCostService#setupIndirectCostRates(org.kuali.module.kra.budget.bo.Budget)
+     * @see org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService#setupIndirectCostRates(org.kuali.kfs.module.cg.businessobject.Budget)
      */
     public void setupIndirectCostRates(Budget budget) {
         Map fieldValues = new HashMap();
@@ -527,7 +527,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetIndirectCostService#getDefaultBudgetBaseCodeValues()
+     * @see org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService#getDefaultBudgetBaseCodeValues()
      */
     public List<BudgetBaseCode> getDefaultBudgetBaseCodeValues() {
         Map fieldValues = new HashMap();

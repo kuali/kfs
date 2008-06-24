@@ -11,10 +11,10 @@
     <property name="label" value="Customer Invoice" />
     <property name="shortLabel" value="Customer Invoice" />
     <property name="documentTypeName" value="CustomerInvoiceDocument" />
-    <property name="documentClass" value="org.kuali.module.ar.document.CustomerInvoiceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.ar.rules.CustomerInvoiceDocumentRule" />
-    <property name="preRulesCheckClass" value="org.kuali.module.ar.rules.CustomerInvoiceDocumentPreRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentRule" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentPreRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer" />
     <property name="documentTypeCode" value="INV" />
     <property name="allowsCopy" value="true" />
     <property name="authorizations" >
@@ -224,7 +224,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintInvoiceOptionsValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PrintInvoiceOptionsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Print Invoice Indicator" />
@@ -284,7 +284,7 @@
     <property name="shortLabel" value="Billing Chart" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -386,7 +386,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

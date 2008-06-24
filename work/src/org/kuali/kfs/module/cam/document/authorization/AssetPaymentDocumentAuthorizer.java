@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.document.authorization;
+package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
 
 public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
@@ -40,7 +40,7 @@ public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizer
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override

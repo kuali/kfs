@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.module.labor.bo.July1PositionFunding;
+import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 
 /**
  * This class is an interface to data access objects for general labor related inquiries. It will be deprecated after the data

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
 import java.sql.Date;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.fixtures.PurapTestConstants.BeginEndDates;
-import org.kuali.module.purap.fixtures.PurapTestConstants.RecurringPaymentTypes;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.fixture.PurapTestConstants.BeginEndDates;
+import org.kuali.kfs.module.purap.fixture.PurapTestConstants.RecurringPaymentTypes;
 
 public enum RecurringPaymentBeginEndDatesFixture {
 

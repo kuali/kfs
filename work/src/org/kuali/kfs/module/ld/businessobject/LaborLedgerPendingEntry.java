@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -22,10 +22,10 @@ import java.sql.Timestamp;
 
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 
 /**
  * Labor business object for LaborLedgerPendingEntry.
@@ -521,7 +521,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     /**
      * Gets the ReferenceDocumentType.
      * 
-     * @see org.kuali.module.labor.bo.LaborTransaction#getReferenceFinancialDocumentType()
+     * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getReferenceFinancialDocumentType()
      */
     public DocumentType getReferenceFinancialDocumentType() {
         return super.getReferenceDocumentType();
@@ -530,7 +530,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     /**
      * Gets the ReferenceOriginationCode.
      * 
-     * @see org.kuali.module.labor.bo.LaborTransaction#getReferenceFinancialSystemOrigination()
+     * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getReferenceFinancialSystemOrigination()
      */
     public OriginationCode getReferenceFinancialSystemOrigination() {
         return super.getReferenceOriginationCode();
@@ -548,7 +548,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     /**
      * Gets the transactionEntryOffsetCode.
      * 
-     * @see org.kuali.module.labor.bo.LaborTransaction#getTransactionEntryOffsetCode()
+     * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getTransactionEntryOffsetCode()
      */
     public String getTransactionEntryOffsetCode() {
         return transactionEntryOffsetCode;
@@ -557,7 +557,7 @@ public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implement
     /**
      * Gets the TransactionEntryProcessedTs.
      * 
-     * @see org.kuali.module.labor.bo.LaborTransaction#getTransactionEntryProcessedTimestamp()
+     * @see org.kuali.kfs.module.ld.businessobject.LaborTransaction#getTransactionEntryProcessedTimestamp()
      */
     public Date getTransactionEntryProcessedTimestamp() {
         return super.getTransactionEntryProcessedTs();

@@ -15,7 +15,7 @@
           <visibility>
             <column visible="false" />
           </visibility>
-          <quickfinder appliesTo="agencyNumber" draw="true" service="workflow-org.kuali.module.cg.bo.Agency-Lookupable(null)" />
+          <quickfinder appliesTo="agencyNumber" draw="true" service="workflow-org.kuali.kfs.module.cg.businessobject.Agency-Lookupable(null)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/agencyNumber')</xpathexpression>
           </fieldEvaluation>

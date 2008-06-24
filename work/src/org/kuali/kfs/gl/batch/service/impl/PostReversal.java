@@ -17,16 +17,16 @@
  * Created on Oct 12, 2005
  *
  */
-package org.kuali.module.gl.batch.poster.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Date;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.Reversal;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.ReversalDao;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.ReversalDao;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -56,7 +56,7 @@ public class PostReversal implements PostTransaction {
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
      * @return the accomplished post type
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -79,7 +79,7 @@ public class PostReversal implements PostTransaction {
     }
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();

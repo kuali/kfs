@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.batch;
+package org.kuali.kfs.module.cam.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.cams.service.AssetDepreciationService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
 
 public class AssetDepreciationStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetDepreciationStep.class);
@@ -29,7 +29,7 @@ public class AssetDepreciationStep extends AbstractStep {
      * 
      * @param String jobName
      * @return boolean
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.sys.batch.Step#execute()
      */
     public boolean execute(String jobName, Date jobRunDate)  {
         assetDepreciationService.runDepreciation();

@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.labor.bo.BenefitsCalculation;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants.TestConstants.BenefitsCalculationServiceImplTest;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.KualiTestConstants.TestConstants.BenefitsCalculationServiceImplTest;
 
 /**
  * junit test for LaborBenefitsCalculationServiceImplTest

@@ -17,7 +17,7 @@
  * Created on Aug 7, 2004
  *
  */
-package org.kuali.module.pdp.dao.ojb;
+package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -32,14 +32,14 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentDetailSearch;
-import org.kuali.module.pdp.bo.PaymentGroupHistory;
-import org.kuali.module.pdp.bo.PaymentProcess;
-import org.kuali.module.pdp.bo.UserRequired;
-import org.kuali.module.pdp.dao.PaymentDetailSearchDao;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.pdp.businessobject.Batch;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentDetailSearch;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
+import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.UserRequired;
+import org.kuali.kfs.pdp.dataaccess.PaymentDetailSearchDao;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

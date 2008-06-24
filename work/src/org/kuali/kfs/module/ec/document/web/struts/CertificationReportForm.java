@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.web.struts.form;
+package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -21,14 +21,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.util.DynamicCollectionComparator;
-import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.util.DetailLineGroup;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.module.ec.EffortConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.util.DetailLineGroup;
 
 /**
  * Action form for Effort Certification Document.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web;
+package org.kuali.kfs.gl.businessobject.inquiry;
 
 import java.util.Iterator;
 import java.util.List;

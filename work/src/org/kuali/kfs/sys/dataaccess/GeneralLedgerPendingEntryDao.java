@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao;
+package org.kuali.kfs.sys.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 
 /**
  * This interface defines basic methods that GeneralLedgerPendingEntry Dao's must provide

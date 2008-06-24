@@ -5,7 +5,7 @@
       <name>AssignContractManagerDocument</name>
       <parent>KualiPurapDocument</parent>
       <label>Contract Manager Assignment</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/purapAssignContractManager.do?methodToCall=docHandler</docHandler>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.batch.pcard;
+package org.kuali.kfs.fp.batch;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -21,9 +21,9 @@ import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 
 /**
  * Batch input type for the procurement card job.
@@ -34,7 +34,7 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
     private DateTimeService dateTimeService;
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileType#getFileTypeIdentifer()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileTypeIdentifer()
      */
     public String getFileTypeIdentifer() {
         return KFSConstants.PCDO_FILE_TYPE_INDENTIFIER;
@@ -47,7 +47,7 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
     /**
      * No additional information is added to procurment card batch files.
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileType#getFileName(org.kuali.core.bo.user.UniversalUser, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.core.bo.user.UniversalUser, java.lang.Object,
      *      java.lang.String)
      */
     public String getFileName(UniversalUser user, Object parsedFileContents, String userIdentifier) {
@@ -70,21 +70,21 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
      * Builds the file name using the following construction: All pcdo files start with pcdo_ append the username of the user
      * uploading the file append the supplied user identifier finally append the current timestamp
      * 
-     * @see org.kuali.kfs.batch.BatchInputFileType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileType#validate(java.lang.Object)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
      */
     public boolean validate(Object parsedFileContents) {
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.batch.BatchInputFileType#getTitleKey()
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getTitleKey()
      */
     public String getTitleKey() {
         return KFSKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_PCDO;

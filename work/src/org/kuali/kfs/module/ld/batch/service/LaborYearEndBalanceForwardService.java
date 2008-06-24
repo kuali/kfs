@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service;
+package org.kuali.kfs.module.ld.batch.service;
 
 /**
  * Labor Ledger Year End - Inception to Date Beginning Balance process moves the Year-to-Date Total plus the Contracts and Grants

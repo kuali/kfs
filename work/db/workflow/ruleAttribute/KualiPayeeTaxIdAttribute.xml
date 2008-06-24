@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiPayeeTaxIdAttribute</name>
-      <className>org.kuali.workflow.attribute.KualiPayeeTaxIdAttribute</className>
+      <className>org.kuali.kfs.fp.document.routing.attribute.KualiPayeeTaxIdAttribute</className>
       <label>foo</label>
       <description>foo</description>
       <type>RuleAttribute</type>

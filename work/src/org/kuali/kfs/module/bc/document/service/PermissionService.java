@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.coa.businessobject.Org;
 
 
 /**

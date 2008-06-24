@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -21,15 +21,15 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.LedgerReport;
-import org.kuali.module.pdp.bo.GlPendingTransaction;
-import org.kuali.module.pdp.service.ExtractGlTransactionService;
-import org.kuali.module.pdp.service.GlPendingTransactionService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.report.LedgerReport;
+import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
+import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
+import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -43,7 +43,7 @@ public class ExtractGlTransactionServiceImpl implements ExtractGlTransactionServ
     private String reportsDirectory;
 
     /**
-     * @see org.kuali.module.pdp.service.ExtractGlTransactionService#extractGlTransactions()
+     * @see org.kuali.kfs.pdp.batch.service.ExtractTransactionsService#extractGlTransactions()
      */
     public void extractGlTransactions() {
         LOG.debug("extractGlTransactions() started");

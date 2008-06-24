@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort.web.struts.action;
+package org.kuali.kfs.module.ec.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rule.event.LoadDetailLineEvent;
-import org.kuali.module.effort.web.struts.form.CertificationRecreateForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.validation.event.LoadDetailLineEvent;
+import org.kuali.kfs.module.ec.document.web.struts.CertificationRecreateForm;
 
 /**
  * To define Actions for Effort Recreate document.

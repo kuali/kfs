@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document;
+package org.kuali.kfs.sys.document;
 
-import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertInequality;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertEquality;
+import static org.kuali.kfs.KualiTestAssertionUtils.assertInequality;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,19 +36,19 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.document.Correctable;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.service.AccountingPeriodService;
-import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.test.monitor.ChangeMonitor;
-import org.kuali.test.monitor.DocumentVersionMonitor;
-import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.document.routing.ChangeMonitor;
+import org.kuali.kfs.sys.document.routing.DocumentVersionMonitor;
+import org.kuali.kfs.sys.document.routing.DocumentWorkflowStatusMonitor;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

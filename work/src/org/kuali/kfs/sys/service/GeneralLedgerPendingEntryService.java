@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,14 +22,14 @@ import java.util.Map;
 
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.document.GeneralLedgerPostingDocument;
-import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.financial.bo.BankAccount;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.fp.businessobject.BankAccount;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 
 /**
  * This interface defines methods that a GeneralLedgerPendingEntry Service must provide

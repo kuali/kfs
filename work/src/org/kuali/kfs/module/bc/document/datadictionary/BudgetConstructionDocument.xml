@@ -12,9 +12,9 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Budget Construction Document" />
     <property name="documentTypeName" value="BudgetConstructionDocument" />
-    <property name="documentClass" value="org.kuali.module.budget.document.BudgetConstructionDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.budget.rules.BudgetConstructionRules" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.bc.document.BudgetConstructionDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRules" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer" />
     <property name="documentTypeCode" value="BC" />
     <property name="authorizations" >
       <list>

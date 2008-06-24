@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,13 +22,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 
 /**
  * Business rule(s) applicable to Transfer of Funds documents.
@@ -141,7 +141,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * @param accountingLine The accounting line the object code will be retrieved from for validation.
      * @return True if the object code's object sub-type code is a mandatory or non-mandatory transfer; false otherwise.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isObjectSubTypeAllowed(Class, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isObjectSubTypeAllowed(Class, org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine) {
@@ -167,7 +167,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * 
      * @param accountingLine The accounting line the object code will be retrieved from and validated.
      * @return True if the object code is income or expense, otherwise false.
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isObjectCodeAllowed(Class, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#isObjectCodeAllowed(Class, org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {

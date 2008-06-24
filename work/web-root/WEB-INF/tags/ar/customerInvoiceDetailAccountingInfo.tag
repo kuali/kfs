@@ -75,7 +75,7 @@
 					<c:if test="${not readOnly}">
 						&nbsp;
 						<kul:lookup 
-							boClassName="org.kuali.module.chart.bo.Chart" 
+							boClassName="org.kuali.kfs.coa.businessobject.Chart" 
 							fieldConversions="chartOfAccountsCode:${propertyName}.chartOfAccountsCode" />
 					</c:if>
 				</td>               
@@ -83,7 +83,7 @@
 					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.accountNumber }" property="${propertyName}.accountNumber" readOnly="${readOnly}"/>
 					&nbsp;
 					<kul:lookup 
-						boClassName="org.kuali.module.chart.bo.Account" 
+						boClassName="org.kuali.kfs.coa.businessobject.Account" 
 						fieldConversions="accountNumber:${propertyName}.accountNumber,chartOfAccountsCode:${propertyName}.chartOfAccountsCode"
 						lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode" />
 				</td>               
@@ -92,7 +92,7 @@
 					<c:if test="${not readOnly}">
 						&nbsp;
 						<kul:lookup 
-							boClassName="org.kuali.module.chart.bo.SubAccount" 
+							boClassName="org.kuali.kfs.coa.businessobject.SubAccount" 
 							fieldConversions="subAccountNumber:${propertyName}.subAccountNumber,chartOfAccountsCode:${propertyName}.chartOfAccountsCode,accountNumber:${propertyName}.accountNumber"
 							lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode,${propertyName}.accountNumber:accountNumber" />
 					</c:if>
@@ -102,7 +102,7 @@
 					<c:if test="${not readOnly}">
 						&nbsp;
 						<kul:lookup 
-							boClassName="org.kuali.module.chart.bo.ObjectCode" 
+							boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" 
 							fieldConversions="financialObjectCode:${propertyName}.financialObjectCode"
 							lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode" />
 					</c:if>
@@ -112,7 +112,7 @@
 				    <c:if test="${not readOnly}">
 					    &nbsp;
 				        <kul:lookup
-				        	boClassName="org.kuali.module.chart.bo.SubObjCd" 
+				        	boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" 
 				        	fieldConversions="financialSubObjectCode:${propertyName}.financialSubObjectCode,chartOfAccountsCode:${propertyName}.chartOfAccountsCode,accountNumber:${propertyName}.accountNumber"
 				        	lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode,${propertyName}.accountNumber:accountNumber" />
 			        </c:if>
@@ -121,7 +121,7 @@
 			     	<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.projectCode }" property="${propertyName}.projectCode" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 						&nbsp;
-						<kul:lookup boClassName="org.kuali.module.chart.bo.ProjectCode" fieldConversions="code:${propertyName}.projectCode" />
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" fieldConversions="code:${propertyName}.projectCode" />
 					</c:if>
 				</td>
 				<td align=left class="${cssClass}">

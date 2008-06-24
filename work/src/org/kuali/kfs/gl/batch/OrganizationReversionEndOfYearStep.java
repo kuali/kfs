@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OrganizationReversionProcessService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.springframework.util.StopWatch;
 
 /**
@@ -39,7 +39,7 @@ public class OrganizationReversionEndOfYearStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
@@ -64,7 +64,7 @@ public class OrganizationReversionEndOfYearStep extends AbstractStep {
      * allows the injection of an implementation of the service.
      * 
      * @param organizationReversionProcessService the implementation of the organizationReversionProcessService to set
-     * @see org.kuali.module.gl.service.OrganizationReversionProcessService
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService
      */
     public void setOrganizationReversionProcessService(OrganizationReversionProcessService organizationReversionProcessService) {
         this.organizationReversionProcessService = organizationReversionProcessService;

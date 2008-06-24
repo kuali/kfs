@@ -7,7 +7,7 @@
   <bean id="MandatoryTransferEliminationCode" parent="MandatoryTransferEliminationCode-parentBean" />
 
   <bean id="MandatoryTransferEliminationCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode" />
     <property name="inquiryDefinition" >
       <ref bean="MandatoryTransferEliminationCode-inquiryDefinition" />
     </property>

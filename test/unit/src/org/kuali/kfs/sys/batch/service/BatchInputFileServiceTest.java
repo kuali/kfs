@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,14 +26,14 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.batch.BatchInputFileType;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
-import org.kuali.module.gl.batch.collector.CollectorInputFileType;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.KualiTestConstants.TestConstants.Data4;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.FileStorageException;
+import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
+import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.KualiTestConstants.TestConstants.Data4;
 
 /**
  * Tests the BatchInputFileService. TEST DEPENDENCIES The following are external configurations not setup by the test case that are
@@ -44,9 +44,9 @@ import org.kuali.test.KualiTestConstants.TestConstants.Data4;
  * Data4_USER_ID2 and Data4_USER_ID1. Note the files in #3 & #4 are created by the project build from files located in project
  * folder buld/configurationFiles/externalConfigDirectory/static/staging/
  * 
- * @see org.kuali.kfs.service.BatchInputFileService Unit tests for this service are also in:
- * @see org.kuali.kfs.service.BatchInputServiceParseTest
- * @see org.kuali.kfs.service.BatchInputServiceSystemParametersTest
+ * @see org.kuali.kfs.sys.batch.service.BatchInputFileService Unit tests for this service are also in:
+ * @see org.kuali.kfs.sys.batch.service.BatchInputServiceParseTest
+ * @see org.kuali.kfs.sys.batch.service.BatchInputServiceSystemParametersTest
  */
 @ConfigureContext
 public class BatchInputFileServiceTest extends KualiTestBase {

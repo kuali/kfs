@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.fixtures;
+package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.module.purap.bo.AssignContractManagerDetail;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 public enum AssignContractManagerDetailFixture {
 

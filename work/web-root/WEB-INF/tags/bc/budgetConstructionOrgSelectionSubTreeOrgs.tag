@@ -48,7 +48,7 @@
                 readOnly="true"
                 readOnlyBody="true">
                 <kul:inquiry
-                    boClassName="org.kuali.module.chart.bo.Chart"
+                    boClassName="org.kuali.kfs.coa.businessobject.Chart"
                     keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}"
                     render="${!empty KualiForm.selectionSubTreeOrgs[0].chartOfAccountsCode}">
                 	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].chartOfAccountsCode" />
@@ -61,7 +61,7 @@
                 readOnly="true"
                 readOnlyBody="true">
                 <kul:inquiry
-                    boClassName="org.kuali.module.chart.bo.Org"
+                    boClassName="org.kuali.kfs.coa.businessobject.Org"
                     keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}"
                     render="${!empty KualiForm.selectionSubTreeOrgs[0].organizationCode}">
                 	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].organizationCode" />

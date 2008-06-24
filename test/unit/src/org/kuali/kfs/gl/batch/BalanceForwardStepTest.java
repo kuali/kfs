@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,19 +24,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.UnitTestSqlDao;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.context.TestUtils;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.util.GeneralLedgerTestHelper;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.batch.GeneralLedgerTestHelper;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * A test to see if the balance forward year end process produces the expected origin entries
@@ -77,7 +77,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         OriginEntryGroupService groupService = SpringContext.getBean(OriginEntryGroupService.class);
 
         // and verify the output.
-        List fisGeneratedRaw = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());
+        List fisGeneratedRaw = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/kfs/gl/batch/fixture/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());
         List fisGenerated = new ArrayList();
         for (Object o : fisGeneratedRaw) {
             fisGenerated.add(filterOriginEntryLine((String) o));
@@ -154,7 +154,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
     /**
      * This method resets the application params to values that are appropriate for year end dates
      * 
-     * @see org.kuali.module.gl.OriginEntryTestBase#setApplicationConfigurationFlag(java.lang.String, boolean)
+     * @see org.kuali.kfs.gl.businessobject.OriginEntryTestBase#setApplicationConfigurationFlag(java.lang.String, boolean)
      */
     @Override
     protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {

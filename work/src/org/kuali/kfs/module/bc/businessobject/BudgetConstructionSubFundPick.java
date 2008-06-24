@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.budget.bo;
+package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 
 /**
  * Business Object that represents selected/unselected sub fund group code for a user.

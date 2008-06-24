@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.maintenance;
+package org.kuali.kfs.module.cg.document;
 
-import static org.kuali.kfs.KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
-import static org.kuali.kfs.KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
+import static org.kuali.kfs.sys.KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,19 +33,19 @@ import org.kuali.core.util.AssertionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.Section;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.cg.CGConstants;
-import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
-import org.kuali.module.cg.bo.ProposalResearchRisk;
-import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
-import org.kuali.module.cg.service.ProjectDirectorService;
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.Proposal;
+import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk;
+import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder;
+import org.kuali.kfs.module.cg.service.ProjectDirectorService;
+import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
+import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 
 /**
  * Methods for the Proposal maintenance document UI.

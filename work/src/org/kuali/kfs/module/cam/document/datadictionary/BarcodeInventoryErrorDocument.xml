@@ -13,9 +13,9 @@
     <property name="description" value="Barcode Inventory Error Document" />
     <property name="documentTypeName" value="BarcodeInventoryErrorDocument" />
     
-    <property name="documentClass" value="org.kuali.module.cams.document.BarcodeInventoryErrorDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.cams.rules.BarcodeInventoryErrorDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.cams.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
+    <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
     
     <property name="documentTypeCode" value="BCIE" />
     <property name="authorizations" >

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.struts.form;
+package org.kuali.kfs.gl.web.struts;
 
 import java.util.Map;
 import java.util.Set;

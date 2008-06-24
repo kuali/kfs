@@ -22,11 +22,11 @@
 
 	<bean id="InternalBilling-routeDocumentValidation" parent="InternalBilling-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="InternalBilling-routeDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="InternalBilling-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
-  				<bean class="org.kuali.kfs.validation.CollectionValidation" scope="prototype">
+  				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
   					<property name="collectionProperty" value="document.items" />
   					<property name="validations">
   						<list>
@@ -49,7 +49,7 @@
   
   	<bean id="InternalBilling-approveDocumentValidation" parent="InternalBilling-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="InternalBilling-approveDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="InternalBilling-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -57,7 +57,7 @@
   
 	<bean id="InternalBilling-blanketApproveDocumentValidation" parent="InternalBilling-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="InternalBilling-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="InternalBilling-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -65,10 +65,10 @@
   
 	<bean id="InternalBilling-addAccountingLineValidation" parent="InternalBilling-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-addAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype">
+  				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
   					<property name="validations">
   						<list>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
@@ -130,7 +130,7 @@
   
 	<bean id="InternalBilling-deleteAccountingLineValidation" parent="InternalBilling-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -138,10 +138,10 @@
   
 	<bean id="InternalBilling-updateAccountingLineValidation" parent="InternalBilling-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype">
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 					<property name="validations">
 						<list>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
@@ -203,10 +203,10 @@
   
 	<bean id="InternalBilling-reviewAccountingLineValidation" parent="InternalBilling-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype">
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 					<property name="validations">
 						<list>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">

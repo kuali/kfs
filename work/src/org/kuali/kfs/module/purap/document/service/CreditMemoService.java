@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.util.Iterator;
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 
 /**
  * Defines methods that must be implemented by a CreditMemoService implementation.

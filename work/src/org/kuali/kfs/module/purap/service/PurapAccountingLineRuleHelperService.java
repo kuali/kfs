@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.kfs.module.purap.service;
 
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 
 public interface PurapAccountingLineRuleHelperService extends AccountingLineRuleHelperService {
 

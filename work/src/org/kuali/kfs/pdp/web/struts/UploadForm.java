@@ -17,7 +17,7 @@
  * Created on Jul 9, 2004
  *
  */
-package org.kuali.module.pdp.form.upload;
+package org.kuali.kfs.pdp.web.struts;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;

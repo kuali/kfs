@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao;
+package org.kuali.kfs.sys.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.Collection;

@@ -6,7 +6,7 @@
       <parent>KualiFinancialDocument</parent>
       <description>The Purchasing &amp; Accounts Payable parent document type</description>
       <label>Purchasing &amp; Accounts Payable Parent Document</label>
-      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApprovePolicy>NONE</blanketApprovePolicy>
       <defaultExceptionWorkgroupName>SY_BLANKET_APPROVERS</defaultExceptionWorkgroupName>

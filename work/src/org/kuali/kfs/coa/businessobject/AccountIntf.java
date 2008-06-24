@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.bo.State;
-import org.kuali.module.chart.bo.codes.BudgetRecordingLevel;
-import org.kuali.module.chart.bo.codes.SufficientFundsCode;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.coa.businessobject.BudgetRecordingLevel;
+import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 
 
 public interface AccountIntf {

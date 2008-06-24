@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl.orgreversion;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 
 /**
  * The implementation of OrganizationReversionCategoryLogic for cash balances.
- * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic
+ * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic
  */
 public class CashOrganizationReversionCategoryLogic implements OrganizationReversionCategoryLogic {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashOrganizationReversionCategoryLogic.class);
@@ -33,7 +33,7 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
      * 
      * @param oc the object code to qualify
      * @return true if it is a cash object code, false if otherwise
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#containsObjectCode(org.kuali.module.chart.bo.ObjectCode)
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#containsObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode)
      */
     public boolean containsObjectCode(ObjectCode oc) {
         LOG.debug("containsObjectCode() started");
@@ -46,7 +46,7 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
      * Returns the code for this category, always "CASH"
      * 
      * @return the code for this category
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#getCode()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#getCode()
      */
     public String getCode() {
         return CODE;
@@ -56,7 +56,7 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
      * Returns the name of this category, always "Cash"
      * 
      * @return the name of this category
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#getName()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#getName()
      */
     public String getName() {
         return NAME;
@@ -66,7 +66,7 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
      * Returns if this category represents an expense or not; it never does
      * 
      * @return false, as the cash category always represents non-expense
-     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#isExpense()
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic#isExpense()
      */
     public boolean isExpense() {
         return false;

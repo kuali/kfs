@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.maintenance;
+package org.kuali.kfs.coa.document;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,10 +26,10 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.MaintenanceUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
-import org.kuali.module.chart.bo.codes.ICRTypeCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
+import org.kuali.kfs.coa.businessobject.ICRTypeCode;
 
 public class ICRTypeCodeMaintainableImpl extends KualiMaintainableImpl {
 

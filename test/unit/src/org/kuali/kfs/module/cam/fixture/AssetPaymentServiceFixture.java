@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.fixture;
+package org.kuali.kfs.module.cam.fixture;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.AssetPaymentDetail;
-import org.kuali.module.cams.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 
 public enum AssetPaymentServiceFixture {
     PAYMENT1(1);
@@ -32,7 +32,7 @@ public enum AssetPaymentServiceFixture {
 
     private static Properties properties;
     static {
-        String propertiesFileName = "org/kuali/module/cams/service/testdata/asset_payment_service.properties";
+        String propertiesFileName = "org/kuali/kfs/module/cam/document/service/asset_payment_service.properties";
         properties = new Properties();
         try {
             properties.load(ClassLoader.getSystemResourceAsStream(propertiesFileName));

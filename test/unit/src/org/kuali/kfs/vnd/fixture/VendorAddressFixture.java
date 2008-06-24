@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.fixtures;
+package org.kuali.kfs.vnd.fixture;
 
-import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusIN;
-import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusKO;
-import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusSB;
+import static org.kuali.kfs.vnd.fixture.VendorDefaultAddressFixture.campusIN;
+import static org.kuali.kfs.vnd.fixture.VendorDefaultAddressFixture.campusKO;
+import static org.kuali.kfs.vnd.fixture.VendorDefaultAddressFixture.campusSB;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDefaultAddress;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 
 public enum VendorAddressFixture {
 

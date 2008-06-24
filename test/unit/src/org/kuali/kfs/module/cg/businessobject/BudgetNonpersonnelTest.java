@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.bo;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
-import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
-import org.kuali.test.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
+import org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode;
+import org.kuali.kfs.ConfigureContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.

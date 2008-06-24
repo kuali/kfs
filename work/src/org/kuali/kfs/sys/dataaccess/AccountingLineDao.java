@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.dao;
+package org.kuali.kfs.sys.dataaccess;
 
 import java.util.ArrayList;
 
-import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 /**
  * The data access interface for persisting AccountingLineBase objects.

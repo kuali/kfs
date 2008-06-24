@@ -22,7 +22,7 @@
 
     <bean id="financialSystemModule" parent="financialSystemModule-parentBean" />
 
-    <bean id="financialSystemModule-parentBean" class="org.kuali.kfs.FinancialSystemModule" abstract="true">
+    <bean id="financialSystemModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
         <property name="moduleId" value="kfs" />
         <property name="moduleName" value="Kuali Financials Core System" />
         <property name="moduleCode" value="SY" />
@@ -30,17 +30,17 @@
         <property name="moduleAuthorizer" ref="financialSystemCoreModuleAuthorizer" />
         <property name="dataDictionaryPackages">
             <list>
-                <value>org/kuali/kfs/datadictionary</value>
+                <value>org/kuali/kfs/sys/businessobject/datadictionary</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
             <list>
-                <value>org/kuali/kfs/OJB-repository-kfs.xml</value>
+                <value>org/kuali/kfs/sys/OJB-repository-kfs.xml</value>
             </list>
         </property>
         <property name="scriptConfigurationFilePaths">
             <list>
-                <value>org/kuali/kfs/dwr-kfs.xml</value>
+                <value>org/kuali/kfs/sys/dwr-kfs.xml</value>
             </list>
         </property>
         <property name="triggerNames">
@@ -65,7 +65,7 @@
     </bean>
 	
     <!-- begin batch framework -->
-	<bean id="scheduler" class="org.kuali.kfs.batch.SchedulerFactoryBean">
+	<bean id="scheduler" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean">
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
 		<property name="dataSourceReference" ref="dataSource" />
@@ -94,7 +94,7 @@
         <property name="minIdle" value="2"/>
     </bean>
     
-	<bean id="schedulerService" class="org.kuali.kfs.service.impl.SchedulerServiceImpl">
+	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
 		<property name="moduleService" ref="kualiModuleService" />
@@ -103,17 +103,17 @@
 		<property name="mailService" ref="mailService" />		
 	</bean>
 
-	<bean id="jobListener" class="org.kuali.kfs.batch.JobListener">
+	<bean id="jobListener" class="org.kuali.kfs.sys.batch.JobListener">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="mailService" ref="mailService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="scheduledJobDescriptor" abstract="true" class="org.kuali.kfs.batch.JobDescriptor">
+	<bean id="scheduledJobDescriptor" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
 		<property name="group" value="scheduled" />
 	</bean>
 
-	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.kfs.batch.JobDescriptor">
+	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
 		<property name="group" value="unscheduled" />
 	</bean>
 
@@ -130,7 +130,7 @@
 		</property>
 	</bean>
 	
-	<bean id="scheduleStep" parent="step" class="org.kuali.kfs.batch.ScheduleStep">
+	<bean id="scheduleStep" parent="step" class="org.kuali.kfs.sys.batch.ScheduleStep">
 		<property name="schedulerService" ref="schedulerService" />
 	</bean>
 
@@ -139,16 +139,16 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="simpleTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.batch.SimpleTriggerDescriptor" />
+	<bean id="simpleTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.sys.batch.SimpleTriggerDescriptor" />
 
-	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.batch.CronTriggerDescriptor" />
+	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.sys.batch.CronTriggerDescriptor" />
 
   	<bean id="scheduleJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="scheduleJob" />
 		<property name="cronExpression" value="${batch.schedule.cron.expression}" />
 	</bean>
 	
-	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     	<property name="schedulerService" ref="schedulerService" />
     	<property name="parameterService" ref="parameterService" />
     	<property name="configurationService" ref="kualiConfigurationService" />
@@ -160,9 +160,9 @@
 	    </property>
 	</bean>
 	
-	<bean id="batchInputFileService" class="org.kuali.kfs.service.impl.BatchInputFileServiceImpl" />
+	<bean id="batchInputFileService" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileServiceImpl" />
 	
-	<bean id="batchInputFileSetService" class="org.kuali.kfs.service.impl.BatchInputFileSetServiceImpl">
+	<bean id="batchInputFileSetService" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -170,18 +170,18 @@
 	<!-- end btch framework -->
 	
 	<!--  begin core batch jobs -->
-	<bean id="postDataLoadEncryptionStep" parent="step" class="org.kuali.kfs.batch.PostDataLoadEncryptionStep">
+	<bean id="postDataLoadEncryptionStep" parent="step" class="org.kuali.kfs.sys.batch.PostDataLoadEncryptionStep">
 		<property name="postDataLoadEncryptionService" ref="postDataLoadEncryptionService" />
 		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
 	</bean>
 
-	<bean id="purgeOldLookupResultsStep" class="org.kuali.kfs.batch.PurgeOldLookupResultsStep" parent="step">
+	<bean id="purgeOldLookupResultsStep" class="org.kuali.kfs.sys.batch.PurgeOldLookupResultsStep" parent="step">
 		<property name="lookupResultsService">
 			<ref bean="lookupResultsService" />
 		</property>
 	</bean>
 
-	<bean id="purapMassRequisitionStep" class="org.kuali.module.purap.batch.PurapMassRequisitionStep" parent="step">
+	<bean id="purapMassRequisitionStep" class="org.kuali.kfs.module.purap.batch.PurapMassRequisitionStep" parent="step">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -198,19 +198,19 @@
 		</property>
 	</bean>
 
-	<bean id="purgeDocumentContentsStep" class="org.kuali.kfs.batch.PurgeDocumentContentsStep" parent="step">
+	<bean id="purgeDocumentContentsStep" class="org.kuali.kfs.sys.batch.PurgeDocumentContentsStep" parent="step">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
 	</bean>
 
-	<bean id="purgePendingAttachmentsStep" class="org.kuali.kfs.batch.PurgePendingAttachmentsStep" parent="step">
+	<bean id="purgePendingAttachmentsStep" class="org.kuali.kfs.sys.batch.PurgePendingAttachmentsStep" parent="step">
 		<property name="attachmentService">
 			<ref bean="attachmentService" />
 		</property>
 	</bean>
 
-	<bean id="purgeTempFilesStep" class="org.kuali.kfs.batch.PurgeTempFilesStep" parent="step">
+	<bean id="purgeTempFilesStep" class="org.kuali.kfs.sys.batch.PurgeTempFilesStep" parent="step">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -218,38 +218,38 @@
 	
 	<!-- end core batch jobs -->
 	
-	<bean id="parameterService" class="org.kuali.kfs.service.impl.ParameterServiceImpl">
+	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.ParameterServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="moduleService" ref="kualiModuleService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-	<bean id="kualiCodeService" class="org.kuali.kfs.service.impl.KualiCodeServiceImpl">
+	<bean id="kualiCodeService" class="org.kuali.kfs.sys.service.impl.KualiCodeServiceImpl">
 		<property name="kualiCodeDao">
 			<ref bean="kualiCodeDao" />
 		</property>
 	</bean>
 		
-	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.KualiCodeDaoOjb" />
+	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.KualiCodeDaoOjb" />
 
-	<bean id="universityDateService" class="org.kuali.module.financial.service.impl.UniversityDateServiceImpl">
+	<bean id="universityDateService" class="org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl">
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
         <property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="accountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
+	<bean id="accountingLineService" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">
-			<bean parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.AccountingLineDaoOjb" />
+			<bean parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.AccountingLineDaoOjb" />
 		</property>
 	</bean>
 
-	<bean id="homeOriginationDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.HomeOriginationDaoOjb" />
+	<bean id="homeOriginationDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.HomeOriginationDaoOjb" />
 
-	<bean id="originationCodeDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OriginationCodeDaoOjb" />
+	<bean id="originationCodeDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OriginationCodeDaoOjb" />
 
-	<bean id="optionsDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb" />
+	<bean id="optionsDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OptionsDaoOjb" />
 	
-	<bean id="generalLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb">
+	<bean id="generalLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb">
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
@@ -258,26 +258,26 @@
 		</property>
 	</bean>
 
-	<bean id="homeOriginationService" class="org.kuali.kfs.service.impl.HomeOriginationServiceImpl">
+	<bean id="homeOriginationService" class="org.kuali.kfs.sys.service.impl.HomeOriginationServiceImpl">
 		<property name="homeOriginationDao">
 			<ref bean="homeOriginationDao" />
 		</property>
 	</bean>
 
-	<bean id="originationCodeService" class="org.kuali.kfs.service.impl.OriginationCodeServiceImpl">
+	<bean id="originationCodeService" class="org.kuali.kfs.sys.service.impl.OriginationCodeServiceImpl">
 		<property name="originationCodeDao">
 			<ref bean="originationCodeDao" />
 		</property>
 	</bean>
 	
-	<bean id="optionsService" class="org.kuali.kfs.service.impl.OptionsServiceImpl">
+	<bean id="optionsService" class="org.kuali.kfs.sys.service.impl.OptionsServiceImpl">
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
 		</property>
         <property name="universityDateService" ref="universityDateService" />
 	</bean>
 	
-	<bean id="generalLedgerPendingEntryService" class="org.kuali.kfs.service.impl.GeneralLedgerPendingEntryServiceImpl">
+	<bean id="generalLedgerPendingEntryService" class="org.kuali.kfs.sys.service.impl.GeneralLedgerPendingEntryServiceImpl">
 		<property name="generalLedgerPendingEntryDao">
 			<ref bean="generalLedgerPendingEntryDao" />
 		</property>
@@ -298,7 +298,7 @@
 		</property>
 	</bean>
 
-	<bean id="postalZipCodeService" class="org.kuali.kfs.service.impl.PostalZipCodeServiceImpl">
+	<bean id="postalZipCodeService" class="org.kuali.kfs.sys.service.impl.PostalZipCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -306,19 +306,19 @@
 
 	<bean id="workflow-org.kuali.core.bo.user.UniversalUser-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.bo.FinancialSystemUser</value>
+			<value>org.kuali.kfs.sys.businessobject.FinancialSystemUser</value>
 		</property>
 	</bean>
 
-    <bean id="workflow-org.kuali.kfs.bo.FinancialSystemUser-Lookupable" parent="workflowLookupable" scope="prototype">
+    <bean id="workflow-org.kuali.kfs.sys.businessobject.FinancialSystemUser-Lookupable" parent="workflowLookupable" scope="prototype">
         <property name="businessObjectClassName">
-            <value>org.kuali.kfs.bo.FinancialSystemUser</value>
+            <value>org.kuali.kfs.sys.businessobject.FinancialSystemUser</value>
         </property>
     </bean>
 
-	<bean id="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable" parent="workflowLookupable" scope="prototype">
+	<bean id="workflow-org.kuali.kfs.sys.businessobject.KualiModuleBO-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.bo.KualiModuleBO</value>
+			<value>org.kuali.kfs.sys.businessobject.KualiModuleBO</value>
 		</property>
 	</bean>
 	
@@ -331,25 +331,25 @@
 
 	<bean id="moduleLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-        	<bean class="org.kuali.kfs.lookup.ModuleLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+        	<bean class="org.kuali.kfs.sys.businessobject.lookup.ModuleLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
         		<property name="configService" ref="kualiConfigurationService" />
         	</bean>
 		</property>
 	</bean>
 
-    <bean id="financialSystemUserLookupable" class="org.kuali.kfs.lookup.FinancialSystemUserLookupableImpl" scope="prototype">
+    <bean id="financialSystemUserLookupable" class="org.kuali.kfs.sys.businessobject.lookup.FinancialSystemUserLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kfs.lookup.FinancialSystemUserLookupableHelperServiceImpl" parent="lookupableHelperService" />
+            <bean class="org.kuali.kfs.sys.businessobject.lookup.FinancialSystemUserLookupableHelperServiceImpl" parent="lookupableHelperService" />
         </property>
     </bean>
     
-    <bean id="financialSystemModuleAuthorizer" abstract="true" class="org.kuali.kfs.authorization.FinancialSystemModuleAuthorizerBase">
+    <bean id="financialSystemModuleAuthorizer" abstract="true" class="org.kuali.kfs.sys.FinancialSystemModuleAuthorizerBase">
         <property name="financialSystemUserService" ref="financialSystemUserService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
     
     <bean id="activeStaffFacultyAffiliateModuleAuthorizer" abstract="true" parent="financialSystemModuleAuthorizer"
-        class="org.kuali.kfs.authorization.ActiveStaffFacultyAffiliateModuleAuthorizer">
+        class="org.kuali.kfs.sys.ActiveStaffFacultyAffiliateModuleAuthorizer">
     </bean>
     
     <!-- override the lookupable for UU so that the KfsUser lookup is displayed -->
@@ -357,7 +357,7 @@
 
     <bean id="parameterLookupable" class="org.kuali.core.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
-            <bean id="parameterLookupableHelperService" class="org.kuali.kfs.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean id="parameterLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
                 <property name="parameterService" ref="parameterService" />
             </bean>
         </property>
@@ -365,58 +365,58 @@
 
     <bean id="parameterDetailTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
-            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
 				<property name="parameterService" ref="parameterService" />
             </bean>
         </property>
     </bean>
 
-    <bean id="kualiInquirable" class="org.kuali.kfs.inquiry.KfsInquirableImpl" scope="prototype" >
+    <bean id="kualiInquirable" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" >
     	<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
     
-    <bean id="accountingDocumentRuleHelperService" class="org.kuali.kfs.service.impl.AccountingDocumentRuleHelperServiceImpl">
+    <bean id="accountingDocumentRuleHelperService" class="org.kuali.kfs.sys.document.service.impl.AccountingDocumentRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="objectTypeService"><ref bean="objectTypeService" /></property>
     </bean>
     
-    <bean id="debitDeterminerService" class="org.kuali.kfs.service.impl.DebitDeterminerServiceImpl">
+    <bean id="debitDeterminerService" class="org.kuali.kfs.sys.document.service.impl.DebitDeterminerServiceImpl">
     	<property name="optionsService"><ref bean="optionsService" /></property>
     	<property name="accountingDocumentRuleUtils"><ref bean="accountingDocumentRuleHelperService" /></property>
     </bean>
     
-    <bean id="accountingLineRuleHelperService" class="org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl">
+    <bean id="accountingLineRuleHelperService" class="org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>
     
-    <bean id="electronicPaymentClaimingService" class="org.kuali.kfs.service.impl.ElectronicPaymentClaimingServiceImpl">
+    <bean id="electronicPaymentClaimingService" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingServiceImpl">
     	<property name="documentService"><ref bean="documentService" /></property>
     	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
     	<property name="dateTimeService"><ref bean="dateTimeService" /></property>
     	<property name="parameterService"><ref bean="parameterService" /></property>
     </bean>
     
-    <bean id="electronicFundTransferStartAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferStartActionHelper">
+    <bean id="electronicFundTransferStartAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferStartActionHelper">
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     </bean>
     
-    <bean id="electronicFundTransferRefreshAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferRefreshActionHelper">
+    <bean id="electronicFundTransferRefreshAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferRefreshActionHelper">
     	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     </bean>
     
-    <bean id="electronicFundTransferClaimAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferClaimActionHelper">
+    <bean id="electronicFundTransferClaimAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper">
     	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
     	<property name="documentService" ref="documentService" />
     </bean>
     
-    <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferCancelActionHelper" />
+    <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferCancelActionHelper" />
     
-    <bean id="electronicPaymentClaimLookupableHelperService" class="org.kuali.kfs.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+    <bean id="electronicPaymentClaimLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     	<property name="lookupDao"><ref bean="lookupDao" /></property>
     </bean>
     
@@ -426,7 +426,7 @@
         </property>
     </bean>
     
-    <bean id="reportGenerationService" class="org.kuali.kfs.service.impl.ReportGenerationServiceImpl" />
+    <bean id="reportGenerationService" class="org.kuali.kfs.sys.batch.service.impl.ReportGenerationServiceImpl" />
 
 	<import resource="validation/configuration/FinancialSystemValidators.xml" />
 	

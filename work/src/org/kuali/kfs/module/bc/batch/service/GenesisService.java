@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.kfs.module.bc.batch.service;
 
 /*
  * this service intializes/updates the budget construction data used by the budget module to build a new budget for the coming

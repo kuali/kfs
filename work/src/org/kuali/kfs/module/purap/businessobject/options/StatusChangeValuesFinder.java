@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.lookup.keyvalues;
+package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.vendor.VendorConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.vnd.VendorConstants;
 
 /**
  * Value Finder for manual Purchase Order Status Changes.

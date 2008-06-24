@@ -17,16 +17,16 @@
  * Created on Sep 1, 2004
  *
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PaymentGroup;
-import org.kuali.module.pdp.bo.ProcessSummary;
-import org.kuali.module.pdp.dao.ProcessSummaryDao;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.ProcessSummary;
+import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 
 
 /**

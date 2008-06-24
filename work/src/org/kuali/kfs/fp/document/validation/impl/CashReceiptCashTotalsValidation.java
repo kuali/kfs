@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.service.CashReceiptService;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
 
 /**
  * Validation that checks all of the various cash totals on a cash receipt document.
@@ -29,7 +29,7 @@ public class CashReceiptCashTotalsValidation extends GenericValidation {
 
     /**
      * Uses the CashReceiptService.areCashTotalsInvalid method to check the cash totals.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         return !getCashReceiptService().areCashTotalsInvalid(getCashReceiptDocumentForValidation());

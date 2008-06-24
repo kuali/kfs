@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.validation;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 /**
  * GenericValidation to check if the required number of accounting lines in a given accounting line group has been met
@@ -40,7 +40,7 @@ public class RequiredAccountingLinesCountValidation extends GenericValidation {
      * Checks that the number of accounting lines in the accounting line group (named by the accountingLineGroupPropertyName property)
      * is greater than the set minimum number of accounting lines.
      * <strong>This validation expects the document to be sent in as a property.</strong>
-     * @see org.kuali.kfs.validation.GenericValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
         List accountingLineGroup = (List)ObjectUtils.getPropertyValue(accountingDocumentForValidation, accountingLineGroupPropertyName);

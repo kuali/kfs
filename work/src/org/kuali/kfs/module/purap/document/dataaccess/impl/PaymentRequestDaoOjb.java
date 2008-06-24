@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao.ojb;
+package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -34,18 +34,18 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TransactionalServiceUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.module.purap.bo.PaymentRequestSummaryAccount;
-import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
-import org.kuali.module.purap.dao.PaymentRequestDao;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapRunDateService;
-import org.kuali.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestSummaryAccount;
+import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
+import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
+import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -67,7 +67,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * pmt_spcl_handlg_instrc_ln2_txt is not NULL or pmt_spcl_handlg_instrc_ln3_txt is not NULL or pmt_att_ind = 'Y') and trunc
      * (pmt_rqst_pay_dt) <= trunc (sysdate)) or IMD_PMT_IND = 'Y')})
      * 
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode,
             Date onOrBeforePaymentRequestPayDate) {
@@ -121,7 +121,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getImmediatePaymentRequestsToExtract(java.lang.String)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
     public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
@@ -139,7 +139,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String, java.lang.Integer,
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String, java.lang.Integer,
      *      java.lang.Integer, java.lang.Integer, java.lang.Integer)
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier) {
@@ -178,7 +178,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
     /**
      * 
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtractForVendor(java.lang.String, org.kuali.module.purap.util.VendorGroupingHelper)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtractForVendor(java.lang.String, org.kuali.kfs.module.purap.util.VendorGroupingHelper)
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
@@ -211,7 +211,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
     
     /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getEligibleForAutoApproval()
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getEligibleForAutoApproval()
      */
     public List<PaymentRequestDocument> getEligibleForAutoApproval() {
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
@@ -244,7 +244,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getDocumentNumberByPaymentRequestId(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getDocumentNumberByPaymentRequestId(java.lang.Integer)
      */
     public String getDocumentNumberByPaymentRequestId(Integer id) {
         Criteria criteria = new Criteria();
@@ -253,7 +253,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getDocumentNumbersByPurchaseOrderId(java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getDocumentNumbersByPurchaseOrderId(java.lang.Integer)
      */
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer poPurApId) {
         List<String> returnList = new ArrayList<String>();
@@ -343,7 +343,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * @see org.kuali.module.purap.dao.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.core.util.KualiDecimal, java.sql.Date)
      */
     public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {

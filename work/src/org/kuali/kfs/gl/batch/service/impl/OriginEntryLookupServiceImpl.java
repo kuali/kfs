@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -24,21 +24,21 @@ import java.util.TreeMap;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.service.OriginEntryLookupService;
-import org.kuali.module.gl.util.CachingLookup;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
+import org.kuali.kfs.gl.service.impl.CachingLookup;
 
 /**
  * This class retrieves the important references related to the OriginEntryFull family of business objects;
@@ -56,7 +56,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the A21 sub account of
      * @return the related A21 SubAccount record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getA21SubAccount(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getA21SubAccount(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public A21SubAccount getA21SubAccount(OriginEntry entry) {
         return lookupReference(entry, A21SubAccount.class);
@@ -67,7 +67,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the account of
      * @return the related account record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getAccount(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getAccount(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public Account getAccount(OriginEntry entry) {
         return lookupReference(entry, Account.class);
@@ -78,7 +78,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the accounting period of
      * @return the related AccountingPeriod record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getAccountingPeriod(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getAccountingPeriod(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public AccountingPeriod getAccountingPeriod(OriginEntry entry) {
         return lookupReference(entry, AccountingPeriod.class);
@@ -89,7 +89,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the balance type of
      * @return the related balance typ record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getBalanceType(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getBalanceType(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public BalanceTyp getBalanceType(OriginEntry entry) {
         return lookupReference(entry, BalanceTyp.class, "code:financialBalanceTypeCode");
@@ -100,7 +100,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to get the chart for
      * @return the related Chart record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getChart(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getChart(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public Chart getChart(OriginEntry entry) {
         return lookupReference(entry, Chart.class);
@@ -111,7 +111,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the document type of
      * @return the related document type record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getDocumentType(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getDocumentType(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public DocumentType getDocumentType(OriginEntry entry) {
         return lookupReference(entry, DocumentType.class, "documentTypeCode:financialDocumentTypeCode");
@@ -122,7 +122,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry origin entryable to lookup the reference document type for
      * @return the related reference DocumentType record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public DocumentType getReferenceDocumentType(OriginEntry entry) {
         return lookupReference(entry, DocumentType.class, "documentTypeCode:referenceFinancialDocumentTypeCode");
@@ -133,7 +133,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the financial object of
      * @return the related financial object record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialObject(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getFinancialObject(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public ObjectCode getFinancialObject(OriginEntry entry) {
         return lookupReference(entry, ObjectCode.class);
@@ -144,7 +144,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the financial sub object of
      * @return the related financial sub object record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialSubObject(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getFinancialSubObject(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public SubObjCd getFinancialSubObject(OriginEntry entry) {
         return lookupReference(entry, SubObjCd.class);
@@ -155,7 +155,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the object type of
      * @return the related object type record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getObjectType(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getObjectType(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public ObjectType getObjectType(OriginEntry entry) {
         return lookupReference(entry, ObjectType.class, "code:financialObjectTypeCode");
@@ -166,7 +166,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the related options record of
      * @return the related Options record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getOption(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getOption(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public Options getOption(OriginEntry entry) {
         return lookupReference(entry, Options.class);
@@ -177,7 +177,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the origin code of
      * @return the related OriginationCode record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getOriginationCode(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getOriginationCode(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public OriginationCode getOriginationCode(OriginEntry entry) {
         return lookupReference(entry, OriginationCode.class, "originationCode:referenceFinancialSystemOriginationCode");
@@ -188,7 +188,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the project code of
      * @return the related ProjectCode record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getProjectCode(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getProjectCode(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public ProjectCode getProjectCode(OriginEntry entry) {
         return lookupReference(entry, ProjectCode.class, "code:projectCode");
@@ -199,7 +199,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      * 
      * @param entry the origin entry to retrieve the sub account of
      * @return the related SubAccount record, or null if not found
-     * @see org.kuali.module.gl.service.OriginEntryLookupService#getSubAccount(org.kuali.module.gl.bo.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.OriginEntryLookupService#getSubAccount(org.kuali.kfs.gl.businessobject.OriginEntry)
      */
     public SubAccount getSubAccount(OriginEntry entry) {
         return lookupReference(entry, SubAccount.class);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.web.struts.action;
+package org.kuali.kfs.sys.web.struts;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -25,8 +25,8 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.kuali.core.web.struts.action.KualiActionServlet;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.PropertyLoadingFactoryBean;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.PropertyLoadingFactoryBean;
 import org.kuali.rice.core.Core;
 
 /**

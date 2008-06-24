@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service.impl;
+package org.kuali.kfs.coa.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.module.chart.dao.PriorYearOrganizationDao;
-import org.kuali.module.chart.service.PriorYearOrganizationService;
+import org.kuali.kfs.coa.dataaccess.PriorYearOrganizationDao;
+import org.kuali.kfs.coa.service.PriorYearOrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,7 +37,7 @@ public class PriorYearOrganizationServiceImpl implements PriorYearOrganizationSe
     }
 
     /**
-     * @see org.kuali.module.chart.service.PriorYearOrganizationService#populatePriorYearOrganizationFromCurrent()
+     * @see org.kuali.kfs.coa.service.PriorYearOrganizationService#populatePriorYearOrganizationFromCurrent()
      */
     public void populatePriorYearOrganizationsFromCurrent() {
 

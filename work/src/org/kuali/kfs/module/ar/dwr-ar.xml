@@ -20,7 +20,7 @@
 		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
 	<allow>
-	   	<convert converter="bean" match="org.kuali.module.ar.bo.Customer">
+	   	<convert converter="bean" match="org.kuali.kfs.module.ar.businessobject.Customer">
 	   		<param name="include" value="customerName" />
 	   	</convert>
 	    <create creator="spring" javascript="CustomerService">

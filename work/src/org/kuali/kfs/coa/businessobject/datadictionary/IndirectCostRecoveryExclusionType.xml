@@ -6,7 +6,7 @@
 
   <bean id="IndirectCostRecoveryExclusionType" parent="IndirectCostRecoveryExclusionType-parentBean" />
   <bean id="IndirectCostRecoveryExclusionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType" />
     <property name="inquiryDefinition" >
       <ref bean="IndirectCostRecoveryExclusionType-inquiryDefinition" />
     </property>

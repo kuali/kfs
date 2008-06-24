@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.report;
+package org.kuali.kfs.module.cam.report;
 
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -21,11 +21,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.gl.util.GeneralLedgerPendingEntryReport;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.gl.report.GeneralLedgerPendingEntryReport;
 
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;

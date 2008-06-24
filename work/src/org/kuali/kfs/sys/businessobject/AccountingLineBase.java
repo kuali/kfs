@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.bo;
+package org.kuali.kfs.sys.businessobject;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,19 +28,19 @@ import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.bo.SalesTax;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.fp.businessobject.SalesTax;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
@@ -376,14 +376,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#getSalesTax()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#getSalesTax()
      */
     public SalesTax getSalesTax() {
         return salesTax;
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#setSalesTax(org.kuali.module.financial.bo.SalesTax)
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#setSalesTax(org.kuali.kfs.fp.businessobject.SalesTax)
      * @deprecated
      */
     public void setSalesTax(SalesTax salesTax) {
@@ -391,14 +391,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#isSalesTaxRequired()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#isSalesTaxRequired()
      */
     public boolean isSalesTaxRequired() {
         return salesTaxRequired;
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#setSalesTaxRequired(boolean)
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#setSalesTaxRequired(boolean)
      */
     public void setSalesTaxRequired(boolean salesTaxRequired) {
         this.salesTaxRequired = salesTaxRequired;
@@ -841,28 +841,28 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#isNonFringeAccountOverride()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#isNonFringeAccountOverride()
      */
     public boolean getNonFringeAccountOverride() {
         return nonFringeAccountOverride;
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#setNonFringeAccountOverride(boolean)
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#setNonFringeAccountOverride(boolean)
      */
     public void setNonFringeAccountOverride(boolean nonFringeAccountOverride) {
         this.nonFringeAccountOverride = nonFringeAccountOverride;
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#isNonFringeAccountOverrideNeeded()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#isNonFringeAccountOverrideNeeded()
      */
     public boolean getNonFringeAccountOverrideNeeded() {
         return nonFringeAccountOverrideNeeded;
     }
 
     /**
-     * @see org.kuali.kfs.bo.AccountingLine#setNonFringeAccountOverrideNeeded(boolean)
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#setNonFringeAccountOverrideNeeded(boolean)
      */
     public void setNonFringeAccountOverrideNeeded(boolean nonFringeAccountOverrideNeeded) {
         this.nonFringeAccountOverrideNeeded = nonFringeAccountOverrideNeeded;

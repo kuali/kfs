@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.batch.service.impl;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
+import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
  * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents.  Most of the behaviors have been inherited from
@@ -29,7 +29,7 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
 
     /**
      * Returns the YearEndDistributionOfIncomeAndExpenseDocument class.
-     * @see org.kuali.module.financial.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl#getClaimingDocumentClass()
+     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#getClaimingDocumentClass()
      */
     @Override
     public String getClaimingDocumentWorkflowDocumentType() {
@@ -38,7 +38,7 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
 
     /**
      * This uses the parent's userMayUseToClaim method, but then also checks that the YearEndDistributionOfIncomeAndExpenseDocument is actually currently active within the system.
-     * @see org.kuali.module.financial.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public boolean userMayUseToClaim(UniversalUser claimingUser) {

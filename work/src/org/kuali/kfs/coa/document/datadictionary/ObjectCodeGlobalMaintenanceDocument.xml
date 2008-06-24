@@ -7,8 +7,8 @@
   <bean id="ObjectCodeGlobalMaintenanceDocument" parent="ObjectCodeGlobalMaintenanceDocument-parentBean" />
 
   <bean id="ObjectCodeGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobal" />
-    <property name="maintainableClass" value="org.kuali.module.chart.maintenance.ObjectCodeGlobalMaintainableImpl" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCodeGlobal" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.ObjectCodeGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance" />
@@ -53,9 +53,9 @@
             p:parameterDetailType="ObjectCodeGlobal" />
     </property>
     <property name="documentTypeName" value="ObjectCodeGlobalMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.chart.rules.ObjectCodeGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="preRulesCheckClass" value="org.kuali.module.chart.rules.ObjectCodeGlobalPreRules" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalPreRules" />
     <property name="documentTypeCode" value="GOBJ" />
     <property name="workflowProperties" >
       <ref bean="ObjectCodeGlobalMaintenanceDocument-workflowProperties" />
@@ -135,8 +135,8 @@
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="objectCodeGlobalDetails" />
-          <property name="businessObjectClass" value="org.kuali.module.chart.bo.ObjectCodeGlobalDetail" />
-          <property name="sourceClassName" value="org.kuali.module.chart.bo.Chart" />
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail" />
+          <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.Chart" />
           <property name="sourceAttributeName" value="VALUE DOESN'T MATTER" />
           <property name="summaryTitle" value="Year and Chart" />
           <property name="summaryFields" >
@@ -151,7 +151,7 @@
             <list>
               <bean parent="MaintainableFieldDefinition"
                     p:name="universityFiscalYear"
-                    p:defaultValueFinderClass="org.kuali.kfs.lookup.valuefinder.FiscalYearFinder"
+                    p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"
                     p:readOnlyAfterAdd="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="chartOfAccountsCode"

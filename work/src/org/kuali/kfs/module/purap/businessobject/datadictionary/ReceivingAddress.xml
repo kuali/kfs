@@ -7,7 +7,7 @@
   <bean id="ReceivingAddress" parent="ReceivingAddress-parentBean" />
 
   <bean id="ReceivingAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.purap.bo.ReceivingAddress" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" />
     <property name="inquiryDefinition" >
       <ref bean="ReceivingAddress-inquiryDefinition" />
     </property>

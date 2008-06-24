@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.bo;
+package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,10 +26,10 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.util.PurApObjectUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 
 /**
  * Purap Item Base Business Object.
@@ -73,7 +73,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurApItem#getItemIdentifierString()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#getItemIdentifierString()
      */
     public String getItemIdentifierString() {
         String itemLineNumberString = (getItemLineNumber() != null ? getItemLineNumber().toString() : "");
@@ -397,7 +397,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     
     /**
      * fixes item references on accounts
-     * @see org.kuali.module.purap.bo.PurApItem#fixAccountReferences()
+     * @see org.kuali.kfs.module.purap.businessobject.PurApItem#fixAccountReferences()
      */
     public void fixAccountReferences() {
         if(ObjectUtils.isNull(this.getItemIdentifier())) {

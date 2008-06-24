@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.exception;
+package org.kuali.kfs.gl.exception;
 
 /**
  * An exception that is thrown if a data file cannot be loaded by a batch process.

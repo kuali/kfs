@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service.impl;
+package org.kuali.kfs.module.purap.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -21,22 +21,22 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.service.DisbursementVoucherExtractService;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.service.PaymentDetailService;
-import org.kuali.module.pdp.service.PaymentGroupService;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.ProcessPdpCancelPaidService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -55,7 +55,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     private DisbursementVoucherExtractService dvExtractService;
 
     /**
-     * @see org.kuali.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
+     * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
      */
     public void processPdpCancels() {
         LOG.debug("processPdpCancels() started");
@@ -133,7 +133,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     }
 
     /**
-     * @see org.kuali.module.purap.service.ProcessPdpCancelPaidService#processPdpPaids()
+     * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpPaids()
      */
     public void processPdpPaids() {
         LOG.debug("processPdpPaids() started");
@@ -187,7 +187,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     }
 
     /**
-     * @see org.kuali.module.purap.service.ProcessPdpCancelPaidService#processPdpCancelsAndPaids()
+     * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancelsAndPaids()
      */
     public void processPdpCancelsAndPaids() {
         LOG.debug("processPdpCancelsAndPaids() started");

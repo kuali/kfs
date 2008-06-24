@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -33,13 +33,13 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.fixtures.PaymentRequestInvoiceTabFixture;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.test.ConfigureContext;
-import org.kuali.workflow.MockWorkflowDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.fixture.PaymentRequestInvoiceTabFixture;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.document.workflow.MockWorkflowDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

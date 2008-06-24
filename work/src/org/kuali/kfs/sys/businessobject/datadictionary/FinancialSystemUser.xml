@@ -7,7 +7,7 @@
   <bean id="FinancialSystemUser" parent="FinancialSystemUser-parentBean" />
 
   <bean id="FinancialSystemUser-parentBean" abstract="true" parent="UniversalUser">
-    <property name="businessObjectClass" value="org.kuali.kfs.bo.FinancialSystemUser" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemUser" />
     <property name="inquiryDefinition" ref="FinancialSystemUser-inquiryDefinition" />
     <property name="lookupDefinition" ref="FinancialSystemUser-lookupDefinition" />
     <property name="attributes" >
@@ -217,12 +217,12 @@
   <!-- Override the UU inquiry to force it to use the KFS User inquirable class -->
   <bean id="UniversalUser-inquiryDefinition" parent="UniversalUser-inquiryDefinition-parentBean"
     p:title="Financial System User Inquiry"
-    p:inquirableClass="org.kuali.kfs.inquiry.FinancialSystemUserInquirableImpl">  
+    p:inquirableClass="org.kuali.kfs.sys.businessobject.inquiry.FinancialSystemUserInquirableImpl">  
   </bean>
 
   <bean id="FinancialSystemUser-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
   	p:title="Financial System User Inquiry"
-    p:inquirableClass="org.kuali.kfs.inquiry.FinancialSystemUserInquirableImpl">
+    p:inquirableClass="org.kuali.kfs.sys.businessobject.inquiry.FinancialSystemUserInquirableImpl">
     <!-- merge in additional sections to UU sections -->
     <property name="inquirySections" >
       <list>
@@ -264,7 +264,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="primaryOrganizations" />
-                <property name="businessObjectClass" value="org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization" />
+                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -285,7 +285,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="organizationSecurity" />
-                <property name="businessObjectClass" value="org.kuali.kfs.bo.FinancialSystemUserOrganizationSecurity" />
+                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
                   <list>
@@ -357,10 +357,10 @@
 <!-- common controls -->
 
   <bean name="SelectControl-Chart" parent="SelectControlDefinition"
-  		p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
+  		p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" />
 
   <bean name="SelectControl-KualiModule" parent="SelectControlDefinition"
-  		p:valuesFinderClass="org.kuali.kfs.lookup.keyvalues.KualiModuleValuesFinder" />
+  		p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.KualiModuleValuesFinder" />
 
 
 <!-- FinancialSystemUserPrimaryOrganization -->
@@ -368,7 +368,7 @@
   <bean id="FinancialSystemUserPrimaryOrganization" parent="FinancialSystemUserPrimaryOrganization-parentBean" />
 
   <bean id="FinancialSystemUserPrimaryOrganization-parentBean" abstract="true" parent="BusinessObjectEntry"
-  	p:businessObjectClass="org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization"
+  	p:businessObjectClass="org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization"
   	p:titleAttribute="personUniversalIdentifier">
 
     <property name="attributes" >
@@ -422,7 +422,7 @@
   <bean id="FinancialSystemUserOrganizationSecurity" parent="FinancialSystemUserOrganizationSecurity-parentBean" />
 
   <bean id="FinancialSystemUserOrganizationSecurity-parentBean" abstract="true" parent="BusinessObjectEntry"
-  	p:businessObjectClass="org.kuali.kfs.bo.FinancialSystemUserOrganizationSecurity"
+  	p:businessObjectClass="org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity"
   	p:titleAttribute="personUniversalIdentifier">
 
     <property name="attributes" >
@@ -479,8 +479,8 @@
   <bean id="FinancialSystemUserMaintenanceDocument" parent="FinancialSystemUserMaintenanceDocument-parentBean" />
 
   <bean id="FinancialSystemUserMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.bo.FinancialSystemUser" />
-    <property name="maintainableClass" value="org.kuali.kfs.maintenance.FinancialSystemUserMaintainable" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemUser" />
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemUserMaintainable" />
     <property name="maintainableSections" >
       <list>
         <ref bean="FinancialSystemUserMaintenanceDocument-UniversalUserSection" />
@@ -511,8 +511,8 @@
             p:parameterDetailType="FinancialSystemUser" />
     </property>
     <property name="documentTypeName" value="FinancialSystemUserMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemUserDocumentAuthorizer" />
-    <property name="businessRulesClass" value="org.kuali.kfs.rules.FinancialSystemUserRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.FinancialSystemUserRule" />
     <!-- 
     <property name="preRulesCheckClass" value="org.kuali.core.rules.FinancialSystemUserPreRules" />
      -->
@@ -604,7 +604,7 @@
         <bean parent="MaintainableCollectionDefinition"
         	p:id="PrimaryOrgSection"
         	p:name="primaryOrganizations"
-        	p:businessObjectClass="org.kuali.kfs.bo.FinancialSystemUserPrimaryOrganization"
+        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization"
         	p:attributeToHighlightOnDuplicateKey="moduleId"
         	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Module/Chart/Org">
@@ -644,7 +644,7 @@
         <bean parent="MaintainableCollectionDefinition"
             p:id="OrganizationSecuritySection"
             p:name="organizationSecurity"
-            p:businessObjectClass="org.kuali.kfs.bo.FinancialSystemUserOrganizationSecurity"
+            p:businessObjectClass="org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity"
             p:attributeToHighlightOnDuplicateKey="organizationCode"
             p:includeMultipleLookupLine="false"
             p:summaryTitle="Module/Chart/Org">

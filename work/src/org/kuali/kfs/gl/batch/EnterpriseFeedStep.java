@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.service.EnterpriseFeederService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 
 /**
  * This step executes the enterprise feeder
@@ -33,7 +33,7 @@ public class EnterpriseFeedStep extends AbstractStep {
      * @param jobName the name of the job this step is being execute as part of
      * @param jobRunDate the time/date when the job was started
      * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         enterpriseFeederService.feed(jobName, true);
@@ -44,7 +44,7 @@ public class EnterpriseFeedStep extends AbstractStep {
      * Gets the enterpriseFeederService attribute.
      * 
      * @return Returns the enterpriseFeederService.
-     * @see org.kuali.module.gl.service.EnterpriseFeederService
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederService
      */
     public EnterpriseFeederService getEnterpriseFeederService() {
         return enterpriseFeederService;
@@ -54,7 +54,7 @@ public class EnterpriseFeedStep extends AbstractStep {
      * Sets the enterpriseFeederService attribute value.
      * 
      * @param enterpriseFeederService The enterpriseFeederService to set.
-     * @see org.kuali.module.gl.service.EnterpriseFeederService
+     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederService
      */
     public void setEnterpriseFeederService(EnterpriseFeederService enterpriseFeederService) {
         this.enterpriseFeederService = enterpriseFeederService;

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.util.Guid;
-import org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao;
+import org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao;
 
 /**
  * This class...
@@ -193,7 +193,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     }
     
     /**
-     * @see org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao#buildIntendedIncumbentSelect(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#buildIntendedIncumbentSelect(java.lang.String,
      *      java.lang.Integer)
      */
     public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear) {
@@ -204,7 +204,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao#cleanIntendedIncumbentSelect(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#cleanIntendedIncumbentSelect(java.lang.String)
      */
     public void cleanIntendedIncumbentSelect(String personUserIdentifier) {
 
@@ -212,7 +212,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao#buildPositionSelect(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#buildPositionSelect(java.lang.String, java.lang.Integer)
      */
     public void buildPositionSelect(String personUserIdentifier, Integer universityFiscalYear) {
 
@@ -281,7 +281,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     }
 
     /**
-     * @see org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao#cleanPositionSelect(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#cleanPositionSelect(java.lang.String)
      */
     public void cleanPositionSelect(String personUserIdentifier) {
 

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.util;
+package org.kuali.kfs.module.bc.report;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.module.budget.BCConstants.Report.BuildMode;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 
 /**
  * Holds information on the current build configuration of the report control list table, and a requested configuration.
@@ -66,7 +66,7 @@ public class ReportControlListBuildHelper {
      * @param pointOfView - request point of view
      * @param selectedOrganizations - organizations selected for the report
      * @param buildMode - mode in which the control list should be build
-     * @see org.kuali.module.budget.BCConstants.Report.BuildMode
+     * @see org.kuali.kfs.module.bc.BCConstants.Report.BuildMode
      */
     public void addBuildRequest(String pointOfView, Collection<BudgetConstructionPullup> selectedOrganizations, BuildMode buildMode) {
         this.setRequestedState(new BuildState(pointOfView, selectedOrganizations, buildMode));

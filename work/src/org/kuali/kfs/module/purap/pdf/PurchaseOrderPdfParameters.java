@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.pdf;
+package org.kuali.kfs.module.purap.pdf;
 
-import org.kuali.module.purap.bo.CampusParameter;
+import org.kuali.kfs.module.purap.businessobject.CampusParameter;
 
 /**
  * Contains the parameters needed for creating a purchase order pdf document.

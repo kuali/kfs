@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.util;
+package org.kuali.kfs.sys.report;
 
 import java.util.Locale;
 import java.util.Map;
@@ -32,63 +32,63 @@ public class ReportInfoHolder implements ReportInfo {
     private String subReportTemplateClassPath;
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getReportFileName()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getReportFileName()
      */
     public String getReportFileName() {
         return reportFileName;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getReportsDirectory()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getReportsDirectory()
      */
     public String getReportsDirectory() {
         return reportsDirectory;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getReportTemplateClassPath()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getReportTemplateClassPath()
      */
     public String getReportTemplateClassPath() {
         return reportTemplateClassPath;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getReportTemplateName()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getReportTemplateName()
      */
     public String getReportTemplateName() {
         return reportTemplateName;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getReportTitle()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getReportTitle()
      */
     public String getReportTitle() {
         return reportTitle;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getResourceBundle()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getResourceBundle()
      */
     public ResourceBundle getResourceBundle() {
         return ResourceBundle.getBundle(resourceBundleBaseName, Locale.getDefault());
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getResourceBundleBaseName()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getResourceBundleBaseName()
      */
     public String getResourceBundleBaseName() {
         return resourceBundleBaseName;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getSubReports()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getSubReports()
      */
     public Map<String, String> getSubReports() {
         return subReports;
     }
 
     /**
-     * @see org.kuali.kfs.util.ReportInfo#getSubReportTemplateClassPath()
+     * @see org.kuali.kfs.sys.report.ReportInfo#getSubReportTemplateClassPath()
      */
     public String getSubReportTemplateClassPath() {
         return subReportTemplateClassPath;

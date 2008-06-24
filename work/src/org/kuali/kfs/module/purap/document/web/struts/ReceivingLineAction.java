@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.web.struts.action;
+package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,25 +31,25 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.ReceivingLineItem;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.ReceivingLineDocument;
-import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.service.ReceivingService;
-import org.kuali.module.purap.service.impl.ReceivingServiceImpl;
-import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
-import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
-import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
-import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
+import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.service.impl.ReceivingServiceImpl;
+import org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm;
+import org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm;
+import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
+import org.kuali.kfs.module.purap.document.web.struts.ReceivingLineForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

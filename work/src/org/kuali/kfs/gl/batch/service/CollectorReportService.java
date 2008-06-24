@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.module.gl.util.CollectorReportData;
+import org.kuali.kfs.gl.report.CollectorReportData;
 
 /**
  * Services to help the Collector report 

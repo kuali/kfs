@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
 
 /**
  * Customer numbers that may have been assigned by the Vendor to various <code>Chart</code> and/or <code>Org</code>.
  * 
- * @see org.kuali.module.chart.bo.Chart
- * @see org.kuali.module.chart.bo.Org
+ * @see org.kuali.kfs.coa.businessobject.Chart
+ * @see org.kuali.kfs.coa.businessobject.Org
  */
 public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivateable {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -30,11 +30,11 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.PostalZipCode;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.service.OrganizationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.service.OrganizationService;
 
 /**
  * 

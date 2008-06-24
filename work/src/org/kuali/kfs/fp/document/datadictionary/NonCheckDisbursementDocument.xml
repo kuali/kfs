@@ -19,9 +19,9 @@
             p:parameterDetailType="NonCheckDisbursement" />
     </property>
     <property name="documentTypeName" value="NonCheckDisbursementDocument" />
-    <property name="documentClass" value="org.kuali.module.financial.document.NonCheckDisbursementDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.financial.rules.NonCheckDisbursementDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ND" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.fixture;
+package org.kuali.kfs.module.ar.fixture;
 
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.bo.OrganizationAccountingDefault;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public enum OrganizationAccountingDefaultFixture {
        

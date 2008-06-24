@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.List;
 import java.util.Properties;
@@ -26,10 +26,10 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.service.DocumentLockingService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +46,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
     private MaintenanceDocumentDao maintenanceDocumentDao;
 
     /**
-     * @see org.kuali.module.cams.service.DocumentLockingService#getLockingDocumentId(java.lang.String, java.util.List)
+     * @see org.kuali.kfs.module.cam.document.service.DocumentLockingService#getLockingDocumentId(java.lang.String, java.util.List)
      */
     public String getLockingDocumentId(String documentNumber, List<MaintenanceLock> maintenanceLocks) {
         String lockingDocId = null;
@@ -62,7 +62,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
     }
     
     /**
-     * @see org.kuali.module.cams.service.DocumentLockingService#checkForLockingDocument(java.lang.String)
+     * @see org.kuali.kfs.module.cam.document.service.DocumentLockingService#checkForLockingDocument(java.lang.String)
      */
     public void checkForLockingDocument(String blockingDocId) {
 

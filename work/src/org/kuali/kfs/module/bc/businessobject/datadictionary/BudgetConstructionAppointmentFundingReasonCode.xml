@@ -7,7 +7,7 @@
   <bean id="BudgetConstructionAppointmentFundingReasonCode" parent="BudgetConstructionAppointmentFundingReasonCode-parentBean" />
 
   <bean id="BudgetConstructionAppointmentFundingReasonCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReasonCode" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetConstructionAppointmentFundingReasonCode-inquiryDefinition" />
     </property>

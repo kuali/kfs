@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.fixture;
+package org.kuali.kfs.module.ar.fixture;
 
-import org.kuali.module.ar.bo.Customer;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 
 public enum CustomerFixture {
     CUSTOMER1("CUSTOMER1", true),

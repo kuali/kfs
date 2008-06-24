@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service;
+package org.kuali.kfs.sys.batch.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,15 +23,15 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
-import org.kuali.kfs.KFSConstants.ReportGeneration;
-import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.util.ReportInfo;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.AccountFixture;
-import org.kuali.test.fixtures.SubAccountFixture;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.AccountFixture;
+import org.kuali.kfs.sys.fixture.SubAccountFixture;
 
 @ConfigureContext
 public class ReportGenerationServiceTest extends KualiTestBase {

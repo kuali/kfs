@@ -7,7 +7,7 @@
   <bean id="TaxIncomeClassCodeMaintenanceDocument" parent="TaxIncomeClassCodeMaintenanceDocument-parentBean" />
 
   <bean id="TaxIncomeClassCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.module.financial.bo.TaxIncomeClassCode" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" />
     <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -30,7 +30,7 @@
             p:parameterDetailType="TaxIncomeClassCode" />
     </property>
     <property name="documentTypeName" value="TaxIncomeClassCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVIC" />
     <property name="workflowProperties" >
       <ref bean="TaxIncomeClassCodeMaintenanceDocument-workflowProperties" />

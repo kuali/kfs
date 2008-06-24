@@ -11,7 +11,7 @@
         <fieldDef name="paymentRequestStatusCode" title="kuali_dd_label(PaymentRequestDocument)">
           <display>
             <type>multibox</type>
-            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.PaymentRequestStatusValuesFinder)</values>
+            <values>kuali_values_finder_class(org.kuali.kfs.module.purap.businessobject.options.PaymentRequestStatusValuesFinder)</values>
           </display>
           <visibility>
             <column visible="false" />

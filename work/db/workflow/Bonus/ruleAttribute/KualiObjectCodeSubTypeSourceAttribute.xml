@@ -3,7 +3,7 @@
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
       <name>KualiObjectCodeSubTypeSourceAttribute</name>
-      <className>org.kuali.workflow.attribute.AccountLineReplacingXmlRuleAttribute</className>
+      <className>org.kuali.kfs.sys.document.routing.attribute.AccountLineReplacingXmlRuleAttribute</className>
       <label>Object Code SubType Source Routing</label>
       <description>Object Code SubType Source Accounting Line Routing</description>
       <type>RuleXmlAttribute</type>
@@ -13,7 +13,7 @@
             <type>text</type>
           </display>
           <validation required="true" />
-          <quickfinder appliesTo="objectCodeSubType" draw="true" service="workflow-org.kuali.module.chart.bo.ObjSubTyp-Lookupable(workflow-code:objectCodeSubType)" />
+          <quickfinder appliesTo="objectCodeSubType" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.ObjSubTyp-Lookupable(workflow-code:objectCodeSubType)" />
           <fieldEvaluation>
             <xpathexpression>wf:xstreamsafe('//kfs_sourceAccountingLineClass/objectCode/financialObjectSubTypeCode') = wf:ruledata('objectCodeSubType')</xpathexpression>
           </fieldEvaluation>

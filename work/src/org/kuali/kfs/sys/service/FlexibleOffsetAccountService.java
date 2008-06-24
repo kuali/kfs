@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.sys.service;
 
-import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.module.gl.bo.FlexibleAccountUpdateable;
+import org.kuali.kfs.fp.businessobject.OffsetAccount;
+import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 
 /**
  * 

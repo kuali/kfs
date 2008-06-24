@@ -7,7 +7,7 @@
   <bean id="SubFundGroup" parent="SubFundGroup-parentBean" />
 
   <bean id="SubFundGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.chart.bo.SubFundGroup" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubFundGroup" />
     <property name="inquiryDefinition" >
       <ref bean="SubFundGroup-inquiryDefinition" />
     </property>
@@ -100,7 +100,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SubFundGroupTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SubFundGroupTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -129,7 +129,7 @@
     <property name="shortLabel" value="DefaultRstrcStatCd" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.RestrictedStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -156,7 +156,7 @@
   <bean id="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean" abstract="true" parent="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode">
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentSubFundRestrictionsValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentSubFundRestrictionsValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

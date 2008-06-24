@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service;
+package org.kuali.kfs.gl.service;
 
-import org.kuali.module.gl.bo.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
 
 /**
  * Services that deal with Collector Details

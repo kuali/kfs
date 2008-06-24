@@ -16,10 +16,10 @@
             p:parameterDetailType="PaymentRequest" />
     </property>
     <property name="documentTypeName" value="PaymentRequestDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PaymentRequestDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PaymentRequestDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PaymentRequestDocumentAuthorizer" />
-    <property name="preRulesCheckClass" value="org.kuali.module.purap.rules.PaymentRequestDocumentPreRules" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
     <property name="documentTypeCode" value="PREQ" />
     <property name="workflowProperties" >
       <ref bean="PaymentRequestDocument-workflowProperties" />
@@ -593,7 +593,7 @@
     <property name="shortLabel" value="recurringPaymentTypeCode" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.RecurringPaymentTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

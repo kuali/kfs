@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.service;
+package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 
 /**
  * This interface defines methods that a RoutingFormResearchRiskService must provide

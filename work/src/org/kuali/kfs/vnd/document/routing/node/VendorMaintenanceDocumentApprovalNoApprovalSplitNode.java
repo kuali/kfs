@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.vendor.node;
+package org.kuali.kfs.vnd.document.routing.node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.engine.RouteHelper;

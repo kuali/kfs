@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.kfs.coa.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,12 +27,12 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountResponsibility;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Delegate;
-import org.kuali.module.chart.dao.AccountDao;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountResponsibility;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.dataaccess.AccountDao;
 
 /**
  * This class is the OJB implementation of the AccountDao interface.
@@ -94,7 +94,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * Resolves the Primary Delegate for the given delegate example. If the primary delegate exists for a specific Document Type
      * Code and for a Document Type Code of "ALL", the delegate for the specific document type code is returned;
      * 
-     * @see org.kuali.module.chart.dao.AccountDao#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.Delegate,
      *      java.lang.String)
      */
     public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount) {
@@ -112,7 +112,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     * @see org.kuali.module.chart.dao.AccountDao#getSecondaryDelegationsByExample(org.kuali.module.chart.bo.Delegate,
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.Delegate,
      *      java.lang.String)
      */
     public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount) {
@@ -260,7 +260,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     * @see org.kuali.module.chart.dao.AccountDao#getAllAccounts()
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getAllAccounts()
      * @return an iterator for all accounts
      */
     public Iterator getAllAccounts() {

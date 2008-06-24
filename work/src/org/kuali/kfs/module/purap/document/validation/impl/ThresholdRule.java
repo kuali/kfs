@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,18 +22,18 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.bo.Threshold;
-import org.kuali.module.purap.util.ThresholdField;
-import org.kuali.module.vendor.bo.CommodityCode;
-import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.businessobject.Threshold;
+import org.kuali.kfs.module.purap.util.ThresholdField;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public class ThresholdRule extends MaintenanceDocumentRuleBase {
 

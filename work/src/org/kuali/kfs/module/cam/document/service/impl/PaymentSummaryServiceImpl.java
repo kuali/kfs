@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
-import static org.kuali.module.cams.CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE;
+import static org.kuali.kfs.module.cam.CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -25,13 +25,13 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.service.PaymentSummaryService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * This class implements PaymentSummaryService
@@ -76,7 +76,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     }
 
     /**
-     * @see org.kuali.module.cams.service.PaymentSummaryService#calculateAndSetPaymentSummary(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.PaymentSummaryService#calculateAndSetPaymentSummary(org.kuali.kfs.module.cam.businessobject.Asset)
      */
 
     public void calculateAndSetPaymentSummary(Asset asset) {
@@ -93,7 +93,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
 
     /**
-     * @see org.kuali.module.cams.service.PaymentSummaryService#calculateFederalContribution(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.PaymentSummaryService#calculateFederalContribution(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);

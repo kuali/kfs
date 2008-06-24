@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_ERROR;
-import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
-import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
-import static org.kuali.module.labor.LaborConstants.DestinationNames.ORIGN_ENTRY;
+import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_MAIN_POSTER_ERROR;
+import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
+import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_SCRUBBER_VALID;
+import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.ORIGN_ENTRY;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -29,25 +29,25 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.util.Message;
-import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.batch.poster.VerifyTransaction;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.labor.LaborConstants.Poster;
-import org.kuali.module.labor.batch.LaborPosterStep;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.rules.TransactionFieldValidator;
-import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.LaborPosterService;
-import org.kuali.module.labor.service.LaborReportService;
-import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.MessageBuilder;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.batch.service.VerifyTransaction;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.module.ld.LaborConstants.Poster;
+import org.kuali.kfs.module.ld.batch.LaborPosterStep;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
+import org.kuali.kfs.module.ld.batch.service.LaborReportService;
+import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -76,7 +76,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private final static int LINE_INTERVAL = 2;
 
     /**
-     * @see org.kuali.module.labor.service.LaborPosterService#postMainEntries()
+     * @see org.kuali.kfs.module.ld.batch.service.LaborPosterService#postMainEntries()
      */
     public void postMainEntries() {
         LOG.info("postMainEntries() started");

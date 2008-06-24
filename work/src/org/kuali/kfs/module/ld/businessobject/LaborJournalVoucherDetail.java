@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.bo;
+package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.kfs.bo.Options;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
 
 /**
  * Labor Journal Voucher Detail Business Object.
@@ -466,7 +466,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      * Gets the encumbranceUpdateCode
      * 
      * @return Returns the encumbranceUpdateCode
-     * @see org.kuali.kfs.bo.AccountingLine#getEncumbranceUpdateCode()
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#getEncumbranceUpdateCode()
      */
     public String getEncumbranceUpdateCode() {
         return encumbranceUpdateCode;
@@ -476,7 +476,7 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
      * Sets the encumbranceUpdateCode.
      * 
      * @param encumbranceUpdateCode The encumbranceUpdateCode to set.
-     * @see org.kuali.kfs.bo.AccountingLine#setEncumbranceUpdateCode(java.lang.String)
+     * @see org.kuali.kfs.sys.businessobject.AccountingLine#setEncumbranceUpdateCode(java.lang.String)
      */
     public void setEncumbranceUpdateCode(String encumbranceUpdateCode) {
         this.encumbranceUpdateCode = encumbranceUpdateCode;

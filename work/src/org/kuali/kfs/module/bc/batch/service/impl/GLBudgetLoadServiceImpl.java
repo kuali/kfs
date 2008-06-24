@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.batch.service.impl;
 
 import org.apache.log4j.Logger;
 
-import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
-import org.kuali.module.budget.service.GLBudgetLoadService;
-import org.kuali.module.budget.service.GenesisService;
+import org.kuali.kfs.module.bc.batch.dataaccess.GeneralLedgerBudgetLoadDao;
+import org.kuali.kfs.module.bc.batch.service.GLBudgetLoadService;
+import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.rice.KNSServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 

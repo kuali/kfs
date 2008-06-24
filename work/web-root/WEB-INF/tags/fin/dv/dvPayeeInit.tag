@@ -33,7 +33,7 @@
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/></div></th>
               <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="payeeIdNumber" readOnly="true" />
-                  <kul:lookup boClassName="org.kuali.module.vendor.bo.VendorDetail" fieldConversions="vendorNumber:payeeIdNumber,vendorName:payeePersonName"/>
+                  <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" fieldConversions="vendorNumber:payeeIdNumber,vendorName:payeePersonName"/>
               </td>
             </tr>
             <tr>

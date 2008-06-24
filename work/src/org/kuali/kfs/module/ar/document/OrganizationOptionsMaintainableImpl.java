@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.maintenance;
+package org.kuali.kfs.module.ar.document;
 
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.module.ar.maintenance.util.CustomerInvoiceItemCodeMaintainableImplUtil;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceItemCodeMaintainableImplUtil;
 
 public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
 

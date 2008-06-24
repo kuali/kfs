@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.gl.CamsGeneralLedgerPendingEntrySourceBase;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
 
 
 /**

@@ -17,11 +17,11 @@
  * Created on Aug 2, 2004
  *
  */
-package org.kuali.module.pdp.service;
+package org.kuali.kfs.pdp.service;
 
 import java.util.List;
 
-import org.kuali.module.pdp.bo.PaymentDetailSearch;
+import org.kuali.kfs.pdp.businessobject.PaymentDetailSearch;
 
 
 /**

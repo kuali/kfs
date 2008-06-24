@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao;
+package org.kuali.kfs.gl.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * The DAO interface that declares methods needed to query the database about balances

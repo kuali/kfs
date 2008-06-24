@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.dao.ojb;
+package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import java.util.Iterator;
 
@@ -22,8 +22,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.ar.bo.Lockbox;
-import org.kuali.module.ar.dao.LockboxDao;
+import org.kuali.kfs.module.ar.businessobject.Lockbox;
+import org.kuali.kfs.module.ar.dataaccess.LockboxDao;
 
 public class LockboxDaoOjb extends PlatformAwareDaoBaseOjb implements LockboxDao {
 

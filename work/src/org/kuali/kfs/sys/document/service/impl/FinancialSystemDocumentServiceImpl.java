@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.service.impl;
+package org.kuali.kfs.sys.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +22,8 @@ import java.util.Iterator;
 import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.impl.DocumentServiceImpl;
-import org.kuali.kfs.dao.FinancialSystemDocumentDao;
-import org.kuali.kfs.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -33,7 +33,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class FinancialSystemDocumentServiceImpl extends DocumentServiceImpl implements FinancialSystemDocumentService {
     
     /**
-     * @see org.kuali.kfs.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class, java.lang.String)
      */
     public Collection findByDocumentHeaderStatusCode(Class clazz, String statusCode) throws WorkflowException {
         Collection foundDocuments = ((FinancialSystemDocumentDao) documentDao).findByDocumentHeaderStatusCode(clazz, statusCode);

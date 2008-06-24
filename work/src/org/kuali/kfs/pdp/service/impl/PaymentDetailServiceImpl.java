@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.service.impl;
+package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.annotation.NonTransactional;
-import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.dao.PaymentDetailDao;
-import org.kuali.module.pdp.service.PaymentDetailService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
+import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.springframework.transaction.annotation.Transactional;
 
 @NonTransactional
@@ -35,7 +35,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentDetailService#getAchPaymentsWithUnsentEmail()
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getAchPaymentsWithUnsentEmail()
      */
     public Iterator getAchPaymentsWithUnsentEmail() {
         LOG.debug("getAchPaymentsWithUnsentEmail() started");
@@ -44,7 +44,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentDetailService#getByDisbursementNumber(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getByDisbursementNumber(java.lang.Integer)
      */
     public Iterator getByDisbursementNumber(Integer disbursementNumber) {
         LOG.debug("getByDisbursementNumber() started");
@@ -53,7 +53,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentDetailService#get(java.lang.Integer)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#get(java.lang.Integer)
      */
     public PaymentDetail get(Integer id) {
         LOG.debug("get() started");
@@ -62,7 +62,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentDetailService#getDetailForEpic(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getDetailForEpic(java.lang.String, java.lang.String)
      */
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode) {
         LOG.debug("getDetailForEpic() started");
@@ -71,7 +71,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentDetailService#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
      */
     public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedCancelledDetails() started");
@@ -80,7 +80,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentDetailService#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
     public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedPaidDetails() started");

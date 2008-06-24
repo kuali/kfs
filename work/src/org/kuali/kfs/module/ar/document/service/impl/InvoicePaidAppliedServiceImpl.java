@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.service.impl;
+package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
-import org.kuali.module.ar.bo.InvoicePaidApplied;
-import org.kuali.module.ar.bo.NonInvoicedDistribution;
-import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.service.InvoicePaidAppliedService;
-import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService {
 
@@ -35,7 +35,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     private UniversityDateService universityDateService;
 
     /**
-     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
     @SuppressWarnings("unchecked")
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
@@ -46,7 +46,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     }
 
     /**
-     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
      */
     public void saveInvoicePaidAppliedForDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails, CustomerInvoiceDocument document) {
         
@@ -79,7 +79,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     }
     
     /**
-     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#doesInvoiceHaveAppliedAmounts(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#doesInvoiceHaveAppliedAmounts(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public boolean doesInvoiceHaveAppliedAmounts(CustomerInvoiceDocument document) {
 
@@ -97,7 +97,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     }    
 
     /**
-     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForInvoice(java.lang.String)
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForInvoice(java.lang.String)
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
@@ -106,7 +106,7 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService 
     }
 
     /**
-     * @see org.kuali.module.ar.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForInvoice(org.kuali.module.ar.document.CustomerInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(CustomerInvoiceDocument invoice) {
         return getInvoicePaidAppliedsForInvoice(invoice.getDocumentNumber());

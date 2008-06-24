@@ -37,13 +37,13 @@
         </td>
         <td>
           <kul:htmlControlAttribute property="previousBranchOrgs[${status.index}].chartOfAccountsCode" attributeEntry="${pullupOrgAttributes.chartOfAccountsCode}" readOnly="true" readOnlyBody="true">
-            <kul:inquiry  boClassName="org.kuali.module.chart.bo.Chart" keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}" render="${!empty KualiForm.previousBranchOrgs[0].chartOfAccountsCode}">
+            <kul:inquiry  boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}" render="${!empty KualiForm.previousBranchOrgs[0].chartOfAccountsCode}">
               <html:hidden write="true" property="previousBranchOrgs[${status.index}].chartOfAccountsCode" />
             </kul:inquiry>&nbsp;
           </kul:htmlControlAttribute>
       		-
           <kul:htmlControlAttribute property="previousBranchOrgs[${status.index}].organizationCode" attributeEntry="${pullupOrgAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
-            <kul:inquiry boClassName="org.kuali.module.chart.bo.Org" keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}" render="${!empty KualiForm.previousBranchOrgs[0].organizationCode}"> <html:hidden write="true" property="previousBranchOrgs[${status.index}].organizationCode" />
+            <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Org" keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}" render="${!empty KualiForm.previousBranchOrgs[0].organizationCode}"> <html:hidden write="true" property="previousBranchOrgs[${status.index}].organizationCode" />
 	        </kul:inquiry>&nbsp;
           </kul:htmlControlAttribute>
         </td>

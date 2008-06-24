@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.fixture;
+package org.kuali.kfs.module.cam.fixture;
 
 import java.io.IOException;
 import java.util.Properties;
 
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 
 public enum AssetTransferFixture {
     ACTIVE_CAPITAL_ASSET(1), RETIRED_ASSET(2), ACTIVE_NON_CAPITAL_ASSET(3), PAYMENT1_WITH_OFFSET(1), PAYMENT2_WITH_OFFSET(2), PAYMENT3_WITHOUT_OFFSET(3), PAYMENT4_WITHOUT_OFFSET(4), ASSET_TRANSFER(1);
@@ -28,7 +28,7 @@ public enum AssetTransferFixture {
 
     private static Properties properties;
     static {
-        String propertiesFileName = "org/kuali/module/cams/service/testdata/asset_transfer_service.properties";
+        String propertiesFileName = "org/kuali/kfs/module/cam/document/service/asset_transfer_service.properties";
         properties = new Properties();
         try {
             properties.load(ClassLoader.getSystemResourceAsStream(propertiesFileName));

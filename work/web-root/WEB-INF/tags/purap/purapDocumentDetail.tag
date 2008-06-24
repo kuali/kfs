@@ -50,7 +50,7 @@
 	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
 	            &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
 	            <c:if test="${(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}" >
-	                <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
+	                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
 	            </c:if>
 	        </td>
 	        <th align=right valign=middle class="bord-l-b">
@@ -140,7 +140,7 @@
 	                readOnly="true" />
 	            <c:if test="${preRouteChangeMode}" >
 	                <kul:lookup
-	                    boClassName="org.kuali.module.vendor.bo.ContractManager"
+	                    boClassName="org.kuali.kfs.vnd.businessobject.ContractManager"
 	                    fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
 	            </c:if>                     
 	        </td>

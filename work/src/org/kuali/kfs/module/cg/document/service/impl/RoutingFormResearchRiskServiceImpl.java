@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra.routingform.service.impl;
+package org.kuali.kfs.module.cg.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.kra.KraPropertyConstants;
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
+import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
+import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
@@ -38,7 +38,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService#setupResearchRisks(RoutingFormDocument
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService#setupResearchRisks(RoutingFormDocument
      *      routingFormDocument)
      */
     public void setupResearchRisks(RoutingFormDocument routingFormDocument) {
@@ -60,7 +60,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService#getResearchRiskTypes(String[])
+     * @see org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService#getResearchRiskTypes(String[])
      */
     public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes) {
         Map criteria = new HashMap();

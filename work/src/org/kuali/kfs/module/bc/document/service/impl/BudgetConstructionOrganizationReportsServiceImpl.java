@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
-import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @param chartOfAccountsCode The FIN_COA_CD that is being searched for
  * @param organizationCode the ORG_CD that is being searched for
  * @return BudgetConstructionOrganizationReports Business Object
- * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,
+ * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,
  *      java.lang.String)
  */
 @Transactional
@@ -40,7 +40,7 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
     private BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,
      *      java.lang.String)
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
@@ -56,7 +56,7 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
     }
  
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String,
      *      java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
@@ -90,7 +90,7 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#isLeafOrg(java.lang.String,
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService#isLeafOrg(java.lang.String,
      *      java.lang.String)
      */
     public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode) {

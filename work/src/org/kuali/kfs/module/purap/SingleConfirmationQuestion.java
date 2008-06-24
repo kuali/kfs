@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.purap.question;
+package org.kuali.kfs.module.purap;
 
 import java.util.ArrayList;
 

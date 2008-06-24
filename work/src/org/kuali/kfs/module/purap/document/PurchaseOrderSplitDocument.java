@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.document;
+package org.kuali.kfs.module.purap.document;
 
 import java.util.ArrayList;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
 
 public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
     

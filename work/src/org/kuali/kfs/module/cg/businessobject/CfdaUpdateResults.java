@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.service;
+package org.kuali.kfs.module.cg.businessobject;
 
 /**
  * Encapsulates the result of scraping the government CFDA web-page.

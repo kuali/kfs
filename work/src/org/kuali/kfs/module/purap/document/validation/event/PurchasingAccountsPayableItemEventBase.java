@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rule.event;
+package org.kuali.kfs.module.purap.document.validation.event;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 
 /**
  * Event Base class for Purchasing Accounts Payable Item
@@ -51,7 +51,7 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
 
     /**
      * 
-     * @see org.kuali.module.purap.rule.event.PurchasingAccountsPayableItemEvent#getItem()
+     * @see org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemEvent#getItem()
      */
     public PurApItem getItem() {
         return item;

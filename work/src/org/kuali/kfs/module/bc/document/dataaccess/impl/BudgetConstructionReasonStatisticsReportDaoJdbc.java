@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.dao.jdbc;
+package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.service.PersistenceService;
 
-import org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao;
-import org.kuali.module.budget.BCConstants;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
+import org.kuali.kfs.module.bc.BCConstants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -336,7 +336,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao#cleanReportsReasonStatisticsTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#cleanReportsReasonStatisticsTable(java.lang.String)
      */
     public void cleanReportsReasonStatisticsTable(String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", personUserIdentifier);
@@ -407,7 +407,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
      */
     public void updateReasonStatisticsReportsWithAThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent) {
 
@@ -449,7 +449,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithoutAThreshold(java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithoutAThreshold(java.lang.String, java.lang.Integer)
      */
     public void updateReasonStatisticsReportsWithoutAThreshold(String personUserIdentifier, Integer previousFiscalYear) {
         // get a unique session ID   

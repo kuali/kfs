@@ -17,7 +17,7 @@
 
 <%@ attribute name="editingMode" required="true" type="java.util.Map"%>
 <%@ attribute name="depositIndex" required="true" %>
-<%@ attribute name="deposit" required="true" type="org.kuali.module.financial.bo.Deposit"%>
+<%@ attribute name="deposit" required="true" type="org.kuali.kfs.fp.businessobject.Deposit"%>
 
 <c:set var="readOnly" value="${empty editingMode[AuthorizationConstants.EditMode.FULL_ENTRY]}" />
 <c:set var="allowAdditionalDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS]}" />
@@ -71,7 +71,7 @@
                     <td align="left" rowspan="2">
                         <kul:htmlControlAttribute property="${depositPropertyBase}.depositBankCode" attributeEntry="${depositAttributes.depositBankCode}" readOnly="${readOnly}" onblur="loadBankInfo(document.forms['KualiForm'], '${depositPropertyBase}.depositBankCode', '${depositPropertyBase}.bank');" />
                         <c:if test="${!readOnly}">
-                            <kul:lookup boClassName="org.kuali.module.financial.bo.Bank" fieldConversions="financialDocumentBankCode:${depositPropertyBase}.depositBankCode" />
+                            <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.Bank" fieldConversions="financialDocumentBankCode:${depositPropertyBase}.depositBankCode" />
                         </c:if>
                         
                         <br/>
@@ -83,7 +83,7 @@
                     <td align="left" rowspan="2">
                         <kul:htmlControlAttribute property="${depositPropertyBase}.depositBankAccountNumber" attributeEntry="${depositAttributes.depositBankAccountNumber}" readOnly="${readOnly}" onblur="loadBankAccountInfo(document.forms['KualiForm'], '${depositPropertyBase}.depositBankCode', '${depositPropertyBase}.depositBankAccountNumber', '${depositPropertyBase}.bankAccount' );" />
                         <c:if test="${!readOnly}">
-                            <kul:lookup boClassName="org.kuali.module.financial.bo.BankAccount" fieldConversions="financialDocumentBankCode:${depositPropertyBase}.depositBankCode,finDocumentBankAccountNumber:${depositPropertyBase}.depositBankAccountNumber" lookupParameters="${depositPropertyBase}.depositBankCode:financialDocumentBankCode" />
+                            <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.BankAccount" fieldConversions="financialDocumentBankCode:${depositPropertyBase}.depositBankCode,finDocumentBankAccountNumber:${depositPropertyBase}.depositBankAccountNumber" lookupParameters="${depositPropertyBase}.depositBankCode:financialDocumentBankCode" />
                         </c:if>
                         
                         <br/>

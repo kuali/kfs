@@ -21,14 +21,14 @@
 		<converter id="kualinumber" class="org.kuali.kfs.dwr.converter.KualiNumberConverter"/>
 	</init>
 	<allow>
-		<convert converter="bean" match="org.kuali.kfs.bo.OriginationCode">
+		<convert converter="bean" match="org.kuali.kfs.sys.businessobject.OriginationCode">
 			<param name="include" value="financialSystemOriginationCode,financialSystemDatabaseName,financialSystemDatabaseDesc" />
 		</convert>
 		<create creator="spring" javascript="OriginationCodeService">
 			<param name="beanName" value="originationCodeService" />
 			<include method="getByPrimaryKey" />
 		</create>
-		<convert converter="bean" match="org.kuali.kfs.bo.PostalZipCode">
+		<convert converter="bean" match="org.kuali.kfs.sys.businessobject.PostalZipCode">
 			<param name="include" value="postalZipCode,postalStateCode,postalCityName,buildingCode,buildingRoomNumber" />
 		</convert>
 		<create creator="spring" javascript="PostalZipCodeService">

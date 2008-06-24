@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.service;
+package org.kuali.kfs.vnd.service;
 
-import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 /**
  * This interface defines methods that a Commodity Code Service must provide

@@ -7,7 +7,7 @@
   <bean id="BudgetConstructionControlList" parent="BudgetConstructionControlList-parentBean" />
 
   <bean id="BudgetConstructionControlList-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.budget.bo.BudgetConstructionControlList" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionControlList" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetConstructionControlList-inquiryDefinition" />
     </property>

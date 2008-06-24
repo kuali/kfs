@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.ojb;
+package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,14 +24,14 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.AccountBalanceConsolidationDao;
-import org.kuali.module.gl.dao.AccountBalanceDao;
-import org.kuali.module.gl.dao.AccountBalanceLevelDao;
-import org.kuali.module.gl.dao.AccountBalanceObjectDao;
-import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceConsolidationDao;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao;
+import org.kuali.kfs.gl.dataaccess.AccountBalanceObjectDao;
+import org.kuali.kfs.gl.OJBUtility;
 
 /**
  * An OJB implmentation of the AccountBalanceDao
@@ -50,7 +50,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * 
      * @param t a transaction to find an appropriate related account balance for
      * @return an appropriate account balance
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#getByTransaction(org.kuali.kfs.gl.businessobject.Transaction)
      */
     public AccountBalance getByTransaction(Transaction t) {
         LOG.debug("getByTransaction() started");
@@ -71,7 +71,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * Saves an account balance to the database
      * 
      * @param ab an account balance to save
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#save(org.kuali.module.gl.bo.AccountBalance)
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#save(org.kuali.kfs.gl.businessobject.AccountBalance)
      */
     public void save(AccountBalance ab) {
         LOG.debug("save() started");
@@ -84,7 +84,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * 
      * @param fieldValues the input fields and values
      * @return the summary records of account balance entries
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAvailableAccountBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAvailableAccountBalance(java.util.Map, boolean)
      */
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findConsolidatedAvailableAccountBalance() started");
@@ -108,7 +108,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * 
      * @param fieldValues the input fields and values
      * @return account balance entries
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAvailableAccountBalance(java.util.Map)
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAvailableAccountBalance(java.util.Map)
      */
     public Iterator findAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findAvailableAccountBalance(Map) started");
@@ -131,7 +131,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * @param isConsolidated whether the results of this should be consolidated or not
      * @param pendingEntriesCode whether to include no pending entries, approved pending entries, or all pending entries
      * @return a List of Maps with the appropriate query results
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByConsolidationByObjectTypes(java.lang.String[],
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByConsolidationByObjectTypes(java.lang.String[],
      *      java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
     public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode) {
@@ -157,7 +157,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * @param isCostShareExcluded whether cost share entries should be excluded from this inquiry
      * @param isConsolidated whether the results of this should be consolidated or not
      * @return a List of Mapswith the appropriate query results
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, boolean, boolean, int)
      */
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
@@ -184,7 +184,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * @param isCostShareExcluded whether cost share entries should be excluded from this inquiry
      * @param isConsolidated whether the results of this should be consolidated or not
      * @return a List of Maps with the appropriate query results
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
@@ -205,7 +205,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * 
      * @param chartOfAccountsCode the chart of accounts code of account balances to purge
      * @param year the fiscal year of account balances to purge
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#purgeYearByChart(java.lang.String, int)
+     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#purgeYearByChart(java.lang.String, int)
      */
     public void purgeYearByChart(String chartOfAccountsCode, int year) {
         LOG.debug("purgeYearByChart() started");

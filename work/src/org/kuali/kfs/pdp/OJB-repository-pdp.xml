@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-  <class-descriptor class="org.kuali.module.pdp.bo.AccountingChange" table="PDP_ACCTG_CHG_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.AccountingChange" table="PDP_ACCTG_CHG_CD_T">
     <field-descriptor name="code" column="ACCTG_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="description" column="ACCTG_CHG_CD_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
@@ -22,14 +22,14 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.AchAccountNumber" table="PDP_ACH_ACCT_NBR_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchAccountNumber" table="PDP_ACH_ACCT_NBR_T">
     <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="INTEGER" primarykey="true"/>
     <field-descriptor name="achBankAccountNbr" column="ACH_BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.Bank" table="PDP_BNK_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.Bank" table="PDP_BNK_CD_T">
     <field-descriptor name="id" column="BNK_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_BNK_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="accountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="active" column="BNK_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -42,12 +42,12 @@
 
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.module.pdp.bo.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.Batch" table="PDP_FIL_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.Batch" table="PDP_FIL_T">
     <field-descriptor name="id" column="PMT_FIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_FIL_ID_SEQ" autoincrement="true"/>
 
     <field-descriptor name="fileProcessTimestamp" column="FL_PROC_TS" jdbc-type="TIMESTAMP"/>
@@ -60,12 +60,12 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
     <field-descriptor name="customerId" column="CUST_ID" jdbc-type="INTEGER"/>
-    <reference-descriptor name="customerProfile" class-ref="org.kuali.module.pdp.bo.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.CustomerBank" table="PDP_CUST_BNK_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.CustomerBank" table="PDP_CUST_BNK_T">
     <field-descriptor name="id" column="CUST_BNK_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_CUST_BNK_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
@@ -75,21 +75,21 @@
     <field-descriptor name="bankId" column="BNK_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
  
-    <reference-descriptor name="customerProfile" class-ref="org.kuali.module.pdp.bo.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="bank" class-ref="org.kuali.module.pdp.bo.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.pdp.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="bankId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.module.pdp.bo.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
   </class-descriptor>
   
-  <class-descriptor class="org.kuali.module.pdp.bo.CustomerProfile" table="PDP_CUST_PRFL_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.CustomerProfile" table="PDP_CUST_PRFL_T">
     <field-descriptor name="id" column="CUST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_CUST_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountingEditRequired" column="ACCTG_EDIT_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -140,12 +140,12 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
-    <collection-descriptor name="customerBanks" element-class-ref="org.kuali.module.pdp.bo.CustomerBank" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="customerBanks" element-class-ref="org.kuali.kfs.pdp.businessobject.CustomerBank" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
        <inverse-foreignkey field-ref="customerId"/>
     </collection-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.DisbursementNumberRange" table="PDP_DISB_NBR_RNG_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.DisbursementNumberRange" table="PDP_DISB_NBR_RNG_T">
     <field-descriptor name="id" column="DISB_NBR_RNG_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_DISB_NBR_RNG_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="INTEGER"/>
@@ -158,12 +158,12 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
     <field-descriptor name="bankId" column="BNK_ID" jdbc-type="INTEGER"/>
-    <reference-descriptor name="bank" class-ref="org.kuali.module.pdp.bo.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.pdp.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="bankId"/>
     </reference-descriptor>
  </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.DisbursementType" table="PDP_DISB_TYP_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.DisbursementType" table="PDP_DISB_TYP_CD_T">
     <field-descriptor name="code" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="description" column="DISB_TYP_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
@@ -171,7 +171,7 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.DocumentType" table="PDP_DOC_TYP_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.DocumentType" table="PDP_DOC_TYP_CD_T">
     <field-descriptor name="id" column="DOC_TYP_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_DOC_TYP_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
 
@@ -182,24 +182,24 @@
     <field-descriptor name="transactionTypeCode" column="TRN_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.module.pdp.bo.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="transactionType" class-ref="org.kuali.module.pdp.bo.TransactionType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.TransactionType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="transactionTypeCode"/>
     </reference-descriptor>
 
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.FormatProcess" table="PDP_FMT_PROC_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.FormatProcess" table="PDP_FMT_PROC_T">
     <field-descriptor name="physicalCampusProcessCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="beginFormat" column="BEG_PROC_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.GlPendingTransaction" table="PDP_GL_PENDING_ENTRY_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.GlPendingTransaction" table="PDP_GL_PENDING_ENTRY_T">
      <field-descriptor name="id" column="GL_PENDING_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_GL_PENDING_ENTRY_ID_SEQ" autoincrement="true"/>
      <field-descriptor name="fsOriginCd" column="FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fdocNbr" column="FDOC_NBR" jdbc-type="VARCHAR"/>
@@ -232,7 +232,7 @@
      <field-descriptor name="processInd" column="TRN_EXTRT_IND" jdbc-type="VARCHAR"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentAccountDetail" table="PDP_PMT_ACCT_DTL_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" table="PDP_PMT_ACCT_DTL_T">
     <field-descriptor name="id" column="PMT_ACCT_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_ACCT_DTL_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountNetAmount" column="ACCT_NET_AMT" jdbc-type="DECIMAL"/>
@@ -246,17 +246,17 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
     <field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="INTEGER"/>
-    <reference-descriptor name="paymentDetail" class-ref="org.kuali.module.pdp.bo.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentDetailId"/>
     </reference-descriptor>
 
-    <collection-descriptor name="accountHistory" element-class-ref="org.kuali.module.pdp.bo.PaymentAccountHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="accountHistory" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentAccountHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="accountingChange.code" sort="ASC"/>
        <inverse-foreignkey field-ref="paymentAccountDetailId"/>
     </collection-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentAccountHistory" table="PDP_PMT_ACCT_HIST_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentAccountHistory" table="PDP_PMT_ACCT_HIST_T">
     <field-descriptor name="id" column="PMT_ACCT_HIST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_ACCT_HIST_ID_SEQ" autoincrement="true"/>
 
     <field-descriptor name="acctAttributeName" column="ACCT_ATTRIB_NM" jdbc-type="VARCHAR"/>
@@ -268,17 +268,17 @@
     <field-descriptor name="accountingChangeCode" column="ACCTG_CHG_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
-    <reference-descriptor name="paymentAccountDetail" class-ref="org.kuali.module.pdp.bo.PaymentAccountDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentAccountDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentAccountDetailId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="accountingChange" class-ref="org.kuali.module.pdp.bo.AccountingChange" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="accountingChange" class-ref="org.kuali.kfs.pdp.businessobject.AccountingChange" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="accountingChangeCode"/>
     </reference-descriptor>
 
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentChange" table="PDP_PMT_CHG_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentChange" table="PDP_PMT_CHG_CD_T">
     <field-descriptor name="code" column="PMT_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="description" column="PMT_CHG_CD_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
@@ -286,7 +286,7 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentGroup" table="PDP_PMT_GRP_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentGroup" table="PDP_PMT_GRP_T">
     <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_GRP_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="city" column="PMT_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="country" column="PMT_CNTRY_NM" jdbc-type="VARCHAR"/>
@@ -330,42 +330,42 @@
     <field-descriptor name="epicPaymentCancelledExtractedDate" column="PDP_EPIC_PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="epicPaymentPaidExtractedDate" column="PDP_EPIC_PMT_PD_EXTRT_TS" jdbc-type="TIMESTAMP"/>
 
-    <reference-descriptor name="achAccountNumber" class-ref="org.kuali.module.pdp.bo.AchAccountNumber" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <reference-descriptor name="achAccountNumber" class-ref="org.kuali.kfs.pdp.businessobject.AchAccountNumber" auto-retrieve="true" auto-update="true" auto-delete="true">
       <foreignkey field-ref="id"/>
     </reference-descriptor>
 
-    <reference-descriptor name="bank" class-ref="org.kuali.module.pdp.bo.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.pdp.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="bankId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="batch" class-ref="org.kuali.module.pdp.bo.Batch" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="batch" class-ref="org.kuali.kfs.pdp.businessobject.Batch" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="batchId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.module.pdp.bo.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentStatus" class-ref="org.kuali.module.pdp.bo.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentStatus" class-ref="org.kuali.kfs.pdp.businessobject.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentStatusCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="process" class-ref="org.kuali.module.pdp.bo.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
 
-    <collection-descriptor name="paymentGroupHistory" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentGroupHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="paymentGroupHistory" proxy="true" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroupHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="changeTime" sort="DESC"/>
        <inverse-foreignkey field-ref="paymentGroupId"/>
     </collection-descriptor>
 
-    <collection-descriptor name="paymentDetails" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="paymentDetails" proxy="true" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="invoiceDate" sort="ASC"/>
        <inverse-foreignkey field-ref="paymentGroupId"/>
     </collection-descriptor>
   </class-descriptor>
   
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentDetail" table="PDP_PMT_DTL_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentDetail" table="PDP_PMT_DTL_T">
     <field-descriptor name="id" column="PMT_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_DTL_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="custPaymentDocNbr" column="CUST_PMT_DOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
@@ -385,21 +385,21 @@
     <field-descriptor name="primaryCancelledPayment" column="PDP_PRM_PMT_CNCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
     <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="INTEGER"/>
-    <reference-descriptor name="paymentGroup" class-ref="org.kuali.module.pdp.bo.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
 
-    <collection-descriptor name="accountDetail" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentAccountDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="accountDetail" proxy="true" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <inverse-foreignkey field-ref="paymentDetailId"/>
     </collection-descriptor>
 
-    <collection-descriptor name="notes" proxy="true" element-class-ref="org.kuali.module.pdp.bo.PaymentNoteText" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="notes" proxy="true" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentNoteText" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
        <orderby name="customerNoteLineNbr" sort="ASC"/>
        <inverse-foreignkey field-ref="paymentDetailId"/>
     </collection-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentGroupHistory" table="PDP_PMT_GRP_HIST_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentGroupHistory" table="PDP_PMT_GRP_HIST_T">
     <field-descriptor name="id" column="PMT_GRP_HIST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_GRP_HIST_ID_SEQ" autoincrement="true"/>
 
     <field-descriptor name="pmtCancelExtractDate" column="PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
@@ -424,33 +424,33 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
-    <reference-descriptor name="paymentGroup" class-ref="org.kuali.module.pdp.bo.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentChange" class-ref="org.kuali.module.pdp.bo.PaymentChange" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentChange" class-ref="org.kuali.kfs.pdp.businessobject.PaymentChange" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentChangeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="origPaymentStatus" class-ref="org.kuali.module.pdp.bo.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="origPaymentStatus" class-ref="org.kuali.kfs.pdp.businessobject.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentStatusCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.module.pdp.bo.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="bank" class-ref="org.kuali.module.pdp.bo.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.pdp.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="bankId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentProcess" class-ref="org.kuali.module.pdp.bo.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentProcess" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
 
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentNoteText" table="PDP_PMT_NTE_TXT_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentNoteText" table="PDP_PMT_NTE_TXT_T">
     <field-descriptor name="id" column="PMT_NTE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_NTE_ID_SEQ" autoincrement="true"/>
 
     <field-descriptor name="customerNoteLineNbr" column="CUST_NTE_LN_NBR" jdbc-type="INTEGER"/>
@@ -459,13 +459,13 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
 
     <field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="INTEGER"/>
-    <reference-descriptor name="paymentDetail" class-ref="org.kuali.module.pdp.bo.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentDetailId"/>
     </reference-descriptor>
 
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentStatus" table="PDP_PMT_STAT_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentStatus" table="PDP_PMT_STAT_CD_T">
     <field-descriptor name="code" column="PMT_STAT_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="description" column="PMT_STAT_CD_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
@@ -473,7 +473,7 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.PaymentProcess" table="PDP_PROC_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentProcess" table="PDP_PROC_T">
     <field-descriptor name="id" column="PROC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PROC_ID_SEQ" autoincrement="true"/>
 
     <field-descriptor name="campus" column="PHYS_CMP_CD" jdbc-type="VARCHAR"/>
@@ -483,7 +483,7 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.ProcessSummary" table="PDP_PROC_SUM_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.ProcessSummary" table="PDP_PROC_SUM_T">
     <field-descriptor name="id" column="PROC_SUM_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PROC_SUM_ID_SEQ" autoincrement="true"/>
     <field-descriptor name="customerId" column="CUST_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
@@ -495,18 +495,18 @@
     <field-descriptor name="processTotalCount" column="PROC_TOT_CNT" jdbc-type="INTEGER"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.module.pdp.bo.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
-    <reference-descriptor name="process" class-ref="org.kuali.module.pdp.bo.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
-    <reference-descriptor name="customer" class-ref="org.kuali.module.pdp.bo.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="customer" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.module.pdp.bo.TransactionType" table="PDP_TRN_TYP_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.TransactionType" table="PDP_TRN_TYP_CD_T">
     <field-descriptor name="code" column="TRN_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="description" column="TRN_TYP_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
@@ -514,7 +514,7 @@
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
-<class-descriptor class="org.kuali.module.pdp.bo.AchBank" table="PDP_ACH_BNK_T">
+<class-descriptor class="org.kuali.kfs.pdp.businessobject.AchBank" table="PDP_ACH_BNK_T">
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -533,12 +533,12 @@
 	<field-descriptor name="bankPhoneSuffixNumber" column="BNK_PHN_SFX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankInstitutionStatusCode" column="BNK_INST_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankDataViewCode" column="BNK_DTA_V_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="bankState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="bankState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="bankStateCode" />
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.pdp.bo.PayeeAchAccount" table="PDP_PAYEE_ACH_ACCT_T">
+<class-descriptor class="org.kuali.kfs.pdp.businessobject.PayeeAchAccount" table="PDP_PAYEE_ACH_ACCT_T">
 	<field-descriptor name="achAccountGeneratedIdentifier" column="ACH_ACCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_ACH_ACCT_GNRTD_ID_SEQ" autoincrement="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -556,10 +556,10 @@
 	<field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="bankRouting" class-ref="org.kuali.module.pdp.bo.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
 	</reference-descriptor>

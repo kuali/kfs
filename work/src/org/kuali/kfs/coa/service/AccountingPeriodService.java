@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.service;
+package org.kuali.kfs.coa.service;
 
 import java.sql.Date;
 import java.util.Collection;
 
-import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 
 /**
  * This service interface defines methods necessary for retrieving fully populated AccountingPeriod business objects from the

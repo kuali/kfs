@@ -61,7 +61,7 @@
             field="positionNumber"
             attributes="${posnAttributes}" inquiry="true"
             boClassSimpleName="BudgetConstructionPosition"
-            boPackageName="org.kuali.module.budget.bo"
+            boPackageName="org.kuali.kfs.module.bc.businessobject"
             readOnly="true"
             displayHidden="false"
             lookupOrInquiryKeys="positionNumber"
@@ -76,7 +76,7 @@
             field="positionDescription"
             attributes="${posnAttributes}" inquiry="true"
             boClassSimpleName="BudgetConstructionPosition"
-            boPackageName="org.kuali.module.budget.bo"
+            boPackageName="org.kuali.kfs.module.bc.businessobject"
             readOnly="true"
             displayHidden="false"/>            
     </tr>

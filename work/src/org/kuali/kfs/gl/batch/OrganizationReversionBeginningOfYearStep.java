@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.gl.batch.closing.year.service.YearEndService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OrganizationReversionProcessService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.gl.batch.service.YearEndService;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.springframework.util.StopWatch;
 
 /**
@@ -42,7 +42,7 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
      * @param jobName the name of the job this step is being run as part of
      * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
@@ -71,7 +71,7 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
      * allows the injection of an implementation of the service.
      * 
      * @param organizationReversionProcessService the implementation of the organizationReversionProcessService to set
-     * @see org.kuali.module.gl.service.OrganizationReversionProcessService
+     * @see org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService
      */
     public void setOrganizationReversionProcessService(OrganizationReversionProcessService organizationReversionProcessService) {
         this.organizationReversionProcessService = organizationReversionProcessService;

@@ -13,40 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.rules;
+package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.CreditMemoDocumentTest;
-import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PaymentRequestDocumentTest;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocumentTest;
-import org.kuali.module.purap.fixtures.CreditMemoInitTabFixture;
-import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
-import org.kuali.module.purap.fixtures.PurApAccountingLineFixture;
-import org.kuali.module.purap.fixtures.PurchaseOrderAccountingLineFixture;
-import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
-import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.service.VendorService;
-import org.kuali.module.vendor.util.VendorUtils;
-import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.AccountingLineFixture;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.CreditMemoDocumentTest;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocumentTest;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocumentTest;
+import org.kuali.kfs.module.purap.fixture.CreditMemoInitTabFixture;
+import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.PurApAccountingLineFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderAccountingLineFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.VendorUtils;
+import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 
 @ConfigureContext(session = APPLETON)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {

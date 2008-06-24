@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.dao;
+package org.kuali.kfs.module.cg.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.Close;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.Close;
 
 /**
  * Implementations of this interface provide access to persisted Awards.

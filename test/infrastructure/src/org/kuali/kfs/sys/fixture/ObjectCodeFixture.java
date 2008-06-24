@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.test.fixtures;
+package org.kuali.kfs.sys.fixture;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 public enum ObjectCodeFixture {
     OBJECT_CODE_NON_BUDGET_OBJECT_CODE("BL", "3500", 2004), OBJECT_CODE_BUDGETED_OBJECT_CODE("BL", "3000", 2004);

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rule.event;
+package org.kuali.kfs.fp.document.validation.event;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.module.financial.bo.Check;
+import org.kuali.kfs.fp.businessobject.Check;
 
 /**
  * Defines methods common to all CheckEvents.

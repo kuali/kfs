@@ -7,7 +7,7 @@
   <bean id="AccountBalanceByLevel" parent="AccountBalanceByLevel-parentBean" />
 
   <bean id="AccountBalanceByLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.gl.bo.AccountBalanceByLevel" />
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.AccountBalanceByLevel" />
     <property name="inquiryDefinition" >
       <ref bean="AccountBalanceByLevel-inquiryDefinition" />
     </property>
@@ -225,13 +225,13 @@
               p:attributeName="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.consolidationOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.costShareOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.CostShareOptionFinder" />
         <bean parent="FieldDefinition"
               p:attributeName="dummyBusinessObject.pendingEntryOption"
-              p:defaultValueFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
+              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
       </list>
     </property>
     <property name="resultFields" >

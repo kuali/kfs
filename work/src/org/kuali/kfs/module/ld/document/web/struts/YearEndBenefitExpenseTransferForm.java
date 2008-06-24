@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.form;
+package org.kuali.kfs.module.ld.document.web.struts;
 
-import org.kuali.module.labor.document.YearEndBenefitExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument;
 
 /**
  * Struts Action Form for the Year End Benefit Expense Transfer Document.

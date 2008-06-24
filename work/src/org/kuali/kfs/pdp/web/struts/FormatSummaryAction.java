@@ -17,7 +17,7 @@
  * Created on Jan 14, 2005
  *
  */
-package org.kuali.module.pdp.action.format;
+package org.kuali.kfs.pdp.web.struts;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -30,13 +30,13 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.pdp.action.BaseAction;
-import org.kuali.module.pdp.form.format.FormatSummaryForm;
-import org.kuali.module.pdp.service.FormatResult;
-import org.kuali.module.pdp.service.FormatService;
-import org.kuali.module.pdp.service.SecurityRecord;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.pdp.web.struts.FormatSummaryForm;
+import org.kuali.kfs.pdp.businessobject.FormatResult;
+import org.kuali.kfs.pdp.service.FormatService;
+import org.kuali.kfs.pdp.businessobject.SecurityRecord;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

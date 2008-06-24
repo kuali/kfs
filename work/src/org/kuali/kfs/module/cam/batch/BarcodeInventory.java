@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.batch.barcode;
+package org.kuali.kfs.module.cam.batch;
 
 import java.io.Serializable;
 import java.sql.Date;

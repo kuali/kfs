@@ -120,7 +120,7 @@
                           <!-- <html:hidden property="newNonpersonnel[${i}].subcontractorNumber" /> -->
                          <html:hidden property="newNonpersonnel[${i}].budgetNonpersonnelDescription" />
             <kul:htmlControlAttribute property="newNonpersonnel[${i}].subcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" onblur="onblur_subcontractorNumber_nonPersonnel('newNonpersonnel[${i}].subcontractorNumber','', 'budgetNonpersonnelDescription')"/>
-                          <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="NonPersonnel"/>
+                          <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Subcontractor" fieldConversions="subcontractorNumber:newNonpersonnel[${i}].subcontractorNumber,subcontractorName:newNonpersonnel[${i}].budgetNonpersonnelDescription" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newNonpersonnel[${i}].subcontractorNumber=484&newNonpersonnel[${i}].budgetNonpersonnelDescription=TO BE NAMED" anchor="NonPersonnel"/>
           
                       <div id="newNonpersonnel[${i}].budgetNonpersonnelDescription.div" >
                         <c:if test="${!empty KualiForm.newNonpersonnelList[i].subcontractorNumber}">
@@ -223,7 +223,7 @@
 			  	                        <!-- display hidden: is a copied over item -->
                                 </c:when>
 				                <c:otherwise>
-                                  <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" fieldConversions="subcontractorNumber:document.budget.nonpersonnelItem[${ctr}].subcontractorNumber,subcontractorName:document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" anchor="NonPersonnel"/>
+                                  <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Subcontractor" fieldConversions="subcontractorNumber:document.budget.nonpersonnelItem[${ctr}].subcontractorNumber,subcontractorName:document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" anchor="NonPersonnel"/>
 
 				                      <div id="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription.div" >
 				                        <c:if test="${!empty nonpersonnelItem.subcontractorNumber}">

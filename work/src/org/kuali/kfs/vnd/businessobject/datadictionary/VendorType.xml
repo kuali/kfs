@@ -7,7 +7,7 @@
   <bean id="VendorType" parent="VendorType-parentBean" />
 
   <bean id="VendorType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.module.vendor.bo.VendorType" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorType" />
     <property name="inquiryDefinition" >
       <ref bean="VendorType-inquiryDefinition" />
     </property>
@@ -146,7 +146,7 @@
     <property name="shortLabel" value="Address Type Required" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.AddressTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.AddressTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

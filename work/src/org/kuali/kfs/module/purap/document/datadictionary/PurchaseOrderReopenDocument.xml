@@ -16,9 +16,9 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderReopenDocument" />
-    <property name="documentClass" value="org.kuali.module.purap.document.PurchaseOrderReopenDocument" />
-    <property name="businessRulesClass" value="org.kuali.module.purap.rules.PurchaseOrderReopenDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.module.purap.document.authorization.PurchaseOrderReopenDocumentAuthorizer" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderReopenDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderReopenDocumentAuthorizer" />
     <property name="documentTypeCode" value="POR" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderReopenDocument-workflowProperties" />

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.chart.rules;
+package org.kuali.kfs.coa.document.validation.impl;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.module.chart.bo.ProjectCode;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
 /**
  * This class implements the business rules specific to the {@link ProjectCode} Maintenance Document.
  */

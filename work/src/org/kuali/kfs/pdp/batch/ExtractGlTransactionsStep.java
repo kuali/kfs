@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.pdp.batch;
+package org.kuali.kfs.pdp.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.pdp.service.ExtractGlTransactionService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 
 public class ExtractGlTransactionsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractGlTransactionsStep.class);
@@ -26,7 +26,7 @@ public class ExtractGlTransactionsStep extends AbstractStep {
     private ExtractGlTransactionService extractGlTransactionService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");

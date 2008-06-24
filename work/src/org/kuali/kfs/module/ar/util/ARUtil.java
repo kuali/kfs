@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.util;
+package org.kuali.kfs.module.ar.util;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.ar.ArConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.ArConstants;
 
 public class ARUtil {
     

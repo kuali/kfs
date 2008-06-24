@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -23,16 +23,16 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * A relation between a particular <code>Org</code> and a <code>VendorContract</code> indicating that the Org uses this Vendor
  * Contract.
  * 
- * @see org.kuali.module.vendor.bo.VendorContract
- * @see org.kuali.module.chart.bo.Org
+ * @see org.kuali.kfs.vnd.businessobject.VendorContract
+ * @see org.kuali.kfs.coa.businessobject.Org
  */
 public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
@@ -154,7 +154,7 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorContractOrganization)) {

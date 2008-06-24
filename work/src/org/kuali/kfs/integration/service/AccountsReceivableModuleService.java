@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.integration.service;
+package org.kuali.kfs.integration.service;
 
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
+import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 
 /**
  * Methods which allow core KFS modules to interact with the Accounts Receivable module.

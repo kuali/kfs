@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,21 +39,21 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSKeyConstants.CashReceipt;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.bo.CashieringTransaction;
-import org.kuali.module.financial.bo.CoinDetail;
-import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.dao.CashManagementDao;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.document.CashReceiptFamilyBase;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashReceiptService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CashieringTransaction;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
+import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -81,7 +81,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param campusCode The campus code used to determine the verification unit.
      * @return The cash receipt verification unit based on the campus code provided.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
      */
     public String getCashReceiptVerificationUnitForCampusCode(String campusCode) {
         String vunit = null;
@@ -112,7 +112,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param unitName The unit name to be used to determine the campus code.
      * @return The campus code retrieved from the unit name provided.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptService#getCampusCodeForCashReceiptVerificationUnit(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCampusCodeForCashReceiptVerificationUnit(java.lang.String)
      */
     public String getCampusCodeForCashReceiptVerificationUnit(String unitName) {
         String campusCode = null;
@@ -160,7 +160,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param user The user to be used to retrieve the verification unit.
      * @return The cash receipt verification unit associated with the user provided.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.core.bo.user.KualiUser)
      */
     public String getCashReceiptVerificationUnitForUser(UniversalUser user) {
         String unitName = null;
@@ -181,7 +181,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param statusCode The status code of the cash receipts to be retrieved.  
      * @return A collection of cash receipt documents which match the search criteria provided.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String)
      */
     public List getCashReceipts(String verificationUnit, String statusCode) {
         if (StringUtils.isBlank(statusCode)) {
@@ -200,7 +200,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param statii A collection of possible statuses that will be used in the lookup of cash receipts.
      * @return A collection of cash receipt documents which match the search criteria provided.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String[])
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String[])
      */
     public List getCashReceipts(String verificationUnit, String[] statii) {
         if (StringUtils.isBlank(verificationUnit)) {
@@ -299,7 +299,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * 
      * @param crDoc The cash receipt document the cash details will be retrieved from.
      * 
-     * @see org.kuali.module.financial.service.CashReceiptService#addCashDetailsToCashDrawer(org.kuali.module.financial.document.CashReceiptDocument)
+     * @see org.kuali.kfs.fp.document.service.CashReceiptService#addCashDetailsToCashDrawer(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
     public void addCashDetailsToCashDrawer(CashReceiptDocument crDoc) {
         CashDrawer drawer = retrieveCashDrawer(crDoc);
@@ -341,7 +341,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     }
     
     /**
-     * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.module.financial.document.CashReceiptDocument)
+     * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
     public boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument) {
         String documentEntryName = cashReceiptDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();

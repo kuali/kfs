@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.report;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,12 +27,12 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.kuali.core.util.ErrorMap;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.batch.collector.CollectorBatch;
-import org.kuali.module.gl.bo.CollectorDetail;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.service.ScrubberReportData;
 
 /**
  * This class aggregates all of the status information together from all of the collector-related processes. Note: this code assumes

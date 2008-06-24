@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.kra.attribute;
+package org.kuali.kfs.module.cg.document.routing.attribute;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import java.util.List;
 import javax.xml.xpath.XPath;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<%@page import="java.util.List,org.kuali.module.pdp.bo.PaymentDetail,org.kuali.module.pdp.bo.PaymentGroup" %>
+<%@page import="java.util.List,org.kuali.kfs.pdp.businessobject.PaymentDetail,org.kuali.kfs.pdp.businessobject.PaymentGroup" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
 <link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">

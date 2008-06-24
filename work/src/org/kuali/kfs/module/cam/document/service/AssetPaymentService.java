@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.kfs.module.cam.document.service;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 
 public interface AssetPaymentService {
 

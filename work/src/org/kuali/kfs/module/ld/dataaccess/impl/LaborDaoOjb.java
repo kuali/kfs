@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,20 +31,20 @@ import org.apache.ojb.broker.util.ObjectModification;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
-import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
-import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
-import org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.labor.bo.EmployeeFunding;
-import org.kuali.module.labor.bo.July1PositionFunding;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.dao.LaborDao;
-import org.kuali.module.labor.util.ConsolidationUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.LaborPropertyConstants.AccountingPeriodProperties;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
+import org.kuali.kfs.module.ld.businessobject.CalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
+import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
+import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.dataaccess.LaborDao;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 
 /**
  * OJB Implementation of Labor Distribution DAO database queries.
@@ -53,7 +53,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborDaoOjb.class);
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getCSFTrackerData(java.util.Map)
      */
     @Deprecated
     public Object getCSFTrackerTotal(Map fieldValues) {
@@ -89,7 +89,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getEncumbranceTotal(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getEncumbranceTotal(java.util.Map)
      */
     public Object getEncumbranceTotal(Map fieldValues) {
 
@@ -124,7 +124,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getJuly1(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getJuly1(java.util.Map)
      */
     public Collection getJuly1(Map fieldValues) {
         Map fieldCriteria = new HashMap();
@@ -141,7 +141,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getBaseFunds(java.util.Map)
      */
     @Deprecated
     public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
@@ -150,7 +150,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getCurrentFunds(java.util.Map)
      */
     public Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated) {
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
@@ -193,7 +193,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getEmployeeFunding(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getEmployeeFunding(java.util.Map)
      */
     @Deprecated
     public Iterator getEmployeeFunding(Map fieldValues) {
@@ -229,7 +229,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#getJuly1PositionFunding(java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getJuly1PositionFunding(java.util.Map)
      */
     public Collection<July1PositionFunding> getJuly1PositionFunding(Map<String, String> fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding());
@@ -246,7 +246,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborDao#insert(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#insert(org.kuali.core.bo.BusinessObject)
      */
     public void insert(BusinessObject businessObject) {
         getPersistenceBroker(true).store(businessObject, ObjectModification.INSERT);

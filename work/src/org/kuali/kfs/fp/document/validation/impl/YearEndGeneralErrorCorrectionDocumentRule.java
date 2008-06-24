@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.rules;
+package org.kuali.kfs.fp.document.validation.impl;
 
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
-import org.kuali.module.financial.document.YearEndDocumentUtil;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import org.kuali.kfs.fp.document.YearEndDocumentUtil;
 
 /**
  * Business rule(s) applicable to Year End General Error Correction documents. All other business rules are inherited from the
@@ -32,7 +32,7 @@ public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorre
      * @param financialDocument The financial document the class will be determined for.
      * @return The class type of the document passed in.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
+     * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.sys.document.AccountingDocument)
      */
     @Override
     protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {

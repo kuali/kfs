@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service.impl;
+package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
-import org.kuali.module.cams.service.AssetService;
-import org.kuali.module.cams.service.RetirementInfoService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -38,7 +38,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
     private AssetService assetService;
 
     /**
-     * @see org.kuali.module.cams.service.RetirementInfoService#setRetirementInfo(org.kuali.module.cams.bo.Asset)
+     * @see org.kuali.kfs.module.cam.document.service.RetirementInfoService#setRetirementInfo(org.kuali.kfs.module.cam.businessobject.Asset)
      */
     public void setRetirementInfo(Asset asset) {
         // If current status is not retired, return empty

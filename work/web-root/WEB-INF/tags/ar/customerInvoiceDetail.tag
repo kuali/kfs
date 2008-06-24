@@ -66,14 +66,14 @@
 		<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.accountsReceivableObjectCode }" property="${propertyName}.accountsReceivableObjectCode" readOnly="${readOnly}"/>
 		<c:if test="${not readOnly}">
 			&nbsp;
-			<kul:lookup boClassName="org.kuali.module.chart.bo.ObjectCode" fieldConversions="financialObjectCode:${propertyName}.accountsReceivableObjectCode"/>
+			<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" fieldConversions="financialObjectCode:${propertyName}.accountsReceivableObjectCode"/>
 		</c:if>
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.accountsReceivableSubObjectCode }" property="${propertyName}.accountsReceivableSubObjectCode" readOnly="${readOnly}"/>
 		<c:if test="${not readOnly}">
 			&nbsp;
-			<kul:lookup boClassName="org.kuali.module.chart.bo.SubObjCd" fieldConversions="financialSubObjectCode:${propertyName}.accountsReceivableSubObjectCode" lookupParameters="${propertyName}.accountsReceivableObjectCode:financialObjectCode"/>
+			<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" fieldConversions="financialSubObjectCode:${propertyName}.accountsReceivableSubObjectCode" lookupParameters="${propertyName}.accountsReceivableObjectCode:financialObjectCode"/>
 		</c:if>		
 	</td>
 	<c:if test="${not readOnly}">

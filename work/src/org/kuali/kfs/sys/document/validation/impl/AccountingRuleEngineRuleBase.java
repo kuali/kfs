@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.rules;
+package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Map;
 
@@ -26,38 +26,38 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.datadictionary.KFSTransactionalDocumentEntry;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.AccountingRuleEngineRule;
-import org.kuali.kfs.rule.AddAccountingLineRule;
-import org.kuali.kfs.rule.DeleteAccountingLineRule;
-import org.kuali.kfs.rule.ReviewAccountingLineRule;
-import org.kuali.kfs.rule.UpdateAccountingLineRule;
-import org.kuali.kfs.rule.event.AttributedAddAccountingLineEvent;
-import org.kuali.kfs.rule.event.AttributedAddAdHocRoutePersonEvent;
-import org.kuali.kfs.rule.event.AttributedAddAdHocRouteWorkgroupEvent;
-import org.kuali.kfs.rule.event.AttributedAddNoteEvent;
-import org.kuali.kfs.rule.event.AttributedApproveDocumentEvent;
-import org.kuali.kfs.rule.event.AttributedBlanketApproveDocumentEvent;
-import org.kuali.kfs.rule.event.AttributedDeleteAccountingLineEvent;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.rule.event.AttributedReviewAccountingLineEvent;
-import org.kuali.kfs.rule.event.AttributedRouteDocumentEvent;
-import org.kuali.kfs.rule.event.AttributedSaveDocumentEvent;
-import org.kuali.kfs.rule.event.AttributedUpdateAccountingLineEvent;
-import org.kuali.kfs.validation.Validation;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.rule.AddCheckRule;
-import org.kuali.module.financial.rule.DeleteCheckRule;
-import org.kuali.module.financial.rule.UpdateCheckRule;
-import org.kuali.module.financial.rule.event.AttributedAddCheckEvent;
-import org.kuali.module.financial.rule.event.AttributedDeleteCheckEvent;
-import org.kuali.module.financial.rule.event.AttributedUpdateCheckEvent;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
-import org.kuali.module.purap.rule.event.AddAttributedPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.KFSTransactionalDocumentEntry;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
+import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.DeleteAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.ReviewAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule;
+import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedAddAdHocRoutePersonEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedAddAdHocRouteWorkgroupEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedAddNoteEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.Validation;
+import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.validation.AddCheckRule;
+import org.kuali.kfs.fp.document.validation.DeleteCheckRule;
+import org.kuali.kfs.fp.document.validation.UpdateCheckRule;
+import org.kuali.kfs.fp.document.validation.event.AttributedAddCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.AttributedDeleteCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.AttributedUpdateCheckEvent;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
+import org.kuali.kfs.module.purap.document.validation.event.AddAttributedPurchasingAccountsPayableItemEvent;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.
@@ -65,7 +65,7 @@ import org.kuali.module.purap.rule.event.AddAttributedPurchasingAccountsPayableI
 public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements AccountingRuleEngineRule, AddAccountingLineRule, DeleteAccountingLineRule, UpdateAccountingLineRule, ReviewAccountingLineRule, AddPurchasingAccountsPayableItemRule, AddCheckRule, DeleteCheckRule, UpdateCheckRule {
 
     /**
-     * @see org.kuali.kfs.rule.AccountingRuleEngineRule#validateForEvent(org.kuali.core.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule#validateForEvent(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     public boolean validateForEvent(AttributedDocumentEvent event) {
         KFSTransactionalDocumentEntry documentEntry = getDataDictionaryEntryForDocument((TransactionalDocument)event.getDocument());
@@ -166,21 +166,21 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     }
 
     /**
-     * @see org.kuali.kfs.rule.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         return validateForEvent(new AttributedAddAccountingLineEvent("", financialDocument, accountingLine));
     }
 
     /**
-     * @see org.kuali.kfs.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         return validateForEvent(new AttributedUpdateAccountingLineEvent("", financialDocument, originalAccountingLine, updatedAccountingLine));
     }
 
     /**
-     * @see org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule#processAddItemBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.purap.bo.PurApItem)
+     * @see org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule#processAddItemBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         return validateForEvent(new AddAttributedPurchasingAccountsPayableItemEvent("", financialDocument, item));
@@ -188,7 +188,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isAmountValid(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         return true;
@@ -196,7 +196,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isFundGroupAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isFundGroupAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isFundGroupAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
@@ -204,7 +204,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isObjectCodeAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isObjectCodeAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
@@ -212,7 +212,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isObjectConsolidationAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isObjectConsolidationAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isObjectConsolidationAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
@@ -220,7 +220,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isObjectLevelAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isObjectLevelAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isObjectLevelAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
@@ -228,7 +228,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isObjectSubTypeAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isObjectSubTypeAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
@@ -236,7 +236,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isObjectTypeAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isObjectTypeAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isObjectTypeAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
@@ -244,42 +244,42 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
 
     /**
      * While this method yet lives...so should it never get called
-     * @see org.kuali.kfs.rule.AccountingLineRule#isSubFundGroupAllowed(java.lang.Class, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.AccountingLineRule#isSubFundGroupAllowed(java.lang.Class, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean isSubFundGroupAllowed(Class documentClass, AccountingLine accountingLine) {
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.rule.DeleteAccountingLineRule#processDeleteAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, boolean)
+     * @see org.kuali.kfs.sys.document.validation.DeleteAccountingLineRule#processDeleteAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean)
      */
     public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
         return validateForEvent(new AttributedDeleteAccountingLineEvent("", financialDocument, accountingLine, lineWasAlreadyDeletedFromDocument));
     }
 
     /**
-     * @see org.kuali.kfs.rule.ReviewAccountingLineRule#processReviewAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.sys.document.validation.ReviewAccountingLineRule#processReviewAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean processReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         return validateForEvent(new AttributedReviewAccountingLineEvent("", financialDocument, accountingLine));
     }
 
     /**
-     * @see org.kuali.module.financial.rule.AddCheckRule#processAddCheckBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.financial.bo.Check)
+     * @see org.kuali.kfs.fp.document.validation.AddCheckRule#processAddCheckBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processAddCheckBusinessRules(AccountingDocument financialDocument, Check check) {
         return validateForEvent(new AttributedAddCheckEvent("", "", financialDocument, check));
     }
 
     /**
-     * @see org.kuali.module.financial.rule.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.financial.bo.Check)
+     * @see org.kuali.kfs.fp.document.validation.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processDeleteCheckBusinessRules(AccountingDocument financialDocument, Check check) {
         return validateForEvent(new AttributedDeleteCheckEvent("", "", financialDocument, check));
     }
 
     /**
-     * @see org.kuali.module.financial.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.kfs.document.AccountingDocument, org.kuali.module.financial.bo.Check)
+     * @see org.kuali.kfs.fp.document.validation.UpdateCheckRule#processUpdateCheckRule(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.fp.businessobject.Check)
      */
     public boolean processUpdateCheckRule(AccountingDocument financialDocument, Check check) {
         return validateForEvent(new AttributedUpdateCheckEvent("", "", financialDocument, check));

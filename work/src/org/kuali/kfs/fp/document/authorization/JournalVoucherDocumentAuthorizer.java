@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.authorization;
+package org.kuali.kfs.fp.document.authorization;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
 /**
  * JournalVoucher-specific DocumentAuthorizer
@@ -45,7 +45,7 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * No accountingLines will ever be editable, since the only two possible editModes don't check editableAccounts
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
+     * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override

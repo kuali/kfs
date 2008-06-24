@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.web.inquirable;
+package org.kuali.kfs.gl.businessobject.inquiry;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Since there are no user defined attributes, returns null
      * @return null - no user defined attributes
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     @Override
     protected List buildUserDefinedAttributeKeyList() {
@@ -39,7 +39,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Returns null as the map, as there are no drill downs here
      * @return null for the map of attributes
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getUserDefinedAttributeMap()
      */
     @Override
     protected Map getUserDefinedAttributeMap() {
@@ -50,7 +50,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
      * Returns null for any attribute
      * @param attributeName the name of an attribute for the inquiry
      * @return null, no matter what
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getAttributeName(java.lang.String)
      */
     @Override
     protected String getAttributeName(String attributeName) {
@@ -62,7 +62,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
      * @param keyName the name of the key to lookup
      * @param keyValue the value of the key to lookup
      * @return null, every time
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     @Override
     protected Object getKeyValue(String keyName, Object keyValue) {
@@ -73,7 +73,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
      * Given a key name, returns null
      * @param keyName the key name to change on the fly
      * @return null, every time
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getKeyName(java.lang.String)
      */
     @Override
     protected String getKeyName(String keyName) {
@@ -83,7 +83,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Returns null as the lookupable impl for this inquiry
      * @return null, there isn't a lookupable impl
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getLookupableImplAttributeName()
      */
     @Override
     protected String getLookupableImplAttributeName() {
@@ -93,7 +93,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
     /**
      * Returns the base inquiry url to search...in this case, nothing
      * @return null, as there's no URL to go to
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getBaseUrl()
      */
     @Override
     protected String getBaseUrl() {
@@ -104,7 +104,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
      * The class name of the business object that should be inquired on for the attribute
      * @param the attribute name to build an inquiry for
      * @return null, as there are no inquiries
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryBusinessObjectClass(java.lang.String)
      */
     @Override
     protected Class getInquiryBusinessObjectClass(String attributeName) {
@@ -115,7 +115,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
      * Adds no parameters at all
      * @param parameter the parameter map to add new properties
      * @param attributeName the name of the attribute being inquired on
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {

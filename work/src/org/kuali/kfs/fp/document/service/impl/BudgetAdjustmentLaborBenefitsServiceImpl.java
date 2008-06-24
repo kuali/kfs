@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,15 +22,15 @@ import java.util.List;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService;
-import org.kuali.module.integration.bo.LaborFringeBenefitInformation;
-import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
+import org.kuali.kfs.integration.businessobject.LaborFringeBenefitInformation;
+import org.kuali.kfs.integration.service.LaborModuleService;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
      * 
      * @param budgetDocument The BudgetDocument to have the new labor benefit accounting lines added to.
      * 
-     * @see org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService#generateLaborBenefitsAccountingLines(org.kuali.module.financial.document.BudgetAdjustmentDocument)
+     * @see org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService#generateLaborBenefitsAccountingLines(org.kuali.kfs.fp.document.BudgetAdjustmentDocument)
      */
     public void generateLaborBenefitsAccountingLines(BudgetAdjustmentDocument budgetDocument) {
         Integer fiscalYear = budgetDocument.getPostingYear();
@@ -147,7 +147,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
      * @param budgetDocument
      * @return 
      * 
-     * @see org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService#hasLaborObjectCodes(org.kuali.module.financial.document.BudgetAdjustmentDocument)
+     * @see org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService#hasLaborObjectCodes(org.kuali.kfs.fp.document.BudgetAdjustmentDocument)
      */
     public boolean hasLaborObjectCodes(BudgetAdjustmentDocument budgetDocument) {
         boolean hasLaborObjectCodes = false;

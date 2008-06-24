@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.document.validation.impl;
+package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AttributedDocumentEvent;
-import org.kuali.kfs.validation.GenericValidation;
-import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.document.CashReceiptFamilyBase;
-import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashReceiptService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
 
 /**
  * Validation for the cash receipt document that verifies that the cash drawer is open at approval.
@@ -37,7 +37,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
     /**
      * Makes sure that the cash drawer for the verification unit associated with this CR doc is
      * open. If it's not, the the rule fails.
-     * @see org.kuali.kfs.validation.Validation#validate(org.kuali.kfs.rule.event.AttributedDocumentEvent)
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
         String unitName = getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());

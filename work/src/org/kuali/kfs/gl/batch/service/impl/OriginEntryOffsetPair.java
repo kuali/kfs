@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.batch.service.impl;
 
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 
 /**
  * This class represents a pair of origin entries to carry forward encumbrance.

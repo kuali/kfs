@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.service.impl;
+package org.kuali.kfs.module.ld.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,20 +31,20 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.integration.bo.EffortCertificationReport;
-import org.kuali.module.integration.service.EffortCertificationService;
-import org.kuali.module.labor.LaborKeyConstants;
-import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-import org.kuali.module.labor.service.SalaryTransferPeriodValidationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.integration.businessobject.EffortCertificationReport;
+import org.kuali.kfs.integration.service.EffortCertificationService;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @see org.kuali.module.labor.service.SalaryTransferPeriodValidationService
+ * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService
  */
 @Transactional
 public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransferPeriodValidationService {
@@ -56,7 +56,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     private WorkflowDocumentService workflowDocumentService;
 
     /**
-     * @see org.kuali.module.labor.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.module.labor.document.SalaryExpenseTransferDocument)
+     * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
      */
     public boolean validateTransfers(SalaryExpenseTransferDocument document) {
         List<ExpenseTransferAccountingLine> transferLinesInOpenPeriod = new ArrayList<ExpenseTransferAccountingLine>();
@@ -125,7 +125,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     }
 
     /**
-     * @see org.kuali.module.labor.service.SalaryTransferPeriodValidationService#disapproveSalaryExpenseDocument(org.kuali.module.labor.document.SalaryExpenseTransferDocument)
+     * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#disapproveSalaryExpenseDocument(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
      */
     public void disapproveSalaryExpenseDocument(SalaryExpenseTransferDocument document) throws Exception {
         // create note explaining why the document was disapproved

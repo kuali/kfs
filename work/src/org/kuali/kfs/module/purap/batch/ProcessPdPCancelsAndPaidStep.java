@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.batch;
+package org.kuali.kfs.module.purap.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.purap.service.ProcessPdpCancelPaidService;
+import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService;
 
 public class ProcessPdPCancelsAndPaidStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessPdPCancelsAndPaidStep.class);
@@ -26,7 +26,7 @@ public class ProcessPdPCancelsAndPaidStep extends AbstractStep {
     private ProcessPdpCancelPaidService processPdpCancelPaidService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");

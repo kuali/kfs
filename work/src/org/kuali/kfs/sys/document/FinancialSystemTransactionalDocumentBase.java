@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.document;
+package org.kuali.kfs.sys.document;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.bo.FinancialSystemDocumentHeader;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.dao.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -135,7 +135,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     /**
-     * @see org.kuali.kfs.document.Correctable#toErrorCorrection()
+     * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     public void toErrorCorrection() throws WorkflowException, IllegalStateException {
         if (!this.getAllowsErrorCorrection()) {

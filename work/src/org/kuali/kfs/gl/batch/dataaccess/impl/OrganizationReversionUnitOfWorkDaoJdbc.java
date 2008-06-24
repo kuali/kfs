@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.dao.jdbc;
+package org.kuali.kfs.gl.batch.dataaccess.impl;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
+import org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao;
 
 /**
  * A JDBC implementation of the OrgReversionUnitOfWorkDao...we had to use this because PersistenceService
@@ -27,7 +27,7 @@ public class OrgReversionUnitOfWorkDaoJdbc extends PlatformAwareDaoBaseJdbc impl
     /**
      * Deletes all existing records in gl_org_rvrsn_ctgry_amt_t and gl_org_rvrsn_unit_wrk_t
      * 
-     * @see org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao#destroyAllUnitOfWorkSummaries()
+     * @see org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao#destroyAllUnitOfWorkSummaries()
      */
     public void destroyAllUnitOfWorkSummaries() {
         getSimpleJdbcTemplate().update("delete from GL_ORG_RVRSN_CTGRY_AMT_T");

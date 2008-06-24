@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -29,14 +29,14 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.vendor.util.VendorRoutingComparable;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 
 /**
  * Contains all data for a specific parent or division Vendor, including a link to the <code>VendorHeader</code>, which only
  * contains information about the parent company, but can be shared between division Vendors.
  * 
- * @see org.kuali.module.vendor.bo.VendorHeader
+ * @see org.kuali.kfs.vnd.businessobject.VendorHeader
  */
 public class VendorDetail extends PersistableBusinessObjectBase implements VendorRoutingComparable {
     private static Logger LOG = Logger.getLogger(VendorDetail.class);
@@ -700,7 +700,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     /**
-     * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
+     * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
     public boolean isEqualForRouting(Object toCompare) {
         LOG.debug("Entering isEqualForRouting.");

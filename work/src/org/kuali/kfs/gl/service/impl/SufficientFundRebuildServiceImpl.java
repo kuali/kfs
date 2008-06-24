@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.dao.SufficientFundRebuildDao;
-import org.kuali.module.gl.service.SufficientFundRebuildService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
+import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +36,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * Returns all sufficient funds records in the persistence store.  Defers to the DAO.
      * 
      * @return a Collection of all sufficient fund rebuild records
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#getAll()
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#getAll()
      */
     public Collection getAll() {
         LOG.debug("getAll() started");
@@ -48,7 +48,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * Returns all sufficient fund rebuild records using account numbers.  Defers to the DAO.
      * 
      * @return a Collection of sufficient fund rebuild records
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#getAllAccountEntries()
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#getAllAccountEntries()
      */
     public Collection getAllAccountEntries() {
         LOG.debug("getAllAccountEntries() started");
@@ -60,7 +60,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * Returns all sufficient fund rebuild records using object codes.  Defers to the DAO.
      * 
      * @return a Collection of sufficient fund rebuild records
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#getAllObjectEntries()
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#getAllObjectEntries()
      */
     public Collection getAllObjectEntries() {
         LOG.debug("getAllObjectEntries() started");
@@ -74,7 +74,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * @param chartOfAccountsCode the chart of the record to return
      * @param accountNumberFinancialObjectCode either an account number or an object code of the sufficient fund rebuild record to return
      * @return the qualifying sufficient fund rebuild record, or null if not found
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#getByAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#getByAccount(java.lang.String, java.lang.String)
      */
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {
         LOG.debug("getByAccount() started");
@@ -89,7 +89,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * @param accountFinancialObjectTypeCode if the record has an object code, the object code of the sufficient fund rebuild record to return
      * @param accountNumberFinancialObjectCode if the record has an account number, the account number of the sufficient fund rebuild record to return
      * @return the qualifying sufficient fund rebuild record, or null if not found
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#get(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#get(java.lang.String, java.lang.String, java.lang.String)
      */
     public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode) {
         LOG.debug("get() started");
@@ -101,7 +101,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * Saves a sufficient fund rebuild record to the persistence store.  Defers to the DAO.
      * 
      * @param sfrb the sufficient fund rebuild record to save
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#save(org.kuali.module.gl.bo.SufficientFundRebuild)
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#save(org.kuali.kfs.gl.businessobject.SufficientFundRebuild)
      */
     public void save(SufficientFundRebuild sfrb) {
         LOG.debug("save() started");
@@ -113,7 +113,7 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
      * Deletes a SufficientFundRebuild record from the persistence store.  Defers to the DAO.
      *
      * @param sfrb the sufficient fund rebuild record to delete
-     * @see org.kuali.module.gl.service.SufficientFundRebuildService#delete(org.kuali.module.gl.bo.SufficientFundRebuild)
+     * @see org.kuali.kfs.gl.service.SufficientFundRebuildService#delete(org.kuali.kfs.gl.businessobject.SufficientFundRebuild)
      */
     public void delete(SufficientFundRebuild sfrb) {
         LOG.debug("delete() started");

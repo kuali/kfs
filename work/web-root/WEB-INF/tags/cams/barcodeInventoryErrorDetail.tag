@@ -68,7 +68,7 @@
 			readOnly="${readOnly}" />
 			<c:if test="${not readOnly}">
 				&nbsp;
-				<kul:lookup boClassName="org.kuali.kfs.bo.Building" 
+				<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
 				fieldConversions="buildingCode:${propertyName}.buildingCode,campusCode:${propertyName}.campusCode" 
 				lookupParameters="${propertyName}.buildingCode:buildingCode,${propertyName}.campusCode:campusCode" />				
 			</c:if>
@@ -95,7 +95,7 @@
 			readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
 			&nbsp;
-			<kul:lookup boClassName="org.kuali.module.cams.bo.AssetCondition" fieldConversions="assetConditionCode:${propertyName}.assetConditionCode" />
+			<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:${propertyName}.assetConditionCode" />
 		</c:if>
 
 	</td>

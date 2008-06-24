@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch.poster.impl;
+package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.batch.poster.BalanceCalculator;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.BalanceDao;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.gl.batch.service.BalanceCalculator;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
+import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -53,7 +53,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
      * @return the accomplished post type
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -91,7 +91,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
      * @param balanceList a Collection of balances
      * @param t the transaction that is being posted
      * @return the balance, either found from the list, or, if not present in the list, newly created
-     * @see org.kuali.module.gl.batch.poster.BalanceCalculator#findBalance(java.util.Collection, org.kuali.module.gl.bo.Transaction)
+     * @see org.kuali.kfs.gl.batch.service.BalanceCalculator#findBalance(java.util.Collection, org.kuali.kfs.gl.businessobject.Transaction)
      */
     public Balance findBalance(Collection balanceList, Transaction t) {
         // Try to find one that already exists
@@ -153,7 +153,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     }
 
     /**
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
         return "GL_BALANCE_T";

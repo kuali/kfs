@@ -17,7 +17,7 @@
  * Created on Jul 16, 2004
  *
  */
-package org.kuali.module.pdp.form.customerprofile;
+package org.kuali.kfs.pdp.document.web.struts;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -29,8 +29,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.pdp.bo.CustomerProfile;
-import org.kuali.module.pdp.utilities.GeneralUtilities;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.GeneralUtilities;
 
 
 /**

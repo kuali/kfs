@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -40,9 +40,9 @@ public class VendorGenericAttributes extends PersistableBusinessObjectBase {
     private String phoneNumberNoValidation;
     private String phoneNumberWithValidation;
     private String genericUrlAddress;
-    private String vendorHeaderGeneratedIdentifier; // " sourceClassName="org.kuali.module.vendor.bo.VendorDetail"
+    private String vendorHeaderGeneratedIdentifier; // " sourceClassName="org.kuali.kfs.vnd.businessobject.VendorDetail"
                                                     // sourceAttributeName="vendorNumber"/>
-    private String vendorDetailAssignedIdentifier; // " sourceClassName="org.kuali.module.vendor.bo.VendorDetail"
+    private String vendorDetailAssignedIdentifier; // " sourceClassName="org.kuali.kfs.vnd.businessobject.VendorDetail"
                                                     // sourceAttributeName="vendorNumber"/>
 
     /**

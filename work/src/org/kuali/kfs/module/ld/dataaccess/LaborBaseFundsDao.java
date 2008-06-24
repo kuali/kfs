@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
 
 /**
  * This is the data access object for account status base funds.
  * 
- * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
+ * @see org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds
  */
 public interface LaborBaseFundsDao {
 

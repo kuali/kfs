@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.web.struts.action;
+package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,19 +37,19 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.BCConstants.OrgSelOpMode;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.BudgetConstructionLockSummary;
-import org.kuali.module.budget.service.BudgetDocumentService;
-import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.budget.util.ReportControlListBuildHelper;
-import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
-import org.kuali.module.chart.service.OrganizationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionSelectionForm;
+import org.kuali.kfs.coa.service.OrganizationService;
 
 
 /**

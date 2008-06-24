@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.vendor.bo;
+package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -24,7 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * Broad categories in which a vendor may be included, exclusively, as opposed to a kind of basic business organization that the
  * vendor may have, which would be an instance of <code>OwnershipType</code>.
  * 
- * @see org.kuali.module.vendor.bo.OwnershipType
+ * @see org.kuali.kfs.vnd.businessobject.OwnershipType
  */
 public class OwnershipCategory extends PersistableBusinessObjectBase {
 

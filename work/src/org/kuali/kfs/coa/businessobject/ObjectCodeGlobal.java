@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.chart.bo;
+package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,13 +29,13 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.module.chart.bo.codes.FederalFundedCode;
-import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
-import org.kuali.module.chart.service.ChartService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
+import org.kuali.kfs.coa.businessobject.FederalFundedCode;
+import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
+import org.kuali.kfs.coa.service.ChartService;
 
 /**
  * 

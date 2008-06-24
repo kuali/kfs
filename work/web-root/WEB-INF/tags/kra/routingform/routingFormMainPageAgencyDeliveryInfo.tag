@@ -44,7 +44,7 @@
   			    <c:if test="${KualiForm.document.routingFormAgencyToBeNamedIndicator}">TO BE NAMED</c:if>
 			   <c:if test="${!viewOnly and !budgetLinked}"> 
 	               <kul:htmlControlAttribute property="document.routingFormAgency.agencyNumber" attributeEntry="${routingFormAttributes.routingFormAgency}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.routingFormAgency.agencyNumber','agency')"/>
-	               <kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+	               <kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
               </c:if> 
 	          <div id="document.routingFormAgency.agency.fullName.div" >
 	          <c:if test="${!empty KualiForm.document.routingFormAgency.agencyNumber}">
@@ -82,7 +82,7 @@
 						     <div id="pDiv">
 						       <div id="cDiv">
 								    				<kul:htmlControlAttribute property="document.agencyFederalPassThroughNumber" attributeEntry="${routingFormAttributes.agencyFederalPassThroughNumber}" readOnly="${viewOnly}" onblur="onblur_agencyNumber('document.agencyFederalPassThroughNumber','federalPassThroughAgency');addCfp('document.agencyFederalPassThroughNumber');"/>
-								    				<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber,fullName:document.federalPassThroughAgency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.agencyFederalPassThroughNotAvailableIndicator=true" anchor="${currentTabIndex}" />
+								    				<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber,fullName:document.federalPassThroughAgency.fullName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.agencyFederalPassThroughNotAvailableIndicator=true" anchor="${currentTabIndex}" />
 								    			</c:if>
 								    			    <div id="document.federalPassThroughAgency.fullName.div" >
 										             <c:if test="${!empty KualiForm.document.agencyFederalPassThroughNumber}">
@@ -174,7 +174,7 @@
 			    	<c:if test="${!viewOnly}">
 			    	    <!--  <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if> -->
 			    	     <html:text property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Cfda" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber,cfdaNumber:document.cfda.cfdaNumber,cfdaProgramTitleName:document.cfda.cfdaProgramTitleName" anchor="${currentTabIndex}" />
+			    		<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Cfda" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber,cfdaNumber:document.cfda.cfdaNumber,cfdaProgramTitleName:document.cfda.cfdaProgramTitleName" anchor="${currentTabIndex}" />
                 	</c:if>
 		          <div id="document.cfda.cfdaProgramTitleName.div" >
 		             <c:if test="${!empty KualiForm.document.cfda.cfdaNumber}">

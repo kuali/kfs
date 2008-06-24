@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao;
+package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.module.labor.bo.EmployeeFunding;
-import org.kuali.module.labor.bo.LaborBalanceSummary;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
+import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
+import org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForYearEndBalanceForward;
 
 /**
  * This is the data access object for ledger balance.
  * 
- * @see org.kuali.module.labor.bo.LedgerBalance
+ * @see org.kuali.kfs.module.ld.businessobject.LedgerBalance
  */
 public interface LaborLedgerBalanceDao {
 

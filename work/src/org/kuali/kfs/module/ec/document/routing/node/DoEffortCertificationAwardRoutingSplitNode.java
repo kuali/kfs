@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.workflow.module.effort.node;
+package org.kuali.kfs.module.ec.document.routing.node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.engine.RouteContext;

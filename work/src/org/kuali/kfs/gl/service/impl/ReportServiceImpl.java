@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.service.impl;
+package org.kuali.kfs.gl.service.impl;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
@@ -31,40 +31,40 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.util.Message;
-import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.CorrectionChange;
-import org.kuali.module.gl.bo.CorrectionChangeGroup;
-import org.kuali.module.gl.bo.CorrectionCriteria;
-import org.kuali.module.gl.bo.ExpenditureTransaction;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.service.CorrectionDocumentService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.PosterService;
-import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.ReversalService;
-import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
-import org.kuali.module.gl.util.BalanceEncumbranceReport;
-import org.kuali.module.gl.util.BalanceReport;
-import org.kuali.module.gl.util.ExpenditureTransactionReport;
-import org.kuali.module.gl.util.GeneralLedgerPendingEntryReport;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.LedgerReport;
-import org.kuali.module.gl.util.PosterOutputSummaryReport;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.gl.util.TransactionListingReport;
-import org.kuali.module.gl.util.TransactionReport;
-import org.kuali.module.gl.util.YearEndTransactionReport;
-import org.kuali.module.gl.web.optionfinder.SearchOperatorsFinder;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.CorrectionChange;
+import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
+import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
+import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.document.CorrectionDocument;
+import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
+import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.batch.service.PosterService;
+import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.gl.service.ReversalService;
+import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.service.ScrubberReportData;
+import org.kuali.kfs.gl.report.BalanceEncumbranceReport;
+import org.kuali.kfs.gl.report.BalanceReport;
+import org.kuali.kfs.gl.report.ExpenditureTransactionReport;
+import org.kuali.kfs.gl.report.GeneralLedgerPendingEntryReport;
+import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.gl.report.LedgerReport;
+import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
+import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.gl.report.TransactionListingReport;
+import org.kuali.kfs.gl.report.TransactionReport;
+import org.kuali.kfs.gl.report.YearEndTransactionReport;
+import org.kuali.kfs.gl.businessobject.options.SearchOperatorsFinder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -116,7 +116,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate the date this nightly out process was run on
      * @param group the group of origin entries copied from pending entries
-     * @see org.kuali.module.gl.service.ReportService#generatePendingEntryReport(java.util.Date)
+     * @see org.kuali.kfs.gl.service.ReportService#generatePendingEntryReport(java.util.Date)
      */
     public void generatePendingEntryReport(Date runDate, OriginEntryGroup group) {
         LOG.debug("generatePendingEntryReport() started");
@@ -131,8 +131,8 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate the date this nightly out process was run on
      * @param group the group of origin entries copied from pending entries
-     * @see org.kuali.module.gl.service.ReportService#generatePendingEntryLedgerSummaryReport(java.util.Date,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.ReportService#generatePendingEntryLedgerSummaryReport(java.util.Date,
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void generatePendingEntryLedgerSummaryReport(Date runDate, OriginEntryGroup group) {
         LOG.debug("generatePendingEntryLedgerSummaryReport() started");
@@ -155,7 +155,7 @@ public class ReportServiceImpl implements ReportService {
      * @param reportSummary a List of summary data generated by the sufficient funds
      * @param runDate the date of the sufficient funds rebuild process that is being reported
      * @param mode not really used
-     * @see org.kuali.module.gl.service.ReportService#generateSufficientFundsReport(java.util.Map, java.util.List, java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generateSufficientFundsReport(java.util.Map, java.util.List, java.util.Date,
      *      int)
      */
     public void generateSufficientFundsReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
@@ -290,7 +290,7 @@ public class ReportServiceImpl implements ReportService {
      * @param transactionPosters the list of posting algorithms used during the poster run
      * @param reportErrors a Map of transactions that caused errors during the process
      * @param mode the mode the poster was being run in
-     * @see org.kuali.module.gl.service.ReportService#generatePosterStatisticsReport(java.util.Date, java.util.Map, java.util.Map,
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterStatisticsReport(java.util.Date, java.util.Map, java.util.Map,
      *      int)
      */
     public void generatePosterStatisticsReport(Date executionDate, Date runDate, Map<String, Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction, List<Message>> reportErrors, int mode) {
@@ -345,7 +345,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the date when the poster process was run
      * @param totalOfIcrEncumbrances the number of ICR encumbrances processed
      * @param totalOfEntriesGenerated the number of origin entries generated by this step of the process
-     * @see org.kuali.module.gl.service.ReportService#generateIcrEncumrbanceStatisticsReport(java.util.Date, int, int)
+     * @see org.kuali.kfs.gl.service.ReportService#generateIcrEncumrbanceStatisticsReport(java.util.Date, int, int)
      */
     public void generateIcrEncumbranceStatisticsReport(Date runDate, int totalOfIcrEncumbrances, int totalOfEntriesGenerated) {
         LOG.debug("generateIcrEncumrbanceStatisticsReport() started");
@@ -370,7 +370,7 @@ public class ReportServiceImpl implements ReportService {
      * @param reportExpendTranDeleted the number of expenditure transactions deleted by the poster during the ICR run
      * @param reportExpendTranKept the number of expenditure transactions saved by the poster during the ICR run
      * @param reportOriginEntryGenerated the number of origin entry records generated by the process
-     * @see org.kuali.module.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Date,
      *      java.util.Map, int, int, int, int)
      */
     public void generatePosterIcrStatisticsReport(Date executionDate, Date runDate, Map<ExpenditureTransaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated) {
@@ -392,7 +392,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate Run date of the report
      * @param groups Groups to summarize for the report
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberLedgerSummaryReportBatch(java.util.Date, java.util.Collection)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberLedgerSummaryReportBatch(java.util.Date, java.util.Collection)
      */
     public void generateScrubberLedgerSummaryReportBatch(Date runDate, Collection groups) {
         LOG.debug("generateScrubberLedgerSummaryReport() started");
@@ -411,8 +411,8 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate Run date of the report
      * @param group Group to summarize for the report
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberLedgerSummaryReportOnline(java.util.Date,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberLedgerSummaryReportOnline(java.util.Date,
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group, String documentNumber) {
         LOG.debug("generateScrubberLedgerSummaryReport() started");
@@ -434,8 +434,8 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate Run date of the report
      * @param scrubberReport Summary information
      * @param scrubberReportErrors Map of transactions with errors or warnings
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberStatisticsReport(java.util.Date,
-     *      org.kuali.module.gl.service.impl.scrubber.ScrubberReportData, java.util.Map)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberStatisticsReport(java.util.Date,
+     *      org.kuali.kfs.gl.service.ScrubberReportData, java.util.Map)
      */
     public void generateBatchScrubberStatisticsReport(Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors) {
         LOG.debug("generateScrubberStatisticsReport() started");
@@ -478,8 +478,8 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate Run date of the report
      * @param scrubberReport Summary information
      * @param scrubberReportErrors Map of transactions with errors or warnings
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberStatisticsReport(java.util.Date,
-     *      org.kuali.module.gl.service.impl.scrubber.ScrubberReportData, java.util.Map)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberStatisticsReport(java.util.Date,
+     *      org.kuali.kfs.gl.service.ScrubberReportData, java.util.Map)
      */
     public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String documentNumber) {
         LOG.debug("generateScrubberStatisticsReport() started");
@@ -495,8 +495,8 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate Run date of the report
      * @param demergerReport Summary information
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberDemergerStatisticsReports(java.util.Date,
-     *      org.kuali.module.gl.service.impl.scrubber.DemergerReportData)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberDemergerStatisticsReports(java.util.Date,
+     *      org.kuali.kfs.gl.businessobject.DemergerReportData)
      */
     public void generateScrubberDemergerStatisticsReports(Date runDate, DemergerReportData demergerReport) {
         LOG.debug("generateScrubberDemergerStatisticsReports() started");
@@ -514,7 +514,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate Run date of the report
      * @param groups Groups to summarize for the report
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberBadBalanceTypeListingReport(java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberBadBalanceTypeListingReport(java.util.Date,
      *      java.util.Collection)
      */
     public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups) {
@@ -534,7 +534,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate Run date of the report
      * @param validGroup Group with transactions
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberTransactionsOnline(java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup, java.lang.String)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberTransactionsOnline(java.util.Date, org.kuali.kfs.gl.businessobject.OriginEntryGroup, java.lang.String)
      */
     public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup, String documentNumber) {
         LOG.debug("generateScrubberTransactionsOnline() started");
@@ -550,8 +550,8 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate Run date of the report
      * @param errorGroup Group with error transactions
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberRemovedTransactions(java.util.Date,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberRemovedTransactions(java.util.Date,
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void generateScrubberRemovedTransactions(Date runDate, OriginEntryGroup errorGroup) {
         LOG.debug("generateScrubberRemovedTransactions() started");
@@ -568,7 +568,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the run date of the poster service that should be reported
      * @param options the options of the fiscal year the poster was run
      * @param reportType the type of the report that should be generated
-     * @see org.kuali.module.gl.service.ReportService#generateGlSummary(java.util.Date, int, java.util.List)
+     * @see org.kuali.kfs.gl.service.ReportService#generateGlSummary(java.util.Date, int, java.util.List)
      */
     public void generateGlSummary(Date runDate, Options year, String reportType) {
         LOG.debug("generateGlSummary() started");
@@ -595,7 +595,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the run date of the poster service that should be reported
      * @param options the options of the fiscal year the poster was run
      * @param reportType the type of the report that should be generated
-     * @see org.kuali.module.gl.service.ReportService#generateGlEncumbranceSummary(java.util.Date, int, java.util.List,
+     * @see org.kuali.kfs.gl.service.ReportService#generateGlEncumbranceSummary(java.util.Date, int, java.util.List,
      *      java.lang.String)
      */
     public void generateGlEncumbranceSummary(Date runDate, Options year, String reportType) {
@@ -620,7 +620,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
      *        poster run)
      * @param groups origin entry groups produced by the poster to be reported on
-     * @see org.kuali.module.gl.service.ReportService#generatePosterMainLedgerSummaryReport(java.util.Date, java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterMainLedgerSummaryReport(java.util.Date, java.util.Date,
      *      java.util.Collection)
      */
     public void generatePosterMainLedgerSummaryReport(Date executionDate, Date runDate, Collection groups) {
@@ -642,7 +642,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
      *        poster run)
      * @param groups entry groups produced by the poster to be reported on
-     * @see org.kuali.module.gl.service.ReportService#generatePosterIcrLedgerSummaryReport(java.util.Date, java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterIcrLedgerSummaryReport(java.util.Date, java.util.Date,
      *      java.util.Collection)
      */
     public void generatePosterIcrLedgerSummaryReport(Date executionDate, Date runDate, Collection groups) {
@@ -664,7 +664,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
      *        poster run)
      * @param groups groups produced by the poster to be reported on
-     * @see org.kuali.module.gl.service.ReportService#generatePosterReversalLedgerSummaryReport(java.util.Date, java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterReversalLedgerSummaryReport(java.util.Date, java.util.Date,
      *      java.util.Iterator)
      */
     public void generatePosterReversalLedgerSummaryReport(Date executionDate, Date runDate, Iterator reversals) {
@@ -686,7 +686,7 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the date of the balance forward run
      * @param openAccountOriginEntryGroup the origin entry group with balance forwarding origin entries with open accounts
      * @param closedAccountOriginEntryGroup the origin entry group with balance forwarding origin entries with closed accounts
-     * @see org.kuali.module.gl.service.ReportService#generateBalanceForwardStatisticsReport(java.util.List, java.util.Date)
+     * @see org.kuali.kfs.gl.service.ReportService#generateBalanceForwardStatisticsReport(java.util.List, java.util.Date)
      */
     public void generateBalanceForwardStatisticsReport(List reportSummary, Date runDate, OriginEntryGroup openAccountOriginEntryGroup, OriginEntryGroup closedAccountOriginEntryGroup) {
         LOG.debug("generateBalanceForwardStatisticsReport() started");
@@ -703,7 +703,7 @@ public class ReportServiceImpl implements ReportService {
      * @param reportSummary a List of summarized statistics to report
      * @param runDate the date of the encumbrance forward run
      * @param originEntryGroup the origin entry group that the job placed encumbrance forwarding origin entries into
-     * @see org.kuali.module.gl.service.ReportService#generateEncumbranceClosingStatisticsReport(java.util.List, java.util.Date)
+     * @see org.kuali.kfs.gl.service.ReportService#generateEncumbranceClosingStatisticsReport(java.util.List, java.util.Date)
      */
     public void generateEncumbranceClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup) {
         LOG.debug("generateEncumbranceForwardStatisticsReport() started");
@@ -720,7 +720,7 @@ public class ReportServiceImpl implements ReportService {
      * @param reportSummary a List of summarized statistics to report
      * @param runDate the date of the nominal activity closing job run
      * @param originEntryGroup the origin entry group that the job placed nominal activity closing origin entries into
-     * @see org.kuali.module.gl.service.ReportService#generateNominalActivityClosingStatisticsReport(java.util.Map, java.util.List,
+     * @see org.kuali.kfs.gl.service.ReportService#generateNominalActivityClosingStatisticsReport(java.util.Map, java.util.List,
      *      java.util.Date)
      */
     public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup) {
@@ -738,8 +738,8 @@ public class ReportServiceImpl implements ReportService {
      * @param reportSummary a list of various counts the job went through
      * @param runDate the date the report was run
      * @param orgReversionOriginEntryGroup the origin entry group that contains the reversion origin entries
-     * @see org.kuali.module.gl.service.ReportService#generateOrgReversionStatisticsReport(java.util.Map, java.util.List,
-     *      java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.ReportService#generateOrgReversionStatisticsReport(java.util.Map, java.util.List,
+     *      java.util.Date, org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void generateOrgReversionStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup orgReversionOriginEntryGroup) {
         LOG.debug("generateOrgReversionStatisticsReport() started");
@@ -843,8 +843,8 @@ public class ReportServiceImpl implements ReportService {
      * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
      *        poster run)
      * @param group Group with valid transactions
-     * @see org.kuali.module.gl.service.ReportService#generatePosterReversalTransactionsListing(java.util.Date, java.util.Date,
-     *      org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterReversalTransactionsListing(java.util.Date, java.util.Date,
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
     public void generatePosterReversalTransactionsListing(Date executionDate, Date runDate, OriginEntryGroup originGroup) {
         LOG.debug("generatePosterReversalTransactionsListing() started");
@@ -863,8 +863,8 @@ public class ReportServiceImpl implements ReportService {
      *        poster run)
      * @param group Group with error transactions
      * @param posterMode Mode the poster is running
-     * @see org.kuali.module.gl.service.ReportService#generatePosterErrorTransactionListing(java.util.Date,
-     *      org.kuali.module.gl.bo.OriginEntryGroup, int)
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterErrorTransactionListing(java.util.Date,
+     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup, int)
      */
     public void generatePosterErrorTransactionListing(Date executionDate, Date runDate, OriginEntryGroup group, int posterMode) {
         LOG.debug("generatePosterErrorTransactionListing() started");
@@ -888,7 +888,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param cDocument the GLCP document to report on
      * @param runDate the date the GLCP was created
-     * @see org.kuali.module.gl.service.ReportService#correctionOnlineReport(org.kuali.module.gl.document.CorrectionDocument, java.util.Date)
+     * @see org.kuali.kfs.gl.service.ReportService#correctionOnlineReport(org.kuali.kfs.gl.document.CorrectionDocument, java.util.Date)
      */
     public void correctionOnlineReport(CorrectionDocument cDocument, Date runDate) {
         LOG.debug("correctionOnlineReport() started");
@@ -1090,7 +1090,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @param runDate the date the poster run that is being reported on occurred
      * @param groups the origin entry groups created by the poster during its run
-     * @see org.kuali.module.gl.service.ReportService#generatePosterInputTransactionSummaryReport(java.util.Date,
+     * @see org.kuali.kfs.gl.service.ReportService#generatePosterInputTransactionSummaryReport(java.util.Date,
      *      java.util.Collection)
      */
     public void generatePosterOutputTransactionSummaryReport(Date runDate, Collection groups) {

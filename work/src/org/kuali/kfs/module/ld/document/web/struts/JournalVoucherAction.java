@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.web.struts.action;
+package org.kuali.kfs.module.ld.document.web.struts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,12 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.PositionData;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.BalanceTyp;
+import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
+import org.kuali.kfs.module.ld.businessobject.PositionData;
 
 /**
  * Struts Action Form for the Labor Ledger Journal Voucher. This class piggy backs on all of the functionality in the
@@ -35,7 +35,7 @@ import org.kuali.module.labor.bo.PositionData;
  * defines several fields that aren't typically used by the other financial transaction processing eDocs (i.e. external system
  * fields, object type override, credit and debit amounts).
  */
-public class JournalVoucherAction extends org.kuali.module.financial.web.struts.action.JournalVoucherAction {
+public class JournalVoucherAction extends org.kuali.kfs.fp.document.web.struts.JournalVoucherAction {
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
@@ -67,7 +67,7 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
      * Labor JV allows reference fields on all encumbrance types. So only want to give message if a change is being made from a
      * encumbrance balance type to a nor (or vice-versa).
      * 
-     * @see org.kuali.module.financial.web.struts.action.JournalVoucherAction#determineBalanceTypeEncumbranceChangeMode(org.kuali.module.financial.web.struts.form.JournalVoucherForm)
+     * @see org.kuali.kfs.fp.document.web.struts.JournalVoucherAction#determineBalanceTypeEncumbranceChangeMode(org.kuali.kfs.fp.document.web.struts.JournalVoucherForm)
      */
     @Override
     protected int determineBalanceTypeEncumbranceChangeMode(JournalVoucherForm journalVoucherForm) throws Exception {

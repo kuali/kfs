@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.exceptions;
+package org.kuali.kfs.module.bc.exception;
 
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.DocumentAuthorizationException;
-import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 
 /**
  * Handles special Budget Construction Document exception processing to display the reason behind the authorization exception

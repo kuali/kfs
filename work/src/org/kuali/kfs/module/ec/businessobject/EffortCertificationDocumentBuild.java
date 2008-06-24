@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.module.effort.bo;
+package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 
 /**
  * Business Object for the Effort Certification Document Build Table.

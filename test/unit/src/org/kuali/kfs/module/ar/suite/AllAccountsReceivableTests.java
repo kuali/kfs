@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar;
+package org.kuali.kfs.module.ar.suite;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.module.ar.document.PaymentApplicationDocumentTest;
-import org.kuali.module.ar.rules.CashControlDocumentRuleTest;
-import org.kuali.module.ar.rules.CustomerInvoiceDocumentRuleTest;
-import org.kuali.module.ar.rules.CustomerInvoiceItemCodeRuleTest;
-import org.kuali.module.ar.rules.CustomerRuleTest;
-import org.kuali.module.ar.rules.OrganizationAccountingDefaultRuleTest;
-import org.kuali.module.ar.rules.SystemInformationRuleTest;
-import org.kuali.module.ar.service.CashControlDocumentServiceTest;
-import org.kuali.module.ar.service.CustomerInvoiceDetailServiceTest;
-import org.kuali.module.ar.service.CustomerInvoiceDocumentGeneralLedgerPostingTest;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocumentTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CashControlDocumentRuleTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentRuleTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRuleTest;
+import org.kuali.kfs.module.ar.document.validation.impl.CustomerRuleTest;
+import org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRuleTest;
+import org.kuali.kfs.module.ar.document.validation.impl.SystemInformationRuleTest;
+import org.kuali.kfs.module.ar.document.service.CashControlDocumentServiceTest;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailServiceTest;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocumentGeneralLedgerPostingTest;
 
 /**
  * Runs all the tests in the GL test suite.

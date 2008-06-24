@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service.impl;
+package org.kuali.kfs.fp.document.service.impl;
 
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.EXCEPTIONS;
-import org.kuali.kfs.service.ParameterEvaluator;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.financial.service.TransferOfFundsService;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.EXCEPTIONS;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 
 /**
  * The default implementation of the TransferOfFundsService
@@ -29,14 +29,14 @@ public class TransferOfFundsServiceImpl implements TransferOfFundsService {
     private ParameterService parameterService;
 
     /**
-     * @see org.kuali.module.financial.service.TransferOfFundsService#isMandatoryTransfersSubType(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.TransferOfFundsService#isMandatoryTransfersSubType(java.lang.String)
      */
     public boolean isMandatoryTransfersSubType(String objectSubTypeCode) {
         return checkMandatoryTransfersSubType(objectSubTypeCode, APPLICATION_PARAMETER.MANDATORY_TRANSFER_SUBTYPE_CODES);
     }
 
     /**
-     * @see org.kuali.module.financial.service.TransferOfFundsService#isNonMandatoryTransfersSubType(java.lang.String)
+     * @see org.kuali.kfs.fp.document.service.TransferOfFundsService#isNonMandatoryTransfersSubType(java.lang.String)
      */
     public boolean isNonMandatoryTransfersSubType(String objectSubTypeCode) {
         return checkMandatoryTransfersSubType(objectSubTypeCode, APPLICATION_PARAMETER.NONMANDATORY_TRANSFER_SUBTYPE_CODES);

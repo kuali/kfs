@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.util;
+package org.kuali.kfs.module.purap.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.rice.KNSServiceLocator;
 /**
  * Purap Object Utils.

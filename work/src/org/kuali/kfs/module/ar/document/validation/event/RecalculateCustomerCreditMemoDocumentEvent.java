@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule.event;
+package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.module.ar.rule.RecalculateCustomerCreditMemoDocumentRule;
+import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
 
 public class RecalculateCustomerCreditMemoDocumentEvent extends KualiDocumentEventBase {
     

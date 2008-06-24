@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.kuali.module.financial.bo;
+package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder;
-import org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.vendor.service.VendorService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.fp.businessobject.options.PayeeTypeValuesFinder;
+import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
+import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 /**
  * This class is used to represent a disbursement voucher payee detail.

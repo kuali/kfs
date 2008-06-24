@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.labor.dao.ojb;
+package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,26 +24,26 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.ObjectUtil;
-import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborPropertyConstants;
-import org.kuali.module.labor.bo.AccountStatusBaseFunds;
-import org.kuali.module.labor.dao.LaborBaseFundsDao;
-import org.kuali.module.labor.util.ConsolidationUtil;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
+import org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao;
+import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 
 /**
  * This is the data access object for account status base funds.
  * 
- * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
+ * @see org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds
  */
 public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements LaborBaseFundsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBaseFundsDaoOjb.class);
 
     /**
-     * @see org.kuali.module.labor.dao.LaborBaseFundsDao#findLaborBaseFunds(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findLaborBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findLaborBaseFunds(Map fieldValues, boolean isConsolidated) {
         LOG.debug("Start findLaborBaseFunds()");

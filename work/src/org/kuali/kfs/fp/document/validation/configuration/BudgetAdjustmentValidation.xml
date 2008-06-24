@@ -22,7 +22,7 @@
 
 	<bean id="BudgetAdjustment-routeDocumentValidation" parent="BudgetAdjustment-routeDocumentValidation-parentBean" scope="prototype" />
 
-	<bean id="BudgetAdjustment-routeDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BudgetAdjustment-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="BudgetAdjustment-documentBalancedValidation" scope="prototype">
@@ -61,7 +61,7 @@
 	
 	<bean id="BudgetAdjustment-approveDocumentValidation" parent="BudgetAdjustment-approveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-approveDocumentValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BudgetAdjustment-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="BudgetAdjustment-accountingLineTotalsUnchangedValidation" scope="prototype">
@@ -84,10 +84,10 @@
 	
 	<bean id="BudgetAdjustment-addAccountingLineValidation" parent="BudgetAdjustment-addAccountingLineValidation-parentBean" />
 	
-	<bean id="BudgetAdjustment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BudgetAdjustment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="BudgetAdjustment-accountingLineAmountValidation" scope="prototype">
@@ -191,10 +191,10 @@
 	
 	<bean id="BudgetAdjustment-reviewAccountingLineValidation" parent="BudgetAdjustment-reviewAccountingLineValidation-parentBean" scope="prototype" />
 
-	<bean id="BudgetAdjustment-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BudgetAdjustment-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="BudgetAdjustment-accountingLineAmountValidation" scope="prototype">
@@ -236,10 +236,10 @@
 	
 	<bean id="BudgetAdjustment-updateAccountingLineValidation" parent="BudgetAdjustment-updateAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.validation.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BudgetAdjustment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean class="org.kuali.kfs.validation.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
 							<bean parent="BudgetAdjustment-accountingLineAmountValidation" scope="prototype">

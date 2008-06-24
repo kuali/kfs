@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.util;
+package org.kuali.kfs.gl.batch.service.impl;
 
 /**
  * This class indicates that some files of the file set are missing, and the feeder cannot continue.
@@ -21,7 +21,7 @@ package org.kuali.module.gl.util;
 public class RequiredFilesMissingStatus extends EnterpriseFeederStatusBase {
 
     /**
-     * @see org.kuali.module.gl.util.EnterpriseFeederStatus#isErrorEvent()
+     * @see org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus#isErrorEvent()
      */
     public boolean isErrorEvent() {
         return true;

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
+package org.kuali.kfs.fp.service;
 
-import org.kuali.module.financial.bo.Bank;
+import org.kuali.kfs.fp.businessobject.Bank;
 
 /**
  * 

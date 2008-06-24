@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.web.struts.form;
+package org.kuali.kfs.module.cg.web.struts;
 
 import java.util.Date;
 
 import org.kuali.core.web.format.DateFormatter;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.module.cg.bo.Close;
-import org.kuali.module.cg.service.CloseService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.module.cg.businessobject.Close;
+import org.kuali.kfs.module.cg.service.CloseService;
 
 public class CloseForm extends FinancialSystemTransactionalDocumentFormBase {
 

@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Ownership Type objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VN"
+            p:parameterNamespace="KFS-VND"
             p:parameterName="OWNERSHIP_TYPE"
             p:parameterDetailType="OwnershipType" />
     </property>

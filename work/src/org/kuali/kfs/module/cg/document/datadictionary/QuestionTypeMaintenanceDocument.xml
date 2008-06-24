@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Question Type objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="QUESTION_TYPE"
             p:parameterDetailType="QuestionType" />
     </property>

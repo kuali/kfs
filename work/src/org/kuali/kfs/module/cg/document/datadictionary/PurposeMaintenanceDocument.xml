@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Purpose objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="PURPOSE"
             p:parameterDetailType="Purpose" />
     </property>

@@ -33,7 +33,7 @@
     <property name="description" value="Document used to create or update Indirect Cost Lookup objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="INDIRECT_COST_LOOKUP"
             p:parameterDetailType="IndirectCostLookup" />
     </property>

@@ -13,7 +13,7 @@
     <property name="description" value="Filling out routing forms is a delight which all persons should be so lucky as to be able to do dailly twice" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="ROUTING_FORM"
             p:parameterDetailType="RoutingForm" />
     </property>

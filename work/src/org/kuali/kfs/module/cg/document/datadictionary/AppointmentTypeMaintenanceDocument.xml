@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update AppointmentType objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="APPOINTMENT_TYPE"
             p:parameterDetailType="AppointmentType" />
     </property>

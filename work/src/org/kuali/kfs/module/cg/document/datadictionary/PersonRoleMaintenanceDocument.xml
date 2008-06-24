@@ -25,7 +25,7 @@
     <property name="description" value="Document used to create or update Person Role objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="PERSON_ROLE"
             p:parameterDetailType="PersonRole" />
     </property>

@@ -38,7 +38,7 @@
     <property name="description" value="Document used to create or update Object Code objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="NONPERSONNEL_OBJECT_CODE"
             p:parameterDetailType="NonpersonnelObjectCode" />
     </property>

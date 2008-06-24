@@ -32,7 +32,7 @@
     <property name="description" value="Document used to create or update Graduate Assistant Rate objects" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-RA"
+            p:parameterNamespace="KFS-CG"
             p:parameterName="GRADUATE_ASSISTANT_RATE"
             p:parameterDetailType="GraduateAssistantRate" />
     </property>

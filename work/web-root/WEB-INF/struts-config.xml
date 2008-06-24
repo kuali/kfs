@@ -46,7 +46,7 @@
         <form-bean name="NonCheckDisbursementForm" type="org.kuali.kfs.fp.document.web.struts.NonCheckDisbursementForm" />
         <form-bean name="PreEncumbranceForm" type="org.kuali.kfs.fp.document.web.struts.PreEncumbranceForm" />
         <form-bean name="DisbursementVoucherForm" type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm" />
-        <form-bean name="DisbursementVoucherInitForm" type="org.kuali.kfs.fp.document.web.strutsDisbursementVoucherInitForm" />
+        <form-bean name="DisbursementVoucherInitForm" type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherInitForm" />
         <form-bean name="CashManagementForm" type="org.kuali.kfs.fp.document.web.struts.CashManagementForm" />
         <form-bean name="CashManagementStatusForm" type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm" />
         <form-bean name="CashDrawerCorrectionForm" type="org.kuali.kfs.fp.web.struts.CashDrawerCorrectionForm" />

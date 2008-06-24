@@ -552,7 +552,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 if (ObjectUtils.isNotNull(newNodeDetails)) {
                     if (PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.DOCUMENT_TRANSMISSION.equals(newNodeDetails)) {
                         // in the document transmission node... we do special processing to set the status and update the PO
-                        boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, null);
+                        boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, null, true);
                         PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
                         poService.setupDocumentForPendingFirstTransmission(this, willHaveRequest);
                         poService.saveDocumentNoValidation(this);

@@ -23,7 +23,7 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -58,19 +58,19 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
         // Check project director
         if (u.getPersonUniversalIdentifier().equals(budgetDocument.getBudget().getBudgetProjectDirectorUniversalIdentifier())) {
-            permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, KraConstants.PROJECT_DIRECTOR_BUDGET_PERMISSION));
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, CGConstants.PROJECT_DIRECTOR_BUDGET_PERMISSION));
         }
 
         // Check default org permissions - project director
         if (!budgetDocument.getBudget().getPersonnel().isEmpty()) {
             if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
-                permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
+                permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, CGConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
             }
         }
 
         // Check default org permissions - cost sharing orgs
         if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
-            permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
         }
 
         permissionCode = getPermissionCodeByPrecedence(permissionCode, getAdHocEditMode(budgetDocument, u));

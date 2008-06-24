@@ -19,8 +19,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.cg.KraKeyConstants;
-import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.IndirectCostLookup;
 
 
@@ -63,8 +63,8 @@ public class IndirectCostLookupRule extends MaintenanceDocumentRuleBase {
         // If the cost rate value is longer than 6 characters, display an error message
         if (costRate.length() > 6) {
             String[] params = { costRate };
-            String propertyName = KraPropertyConstants.DOCUMENT + "." + KraPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + KraPropertyConstants.COST_RATE;
-            GlobalVariables.getErrorMap().putError(propertyName, KraKeyConstants.ERROR_INDIRECT_COST_RATE_MALFORMED, params);
+            String propertyName = CGPropertyConstants.DOCUMENT + "." + CGPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + CGPropertyConstants.COST_RATE;
+            GlobalVariables.getErrorMap().putError(propertyName, CGKeyConstants.ERROR_INDIRECT_COST_RATE_MALFORMED, params);
             success = false;
         }
 

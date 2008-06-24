@@ -32,7 +32,7 @@
 	<html:hidden property="document.personnelNextSequenceNumber" />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.PERSONNEL_HEADER_TAB}" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.PERSONNEL_HEADER_TAB}" altText="page help"/>
 	</div>
 
   <c:if test="${! viewOnly}">

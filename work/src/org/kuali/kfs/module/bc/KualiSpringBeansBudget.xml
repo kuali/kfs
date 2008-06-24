@@ -19,7 +19,7 @@
     <bean id="budgetModule" parent="budgetModule-parentBean" />
 
     <bean id="budgetModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="budget" />
+		<property name="moduleId" value="bc" />
 		<property name="moduleName" value="Budget Construction" />
 		<property name="moduleCode" value="BC" />
 		<property name="initializeDataDictionary" value="true" />

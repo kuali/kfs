@@ -34,8 +34,8 @@ import edu.iu.uis.eden.routeheader.StandardDocumentContent;
  */
 public class KualiAttributeTestUtil {
 
-    public static final String RELATIVE_PATH_IN_PROJECT = "test/src/org/kuali/workflow/attribute/";
-    public static final String RELATIVE_PATH_IN_PROJECT_WORKFLOW = "test/src/org/kuali/workflow/";
+    public static final String RELATIVE_PATH_IN_PROJECT = "test/unit/src/org/kuali/workflow/attribute/";
+    public static final String RELATIVE_PATH_IN_PROJECT_WORKFLOW = "test/unit/src/org/kuali/workflow/";
 
     public static final String TOF_FEMP_SUBCODE_ONELINER = "TransferOfFunds_FEMPSubcode_OneLiner.xml";
     public static final String TOF_SUB_ACCOUNT_TEST_DOC = "TransferOfFunds_SubAccountTestDoc.xml";

@@ -45,7 +45,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.BudgetXml;
 import org.kuali.kfs.sys.KFSConstants;
@@ -243,34 +243,34 @@ public class BudgetOutputAction extends BudgetAction {
 
         // Base URL
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY) + parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_PATH_PREFIX);
+        urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY) + parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_PATH_PREFIX);
 
         // Add the file name based on selection by user
         if (GENERIC_BY_TASK.equals(currentOutputReportType)) {
-            urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_GENERIC_BY_TASK_XSL_FILENAME);
+            urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_GENERIC_BY_TASK_XSL_FILENAME);
         }
         else if (GENERIC_BY_PERIOD.equals(currentOutputReportType)) {
-            urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_GENERIC_BY_PERIOD_XSL_FILENAME);
+            urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_GENERIC_BY_PERIOD_XSL_FILENAME);
         }
         else if (AGENCY.equals(currentOutputReportType)) {
             if (NIH_2590.equals(currentOutputAgencyType)) {
-                urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_NIH2590_XSL_FILENAME);
+                urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_NIH2590_XSL_FILENAME);
             }
             else if (NIH_398.equals(currentOutputAgencyType)) {
-                urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_NIH398_XSL_FILENAME);
+                urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_NIH398_XSL_FILENAME);
             }
             else if (NIH_MOD.equals(currentOutputAgencyType)) {
-                urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_NIH_MODULAR_XSL_FILENAME);
+                urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_NIH_MODULAR_XSL_FILENAME);
             }
             else if (NIH_SUMMARY.equals(currentOutputAgencyType)) {
-                urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_NSF_SUMMARY_XSL_FILENAME);
+                urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_NSF_SUMMARY_XSL_FILENAME);
             }
             else {
                 LOG.error("Report type agency stylesheet not found.");
             }
         }
         else if (SF_424.equals(currentOutputReportType)) {
-            urlString += parameterService.getParameterValue(BudgetDocument.class, KraConstants.OUTPUT_SF424_XSL_FILENAME);
+            urlString += parameterService.getParameterValue(BudgetDocument.class, CGConstants.OUTPUT_SF424_XSL_FILENAME);
         }
         else {
             LOG.error("Report type stylesheet not found.");

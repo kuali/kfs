@@ -17,7 +17,7 @@
 
 <%@ attribute name="supportsModular" required="true" %>
 
-<c:set var="budgetTaskAttributes" value="${DataDictionary.BudgetTask.attributes}" /> <c:set var="KraConstants" value="${KraConstants}" />
+<c:set var="budgetTaskAttributes" value="${DataDictionary.BudgetTask.attributes}" /> <c:set var="CGConstants" value="${CGConstants}" />
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetTask.businessObjectClass}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
@@ -45,7 +45,7 @@
   </tr>
   <!-- Default add line for additional tasks
          shown only if there are < 20 tasks currently attached. -->
-  <c:if test="${KualiForm.document.taskListSize lt KraConstants.maximumNumberOfTasks && not viewOnly}">
+  <c:if test="${KualiForm.document.taskListSize lt CGConstants.maximumNumberOfTasks && not viewOnly}">
   <tr>
     <th width="50" align="right" scope="row"><div align="right">add:</div></th>
     <td class="infoline"><html:hidden property="newTask.documentNumber" /> <html:hidden property="newTask.budgetTaskSequenceNumber" /> <html:hidden property="newTask.objectId"/> <html:hidden property="newTask.versionNumber" /> <span> <kul:htmlControlAttribute property="newTask.budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}"/> </span> </td>

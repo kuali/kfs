@@ -31,7 +31,7 @@ public interface KualiTestConstants {
         private static final String PORT = "8080";
         public static final String BASE_PATH = "http://" + HOST + ":" + PORT + "/";
         public static final String MESSAGE = "JUNIT test entry. If this exist after the tests are not cleaning up correctly. Created by class";
-        public static final String TEST_BATCH_STAGING_DIRECTORY = "/java/projects/kuali_project/test/src/org/kuali/test/staging/";
+        public static final String TEST_BATCH_STAGING_DIRECTORY = "/java/projects/kuali_project/test/unit/src/org/kuali/test/staging/";
 
         /**
          * group of data values that should work if used togther

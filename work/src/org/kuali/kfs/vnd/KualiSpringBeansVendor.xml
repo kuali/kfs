@@ -19,9 +19,9 @@
     <bean id="vendorModule" parent="vendorModule-parentBean" />
 
 	<bean id="vendorModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
-		<property name="moduleId" value="vendor" />
+		<property name="moduleId" value="vnd" />
 		<property name="moduleName" value="Vendor" />
-		<property name="moduleCode" value="VN" />
+		<property name="moduleCode" value="VND" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="vendorModuleAuthorizer" />
 		<property name="dataDictionaryPackages">

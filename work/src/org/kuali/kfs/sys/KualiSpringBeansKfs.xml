@@ -23,9 +23,9 @@
     <bean id="financialSystemModule" parent="financialSystemModule-parentBean" />
 
     <bean id="financialSystemModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-        <property name="moduleId" value="kfs" />
-        <property name="moduleName" value="Kuali Financials Core System" />
-        <property name="moduleCode" value="SY" />
+        <property name="moduleId" value="sys" />
+        <property name="moduleName" value="Financial System" />
+        <property name="moduleCode" value="SYS" />
         <property name="initializeDataDictionary" value="true" />
         <property name="moduleAuthorizer" ref="financialSystemCoreModuleAuthorizer" />
         <property name="dataDictionaryPackages">

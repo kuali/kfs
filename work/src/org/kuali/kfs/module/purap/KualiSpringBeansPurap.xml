@@ -21,7 +21,7 @@
     <bean id="purapModule-parentBean" class="org.kuali.core.KualiModule" abstract="true">
 		<property name="moduleId" value="purap" />
 		<property name="moduleName" value="Purchasing/Accounts Payable" />
-		<property name="moduleCode" value="PA" />
+		<property name="moduleCode" value="PURAP" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="purapModuleAuthorizer" />
 		<property name="dataDictionaryPackages">

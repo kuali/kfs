@@ -38,8 +38,8 @@ import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
@@ -137,11 +137,11 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
             user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
             if (adHocRoutePerson.getActionRequested() == null || StringUtils.isBlank(adHocRoutePerson.getActionRequested())) {
-                newAdHocPermission.setAdhocTypeCode(KraConstants.AD_HOC_PERMISSION);
+                newAdHocPermission.setAdhocTypeCode(CGConstants.AD_HOC_PERMISSION);
             }
             else {
                 newAdHocPermission.setActionRequested(adHocRoutePerson.getActionRequested());
-                newAdHocPermission.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
+                newAdHocPermission.setAdhocTypeCode(CGConstants.AD_HOC_APPROVER);
             }
             newAdHocPermission.setUser(user);
             newAdHocPermission.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
@@ -173,11 +173,11 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         if (rulePassed) {
             AdhocWorkgroup newAdHocWorkgroup = new AdhocWorkgroup(adHocRouteWorkgroup.getId());
             if (adHocRouteWorkgroup.getActionRequested() == null) {
-                newAdHocWorkgroup.setAdhocTypeCode(KraConstants.AD_HOC_PERMISSION);
+                newAdHocWorkgroup.setAdhocTypeCode(CGConstants.AD_HOC_PERMISSION);
             }
             else {
                 newAdHocWorkgroup.setActionRequested(adHocRouteWorkgroup.getActionRequested());
-                newAdHocWorkgroup.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
+                newAdHocWorkgroup.setAdhocTypeCode(CGConstants.AD_HOC_APPROVER);
             }
             newAdHocWorkgroup.setPermissionCode(researchForm.getNewAdHocWorkgroupPermissionCode());
             newAdHocWorkgroup.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
@@ -244,15 +244,15 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
 
         if (researchForm.getNewAdHocOrg().getFiscalCampusCode() == null) {
             // Add page error.
-            GlobalVariables.getErrorMap().putError("newAdHocOrg", KraKeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
+            GlobalVariables.getErrorMap().putError("newAdHocOrg", CGKeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
         }
         else {
             AdhocOrg newAdHocOrg = researchForm.getNewAdHocOrg();
             if (newAdHocOrg.getActionRequested() == null) {
-                newAdHocOrg.setAdhocTypeCode(KraConstants.AD_HOC_PERMISSION);
+                newAdHocOrg.setAdhocTypeCode(CGConstants.AD_HOC_PERMISSION);
             }
             else {
-                newAdHocOrg.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
+                newAdHocOrg.setAdhocTypeCode(CGConstants.AD_HOC_APPROVER);
             }
             newAdHocOrg.setPersonAddedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             newAdHocOrg.setAddedByPerson(SpringContext.getBean(WebAuthenticationService.class).getNetworkId(request));

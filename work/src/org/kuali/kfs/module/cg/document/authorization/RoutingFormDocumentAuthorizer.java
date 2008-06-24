@@ -24,8 +24,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
@@ -63,8 +63,8 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
             if (u.getPersonUniversalIdentifier().equals(person.getPersonUniversalIdentifier())) {
                 person.refresh();
                 String role = person.getPersonRole().getPersonRoleCode();
-                if (KraConstants.PROJECT_DIRECTOR_CODE.equals(role) || KraConstants.CO_PROJECT_DIRECTOR_CODE.equals(role)) {
-                    if (workflowDocument.getRouteHeader().getDocRouteLevel() > KraConstants.projectDirectorRouteLevel) {
+                if (CGConstants.PROJECT_DIRECTOR_CODE.equals(role) || CGConstants.CO_PROJECT_DIRECTOR_CODE.equals(role)) {
+                    if (workflowDocument.getRouteHeader().getDocRouteLevel() > CGConstants.projectDirectorRouteLevel) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                     }
                     else {
@@ -73,7 +73,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
                     return this.finalizeEditMode(routingFormDocument, permissionCode);
                 }
-                if (KraConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE.equals(role) || KraConstants.CONTACT_PERSON_PROPOSAL_CODE.equals(role)) {
+                if (CGConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE.equals(role) || CGConstants.CONTACT_PERSON_PROPOSAL_CODE.equals(role)) {
                     permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                 }
             }
@@ -111,9 +111,9 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
         RoutingFormDocument rfd = (RoutingFormDocument) researchDocument;
         if (rfd.getRoutingFormBudgetNumber() != null) {
-            editModes.put(KraConstants.AuthorizationConstants.BUDGET_LINKED, "TRUE");
-            if (!GlobalVariables.getMessageList().contains(KraKeyConstants.BUDGET_OVERRIDE))
-                GlobalVariables.getMessageList().add(0, KraKeyConstants.BUDGET_OVERRIDE);
+            editModes.put(CGConstants.AuthorizationConstants.BUDGET_LINKED, "TRUE");
+            if (!GlobalVariables.getMessageList().contains(CGKeyConstants.BUDGET_OVERRIDE))
+                GlobalVariables.getMessageList().add(0, CGKeyConstants.BUDGET_OVERRIDE);
         }
 
         return editModes;

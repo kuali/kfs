@@ -20,7 +20,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -40,8 +40,8 @@ public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends FinancialSyst
 
         // If the research risk exists in db, set read-only fields
         if (ObjectUtils.isNotNull(persistedResearchRisk) && persistedResearchRisk.getResearchRiskTypeCode() != null) {
-            auths.addReadonlyAuthField(KraPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
-            auths.addReadonlyAuthField(KraPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);
+            auths.addReadonlyAuthField(CGPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
+            auths.addReadonlyAuthField(CGPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);
         }
 
         return auths;

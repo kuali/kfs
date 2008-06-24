@@ -28,7 +28,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
 import org.kuali.kfs.module.cg.businessobject.BudgetGraduateAssistantRate;
@@ -202,10 +202,10 @@ public class BudgetServiceImpl implements BudgetService {
 
         StringBuffer codes = new StringBuffer();
         if (databaseBudgetDocument.getBudget().isInstitutionCostShareIndicator() && !budgetDocument.getBudget().isInstitutionCostShareIndicator()) {
-            codes.append(KraConstants.INSTITUTION_COST_SHARE_CODE);
+            codes.append(CGConstants.INSTITUTION_COST_SHARE_CODE);
         }
         if (databaseBudgetDocument.getBudget().isBudgetThirdPartyCostShareIndicator() && !budgetDocument.getBudget().isBudgetThirdPartyCostShareIndicator()) {
-            codes.append(KraConstants.THIRD_PARTY_COST_SHARE_CODE);
+            codes.append(CGConstants.THIRD_PARTY_COST_SHARE_CODE);
         }
         return codes.toString();
     }

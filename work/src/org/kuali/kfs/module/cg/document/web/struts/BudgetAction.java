@@ -37,8 +37,8 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.businessobject.Budget;
@@ -110,7 +110,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         // Logic for DocCancelQuestion.
         if (question == null) {
             // Ask for confirmation.
-            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, KraConstants.QUESTION_ROUTE_DOCUMENT_TO_COMPLETE, KFSConstants.CONFIRMATION_QUESTION, "route", "0");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, CGConstants.QUESTION_ROUTE_DOCUMENT_TO_COMPLETE, KFSConstants.CONFIRMATION_QUESTION, "route", "0");
         }
 
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -192,7 +192,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         // Set default task name
-        String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.DEFAULT_BUDGET_TASK_NAME);
+        String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.DEFAULT_BUDGET_TASK_NAME);
         budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " " + (budgetForm.getBudgetDocument().getTaskListSize() + 1));
 
         // New task defaults to on campus
@@ -337,7 +337,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     protected String buildBudgetConfirmationQuestion(String confirmationContext, KualiConfigurationService kualiConfiguration) throws Exception {
-        return StringUtils.replace(kualiConfiguration.getPropertyString(KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", confirmationContext);
+        return StringUtils.replace(kualiConfiguration.getPropertyString(CGKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", confirmationContext);
     }
 
     /**
@@ -373,9 +373,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     protected static void setupAcademicYearSubdivisionConstants(BudgetForm budgetForm) throws Exception {
-        List<String> academicYearSubdivisionNames = SpringContext.getBean(ParameterService.class).getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
+        List<String> academicYearSubdivisionNames = SpringContext.getBean(ParameterService.class).getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES);
         budgetForm.setAcademicYearSubdivisionNames(academicYearSubdivisionNames);
-        budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
+        budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
     }
 
     private static List<AdHocRoutePerson> convertToAdHocRoutePersons(List<AdhocPerson> adHocPermissions) {
@@ -403,8 +403,8 @@ public class BudgetAction extends ResearchDocumentActionBase {
     }
 
     protected static void setupBudgetCostSharePermissionDisplay(BudgetForm budgetForm) {
-        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
-        if (costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_OPTIONAL)) {
+        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        if (costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_OPTIONAL)) {
             budgetForm.setDisplayCostSharePermission(true);
         }
     }

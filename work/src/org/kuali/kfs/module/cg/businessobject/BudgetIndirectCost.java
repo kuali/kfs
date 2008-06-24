@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -73,9 +73,9 @@ public class BudgetIndirectCost extends PersistableBusinessObjectBase {
         this.setBudgetManualMtdcIndicator(false);
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        this.setBudgetPurposeCode(parameterService.getParameterValue(BudgetDocument.class, KraConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
-        this.setBudgetBaseCode(parameterService.getParameterValue(BudgetDocument.class, KraConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
-        this.setBudgetManualRateIndicator(parameterService.getParameterValue(BudgetDocument.class, KraConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetPurposeCode(parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetBaseCode(parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetManualRateIndicator(parameterService.getParameterValue(BudgetDocument.class, CGConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME));
 
         this.budgetTaskPeriodIndirectCostItems = new ArrayList();
     }

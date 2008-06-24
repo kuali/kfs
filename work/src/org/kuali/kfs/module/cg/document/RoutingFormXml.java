@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
@@ -125,7 +125,7 @@ public class RoutingFormXml {
     private static Element createAgencyElement(RoutingFormAgency routingFormAgency, String routingFormAnnouncementNumber, Document xmlDoc) {
         Element agencyElement = xmlDoc.createElement("AGENCY");
 
-        DateFormat dateFormatter = new SimpleDateFormat(KraConstants.SHORT_TIMESTAMP_FORMAT);
+        DateFormat dateFormatter = new SimpleDateFormat(CGConstants.SHORT_TIMESTAMP_FORMAT);
 
         if (routingFormAgency.getAgency() != null) {
             Element agencyDataElement = xmlDoc.createElement("AGENCY_DATA");
@@ -175,7 +175,7 @@ public class RoutingFormXml {
     private static Element createPrinciplesElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element principlesElement = xmlDoc.createElement("PRINCIPLES");
 
-        final String PERSON_ROLE_CODE_COPD = SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR);
+        final String PERSON_ROLE_CODE_COPD = SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR);
 
         RoutingFormMainPageService routingFormMainPageService = SpringContext.getBean(RoutingFormMainPageService.class);
         List<RoutingFormPersonnel> routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel();
@@ -337,7 +337,7 @@ public class RoutingFormXml {
     private static Element createAmountsDatesElement(RoutingFormBudget routingFormBudget, Document xmlDoc) {
         Element amountsDatesElement = xmlDoc.createElement("AMOUNTS_DATES");
 
-        DateFormat dateFormatter = new SimpleDateFormat(KraConstants.SHORT_TIMESTAMP_FORMAT);
+        DateFormat dateFormatter = new SimpleDateFormat(CGConstants.SHORT_TIMESTAMP_FORMAT);
 
         Element directCostsDescription = xmlDoc.createElement("DIRECT_COSTS");
         directCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetDirectAmount())));
@@ -420,12 +420,12 @@ public class RoutingFormXml {
         Element researchRisksElement = xmlDoc.createElement("RESEARCH_RISKS");
 
         boolean anyStudySelected = false;
-        DateFormat dateFormatter = new SimpleDateFormat(KraConstants.SHORT_TIMESTAMP_FORMAT);
+        DateFormat dateFormatter = new SimpleDateFormat(CGConstants.SHORT_TIMESTAMP_FORMAT);
         RoutingFormApprovalStatusValuesFinder routingFormApprovalStatusValuesFinder = new RoutingFormApprovalStatusValuesFinder();
         RoutingFormStudyReviewCodeValuesFinder routingFormStudyReviewCodeValuesFinder = new RoutingFormStudyReviewCodeValuesFinder();
 
         for (RoutingFormResearchRisk routingFormResearchRisk : routingFormDocument.getRoutingFormResearchRisks()) {
-            if (KraConstants.RESEARCH_RISK_TYPE_DESCRIPTION.equals(routingFormResearchRisk.getResearchRiskType().getControlAttributeTypeCode())) {
+            if (CGConstants.RESEARCH_RISK_TYPE_DESCRIPTION.equals(routingFormResearchRisk.getResearchRiskType().getControlAttributeTypeCode())) {
                 Element researchRiskElement = xmlDoc.createElement("RESEARCH_RISK");
 
                 researchRiskElement.setAttribute("SELECTED", formatBoolean(StringUtils.isNotEmpty(routingFormResearchRisk.getResearchRiskDescription())));
@@ -438,7 +438,7 @@ public class RoutingFormXml {
 
                 researchRisksElement.appendChild(researchRiskElement);
             }
-            else if (KraConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS.equals(routingFormResearchRisk.getResearchRiskType().getControlAttributeTypeCode()) || KraConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS.equals(routingFormResearchRisk.getResearchRiskType().getControlAttributeTypeCode())) {
+            else if (CGConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS.equals(routingFormResearchRisk.getResearchRiskType().getControlAttributeTypeCode()) || CGConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS.equals(routingFormResearchRisk.getResearchRiskType().getControlAttributeTypeCode())) {
                 Element researchRiskElement = xmlDoc.createElement("RESEARCH_RISK");
 
                 boolean selected = routingFormResearchRisk.getResearchRiskStudies().size() > 0;
@@ -632,7 +632,7 @@ public class RoutingFormXml {
             }
             else if (actionRequest.getUserVO().getEmplId().equals(actionRequest.getActionTaken().getUserVO().getEmplId())) {
                 // Action was taken, show date
-                DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
+                DateFormat dateFormat = new SimpleDateFormat(CGConstants.LONG_TIMESTAMP_FORMAT);
                 ActionTakenVO actionTaken = actionRequest.getActionTaken();
                 UserVO user = actionTaken.getUserVO();
                 String actionName = ObjectUtils.toString(EdenConstants.ACTION_TAKEN_CD.get(actionTaken.getActionTaken()));
@@ -716,7 +716,7 @@ public class RoutingFormXml {
     private static Element createCommentsElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element commentsElement = xmlDoc.createElement("COMMENTS");
 
-        DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
+        DateFormat dateFormat = new SimpleDateFormat(CGConstants.LONG_TIMESTAMP_FORMAT);
         Iterator notes = routingFormDocument.getDocumentHeader().getBoNotes().iterator();
 
         while (notes.hasNext()) {

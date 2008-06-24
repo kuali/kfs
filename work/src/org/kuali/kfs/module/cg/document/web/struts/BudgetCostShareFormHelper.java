@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetAbstractCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetAbstractPeriodCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
@@ -146,7 +146,7 @@ public class BudgetCostShareFormHelper {
             // With the if statement below and the hashMap we aggregate nonpersonnel items that span several periods. This is
             // similar to
             // what can be found in BudgetNonpersonnelCopyOverHelper.NonpersonnelCopyOverCategoryHelper.addBudgetNonpersonnelItem.
-            if (KraConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode())) {
+            if (CGConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode())) {
                 int periodIndex = budgetPeriodService.getPeriodIndex(budgetNonpersonnel.getBudgetPeriodSequenceNumber(), periods);
 
                 // Update total that displays at the bottom of the page

@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 
 public class RoutingFormStudyReviewCodeValuesFinder extends KeyValuesBase {
 
@@ -33,7 +33,7 @@ public class RoutingFormStudyReviewCodeValuesFinder extends KeyValuesBase {
         List StudyReviewKeyLabelPairList = new ArrayList();
         StudyReviewKeyLabelPairList.add(new KeyLabelPair("F", "FULL"));
         StudyReviewKeyLabelPairList.add(new KeyLabelPair("E", "EXPEDITED"));
-        StudyReviewKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT, "EXEMPT"));
+        StudyReviewKeyLabelPairList.add(new KeyLabelPair(CGConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT, "EXEMPT"));
 
         return StudyReviewKeyLabelPairList;
     }

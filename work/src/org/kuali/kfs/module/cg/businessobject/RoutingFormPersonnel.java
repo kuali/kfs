@@ -22,7 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -736,13 +736,13 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
     public boolean isProjectDirector() {
-        final String PERSON_ROLE_CODE_PD = getParameterService().getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
+        final String PERSON_ROLE_CODE_PD = getParameterService().getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
 
         return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }
 
     public boolean isContactPerson() {
-        final String PERSON_ROLE_CODE_CP = getParameterService().getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_CONTACT_PERSON);
+        final String PERSON_ROLE_CODE_CP = getParameterService().getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_CONTACT_PERSON);
 
         return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());
     }

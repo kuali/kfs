@@ -25,7 +25,7 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.format.PhoneNumberFormatter;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganizationCreditPercent;
@@ -267,7 +267,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
 
     /**
      * Lazy gets the systemParametersMap attribute. Use it on a jsp or tag as such:
-     * ${KualiForm.systemParametersMap[KraConstants.foobar]}
+     * ${KualiForm.systemParametersMap[CGConstants.foobar]}
      * 
      * @return Returns the systemParametersMap.
      */
@@ -276,15 +276,15 @@ public class RoutingForm extends ResearchDocumentFormBase {
             systemParametersMap = new HashMap();
 
             ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-            systemParametersMap.put(KraConstants.SUBMISSION_TYPE_CHANGE, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.SUBMISSION_TYPE_CHANGE));
-            systemParametersMap.put(KraConstants.PROJECT_TYPE_OTHER, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_TYPE_OTHER));
-            systemParametersMap.put(KraConstants.PURPOSE_RESEARCH, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PURPOSE_RESEARCH));
-            systemParametersMap.put(KraConstants.PURPOSE_OTHER, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PURPOSE_OTHER));
+            systemParametersMap.put(CGConstants.SUBMISSION_TYPE_CHANGE, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.SUBMISSION_TYPE_CHANGE));
+            systemParametersMap.put(CGConstants.PROJECT_TYPE_OTHER, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.PROJECT_TYPE_OTHER));
+            systemParametersMap.put(CGConstants.PURPOSE_RESEARCH, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.PURPOSE_RESEARCH));
+            systemParametersMap.put(CGConstants.PURPOSE_OTHER, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.PURPOSE_OTHER));
 
-            systemParametersMap.put(KraConstants.CO_PROJECT_DIRECTOR_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.CO_PROJECT_DIRECTOR_PARAM));
-            systemParametersMap.put(KraConstants.PROJECT_DIRECTOR_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PROJECT_DIRECTOR_PARAM));
-            systemParametersMap.put(KraConstants.OTHER_PERSON_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OTHER_PERSON_PARAM));
-            systemParametersMap.put(KraConstants.CONTACT_PERSON_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.CONTACT_PERSON_PARAM));
+            systemParametersMap.put(CGConstants.CO_PROJECT_DIRECTOR_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.CO_PROJECT_DIRECTOR_PARAM));
+            systemParametersMap.put(CGConstants.PROJECT_DIRECTOR_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.PROJECT_DIRECTOR_PARAM));
+            systemParametersMap.put(CGConstants.OTHER_PERSON_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.OTHER_PERSON_PARAM));
+            systemParametersMap.put(CGConstants.CONTACT_PERSON_PARAM, parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.CONTACT_PERSON_PARAM));
         }
 
         return systemParametersMap;

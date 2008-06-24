@@ -19,9 +19,9 @@
     <bean id="camsModule" parent="camsModule-parentBean" />
 
     <bean id="camsModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="cams" />
+		<property name="moduleId" value="cam" />
 		<property name="moduleName" value="Capital Asset Management" />
-		<property name="moduleCode" value="CM" />
+		<property name="moduleCode" value="CAM" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="camsModuleAuthorizer" />
 		<property name="dataDictionaryPackages">

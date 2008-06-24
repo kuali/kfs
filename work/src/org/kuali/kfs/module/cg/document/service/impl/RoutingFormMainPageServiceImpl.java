@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.DueDateType;
 import org.kuali.kfs.module.cg.businessobject.PersonRole;
 import org.kuali.kfs.module.cg.businessobject.ProjectType;
@@ -111,7 +111,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      * @see org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService#checkCoPdExistance(java.util.List)
      */
     public boolean checkCoPdExistance(List<RoutingFormPersonnel> routingFormPersonnel) {
-        final String CO_PD_ROLE_CODE = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR);
+        final String CO_PD_ROLE_CODE = parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_CO_PROJECT_DIRECTOR);
 
         for (RoutingFormPersonnel routingFormPerson : routingFormPersonnel) {
             if (routingFormPerson.getPersonRoleCode().equals(CO_PD_ROLE_CODE)) {

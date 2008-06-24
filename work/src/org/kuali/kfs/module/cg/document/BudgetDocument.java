@@ -33,7 +33,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
@@ -471,7 +471,7 @@ public class BudgetDocument extends ResearchDocumentBase {
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
 
-        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
 
         StringBuffer xml = new StringBuffer();
         if (encloseContent) {
@@ -481,7 +481,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         List costShareItems = this.getBudget().getInstitutionCostShareItems();
         for (Iterator iter = costShareItems.iterator(); iter.hasNext();) {
             BudgetInstitutionCostShare costShare = (BudgetInstitutionCostShare) iter.next();
-            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
+            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 if (costShare.getChartOfAccountsCode() != null) {
                     xml.append(costShare.getChartOfAccountsCode());

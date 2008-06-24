@@ -33,8 +33,8 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormAgency;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormOrganization;
@@ -125,13 +125,13 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         routingFormDocument.getRoutingFormAgency().refreshReferenceObject("agency");
         if (!StringUtils.isBlank(routingFormDocument.getRoutingFormAgency().getAgencyNumber()) && routingFormDocument.getRoutingFormAgency().getAgency() ==  null) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("routingFormAgency.agencyNumber", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(RoutingFormAgency.class, "agencyNumber") });
+            GlobalVariables.getErrorMap().putError("routingFormAgency.agencyNumber", CGKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(RoutingFormAgency.class, "agencyNumber") });
         }
 
         routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
         if (!StringUtils.isBlank(routingFormDocument.getAgencyFederalPassThroughNumber()) && routingFormDocument.getFederalPassThroughAgency() ==  null) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("agencyFederalPassThroughNumber", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(RoutingFormDocument.class, "agencyFederalPassThroughNumber") });
+            GlobalVariables.getErrorMap().putError("agencyFederalPassThroughNumber", CGKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(RoutingFormDocument.class, "agencyFederalPassThroughNumber") });
         }
 
         
@@ -168,7 +168,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
             if (costShare.getRoutingFormCostShareAmount() == null || !costShare.getRoutingFormCostShareAmount().isPositive()) {
                 // Amount is zero or less
                 valid = false;
-                errorMap.putError("routingFormCostShareAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_POSITIVE_ONLY);
+                errorMap.putError("routingFormCostShareAmount", CGKeyConstants.ERROR_INVALID_AMOUNT_POSITIVE_ONLY);
             }
 
             if (costShare.getOrganization() != null) {
@@ -179,7 +179,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     else {
                         // org already in list
                         valid = false;
-                        errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_ALREADY_EXISTS_ON_RF, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode());
+                        errorMap.putError("organizationCode", CGKeyConstants.ERROR_ORG_ALREADY_EXISTS_ON_RF, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode());
 
                     }
                 }
@@ -196,14 +196,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     else {
                         // account already in list
                         valid = false;
-                        errorMap.putError("accountNumber", KraKeyConstants.ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode(), costShare.getAccountNumber());
+                        errorMap.putError("accountNumber", CGKeyConstants.ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode(), costShare.getAccountNumber());
                     }
                 }
             }
             else {
                 // organization doesn't exist
                 valid = false;
-                errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_NOT_FOUND, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode());
+                errorMap.putError("organizationCode", CGKeyConstants.ERROR_ORG_NOT_FOUND, costShare.getChartOfAccountsCode(), costShare.getOrganizationCode());
             }
             errorMap.removeFromErrorPath("routingFormInstitutionCostShare[" + i++ + "]");
         }
@@ -237,7 +237,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
             if (organization.getOrganization() == null) {
                 // organization does not exist
                 valid = false;
-                errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_NOT_FOUND, organization.getChartOfAccountsCode(), organization.getOrganizationCode());
+                errorMap.putError("organizationCode", CGKeyConstants.ERROR_ORG_NOT_FOUND, organization.getChartOfAccountsCode(), organization.getOrganizationCode());
             }
             else {
                 if (!organizations.contains(organization.getOrganization())) {
@@ -246,7 +246,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 else {
                     // organization already exists on RF
                     valid = false;
-                    errorMap.putError("organizationCode", KraKeyConstants.ERROR_ORG_ALREADY_EXISTS_ON_RF, organization.getChartOfAccountsCode(), organization.getOrganizationCode());
+                    errorMap.putError("organizationCode", CGKeyConstants.ERROR_ORG_ALREADY_EXISTS_ON_RF, organization.getChartOfAccountsCode(), organization.getOrganizationCode());
                 }
             }
             errorMap.removeFromErrorPath("routingFormOrganization[" + i++ + "]");
@@ -282,7 +282,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
             if (subcontractor.getRoutingFormSubcontractorAmount() == null || subcontractor.getRoutingFormSubcontractorAmount().isNegative()) {
                 // Amount is negative
                 valid = false;
-                errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_NOT_NEGATIVE);
+                errorMap.putError("routingFormSubcontractorAmount", CGKeyConstants.ERROR_INVALID_AMOUNT_NOT_NEGATIVE);
             }
 
             if (subcontractor.getRoutingFormSubcontractorNumber() != null) {
@@ -290,7 +290,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 if (subcontractor.getSubcontractor() == null) {
                     // subcontractor doesn't exist
                     valid = false;
-                    errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_NOT_FOUND);
+                    errorMap.putError("routingFormSubcontractorAmount", CGKeyConstants.ERROR_SUBCONTRACTOR_NOT_FOUND);
                 }
                 else {
                     if (!subcontractors.contains(subcontractor.getSubcontractor())) {
@@ -299,13 +299,13 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     else {
                         // subcontractor already exists on RF
                         valid = false;
-                        errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF);
+                        errorMap.putError("routingFormSubcontractorAmount", CGKeyConstants.ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF);
                     }
                 }
             }
             else {
                 valid = false;
-                errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_NOT_SELECTED);
+                errorMap.putError("routingFormSubcontractorAmount", CGKeyConstants.ERROR_SUBCONTRACTOR_NOT_SELECTED);
             }
 
             errorMap.removeFromErrorPath("routingFormSubcontractor[" + i++ + "]");
@@ -334,12 +334,12 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
             if (person.getPersonUniversalIdentifier() == null && !person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_PERSON_NOT_NAMED);
+                errorMap.putError("personUniversalIdentifier", CGKeyConstants.ERROR_PERSON_NOT_NAMED);
             }
 
             if (person.getChartOfAccountsCode() == null || person.getOrganizationCode() == null) {
                 valid = false;
-                errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_MISSING, "Routing Form Personnel Chart and/or Org");
+                errorMap.putError("personUniversalIdentifier", CGKeyConstants.ERROR_MISSING, "Routing Form Personnel Chart and/or Org");
             }
 
             errorMap.removeFromErrorPath("routingFormPersonnel[" + i + "]");
@@ -371,9 +371,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
-        String humanSubjectsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
+        String humanSubjectsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE);
 
-        String animalsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
+        String animalsActiveCode = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.RESEARCH_RISKS_ANIMALS_ACTIVE_CODE);
 
         // Setup dates.
         Date createDate = routingFormDocument.getRoutingFormCreateDate();
@@ -391,39 +391,39 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 errorMap.addToErrorPath("researchRiskStudy[" + j + "]");
 
                 // If study is approved, approval date is required.
-                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode()) && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
+                if (CGConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode()) && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
                     valid = false;
-                    errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REQUIRED);
+                    errorMap.putError("researchRiskStudyApprovalDate", CGKeyConstants.ERROR_APPROVAL_DATE_REQUIRED);
                 }
 
                 // If study is not approved, approval date and expiration date must be empty.
-                if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())) {
+                if (!CGConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())) {
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                         valid = false;
-                        errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REMOVE);
+                        errorMap.putError("researchRiskStudyApprovalDate", CGKeyConstants.ERROR_APPROVAL_DATE_REMOVE);
                     }
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyExpirationDate())) {
                         valid = false;
-                        errorMap.putError("researchRiskStudyExpirationDate", KraKeyConstants.ERROR_EXPIRATION_DATE_REMOVE);
+                        errorMap.putError("researchRiskStudyExpirationDate", CGKeyConstants.ERROR_EXPIRATION_DATE_REMOVE);
                     }
                 }
 
                 // If review status is 'exempt', exception number is required.
-                if (KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode()) && StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
+                if (CGConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode()) && StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
                     valid = false;
-                    errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REQUIRED);
+                    errorMap.putError("researchRiskExemptionNumber", CGKeyConstants.ERROR_EXEMPTION_NUMBER_REQUIRED);
                 }
 
                 // If review status in not 'exempt', exception number should be blank.
-                if (!KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode()) && !StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
+                if (!CGConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode()) && !StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
                     valid = false;
-                    errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REMOVE);
+                    errorMap.putError("researchRiskExemptionNumber", CGKeyConstants.ERROR_EXEMPTION_NUMBER_REMOVE);
                 }
 
                 // Expiration date must not be earlier than approval date.
                 if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && ObjectUtils.isNotNull(study.getResearchRiskStudyExpirationDate()) && study.getResearchRiskStudyExpirationDate().before(study.getResearchRiskStudyApprovalDate())) {
                     valid = false;
-                    errorMap.putError("researchRiskStudyExpirationDate", KraKeyConstants.ERROR_EXPIRATION_DATE_TOO_EARLY);
+                    errorMap.putError("researchRiskStudyExpirationDate", CGKeyConstants.ERROR_EXPIRATION_DATE_TOO_EARLY);
                 }
 
                 // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must
@@ -433,7 +433,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     if (dateDiff > 0) {
                         // Seems counterintuitive that 'before' is the proper operator here - but it is.
                         valid = false;
-                        errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD);
+                        errorMap.putError("researchRiskStudyApprovalDate", CGKeyConstants.ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD);
                     }
                 }
 
@@ -443,7 +443,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     int dateDiff = SpringContext.getBean(DateTimeService.class).dateDiff(study.getResearchRiskStudyApprovalDate(), animalsEarliestApprovalDate, false);
                     if (dateDiff > 0) {
                         valid = false;
-                        errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD);
+                        errorMap.putError("researchRiskStudyApprovalDate", CGKeyConstants.ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD);
                     }
                 }
 
@@ -489,7 +489,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 new Long(routingFormDocument.getRoutingFormBudgetNumber());
             }
             catch (NumberFormatException e) {
-                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
+                errorMap.putError("routingFormBudgetNumber", CGKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
                 return false;
             }
 
@@ -502,7 +502,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     BudgetDocumentAuthorizer budgetDocumentAuthorizer = new BudgetDocumentAuthorizer();
                     Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getFinancialSystemUser());
                     if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) || (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
-                        errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
+                        errorMap.putError("routingFormBudgetNumber1", CGKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                         return false;
                     }
 
@@ -515,7 +515,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     for (RoutingFormDocument rfd : matching) {
                         if (!rfd.getDocumentNumber().equals(routingFormDocument.getDocumentNumber())) {
                             valid = false;
-                            errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_BUDGET_ALREADY_LINKED, new String[] { routingFormDocument.getRoutingFormBudgetNumber(), rfd.getDocumentNumber() });
+                            errorMap.putError("routingFormBudgetNumber", CGKeyConstants.ERROR_BUDGET_ALREADY_LINKED, new String[] { routingFormDocument.getRoutingFormBudgetNumber(), rfd.getDocumentNumber() });
                             break;
                         }
                     }
@@ -525,12 +525,12 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 }
                 else {
                     valid = false;
-                    errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
+                    errorMap.putError("routingFormBudgetNumber", CGKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
                 }
             }
             else {
                 valid = false;
-                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
+                errorMap.putError("routingFormBudgetNumber", CGKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST, new String[] { routingFormDocument.getRoutingFormBudgetNumber() });
             }
 
             // check selected periods
@@ -540,7 +540,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     for (int i = 0; i < selectedBudgetPeriods.length; i++) {
                         if (i != 0 && Integer.valueOf(selectedBudgetPeriods[i]) != nextPeriodNumberShouldBe) { // first time
                             valid = false;
-                            errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
+                            errorMap.putError("routingFormBudgetNumber1", CGKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                             break;
                         }
                         nextPeriodNumberShouldBe = Integer.valueOf(selectedBudgetPeriods[i]) + 1;
@@ -548,7 +548,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 }
                 else {
                     valid = false;
-                    errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_AT_LEAST_ONE_PERIOD);
+                    errorMap.putError("routingFormBudgetNumber1", CGKeyConstants.ERROR_AT_LEAST_ONE_PERIOD);
                 }
             }
         }

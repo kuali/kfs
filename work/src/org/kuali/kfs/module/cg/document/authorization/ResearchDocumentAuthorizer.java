@@ -30,7 +30,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowGroupService;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
@@ -63,7 +63,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         // Check ad-hoc user permissions
         AdhocPerson budgetAdHocPermission = permissionsService.getAdHocPerson(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
         if (budgetAdHocPermission != null) {
-            if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getPermissionCode())) {
+            if (CGConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else {
@@ -87,7 +87,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
 
             if (!ObjectUtils.isNull(workgroup)) {
                 if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
-                    if (adhocWorkgroup.getPermissionCode().equals(KraConstants.PERMISSION_MOD_CODE)) {
+                    if (adhocWorkgroup.getPermissionCode().equals(CGConstants.PERMISSION_MOD_CODE)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
                         break;
                     }
@@ -120,11 +120,11 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         }
 
         // Check ad-hoc org permissions (mod first, then read)
-        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_MOD_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(CGConstants.PERMISSION_MOD_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
 
-        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_READ_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(CGConstants.PERMISSION_READ_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
 

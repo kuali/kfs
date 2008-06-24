@@ -22,8 +22,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
@@ -45,13 +45,13 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
 
         // Currently we only want to run one check per event for BudgetDocument.
         // We can look at event.questionContext to determine if a check has run already.
-        if (StringUtils.isBlank(event.getQuestionContext()) || question.equals(KraConstants.DELETE_PERIOD_QUESTION_ID)) {
+        if (StringUtils.isBlank(event.getQuestionContext()) || question.equals(CGConstants.DELETE_PERIOD_QUESTION_ID)) {
             preRulesOK = confirmDeletePeriod(budgetDocument);
         }
-        if (StringUtils.isBlank(event.getQuestionContext()) || question.equals(KraConstants.DELETE_TASK_QUESTION_ID)) {
+        if (StringUtils.isBlank(event.getQuestionContext()) || question.equals(CGConstants.DELETE_TASK_QUESTION_ID)) {
             preRulesOK = confirmDeleteTask(budgetDocument);
         }
-        if (StringUtils.isBlank(event.getQuestionContext()) || question.equals(KraConstants.DELETE_COST_SHARE_QUESTION_ID)) {
+        if (StringUtils.isBlank(event.getQuestionContext()) || question.equals(CGConstants.DELETE_COST_SHARE_QUESTION_ID)) {
             preRulesOK = confirmDeleteCostShare(budgetDocument);
         }
 
@@ -92,9 +92,9 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
 
             BudgetPeriod periodToDelete = budgetDocument.getBudget().getPeriod(Integer.parseInt(event.getQuestionContext()));
 
-            String questionText = StringUtils.replace(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", periodToDelete.getBudgetPeriodLabel());
+            String questionText = StringUtils.replace(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CGKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", periodToDelete.getBudgetPeriodLabel());
 
-            boolean deletePeriod = super.askOrAnalyzeYesNoQuestion(KraConstants.DELETE_PERIOD_QUESTION_ID, questionText);
+            boolean deletePeriod = super.askOrAnalyzeYesNoQuestion(CGConstants.DELETE_PERIOD_QUESTION_ID, questionText);
 
             if (deletePeriod) {
 
@@ -129,9 +129,9 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
 
             BudgetTask taskToDelete = budgetDocument.getBudget().getTask(Integer.parseInt(event.getQuestionContext()));
 
-            String questionText = StringUtils.replace(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", taskToDelete.getBudgetTaskName());
+            String questionText = StringUtils.replace(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CGKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", taskToDelete.getBudgetTaskName());
 
-            boolean deleteTask = super.askOrAnalyzeYesNoQuestion(KraConstants.DELETE_TASK_QUESTION_ID, questionText);
+            boolean deleteTask = super.askOrAnalyzeYesNoQuestion(CGConstants.DELETE_TASK_QUESTION_ID, questionText);
 
             if (deleteTask) {
                 budgetDocument.getBudget().getTasks().remove(taskToDelete);
@@ -162,19 +162,19 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
 
             // Build our confirmation message with proper context.
             StringBuffer codeText = new StringBuffer();
-            if (costShareRemoved.contains(KraConstants.INSTITUTION_COST_SHARE_CODE)) {
+            if (costShareRemoved.contains(CGConstants.INSTITUTION_COST_SHARE_CODE)) {
                 codeText.append(dataDictionaryService.getAttributeLabel(Budget.class, "institutionCostShareIndicator"));
             }
-            if (costShareRemoved.contains(KraConstants.THIRD_PARTY_COST_SHARE_CODE)) {
-                if (costShareRemoved.indexOf(KraConstants.THIRD_PARTY_COST_SHARE_CODE) != 0) {
+            if (costShareRemoved.contains(CGConstants.THIRD_PARTY_COST_SHARE_CODE)) {
+                if (costShareRemoved.indexOf(CGConstants.THIRD_PARTY_COST_SHARE_CODE) != 0) {
                     codeText.append(" and ");
                 }
                 codeText.append(dataDictionaryService.getAttributeLabel(Budget.class, "budgetThirdPartyCostShareIndicator"));
             }
 
-            String questionText = StringUtils.replace(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", codeText.toString());
+            String questionText = StringUtils.replace(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CGKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", codeText.toString());
 
-            boolean deleteCostShare = super.askOrAnalyzeYesNoQuestion(KraConstants.DELETE_COST_SHARE_QUESTION_ID, questionText);
+            boolean deleteCostShare = super.askOrAnalyzeYesNoQuestion(CGConstants.DELETE_COST_SHARE_QUESTION_ID, questionText);
 
             if (!deleteCostShare) {
                 event.setActionForwardName(KFSConstants.MAPPING_BASIC);

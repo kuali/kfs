@@ -26,7 +26,7 @@
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.PERMISSIONS_HEADER_TAB}" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.PERMISSIONS_HEADER_TAB}" altText="page help"/>
 	</div>
 
 	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"

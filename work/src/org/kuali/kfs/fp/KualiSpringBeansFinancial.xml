@@ -19,8 +19,8 @@
     <bean id="financialModule" parent="financialModule-parentBean" />
 
     <bean id="financialModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="financial" />
-		<property name="moduleName" value="Financial Transaction Processing" />
+		<property name="moduleId" value="fp" />
+		<property name="moduleName" value="Financial Processing" />
 		<property name="moduleCode" value="FP" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="financialModuleAuthorizer" />

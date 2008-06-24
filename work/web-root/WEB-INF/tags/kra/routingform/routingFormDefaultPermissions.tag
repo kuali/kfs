@@ -31,9 +31,9 @@
             </tr>
             <c:forEach items="${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status">
 				<c:if test="${!person.personToBeNamedIndicator 
-								&& (person.personRoleCode == KraConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE 
-								|| person.personRoleCode == KraConstants.CONTACT_PERSON_PROPOSAL_CODE
-								|| person.personRoleCode == KraConstants.PROJECT_DIRECTOR_CODE)}">
+								&& (person.personRoleCode == CGConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE 
+								|| person.personRoleCode == CGConstants.CONTACT_PERSON_PROPOSAL_CODE
+								|| person.personRoleCode == CGConstants.PROJECT_DIRECTOR_CODE)}">
             		<tr>
             			<td>${person.user.personName}&nbsp;</td>
             			<td>${person.chartOfAccountsCode}&nbsp;</td>

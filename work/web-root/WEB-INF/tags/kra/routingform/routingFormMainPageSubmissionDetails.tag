@@ -123,7 +123,7 @@
 		              ${routingFormPurpose.purpose.purposeDescription}
 		            </label>
 		            <c:choose>
-		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[KraConstants.PURPOSE_RESEARCH]}">
+		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[CGConstants.PURPOSE_RESEARCH]}">
 		                <c:forEach items="${KualiForm.document.routingFormResearchTypeCodes}" var="routingFormResearchTypeCode" varStatus="status"> 
 		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].documentNumber" /> 
 		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].researchTypeCode" /> 
@@ -149,7 +149,7 @@
       		              </c:otherwise>
       		            </c:choose>
 		              </c:when>
-		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[KraConstants.PURPOSE_OTHER]}">
+		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[CGConstants.PURPOSE_OTHER]}">
 		                &nbsp;<kul:htmlControlAttribute property="document.routingFormOtherPurposeDescription" attributeEntry="${routingFormAttributes.routingFormOtherPurposeDescription}" readOnly="${viewOnly}"/>
 		              </c:when>
 		            </c:choose>

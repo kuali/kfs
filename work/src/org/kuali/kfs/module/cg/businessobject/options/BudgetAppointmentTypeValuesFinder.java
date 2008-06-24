@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AppointmentType;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetFringeRateService;
@@ -46,7 +46,7 @@ public class BudgetAppointmentTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         if (summerAppointmentType == null) {
-            summerAppointmentType = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
+            summerAppointmentType = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
         }
 
         List<AppointmentType> appointmentTypes = (List) SpringContext.getBean(BudgetFringeRateService.class).getDefaultFringeRates(); // getDefaultFringeRates

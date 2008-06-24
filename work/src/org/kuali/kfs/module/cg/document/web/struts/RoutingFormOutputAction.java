@@ -42,7 +42,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.ResearchDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormXml;
@@ -178,7 +178,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
      */
     private StreamSource pickStylesheet() throws IOException {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY) + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_PATH_PREFIX) + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_XSL_FILENAME);
+        String urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY) + parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.OUTPUT_PATH_PREFIX) + parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.OUTPUT_XSL_FILENAME);
 
         return new StreamSource(new URL(urlString).openConnection().getInputStream());
     }

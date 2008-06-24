@@ -24,7 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AppointmentType;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
@@ -68,7 +68,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
 
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentNumber) {
 
-        AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.DEFAULT_APPOINTMENT_TYPE)));
+        AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_APPOINTMENT_TYPE)));
 
         BudgetFringeRate defaultFringeRate = (BudgetFringeRate) businessObjectService.retrieve(new BudgetFringeRate(documentNumber, appointmentType.getAppointmentTypeCode()));
 

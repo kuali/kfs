@@ -31,7 +31,7 @@
           <%-- Need to expicitly reference description because kul:htmlControlAttribute doesn't fine it withing a referenceObject. --%>
           ${routingFormProjectType.projectType.projectTypeDescription}
         </label>
-        <c:if test="${routingFormProjectType.projectTypeCode eq KualiForm.systemParametersMap[KraConstants.PROJECT_TYPE_OTHER]}">
+        <c:if test="${routingFormProjectType.projectTypeCode eq KualiForm.systemParametersMap[CGConstants.PROJECT_TYPE_OTHER]}">
           &nbsp;<kul:htmlControlAttribute property="document.projectTypeOtherDescription" attributeEntry="${routingFormAttributes.projectTypeOtherDescription}" readOnly="${viewOnly}"/>
         </c:if>
       </td>

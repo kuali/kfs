@@ -30,8 +30,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
@@ -47,14 +47,14 @@ public class BudgetPersonnelRule {
 
     protected boolean runPersonnelAuditErrors(List personnel) {
         List<AuditError> personnelAuditErrors = new ArrayList<AuditError>();
-        String INVALID_STATUSES = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.PERSONNEL_STATUSES);
+        String INVALID_STATUSES = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PERSONNEL_STATUSES);
         for (Iterator iter = personnel.iterator(); iter.hasNext();) {
             BudgetUser person = (BudgetUser) iter.next();
             if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
-                personnelAuditErrors.add(new AuditError("document.budget.audit.personnel." + person.getPersonUniversalIdentifier() + ".status", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "personnel", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
+                personnelAuditErrors.add(new AuditError("document.budget.audit.personnel." + person.getPersonUniversalIdentifier() + ".status", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "personnel", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
                 if (person.isPersonProjectDirectorIndicator()) {
                     List<AuditError> parametersAuditErrors = new ArrayList<AuditError>();
-                    parametersAuditErrors.add(new AuditError("document.budget.audit.parameters.pd.status", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "parameters", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
+                    parametersAuditErrors.add(new AuditError("document.budget.audit.parameters.pd.status", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "parameters", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
                     GlobalVariables.getAuditErrorMap().put("parametersAuditErrors", new AuditCluster("Parameters", parametersAuditErrors));
                 }
             }
@@ -122,7 +122,7 @@ public class BudgetPersonnelRule {
             GlobalVariables.getErrorMap().addToErrorPath("budget.personFromList[" + personnelListIndex + "]");
 
             if (StringUtils.isBlank(budgetUser.getFiscalCampusCode()) || StringUtils.isBlank(budgetUser.getPrimaryDepartmentCode())) {
-                GlobalVariables.getErrorMap().putError("chartOrg", KraKeyConstants.ERROR_MISSING, new String[] { "Chart/Org" });
+                GlobalVariables.getErrorMap().putError("chartOrg", CGKeyConstants.ERROR_MISSING, new String[] { "Chart/Org" });
                 valid = false;
             }
 
@@ -154,7 +154,7 @@ public class BudgetPersonnelRule {
                     UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
 
                     if (userAppointmentTaskPeriod.getTotalFeeRemissionsAmount().compareTo(userAppointmentTaskPeriod.getAgencyRequestedFeesAmount().add(userAppointmentTaskPeriod.getInstitutionRequestedFeesAmount())) != 0) {
-                        GlobalVariables.getErrorMap().putError("feeRemissions", KraKeyConstants.ERROR_FEE_REMISSION_DISTRIBUTION);
+                        GlobalVariables.getErrorMap().putError("feeRemissions", CGKeyConstants.ERROR_FEE_REMISSION_DISTRIBUTION);
                         valid = false;
                     }
 
@@ -196,7 +196,7 @@ public class BudgetPersonnelRule {
                     UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
 
                     if (ObjectUtils.isNotNull(userAppointmentTaskPeriod.getUserCreditHourAmount()) && userAppointmentTaskPeriod.getUserCreditHourAmount().isGreaterEqual(new KualiDecimal(10000.00))) {
-                        GlobalVariables.getErrorMap().putError("userCreditHourAmount", KraKeyConstants.ERROR_PER_CREDIT_HOUR_AMOUNT_ABOVE_MAXIMUM, userAppointmentTaskPeriod.getUserCreditHourAmount().toString());
+                        GlobalVariables.getErrorMap().putError("userCreditHourAmount", CGKeyConstants.ERROR_PER_CREDIT_HOUR_AMOUNT_ABOVE_MAXIMUM, userAppointmentTaskPeriod.getUserCreditHourAmount().toString());
                         valid = false;
                     }
 
@@ -216,14 +216,14 @@ public class BudgetPersonnelRule {
         if (StringUtils.isNotEmpty(newBudgetUser.getPersonUniversalIdentifier())) {
             for (Iterator budgetUserIter = personnelList.iterator(); budgetUserIter.hasNext();) {
                 if (StringUtils.equals(newBudgetUser.getPersonUniversalIdentifier(), ((BudgetUser) budgetUserIter.next()).getPersonUniversalIdentifier())) {
-                    GlobalVariables.getErrorMap().putError("newPersonnel", KraKeyConstants.ERROR_PERSON_ALREADY_EXISTS_ON_BUDGET, new String[] {});
+                    GlobalVariables.getErrorMap().putError("newPersonnel", CGKeyConstants.ERROR_PERSON_ALREADY_EXISTS_ON_BUDGET, new String[] {});
                     valid = false;
                     break;
                 }
             }
         }
         else if (!isToBeNamed) {
-            GlobalVariables.getErrorMap().putError("newPersonnel", KraKeyConstants.ERROR_PERSON_NOT_SELECTED, new String[] {});
+            GlobalVariables.getErrorMap().putError("newPersonnel", CGKeyConstants.ERROR_PERSON_NOT_SELECTED, new String[] {});
             valid = false;
         }
         return valid;
@@ -251,7 +251,7 @@ public class BudgetPersonnelRule {
                     UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
                     if (StringUtils.equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString())) {
                         if (userAppointmentTaskPeriod.getPersonWeeksAmount().compareTo(new Integer(13)) == 1) {
-                            GlobalVariables.getErrorMap().putError("personWeeksAmount", KraKeyConstants.ERROR_PERSONNEL_SUMMER_WEEKS_TOO_MUCH, new String[] { "Period " + (userAppointmentTaskPeriodIndex + 1), "13" });
+                            GlobalVariables.getErrorMap().putError("personWeeksAmount", CGKeyConstants.ERROR_PERSONNEL_SUMMER_WEEKS_TOO_MUCH, new String[] { "Period " + (userAppointmentTaskPeriodIndex + 1), "13" });
                             valid = false;
                         }
                     }
@@ -277,7 +277,7 @@ public class BudgetPersonnelRule {
 
             // salary justification required for changes to personnel salary
             if (budgetUser.getUser() != null && budgetUser.getUser().getPersonBaseSalaryAmount() != null && budgetUser.getBaseSalary() != null && !budgetUser.getBaseSalary().equals(budgetUser.getUser().getPersonBaseSalaryAmount()) && StringUtils.isEmpty(budgetUser.getPersonSalaryJustificationText())) {
-                GlobalVariables.getErrorMap().putError("personSalaryJustificationText", KraKeyConstants.ERROR_PERSONNEL_SALARY_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
+                GlobalVariables.getErrorMap().putError("personSalaryJustificationText", CGKeyConstants.ERROR_PERSONNEL_SALARY_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
                 valid = false;
             }
 
@@ -342,7 +342,7 @@ public class BudgetPersonnelRule {
                     Integer periodNumber = (Integer) periodSalaryIter.next();
                     KualiInteger periodEffort = (KualiInteger) periodEffortMap.get(periodNumber);
                     if (periodEffort.compareTo(new KualiInteger(100)) == 1) {
-                        GlobalVariables.getErrorMap().putError("periodEffort.tooMuch", KraKeyConstants.ERROR_PERSONNEL_PERIOD_EFFORT_TOO_MUCH, new String[] { "Period " + periodNumber, periodEffort.toString() });
+                        GlobalVariables.getErrorMap().putError("periodEffort.tooMuch", CGKeyConstants.ERROR_PERSONNEL_PERIOD_EFFORT_TOO_MUCH, new String[] { "Period " + periodNumber, periodEffort.toString() });
                         valid = false;
                     }
                 }
@@ -351,7 +351,7 @@ public class BudgetPersonnelRule {
                     Integer periodNumber = (Integer) summerPeriodEffortIter.next();
                     KualiInteger periodEffort = (KualiInteger) summerPeriodEffortMap.get(periodNumber);
                     if (periodEffort.compareTo(new KualiInteger(100)) == 1) {
-                        GlobalVariables.getErrorMap().putError("periodEffort.tooMuch", KraKeyConstants.ERROR_PERSONNEL_PERIOD_EFFORT_TOO_MUCH_SUMMER, new String[] { "Period " + periodNumber, periodEffort.toString() });
+                        GlobalVariables.getErrorMap().putError("periodEffort.tooMuch", CGKeyConstants.ERROR_PERSONNEL_PERIOD_EFFORT_TOO_MUCH_SUMMER, new String[] { "Period " + periodNumber, periodEffort.toString() });
                         valid = false;
                     }
                 }
@@ -382,7 +382,7 @@ public class BudgetPersonnelRule {
                 for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
                     GlobalVariables.getErrorMap().addToErrorPath("userAppointmentTaskPeriod[" + period + "]");
 
-                    if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.FULL_YEAR).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Salary
+                    if (StringUtils.contains(appointmentTypeMappings.get(CGConstants.FULL_YEAR).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Salary
                         if (userAppointmentTaskPeriod.getAgencyPercentEffortAmount() == null) {
                             GlobalVariables.getErrorMap().putError("agencyPercentEffortAmount", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(UserAppointmentTaskPeriod.class, "agencyPercentEffortAmount"));
                             valid = false;
@@ -394,7 +394,7 @@ public class BudgetPersonnelRule {
                         }
 
                     }
-                    else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.ACADEMIC_YEAR_SUMMER).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Academic
+                    else if (StringUtils.contains(appointmentTypeMappings.get(CGConstants.ACADEMIC_YEAR_SUMMER).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Academic
                         // 9/Summer
                         if (userAppointmentTaskPeriod.getPersonWeeksAmount() == null) {
                             GlobalVariables.getErrorMap().putError("personWeeksAmount", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(UserAppointmentTaskPeriod.class, "personWeeksAmount"));
@@ -411,7 +411,7 @@ public class BudgetPersonnelRule {
                             valid = false;
                         }
                     }
-                    else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.HOURLY).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Hourly
+                    else if (StringUtils.contains(appointmentTypeMappings.get(CGConstants.HOURLY).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Hourly
                         if (userAppointmentTaskPeriod.getUserHourlyRate() == null) {
                             GlobalVariables.getErrorMap().putError("userHourlyRate", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(UserAppointmentTaskPeriod.class, "userHourlyRate"));
                             valid = false;
@@ -427,7 +427,7 @@ public class BudgetPersonnelRule {
                             valid = false;
                         }
                     }
-                    else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.GRADUATE_ASSISTANT).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Grad
+                    else if (StringUtils.contains(appointmentTypeMappings.get(CGConstants.GRADUATE_ASSISTANT).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Grad
                         // Asst
                         if (userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent() == null) {
                             GlobalVariables.getErrorMap().putError("agencyFullTimeEquivalentPercent", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(UserAppointmentTaskPeriod.class, "agencyPercentEffortAmount"));

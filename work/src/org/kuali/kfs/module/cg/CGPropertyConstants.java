@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg;
 
 import org.kuali.rice.util.JSTLConstants;
 
-public class KraPropertyConstants extends JSTLConstants {
+public class CGPropertyConstants extends JSTLConstants {
 
     // Common document values
     public static final String DOCUMENT = "document";

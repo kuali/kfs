@@ -18,7 +18,7 @@
 <div id="workarea" >
 
 <div align="right">
-	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.NOTES_HEADER_TAB}" altText="page help"/>
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.NOTES_HEADER_TAB}" altText="page help"/>
 </div>
 
 <kul:notes allowsNoteDelete="${DataDictionary.KualiBudgetDocument.allowsNoteDelete}" defaultOpen="true" attachmentTypesValuesFinderClass="${DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass}" displayTopicFieldInNotes="${DataDictionary.KualiBudgetDocument.displayTopicFieldInNotes}" transparentBackground="true" />

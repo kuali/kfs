@@ -29,7 +29,7 @@ import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
@@ -92,7 +92,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     public void linkImportBudgetDataToRoutingForm(RoutingFormDocument routingFormDocument, String budgetDocumentHeaderId, List<BudgetOverviewFormHelper> periodOverviews) throws WorkflowException {
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        final String PERSON_ROLE_CODE_PD = parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
+        final String PERSON_ROLE_CODE_PD = parameterService.getParameterValue(RoutingFormDocument.class, CGConstants.PERSON_ROLE_CODE_PROJECT_DIRECTOR);
 
         Integer minPeriod = routingFormDocument.getRoutingFormBudget().getRoutingFormBudgetMinimumPeriodNumber();
         Integer maxPeriod = routingFormDocument.getRoutingFormBudget().getRoutingFormBudgetMaximumPeriodNumber();
@@ -230,7 +230,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         Map<String, RoutingFormOtherCostShare> subcontractorCostShareMap = new HashMap<String, RoutingFormOtherCostShare>();
         Map<String, RoutingFormSubcontractor> subcontractorMap = new HashMap<String, RoutingFormSubcontractor>();
         for (BudgetNonpersonnel budgetNonpersonnel : budget.getNonpersonnelItems()) {
-            if (KraConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode())) {
+            if (CGConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode())) {
                 if (budgetNonpersonnel.getBudgetPeriodSequenceNumber().compareTo(minPeriod) >= 0 && budgetNonpersonnel.getBudgetPeriodSequenceNumber().compareTo(maxPeriod) <= 0) {
                     if (subcontractorCostShareMap.containsKey(budgetNonpersonnel.getSubcontractorNumber())) {
                         RoutingFormOtherCostShare subcontractor = subcontractorCostShareMap.get(budgetNonpersonnel.getSubcontractorNumber());
@@ -327,7 +327,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         // There could be multiple types on the RF, but only one of them will pass this rule, and that's the one that should be used
         // to populate the Proposal field.
         for (RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
-            if (parameterService.getParameterEvaluator(RoutingFormDocument.class, KraConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
+            if (parameterService.getParameterEvaluator(RoutingFormDocument.class, CGConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
                 proposal.setProposalAwardTypeCode(routingFormProjectType.getProjectTypeCode());
                 break;
             }

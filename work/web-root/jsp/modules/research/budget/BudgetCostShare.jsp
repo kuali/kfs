@@ -50,7 +50,7 @@
 	</logic:iterate>
 	
 	<div align="right">
-		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>
+		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>
 	</div>
 
 	<div id="workarea"><kra-b:budgetCostShareInstitutionDirect /> <kra-b:budgetCostShareIndirect />

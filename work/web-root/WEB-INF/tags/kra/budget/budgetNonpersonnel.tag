@@ -25,7 +25,7 @@
 <c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 
 <div align="right">
-	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.NONPERSONNEL_HEADER_TAB}" altText="page help"/>
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${CGConstants.NONPERSONNEL_HEADER_TAB}" altText="page help"/>
 </div>
 
   <kra-b:budgetDetailSelection includeSummary="false" />
@@ -62,7 +62,7 @@
     	
         <div class="tab-container" id="G02" style="" align="center">
             
-            <c:if test="${KraConstants.SUBCONTRACTOR_CATEGORY_CODE eq nonpersonnelCategory.code}">
+            <c:if test="${CGConstants.SUBCONTRACTOR_CATEGORY_CODE eq nonpersonnelCategory.code}">
             	<div class="message-container"><bean:message bundle="kraResources" key="message.kra.subcontractorReminder" /></div>
             </c:if>
             
@@ -77,7 +77,7 @@
                   <th class="bord-l-b">
                     <div align="left">
                       <c:choose>
-                        <c:when test="${KraConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
+                        <c:when test="${CGConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
                           <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelDescription}" skipHelpUrl="true" noColon="true" />
                         </c:when>
                         <c:otherwise>
@@ -112,7 +112,7 @@
                   <td class="infoline">
                     <div align="left">
                       <c:choose>
-                        <c:when test="${KraConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
+                        <c:when test="${CGConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
                           <kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" readOnly="${viewOnly}" />
                         </c:when>
                         <c:otherwise>
@@ -210,7 +210,7 @@
 		                  <td class="datacell">
                         <div align="left">
                           <c:choose>
-                            <c:when test="${KraConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
+                            <c:when test="${CGConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
 						                  <kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" attributeEntry="${budgetNonpersonnel.budgetNonpersonnelDescription}" disabled="${copiedOver}" readOnly="${viewOnly}" />
                             </c:when>
                             <c:otherwise>

@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.document.web.struts.BudgetCostShareFormHelper;
@@ -62,10 +62,10 @@ public class BudgetCostShareRule {
         BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
         if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(KualiInteger.ZERO)) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", CGKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
         }
         if (!budgetCostShareFormHelper.getThirdPartyDirect().getTotalBalanceToBeDistributed().equals(KualiInteger.ZERO)) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", CGKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
         }
 
         if (!costShareAuditErrors.isEmpty()) {

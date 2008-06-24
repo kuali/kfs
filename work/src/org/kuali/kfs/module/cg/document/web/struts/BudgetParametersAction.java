@@ -29,7 +29,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AgencyExtension;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetFringeRate;
@@ -66,7 +66,7 @@ public class BudgetParametersAction extends BudgetAction {
 
         // On first load, set the default task name for the initial task.
         if (budgetForm.getBudgetDocument().getTaskListSize() == 0) {
-            String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.DEFAULT_BUDGET_TASK_NAME);
+            String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, CGConstants.DEFAULT_BUDGET_TASK_NAME);
             budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " 1");
             budgetForm.getNewTask().setBudgetTaskOnCampus(true);
         }

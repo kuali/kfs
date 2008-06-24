@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.RoutingFormProjectDetailsService;
@@ -75,12 +75,12 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
 
         // Check if ad-hoc permissions to be copied over
         if (!routingForm.isTemplateAdHocPermissions()) {
-            routingFormDoc.clearAdhocType(KraConstants.AD_HOC_PERMISSION);
+            routingFormDoc.clearAdhocType(CGConstants.AD_HOC_PERMISSION);
         }
 
         // Check if ad-hoc approvers to be copied over
         if (!routingForm.isTemplateAdHocApprovers()) {
-            routingFormDoc.clearAdhocType(KraConstants.AD_HOC_APPROVER);
+            routingFormDoc.clearAdhocType(CGConstants.AD_HOC_APPROVER);
         }
 
         ((Copyable) routingFormDoc).toCopy();

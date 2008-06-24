@@ -20,7 +20,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.QuestionType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -37,7 +37,7 @@ public class QuestionTypeMaintenanceDocumentAuthorizer extends FinancialSystemMa
 
         // If the question exists in db, set read-only fields
         if (ObjectUtils.isNotNull(persistedQuestion)) {
-            auths.addReadonlyAuthField(KraPropertyConstants.QUESTION_TYPE_DESCRIPTION);
+            auths.addReadonlyAuthField(CGPropertyConstants.QUESTION_TYPE_DESCRIPTION);
         }
 
         return auths;

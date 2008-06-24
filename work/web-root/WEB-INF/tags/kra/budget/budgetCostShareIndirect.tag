@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="KraConstants" value="${KraConstants}" />
+<c:set var="CGConstants" value="${CGConstants}" />
 <c:set var="showCostShareIndirect" value="${KualiForm.document.budget.institutionCostShareIndicator && KualiForm.document.budget.indirectCost.budgetIndirectCostCostShareIndicator}"/>
 
 <c:set var="tabDescription">

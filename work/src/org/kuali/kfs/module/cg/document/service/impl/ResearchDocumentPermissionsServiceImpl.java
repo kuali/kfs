@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.AdhocWorkgroup;
@@ -94,8 +94,8 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
     public boolean isUserInOrgHierarchy(String orgXml, String documentType, String uuid) {
         ReportCriteriaVO criteria = new ReportCriteriaVO();
         criteria.setDocumentTypeName(documentType);
-        criteria.setNodeNames(new String[] { KraConstants.ORG_REVIEW_NODE_NAME });
-        criteria.setRuleTemplateNames(new String[] { KraConstants.ORG_REVIEW_TEMPLATE_NAME });
+        criteria.setNodeNames(new String[] { CGConstants.ORG_REVIEW_NODE_NAME });
+        criteria.setRuleTemplateNames(new String[] { CGConstants.ORG_REVIEW_TEMPLATE_NAME });
         criteria.setXmlContent(orgXml);
         WorkflowInfo info = new WorkflowInfo();
         try {

@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
@@ -58,8 +58,8 @@ public class BudgetXml {
 
     // The following field is hard coded as checks in nih-2590, nih-398, nih-modular, and NSFSummaryProposalBudget. Hence if
     // this field name is changed, the XLTs have to be updated. This also prevents us from using the more elegant:
-    // SpringContext.getBean(KualiConfigurationService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class,
-    // KraConstants.TO_BE_NAMED_LABEL)
+    // SpringContext.getBean(KualiConfigurationService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class,
+    // CGConstants.TO_BE_NAMED_LABEL)
     private static final String TO_BE_NAMED = "To Be Named";
 
     private static final String OUTPUT_PERCENT_SYMBOL = "%";
@@ -692,7 +692,7 @@ public class BudgetXml {
     private static Element createIndirectCostElement(BudgetIndirectCostFormHelper budgetIndirectCostFormHelper, Budget budget, Document xmlDoc) {
         Element indirectCostElement = xmlDoc.createElement("INDIRECT_COST");
         indirectCostElement.setAttribute("BASE_TYPE", budget.getIndirectCost().getBudgetBaseCode());
-        if (KraConstants.DATABASE_TRUE_VALUE.equals(budget.getIndirectCost().getBudgetManualRateIndicator())) {
+        if (CGConstants.DATABASE_TRUE_VALUE.equals(budget.getIndirectCost().getBudgetManualRateIndicator())) {
             indirectCostElement.setAttribute("IDC_RATE", "MANUAL");
         }
         else {

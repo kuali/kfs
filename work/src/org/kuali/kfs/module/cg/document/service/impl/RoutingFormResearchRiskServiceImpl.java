@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
@@ -64,7 +64,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
     public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes) {
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
-        List<ResearchRiskType> allActiveResearchRiskTypes = (List<ResearchRiskType>) this.businessObjectService.findMatchingOrderBy(ResearchRiskType.class, criteria, KraPropertyConstants.RESEARCH_RISK_TYPE_SORT_NUMBER, true);
+        List<ResearchRiskType> allActiveResearchRiskTypes = (List<ResearchRiskType>) this.businessObjectService.findMatchingOrderBy(ResearchRiskType.class, criteria, CGPropertyConstants.RESEARCH_RISK_TYPE_SORT_NUMBER, true);
 
         List<String> exceptCodesList = Arrays.asList(exceptCodes);
         List<ResearchRiskType> result = new ArrayList<ResearchRiskType>();

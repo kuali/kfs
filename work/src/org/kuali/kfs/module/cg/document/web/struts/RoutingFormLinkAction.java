@@ -28,7 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.service.BudgetIndirectCostService;
@@ -174,7 +174,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
                 }
 
                 BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
-                budgetOverviewFormHelper.recalculate(KraConstants.TASK_SUMMATION, budgetPeriod.getBudgetPeriodSequenceNumber(), allNonpersonnelCategories, budgetIndirectCostFormHelper, budgetDocument.getBudget());
+                budgetOverviewFormHelper.recalculate(CGConstants.TASK_SUMMATION, budgetPeriod.getBudgetPeriodSequenceNumber(), allNonpersonnelCategories, budgetIndirectCostFormHelper, budgetDocument.getBudget());
                 budgetOverviewFormHelper.setBudgetPeriod(budgetPeriod);
 
                 periodBudgetOverviewFormHelpers.add(budgetOverviewFormHelper);
@@ -183,7 +183,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
             }
 
             BudgetOverviewFormHelper summaryBudgetOverviewFormHelper = new BudgetOverviewFormHelper();
-            summaryBudgetOverviewFormHelper.recalculate(KraConstants.TASK_SUMMATION, KraConstants.PERIOD_SUMMATION, allNonpersonnelCategories, budgetIndirectCostFormHelper, budgetDocument.getBudget());
+            summaryBudgetOverviewFormHelper.recalculate(CGConstants.TASK_SUMMATION, CGConstants.PERIOD_SUMMATION, allNonpersonnelCategories, budgetIndirectCostFormHelper, budgetDocument.getBudget());
             summaryBudgetOverviewFormHelper.setBudgetPeriod(summaryPeriod);
 
             routingForm.setPeriodBudgetOverviewFormHelpers(periodBudgetOverviewFormHelpers);

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" /> <c:set var="KraConstants" value="${KraConstants}" />
+<c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" /> <c:set var="CGConstants" value="${CGConstants}" />
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetPeriod.businessObjectClass}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
@@ -35,7 +35,7 @@
   </tr>
   <!-- Add new line option is displayed
   			only if the number of periods is less than the maximum. -->
-  <c:if test="${KualiForm.document.periodListSize lt KraConstants.maximumNumberOfPeriods && not viewOnly}">
+  <c:if test="${KualiForm.document.periodListSize lt CGConstants.maximumNumberOfPeriods && not viewOnly}">
   <tr>
     <th width="2%"  scope="row"><div align="right">add:</div></th>
     <td class="infoline"><html:hidden property="newPeriod.documentNumber" /> <html:hidden property="newPeriod.budgetPeriodSequenceNumber" /> <html:hidden property="newPeriod.objectId" /> <html:hidden property="newPeriod.versionNumber"/> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetPeriod.attributes.budgetPeriodBeginDate}" skipHelpUrl="true" readOnly="true" /> <kul:htmlControlAttribute property="newPeriod.budgetPeriodBeginDate" attributeEntry="${budgetPeriodAttributes.budgetPeriodBeginDate}" readOnly="${viewOnly}" datePicker="true"/> &nbsp;&nbsp;&nbsp;<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetPeriod.attributes.budgetPeriodEndDate}" skipHelpUrl="true" readOnly="true" /> <kul:htmlControlAttribute property="newPeriod.budgetPeriodEndDate" attributeEntry="${budgetPeriodAttributes.budgetPeriodEndDate}" datePicker="true"/> </td>

@@ -19,8 +19,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraKeyConstants;
-import org.kuali.kfs.module.cg.KraPropertyConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.AppointmentType;
 
 
@@ -55,8 +55,8 @@ public class AppointmentTypeMaintenanceDocumentRule extends MaintenanceDocumentR
         boolean success = true;
 
         if (ObjectUtils.isNotNull(appointmentType.getRelatedAppointmentTypeCode()) && appointmentType.getRelatedAppointmentTypeCode().equals(appointmentType.getAppointmentTypeCode())) {
-            String propertyName = KraPropertyConstants.DOCUMENT + "." + KraPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + "relatedAppointmentTypeCode";
-            GlobalVariables.getErrorMap().putError(propertyName, KraKeyConstants.ERROR_APPOINTMENT_TYPE_RELATED_TYPE_CODE);
+            String propertyName = CGPropertyConstants.DOCUMENT + "." + CGPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + "relatedAppointmentTypeCode";
+            GlobalVariables.getErrorMap().putError(propertyName, CGKeyConstants.ERROR_APPOINTMENT_TYPE_RELATED_TYPE_CODE);
             success = false;
         }
         return success;

@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 
 public class RoutingFormApprovalStatusValuesFinder extends KeyValuesBase {
 
@@ -32,8 +32,8 @@ public class RoutingFormApprovalStatusValuesFinder extends KeyValuesBase {
 
         List approvalTypeKeyLabelPairList = new ArrayList();
         approvalTypeKeyLabelPairList.add(new KeyLabelPair("", ""));
-        approvalTypeKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_STATUS_PENDING, "Pending"));
-        approvalTypeKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED, "Approved"));
+        approvalTypeKeyLabelPairList.add(new KeyLabelPair(CGConstants.RESEARCH_RISK_STUDY_STATUS_PENDING, "Pending"));
+        approvalTypeKeyLabelPairList.add(new KeyLabelPair(CGConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED, "Approved"));
 
         return approvalTypeKeyLabelPairList;
     }

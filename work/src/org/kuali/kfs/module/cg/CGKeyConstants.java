@@ -19,7 +19,7 @@ package org.kuali.kfs.module.cg;
 /**
  * Holds error key constants for KRA.
  */
-public class KraKeyConstants {
+public class CGKeyConstants {
 
     // KRA confirmation messages
     public static final String QUESTION_KRA_DELETE_CONFIRMATION = "document.question.deleteContext.text";

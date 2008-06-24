@@ -31,7 +31,7 @@
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
 	<c:choose>
-	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">
+	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == CGConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
 			defaultOpen="false" rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
@@ -161,7 +161,7 @@
           	</div>
 		</kul:tab>
 	  </c:when>
-	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS}">
+	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == CGConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
 			defaultOpen="false"
@@ -262,7 +262,7 @@
           	</div>
 		</kul:tab>
 	  </c:when>
-	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_DESCRIPTION}">
+	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == CGConstants.RESEARCH_RISK_TYPE_DESCRIPTION}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
 			defaultOpen="false"  

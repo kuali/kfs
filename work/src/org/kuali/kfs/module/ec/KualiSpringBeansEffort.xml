@@ -19,9 +19,9 @@
     <bean id="effortModule" parent="effortModule-parentBean" />
 
     <bean id="effortModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="effort" />
+		<property name="moduleId" value="ec" />
 		<property name="moduleName" value="Effort Certification" />
-		<property name="moduleCode" value="ER" />
+		<property name="moduleCode" value="EC" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="effortModuleAuthorizer" />
 		<property name="dataDictionaryPackages">

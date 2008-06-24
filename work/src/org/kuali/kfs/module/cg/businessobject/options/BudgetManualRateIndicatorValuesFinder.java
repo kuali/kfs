@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -36,8 +36,8 @@ public class BudgetManualRateIndicatorValuesFinder extends KeyValuesBase {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        ret.add(new KeyLabelPair("N", parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM)));
-        ret.add(new KeyLabelPair("Y", parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY)));
+        ret.add(new KeyLabelPair("N", parameterService.getParameterValue(BudgetDocument.class, CGConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM)));
+        ret.add(new KeyLabelPair("Y", parameterService.getParameterValue(BudgetDocument.class, CGConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY)));
 
         return ret;
     }

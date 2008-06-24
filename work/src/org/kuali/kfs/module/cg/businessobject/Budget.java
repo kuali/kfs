@@ -26,7 +26,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -87,8 +87,8 @@ public class Budget extends PersistableBusinessObjectBase {
     public Budget() {
         super();
 
-        budgetPersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.DEFAULT_PERSONNEL_INFLATION_RATE));
-        budgetNonpersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.DEFAULT_NONPERSONNEL_INFLATION_RATE));
+        budgetPersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_PERSONNEL_INFLATION_RATE));
+        budgetNonpersonnelInflationRate = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.DEFAULT_NONPERSONNEL_INFLATION_RATE));
 
         tasks = new ArrayList();
         periods = new ArrayList();

@@ -24,8 +24,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.module.cg.KraConstants;
-import org.kuali.kfs.module.cg.KraKeyConstants;
+import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
@@ -83,7 +83,7 @@ public class BudgetAuditRule {
 
             for (BudgetTaskPeriodIndirectCost taskPeriodIndirectCost : taskPeriodIndirectCostItems) {
                 if (taskPeriodIndirectCost.getCalculatedIndirectCost().isNegative()) {
-                    parametersSoftAuditErrors.add(new AuditError("document.budget.audit.parameters.tasks.negativeIdc" + taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString(), KraKeyConstants.AUDIT_PARAMETERS_NEGATIVE_IDC, "parameters", new String[] { taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString() }));
+                    parametersSoftAuditErrors.add(new AuditError("document.budget.audit.parameters.tasks.negativeIdc" + taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString(), CGKeyConstants.AUDIT_PARAMETERS_NEGATIVE_IDC, "parameters", new String[] { taskPeriodIndirectCost.getBudgetTaskSequenceNumber().toString() }));
                 }
             }
 
@@ -100,10 +100,10 @@ public class BudgetAuditRule {
         BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
         if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(KualiInteger.ZERO)) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", CGKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
         }
         if (!budgetCostShareFormHelper.getThirdPartyDirect().getTotalBalanceToBeDistributed().equals(KualiInteger.ZERO)) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", CGKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
         }
 
         if (!costShareAuditErrors.isEmpty()) {
@@ -115,14 +115,14 @@ public class BudgetAuditRule {
 
     private boolean runNonpersonnelAuditErrors(List<BudgetNonpersonnel> nonpersonnelItems) {
         List<AuditError> nonpersonnelAuditErrors = new ArrayList<AuditError>();
-        List<String> first25kSubcategoryCodes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.FIRST25K_SUBCATEGORY_CODES);
+        List<String> first25kSubcategoryCodes = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.FIRST25K_SUBCATEGORY_CODES);
 
         HashMap<String, BudgetNonpersonnel> hashMap = new HashMap();
 
         // Go over all nonpersonnel items, and pick subcontractor less then 25K items. Finally aggregate the ones that
         // have same subcategoryCode and subcontractor number.
         for (BudgetNonpersonnel budgetNonpersonnel : nonpersonnelItems) {
-            if (KraConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode()) && first25kSubcategoryCodes.contains(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
+            if (CGConstants.SUBCONTRACTOR_CATEGORY_CODE.equals(budgetNonpersonnel.getBudgetNonpersonnelCategoryCode()) && first25kSubcategoryCodes.contains(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
                 String key = budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode() + "-" + budgetNonpersonnel.getSubcontractorNumber();
 
                 if (hashMap.containsKey(key)) {
@@ -149,7 +149,7 @@ public class BudgetAuditRule {
                     budgetNonpersonnel.refreshReferenceObject("nonpersonnelObjectCode");
                 }
 
-                nonpersonnelAuditErrors.add(new AuditError("document.budget.audit.nonpersonnelItem.category." + budgetNonpersonnel.getBudgetNonpersonnelCategoryCode(), KraKeyConstants.AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT, "nonpersonnel", new String[] { budgetNonpersonnel.getNonpersonnelObjectCode().getNonpersonnelSubCategory().getName(), budgetNonpersonnel.getBudgetNonpersonnelDescription() }));
+                nonpersonnelAuditErrors.add(new AuditError("document.budget.audit.nonpersonnelItem.category." + budgetNonpersonnel.getBudgetNonpersonnelCategoryCode(), CGKeyConstants.AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT, "nonpersonnel", new String[] { budgetNonpersonnel.getNonpersonnelObjectCode().getNonpersonnelSubCategory().getName(), budgetNonpersonnel.getBudgetNonpersonnelDescription() }));
             }
         }
 
@@ -163,7 +163,7 @@ public class BudgetAuditRule {
     private boolean runModularSoftAuditErrors(BudgetModular modularBudget) {
         List<AuditError> modularSoftAuditErrors = new ArrayList<AuditError>();
         if (StringUtils.isBlank(modularBudget.getBudgetModularConsortiumDescription())) {
-            modularSoftAuditErrors.add(new AuditError("document.budget.audit.modular.consortium", KraKeyConstants.AUDIT_MODULAR_CONSORTIUM, "modular"));
+            modularSoftAuditErrors.add(new AuditError("document.budget.audit.modular.consortium", CGKeyConstants.AUDIT_MODULAR_CONSORTIUM, "modular"));
         }
         if (!modularSoftAuditErrors.isEmpty()) {
             GlobalVariables.getAuditErrorMap().put("modularSoftAuditErrors", new AuditCluster("Modular", modularSoftAuditErrors, true));

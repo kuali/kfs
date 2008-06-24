@@ -36,7 +36,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
 import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.Agency;
@@ -193,7 +193,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             if (this.getContractGrantProposal().getProposalNumber() == null) {
                 boolean createProposal = false;
                 for (RoutingFormProjectType routingFormProjectType : this.getRoutingFormProjectTypes()) {
-                    if (routingFormProjectType.isProjectTypeSelectedIndicator() && SpringContext.getBean(ParameterService.class).getParameterEvaluator(getClass(), KraConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
+                    if (routingFormProjectType.isProjectTypeSelectedIndicator() && SpringContext.getBean(ParameterService.class).getParameterEvaluator(getClass(), CGConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
                         createProposal = true;
                         break;
                     }
@@ -1680,7 +1680,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         List<RoutingFormPersonRole> projectDirectorRoles = new ArrayList();
 
         for (RoutingFormPersonRole routingFormPersonRole : getRoutingFormPersonRoles()) {
-            if (routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), KraConstants.CO_PROJECT_DIRECTOR_PARAM)) || routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), KraConstants.PROJECT_DIRECTOR_PARAM))) {
+            if (routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), CGConstants.CO_PROJECT_DIRECTOR_PARAM)) || routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), CGConstants.PROJECT_DIRECTOR_PARAM))) {
                 projectDirectorRoles.add(routingFormPersonRole);
             }
         }
@@ -1692,7 +1692,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         List<RoutingFormPersonRole> otherPersonRoles = new ArrayList();
 
         for (RoutingFormPersonRole routingFormPersonRole : getRoutingFormPersonRoles()) {
-            if (!routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), KraConstants.CO_PROJECT_DIRECTOR_PARAM)) && !routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), KraConstants.PROJECT_DIRECTOR_PARAM))) {
+            if (!routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), CGConstants.CO_PROJECT_DIRECTOR_PARAM)) && !routingFormPersonRole.getPersonRoleCode().equals(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), CGConstants.PROJECT_DIRECTOR_PARAM))) {
                 otherPersonRoles.add(routingFormPersonRole);
             }
         }
@@ -1820,7 +1820,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.isProjectDirector()) {
                 projectDirector = user;
             }
-            else if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.getPersonRoleCode().equals(KraConstants.CO_PROJECT_DIRECTOR_CODE)) {
+            else if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.getPersonRoleCode().equals(CGConstants.CO_PROJECT_DIRECTOR_CODE)) {
                 if (!StringUtils.isBlank(user.getChartOfAccountsCode())) {
                     xml.append("<chartOrg><chartOfAccountsCode>");
                     xml.append(user.getChartOfAccountsCode());
@@ -1873,7 +1873,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
 
-        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), KraConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE);
+        String costSharePermissionCode = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), CGConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE);
 
         StringBuffer xml = new StringBuffer();
         if (encloseContent) {

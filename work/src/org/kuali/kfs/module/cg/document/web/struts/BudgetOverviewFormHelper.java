@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Budget;
 import org.kuali.kfs.module.cg.businessobject.BudgetModular;
 import org.kuali.kfs.module.cg.businessobject.BudgetModularPeriod;
@@ -98,16 +98,16 @@ public class BudgetOverviewFormHelper {
      */
     public BudgetOverviewFormHelper() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        this.TO_BE_NAMED = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.TO_BE_NAMED_LABEL);
-        this.HOURLY_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES);
-        this.GRADUATE_RA_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
-        this.FULL_YEAR_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES);
-        this.SUMMER_GRID_APPOINTMENT = parameterService.getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
-        this.SUMMER_GRID_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPES);
+        this.TO_BE_NAMED = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.TO_BE_NAMED_LABEL);
+        this.HOURLY_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_HOURLY_APPOINTMENT_TYPES);
+        this.GRADUATE_RA_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
+        this.FULL_YEAR_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES);
+        this.SUMMER_GRID_APPOINTMENT = parameterService.getParameterValue(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
+        this.SUMMER_GRID_APPOINTMENTS = parameterService.getParameterValues(BudgetDocument.class, CGConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPES);
 
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
-        this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = parameterService.getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE);
+        this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION = parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION);
     }
 
     /**
@@ -183,7 +183,7 @@ public class BudgetOverviewFormHelper {
     /**
      * Loops over personnel and adds items that match the current task / period to budgetOverviewPersonnelHelpers. It will not add
      * them if they don't have any percent-effort. It also update the total fields in this class. Finally it "rolls personnel up" if
-     * currentTaskNumber or currentPeriodNumber equal KraConstants.TASK_SUMMATION or KraConstants.PERIOD_SUMMATION.
+     * currentTaskNumber or currentPeriodNumber equal CGConstants.TASK_SUMMATION or CGConstants.PERIOD_SUMMATION.
      * 
      * @param currentTaskNumber
      * @param currentPeriodNumber
@@ -204,7 +204,7 @@ public class BudgetOverviewFormHelper {
 
                 // check if this is part of the current task, ignore item if it isn't. If currentTaskNumber == 0 it's
                 // a summary and we need to take them all.
-                if (currentTaskNumber.equals(KraConstants.TASK_SUMMATION) || userAppointmentTask.getBudgetTaskSequenceNumber().equals(currentTaskNumber)) {
+                if (currentTaskNumber.equals(CGConstants.TASK_SUMMATION) || userAppointmentTask.getBudgetTaskSequenceNumber().equals(currentTaskNumber)) {
 
                     // loop over each period
                     for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext();) {
@@ -215,12 +215,12 @@ public class BudgetOverviewFormHelper {
                         // 2. Has positive %-effort
                         // 2.1. Or has an hourly rate and # of hours (either agency or institution)
                         // Ignore person if any condition not met.
-                        if ((currentPeriodNumber.equals(KraConstants.PERIOD_SUMMATION) || userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber().equals(currentPeriodNumber)) && (userAppointmentTaskPeriod.getAgencyPercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent().isNonZero() || userAppointmentTaskPeriod.getInstitutionFullTimeEquivalentPercent().isNonZero() || (userAppointmentTaskPeriod.getUserHourlyRate().isNonZero() && (userAppointmentTaskPeriod.getUserAgencyHours().isNonZero() || userAppointmentTaskPeriod.getUserInstitutionHours().isNonZero())))) {
+                        if ((currentPeriodNumber.equals(CGConstants.PERIOD_SUMMATION) || userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber().equals(currentPeriodNumber)) && (userAppointmentTaskPeriod.getAgencyPercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent().isNonZero() || userAppointmentTaskPeriod.getInstitutionFullTimeEquivalentPercent().isNonZero() || (userAppointmentTaskPeriod.getUserHourlyRate().isNonZero() && (userAppointmentTaskPeriod.getUserAgencyHours().isNonZero() || userAppointmentTaskPeriod.getUserInstitutionHours().isNonZero())))) {
                             boolean itemAdded = false;
                             String budgetUserLabel = "";
 
                             // Item matched. Check if it this is some kind of summation.
-                            if (currentTaskNumber.equals(KraConstants.TASK_SUMMATION) || currentPeriodNumber.equals(KraConstants.PERIOD_SUMMATION)) {
+                            if (currentTaskNumber.equals(CGConstants.TASK_SUMMATION) || currentPeriodNumber.equals(CGConstants.PERIOD_SUMMATION)) {
                                 // check if already exists (uuid & role equals) and do aggregation if it does
                                 for (Iterator lineItemsIter = budgetOverviewPersonnelHelpers.iterator(); !itemAdded && lineItemsIter.hasNext();) {
                                     BudgetOverviewPersonnelHelper budgetOverviewBoHelper = (BudgetOverviewPersonnelHelper) lineItemsIter.next();
@@ -290,15 +290,15 @@ public class BudgetOverviewFormHelper {
      * @param budget
      */
     private void setupIndirectCost(Integer currentTaskNumber, Integer currentPeriodNumber, Integer currentTaskNumberIndex, Integer currentPeriodNumberIndex, BudgetIndirectCostFormHelper budgetIndirectCostFormHelper, Budget budget) {
-        if (KraConstants.TASK_SUMMATION.equals(currentTaskNumber) && KraConstants.PERIOD_SUMMATION.equals(currentPeriodNumber)) {
+        if (CGConstants.TASK_SUMMATION.equals(currentTaskNumber) && CGConstants.PERIOD_SUMMATION.equals(currentPeriodNumber)) {
             // Summary / Summary
             indirectCostItem = budgetIndirectCostFormHelper.getPeriodSubTotal();
         }
-        else if (KraConstants.TASK_SUMMATION.equals(currentTaskNumber)) {
+        else if (CGConstants.TASK_SUMMATION.equals(currentTaskNumber)) {
             // Task Summation
             indirectCostItem = (BudgetTaskPeriodIndirectCost) budgetIndirectCostFormHelper.getPeriodTotals().get(currentPeriodNumberIndex);
         }
-        else if (KraConstants.PERIOD_SUMMATION.equals(currentPeriodNumber)) {
+        else if (CGConstants.PERIOD_SUMMATION.equals(currentPeriodNumber)) {
             // Period Summation
             indirectCostItem = (BudgetTaskPeriodIndirectCost) budgetIndirectCostFormHelper.getTaskTotals().get(currentTaskNumberIndex);
         }
@@ -326,7 +326,7 @@ public class BudgetOverviewFormHelper {
     private void setupModular(Integer currentPeriodNumber, Integer currentPeriodNumberIndex, List nonpersonnelCategories, BudgetModular budgetModular) {
         this.modularBudgetTotalConsortiumAmount = budgetModular.getTotalConsortiumAmount();
 
-        if (currentPeriodNumber.equals(KraConstants.PERIOD_SUMMATION)) {
+        if (currentPeriodNumber.equals(CGConstants.PERIOD_SUMMATION)) {
             modularAdjustmentAgencyRequest = budgetModular.getTotalModularVarianceAmount();
             adjustedDirectCostsAgencyRequest = budgetModular.getTotalAdjustedModularDirectCostAmount();
         }
@@ -384,7 +384,7 @@ public class BudgetOverviewFormHelper {
      * @return whether overview page should show modular or not
      */
     private boolean isOverviewShowModular(Integer currentTaskNumber, Budget budget) {
-        return budget.isAgencyModularIndicator() && (currentTaskNumber.equals(KraConstants.TASK_SUMMATION) || budget.getTasks().size() == 1);
+        return budget.isAgencyModularIndicator() && (currentTaskNumber.equals(CGConstants.TASK_SUMMATION) || budget.getTasks().size() == 1);
     }
 
     /**
@@ -700,11 +700,11 @@ public class BudgetOverviewFormHelper {
 
                 // Rates are not to exceed 100%. This check is specifically present for GAs because GAs can have a %-effort
                 // above 100%.
-                if (this.agencyPercentEffortAmount.isGreaterEqual(KraConstants.PERSONNEL_MAX_PERCENTAGE)) {
-                    this.agencyPercentEffortAmount = KraConstants.PERSONNEL_MAX_PERCENTAGE;
+                if (this.agencyPercentEffortAmount.isGreaterEqual(CGConstants.PERSONNEL_MAX_PERCENTAGE)) {
+                    this.agencyPercentEffortAmount = CGConstants.PERSONNEL_MAX_PERCENTAGE;
                 }
-                if (this.institutionCostSharePercentEffortAmount.isGreaterEqual(KraConstants.PERSONNEL_MAX_PERCENTAGE)) {
-                    this.institutionCostSharePercentEffortAmount = KraConstants.PERSONNEL_MAX_PERCENTAGE;
+                if (this.institutionCostSharePercentEffortAmount.isGreaterEqual(CGConstants.PERSONNEL_MAX_PERCENTAGE)) {
+                    this.institutionCostSharePercentEffortAmount = CGConstants.PERSONNEL_MAX_PERCENTAGE;
                 }
             }
             else {

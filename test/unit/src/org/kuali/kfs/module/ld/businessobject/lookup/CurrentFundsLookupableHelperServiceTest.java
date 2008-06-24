@@ -186,8 +186,8 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
      * This method will add temporary test data to the Ledger Balance table 
      */
     protected void insertCurrentFundsRecords() {
-        String messageFileName    = "test/src/org/kuali/kfs/module/ld/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/kfs/module/ld/testdata/accountStatusCurrentFunds.properties";
+        String messageFileName    = "test/unit/src/org/kuali/kfs/module/ld/testdata/message.properties";
+        String propertiesFileName = "test/unit/src/org/kuali/kfs/module/ld/testdata/accountStatusCurrentFunds.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");

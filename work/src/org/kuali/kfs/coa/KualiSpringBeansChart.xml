@@ -19,9 +19,9 @@
     <bean id="chartModule" parent="chartModule-parentBean" />
 
     <bean id="chartModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="chart" />
+		<property name="moduleId" value="coa" />
 		<property name="moduleName" value="Chart Of Accounts" />
-		<property name="moduleCode" value="CA" />
+		<property name="moduleCode" value="COA" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="chartModuleAuthorizer" />
 		<property name="dataDictionaryPackages">

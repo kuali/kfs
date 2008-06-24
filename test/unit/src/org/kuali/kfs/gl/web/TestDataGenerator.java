@@ -46,8 +46,8 @@ public class TestDataGenerator {
      * Constructs a TestDataGenerator instance, with default file names
      */
     public TestDataGenerator() {
-        this.messageFileName = "test/src/org/kuali/kfs/gl/web/fixture/message.properties";
-        this.propertiesFileName = "test/src/org/kuali/kfs/gl/web/fixture/data.properties";
+        this.messageFileName = "test/unit/src/org/kuali/kfs/gl/web/fixture/message.properties";
+        this.propertiesFileName = "test/unit/src/org/kuali/kfs/gl/web/fixture/data.properties";
 
         properties = loadProperties(propertiesFileName);
         message = loadProperties(messageFileName);

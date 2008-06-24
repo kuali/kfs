@@ -126,7 +126,7 @@
               <c:set var="personIndex" value="0"/>
               <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
                 <c:set var="isProjectDirector" value="${person.projectDirector}" />
-                <c:if test="${isProjectDirector or person.personRoleCode eq KualiForm.systemParametersMap[KraConstants.CO_PROJECT_DIRECTOR_PARAM]}">
+                <c:if test="${isProjectDirector or person.personRoleCode eq KualiForm.systemParametersMap[CGConstants.CO_PROJECT_DIRECTOR_PARAM]}">
                 <c:set var="personIndex" value="${personIndex + 1}"/>
                 <tr>
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />
@@ -322,7 +322,7 @@
               <c:set var="otherPersonIndex" value="0"/>
               <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
                 <c:set var="isProjectDirector" value="${person.projectDirector}" />
-                <c:if test="${person.personRoleCode eq KualiForm.systemParametersMap[KraConstants.OTHER_PERSON_PARAM] or person.personRoleCode eq KualiForm.systemParametersMap[KraConstants.CONTACT_PERSON_PARAM]}">
+                <c:if test="${person.personRoleCode eq KualiForm.systemParametersMap[CGConstants.OTHER_PERSON_PARAM] or person.personRoleCode eq KualiForm.systemParametersMap[CGConstants.CONTACT_PERSON_PARAM]}">
                 <c:set var="otherPersonIndex" value="${otherPersonIndex + 1}"/>
                 <tr>
                   <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />

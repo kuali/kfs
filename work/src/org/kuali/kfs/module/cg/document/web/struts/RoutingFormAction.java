@@ -33,7 +33,7 @@ import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.module.cg.KraConstants;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormBudget;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
@@ -172,13 +172,13 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         if (flags.getCanRoute() || flags.getCanApprove()) {
             UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
             if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPersonUniversalIdentifier())) {
-                routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.APPROVALS_PROJECT_DIRECTOR_WORDING));
+                routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_PROJECT_DIRECTOR_WORDING));
             }
             else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(user.getPersonUserIdentifier())) {
-                routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.APPROVALS_INITIATOR_WORDING));
+                routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_INITIATOR_WORDING));
             }
             else {
-                routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, KraConstants.APPROVALS_DEFAULT_WORDING));
+                routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_DEFAULT_WORDING));
             }
         }
     }

@@ -19,9 +19,9 @@
     <bean id="capitalAssetBuilderModule" parent="capitalAssetBuilderModule-parentBean" />
 
     <bean id="capitalAssetBuilderModule-parentBean" class="org.kuali.kfs.sys.FinancialSystemModule" abstract="true">
-		<property name="moduleId" value="capitalAssetBuilder" />
+		<property name="moduleId" value="cab" />
 		<property name="moduleName" value="Capital Asset Builder" />
-		<property name="moduleCode" value="CB" />
+		<property name="moduleCode" value="CAB" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="moduleAuthorizer" ref="capitalAssetBuilderModuleAuthorizer" />
 		<property name="dataDictionaryPackages">

@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="KraConstants" value="${KraConstants}" />
+<c:set var="CGConstants" value="${CGConstants}" />
 
 <div align="right">
-  <kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_NONPERSONNEL_COPY_OVER_HELP_PARAMETER_NAME}" altText="page help"/>
+  <kul:help securityGroupName="${CGConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${CGConstants.BUDGET_NONPERSONNEL_COPY_OVER_HELP_PARAMETER_NAME}" altText="page help"/>
 </div>
 
   <!-- A bonanza of hidden variables from nonpersonnel & copy over to assure non-saved items are retained. -->

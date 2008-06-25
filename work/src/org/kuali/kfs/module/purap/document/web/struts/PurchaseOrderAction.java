@@ -116,7 +116,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 if (newVendor.isActiveIndicator() && !newVendor.isVendorDebarred()) {
                     PurchaseOrderVendorQuote newPOVendorQuote = SpringContext.getBean(PurchaseOrderService.class).populateQuoteWithVendor(newVendor.getVendorHeaderGeneratedIdentifier(), newVendor.getVendorDetailAssignedIdentifier(), document.getDocumentNumber());
                     document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
-                    document.refreshNonUpdateableReferences();
                 }
             }
         }
@@ -1225,7 +1224,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             poForm.getNewPurchaseOrderVendorQuote().setDocumentNumber(document.getDocumentNumber());
             document.getPurchaseOrderVendorQuotes().add(vendorQuote);
             poForm.setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
-            document.refreshNonUpdateableReferences();
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1244,7 +1242,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorQuotes().remove(getSelectedLine(request));
-        document.refreshNonUpdateableReferences();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -194,16 +194,17 @@ public class RequisitionServiceImpl implements RequisitionService {
 
                 return "Requisition contains an item that is marked as restricted.";
             }
-            
-            String commodityCodesReason = "";
-            if (purchaseOrderRequiresCommodityCode.equals("Y")) {
-                List<VendorCommodityCode> vendorCommodityCodes = requisition.getVendorDetail().getVendorCommodities();
-                commodityCodesReason = checkAPORulesPerItemForCommodityCodes(item, vendorCommodityCodes);
+            //We only need to check the commodity codes if this is an above the line item.
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                String commodityCodesReason = "";
+                if (purchaseOrderRequiresCommodityCode.equals("Y")) {
+                    List<VendorCommodityCode> vendorCommodityCodes = requisition.getVendorDetail().getVendorCommodities();
+                    commodityCodesReason = checkAPORulesPerItemForCommodityCodes(item, vendorCommodityCodes);
+                }
+                if (StringUtils.isNotBlank(commodityCodesReason)) {
+                    return commodityCodesReason;
+                }
             }
-            if (StringUtils.isNotBlank(commodityCodesReason)) {
-                return commodityCodesReason;    
-            }
-
 //TODO RELEASE 3 - Discounts and trade-ins
 //          if (EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getCode()) || EpicConstants.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getCode())) {
 //              if ((item.getUnitPrice() != null) && ((zero.compareTo(item.getUnitPrice())) != 0)) {
@@ -283,6 +284,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             for (VendorCommodityCode vcc : vendorCommodityCodes) {
                 if (vcc.isCommodityDefaultIndicator()) {
                     purItem.setCommodityCode(vcc.getCommodityCode());
+                    purItem.setPurchasingCommodityCode(vcc.getPurchasingCommodityCode());
                 }
             }
             // If there is not a default commodity code for the vendor then the requisition

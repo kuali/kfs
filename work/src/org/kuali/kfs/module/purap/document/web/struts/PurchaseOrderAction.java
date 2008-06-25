@@ -1621,8 +1621,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         document.setAlternateVendorName(null);
         document.setAlternateVendorNumber(null);
         
-        document.refreshNonUpdateableReferences();
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     

@@ -50,47 +50,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
-        // TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
-        // since BC sets locks up front, but need to verify this
-
-        // TODO form.populateAuthorizationFields(budgetConstructionDocumentAuthorizer) would normally happen here
-        // but each line needs to be authorized, so need to figure out how to implement this
-
-        // TODO should probably use service locator and call
-        // DocumentAuthorizer documentAuthorizer =
-        // SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer("<BCDoctype>");
-        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
-        salarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
-
-        return forward;
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-
-        if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
-            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-
-            KualiModule module = getKualiModuleService().getResponsibleModule(this.getClass());
-            throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, module);
-        }
-    }
-
-    /**
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

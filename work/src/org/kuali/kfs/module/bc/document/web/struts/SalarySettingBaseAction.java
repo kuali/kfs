@@ -24,12 +24,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.KualiModule;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.authorization.AuthorizationType;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,7 +70,26 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         salarySettingForm.postProcessBCAFLines();
 
+        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
+        salarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
+
         return forward;
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     */
+    @Override
+    public void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
+
+        if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
+            LOG.error("User not authorized to use this action: " + this.getClass().getName());
+
+            KualiModule module = getKualiModuleService().getResponsibleModule(this.getClass());
+            throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, module);
+        }
     }
 
     /**

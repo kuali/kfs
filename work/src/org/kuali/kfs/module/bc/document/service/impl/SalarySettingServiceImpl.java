@@ -32,6 +32,7 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
@@ -195,6 +196,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
         this.resetAppointmentFunding(appointmentFunding);
+        appointmentFunding.setAppointmentFundingDeleteIndicator(true);
 
         return vacantAppointmentFunding;
     }
@@ -251,9 +253,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion) {
         LOG.info("saveSalarySetting() start");
 
-        this.resetDeletedFundingLines(salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding());
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+        this.resetDeletedFundingLines(appointmentFundings);
 
-        KualiInteger requestedAmountTotal = salarySettingExpansion.getAppointmentRequestedAmountTotal();
+        KualiInteger requestedAmountTotal = SalarySettingCalculator.getAppointmentRequestedAmountTotal(appointmentFundings);
         KualiInteger changes = KualiInteger.ZERO;
 
         if (requestedAmountTotal != null) {
@@ -275,7 +278,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     @SuppressWarnings("deprecation")
     public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
-        KualiInteger requestedAmountTotal = salarySettingExpansion.getAppointmentRequestedAmountTotal();
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+
+        KualiInteger requestedAmountTotal = SalarySettingCalculator.getAppointmentRequestedAmountTotal(appointmentFundings);
         KualiInteger changes = KualiInteger.ZERO;
 
         if (requestedAmountTotal != null) {
@@ -289,6 +294,24 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             salarySettingExpansion.setBudgetConstructionMonthly(this.updateMonthlyAmounts(salarySettingExpansion, changes));
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#resetAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void resetAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        appointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
+        appointmentFunding.setAppointmentRequestedTimePercent(BigDecimal.ZERO);
+        appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
+
+        appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
+        appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO);
+        appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);
+        appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO);
+
+        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
+        appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
+    }
 
     /**
      * reset the amount values of each line in the given appointment fundings as zeros and remove the reason annotations if the line
@@ -301,10 +324,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             if (appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isPersistedDeleteIndicator()) {
                 this.resetAppointmentFunding(appointmentFunding);
 
-                for (BudgetConstructionAppointmentFundingReason reason : appointmentFunding.getBudgetConstructionAppointmentFundingReason()) {
-                    if(reason != null) {
-                        businessObjectService.delete(reason);
-                    }
+                List<BudgetConstructionAppointmentFundingReason> reasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
+                if(reasons != null) {
+                    reasons.clear();
                 }
             }
         }
@@ -395,28 +417,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         return csfTracker.getCsfAmount();
-    }
-
-    /**
-     * reset the given appointment funcding as deleted
-     * 
-     * @param appointmentFunding the given appointment funcding
-     */
-    private void resetAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        appointmentFunding.setAppointmentFundingDeleteIndicator(true);
-
-        appointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
-        appointmentFunding.setAppointmentRequestedTimePercent(BigDecimal.ZERO);
-        appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
-
-        appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
-        appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO);
-        appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);
-        appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO);
-
-        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
-        appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
-        appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
     }
 
     /**

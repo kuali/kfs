@@ -49,33 +49,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class QuickSalarySettingAction extends SalarySettingBaseAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuickSalarySettingAction.class);
 
-    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-
-        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType)) {
-            LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()));
-        }
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#returnToCaller(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        this.refresh(mapping, form, request, response);
-
-        return super.returnToCaller(mapping, form, request, response);
-    }
-
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -144,7 +117,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      * perform salary setting by incumbent with the specified funding line
      */
     public ActionForward performIncumbentSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String salarySettingURL = this.buildSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
+        String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
 
         return new ActionForward(salarySettingURL, true);
     }
@@ -153,7 +126,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      * perform salary setting by position with the specified funding line
      */
     public ActionForward performPositionSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String salarySettingURL = this.buildSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
+        String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
 
         return new ActionForward(salarySettingURL, true);
     }
@@ -185,7 +158,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     }
 
     // build the URL for the specified salary setting method
-    private String buildSalarySettingURL(ActionMapping mapping, ActionForm form, HttpServletRequest request, String salarySettingAction) {
+    private String buildDetailSalarySettingURL(ActionMapping mapping, ActionForm form, HttpServletRequest request, String salarySettingAction) {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
 

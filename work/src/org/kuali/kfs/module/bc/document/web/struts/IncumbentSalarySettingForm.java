@@ -79,7 +79,6 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     @Override
     public Map<String, Object> getKeyMapOfSalarySettingItem() {
         Map<String, Object> keyMap = new HashMap<String, Object>();
-
         keyMap.put(KFSPropertyConstants.EMPLID, this.getEmplid());
 
         return keyMap;

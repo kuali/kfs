@@ -255,19 +255,19 @@
 		<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="Total:" horizontal="true" />
 	
 	    <bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1"
-	    	cellProperty="salarySettingExpansion.csfAmountTotal" />
+	    	cellProperty="csfAmountTotal" disableHiddenField="true"/>
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="salarySettingExpansion.csfFullTimeEmploymentQuantityTotal" />
+			cellProperty="csfFullTimeEmploymentQuantityTotal" disableHiddenField="true"/>
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="${3 - numOfColumsRemoved}" 
-			cellProperty="salarySettingExpansion.appointmentRequestedAmountTotal" />
+			cellProperty="appointmentRequestedAmountTotal" disableHiddenField="true"/>
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="salarySettingExpansion.appointmentRequestedFteQuantityTotal" />
+			cellProperty="appointmentRequestedFteQuantityTotal" disableHiddenField="true"/>
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="salarySettingExpansion.percentChangeTotal" />
+			cellProperty="percentChangeTotal" disableHiddenField="true"/>
 		
 		<kul:htmlAttributeHeaderCell />
 	</tr>

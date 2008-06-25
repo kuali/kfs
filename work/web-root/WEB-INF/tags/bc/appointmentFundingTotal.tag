@@ -32,19 +32,19 @@
 		
 		<td>
 			<div class="right">		
-         		<fmt:formatNumber value="${pcafAware.csfAmountTotal}" type="number" groupingUsed="true"/>
+         		<fmt:formatNumber value="${KualiForm.csfAmountTotal}" type="number" groupingUsed="true"/>
 			</div>
 		</td>	             	
 		
 		<td>
 			<div class="right">
-         		<fmt:formatNumber value="${pcafAware.csfStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
+         		<fmt:formatNumber value="${KualiForm.csfStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
 			</div>
 		</td>	             	
 		
 		<td>
 			<div class="right">
-         		<fmt:formatNumber value="${pcafAware.csfFullTimeEmploymentQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
+         		<fmt:formatNumber value="${KualiForm.csfFullTimeEmploymentQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
 			</div>
 		</td>	             	         
 	</tr>
@@ -54,19 +54,19 @@
 
 		<td>
 			<div class="right">		
-         		<fmt:formatNumber value="${pcafAware.appointmentRequestedAmountTotal}" type="number" groupingUsed="true"/>
+         		<fmt:formatNumber value="${KualiForm.appointmentRequestedAmountTotal}" type="number" groupingUsed="true"/>
 			</div>
 		</td>	             	
 		
 		<td>
 			<div class="right">
-         		<fmt:formatNumber value="${pcafAware.appointmentRequestedStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
+         		<fmt:formatNumber value="${KualiForm.appointmentRequestedStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
 			</div>
 		</td>	             	
 		
 		<td>
 			<div class="right">	
-         		<fmt:formatNumber value="${pcafAware.appointmentRequestedFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
+         		<fmt:formatNumber value="${KualiForm.appointmentRequestedFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
 			</div>
 		</td>	             		         
 	</tr>
@@ -76,19 +76,19 @@
 
          <td>
 			<div class="right">
-				<fmt:formatNumber value="${pcafAware.appointmentRequestedCsfAmountTotal}" type="number" groupingUsed="true"/>
+				<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfAmountTotal}" type="number" groupingUsed="true"/>
 			</div>
 		</td>	             	
 		
 		<td>
 			<div class="right">
-         		<fmt:formatNumber value="${pcafAware.appointmentRequestedCsfStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
+         		<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
 	    	</div>
 		</td>
 
 		<td>
 			<div class="right">             	
-         		<fmt:formatNumber value="${pcafAware.appointmentRequestedCsfFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
+         		<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
          	</div>
 		</td>	         
 	</tr>

@@ -30,6 +30,8 @@
               description="div alignment. default is align=left" %>
 <%@ attribute name="formattedNumberValue" required="false"
               description="number to format instead of property" %>
+<%@ attribute name="disableHiddenField" required="false"
+              description="determine whether the hidden field is needed for the given cell property" %>              
 
 
 <c:if test="${empty fieldAlign}">
@@ -43,10 +45,10 @@
 <span class="nowrap">
     <c:choose>
         <c:when test="${empty formattedNumberValue}">
-            <html:hidden write="true" property="${cellProperty}" style="${textStyle}" />
+            <html:hidden write="true" property="${cellProperty}" disabled="${disableHiddenField}" style="${textStyle}" />
         </c:when>
         <c:otherwise>
-            <html:hidden write="false" property="${cellProperty}" style="${textStyle}" />
+            <html:hidden write="false" property="${cellProperty}" disabled="${disableHiddenField}" style="${textStyle}" />
             ${formattedNumberValue}
         </c:otherwise>
     </c:choose>

@@ -38,10 +38,9 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
 
-        // use the passed url parms to get the record from DB
         Map<String, Object> fieldValues = positionSalarySettingForm.getKeyMapOfSalarySettingItem();
-
         BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, fieldValues);
+        
         if (budgetConstructionPosition == null) {
             // TODO this is an RI error need to report it
         }

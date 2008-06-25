@@ -131,4 +131,11 @@ public interface SalarySettingService {
      * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
      */
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion);
+    
+    /**
+     * reset the given appointment funcding as deleted
+     * 
+     * @param appointmentFunding the given appointment funcding
+     */
+    public void resetAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

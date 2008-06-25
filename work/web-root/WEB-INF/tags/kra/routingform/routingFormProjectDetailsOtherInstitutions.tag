@@ -22,9 +22,7 @@
 
 <kul:tab tabTitle="Other Organizations" defaultOpen="false" tabErrorKey="document.routingFormOrganization*" >
   <div class="tab-container" align="center">
-            <div class="h2-container">
-              <a name="otherOrganizations"></a><h2>Other Organizations</h2>
-            </div>
+              <a name="otherOrganizations"></a><h3>Other Organizations</h3>
 
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>

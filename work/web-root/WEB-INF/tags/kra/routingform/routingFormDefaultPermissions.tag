@@ -18,9 +18,7 @@
 
 <kul:tab tabTitle="Default Permissions" defaultOpen="false">
 	<div class="tab-container" align=center>
-		<div class="h2-container">
-			<h2>Default Permissions</h2>
-		</div>
+			<h3>Default Permissions</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view default permissions">
           	<tr>
             	<th width="40%">Name</th>

@@ -32,9 +32,7 @@
       
 <div id="workarea">
 	<div class="tab-container"  align="center">
-		<div class="h2-container"> 
-			<span class="subhead-left"> <h2>Audit Mode</h2> </span>
-		</div>
+			<h3>Audit Mode</h3>
 		<table cellpadding=0 cellspacing="0"  summary="">
 			<tr>
 				<td>

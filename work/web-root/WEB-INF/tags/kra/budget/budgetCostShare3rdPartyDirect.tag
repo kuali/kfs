@@ -34,12 +34,7 @@
 	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="costShareAuditErrors" keyMatch="document.budget.audit.costShare.3rdParty*" isLink="false" includesTitle="true"/></div></div>
 	<c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">
 		<div class="tab-container" align="center">
-			<div class="h2-container">
-				<span class="subhead-left">
-					<h2>
-						Cost Share - 3rd Party Direct
-					</h2> </span>
-			</div>
+					<h3>Cost Share - 3rd Party Direct</h3>
 			<table cellpadding=0  cellspacing="0" summary="view/edit document overview information">
 				<tr>
 					<td height="70" align=left valign=middle class="datacell">

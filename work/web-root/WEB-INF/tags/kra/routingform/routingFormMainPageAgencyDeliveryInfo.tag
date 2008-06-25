@@ -26,9 +26,7 @@
 
 		<div class="tab-container" align="center">
             <div class="tab-container-error"> </div>
-            <div class="h2-container">
-              <h2>Agency/Delivery Info</h2>
-            </div>
+              <h3>Agency/Delivery Info</h3>
             
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
               <tr>

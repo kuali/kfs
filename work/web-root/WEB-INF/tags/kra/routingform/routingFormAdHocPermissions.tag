@@ -29,9 +29,7 @@
 
 <kul:tabTop tabTitle="Ad Hoc Permissions" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
    	<div class="tab-container" align=center>     
-		<div class="h2-container">
-			<h2>Ad Hoc Permissions</h2>
-		</div>
+			<h3>Ad Hoc Permissions</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit ad hoc permissions">
 		<%-- first do the persons --%>
         	<kul:displayIfErrors keyMatch="${Constants.AD_HOC_ROUTE_PERSON_ERRORS}">

@@ -41,9 +41,7 @@
 
 <kul:tab tabTitle="General Ledger Pending Entries" defaultOpen="false" tabErrorKey="${KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
-		<div class="h2-container">
-		<h2>General Ledger Pending Entries <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
-		</div>
+		<h3>General Ledger Pending Entries <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h3>
 	 <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 
 	<c:if test="${empty generalLedgerPendingEntriesList}">

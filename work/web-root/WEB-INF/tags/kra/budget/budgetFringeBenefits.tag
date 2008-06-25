@@ -19,9 +19,7 @@
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetFringeRate.businessObjectClass}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
-<div class="h2-container"> <span class="subhead-left">
-  <a name="Fringes"></a><h2>Fringe Benefit Rates</h2>
-  </span></div>
+  <a name="Fringes"></a><h3>Fringe Benefit Rates</h3>
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   <tr>
     <th rowspan="2"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.AppointmentType.attributes.appointmentTypeDescription}" skipHelpUrl="true" noColon="true" /> (<kul:htmlAttributeLabel attributeEntry="${DataDictionary.AppointmentType.attributes.appointmentTypeCode}" useShortLabel="true" skipHelpUrl="true" noColon="true" />) </div></th>

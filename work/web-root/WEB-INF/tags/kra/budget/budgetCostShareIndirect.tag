@@ -32,12 +32,7 @@
 <kul:tab tabTitle="Cost Share - Institution Indirect" tabDescription="${tabDescription}" defaultOpen="false" transparentBackground="false">
 	<c:if test="${!showCostShareIndirect}">
 		<div class="tab-container" align="center">
-			<div class="h2-container">
-				<span class="subhead-left">
-					<h2>
-						Cost Share - Institution Indirect
-					</h2> </span>
-			</div>
+					<h3>Cost Share - Institution Indirect</h3>
 			<table cellpadding=0  cellspacing="0" summary="view/edit document overview information">
 				<tr>
 					<td height="70" align=left valign=middle class="datacell">

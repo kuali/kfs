@@ -17,9 +17,7 @@
 
 <kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${KFSConstants.LABOR_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
-		<div class="h2-container">
-		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
-		</div>
+		<h3>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h3>
 	 <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 
 	<c:if test="${empty KualiForm.document.laborLedgerPendingEntries}">

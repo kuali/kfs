@@ -46,9 +46,7 @@
 
     <div class="tab-container" id="G02" style="" align="center">
               
-<div class="h2-container"> <span class="subhead-left">
-  <a name="General"></a><h2>General</h2>
-  </span></div>
+  <a name="General"></a><h3>General</h3>
   <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   
   <tr>

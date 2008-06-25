@@ -66,9 +66,7 @@
             	<div class="message-container"><bean:message bundle="kraResources" key="message.kra.subcontractorReminder" /></div>
             </c:if>
             
-            <div class="h2-container">
-              <a name="NonPersonnel"></a><h2>${nonpersonnelCategory.name}</h2>
-            </div>
+              <a name="NonPersonnel"></a><h3>${nonpersonnelCategory.name}</h3>
             
               <table class="datatable" align="center" cellpadding="0" cellspacing="0">
                 <tbody>

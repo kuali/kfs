@@ -69,7 +69,7 @@
 		<table align="center" cellspacing="0">
 			<tr>
 				<td class="subhead" colspan="${KualiForm.document.periodListSize + 2}">
-					<span class="subhead-left"><h2>Overview</h2></span>
+					<h3>Overview</h3>
 				</td>
 			</tr>
 			<tr>
@@ -173,9 +173,7 @@
       
 	<kul:tabTop tabTitle="${budgetModularAttributes.budgetModularPersonnelDescription.label}" defaultOpen="false" tabErrorKey="document.budget.modularBudget.budgetModularPersonnelDescription.missing">
       	<div class="tab-container" align="center">
-			<div class="h2-container"> 
-				<span class="subhead-left"><h2>${budgetModularAttributes.budgetModularPersonnelDescription.label}</h2></span>
-			</div>
+				<h3>${budgetModularAttributes.budgetModularPersonnelDescription.label}</h3>
             <table cellpadding=0  summary="view/edit document overview information">
           		<tr>
             		<td height="70" align=left valign=middle class="datacell">
@@ -197,9 +195,7 @@
 		<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="modularSoftAuditErrors" keyMatch="document.budget.audit.modular.consortium*" isLink="false" includesTitle="true"/></div></div>
       	
       	<div class="tab-container" align="center">
-			<div class="h2-container">
-				<span class="subhead-left"><h2>${budgetModularAttributes.budgetModularConsortiumDescription.label}</h2></span>
-			</div>
+				<h3>${budgetModularAttributes.budgetModularConsortiumDescription.label}</h3>
             <table cellpadding=0  summary="view/edit document overview information">
           		<tr>
             		<td height="70" align=left valign=middle class="datacell">
@@ -214,9 +210,8 @@
       
 	<kul:tab tabTitle="${budgetModularAttributes.budgetModularVariableAdjustmentDescription.label}" defaultOpen="false" tabErrorKey="document.budget.modularBudget.budgetModularVariableAdjustmentDescription*">
 		<div class="tab-container" align="center"> 
-			<div class="h2-container"> 
-				<span class="subhead-left"><h2>${budgetModularAttributes.budgetModularVariableAdjustmentDescription.label} </h2></span>
-			</div>
+				<h3>${budgetModularAttributes.budgetModularVariableAdjustmentDescription.label} </h3>
+
 			<table cellpadding=0 summary="view/edit document overview information">
 				<tr>
 					<td height="70" align=left valign=middle class="datacell">

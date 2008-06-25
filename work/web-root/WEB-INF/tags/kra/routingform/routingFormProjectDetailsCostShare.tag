@@ -25,9 +25,7 @@
 
 <kul:tabTop tabTitle="Cost Share" defaultOpen="false" tabErrorKey="document.routingFormInstitutionCostShare*">
   <div class="tab-container" align="center">
-    <div class="h2-container">
-      <h2>Cost Share</h2>
-    </div>
+      <h3>Cost Share</h3>
 
     <table cellpadding=0 cellspacing="0" summary="">
       <tr>

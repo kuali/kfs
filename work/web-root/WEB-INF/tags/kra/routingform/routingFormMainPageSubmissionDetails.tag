@@ -27,9 +27,7 @@
 	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormBudget*,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber" isLink="false" includesTitle="true"/></div></div>
 
           <div class="tab-container" align="center">
-            <div class="h2-container">
-              <h2>Other Details </h2>
-            </div>
+              <h3>Other Details </h3>
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
 
               

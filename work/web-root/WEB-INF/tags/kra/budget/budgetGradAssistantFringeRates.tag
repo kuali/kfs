@@ -23,9 +23,7 @@
 <html:hidden property="numberOfAcademicYearSubdivisions" />
 <html:hidden property="academicYearSubdivisionNamesString"/>
 
-<div class="h2-container"> <span class="subhead-left">
-  <a name="GradAsst"></a><h2>Research &amp; Grad Assistant Fringe Benefit Rates</h2>
-  </span> </div>
+  <a name="GradAsst"></a><h3>Research &amp; Grad Assistant Fringe Benefit Rates</h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   <c:forEach var="i" begin="1" end="${KualiForm.numberOfAcademicYearSubdivisions}">

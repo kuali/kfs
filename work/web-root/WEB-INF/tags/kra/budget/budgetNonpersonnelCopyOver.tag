@@ -144,9 +144,7 @@
   <c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">
 	<kul:tab tabTitle="Institution Cost Share" tabDescription="None" defaultOpen="false" transparentBackground="false">
       <div class="tab-container" align="center">
-          <div class="h2-container"> <span class="subhead-left">
-              <h2>Institution Cost Share</h2>
-              </span> </div>
+              <h3>Institution Cost Share</h3>
             <table cellpadding=0  summary="view/edit document overview information">
           <tr>
             <td height="70" align=left valign=middle class="datacell"><div align="center">
@@ -165,9 +163,7 @@
   <c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">
 	<kul:tab tabTitle="3rd Party Cost Share" tabDescription="None" defaultOpen="false" transparentBackground="false">
       <div class="tab-container" align="center">
-          <div class="h2-container"> <span class="subhead-left">
-              <h2>3rd Party Cost Share</h2>
-              </span> </div>
+              <h3>3rd Party Cost Share</h3>
             <table cellpadding=0  summary="view/edit document overview information">
           <tr>
             <td height="70" align=left valign=middle class="datacell"><div align="center">

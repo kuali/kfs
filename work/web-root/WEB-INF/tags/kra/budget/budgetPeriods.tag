@@ -23,9 +23,7 @@
               <div class="tab-container" id="G02" style="" align="center">
         
 
-<div class="h2-container"> <span class="subhead-left">
-  <h2><a name="Periods"></a>Budget Periods</h2>
-  </span></div>
+  <h3><a name="Periods"></a>Budget Periods</h3>
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> <tbody>
   <tr>
     <th width="2%"  scope="row">&nbsp;</th>

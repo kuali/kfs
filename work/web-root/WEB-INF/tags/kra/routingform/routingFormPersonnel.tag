@@ -67,8 +67,7 @@
       <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
 
       <div class="tab-container" align="center">
-        <div class="h2-container">
-          <h2><span class="subhead-left">${personName}</span></h2>
+          <h3>${personName}</h3>
           <span class="subhead-right"> <span class="subhead"><a href="asdf.html"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" alt="help" width="15" height="14" border="0" align="absmiddle"></a></span> </span>
         </div>
         <table cellpadding=0 cellspacing="0" class="datatable">

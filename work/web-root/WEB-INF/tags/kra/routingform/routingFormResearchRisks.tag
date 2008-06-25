@@ -40,7 +40,7 @@
 			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*"
 			tabItemCount="${researchRisk.numStudies}">
 			<div class="tab-container" id="G02" style="" align="center">
-            	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
+            	<h3>${researchRisk.researchRiskType.researchRiskTypeDescription}</h3>
             	<table cellpadding="0" cellspacing="0" summary="">
               		<tr>
                 		<td colspan=8 class="tab-subhead"><span class="left">Insert Study </span> </td>
@@ -171,7 +171,7 @@
 			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*"
 			tabItemCount="${researchRisk.numStudies}">
 			<div class="tab-container" id="G02" style="" align="center">
-            	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
+            	<h3>${researchRisk.researchRiskType.researchRiskTypeDescription}</h3>
             	<table cellpadding="0" cellspacing="0" summary="">
               		<tr>
                 		<td colspan=7 class="tab-subhead"><span class="left">Insert Study </span> </td>
@@ -271,7 +271,7 @@
 			transparentBackground="${researchRiskStatus.index == 0}"
 			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*">
 			<div class="tab-container" id="G02" style="" align="center">
-            	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
+            	<h3>${researchRisk.researchRiskType.researchRiskTypeDescription}</h3>
 				<table cellpadding="0" cellspacing="0" summary="">
 					<tr>
 						<th><kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskAttributes.researchRiskDescription}" useShortLabel="true" skipHelpUrl="true" noColon="false" /></th>

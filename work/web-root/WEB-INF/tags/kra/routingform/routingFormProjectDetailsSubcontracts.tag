@@ -26,9 +26,7 @@
 <kul:tab tabTitle="Subcontracts" defaultOpen="false" tabErrorKey="document.routingFormSubcontractor*" >
 
   <div class="tab-container" align="center">
-    <div class="h2-container"><span class="subhead-left">
-      <h2>Subcontracts</h2>
-    </span></div>
+      <h3>Subcontracts</h3>
      
     <table cellpadding=0 cellspacing="0"  summary="">
       <tr>

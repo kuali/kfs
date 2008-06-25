@@ -22,7 +22,7 @@
 <kul:tab tabTitle="Other Project Details" defaultOpen="true" transparentBackground="false" tabAuditKey="document.budget.audit.modular.consortium" auditCluster="projectDetailsAuditErrors">
 	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="projectDetailsAuditErrors" keyMatch="document.projectDetails.otherProjectDetailsQuestions" isLink="false" includesTitle="true"/></div></div>
 	<div class="tab-container" align="center" id="G4" style="">
-		<div class="h2-container"><h2>Other Project Details</h2></div>
+		<h3>Other Project Details</h3>
 		<table cellpadding=0 cellspacing="0" summary="">
 			<tr><td colspan="2" class="nobord">&nbsp;</td></tr>
 			<c:forEach items="${KualiForm.routingFormDocument.routingFormQuestions}" var="routingFormQuestion" varStatus="questionStatus">

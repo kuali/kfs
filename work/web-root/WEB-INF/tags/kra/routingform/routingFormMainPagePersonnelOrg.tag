@@ -27,10 +27,7 @@
   <html:hidden property="document.personnelNextSequenceNumber" />
 
           <div class="tab-container" align="center">
-            <div class="h2-container"> <span class="subhead-left">
-              <h2>Personnel and Units/Orgs</h2>
-
-              </span> </div>
+              <h3>Personnel and Units/Orgs</h3>
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>
                 <td colspan=9 class="tab-subhead"><span class="left">Add Proposal PD/Co-PD </span> </td>

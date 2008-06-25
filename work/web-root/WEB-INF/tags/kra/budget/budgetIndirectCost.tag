@@ -44,10 +44,7 @@
 
 	<div class="tab-container" align="center">
 	
-	<div class="h2-container"> <span class="subhead-left">
-    <h2>Indirect Costs - Parameters</h2>
-    </span>
-  </div>
+    <h3>Indirect Costs - Parameters</h3>
 	
 	
 <!--  Top part of IDC form.  This contains metadata for all indirect costs attached to the current budget. -->
@@ -101,7 +98,7 @@
           <br/>
           <br/>
           
-          <div class="h2-container"><h2>View Indirect Costs</h2></div>
+          <h3>View Indirect Costs</h3>
           
 <!--  Task/Period section of IDC lists tasks and their costs for all periods covered by the budget. -->
           <table class="datatable" summary="" cellpadding="0" cellspacing="0">

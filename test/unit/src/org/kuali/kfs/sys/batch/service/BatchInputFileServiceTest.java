@@ -51,7 +51,7 @@ import org.kuali.kfs.sys.exception.FileStorageException;
  */
 @ConfigureContext
 public class BatchInputFileServiceTest extends KualiTestBase {
-    private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
+    private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/sys/batch/fixture/";
 
     private BatchInputFileService batchInputFileService;
 

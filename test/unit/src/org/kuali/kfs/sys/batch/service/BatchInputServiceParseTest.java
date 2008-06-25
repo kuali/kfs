@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.exception.XMLParseException;
  */
 @ConfigureContext
 public class BatchInputServiceParseTest extends KualiTestBase {
-    private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
+    private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/sys/batch/fixture/";
 
     private BatchInputFileService batchInputFileService;
 

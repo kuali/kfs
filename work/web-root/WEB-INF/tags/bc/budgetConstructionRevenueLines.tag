@@ -37,7 +37,7 @@
 
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
             <bc:subheadingWithDetailToggleRow
-              columnCount="8"
+              columnCount="7"
               subheading="Revenue"/>
 			<tr>
 				<th>
@@ -48,9 +48,6 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.financialBeginningBalanceLineAmount}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.accountLineAnnualBalanceAmount}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.percentChange}" />
-				<th>
-					Month?
-				</th>
 				<th>
 					Action
 				</th>
@@ -117,9 +114,6 @@
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
-			  <td class="infoline" nowrap><div align=center>
-                  &nbsp;
-			  </div></td>
               <td class="infoline" nowrap><div align="center">
                   <html:image property="methodToCall.insertRevenueLine.anchorrevenuenewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add an Revenue Line" alt="Add an Revenue Line" styleClass="tinybutton"/>
               </div></td>
@@ -221,38 +215,45 @@
                   readOnly="true"
                   rowSpan="1" dataFieldCssClass="amount" />
 
-              <td class="datacell"" nowrap><div align=center>
-				  <c:choose>
-					<c:when test="${empty item.budgetConstructionMonthly[0]}" > 
-                      <c:if test="${lineIsEditable}">
-						<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
-                      </c:if>
-					</c:when> 
-					<c:otherwise> 
-                      <c:choose>
-                        <c:when test="${lineIsEditable}">
-                          <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
-                        </c:when> 
-                        <c:otherwise> 
-                          <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
-                        </c:otherwise> 
-                      </c:choose>
-						
-					</c:otherwise> 
-				  </c:choose>&nbsp; 
-              </div></td>
-
              <td class="datacell" nowrap>
                  <div align="center">
-                   <c:if test="${lineIsEditable && (empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0)}">
-                     <html:image property="methodToCall.deleteRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Revenue Line ${status.index}" alt="Delete Revenue Line ${status.index}" styleClass="tinybutton"/>
-                     <br>
-                   </c:if>
+				   <c:choose>
+					 <c:when test="${empty item.budgetConstructionMonthly[0]}" > 
+                       <c:if test="${lineIsEditable}">
+						 <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createmonth.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+                       </c:if>
+                       <c:if test="${!lineIsEditable}">
+						 <html:img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" styleClass="tinybutton" alt="" width="80" height="15"/>
+                       </c:if>
+					 </c:when> 
+					 <c:otherwise> 
+                       <c:choose>
+                         <c:when test="${lineIsEditable}">
+                           <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-editmonth.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+                         </c:when> 
+                         <c:otherwise> 
+                           <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-viewmonth.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
+                         </c:otherwise> 
+                       </c:choose>
+						
+					 </c:otherwise> 
+				   </c:choose>
+
                    <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry For Revenue Line ${status.index}" alt="Balance Inquiry For Revenue Line ${status.index}" styleClass="tinybutton" />
+<%-- FIXME: move this to new location with toolset
                    <c:if test="${lineIsEditable && !empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
-                     <br>
                      <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-percentincdec.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
+--%>
+
+				   <c:choose>
+                     <c:when test="${lineIsEditable && (empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0)}">
+                       <html:image property="methodToCall.deleteRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Revenue Line ${status.index}" alt="Delete Revenue Line ${status.index}" styleClass="tinybutton"/>
+                     </c:when>
+					 <c:otherwise> 
+					   <html:img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" styleClass="tinybutton" alt="" width="40" height="15"/>
+					 </c:otherwise> 
+				   </c:choose>
                  </div>
              </td>
             </tr>
@@ -277,12 +278,11 @@
                     fieldAlign="right"
                     colSpan="1" />
 				<td>&nbsp;</td>
-				<td>&nbsp;</td>
 			</tr>
 
             <c:if test="${!readOnly}">
             <tr>
-              <td colspan="8" class="datacell" nowrap>
+              <td colspan="7" class="datacell" nowrap>
                 <div align="center">
                   <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
                   <html:image property="methodToCall.performRevMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;

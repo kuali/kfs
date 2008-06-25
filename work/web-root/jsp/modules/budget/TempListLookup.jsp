@@ -55,6 +55,7 @@
 	<html-el:hidden name="KualiForm" property="buildControlList" />
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
 	<html-el:hidden name="KualiForm" property="tempListLookupMode" />
+	<html-el:hidden name="KualiForm" property="forceToAccountListScreen" />
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
@@ -105,22 +106,34 @@
                 --> 					
 				<tr align=center>
 					<td height="30" colspan=2 class="infoline">
-					<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV}">
-					  <html:image
-					  	  property="methodToCall.submitReport" value="submit"
-						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
-						  alt="submit" title="submit" border="0" />
-					</c:if>
-					<html:image
+					<c:if test="${KualiForm.forceToAccountListScreen != true}">
+						<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV}">
+					  		<html:image
+					  	  	property="methodToCall.submitReport" value="submit"
+						  	src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
+						  	alt="submit" title="submit" border="0" />
+						</c:if>
+					
+						<html:image
 						property="methodToCall.search" value="search"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
-						alt="search" title="search" border="0" /> <html:image
+						alt="search" title="search" border="0" /> 
+						<html:image
 						property="methodToCall.clearValues" value="clearValues"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
-						alt="clear" title="clear" border="0" /> <html:image
+						alt="clear" title="clear" border="0" /> 
+					</c:if>
+					<c:if test="${KualiForm.forceToAccountListScreen == true}">
+						<html:image
+					  	  	property="methodToCall.submitReport" value="submit"
+						  	src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
+						  	alt="submit" title="submit" border="0" onclick="excludeSubmitRestriction=true"/>
+					</c:if>
+						<html:image
 						property="methodToCall.cancel" value="cancel"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="tinybutton"
 						alt="cancel" title="cancel" border="0" />
+					
 					<!-- Optional extra buttons --> 					
 					<c:forEach items="${KualiForm.extraButtons}" var="extraButton" varStatus="status">
 						<c:if test="${!empty extraButton.extraButtonSource && !empty extraButton.extraButtonParams}">

@@ -30,7 +30,7 @@ public class KualiWorkflowUtilsTest extends KualiTestBase {
 
     public void testGetFinancialDocumentTotalAmount() throws Exception {
         KualiDecimal validAmount = new KualiDecimal(3.00);
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW, "PurchaseOrderDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, "PurchaseOrderDocument");
 
         KualiDecimal testAmount = KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument());
         assertEquals(validAmount, testAmount);

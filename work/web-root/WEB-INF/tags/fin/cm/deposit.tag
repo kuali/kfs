@@ -43,9 +43,7 @@
 </c:if>
 
 
-<div class="h2-container">
-    <h2>${depositTitle}</h2>
-</div>
+    <h3>${depositTitle}</h3>
 
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

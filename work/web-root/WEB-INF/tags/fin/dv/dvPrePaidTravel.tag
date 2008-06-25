@@ -21,9 +21,7 @@
     <html:hidden property="document.finDocNextRegistrantLineNbr"/>
   
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-<h2>Pre-Paid Travel Expenses</h2>
-</div>
+<h3>Pre-Paid Travel Expenses</h3>
     	<table cellpadding=0 class="datatable" summary="Pre-Paid Travel Section">
 
             

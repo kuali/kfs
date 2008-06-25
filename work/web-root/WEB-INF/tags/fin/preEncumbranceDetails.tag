@@ -23,9 +23,7 @@
     tabErrorKey="${KFSConstants.EDIT_PRE_ENCUMBRANCE_ERRORS}"
     >
     <div class="tab-container" align=center>
-    <div class="h2-container">
-<h2>Pre-Encumbrance Details</h2>
-</div>
+<h3>Pre-Encumbrance Details</h3>
         <table cellpadding=0 class="datatable"
                summary="view/edit pre-encumbrance specific fields">
             <tbody>

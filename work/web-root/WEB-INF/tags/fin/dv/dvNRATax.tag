@@ -20,9 +20,7 @@
     
 	<c:set var="nraTaxAttributes" value="${DataDictionary.DisbursementVoucherNonResidentAlienTax.attributes}" />
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-<h2>NRA Tax</h2>
-</div>
+<h3>NRA Tax</h3>
 	<table cellpadding=0 class="datatable" summary="NRA Tax Section">
 
             

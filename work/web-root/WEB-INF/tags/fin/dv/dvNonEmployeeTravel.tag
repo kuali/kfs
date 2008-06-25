@@ -21,9 +21,7 @@
     <html:hidden property="document.dvNonEmployeeTravel.financialDocumentNextLineNbr"/>
    
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-<h2>Non-Employee Travel Expense</h2>
-</div>
+<h3>Non-Employee Travel Expense</h3>
 	  <table cellpadding=0 class="datatable" summary="Non-Employee Travel Section">
            
             <tr>

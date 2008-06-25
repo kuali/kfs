@@ -28,9 +28,7 @@
 
 <kul:documentOverview editingMode="${editingMode}">
 	<c:if test="${includePostingYear or includeTotalAmount}">
-	  <div class="h2-container">
-	    <h2><c:out value="Financial Document Detail"/></h2>
-      </div>
+	    <h3><c:out value="Financial Document Detail"/></h3>
 	  <table cellpadding="0" cellspacing="0" class="datatable" summary="KFS Detail Section">
 	    <tr>
 	      <c:choose>

@@ -19,9 +19,7 @@
   	<c:set var="dvAttributes" value="${DataDictionary.DisbursementVoucherDocument.attributes}" />
   	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-                <h2>Payment Information</h2>
-              </div>
+                <h3>Payment Information</h3>
 	   <table cellpadding=0 class="datatable" summary="PaymentSection">
             <tr>
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}"/></div></th>

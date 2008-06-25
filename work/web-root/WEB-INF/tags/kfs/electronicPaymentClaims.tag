@@ -23,7 +23,7 @@
 
 <kul:tabTop tabTitle="Electronic Payments" defaultOpen="true" tabErrorKey="claims*">
   <div class="tab-container" align="center">
-    <div class="h2-container"><h2>Electronic Payments</h2></div>
+    <h3>Electronic Payments</h3>
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
       <tr>

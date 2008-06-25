@@ -32,9 +32,7 @@
     <kul:tab tabTitle="Check Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CHECK_DETAIL_ERRORS}" >
         <div class="tab-container" align=center>
         
-	        <div class="h2-container">
-			<h2>Check Detail</h2>
-			</div>
+			<h3>Check Detail</h3>
             <table cellpadding=0 class="datatable" summary="check detail information">
                 
                 <tr>

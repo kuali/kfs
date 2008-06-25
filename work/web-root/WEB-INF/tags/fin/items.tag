@@ -22,9 +22,7 @@
 <c:set var="itemAttributes" value="${DataDictionary.InternalBillingItem.attributes}" />
 
  <div class="tab-container" align=center>
-	<div class="h2-container">
-	<h2>Items</h2>
-	</div>
+	<h3>Items</h3>
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items section">
 	    
 		<tr>

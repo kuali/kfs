@@ -18,9 +18,7 @@
 <kul:tab tabTitle="Special Handling" defaultOpen="false" tabErrorKey="${KFSConstants.DV_SPECHAND_TAB_ERRORS}">
 	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-<h2>Send Check To</h2>
-</div>
+<h3>Send Check To</h3>
 	<table cellpadding=0 class="datatable" summary="Special Handling Section">          
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}"/></div></th>

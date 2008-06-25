@@ -19,9 +19,7 @@
 
 <c:set var="drawer" value="${KualiForm.document.cashDrawer}" />
 
-<div class="h2-container">
-            			<h2>Cash Drawer Contents</h2>
-        			</div>
+            			<h3>Cash Drawer Contents</h3>
         <html:hidden name="KualiForm" property="document.cashDrawer.statusCode" />
 				<table border="0" cellspacing="0" cellpadding="0" class="datatable">
 					<tr>

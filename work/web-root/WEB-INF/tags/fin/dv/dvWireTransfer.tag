@@ -18,9 +18,7 @@
 <kul:tab tabTitle="Wire Transfer" defaultOpen="false" tabErrorKey="${KFSConstants.DV_WIRETRANSFER_TAB_ERRORS}">
 	<c:set var="wireTransAttributes" value="${DataDictionary.DisbursementVoucherWireTransfer.attributes}" />
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-    <h2>Wire Transfer</h2>
-    </div>
+    <h3>Wire Transfer</h3>
 	<table cellpadding=0 class="datatable" summary="Wire Transfer Section">
             
                <tr>

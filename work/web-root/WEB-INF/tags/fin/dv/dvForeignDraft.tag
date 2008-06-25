@@ -18,9 +18,7 @@
 <kul:tab tabTitle="Foreign Draft" defaultOpen="false" tabErrorKey="${KFSConstants.DV_FOREIGNDRAFTS_TAB_ERRORS}">
 	<c:set var="wireTransAttributes" value="${DataDictionary.DisbursementVoucherWireTransfer.attributes}" />
     <div class="tab-container" align=center>
-    <div class="h2-container">
-      <h2>Foreign Draft</h2>
-    </div>
+      <h3>Foreign Draft</h3>
               <table class="datatable" summary="Foreign Draft Section" cellpadding="0">
                 <tbody>
                   <tr>

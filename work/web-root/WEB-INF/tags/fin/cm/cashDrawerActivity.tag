@@ -42,9 +42,7 @@
 	  <table cellspacing="0" cellpadding="0" border="0" class="datatable">
 		  <tr>
 			  <td width="50%" valign="top">
-        			  <div class="h2-container">
-            			  <h2>${subheading}</h2>
-        			  </div>
+            			  <h3>${subheading}</h3>
 
         			  <table cellspacing=0 cellpadding=0 border=0 class="datatable">
             			<tr>

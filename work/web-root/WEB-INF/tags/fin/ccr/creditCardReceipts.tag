@@ -21,9 +21,7 @@
 <kul:tab tabTitle="Credit Card Receipts" defaultOpen="true" tabErrorKey="${KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS}">
 <c:set var="ccrAttributes" value="${DataDictionary.CreditCardDetail.attributes}" />
  <div class="tab-container" align=center>
-	<div class="h2-container">
-	<h2>Credit Card Receipts</h2>
-	</div>
+	<h3>Credit Card Receipts</h3>
 	<table cellpadding=0 class="datatable" summary="Credit Card Receipts section">
 		<tr>
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>

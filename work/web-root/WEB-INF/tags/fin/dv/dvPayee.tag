@@ -18,9 +18,7 @@
 <kul:tab tabTitle="Payee Information" defaultOpen="true" tabErrorKey="${KFSConstants.DV_PAYEE_TAB_ERRORS},document.dvPayeeDetail.disbursementVoucherPayeeTypeCode">
 	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-        <h2>Payee Information</h2>
-    </div>
+        <h3>Payee Information</h3>
 	<table cellpadding=0 class="datatable" summary="Payee Section">
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/></div></th>

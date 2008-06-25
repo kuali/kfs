@@ -35,9 +35,7 @@
 <html:hidden property="${cashDrawerProperty}.referenceFinancialDocumentNumber" />
 
 
-<div class="h2-container">
-  <h2>Cash Drawer Currency/Coin</h2>
-</div>
+  <h3>Cash Drawer Currency/Coin</h3>
 
 <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
   <tr>

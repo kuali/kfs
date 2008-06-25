@@ -18,9 +18,7 @@
 <kul:tab tabTitle="Contact Information" defaultOpen="true" tabErrorKey="${KFSConstants.DV_CONTACT_TAB_ERRORS}">
   	<c:set var="dvAttributes" value="${DataDictionary.DisbursementVoucherDocument.attributes}" />
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-<h2>Contact Information</h2>
-</div>
+<h3>Contact Information</h3>
 
 
 

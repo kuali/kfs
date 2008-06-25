@@ -21,37 +21,27 @@
 <html:hidden name="KualiForm" property="document.currentTransaction.nextCheckSequenceId" write="false" />
 <%-- <kul:htmlControlAttribute property="document.currentTransaction.transactionStarted" attributeEntry="${DataDictionary.CashieringTransaction.attributes.transactionStarted}" /> --%>
 <div style="padding: 5px;">
-  <div class="h2-container">
-    <h2>Currency/Coin</h2>
-  </div>
+    <h3>Currency/Coin</h3>
   <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyInCurrency" coinProperty="document.currentTransaction.moneyInCoin" editingMode="${KualiForm.editingMode}" />
 </div>
 <div style="padding: 5px;">
-  <div class="h2-container">
-    <h2>New Miscellaneous Advance</h2>
-  </div>
+    <h3>New Miscellaneous Advance</h3>
 <table border="0" cellspacing="0" cellpadding="0" class="datatable">
   <cm:miscAdvanceHeader itemInProcessProperty="document.currentTransaction.newItemInProcess" creatingItemInProcess="true" />
   <cm:miscAdvanceLine itemInProcessProperty="document.currentTransaction.newItemInProcess" creatingItemInProcess="true" />
 </table>
 </div>
 <div style="padding: 5px;">
-  <div class="h2-container">
-    <h2>Cashiering Checks</h2>
-  </div>
+    <h3>Cashiering Checks</h3>
   <cm:checkLines checkDetailMode="true" editingMode="${KualiForm.editingMode}" displayHidden="false" />
 </div>
 
 	<h4>Money Out</h4>
 <div style="padding: 5px;">
-  <div class="h2-container">
-    <h2>Currency/Coin</h2>
-  </div>
+    <h3>Currency/Coin</h3>
   <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyOutCurrency" coinProperty="document.currentTransaction.moneyOutCoin" editingMode="${KualiForm.editingMode}" />
 </div>
 <div style="padding: 5px;">
-  <div class="h2-container">
-    <h2>Open Miscellaneous Advances</h2>
-  </div>
+    <h3>Open Miscellaneous Advances</h3>
   <cm:openMiscAdvanceLines />
 </div>

@@ -19,9 +19,7 @@
 	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
 
     <div class="tab-container" align=center > 
-    <div class="h2-container">
-        <h2>Select Payee Type</h2>
-    </div>
+        <h3>Select Payee Type</h3>
 	<table cellpadding=0 class="datatable" summary="Payee Section">
 			<tr>
 				<th align=right valign=middle class="bord-l-b">Select type of payee: </th>

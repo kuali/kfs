@@ -52,9 +52,9 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
     
     public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record, Integer budgetYear) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", record.getChartOfAccountsCode());
-        criteria.addEqualTo("accountNumber", record.getAccountNumber());
-        criteria.addEqualTo("subAccountNumber", record.getSubAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, record.getChartOfAccountsCode());
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, record.getAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, record.getSubAccountNumber());
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         BudgetConstructionHeader header = (BudgetConstructionHeader)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionHeader.class, criteria));
         

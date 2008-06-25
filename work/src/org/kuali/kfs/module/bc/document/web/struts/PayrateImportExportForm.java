@@ -25,6 +25,7 @@ public class PayrateImportExportForm extends BudgetExpansionForm {
     private String fileName;
     private int importCount;
     private int updateCount;
+    private Integer universityFiscalYear;
     private FormFile file;
     
     public FormFile getFile() {
@@ -81,6 +82,14 @@ public class PayrateImportExportForm extends BudgetExpansionForm {
 
     public void setPositionUnionCode(String positionUnionCode) {
         this.positionUnionCode = positionUnionCode;
+    }
+
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
     }
 
 

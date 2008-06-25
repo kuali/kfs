@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,9 +31,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.WebUtils;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.service.PayrateImportService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public class PayrateImportExportAction extends BudgetExpansionAction {
@@ -41,8 +46,9 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
         PayrateImportService payrateImportService = SpringContext.getBean(PayrateImportService.class);
         List<String> messageList = new ArrayList<String>();
-        //TODO: check that budget construction updates are allowed
-        
+        Integer universityFiscalYear = payrateImportExportForm.getUniversityFiscalYear();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
         
         boolean isValid = validateFormData(payrateImportExportForm);
@@ -73,6 +79,9 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+        boolean budgetUpdatesAllowed = fiscalYearFunctionControlService.isBudgetUpdateAllowed(form.getUniversityFiscalYear());
+        
         if ( importForm.getFile() == null || importForm.getFile().getFileSize() == 0 ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
             isValid = false;
@@ -83,6 +92,10 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         }
         if (importForm.getFile() != null && (StringUtils.isBlank(importForm.getFile().getFileName())) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
+            isValid = false;
+        }
+        if ( !budgetUpdatesAllowed ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_IMPORT_UPDATE_NOT_ALLOWED);
             isValid = false;
         }
         

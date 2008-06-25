@@ -85,5 +85,6 @@ public class BCKeyConstants {
     public static final String MSG_LOCK_POSITIONFUNDINGKEY = "message.budget.lock.positionFundingKey";
     public static final String MSG_LOCK_ACCOUNTKEY = "message.budget.lock.accountKey";
     public static final String ERROR_LOCK_INVALID_USER = "error.budget.lock.invalidUser";
+    public static final String ERROR_PAYRATE_IMPORT_UPDATE_NOT_ALLOWED = "error.budget.payrateImportExport.updatesNotAllowed";
 }
 

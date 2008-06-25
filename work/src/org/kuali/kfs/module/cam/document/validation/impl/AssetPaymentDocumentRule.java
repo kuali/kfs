@@ -125,7 +125,7 @@ public class AssetPaymentDocumentRule extends AccountingDocumentRuleBase {
             keyToFind.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, expenditureFinancialDocumentTypeCode);
 
             if (SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, keyToFind) == null) {
-                label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();
+                label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KNSPropertyConstants.DOCUMENT_TYPE_CODE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }

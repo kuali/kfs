@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * This class validates payment financial document type code
@@ -58,7 +59,7 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
         String label;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
             Map<String, Object> keyToFind = new HashMap<String, Object>();
-            keyToFind.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
+            keyToFind.put(KNSPropertyConstants.DOCUMENT_TYPE_CODE, assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
 
             if (businessObjectService.findByPrimaryKey(DocumentType.class, keyToFind) == null) {
                 label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(DocumentType.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE).getLabel();

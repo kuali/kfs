@@ -39,7 +39,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.webCodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.core.bo.BusinessObject)
      */
     @Override
     protected String getDescriptionOfBO(PersistableBusinessObject bo) {
@@ -47,7 +47,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.webCodeDescriptionFormatterBase#getValuesToBusinessObjectsMap(java.util.Set)
+     * @see org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase#getValuesToBusinessObjectsMap(java.util.Set)
      */
     @Override
     protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {

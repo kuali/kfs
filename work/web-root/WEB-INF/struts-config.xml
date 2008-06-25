@@ -191,7 +191,7 @@
             <forward name="dvPerDiemLinks" path="/jsp/modules/financial/DisbursementVoucherTravelPerDiemLinks.jsp" />
         </action>
 
-        <action path="/disbursementVoucherInit" name="DisbursementVoucherInitForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.fp.document.web.strutsDisbursementVoucherInitAction">
+        <action path="/disbursementVoucherInit" name="DisbursementVoucherInitForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.fp.document.web.struts.DisbursementVoucherInitAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/financial/DisbursementVoucherInit.jsp" />
         </action>

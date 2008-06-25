@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase {
 
@@ -212,7 +213,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
 
     private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }

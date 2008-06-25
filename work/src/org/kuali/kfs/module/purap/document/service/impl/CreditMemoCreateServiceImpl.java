@@ -48,6 +48,7 @@ import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 
 /**
@@ -297,7 +298,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         }
 
         // trim description if longer than whats specified in the data dictionary
-        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }

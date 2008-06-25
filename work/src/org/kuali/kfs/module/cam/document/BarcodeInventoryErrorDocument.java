@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 
@@ -20,7 +21,8 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 	 * Default constructor.
 	 */
 	public BarcodeInventoryErrorDocument() {
-	    barcodeInventoryErrorDetail = new ArrayList<BarcodeInventoryErrorDetail>();        
+	    super();
+	    this.setBarcodeInventoryErrorDetail(new ArrayList<BarcodeInventoryErrorDetail>());   
 	}
 
 	/**
@@ -92,7 +94,12 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
         this.barcodeInventoryErrorDetail = barcodeInventoryErrorDetails;
     }
 
- 
+
+    public void setBarcodeInventoryErrorDetail(BarcodeInventoryErrorDetail detail) {
+        System.out.println("*** Index: "+detail.toString());
+    }
+
+    
     public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
         if (index >= barcodeInventoryErrorDetail.size()) {
             for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {

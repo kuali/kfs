@@ -22,14 +22,21 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
+    private static final KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
+
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      *
@@ -53,6 +60,18 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         return super.execute(mapping, form, request, response);
     }
 
+    
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+
+        /*BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
+        BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
+        
+        // apply rules for the new cash control detail                
+        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document));
+        */
+    }
 
 
     /**

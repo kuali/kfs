@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
-public class BarcodeInventoryErrorDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase  {
 
 }

@@ -367,5 +367,5 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 
     public void setErrorDescription(String errorDescription) {
         this.errorDescription = errorDescription;
-    }
+    }    
 }

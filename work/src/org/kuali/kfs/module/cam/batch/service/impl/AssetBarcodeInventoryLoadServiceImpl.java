@@ -26,16 +26,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.UrlFactory;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
@@ -47,15 +46,13 @@ import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInventoryEvent;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This is the default implementation of the ProcurementCardLoadTransactionsService interface. Handles loading, parsing, and storing
  * of incoming procurement card batch files.
  * 
- * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService
+ * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
  */
 public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInventoryLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryLoadServiceImpl.class);
@@ -70,7 +67,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
     /**
      * 
-     * @see org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService#isFileFormatValid(java.io.File)
+     * @see org.kuali.module.cams.service.AssetBarcodeInventoryLoadService#isFileFormatValid(java.io.File)
      */
     public boolean isFileFormatValid(File file) {
         LOG.debug("isFileFormatValid(File file) - start");
@@ -179,7 +176,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
     /**
      * 
-     * @see org.kuali.kfs.module.cam.batch.service.AssetBarCodeInventoryLoadService#processFile(java.io.File)
+     * @see org.kuali.module.cams.service.AssetBarCodeInventoryLoadService#processFile(java.io.File)
      */
     public boolean processFile(File file) {
         LOG.debug("processFile(File file) - start");
@@ -348,19 +345,38 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         BarcodeInventoryErrorDocument document;
         try {
             //KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("BarcodeInventoryErrorDocument", GlobalVariables.getUserSession().getUniversalUser());
-            //GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
+            //KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(new Long(318640), GlobalVariables.getUserSession().getUniversalUser());
+                        
             
             document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
-
+            
+            //TODO this might look unnecessary, but the normal way is giving me an exception.
+/*java.lang.RuntimeException: transient FlexDoc is null - this should never happen
+    at org.kuali.core.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:73)
+*/            
+            try {
+                document.getDocumentHeader().getWorkflowDocument();
+            } catch (Exception e) {
+                KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("BarcodeInventoryErrorDocument", GlobalVariables.getUserSession().getUniversalUser());
+                document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+                GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);                                
+            }
+            //*****************************************************************************
+            
+            /*LOG.info(document.getDocumentHeader().getWorkflowDocument());
+            LOG.info("*************");*/
+            
+            
             //FinancialSystemDocumentHeader documentHeader = new DocumentHeader();
             //documentHeader.setWorkflowDocument(workflowDocument);
             //documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
             //documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
-            /*document.getDocumentHeader().setExplanation("BARCODE ERROR INVENTORY");
-            document.getDocumentHeader().setFinancialDocumentDescription("");
+            
+            //TODO put in constants the description
+            document.getDocumentHeader().setExplanation("BARCODE ERROR INVENTORY");
             document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
-            document.getDocumentHeader().setFinancialDocumentDescription("BARCODE ERROR INVENTORY");
-*/
+            document.getDocumentHeader().setDocumentDescription("BARCODE ERROR INVENTORY");
+            document.getDocumentHeader().setDocumentNumber(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
             
             // **************************************************************************************************
             // Create a new document header object
@@ -370,9 +386,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
             documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
             documentHeader.setExplanation("BARCODE ERROR INVENTORY");
-            documentHeader.setFinancialDocumentDescription("");
             documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
-            documentHeader.setFinancialDocumentDescription("BARCODE ERROR INVENTORY");
+            documentHeader.setDocumentDescription("BARCODE ERROR INVENTORY");
 
             barcodeInventoryErrorDocument.setDocumentHeader(documentHeader);
             barcodeInventoryErrorDocument.setDocumentNumber(documentHeader.getDocumentNumber());
@@ -382,6 +397,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             document.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
             document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
             
+            /*
             Properties parameters = new Properties();
             parameters.put(KNSConstants.PARAMETER_DOC_ID, document.getDocumentHeader().getDocumentNumber());
             parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
@@ -390,9 +406,9 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                     SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY)
                     + "/" + KNSConstants.DOC_HANDLER_ACTION, parameters);
 
-            // post an error about the locked document
             String[] errorParameters = { url, document.getDocumentHeader().getDocumentNumber()};
             GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarCodeInventory.MESSAGE_DOCUMENT_URL, errorParameters);            
+*/
             //GlobalVariables.getMessageList().add("Document "+documentHeader.getDocumentNumber()+" has been succesfully saved.");            
         } catch (Exception e) {
             LOG.error("createInvalidBarcodeInventoryDocument - error:", e);            

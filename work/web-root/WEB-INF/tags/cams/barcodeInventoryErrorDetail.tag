@@ -28,28 +28,28 @@
 			readOnly="true" />
 	</td>
 
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.assetTagNumber}"
 			property="${propertyName}.assetTagNumber"
 			readOnly="${readOnly}" />
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.uploadScanIndicator}"
 			property="${propertyName}.uploadScanIndicator" 
-			readOnly="false" />
+			readOnly="true" />
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.uploadScanTimestamp}"
 			property="${propertyName}.uploadScanTimestamp"
-			readOnly="${readOnly}" />
+			readOnly="true" />
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.campusCode}"
 			property="${propertyName}.campusCode"
@@ -58,49 +58,62 @@
 			&nbsp;
 			<kul:lookup boClassName="org.kuali.core.bo.Campus" fieldConversions="campusCode:${propertyName}.campusCode" />
 		</c:if>
-
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.buildingCode}"
 			property="${propertyName}.buildingCode"
 			readOnly="${readOnly}" />
 			<c:if test="${not readOnly}">
 				&nbsp;
-				<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
+				<kul:lookup boClassName="org.kuali.kfs.bo.Building" 
 				fieldConversions="buildingCode:${propertyName}.buildingCode,campusCode:${propertyName}.campusCode" 
 				lookupParameters="${propertyName}.buildingCode:buildingCode,${propertyName}.campusCode:campusCode" />				
 			</c:if>
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.buildingRoomNumber}"
 			property="${propertyName}.buildingRoomNumber"
 			readOnly="${readOnly}" />
+			<c:if test="${not readOnly}">
+				&nbsp;
+				<kul:lookup boClassName="org.kuali.kfs.bo.Room" 
+				fieldConversions="buildingCode:${propertyName}.buildingCode,campusCode:${propertyName}.campusCode,buildingRoomNumber:${propertyName}.buildingRoomNumber" 
+				lookupParameters="${propertyName}.buildingCode:buildingCode,${propertyName}.campusCode:campusCode" />				
+			</c:if>			
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.buildingSubRoomNumber}"
 			property="${propertyName}.buildingSubRoomNumber"
 			readOnly="${readOnly}" />
+
 	</td>
 	
-	<td align=left class="${cssClass}">
+	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.assetConditionCode}"
 			property="${propertyName}.assetConditionCode"
 			readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
 			&nbsp;
-			<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:${propertyName}.assetConditionCode" />
+			<kul:lookup boClassName="org.kuali.module.cams.bo.AssetCondition" fieldConversions="assetConditionCode:${propertyName}.assetConditionCode"
+			lookupParameters="${propertyName}.assetConditionCode:assetConditionCode" />			
 		</c:if>
 
 	</td>
+
+	<td align=left class="${cssClass}">&nbsp
+		<kul:htmlControlAttribute
+			attributeEntry="${barcodeInventoryDetailAttributes.errorDescription}"
+			property="${propertyName}.errorDescription"
+			readOnly="${readOnly}" />
+	</td>
 		
-	<td align=left class="${cssClass}">
          <c:if test="${not readOnly}">
                <td class="datacell">
                   	<div align="center">
@@ -108,5 +121,4 @@
                   	</div>
                 </td>
          </c:if>
-	</td>
 </tr>

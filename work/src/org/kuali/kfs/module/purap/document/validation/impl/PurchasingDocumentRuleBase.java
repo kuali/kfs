@@ -599,7 +599,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
             //if recurring payment begin dates entered, begin date must be > closing date
             if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) &&
-                   purDocument.getPurchaseOrderBeginDate().before(closingDate)) {
+                   (purDocument.getPurchaseOrderBeginDate().before(closingDate) ||
+                    purDocument.getPurchaseOrderBeginDate().equals(closingDate))) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_NEXT_FY_BEGIN_DATE_INVALID);
                 valid &= false;
             }

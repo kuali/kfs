@@ -22,9 +22,7 @@
 
 <kul:tab tabTitle="Stipulations" defaultOpen="false" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Vendor Stipulations and Information</h2>
-        </div>
+            <h3>Vendor Stipulations and Information</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Stipulations & Info Section">
             <tr>
                 <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="left"/>

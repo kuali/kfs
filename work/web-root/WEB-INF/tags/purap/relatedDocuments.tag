@@ -30,9 +30,7 @@
 
 <kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.RELATED_DOCS_TAB_ERRORS}">
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Related Documents</h2>
-        </div>
+            <h3>Related Documents</h3>
 		<br />
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"

@@ -26,9 +26,7 @@
 
 <kul:tab tabTitle="Invoice Info" defaultOpen="true" tabErrorKey="document.paymentRequestPayDate">
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Invoice Info</h2>
-        </div>
+            <h3>Invoice Info</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Info Section">
 

@@ -23,9 +23,7 @@
 <kul:tab tabTitle="Credit Memo Info" defaultOpen="true">
    
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Credit Memo Info</h2>
-        </div>
+            <h3>Credit Memo Info</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Info Section">
 

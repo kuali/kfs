@@ -26,10 +26,8 @@
 <kul:tab tabTitle="Purchase Order Retransmit" defaultOpen="true" >
 	
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Purchase Order Retransmit</h2>
-        </div>
-        
+            <h3>Purchase Order Retransmit</h3>
+
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Purchase Order Retransmit Section">
             <tr>
                 <th align=left valign=top class="datacell" colspan=6>

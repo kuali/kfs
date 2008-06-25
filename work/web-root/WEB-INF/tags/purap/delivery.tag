@@ -32,9 +32,7 @@
     <div class="tab-container" align=center>
     
     	<!---- Final Delivery ---->
-        <div class="h2-container">
-            <h2>Final Delivery</h2>
-        </div>
+            <h3>Final Delivery</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Final Delivery Section">
             <tr>
@@ -185,9 +183,7 @@
 	   	<c:if test="${displayReceivingAddress}">    
 	   	
     	<!---- Receiving Address ---->
-        <div class="h2-container">
-            <h2>Receiving Address</h2>
-        </div>
+            <h3>Receiving Address</h3>
 
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Receiving Address Section">	 
 			<tr>
@@ -224,9 +220,7 @@
         </table>
         
     	<!---- Address To Vendor ---->
-        <div class="h2-container">
-            <h2>Address To Vendor</h2>
-        </div>
+            <h3>Address To Vendor</h3>
         
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Address To Vendor Section">
 			<tr>

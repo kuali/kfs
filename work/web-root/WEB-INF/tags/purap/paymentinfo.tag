@@ -25,9 +25,7 @@
 
 <kul:tab tabTitle="Payment Info" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_INFO_TAB_ERRORS}">
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Payment Info</h2>
-        </div>
+            <h3>Payment Info</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">
             <tr>
@@ -100,9 +98,7 @@
 		</c:if>
 		
 		
-		<div class="h2-container">
-           	<h2>Billing Address</h2>
-        </div> 
+           	<h3>Billing Address</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">	 
 			<tr>
                 <th align=right valign=top  class="bord-l-b">

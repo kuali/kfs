@@ -28,9 +28,7 @@
 <kul:tab tabTitle="Additional Institutional Info" defaultOpen="true" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Additional</h2>
-        </div>
+            <h3>Additional</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Additional Section">
 

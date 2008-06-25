@@ -24,9 +24,7 @@
 	   	<logic:notEmpty name="KualiForm" property="${viewList}">
 			<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
 				<c:if test="${(limitByPoId eq null) or (limitByPoId eq view.purchaseOrderIdentifier)}">
-				    <div class="h2-container">
-				        <h2><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h2>
-				    </div>
+				        <h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
 				    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 				    	<c:if test="${!empty view.notes}">
 							<tr>

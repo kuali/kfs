@@ -21,9 +21,7 @@
 <kul:tabTop tabTitle="Bulk Receiving Initiation" defaultOpen="true" tabErrorKey="${PurapConstants.BULK_RECEIVING_INIT_TAB_ERRORS}">
 	
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Bulk Receiving Initiation</h2>
-        </div>
+            <h3>Bulk Receiving Initiation</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Receiving Line Init Section">
 

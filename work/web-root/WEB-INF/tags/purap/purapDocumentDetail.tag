@@ -36,9 +36,7 @@
 	</c:if>
 </c:if>
 	
-<div class="h2-container">
-	<h2><c:out value="${detailSectionLabel}"/></h2>
-</div>
+	<h3><c:out value="${detailSectionLabel}"/></h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
    	<c:if test="${not paymentRequest}">
@@ -149,9 +147,7 @@
 </table>
 	
 <c:if test="${purchaseOrder and preRouteChangeMode}">
-	<div class="h2-container">
-	    <h2>Status Changes</h2>
-	</div>
+	    <h3>Status Changes</h3>
 		
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Status Changes Section">
 		<tr>

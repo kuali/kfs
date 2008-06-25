@@ -21,9 +21,7 @@
 
 <kul:tab tabTitle="Account Summary" defaultOpen="false" tabErrorKey="${PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS}">
 	<div class="tab-container" align="center" valign="middle">
-		<div class="h2-container">
-			<h2>Account Summary   <html:image property="methodToCall.refreshAccountSummary" src="${ConfigProperties.externalizable.images.url}tinybutton-refaccsum.gif" alt="refresh account summary"/></h2>
-		</div>
+			<h3>Account Summary   <html:image property="methodToCall.refreshAccountSummary" src="${ConfigProperties.externalizable.images.url}tinybutton-refaccsum.gif" alt="refresh account summary"/></h3>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 			<logic:empty name="KualiForm" property="summaryAccounts">
 				<h4>No Accounts</h4>

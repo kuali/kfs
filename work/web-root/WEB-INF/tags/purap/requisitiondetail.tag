@@ -18,9 +18,7 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" 
               description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<div class="h2-container">
-    <h2>Requisition Detail</h2>
-</div>
+    <h3>Requisition Detail</h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Requisition Detail Section">
     <tr>

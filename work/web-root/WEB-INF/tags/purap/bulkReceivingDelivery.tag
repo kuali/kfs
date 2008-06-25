@@ -30,9 +30,7 @@
     <div class="tab-container" align=center>
     
     	<!---- Final Delivery ---->
-        <div class="h2-container">
-            <h2>Final Delivery</h2>
-        </div>
+            <h3>Final Delivery</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Final Delivery Section">
             <tr>

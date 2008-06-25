@@ -23,9 +23,7 @@
 <kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Assign A Contract Manager</h2>
-        </div>
+            <h3>Assign A Contract Manager</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Assign A Contract Manager">
 			<c:if test="${empty KualiForm.document.assignContractManagerDetails}">

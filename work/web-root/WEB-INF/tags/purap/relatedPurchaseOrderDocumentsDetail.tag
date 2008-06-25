@@ -36,19 +36,13 @@
 				<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
 				    <c:choose>
 				        <c:when test= "${view.purchaseOrderCurrentIndicator}">
-	        	            <div class="h2-container">
-	        	                <h2><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h2>
-				            </div>
+	        	                <h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h3>
 				        </c:when>
 				        <c:otherwise>
 				            <c:if test="${viewCtr == 0}">
-	                            <div class="h2-container">
-	                                <h2><c:out value="${documentTypeLabel}"/></h2>
-	                            </div>			                
+	                                <h3><c:out value="${documentTypeLabel}"/></h3>
 				            </c:if>
-	                        <div class="h2">
-	                            <h2 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Doc #"/> <a href="<c:out value="${view.url}" />"  target="_BLANK"><c:out value="${view.documentNumber}" /></a></h2>
-	                        </div>			        
+	                            <h3 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Doc #"/> <a href="<c:out value="${view.url}" />"  target="_BLANK"><c:out value="${view.documentNumber}" /></a></h3>
 				        </c:otherwise>
 				    </c:choose>
 				</c:if>
@@ -58,9 +52,7 @@
 			<c:choose>
 			    <c:when test="${isATypeOfPODoc}">
 			        <br/>
-                    <div class="h2">
-                        <h2 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Please refer to the Notes and Attachments Tab for the Purchase Order Notes"/></h2>
-                    </div>			    
+                        <h3 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Please refer to the Notes and Attachments Tab for the Purchase Order Notes"/></h3>
 			    </c:when>
 			    <c:otherwise>
 

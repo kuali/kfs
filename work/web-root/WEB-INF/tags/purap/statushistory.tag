@@ -22,9 +22,7 @@
 <kul:tab tabTitle="Status History" defaultOpen="false" tabErrorKey="${PurapConstants.STATUS_HISTORY_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <p align=left><jsp:doBody/>
-        <div class="h2-container">
-            <h2>Status History</h2>
-        </div>
+            <h3>Status History</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Status History Section">
 			<tr>
 				<kul:htmlAttributeHeaderCell

@@ -27,9 +27,7 @@
 <kul:tabTop tabTitle="Split a PO" defaultOpen="true" tabErrorKey="${PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Split a PO</h2>
-        </div>
+            <h3>Split a PO</h3>
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Preliminaries">
 
@@ -54,9 +52,7 @@
 	        </c:if>
         </table>
         
-        <div class="h2-container">
-        	<h2>Splitting Item Selection</h2>
-        </div>
+        	<h3>Splitting Item Selection</h3>
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Splitting Item Selection">
         	<tr>

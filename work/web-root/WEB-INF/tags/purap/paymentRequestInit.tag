@@ -26,9 +26,7 @@
 	
 
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Payment Request Initiation</h2>
-        </div>
+            <h3>Payment Request Initiation</h3>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Request Init Section">
 

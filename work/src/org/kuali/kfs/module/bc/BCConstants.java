@@ -160,6 +160,7 @@ public class BCConstants extends JSTLConstants {
     public final static String SELECTION_SUB_TREE_ORGS = "selectionSubTreeOrgs";
     public final static String SHOW_INITIAL_RESULTS = "showInitialResults";
     public final static String CURRENT_POINT_OF_VIEW_KEYCODE = "currentPointOfViewKeyCode";
+    public final static String FORCE_TO_ACCOUNT_LIST_SCREEN = "forceToAccountListScreen";
 
 
     /*

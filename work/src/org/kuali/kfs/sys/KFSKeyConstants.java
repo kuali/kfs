@@ -755,6 +755,7 @@ public class KFSKeyConstants {
 
     public static final class budget{
         public static final String MSG_REPORT_ACCOUNT_LIST = "message.budget.report.accountList";
+        public static final String MSG_REPORT_EMPTY_ACCOUNT_LIST = "message.budget.report.emptyAccountList";
         public static final String MSG_ACCOUNT_LIST = "message.budget.accountList";
     }
     

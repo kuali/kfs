@@ -40,6 +40,7 @@ import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
@@ -80,9 +81,16 @@ public class TempListLookupAction extends KualiLookupAction {
                 break;
         
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV:
-                // Show Account above current point of view for user
-                // The table was already built in OrganizationSelectionTreeAction.performReport
-                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
+                //check report mode for 2PLG or Sync
+                if (tempListLookupForm.isForceToAccountListScreen()){
+                    GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_EMPTY_ACCOUNT_LIST);
+                    
+                } else {
+                    // Show Account above current point of view for user
+                    // The table was already built in OrganizationSelectionTreeAction.performReport
+                    GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
+                }
+                
                 break;
        
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS:

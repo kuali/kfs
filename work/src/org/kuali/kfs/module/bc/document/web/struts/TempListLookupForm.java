@@ -36,6 +36,15 @@ public class TempListLookupForm extends LookupForm {
     private String accountNumber;
     private String subAccountNumber;
     private List<String> messages;
+    private boolean forceToAccountListScreen;
+
+    public boolean isForceToAccountListScreen() {
+        return forceToAccountListScreen;
+    }
+
+    public void setForceToAccountListScreen(boolean forceToAccountListScreen) {
+        this.forceToAccountListScreen = forceToAccountListScreen;
+    }
 
     /**
      * Gets the currentPointOfViewKeyCode attribute.

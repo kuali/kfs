@@ -785,10 +785,18 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // report select(subfund or object code) screen
         String[] pointOfViewFields = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear(), pointOfViewFields[0], pointOfViewFields[1]);
-
+        
+        // in case of 2PLG or Sync report should move to account list page.
+        boolean forceToAccountListScreen = false;
+        String reportModeName = organizationSelectionTreeForm.getReportMode(); 
+        if (reportModeName.equals(BudgetConstructionReportMode.TWOPLG_LIST_REPORT.reportModeName) || reportModeName.equals(BudgetConstructionReportMode.SYNCHRONIZATION_PROBLEMS_REPORT.reportModeName)) {
+            forceToAccountListScreen = true;
+        }
+        
+        
         String forwardURL = "";
-        if (rowCount != 0) {
-            forwardURL = buildAccountListForwardURL(organizationSelectionTreeForm, mapping);
+        if (rowCount != 0 || forceToAccountListScreen) {
+            forwardURL = buildAccountListForwardURL(organizationSelectionTreeForm, mapping, forceToAccountListScreen);
         }
         else {
             forwardURL = buildReportSelectForwardURL(organizationSelectionTreeForm, mapping);
@@ -832,7 +840,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Builds URL for the action listing action.
      */
-    private String buildAccountListForwardURL(OrganizationSelectionTreeForm organizationSelectionTreeForm, ActionMapping mapping) {
+    private String buildAccountListForwardURL(OrganizationSelectionTreeForm organizationSelectionTreeForm, ActionMapping mapping, boolean forceToAccountListScreen) {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         Properties parameters = new Properties();
@@ -851,6 +859,11 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         parameters.put(BCConstants.Report.REPORT_MODE, organizationSelectionTreeForm.getReportMode());
         parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV));
         parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
+        String forceToAccountList = "false";
+        if (forceToAccountListScreen){
+            forceToAccountList = "true";
+        }
+        parameters.put(BCConstants.FORCE_TO_ACCOUNT_LIST_SCREEN, forceToAccountList);
 
         if ((organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountSummaryConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_OBJECT_DETAIL_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountObjectDetailConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.MONTH_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isMonthObjectSummaryConsolidation())) {
             parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
@@ -873,7 +886,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, organizationSelectionTreeForm.getReportMode());
         parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
-
+        
         if ((organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountSummaryConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_OBJECT_DETAIL_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountObjectDetailConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.MONTH_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isMonthObjectSummaryConsolidation())) {
             parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
         }

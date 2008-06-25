@@ -27,7 +27,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

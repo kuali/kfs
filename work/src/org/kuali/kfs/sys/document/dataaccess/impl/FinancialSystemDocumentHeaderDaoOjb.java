@@ -24,6 +24,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.ojb.DocumentHeaderDaoOjb;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 
 /**
  * This class is the financial system document header dao ojb implementation

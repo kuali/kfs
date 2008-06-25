@@ -21,7 +21,7 @@ import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;

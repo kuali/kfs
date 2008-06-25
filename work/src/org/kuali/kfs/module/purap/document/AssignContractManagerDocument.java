@@ -58,6 +58,7 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
     private String firstItemDescription;
     private String firstItemCommodityCode;
     private String firstObjectCode;
+    private String universityFiscalYear;
 
 
     /**
@@ -272,4 +273,8 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
         return vendorName;
     }
 
+    public String getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+    
 }

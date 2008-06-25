@@ -46,6 +46,7 @@
         <ref bean="AssignContractManagerDocument-firstItemDescription" />
         <ref bean="AssignContractManagerDocument-firstItemCommodityCode" />
         <ref bean="AssignContractManagerDocument-firstObjectCode" />
+        <ref bean="AssignContractManagerDocument-universityFiscalYear" />
       </list>
     </property>
   </bean>
@@ -144,6 +145,21 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="First Object Code" />
     <property name="shortLabel" value="First Object Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="22" />
+    </property>
+  </bean>
+  <bean id="AssignContractManagerDocument-universityFiscalYear" parent="AssignContractManagerDocument-universityFiscalYear-parentBean" />
+
+  <bean id="AssignContractManagerDocument-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="universityFiscalYear" />
+    <property name="label" value="University Fiscal Year" />
+    <property name="shortLabel" value="University Fiscal Year" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

@@ -643,4 +643,43 @@
             <foreignkey field-ref="organizationCode" />
         </reference-descriptor>
     </class-descriptor>
+
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxDistrict" table="FS_TAX_DISTRICT_T">
+	    <field-descriptor name="taxDistrictCode" column="TAX_DISTRICT_CD" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="taxDistrictName" column="TAX_DISTRICT_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="chartOfAccountsCode" column="LIAB_FIN_COA_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="accountNumber" column="LIAB_ACCT_NBR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="financialObjectCode" column="LIAB_FIN_OBJECT_CD" jdbc-type="VARCHAR" />
+  	    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="CHAR" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="chartOfAccountsCode" />
+        </reference-descriptor>
+	    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="chartOfAccountsCode" />
+	        <foreignkey field-ref="accountNumber" />
+	    </reference-descriptor>
+	    <reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="chartOfAccountsCode" />
+	        <foreignkey field-ref="financialObjectCode" />
+	    </reference-descriptor>
+
+        <collection-descriptor name="taxDistrictRates"
+            element-class-ref="org.kuali.kfs.sys.businessobject.TaxDistrictRate"
+            collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+            auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <orderby name="effectiveDate" sort="ASC" />
+            <inverse-foreignkey field-ref="taxDistrictCode" />
+        </collection-descriptor>
+	</class-descriptor>
+
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxDistrictRate" table="FS_TAX_DISTRICT_RATE_T">
+	    <field-descriptor name="taxDistrictCode" column="TAX_DISTRICT_CD" jdbc-type="VARCHAR" primarykey="true" />
+	    <field-descriptor name="effectiveDate" column="TAX_RATE_EFFECTIVE_DT" jdbc-type="DATE" />
+	    <field-descriptor name="taxRate" column="TAX_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+	    
 </descriptor-repository>

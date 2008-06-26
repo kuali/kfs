@@ -1,0 +1,127 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="TaxDistrictMaintenanceDocument" parent="TaxDistrictMaintenanceDocument-parentBean" />
+
+  <bean id="TaxDistrictMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxDistrict" />
+    <property name="maintainableClass" value="org.kuali.core.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+        <ref bean="TaxDistrictMaintenanceDocument-CreateTaxDistrictFields" />
+        <ref bean="TaxDistrictMaintenanceDocument-CreateTaxDistrictRates" />
+      </list>
+    </property>
+    <property name="label" value="Tax District" />
+    <property name="shortLabel" value="Tax District" />
+    <property name="summary" value="Tax district maintenance document" />
+    <property name="description" value="Document used to create Tax District objects" />
+    
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:attributeToHighlightOnFail="chartOfAccountsCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="account"
+              p:attributeToHighlightOnFail="accountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="objectCode"
+              p:attributeToHighlightOnFail="financialObjectCode" />
+      </list>
+    </property>
+    
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="workflowProperties" >
+      <ref bean="BuildingMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="lockingKeys" >
+      <list>
+        <value>taxDistrictCode</value>
+      </list>
+    </property>
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-SYS"
+            p:parameterName="TAXDISTRICT"
+            p:parameterDetailType="TaxDistrict" />
+    </property>
+    <property name="documentTypeName" value="TaxDistrictMaintenanceDocument" />
+    <property name="documentTypeCode" value="TAXD" />
+     
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="TaxDistrictMaintenanceDocument-CreateTaxDistrictFields" parent="TaxDistrictMaintenanceDocument-CreateTaxDistrictFields-parentBean" />
+
+  <bean id="TaxDistrictMaintenanceDocument-CreateTaxDistrictFields-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="CreateTaxDistrict" />
+    <property name="title" value="Create Tax District" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="taxDistrictCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="taxDistrictName" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber"  p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"  />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="TaxDistrictMaintenanceDocument-CreateTaxDistrictRates" parent="TaxDistrictMaintenanceDocument-CreateTaxDistrictRates-parentBean" />
+
+  <bean id="TaxDistrictMaintenanceDocument-CreateTaxDistrictRates-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="TaxDistrictRates" />
+    <property name="title" value="Tax District Rates" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableCollectionDefinition"
+        	p:id="TaxDistrictRatesSection"
+        	p:name="taxDistrictRates"
+        	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxDistrictRate"
+        	p:attributeToHighlightOnDuplicateKey="effectiveDate"
+        	p:includeMultipleLookupLine="false"
+        	p:summaryTitle="Effective Date/Rate">
+        	<property name="duplicateIdentificationFields">
+        		<list>
+        			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
+        		</list>
+        	</property>
+        	<property name="summaryFields">
+        		<list>
+	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" />
+        		</list>
+        	</property>
+        	<property name="maintainableFields">
+        		<list>
+	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
+        		</list>
+        	</property>
+        </bean>
+	  </list>
+    </property>
+  </bean>
+
+</beans>

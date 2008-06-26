@@ -91,16 +91,16 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
     
     /**
-     * Creates and saves a Purchase Order Split document based on the document number of the old PO document, and the items from that PO that the 
+     * Creates and saves a Purchase Order Split document based on the old PO document, and the items from that PO that the 
      * new Split PO is to contain.
      * 
      * @param newPOItems        The List<PurchaseOrderItem> of the items that the new Split PO is to contain
-     * @param documentNumber    The PO ID of the document 
+     * @param currentDocument   The original PurchaseOrderDocument 
      * @param copyNotes         A boolean.  True if notes are to be copied from the old document to the new.
      * @param splitNoteText     A String containing the text of the note to be added to the old document.
      * @return  A PurchaseOrderSplitDocument containing the given list of items
      */
-    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes, String splitNoteText);
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, PurchaseOrderDocument currentDocument, boolean copyNotes, String splitNoteText);
 
     /**
      * Obtains the internal purchasing dollar limit amount for a purchase order document.
@@ -315,14 +315,6 @@ public interface PurchaseOrderService {
     
     public boolean isPurchasingUser(PurchaseOrderDocument document, String actionType);
     
-    /**
-     * Checks business rules which apply when a PO is being split.
-     * 
-     * @param document  A PurchaseOrderDocument (the original before splitting)
-     * @return          True if the original document passes all the split validations.
-     */
-    public boolean checkSplitRules(PurchaseOrderDocument document);
-
     /**
      * Determines if a purchase order item is new unordered item. 
      * 

@@ -32,10 +32,12 @@ import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 
@@ -311,14 +313,10 @@ public class PurchaseOrderDocumentActionAuthorizer {
             // The Requisition Source must not be B2B.
             if (!purchaseOrder.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
                 // The PO must have more than one line item.
-                int lineItems = 0;
-                for( PurchaseOrderItem item : (List<PurchaseOrderItem>)purchaseOrder.getItems()){
-                    if ( item.getItemType().isItemTypeAboveTheLineIndicator() ) {
-                        lineItems++;
-                        if (lineItems > 1) {
-                            return true;
-                        }
-                    }
+                List<PurApItem> items = (List<PurApItem>)purchaseOrder.getItems();
+                int itemsBelowTheLine = PurApItemUtils.countBelowTheLineItems(items);
+                if (items.size() - itemsBelowTheLine > 1) {
+                    return true;
                 }
             }
         }
@@ -331,12 +329,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * @return  True if the PO can continue to be split.
      */
     public boolean canContinuePoSplit() {
-        if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
     }
     
     private boolean isApUser() {

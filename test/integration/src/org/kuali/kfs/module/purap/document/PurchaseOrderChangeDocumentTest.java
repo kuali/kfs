@@ -127,7 +127,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         try {
             poTest.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
             poChange = poService.createAndSavePurchaseOrderSplitDocument(
-                    newPOItems, poTest.getDocumentNumber(), copyNotes, splitNoteText);
+                    newPOItems, poTest, copyNotes, splitNoteText);
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());            
         }
         catch (ValidationException ve) {

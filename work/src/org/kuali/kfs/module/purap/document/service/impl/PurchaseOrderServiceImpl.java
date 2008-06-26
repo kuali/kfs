@@ -689,15 +689,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List, java.lang.String, boolean)
      */
-    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, String documentNumber, boolean copyNotes, String splitNoteText) {
+    public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, PurchaseOrderDocument currentDocument, boolean copyNotes, String splitNoteText) {
         
-        PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);        
         if (ObjectUtils.isNull(currentDocument)) {
             String errorMsg = "Attempting to create new PO of type PurchaseOrderSplitDocument from source PO doc that is null";
             LOG.error(errorMsg);
             throw new RuntimeException(errorMsg);
-        }       
-        purapService.updateStatus(currentDocument, PurchaseOrderStatuses.IN_PROCESS);
+        }
+        String documentNumber = currentDocument.getDocumentNumber();
         
         try {
             // Create the new Split PO document (throws WorkflowException)
@@ -723,6 +722,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 SpringContext.getBean(PurapService.class).addBelowLineItems(newDocument);
                 newDocument.renumberItems(0);
                 
+                newDocument.setPostingYear(currentDocument.getPostingYear());
+                
                 if (copyNotes) {
                     // Copy the old notes, except for the one that contains the split note text.
                     List<Note> notes = (List<Note>)currentDocument.getBoNotes();
@@ -730,42 +731,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     if (noteLength > 0) {
                         notes.subList(noteLength - 1, noteLength).clear();
                         for(Note note : notes) {
-                            String noteText = note.getNoteText();
-                            Note newNote = new Note();
-                            newNote.setNoteText(noteText);
                             try {
-                                newNote = noteService.createNote(newNote, newDocument);
+                                Note copyingNote = documentService.createNoteFromDocument(newDocument, note.getNoteText());
+                                newDocument.addNote(copyingNote);
                             }
                             catch (Exception e) {
-                                throw new RuntimeException();
+                                throw new RuntimeException(e);
                             }                           
-                            newDocument.addNote(newNote);
                         }
                     }
                 }
                 // Modify the split note text and add the note.
                 splitNoteText = splitNoteText.substring(splitNoteText.indexOf(":") + 1);
                 splitNoteText = PurapConstants.PODocumentsStrings.SPLIT_NOTE_PREFIX_NEW_DOC + currentDocument.getPurapDocumentIdentifier() + " : " + splitNoteText;
-                Note splitNote = new Note();
-                splitNote.setNoteText(splitNoteText);
                 try {
-                    splitNote = noteService.createNote(splitNote,newDocument);
+                    Note splitNote = documentService.createNoteFromDocument(newDocument, splitNoteText);
+                    newDocument.addNote(splitNote);
                 }
                 catch (Exception e) {
-                    throw new RuntimeException();
+                    throw new RuntimeException(e);
                 }
-                newDocument.addNote(splitNote);
-                
-                newDocument.refreshNonUpdateableReferences();               
                 newDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
                 
-                try {
-                    saveDocumentStandardSave(newDocument);
-                }
-                // If we catch a ValidationException, it means that errors were found in the new split PO doc.
-                catch (ValidationException ve) {
-                    throw ve;
-                }                                        
+                saveDocumentNoValidation(newDocument);
+                                   
                 return newDocument;
             }
             else {
@@ -1363,16 +1352,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             valid = false;
         }
         return valid;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#checkSplitRules(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
-     */
-    public boolean checkSplitRules(PurchaseOrderDocument document) {
-        if (kualiRuleService.applyRules(new SplitPurchaseOrderEvent(document))) {
-            return true;
-        }
-        return false;
     }
     
     /**

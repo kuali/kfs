@@ -69,6 +69,7 @@ import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
+import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -251,46 +252,44 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                  * were run correctly. NOTE: IF BELOW IF-ELSE IS EDITED THE NEW METHODS CALLED MUST THROW ValidationException OBJECT
                  * IF AN ERROR IS ADDED TO THE GlobalVariables
                  */
-                String newStatus = null;
-                if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                    newStatus = PurchaseOrderStatuses.AMENDMENT;
-                    po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
-                    returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
-                }
-                else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
-                    po.setPendingSplit(true);
-                    returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
-                }
-                else {
-                    if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_CLOSE;
-                    }
-                    else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_REOPEN;
-                    }
-                    else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_VOID;
-                    }
-                    else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_PAYMENT_HOLD;
-                    }
-                    else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_REMOVE_HOLD;
-                    }
-                    else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
-                        newStatus = PurchaseOrderStatuses.PENDING_RETRANSMIT;
-                    }
-                    po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
-                }
-                if (!GlobalVariables.getErrorMap().isEmpty()) {
-                    throw new ValidationException("errors occurred during new PO creation");
-                }
-                
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
+                    po.setPendingSplit(true);                    
                     // Save adding the note for after the items are picked.
                     ((PurchaseOrderForm)kualiDocumentFormBase).setSplitNoteText(noteText);
+                    returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
                 else {
+                    String newStatus = null;
+                    if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                        newStatus = PurchaseOrderStatuses.AMENDMENT;
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, newStatus);
+                        returnActionForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    }
+                    else {
+                        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
+                            newStatus = PurchaseOrderStatuses.PENDING_CLOSE;
+                        }
+                        else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT)) {
+                            newStatus = PurchaseOrderStatuses.PENDING_REOPEN;
+                        }
+                        else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT)) {
+                            newStatus = PurchaseOrderStatuses.PENDING_VOID;
+                        }
+                        else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)) {
+                            newStatus = PurchaseOrderStatuses.PENDING_PAYMENT_HOLD;
+                        }
+                        else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT)) {
+                            newStatus = PurchaseOrderStatuses.PENDING_REMOVE_HOLD;
+                        }
+                        else if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
+                            newStatus = PurchaseOrderStatuses.PENDING_RETRANSMIT;
+                        }
+                        po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
+                    }
+                    if (!GlobalVariables.getErrorMap().isEmpty()) {
+                        throw new ValidationException("errors occurred during new PO creation");
+                    }
+                    
                     String previousDocumentId = kualiDocumentFormBase.getDocId();
                     // Assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
                     kualiDocumentFormBase.setDocument(po);
@@ -498,11 +497,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         PurchaseOrderForm purchaseOrderForm = (PurchaseOrderForm) form;
         // This PO does not contain all data, but enough for our purposes; it has been reloaded with only the Split PO tab showing.
-        PurchaseOrderDocument poToSplit = (PurchaseOrderDocument) purchaseOrderForm.getDocument();
+        PurchaseOrderDocument poToSplit = (PurchaseOrderDocument)purchaseOrderForm.getDocument();
         boolean copyNotes = poToSplit.isCopyingNotesWhenSplitting();
 
         // Check business rules before splitting.
-        if (!SpringContext.getBean(PurchaseOrderService.class).checkSplitRules(poToSplit)) {
+        if (!SpringContext.getBean(KualiRuleService.class).applyRules(new SplitPurchaseOrderEvent(poToSplit))) {
             poToSplit.setPendingSplit(true);
         }
         else {
@@ -515,18 +514,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             poToSplit.setItems(remainingPOItems);
             poToSplit.renumberItems(0);
             
-            // Add the note that would normally have gone in after the confirmation page.         
-            String noteText = purchaseOrderForm.getSplitNoteText();          
-            Note newNote = new Note();
-            newNote.setNoteText(noteText);
-            newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-            purchaseOrderForm.setNewNote(newNote);
-            purchaseOrderForm.setAttachmentFile(new BlankFormFile());
-            insertBONote(mapping, purchaseOrderForm, request, response);
-            
+            // Add the note that would normally have gone in after the confirmation page.
+            String noteText = purchaseOrderForm.getSplitNoteText();
+            try {
+                Note splitNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(poToSplit, noteText);
+                poToSplit.addNote(splitNote);
+            } catch ( Exception e ) {
+                throw new RuntimeException(e);
+            }          
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(poToSplit);
             
-            PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit.getDocumentNumber(), copyNotes, noteText);
+            PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit, copyNotes, noteText);
             
             purchaseOrderForm.setDocument(splitPO);
             purchaseOrderForm.setDocId(splitPO.getDocumentNumber());
@@ -555,15 +553,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward cancelPurchaseOrderSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Cancel Purchase Order Split started");
         
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
-               
-        po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
+        PurchaseOrderForm purchaseOrderForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)purchaseOrderForm.getDocument();
         
+        po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
+               
         po.setPendingSplit(false);
-        po.setCopyingNotesWhenSplitting(false);        
-        kualiDocumentFormBase.setDocument(po);
-        reload(mapping, kualiDocumentFormBase, request, response);
+        po.setCopyingNotesWhenSplitting(false);
+        purchaseOrderForm.setDocument(po);
+        reload(mapping, purchaseOrderForm, request, response);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -262,10 +262,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(receivingButton);
         }
         
-        //if (auth.canSplitPo()){
-        //    ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
-        //    extraButtons.add(splitPoButton);
-        //}
+        if (auth.canSplitPo()){
+            ExtraButton splitPoButton = (ExtraButton) buttonsMap.get("methodToCall.splitPo");
+            extraButtons.add(splitPoButton);
+        }
         
         if (auth.canContinuePoSplit()){
             ExtraButton continueButton = (ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit");

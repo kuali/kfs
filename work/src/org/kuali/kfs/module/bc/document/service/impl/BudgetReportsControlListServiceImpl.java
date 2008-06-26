@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.module.bc.BudgetPropertyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
@@ -93,7 +93,7 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String personUserIdentifier) {
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.KUALI_USER_PERSON_USER_IDENTIFIER, personUserIdentifier);
-        criteria.put(BudgetPropertyConstants.PULL_FLAG, new Integer(1));
+        criteria.put(BCPropertyConstants.PULL_FLAG, new Integer(1));
 
         return businessObjectService.findMatching(BudgetConstructionPullup.class, criteria);
     }

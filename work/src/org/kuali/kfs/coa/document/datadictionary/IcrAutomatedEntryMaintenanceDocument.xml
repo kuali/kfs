@@ -19,16 +19,12 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="universityFiscal"
               p:attributeToHighlightOnFail="universityFiscalYear" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="financialBalanceTyp"
-              p:attributeToHighlightOnFail="balanceTypeCode" />
       </list>
     </property>
     <property name="lockingKeys" >
       <list>
         <value>universityFiscalYear</value>
         <value>financialIcrSeriesIdentifier</value>
-        <value>balanceTypeCode</value>
         <value>awardIndrCostRcvyEntryNbr</value>
       </list>
     </property>
@@ -81,9 +77,6 @@
               p:name="financialIcrSeriesIdentifier"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="balanceTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="awardIndrCostRcvyEntryNbr"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
@@ -99,9 +92,6 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialSubObjectCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offsetBalanceSheetObjectCodeNumber"
-              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="transactionDebitIndicator" />
         <bean parent="MaintainableFieldDefinition"

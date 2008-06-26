@@ -20,14 +20,12 @@
       <list>
         <ref bean="IcrAutomatedEntry-universityFiscalYear" />
         <ref bean="IcrAutomatedEntry-financialIcrSeriesIdentifier" />
-        <ref bean="IcrAutomatedEntry-balanceTypeCode" />
         <ref bean="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr" />
         <ref bean="IcrAutomatedEntry-chartOfAccountsCode" />
         <ref bean="IcrAutomatedEntry-accountNumber" />
         <ref bean="IcrAutomatedEntry-subAccountNumber" />
         <ref bean="IcrAutomatedEntry-financialObjectCode" />
         <ref bean="IcrAutomatedEntry-financialSubObjectCode" />
-        <ref bean="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber" />
         <ref bean="IcrAutomatedEntry-transactionDebitIndicator" />
         <ref bean="IcrAutomatedEntry-awardIndrCostRcvyRatePct" />
         <ref bean="IcrAutomatedEntry-versionNumber" />
@@ -61,11 +59,7 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="IcrAutomatedEntry-balanceTypeCode" parent="IcrAutomatedEntry-balanceTypeCode-parentBean" />
-
-  <bean id="IcrAutomatedEntry-balanceTypeCode-parentBean" abstract="true" parent="BalanceTyp-code">
-    <property name="name" value="balanceTypeCode" />
-  </bean>
+  
   <bean id="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr" parent="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr-parentBean" />
 
   <bean id="IcrAutomatedEntry-awardIndrCostRcvyEntryNbr-parentBean" abstract="true" parent="AttributeDefinition">
@@ -168,13 +162,6 @@
             p:size="3" />
     </property>
   </bean>
-  <bean id="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber" parent="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber-parentBean" />
-
-  <bean id="IcrAutomatedEntry-offsetBalanceSheetObjectCodeNumber-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="offsetBalanceSheetObjectCodeNumber" />
-    <property name="label" value="Offset Object" />
-    <property name="shortLabel" value="Offset Object" />
-  </bean>
   <bean id="IcrAutomatedEntry-transactionDebitIndicator" parent="IcrAutomatedEntry-transactionDebitIndicator-parentBean" />
 
   <bean id="IcrAutomatedEntry-transactionDebitIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -226,8 +213,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialIcrSeriesIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="balanceTypeCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="awardIndrCostRcvyEntryNbr" />
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
@@ -239,8 +224,6 @@
                     p:attributeName="financialObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="offsetBalanceSheetObjectCodeNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="transactionDebitIndicator" />
               <bean parent="FieldDefinition"
@@ -276,15 +259,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialIcrSeriesIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="balanceTypeCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="offsetBalanceSheetObjectCodeNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -294,15 +273,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialIcrSeriesIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="balanceTypeCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="offsetBalanceSheetObjectCodeNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"

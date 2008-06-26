@@ -39,7 +39,6 @@
         <ref bean="CustomerInvoiceDocument-printDate" />
         <ref bean="CustomerInvoiceDocument-invoiceTermsText" />
         <ref bean="CustomerInvoiceDocument-organizationInvoiceNumber" />
-        <ref bean="CustomerInvoiceDocument-parentInvoiceNumber" />
         <ref bean="CustomerInvoiceDocument-writeoffIndicator" />
         <ref bean="CustomerInvoiceDocument-customerPurchaseOrderNumber" />
         <ref bean="CustomerInvoiceDocument-printInvoiceIndicator" />
@@ -165,22 +164,6 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The invoice number for this invoice" />
-  </bean>
-
-  <bean id="CustomerInvoiceDocument-parentInvoiceNumber" parent="CustomerInvoiceDocument-parentInvoiceNumber-parentBean" />
-  <bean id="CustomerInvoiceDocument-parentInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="parentInvoiceNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Parent Invoice" />
-    <property name="shortLabel" value="Parent Invoice" />
-    <property name="maxLength" value="9" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The invoice number for this parent of this invoice" />
   </bean>
 
   <bean id="CustomerInvoiceDocument-writeoffIndicator" parent="CustomerInvoiceDocument-writeoffIndicator-parentBean" />

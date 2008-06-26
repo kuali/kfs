@@ -16,12 +16,13 @@
 package org.kuali.kfs.module.cam;
 
 import org.kuali.core.authorization.AuthorizationConstants.EditMode;
+import org.kuali.rice.util.JSTLConstants;
 
 
 /**
  * Global constants for CAMS.
  */
-public class CamsConstants {
+public class CamsConstants extends JSTLConstants {
     // public static final String SYSTEM_NAME = "Capital Assets Management System";
 
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";

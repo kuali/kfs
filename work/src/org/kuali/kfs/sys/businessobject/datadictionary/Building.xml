@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="Building-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="buildingCode" />
     <property name="objectLabel" value="Building" />
     <property name="attributes" >
       <list>
@@ -211,6 +212,16 @@
                     p:attributeName="buildingCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="buildingName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingStreetAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingAddressCityName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingAddressStateCode" />   
+              <bean parent="FieldDefinition"
+                    p:attributeName="buildingAddressZipCode" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="alternateBuildingCode" />                                                                                                     
             </list>
           </property>
         </bean>

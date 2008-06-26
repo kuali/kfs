@@ -97,6 +97,19 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         accountSalaryDetailReport.setChartOfAccountsCode(pendingAppointmentFunding.getChartOfAccountsCode());
         accountSalaryDetailReport.setOrganizationCode(pendingAppointmentFunding.getAccount().getOrganizationCode());
 
+        String chartOfAccountDescription = "";
+        if (pendingAppointmentFunding.getChartOfAccounts() != null){
+            try {
+                chartOfAccountDescription = pendingAppointmentFunding.getChartOfAccounts().getFinChartOfAccountDescription();
+            }
+            catch (PersistenceBrokerException e) {
+                chartOfAccountDescription = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
+            }
+        } else {
+            chartOfAccountDescription = BCConstants.Report.CHART + BCConstants.Report.NOT_DEFINED;
+        }
+        
+        accountSalaryDetailReport.setChartOfAccountDescription(chartOfAccountDescription);
 
         String orgName = null;
         try {
@@ -107,14 +120,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         String accountName = pendingAppointmentFunding.getAccount().getAccountName();
         String fundGroupCode = pendingAppointmentFunding.getAccount().getSubFundGroup().getFundGroupCode();
         String fundGroupName = pendingAppointmentFunding.getAccount().getSubFundGroup().getFundGroup().getName();
-        String subAccountName = null;
-        try {
-            subAccountName = pendingAppointmentFunding.getSubAccount().getSubAccountName();
-        }
-        catch (PersistenceBrokerException e) {
-        }
         
-
         if (orgName == null) {
             accountSalaryDetailReport.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
@@ -135,19 +141,26 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         else {
             accountSalaryDetailReport.setFundGroupName(fundGroupName);
         }
-        if (subAccountName == null) {
-            accountSalaryDetailReport.setSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
-        }
-        else {
-            accountSalaryDetailReport.setSubAccountName(subAccountName);
-        }
-
+        
         if (accountName == null) {
             accountSalaryDetailReport.setAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
         }
         else {
             accountSalaryDetailReport.setAccountName(accountName);
         }
+        
+        String subAccountName = "";
+        
+        if (!pendingAppointmentFunding.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)){
+            try {
+                subAccountName = pendingAppointmentFunding.getSubAccount().getSubAccountName();
+            }
+            catch (PersistenceBrokerException e) {
+                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+            }
+        }
+        accountSalaryDetailReport.setSubAccountName(subAccountName);
+
 
     }
 
@@ -225,10 +238,12 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         if (pendingAppointmentFunding.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
             amountChange = new Integer(pendingAppointmentFunding.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue());
         }
+        accountMonthlyDetailReport.setAmountChange(amountChange);
 
         if (!budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().equals(KualiInteger.ZERO)) {
             percentChange = BudgetConstructionReportHelper.calculatePercent(amountChange, new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
         }
+        accountMonthlyDetailReport.setPercentChange(percentChange);
 
 
         /*
@@ -246,13 +261,27 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
         for (BudgetConstructionAccountSalaryDetailReportTotal totalEntry : accountSalaryDetailTotal) {
             if (BudgetConstructionReportHelper.isSameEntry(totalEntry.getPendingBudgetConstructionAppointmentFunding(), pendingAppointmentFunding, fieldsForTotal())) {
+                
+                String objectCodeName = "";
+                if (pendingAppointmentFunding.getFinancialObject() != null){
+                    try {
+                        objectCodeName = pendingAppointmentFunding.getFinancialObject().getFinancialObjectCodeName();
+                    }
+                    catch (PersistenceBrokerException e) {
+                        objectCodeName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_NAME);
+                    }
+                } else {
+                    objectCodeName = BCConstants.Report.OBJECT + BCConstants.Report.NOT_DEFINED;
+                }
+                accountMonthlyDetailReport.setTotalDescription(objectCodeName);
+                
                 accountMonthlyDetailReport.setTotalBaseAmount(totalEntry.getTotalBaseAmount());
                 accountMonthlyDetailReport.setTotalBaseFte(totalEntry.getTotalBaseFte());
                 accountMonthlyDetailReport.setTotalRequestAmount(totalEntry.getTotalRequestAmount());
                 accountMonthlyDetailReport.setTotalRequestFte(totalEntry.getTotalRequestFte());
                 
                 accountMonthlyDetailReport.setTotalAmountChange(totalEntry.getTotalRequestAmount() - totalEntry.getTotalBaseAmount());
-                accountMonthlyDetailReport.setPercentChange(BudgetConstructionReportHelper.calculatePercent(accountMonthlyDetailReport.getTotalAmountChange(), totalEntry.getTotalBaseAmount()));
+                accountMonthlyDetailReport.setTotalPercentChange(BudgetConstructionReportHelper.calculatePercent(accountMonthlyDetailReport.getTotalAmountChange(), totalEntry.getTotalBaseAmount()));
             }
         }
     }

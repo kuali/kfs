@@ -148,6 +148,19 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
             accountObjectDetailReport.setAccountName(accountName);
         }
         
+        String chartOfAccountDescription = "";
+        if (balanceByAccount.getChartOfAccounts() != null){
+            try {
+                chartOfAccountDescription = balanceByAccount.getChartOfAccounts().getFinChartOfAccountDescription();
+            }
+            catch (PersistenceBrokerException e) {
+                chartOfAccountDescription = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
+            }
+        } else {
+            chartOfAccountDescription = BCConstants.Report.CHART + BCConstants.Report.NOT_DEFINED;
+        }
+        
+        accountObjectDetailReport.setChartOfAccountDescription(chartOfAccountDescription);
         
         String subAccountName = "";
         
@@ -166,7 +179,7 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
         
         accountObjectDetailReport.setTypeFinancialReportSortCode(balanceByAccount.getTypeFinancialReportSortCode());
         accountObjectDetailReport.setLevelFinancialReportSortCode(balanceByAccount.getLevelFinancialReportSortCode());
-
+        accountObjectDetailReport.setFinancialSubObjectCode(balanceByAccount.getFinancialSubObjectCode());
     }
 
     /**
@@ -175,6 +188,8 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
      * @param BudgetConstructionLevelSummary bcas
      */
     private void buildReportsBody(BudgetConstructionBalanceByAccount balanceByAccount, BudgetConstructionAccountObjectDetailReport accountObjectDetailReport) {
+        accountObjectDetailReport.setFinancialObjectCode(balanceByAccount.getFinancialObjectCode());
+        
         accountObjectDetailReport.setFinancialObjectName(balanceByAccount.getFinancialObject().getFinancialObjectCodeName());
 
         accountObjectDetailReport.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getPositionCsfLeaveFteQuantity(), 2, false));
@@ -243,7 +258,13 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
         
         for (BudgetConstructionAccountObjectDetailReportTotal typeTotal : accountObjectDetailTotalTypeList) {
             if (BudgetConstructionReportHelper.isSameEntry(balanceByAccount, typeTotal.getBudgetConstructionBalanceByAccount(), fieldsForType())) {
-
+                
+                if (balanceByAccount.getTypeFinancialReportSortCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
+                    accountObjectDetailReport.setTotalTypeDescription(BCConstants.Report.TOTAL_REVENUES);
+                }
+                else {
+                    accountObjectDetailReport.setTotalTypeDescription(BCConstants.Report.TOTAL_EXPENDITURES_MARGIN);
+                }
                 accountObjectDetailReport.setTotalTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypePositionCsfLeaveFteQuantity(), 2, false));
                 accountObjectDetailReport.setTotalTypeCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeCsfFullTimeEmploymentQuantity(), 2, false));
                 accountObjectDetailReport.setTotalTypeFinancialBeginningBalanceLineAmount(typeTotal.getTotalTypeFinancialBeginningBalanceLineAmount());

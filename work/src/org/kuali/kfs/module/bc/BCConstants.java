@@ -221,6 +221,8 @@ public class BCConstants extends JSTLConstants {
         public final static String DASHES_SUB_ACCOUNT_CODE = "-----";
         public final static String DELETE_MARK = "*";
         public final static String DIVIDER = "/";
+        public final static String TOTAL_REVENUES = "Total Revenues";
+        public final static String TOTAL_EXPENDITURES_MARGIN = "Total Expenditures & Margin";
         public final static String REVENUE = "REVENUE";
         public final static String EXPENDITURE = "EXPENDITURE";
         public final static String CONSOLIIDATED = "Consolidated";
@@ -248,6 +250,9 @@ public class BCConstants extends JSTLConstants {
         public final static String REASON_CODE_LIST_EMPTY_MESSAGE_KEY = "error.budget.report.emptyReasonCodeList";
         public final static String THRESHOLD_SELECTION_MESSAGE_KEY = "message.budget.thresholdSelection";
         public final static String SELECTED_OBJECT_CODES_MESSAGE_KEY = "message.budget.selectedObjectCodes";
+        public final static String NOT_DEFINED = " not defined";
+        public final static String CHART = "Chart";
+        public final static String OBJECT = "Object";
 
         // report file name
         public static final String REPORT_TEMPLATE_CLASSPATH = "org/kuali/kfs/module/bc/report/";

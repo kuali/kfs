@@ -71,6 +71,14 @@
   				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
   					<property name="validations">
   						<list>
+  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+							</bean>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
@@ -144,6 +152,14 @@
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 					<property name="validations">
 						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="updatedAccountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+							</bean>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
@@ -209,6 +225,14 @@
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
 					<property name="validations">
 						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+							</bean>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>

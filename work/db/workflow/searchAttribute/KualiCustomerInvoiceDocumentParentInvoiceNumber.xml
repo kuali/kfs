@@ -15,7 +15,7 @@
           <searchDefinition allowWildcards="true" caseSensitive="false" />
           <quickfinder appliesTo="OrganizationInvoiceNumber" draw="true" service="workflow-org.kuali.kfs.module.ar.businessobject.Customer-Lookupable(null)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//document/generalLedgerPendingEntries/org.kuali.kfs.bo.GeneralLedgerPendingEntry/documentHeader/financialDocumentTemplateNumber')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//document/generalLedgerPendingEntries/org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry/documentHeader/documentTemplateNumber')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>

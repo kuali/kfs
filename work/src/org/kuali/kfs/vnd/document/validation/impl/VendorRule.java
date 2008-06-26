@@ -729,6 +729,23 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 valid &= validateCommodityCodeDefaultIndicator(vendorCommodities);
             }
         }
+        else if (vendorCommodities.size() > 0) {
+            //If the commodity code is not required, but the vendor contains at least one commodity code,
+            //we have to check that there is only one commodity code with default indicator = Y.
+            int defaultCount = 0;
+            for (int i=0; i < vendorCommodities.size(); i++) {
+                VendorCommodityCode vcc = vendorCommodities.get(i);
+                if (vcc.isCommodityDefaultIndicator()) {
+                    defaultCount ++;
+                    if (defaultCount > 1) {
+                        valid = false;
+                        String propertyName = VendorPropertyConstants.VENDOR_COMMODITIES_CODE + "[" + i + "]." + VendorPropertyConstants.VENDOR_COMMODITIES_DEFAULT_INDICATOR;
+                        putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_COMMODITY_CODE_REQUIRE_ONE_DEFAULT_IND);
+                        break;
+                    }
+                }
+            }
+        }
         
         return valid;
     }

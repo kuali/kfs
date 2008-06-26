@@ -83,7 +83,6 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         String subAccountNumber = newIcrAutomatedEntry.getSubAccountNumber();
         String financialObjectCode = newIcrAutomatedEntry.getFinancialObjectCode();
         String financialSubObjectCode = newIcrAutomatedEntry.getFinancialSubObjectCode();
-        String offsetBalanceSheetObjectCodeNumber = newIcrAutomatedEntry.getOffsetBalanceSheetObjectCodeNumber();
         String transactionDebitIndicator = newIcrAutomatedEntry.getTransactionDebitIndicator();
         BigDecimal awardIndrCostRcvyRatePct = newIcrAutomatedEntry.getAwardIndrCostRcvyRatePct();
 

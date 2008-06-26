@@ -39,7 +39,6 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String financialIcrSeriesIdentifier;
-    private String balanceTypeCode;
     private Integer awardIndrCostRcvyEntryNbr;
     private String transactionDebitIndicator;
     private BigDecimal awardIndrCostRcvyRatePct;
@@ -48,7 +47,6 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
     private String subAccountNumber;
     private String financialObjectCode;
     private String financialSubObjectCode;
-    private String offsetBalanceSheetObjectCodeNumber;
     private boolean active;
 
     private Options universityFiscal;
@@ -90,16 +88,6 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
 
     public void setAwardIndrCostRcvyRatePct(BigDecimal awardIndrCostRcvyRatePct) {
         this.awardIndrCostRcvyRatePct = awardIndrCostRcvyRatePct;
-    }
-
-
-    public String getBalanceTypeCode() {
-        return balanceTypeCode;
-    }
-
-
-    public void setBalanceTypeCode(String balanceTypeCode) {
-        this.balanceTypeCode = balanceTypeCode;
     }
 
     /*
@@ -164,21 +152,6 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
     }
 
     /*
-     * public ObjectCode getOffsetBalanceSheetObjectCode() { return offsetBalanceSheetObjectCode; } public void
-     * setOffsetBalanceSheetObjectCode(ObjectCode offsetBalanceSheetObjectCode) { this.offsetBalanceSheetObjectCode =
-     * offsetBalanceSheetObjectCode; }
-     */
-    public String getOffsetBalanceSheetObjectCodeNumber() {
-        return offsetBalanceSheetObjectCodeNumber;
-    }
-
-
-    public void setOffsetBalanceSheetObjectCodeNumber(String offsetBalanceSheetObjectCodeNumber) {
-        this.offsetBalanceSheetObjectCodeNumber = offsetBalanceSheetObjectCodeNumber;
-    }
-
-
-    /*
      * public SubAccount getSubAccount() { return subAccount; } public void setSubAccount(SubAccount subAccount) { this.subAccount =
      * subAccount; }
      */
@@ -231,7 +204,6 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("universityFiscal", this.universityFiscalYear);
         m.put("financialIcrSeriesIdentifier", this.financialIcrSeriesIdentifier);
-        m.put("financialBalanceTypeCode", this.balanceTypeCode);
         m.put("awardIndrCostRcvyEntryNbr", this.awardIndrCostRcvyEntryNbr);
 
         return m;

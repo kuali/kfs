@@ -542,12 +542,12 @@ public class PosterServiceImpl implements PosterService {
             e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }
         e.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-        e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+        e.setFinancialObjectCode("INDIRECT_RATE_RECOVERY_OFFSET_BALANCE_TYPE_CODE");
 
-        ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+        ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), "INDIRECT_RATE_RECOVERY_OFFSET_BALANCE_TYPE_CODE");
         if (balSheetObjectCode == null) {
             List warnings = new ArrayList();
-            warnings.add(configurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+            warnings.add(configurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + "INDIRECT_RATE_RECOVERY_OFFSET_BALANCE_TYPE_CODE");
             reportErrors.put(e, warnings);
         }
         else {

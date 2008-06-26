@@ -96,11 +96,7 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorDetail.vendorName"
                     p:readOnlyAfterAdd="true"
-                    p:template="vendorName" 
                     p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="vendorDetail.activeIndicator"
-                    p:readOnlyAfterAdd="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="vendorHeaderGeneratedIdentifier"
                     p:template="vendorHeaderGeneratedIdentifier" />

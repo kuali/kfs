@@ -114,9 +114,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="vendorDetail.vendorName" />   
                     <bean parent="FieldDefinition"
-                          p:attributeName="vendorDetail.vendorNumber" />                             
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorDetail.activeIndicator" />                                                          
+                          p:attributeName="vendorDetail.vendorNumber" />                                                                                     
                   </list>
                 </property>
                 <property name="summaryFields">

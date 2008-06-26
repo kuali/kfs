@@ -21,7 +21,6 @@
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" />
-        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator" />
         <ref bean="PurchaseOrderQuoteListVendor-versionNumber" />
       </list>
     </property>
@@ -56,12 +55,7 @@
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="name" value="vendorDetail.vendorNumber" />
   </bean>
-  
-  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator" parent="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator-parentBean" />
 
-  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.activeIndicator-parentBean" abstract="true" parent="VendorDetail-activeIndicator">
-    <property name="name" value="vendorDetail.activeIndicator" />
-  </bean>
   <bean id="PurchaseOrderQuoteListVendor-versionNumber" parent="PurchaseOrderQuoteListVendor-versionNumber-parentBean" />
 
   <bean id="PurchaseOrderQuoteListVendor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">

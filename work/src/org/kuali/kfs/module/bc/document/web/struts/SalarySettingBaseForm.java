@@ -84,6 +84,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * do some operations on the appointment funding lines. The operations may be included updating and sorting.
      */
     public void postProcessBCAFLines() {
+        this.populateBCAFLines();
+        
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean vacatable = SpringContext.getBean(SalarySettingService.class).canBeVacant(appointmentFundings, appointmentFunding);

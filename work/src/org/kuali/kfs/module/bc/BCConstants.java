@@ -390,6 +390,7 @@ public class BCConstants extends JSTLConstants {
     public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
 
     //TODO: determine whether those need to be put into system parameter
+    public static final List<String> HOURLY_PAY_TYPE_CODES = Arrays.asList(BCConstants.HOURLY_PAY_TYPE_CODE);
     public static final String HOURLY_PAY_TYPE_CODE = "B";
     public static final KualiInteger TOTAL_WORKING_HOUR_IN_YEAR = new KualiInteger(2080);
 }

@@ -108,7 +108,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#close(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -122,7 +122,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             String questionText = kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE);
             return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
         }
-        
+
         List<String> messageList = GlobalVariables.getMessageList();
 
         // save the salary setting if the user answers to the question with "Yes"
@@ -130,13 +130,13 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
             ActionForward saveAction = this.save(mapping, form, request, response);
 
-            if(messageList.contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
+            if (messageList.contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
                 messageList.add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             }
-            
+
             return this.returnToCaller(mapping, form, request, response);
         }
-        
+
         messageList.add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -161,24 +161,24 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-        
+
         appointmentFundings.remove(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * mark the selected salary setting line as deleted
      */
     public ActionForward deleteSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-        
+
         salarySettingService.markAsDelete(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * revert the selected salary setting line that just has been marked as deleted
      */
@@ -198,7 +198,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward adjustSalarySettingLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-        
+
         this.adjustSalary(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -214,16 +214,11 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         KualiDecimal adjustmentAmount = salarySettingForm.getAdjustmentAmount();
         String adjustmentMeasurement = salarySettingForm.getAdjustmentMeasurement();
 
-        Object fullEntryEditMode = salarySettingForm.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY);
-        boolean isEditable = fullEntryEditMode != null && Boolean.parseBoolean(fullEntryEditMode.toString());
-
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            if (isEditable) {
-                appointmentFunding.setAdjustmentAmount(adjustmentAmount);
-                appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
-
-                this.adjustSalary(appointmentFunding);
-            }
+            appointmentFunding.setAdjustmentAmount(adjustmentAmount);
+            appointmentFunding.setAdjustmentMeasurement(adjustmentMeasurement);
+            
+            this.adjustSalary(appointmentFunding);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -235,7 +230,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward normalizePayRateAndAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
-        
+
         this.normalizePayRateAndAmount(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -260,8 +255,14 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         }
     }
 
-    // adjust the requested salary amount of the given appointment funding line
+    /**
+     * adjust the requested salary amount of the given appointment funding line
+     */
     private void adjustSalary(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        if (appointmentFunding.getEffectiveCSFTracker() == null || appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+            return;
+        }
+        
         String adjustmentMeasurement = appointmentFunding.getAdjustmentMeasurement();
         if (BCConstants.SalaryAdjustmentMeasurement.PERCENT.measurement.equals(adjustmentMeasurement)) {
             salarySettingService.adjustRequestedSalaryByPercent(appointmentFunding);
@@ -270,9 +271,9 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             salarySettingService.adjustRequestedSalaryByAmount(appointmentFunding);
         }
     }
-    
+
     /**
-      * get the selected appointment funding line
+     * get the selected appointment funding line
      */
     protected PendingBudgetConstructionAppointmentFunding getSelectedFundingLine(HttpServletRequest request, SalarySettingBaseForm salarySettingForm) {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();

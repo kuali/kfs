@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +132,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return false;
         }
 
-        return StringUtils.equals(laborLedgerObject.getFinancialObjectPayTypeCode(), BCConstants.HOURLY_PAY_TYPE_CODE);
+        return BCConstants.HOURLY_PAY_TYPE_CODES.contains(laborLedgerObject.getFinancialObjectPayTypeCode());
     }
 
     /**

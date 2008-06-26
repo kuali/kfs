@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -35,6 +37,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -815,6 +818,57 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward toggleAdjustmentMeasurement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm docForm = (BudgetConstructionForm) form;
+
+        boolean currentStatus = docForm.isHideAdjustmentMeasurement();
+        docForm.setHideAdjustmentMeasurement(!currentStatus);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    
+    public ActionForward adjustAllRevenueLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm docForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        List<PendingBudgetConstructionGeneralLedger> revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines();
+
+        KualiDecimal adjustmentAmount = docForm.getRevenueAdjustmentAmount();
+        
+        // not sure we need this check since the tool isn't displayed in view mode
+        boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+        for (PendingBudgetConstructionGeneralLedger revenueLine : revenueLines) {
+            if (isEditable){
+                revenueLine.setAdjustmentAmount(adjustmentAmount);
+                this.adjustRequest(revenueLine);
+            }
+            
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward adjustAllExpenditureLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm docForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        List<PendingBudgetConstructionGeneralLedger> expenditureLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
+
+        KualiDecimal adjustmentAmount = docForm.getExpenditureAdjustmentAmount(); 
+
+        // not sure we need this check since the tool isn't displayed in view mode
+        boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+//        (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')
+        for (PendingBudgetConstructionGeneralLedger expenditureLine : expenditureLines) {
+            boolean isLineEditable = (isEditable && (docForm.isBenefitsCalculationDisabled()  || (expenditureLine.getLaborObject() == null) || !expenditureLine.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
+            if (isLineEditable){
+                expenditureLine.setAdjustmentAmount(adjustmentAmount);
+                this.adjustRequest(expenditureLine);
+            }
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
@@ -987,4 +1041,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    private void adjustRequest(PendingBudgetConstructionGeneralLedger pbglLine){
+        
+        KualiInteger baseAmount = pbglLine.getFinancialBeginningBalanceLineAmount();
+        if (baseAmount.isNonZero()){
+            KualiDecimal percent = pbglLine.getAdjustmentAmount();
+            BigDecimal adjustedAmount = baseAmount.multiply(percent).divide(KFSConstants.ONE_HUNDRED);
+            
+            KualiInteger requestAmount = new KualiInteger(adjustedAmount).add(baseAmount);
+            pbglLine.setAccountLineAnnualBalanceAmount(requestAmount);
+        }
+        
+    }
 }

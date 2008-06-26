@@ -29,6 +29,7 @@
         <ref bean="PendingBudgetConstructionGeneralLedger-subAccountNumber" />
         <ref bean="PendingBudgetConstructionGeneralLedger-universityFiscalYear" />
         <ref bean="PendingBudgetConstructionGeneralLedger-versionNumber" />
+        <ref bean="PendingBudgetConstructionGeneralLedger-adjustmentAmount" />
       </list>
     </property>
   </bean>
@@ -264,6 +265,26 @@
   <bean id="PendingBudgetConstructionGeneralLedger-versionNumber" parent="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" />
 
   <bean id="PendingBudgetConstructionGeneralLedger-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+  <bean id="PendingBudgetConstructionGeneralLedger-adjustmentAmount" parent="PendingBudgetConstructionGeneralLedger-adjustmentAmount-parentBean" />
+
+  <bean id="PendingBudgetConstructionGeneralLedger-adjustmentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adjustmentAmount" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Adjust By Percent" />
+    <property name="shortLabel" value="Adjust By Percent" />
+    <property name="maxLength" value="19" />
+    <property name="validationPattern" >
+      <bean parent="FloatingPointValidationPattern"
+            p:allowNegative="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="adjustmentAmount" />
+    <property name="description" value="adjustmentAmount description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

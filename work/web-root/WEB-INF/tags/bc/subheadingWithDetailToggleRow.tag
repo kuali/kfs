@@ -20,10 +20,36 @@
     to be spanned by this row." %>
 <%@ attribute name="subheading" required="true"
     description="Tab subheading to display, typically redundant with the tab heading." %>
+<%@ attribute name="usePercentAdj" required="false"
+    description="Set this to 'true' to display the percent adjust toggle button in the subheading" %>
+<%@ attribute name="readOnly" required="false"
+    description="Used in conjunction with the usePercentAdj attribute" %>
+
+<c:if test="{empty usePercentAdj}">
+  <c:set var="usePercentAdj" value='false'/>
+</c:if>
+
+<%-- default readOnly to true if the hide/show Percent button is wanted and readOnly is not defined --%>
+<c:if test="{usePercentRevExp && empty readOnly}">
+  <c:set var="readOnly" value='true'/>
+</c:if>
+
 <tr>
   <td colspan="${columnCount}" class="subhead">
     <span class="subhead-left">${subheading}</span>
     <span class="subhead-right">
+
+      <c:if test="${usePercentAdj && !readOnly}">
+
+	    <html:hidden property="hideAdjustmentMeasurement"/>
+	    <c:set var="hideOrShow" value="${KualiForm.hideAdjustmentMeasurement ? 'show' : 'hide'}" />
+	    <html:image property="methodToCall.toggleAdjustmentMeasurement" 
+		  src="${ConfigProperties.externalizable.images.url}tinybutton-${hideOrShow}adjust.gif" 
+		  alt="${hideOrShow} percent adjustment" title="${hideOrShow} percent adjustment"
+		  styleClass="tinybutton" />	
+
+      </c:if>
+
       <html:hidden name="KualiForm" property="hideDetails"/>
       <c:if test="${!empty KualiForm.hideDetails}">
         <c:set var="toggle" value="${KualiForm.hideDetails ? 'show' : 'hide'}"/>

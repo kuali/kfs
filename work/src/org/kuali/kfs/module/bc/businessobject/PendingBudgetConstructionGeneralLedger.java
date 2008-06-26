@@ -70,6 +70,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private LaborLedgerObject laborObject;
     private List<LaborLedgerPositionObjectBenefit> positionObjectBenefit;
 
+    private KualiDecimal adjustmentAmount;
     private KualiDecimal percentChange;
     private KualiInteger persistedAccountLineAnnualBalanceAmount;
     private boolean pendingBudgetConstructionAppointmentFundingExists;
@@ -81,6 +82,22 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
         super();
 
         budgetConstructionMonthly = new TypedArrayList(BudgetConstructionMonthly.class);
+    }
+
+    /**
+     * Gets the adjustmentAmount attribute. 
+     * @return Returns the adjustmentAmount.
+     */
+    public KualiDecimal getAdjustmentAmount() {
+        return adjustmentAmount;
+    }
+
+    /**
+     * Sets the adjustmentAmount attribute value.
+     * @param adjustmentAmount The adjustmentAmount to set.
+     */
+    public void setAdjustmentAmount(KualiDecimal adjustmentAmount) {
+        this.adjustmentAmount = adjustmentAmount;
     }
 
     /**

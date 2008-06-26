@@ -38,7 +38,9 @@
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
             <bc:subheadingWithDetailToggleRow
               columnCount="7"
-              subheading="Revenue"/>
+              subheading="Revenue"
+              usePercentAdj="true"
+              readOnly="${readOnly}"/>
 			<tr>
 				<th>
 				    &nbsp;	
@@ -281,12 +283,30 @@
 			</tr>
 
             <c:if test="${!readOnly}">
+	    	<tr>
+			    <td colspan="7" class="subhead">
+					<span class="subhead-left">Global Revenue Actions</span>
+			    </td>
+			</tr>
+
             <tr>
-              <td colspan="7" class="datacell" nowrap>
+              <th colspan="3" nowrap>&nbsp;
+		    	<a name="anchorrevenueControlsAnchor"></a>
+              </th>
+              <td colspan="3" class="datacell" nowrap><center>
+				<bc:requestAdjustment attributes="${pbglRevenueAttributes}" 
+					adjustmentAmountFieldName="revenueAdjustmentAmount"
+					methodToCall="adjustAllRevenueLinesPercent"
+					anchor="anchorrevenueControlsAnchor"/>
+				</center>
+              </td>
+              <td colspan="1" class="datacell" nowrap>
                 <div align="center">
-                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performRevMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performRevMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
+<%--
+                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>
+--%>
+                  <html:image property="methodToCall.performRevMonthSpread.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />
+                  <html:image property="methodToCall.performRevMonthDelete.anchorexpenditureControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthdelete.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
                 </div>
               </td>
 	        </tr>

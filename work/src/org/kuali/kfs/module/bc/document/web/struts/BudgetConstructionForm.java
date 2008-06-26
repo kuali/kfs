@@ -28,6 +28,7 @@ import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -52,7 +53,10 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     private boolean hideDetails = false;
     private boolean pickListClose = false;
-
+    private boolean hideAdjustmentMeasurement = true;
+    private KualiDecimal revenueAdjustmentAmount;
+    private KualiDecimal expenditureAdjustmentAmount;
+    
     // passed parms
     private String backLocation;
     private String returnAnchor;
@@ -422,6 +426,54 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the hideAdjustmentMeasurement attribute. 
+     * @return Returns the hideAdjustmentMeasurement.
+     */
+    public boolean isHideAdjustmentMeasurement() {
+        return hideAdjustmentMeasurement;
+    }
+
+    /**
+     * Sets the hideAdjustmentMeasurement attribute value.
+     * @param hideAdjustmentMeasurement The hideAdjustmentMeasurement to set.
+     */
+    public void setHideAdjustmentMeasurement(boolean hideAdjustmentMeasurement) {
+        this.hideAdjustmentMeasurement = hideAdjustmentMeasurement;
+    }
+
+    /**
+     * Gets the revenueAdjustmentAmount attribute. 
+     * @return Returns the revenueAdjustmentAmount.
+     */
+    public KualiDecimal getRevenueAdjustmentAmount() {
+        return revenueAdjustmentAmount;
+    }
+
+    /**
+     * Sets the revenueAdjustmentAmount attribute value.
+     * @param revenueAdjustmentAmount The revenueAdjustmentAmount to set.
+     */
+    public void setRevenueAdjustmentAmount(KualiDecimal adjustmentAmount) {
+        this.revenueAdjustmentAmount = adjustmentAmount;
+    }
+
+    /**
+     * Gets the expenditureAdjustmentAmount attribute. 
+     * @return Returns the expenditureAdjustmentAmount.
+     */
+    public KualiDecimal getExpenditureAdjustmentAmount() {
+        return expenditureAdjustmentAmount;
+    }
+
+    /**
+     * Sets the expenditureAdjustmentAmount attribute value.
+     * @param expenditureAdjustmentAmount The expenditureAdjustmentAmount to set.
+     */
+    public void setExpenditureAdjustmentAmount(KualiDecimal expenditureAdjustmentAmount) {
+        this.expenditureAdjustmentAmount = expenditureAdjustmentAmount;
     }
 
     /**

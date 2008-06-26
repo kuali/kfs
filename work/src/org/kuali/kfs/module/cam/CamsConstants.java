@@ -44,6 +44,7 @@ public class CamsConstants {
 
     public static class DocumentTypeCodes {
         public static final String ASSET_SEPERATE = "ASEP";
+        public static final String ASSET_RETIREMENT_DOCTYPE_CD = "AMRG";
     }
 
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";

@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
  */
 
 public class AssetRetirementGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
-    public static final String ASSET_RETIREMENT_DOCTYPE_CD = "AMRG";
+
     private String documentNumber;
     private Long mergedTargetCapitalAssetNumber;
     private String inventoryStatusCode;

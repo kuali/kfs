@@ -27,7 +27,7 @@
     <html:hidden property="returnAnchor" />
     <html:hidden property="returnFormKey" />
     <html:hidden property="backLocation" />
-    
+    <html:hidden name="KualiForm" property="universityFiscalYear" />
 	<kul:tabTop tabTitle="Payrate Export" defaultOpen="true">
 		<div class="tab-container" align=center>
 			<h3>Export</h3>
@@ -66,7 +66,7 @@
 				<tr>
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.fileName}" /></b>
-						<kul:htmlControlAttribute property="fileName" readOnly="false" attributeEntry="${payrateImportExportAttributes.fileName}"/>
+						<html:file property="file" />
 					</td> 
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.importCount}" /></b>

@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
@@ -46,7 +47,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
         PayrateImportService payrateImportService = SpringContext.getBean(PayrateImportService.class);
         List<String> messageList = new ArrayList<String>();
-        Integer universityFiscalYear = payrateImportExportForm.getUniversityFiscalYear();
+        Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
@@ -54,16 +55,36 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         boolean isValid = validateFormData(payrateImportExportForm);
         
         if (!isValid) {
-            //TODO: add path to constants
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         Date startTime = new Date();
         messageList.add("Import run started " + dateFormatter.format(startTime));
         
-        StringBuilder parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
+        List<String> parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        if (!parsingErrors.isEmpty()) {
+            messageList.add(parsingErrors.toString());
+            payrateImportService.generatePdf(messageList, baos);
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "exportMessages.pdf");
+            return null;
+        }
+        if (payrateImportService.getImportCount() == 0 ) messageList.add("No records found to import.");
+        else  messageList.add("Import count: " + payrateImportService.getImportCount());
+        
+        messageList.add("Import complete");
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        List<String> updateMessages = payrateImportService.update(budgetYear, user);
+        
+        messageList.addAll(updateMessages);
+        messageList.add("Update complete, records processed: " + payrateImportService.getUpdateCount());
+        messageList.add("Update run ended " + dateFormatter.format(new Date()));
+        
+        payrateImportService.generatePdf(messageList, baos);
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "exportMessages.pdf");
+        
+        return null;
     }
     
     public ActionForward performExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -31,12 +31,12 @@ public interface PayrateImportService {
      * @param fileImportStream
      * @return
      */
-    public StringBuilder importFile(InputStream fileImportStream);
+    public List<String> importFile(InputStream fileImportStream);
     
     /**
      * Processes all payrate holding records
      */
-    public StringBuilder update(Integer budgetYear, UniversalUser user);
+    public List<String> update(Integer budgetYear, UniversalUser user);
     
     /**
      * Generates the log file
@@ -46,5 +46,19 @@ public interface PayrateImportService {
      * @throws DocumentException
      */
     public void generatePdf(List<String> logMessages, ByteArrayOutputStream baos) throws DocumentException;
+    
+    /**
+     * Returns the importCount
+     * 
+     * @return
+     */
+    public int getImportCount();
+    
+    /**
+     * Returns the updateCount
+     * 
+     * @return
+     */
+    public int getUpdateCount();
 
 }

@@ -34,6 +34,19 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_FUNDING_LOCK_USER_ID = "appointmentFundingLockUserId";
     public static final String BUDGET_CONSTRUCTION_POSITION = "budgetConstructionPosition";
     public static final String BUDGET_CONSTRUCTION_FUNDING_LOCKS = "budgetConstructionFundingLocks";
-    // budget construction pending appointment funding
+
     public static final String APPOINTMENT_FUNDING_DELETE_INDICATOR = "appointmentFundingDeleteIndicator";
+    
+    public static final String APPOINTMENT_REQUESTED_AMOUNT = "appointmentRequestedAmount";
+    public static final String APPOINTMENT_REQUESTED_TIME_PERCENT = "appointmentRequestedTimePercent";
+    public static final String APPOINTMENT_REQUESTED_PAY_RATE = "appointmentRequestedPayRate";
+
+    public static final String APPOINTMENT_REQUESTED_CSF_AMOUNT = "appointmentRequestedCsfAmount";
+    public static final String APPOINTMENT_REQUESTED_CSF_FTE_QUANTITY = "appointmentRequestedCsfFteQuantity";
+    public static final String APPOINTMENT_REQUESTED_CSF_TIME_PERCENT = "appointmentRequestedCsfTimePercent";
+    public static final String APPOINTMENT_REQUESTED_FTE_QUANTITY = "appointmentRequestedFteQuantity";
+
+    public static final String APPOINTMENT_FUNDING_DURATION_CODE = "appointmentFundingDurationCode";
+    public static final String APPOINTMENT_TOTAL_INTENDED_AMOUNT = "appointmentTotalIntendedAmount";
+    public static final String APPOINTMENT_TOTAL_INTENDED_FTE_QUANTITY = "appointmentTotalIntendedFteQuantity";
 }

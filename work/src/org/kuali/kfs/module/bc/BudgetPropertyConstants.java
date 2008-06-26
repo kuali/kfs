@@ -19,6 +19,7 @@ package org.kuali.kfs.module.bc;
 /**
  * Contains constants that refer to a business object property name.
  */
+@Deprecated
 public class BudgetPropertyConstants {
     public static final String PULL_FLAG = "pullFlag";
     public static final String PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING = "pendingBudgetConstructionAppointmentFunding";

@@ -38,6 +38,29 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
         setBudgetConstructionIntendedIncumbent(new BudgetConstructionIntendedIncumbent());
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#createNewAppointmentFundingLine()
+     */
+    @Override
+    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
+        
+        appointmentFunding.setEmplid(this.getBudgetConstructionIntendedIncumbent().getEmplid());
+
+        return appointmentFunding;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
+     */
+    @Override
+    public Map<String, Object> getKeyMapOfSalarySettingItem() {
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put(KFSPropertyConstants.EMPLID, this.getEmplid());
+
+        return keyMap;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#getRefreshCallerName()
@@ -71,16 +94,5 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
      */
     public void setBudgetConstructionIntendedIncumbent(BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent) {
         this.budgetConstructionIntendedIncumbent = budgetConstructionIntendedIncumbent;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
-     */
-    @Override
-    public Map<String, Object> getKeyMapOfSalarySettingItem() {
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put(KFSPropertyConstants.EMPLID, this.getEmplid());
-
-        return keyMap;
     }
 }

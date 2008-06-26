@@ -94,9 +94,10 @@ public interface SalarySettingService {
      * @return a vacant appointment funding
      */
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
-     * vacate the given appointment funding, create a vacant appointment funding based on the given funding, and add the vacant line into the given appointment funding collection
+     * vacate the given appointment funding, create a vacant appointment funding based on the given funding, and add the vacant line
+     * into the given appointment funding collection
      * 
      * @param appointmentFundings the given appointment funding collection that the given appointment funding belongs to
      * @param appointmentFunding the given apporintment funding
@@ -131,11 +132,26 @@ public interface SalarySettingService {
      * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
      */
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion);
-    
+
     /**
      * reset the given appointment funcding as deleted
      * 
      * @param appointmentFunding the given appointment funcding
      */
     public void resetAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * mark the given appointment funding as deleted
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    public void markAsDelete(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * revert the given appointment funding if it is just vacated
+     * 
+     * @param appointmentFundings the given appointment funding collection
+     * @param appointmentFunding the given appointment funding
+     */
+    public void revert(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

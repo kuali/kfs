@@ -26,10 +26,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,19 +71,17 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     public abstract Map<String, Object> getKeyMapOfSalarySettingItem();
 
     /**
-     * This method iterates over all of the BCAF lines for the SalarySettingExpansion (PBGL line) TODO verify this - and calls
-     * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
+     * refresh the the appointment funding lines and make them have connections with associated objects
      */
     public void populateBCAFLines() {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            this.populateBCAFLine(appointmentFunding);
+            this.refreshBCAFLine(appointmentFunding);
         }
     }
 
     /**
-     * This method iterates over all of the BCAF lines for the SalarySettingExpansion (PBGL line) TODO verify this - and calls
-     * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
+     * do some operations on the appointment funding lines. The operations may be included updating and sorting.
      */
     public void postProcessBCAFLines() {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
@@ -98,7 +96,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     /**
      * Populates the dependent fields of objects contained within the BCAF line
      */
-    public void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public void refreshBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        appointmentFunding.refreshNonUpdateableReferences();
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
     }
 

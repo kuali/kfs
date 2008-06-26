@@ -51,21 +51,8 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
 
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
         incumbentSalarySettingForm.populateBCAFLines();
-        incumbentSalarySettingForm.setNewBCAFLine(this.createNewAppointmentFundingLine(incumbentSalarySettingForm));
+        incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#createNewAppointmentFundingLine(org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm)
-     */
-    @Override
-    public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {
-        IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) salarySettingForm;
-
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine(incumbentSalarySettingForm);
-        appointmentFunding.setEmplid(incumbentSalarySettingForm.getBudgetConstructionIntendedIncumbent().getEmplid());
-
-        return appointmentFunding;
     }
 }

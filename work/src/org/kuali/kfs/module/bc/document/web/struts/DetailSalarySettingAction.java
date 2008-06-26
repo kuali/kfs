@@ -44,21 +44,10 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * the base struts action for the salary setting
+ * the base struts action for the detail salary setting
  */
 public abstract class DetailSalarySettingAction extends SalarySettingBaseAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingAction.class);
-
-    /**
-     * save the information in the current form into underlying data store
-     */
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionAction#close(org.apache.struts.action.ActionMapping,
@@ -66,22 +55,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-
-        // ask the question unless it has not been answered
-        if (StringUtils.isBlank(question)) {
-            String questionText = kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE);
-            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
-        }
-
-        // save the salary setting if the user answers to the question with "Yes"
-        String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-        if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
-            ActionForward saveAction = this.save(mapping, form, request, response);
-
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
-        }
+        ActionForward closeActionForward = super.close(mapping, form, request, response);
 
         // return to caller if the current salary setting is in the budget by account mode
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
@@ -90,8 +64,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         salarySettingForm.setOrgSalSetClose(true);
-        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return closeActionForward;
     }
 
     /**
@@ -133,36 +106,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         appointmentFundings.add(newAppointmentFunding);
 
         salarySettingForm.populateBCAFLines();
-        salarySettingForm.setNewBCAFLine(this.createNewAppointmentFundingLine(salarySettingForm));
+        salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * sets the default fields not setable by the user for added lines and any other required initialization
-     * 
-     * @param appointmentFunding the given appointment funding line
-     */
-    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
-
-        appointmentFunding.setUniversityFiscalYear(salarySettingForm.getUniversityFiscalYear());
-
-        appointmentFunding.setAppointmentFundingDeleteIndicator(false);
-        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
-
-        appointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
-        appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
-        appointmentFunding.setAppointmentRequestedTimePercent(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-        appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-
-        appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
-        appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
-        appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
-
-        appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
-        appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO.setScale(5, KualiDecimal.ROUND_BEHAVIOR));
-
-        return appointmentFunding;
     }
 }

@@ -24,22 +24,25 @@
 <c:set var="fundingPropertyName" value="salarySettingExpansion.pendingBudgetConstructionAppointmentFunding"/>
 <c:set var="isHourlyPaid" value="${KualiForm.salarySettingExpansion.hourlyPaid}" />
 <c:set var="numOfColumsRemoved" value="${isHourlyPaid ? 0 : 1 }" />
-	
- 	<h3>>Salary Line Detail</h3>
-	
-	<c:if test="${not readOnly}">
-	    <span class="subhead-right"><span class="subhead">
-	    	<html:hidden property="hideAdjustmentMeasurement"/>
-	    	
-	    	<c:set var="hideOrShow" value="${KualiForm.hideAdjustmentMeasurement ? 'show' : 'hide'}" />
-	    	<html:image property="methodToCall.toggleAdjustmentMeasurement" 
-				src="${ConfigProperties.externalizable.images.url}tinybutton-${hideOrShow}adjust.gif" 
-				alt="${hideOrShow} percent adjustment" title="${hideOrShow} percent adjustment"
-				styleClass="tinybutton" />	
-	    </span></span>
-    </c:if>
 						
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Expenditure Salary Line Detail">	
+	<tr>
+		<td colspan="${16 - numOfColumsRemoved}" class="subhead">	
+			<span class="subhead-left">Salary Line Detail</span>
+    		<span class="subhead-right">   			   			
+		   		<c:if test="${not readOnly}">	    
+			    	<html:hidden property="hideAdjustmentMeasurement"/>
+			    	
+			    	<c:set var="hideOrShow" value="${KualiForm.hideAdjustmentMeasurement ? 'show' : 'hide'}" />
+			    	<html:image property="methodToCall.toggleAdjustmentMeasurement" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-${hideOrShow}adjust.gif" 
+						alt="${hideOrShow} percent adjustment" title="${hideOrShow} percent adjustment"
+						styleClass="tinybutton" />	
+	    		</c:if>
+			</span>
+    	</td>
+	</tr>
+
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${pbcafAttributes.appointmentFundingDeleteIndicator}"/>
 				
@@ -73,6 +76,8 @@
 	<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
 	<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 	<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator}"/>
+	<c:set var="canDelete" value="${not notEditable && not isVacant && not fundingLine.appointmentFundingDeleteIndicator }" />
+	<c:set var="canUndelete" value="${not notEditable && not isVacant && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />
 	<c:set var="rowspan" value="${ hidePercentAdjustment ? 1: 2}"/>
 	
 	<tr>		
@@ -80,7 +85,7 @@
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
 			accountingLine="${fundingLineName}"	attributes="${pbcafAttributes}" 
 			field="appointmentFundingDeleteIndicator" rowSpan="${rowspan}" readOnly="false"
-			fieldAlign="left" disabled="${notEditable}">
+			fieldAlign="left" disabled="${true}">
 			
 			<html:hidden property="${fundingLineName}.universityFiscalYear" />
 			<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
@@ -92,10 +97,7 @@
 			<html:hidden property="${fundingLineName}.appointmentRequestedTimePercent" />
 			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
 			<html:hidden property="${fundingLineName}.versionNumber" />
-			
-			<c:if test="${notEditable}">
-				<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
-			</c:if>
+			<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
 		</bc:pbglLineDataCell>
 	
 		<%-- Position Number --%>	
@@ -227,6 +229,21 @@
 						alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />	
 				</c:if>
 				
+				<c:if test="${canDelete}">	
+					<html:image property="methodToCall.deleteSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif" 
+						title="Delete Salary Setting Line ${status.index}"
+						alt="Delete Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</c:if>
+				
+				<c:if test="${canUndelete}">
+					<br/>	
+					<html:image property="methodToCall.revertSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-revert1.gif" 
+						title="revert Salary Setting Line ${status.index}"
+						alt="revert Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</c:if>
+												
 				<c:if test="${isHourlyPaid && not notEditable}">	
 					<html:image property="methodToCall.normalizePayRateAndAmount.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" 
@@ -290,25 +307,25 @@
 	</tr>
 	
 	<c:if test="${not readOnly}">
-	<tr>
-		<td colspan="${16 - numOfColumsRemoved}">
-			<h3>Global Percent Adjustment</h3>
-		</td>
-	</tr>
-	
-	<tr>
-		<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="" horizontal="true" />
-	
-	    <td colspan ="${7 - numOfColumsRemoved}"><center>
-			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
-				adjustmentMeasurementFieldName="adjustmentMeasurement" 
-				adjustmentAmountFieldName="adjustmentAmount"
-				methodToCall="adjustAllSalarySettingLinesPercent"/>
-			</center>
-		</td>
+		<tr>
+			<td colspan="${16 - numOfColumsRemoved}" class="subhead">
+				<span class="subhead-left">Global Percent Adjustment</span>
+			</td>
+		</tr>
 		
-		<kul:htmlAttributeHeaderCell />
-	</tr>
+		<tr>
+			<kul:htmlAttributeHeaderCell scope="row" colspan="8" literalLabel="" horizontal="true" />
+		
+		    <td colspan ="${7 - numOfColumsRemoved}"><center>
+				<bc:salaryAdjustment attributes="${pbcafAttributes}" 
+					adjustmentMeasurementFieldName="adjustmentMeasurement" 
+					adjustmentAmountFieldName="adjustmentAmount"
+					methodToCall="adjustAllSalarySettingLinesPercent"/>
+				</center>
+			</td>
+			
+			<kul:htmlAttributeHeaderCell />
+		</tr>
 	</c:if>
 		
 </table>

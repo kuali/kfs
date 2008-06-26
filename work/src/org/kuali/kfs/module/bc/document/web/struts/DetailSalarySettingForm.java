@@ -19,7 +19,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * the base struts form for the salary setting
@@ -36,6 +39,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     private boolean budgetByAccountMode;
     private boolean orgSalSetClose = false;
+    
+    protected SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
     /**
      * Constructs a DetailSalarySettingForm.java.
@@ -55,6 +60,32 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         super.populate(request);
 
         this.populateBCAFLines();
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#refreshBCAFLine(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    @Override
+    public void refreshBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        super.refreshBCAFLine(appointmentFunding);
+        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
+        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
+    }
+    
+    /**
+     * sets the default fields not setable by the user for added lines and any other required initialization
+     * 
+     * @param appointmentFunding the given appointment funding line
+     */
+    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = new PendingBudgetConstructionAppointmentFunding();
+
+        appointmentFunding.setUniversityFiscalYear(this.getUniversityFiscalYear());
+        appointmentFunding.setAppointmentFundingDeleteIndicator(false);
+        
+        salarySettingService.resetAppointmentFunding(appointmentFunding);
+
+        return appointmentFunding;
     }
 
     /**

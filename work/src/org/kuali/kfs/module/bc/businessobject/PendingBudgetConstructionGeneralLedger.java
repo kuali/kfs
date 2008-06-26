@@ -36,7 +36,7 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.service.LaborModuleService;
-import org.kuali.kfs.module.bc.SalarySettingCalculator;
+import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 

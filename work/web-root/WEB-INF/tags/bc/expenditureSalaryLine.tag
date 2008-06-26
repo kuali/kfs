@@ -20,6 +20,7 @@
 
 <c:set var="readOnly" value="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}" />
 <c:set var="accountingLine" value="salarySettingExpansion" />
+<c:set var="colSpan" value="7" />
 
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
@@ -41,10 +42,15 @@
 <html:hidden property="salarySettingExpansion.financialObjectTypeCode" />
 <html:hidden property="salarySettingExpansion.versionNumber" />
 
-<h3>Expenditure Salary Line</h3>
 						
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Expenditure Salary Line">
 <tbody>
+	<tr>
+		<td colspan="${colSpan}" class="subhead">
+			<span class="subhead-left">Expenditure Salary Line</span>
+		</td>
+	</tr>
+
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${sseAttributes.chartOfAccountsCode}" hideRequiredAsterisk="true"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${sseAttributes.accountNumber}" hideRequiredAsterisk="true"/>
@@ -141,14 +147,15 @@
 	<%-- Row for Add Position and Add Incumbent Buttons --%>
 	<c:if test="${not readOnly}">
 	<tr>
-		<td class="infoline" colspan="7"><center>			
+		<td class="infoline" colspan="${colSpan}"><center>			
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-addposition.gif" 
 				property="methodToCall.addPosition" title="Add Position" 
 				alt="Add Position" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
 	   			
 	   		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-addincumbent.gif" 
 	   			property="methodToCall.addIncumbent" title="Add Incumbent" 
-	   			alt="Add Incumbent" styleClass="tinybutton" />
+	   			alt="Add Incumbent" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+	
 	   		</center>
 		</td>
 	</tr>

@@ -144,8 +144,10 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     }
 
     /**
-     * save the changes for salary setting
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
@@ -160,15 +162,13 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     // build the URL for the specified salary setting method
     private String buildDetailSalarySettingURL(ActionMapping mapping, ActionForm form, HttpServletRequest request, String salarySettingAction) {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
-        SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
-
-        Map<String, String> salarySettingMethodAction = this.getSalarySettingMethodActionInfo();
 
         int indexOfSelectedLine = this.getSelectedLine(request);
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
         PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
 
         // get the base action
+        Map<String, String> salarySettingMethodAction = this.getSalarySettingMethodActionInfo();
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         String baseAction = basePath + "/" + salarySettingAction;
         String methodToCall = salarySettingMethodAction.get(salarySettingAction);

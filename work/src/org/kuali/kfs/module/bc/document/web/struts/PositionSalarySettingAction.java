@@ -34,6 +34,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class PositionSalarySettingAction extends DetailSalarySettingAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingAction.class);
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#loadExpansionScreen(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
@@ -47,24 +50,8 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
         positionSalarySettingForm.populateBCAFLines();        
-        positionSalarySettingForm.setNewBCAFLine(this.createNewAppointmentFundingLine(positionSalarySettingForm));
+        positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingAction#createNewAppointmentFundingLine(org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm)
-     */
-    @Override
-    public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine(DetailSalarySettingForm salarySettingForm) {
-        PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) salarySettingForm;
-        BudgetConstructionPosition budgetConstructionPosition = positionSalarySettingForm.getBudgetConstructionPosition();
-        
-        PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine(positionSalarySettingForm);
-               
-        appointmentFunding.setPositionNumber(budgetConstructionPosition.getPositionNumber());
-        appointmentFunding.setAppointmentFundingMonth(budgetConstructionPosition.getIuNormalWorkMonths());
-        
-        return appointmentFunding;
     }
 }

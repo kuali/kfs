@@ -39,6 +39,19 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     }
     
     /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#createNewAppointmentFundingLine()
+     */
+    @Override
+    protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
+        PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
+        
+        appointmentFunding.setPositionNumber(this.getBudgetConstructionPosition().getPositionNumber());
+        appointmentFunding.setAppointmentFundingMonth(this.getBudgetConstructionPosition().getIuNormalWorkMonths());
+
+        return appointmentFunding;
+    }
+    
+    /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
      */
     @Override

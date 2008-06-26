@@ -32,7 +32,6 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -139,33 +139,46 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean canBeVacant(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("canBeVacant(List, PendingBudgetConstructionAppointmentFunding) start");
+        LOG.debug("canBeVacant(List, PendingBudgetConstructionAppointmentFunding) start");
 
         if (!this.canBeVacant(appointmentFunding)) {
             return false;
         }
 
-        Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
-        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
+        return this.findVacantAppointmentFunding(appointmentFundings, appointmentFunding) == null;
+    }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#canBeVacant(java.util.List,
+     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public PendingBudgetConstructionAppointmentFunding findVacantAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
         List<String> keyFields = new ArrayList<String>();
         keyFields.addAll(keyFieldValues.keySet());
+
+        PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
 
         // determine whether there is vacant for the given appointment funding in its list
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
             if (ObjectUtil.equals(fundingLine, vacantAppointmentFunding, keyFields)) {
-                return false;
+                return fundingLine;
             }
         }
 
-        return true;
+        return null;
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#canBeVacant(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean canBeVacant(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("canBeVacant() start");
+        LOG.debug("canBeVacant() start");
+        
+        // the given funding line has not been deleted
+        if (appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+            return false;
+        }
 
         // the given funding line cannot be a vacant line
         String emplid = appointmentFunding.getEmplid();
@@ -192,11 +205,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#vacateAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public PendingBudgetConstructionAppointmentFunding vacateAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("vacateAppointmentFunding() start");
+        LOG.debug("vacateAppointmentFunding() start");
 
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = this.createVacantAppointmentFunding(appointmentFunding);
-        this.resetAppointmentFunding(appointmentFunding);
-        appointmentFunding.setAppointmentFundingDeleteIndicator(true);
+        this.markAsDelete(appointmentFunding);
 
         return vacantAppointmentFunding;
     }
@@ -219,7 +231,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#adjustRequestedSalaryByAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public void adjustRequestedSalaryByAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("adjustRequestedSalaryByAmount() start");
+        LOG.debug("adjustRequestedSalaryByAmount() start");
 
         int inputAdjustmentAmount = appointmentFunding.getAdjustmentAmount().intValue();
 
@@ -234,7 +246,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#adjustRequestedSalaryByPercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public void adjustRequestedSalaryByPercent(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("adjustRequestedSalaryByPercent() start");
+        LOG.debug("adjustRequestedSalaryByPercent() start");
 
         KualiInteger csfAmount = this.getCsfAmount(appointmentFunding);
 
@@ -251,7 +263,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveSalarySetting(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
      */
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion) {
-        LOG.info("saveSalarySetting() start");
+        LOG.debug("saveSalarySetting() start");
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
         this.resetDeletedFundingLines(appointmentFundings);
@@ -294,7 +306,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             salarySettingExpansion.setBudgetConstructionMonthly(this.updateMonthlyAmounts(salarySettingExpansion, changes));
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#resetAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
@@ -314,6 +326,31 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#markAsDelete(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void markAsDelete(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        this.resetAppointmentFunding(appointmentFunding);
+
+        appointmentFunding.setAppointmentFundingDeleteIndicator(true);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#revert(java.util.List,
+     *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void revert(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        PendingBudgetConstructionAppointmentFunding vacantFunding = this.findVacantAppointmentFunding(appointmentFundings, appointmentFunding); 
+        
+        if(vacantFunding != null) {
+            appointmentFundings.remove(vacantFunding);
+        } 
+        
+        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = (PendingBudgetConstructionAppointmentFunding)businessObjectService.retrieve(appointmentFunding);
+        appointmentFundings.add(newAppointmentFunding);  
+        appointmentFundings.remove(appointmentFunding);
+    }
+
+    /**
      * reset the amount values of each line in the given appointment fundings as zeros and remove the reason annotations if the line
      * is marked as deleted
      * 
@@ -322,10 +359,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private void resetDeletedFundingLines(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : pendingBudgetConstructionAppointmentFunding) {
             if (appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isPersistedDeleteIndicator()) {
-                this.resetAppointmentFunding(appointmentFunding);
+                this.markAsDelete(appointmentFunding);
 
                 List<BudgetConstructionAppointmentFundingReason> reasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
-                if(reasons != null) {
+                if (reasons != null) {
                     reasons.clear();
                 }
             }
@@ -445,7 +482,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         vacantAppointmentFunding.setEmplid(BCConstants.VACANT_EMPLID);
         vacantAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
         vacantAppointmentFunding.setPersistedDeleteIndicator(false);
-        vacantAppointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
 
         return vacantAppointmentFunding;
     }

@@ -55,16 +55,6 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * Populates the dependent fields of objects contained within the BCAF line
-     */
-    public void populateBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        appointmentFunding.refreshNonUpdateableReferences();
-        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
-        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
-        appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
-    }
-
-    /**
      * get the key map for the salary setting expension
      * 
      * @return the key map for the salary setting expension

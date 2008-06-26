@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.module.bc.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.context.SpringContext;
 
 

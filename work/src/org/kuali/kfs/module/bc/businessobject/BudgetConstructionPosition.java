@@ -31,7 +31,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.SalarySettingCalculator;
+import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 

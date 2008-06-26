@@ -131,9 +131,9 @@ public class FinancialSystemUserDocumentAuthorizer extends MaintenanceDocumentAu
             index = 0;
             for ( FinancialSystemUserOrganizationSecurity item : ((FinancialSystemUser)document.getNewMaintainableObject().getBusinessObject()).getOrganizationSecurity() ) {
                 auths.addReadonlyAuthField( "organizationSecurity[" + index + "].moduleId" );
-                auths.addReadonlyAuthField( "organizationSecurity[[" + index + "].chartOfAccountsCode" );
-                auths.addReadonlyAuthField( "organizationSecurity[[" + index + "].organizationCode" );
-                auths.addReadonlyAuthField( "organizationSecurity[[" + index + "].descendOrgHierarchy" );
+                auths.addReadonlyAuthField( "organizationSecurity[" + index + "].chartOfAccountsCode" );
+                auths.addReadonlyAuthField( "organizationSecurity[" + index + "].organizationCode" );
+                auths.addReadonlyAuthField( "organizationSecurity[" + index + "].descendOrgHierarchy" );
                 index++;
             }
         }

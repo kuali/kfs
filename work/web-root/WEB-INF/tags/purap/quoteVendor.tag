@@ -121,7 +121,7 @@
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPostalCode" 
                 readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" /> / 
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCountryCode" 
-                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
+                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" extraReadOnlyProperty="document.purchaseOrderVendorQuote[${ctr}].vendorCountry.postalCountryName"/>
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteTransmitTypeCode}" />

@@ -990,5 +990,12 @@
 		</property>
 	</bean>
 
-	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl" autowire="byName" singleton="false"/>	 
+	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl" autowire="byName" singleton="false"/>
+	
+	<!-- validations -->
+	<import resource="document/validation/configuration/LaborValidations.xml" />
+	<import resource="document/validation/configuration/SalaryExpenseTransferValidations.xml" />
+	<import resource="document/validation/configuration/YearEndSalaryExpenseTransferValidations.xml" />
+			
 </beans>
+

@@ -33,7 +33,7 @@
     <property name="documentTypeName" value="IndirectCostRecoveryRateMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryRateRule" />
     <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="ICRR" />
+    <property name="documentTypeCode" value="ICRE" />
     <property name="workflowProperties" >
       <ref bean="IndirectCostRecoveryRateMaintenanceDocument-workflowProperties" />
     </property>

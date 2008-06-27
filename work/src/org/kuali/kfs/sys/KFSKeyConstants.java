@@ -359,6 +359,10 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_KUALIUSERMAINT_CANNOT_EDIT_USER_ID = "error.document.kualiUserMaintenance.cannotEditUserId";
     public static final String ERROR_DOCUMENT_KUALIUSERMAINT_INVALID_EMP_STATUS = "error.document.kualiUserMaintenance.invalidEmpStatus";
 
+    //Sales Tax Errors
+    public static final String ERROR_DOCUMENT_TAX_DISTRICT_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT = "error.document.taxDistrictMaintenance.cannotAddPastOrCurrentDateForTaxDistrict";
+    public static final String ERROR_DOCUMENT_TAX_DISTRICT_TAX_RATE_BETWEEN0AND1 = "error.document.taxDistrictMaintenance.taxRateShouldBeBetween0And1";
+
     // UniversalUser errors
     public static final String ERROR_DOCUMENT_KUALIUSERMAINT_UNIQUE_EMPLID = "error.document.UniversalUserMaintenance.UniqueEmplId";
 

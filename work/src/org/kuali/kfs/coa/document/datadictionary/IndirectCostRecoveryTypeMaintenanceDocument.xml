@@ -80,7 +80,7 @@
     <property name="maintainableItems" >
       <list>
       	<bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="IndirectCostRecoveryExclusionTypeDetails" />
+          <property name="name" value="indirectCostRecoveryExclusionTypeDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType" />
           <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.ObjectCode" />
           <property name="maintainableFields">

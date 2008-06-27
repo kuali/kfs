@@ -18,32 +18,32 @@ package org.kuali.kfs.coa.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 
 /**
- * PreRules checks for the {@link IcrAutomatedEntry} that needs to occur while still in the Struts processing. This includes
+ * PreRules checks for the {@link IndirectCostRecoveryRateDetail} that needs to occur while still in the Struts processing. This includes
  * defaults, confirmations, etc.
  */
-public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
+public class IndirectCostRecoveryRateDetailPreRules extends MaintenancePreRulesBase {
 
 
-    private IcrAutomatedEntry icrAutomatedEntry;
+    private IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail;
 
 
-    public IcrAutomatedEntryPreRules() {
+    public IndirectCostRecoveryRateDetailPreRules() {
 
     }
 
     /**
      * Executes the following pre rules
      * <ul>
-     * <li>{@link IcrAutomatedEntryPreRules#setSubAccountToDashesIfBlank()}</li>
-     * <li>{@link IcrAutomatedEntryPreRules#setSubObjectToDashesIfBlank()}</li>
+     * <li>{@link IndirectCostRecoveryRateDetailPreRules#setSubAccountToDashesIfBlank()}</li>
+     * <li>{@link IndirectCostRecoveryRateDetailPreRules#setSubObjectToDashesIfBlank()}</li>
      * </ul>
      * 
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
@@ -63,11 +63,11 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
-        if (StringUtils.isNotBlank(icrAutomatedEntry.getAccountNumber())) {
-            Account account = checkForContinuationAccount("Account Number", icrAutomatedEntry.getChartOfAccountsCode(), icrAutomatedEntry.getAccountNumber(), "");
+        if (StringUtils.isNotBlank(indirectCostRecoveryRateDetail.getAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", indirectCostRecoveryRateDetail.getChartOfAccountsCode(), indirectCostRecoveryRateDetail.getAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                icrAutomatedEntry.setAccountNumber(account.getAccountNumber());
-                icrAutomatedEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                indirectCostRecoveryRateDetail.setAccountNumber(account.getAccountNumber());
+                indirectCostRecoveryRateDetail.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
@@ -76,19 +76,19 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
      * This sets the {@link SubAccount} number to padded dashes ("-") if blank
      */
     protected void setSubAccountToDashesIfBlank() {
-        String newSubAccount = icrAutomatedEntry.getSubAccountNumber();
+        String newSubAccount = indirectCostRecoveryRateDetail.getSubAccountNumber();
         if (StringUtils.isBlank(newSubAccount)) {
-            icrAutomatedEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            indirectCostRecoveryRateDetail.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
     }
 
     /**
-     * This sets the {@link org.kuali.kfs.coa.businessobject.SubObjCd} code to padded dashes ("-") if blank
+     * This sets the {@link org.kuali.module.chart.bo.SubObjCd} code to padded dashes ("-") if blank
      */
     protected void setSubObjectToDashesIfBlank() {
-        String newSubObject = icrAutomatedEntry.getFinancialSubObjectCode();
+        String newSubObject = indirectCostRecoveryRateDetail.getFinancialSubObjectCode();
         if (StringUtils.isBlank(newSubObject)) {
-            icrAutomatedEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+            indirectCostRecoveryRateDetail.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
     }
 
@@ -100,6 +100,6 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        icrAutomatedEntry = (IcrAutomatedEntry) document.getNewMaintainableObject().getBusinessObject();
+        indirectCostRecoveryRateDetail = (IndirectCostRecoveryRateDetail) document.getNewMaintainableObject().getBusinessObject();
     }
 }

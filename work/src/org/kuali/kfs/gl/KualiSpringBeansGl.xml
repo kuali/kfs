@@ -722,8 +722,8 @@
 		<property name="expenditureTransactionDao">
 			<ref bean="glExpenditureTransactionDao" />
 		</property>
-		<property name="icrAutomatedEntryDao">
-			<ref bean="icrAutomatedEntryDao" />
+		<property name="indirectCostRecoveryAutomatedEntryDao">
+			<ref bean="indirectCostRecoveryAutomatedEntryDao" />
 		</property>
 		<property name="objectCodeService">
 			<ref bean="objectCodeService" />

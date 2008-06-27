@@ -4,17 +4,17 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ICRTypeCodeMaintenanceDocument" parent="ICRTypeCodeMaintenanceDocument-parentBean" />
-  <bean id="ICRTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ICRTypeCode" />
-    <property name="maintainableClass" value="org.kuali.kfs.coa.document.ICRTypeCodeMaintainableImpl" />
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument" parent="IndirectCostRecoveryTypeMaintenanceDocument-parentBean" />
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.IndirectCostRecoveryTypeMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="ICRTypeCodeMaintenanceDocument-EditICRTypeCode" />
-        <ref bean="ICRTypeCodeMaintenanceDocument-EditICROtherCodes" />
+        <ref bean="IndirectCostRecoveryTypeMaintenanceDocument-EditIndirectCostRecoveryType" />
+        <ref bean="IndirectCostRecoveryTypeMaintenanceDocument-EditICROtherCodes" />
       </list>
     </property>
-    <property name="lockingKeys" >
+    <property name="lockingKeys">
       <list>
         <value>code</value>
       </list>
@@ -25,16 +25,16 @@
     <property name="description" value="Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
+            p:parameterNamespace="KFS-CA"
             p:parameterName="INDIRECT_COST_RECOVERY_TYPE"
-            p:parameterDetailType="ICRTypeCode" />
+            p:parameterDetailType="IndirectCostRecoveryType" />
     </property>
-    <property name="documentTypeName" value="ICRTypeCodeMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ICRTypeCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeName" value="IndirectCostRecoveryTypeMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryTypeRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ITYP" />
     <property name="workflowProperties" >
-      <ref bean="ICRTypeCodeMaintenanceDocument-workflowProperties" />
+      <ref bean="IndirectCostRecoveryTypeMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -52,14 +52,17 @@
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="ICRTypeCodeMaintenanceDocument-EditICRTypeCode" parent="ICRTypeCodeMaintenanceDocument-EditICRTypeCode-parentBean" />
-  <bean id="ICRTypeCodeMaintenanceDocument-EditICRTypeCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-EditIndirectCostRecoveryType" parent="IndirectCostRecoveryTypeMaintenanceDocument-EditIndirectCostRecoveryType-parentBean" />
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-EditIndirectCostRecoveryType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit ICR Type Code" />
     <property name="title" value="Edit ICR Type Code" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="code"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="name"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="versionNumber" />
@@ -70,14 +73,14 @@
     </property>
   </bean>
   
-  <bean id="ICRTypeCodeMaintenanceDocument-EditICROtherCodes" parent="ICRTypeCodeMaintenanceDocument-EditICROtherCodes-parentBean" />
-  <bean id="ICRTypeCodeMaintenanceDocument-EditICROtherCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-EditICROtherCodes" parent="IndirectCostRecoveryTypeMaintenanceDocument-EditICROtherCodes-parentBean" />
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-EditICROtherCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit ICR Exclusion Codes" />
     <property name="title" value="Edit ICR Exclusion Codes" />
     <property name="maintainableItems" >
       <list>
       	<bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="indirectCostRecoveryExclusionTypeCollection" />
+          <property name="name" value="IndirectCostRecoveryExclusionTypeDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType" />
           <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.ObjectCode" />
           <property name="maintainableFields">
@@ -104,8 +107,8 @@
 
 <!-- Exported Workflow Properties -->
 
-  <bean id="ICRTypeCodeMaintenanceDocument-workflowProperties" parent="ICRTypeCodeMaintenanceDocument-workflowProperties-parentBean" />
-  <bean id="ICRTypeCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-workflowProperties" parent="IndirectCostRecoveryTypeMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
   
 </beans>

@@ -32,7 +32,7 @@ public class IndirectCostRecoveryExclusionType extends PersistableBusinessObject
     private boolean active; 
     
     private Chart chart;
-    private ICRTypeCode indirectCostRecoveryType;
+    private IndirectCostRecoveryType indirectCostRecoveryType;
     private ObjectCode objectCodeCurrent;
 
     public IndirectCostRecoveryExclusionType() {
@@ -133,7 +133,7 @@ public class IndirectCostRecoveryExclusionType extends PersistableBusinessObject
     /**
      * @return Returns the indirectCostRecoveryType.
      */
-    public ICRTypeCode getIndirectCostRecoveryType() {
+    public IndirectCostRecoveryType getIndirectCostRecoveryType() {
         return indirectCostRecoveryType;
     }
 
@@ -141,7 +141,7 @@ public class IndirectCostRecoveryExclusionType extends PersistableBusinessObject
      * @param indirectCostRecoveryType The indirectCostRecoveryType to set.
      * @deprecated
      */
-    public void setIndirectCostRecoveryType(ICRTypeCode indirectCostRecoveryType) {
+    public void setIndirectCostRecoveryType(IndirectCostRecoveryType indirectCostRecoveryType) {
         this.indirectCostRecoveryType = indirectCostRecoveryType;
     }
 

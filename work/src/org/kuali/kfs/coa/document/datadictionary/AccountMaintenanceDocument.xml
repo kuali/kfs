@@ -298,7 +298,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialIcrSeriesIdentifier"
               p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier"
-              p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IcrAutomatedEntry" />
+              p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail" />
         <bean parent="MaintainableFieldDefinition"
               p:name="indirectCostRcvyFinCoaCode" />
         <bean parent="MaintainableFieldDefinition"

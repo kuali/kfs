@@ -24,27 +24,28 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
 
 
 /**
- * Business rule(s) applicable to IcrAutomatedEntryMaintenance documents.
+ * Business rule(s) applicable to IndirectCostRecoveryRateDetailMaintenance documents.
  */
-public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryRule.class);
-    private IcrAutomatedEntry oldIcrAutomatedEntry;
-    private IcrAutomatedEntry newIcrAutomatedEntry;
+
+public class IndirectCostRecoveryRateDetailRule extends MaintenanceDocumentRuleBase {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryRateDetailRule.class);
+    private IndirectCostRecoveryRateDetail oldIndirectCostRecoveryRateDetail;
+    private IndirectCostRecoveryRateDetail newIndirectCostRecoveryRateDetail;
 
 
-    public IcrAutomatedEntryRule() {
+    public IndirectCostRecoveryRateDetailRule() {
         super();
 
     }
@@ -63,7 +64,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     /**
      * Calls custom rules prior to routing document
      * <ul>
-     * <li>{@link IcrAutomatedEntryRule#checkCorrectWildcards(IcrAutomatedEntry)} </li>
+     * <li>{@link IndirectCostRecoveryRateDetailRule#checkCorrectWildcards(IndirectCostRecoveryRateDetail)} </li>
      * <li>if no wildcards then it verifies that the fields exist in the database</li>
      * <li>Award Indirect Cost Recovery Rate Percent validation</li>
      * </ul>
@@ -77,17 +78,17 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         setupConvenienceObjects(document);
-        Integer universityFiscalYear = newIcrAutomatedEntry.getUniversityFiscalYear();
-        String chartOfAccountsCode = newIcrAutomatedEntry.getChartOfAccountsCode();
-        String accountNumber = newIcrAutomatedEntry.getAccountNumber();
-        String subAccountNumber = newIcrAutomatedEntry.getSubAccountNumber();
-        String financialObjectCode = newIcrAutomatedEntry.getFinancialObjectCode();
-        String financialSubObjectCode = newIcrAutomatedEntry.getFinancialSubObjectCode();
-        String transactionDebitIndicator = newIcrAutomatedEntry.getTransactionDebitIndicator();
-        BigDecimal awardIndrCostRcvyRatePct = newIcrAutomatedEntry.getAwardIndrCostRcvyRatePct();
+        Integer universityFiscalYear = newIndirectCostRecoveryRateDetail.getUniversityFiscalYear();
+        String chartOfAccountsCode = newIndirectCostRecoveryRateDetail.getChartOfAccountsCode();
+        String accountNumber = newIndirectCostRecoveryRateDetail.getAccountNumber();
+        String subAccountNumber = newIndirectCostRecoveryRateDetail.getSubAccountNumber();
+        String financialObjectCode = newIndirectCostRecoveryRateDetail.getFinancialObjectCode();
+        String financialSubObjectCode = newIndirectCostRecoveryRateDetail.getFinancialSubObjectCode();
+        String transactionDebitIndicator = newIndirectCostRecoveryRateDetail.getTransactionDebitIndicator();
+        BigDecimal awardIndrCostRcvyRatePct = newIndirectCostRecoveryRateDetail.getAwardIndrCostRcvyRatePct();
 
 
-        success &= checkCorrectWildcards(newIcrAutomatedEntry);
+        success &= checkCorrectWildcards(newIndirectCostRecoveryRateDetail);
 
 
         if (success) {
@@ -95,7 +96,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount,
             // which may be 3 dashes i.e. KFSConstants.getDashSubAccountNumber()())
 
-            Class icrClazz = newIcrAutomatedEntry.getClass();
+            Class icrClazz = newIndirectCostRecoveryRateDetail.getClass();
 
             // Chart Code Rule
             if (chartOfAccountsCode != null) {
@@ -234,17 +235,17 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method sets the convenience objects like newIcrAutomatedEntry and oldIcrAutomatedEntry, so you have short and easy
+     * This method sets the convenience objects like newIndirectCostRecoveryRateDetail and oldIndirectCostRecoveryRateDetail, so you have short and easy
      * handles to the new and old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(),
      * which will attempt to load all sub-objects from the DB by their primary keys, if available.
      */
     public void setupConvenienceObjects(MaintenanceDocument document) {
 
-        // setup oldICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
-        oldIcrAutomatedEntry = (IcrAutomatedEntry) super.getOldBo();
+        // setup oldIndirectCostRecoveryRateDetail convenience objects, make sure all possible sub-objects are populated
+        oldIndirectCostRecoveryRateDetail = (IndirectCostRecoveryRateDetail) super.getOldBo();
 
-        // setup newICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
-        newIcrAutomatedEntry = (IcrAutomatedEntry) super.getNewBo();
+        // setup newIndirectCostRecoveryRateDetail convenience objects, make sure all possible sub-objects are populated
+        newIndirectCostRecoveryRateDetail = (IndirectCostRecoveryRateDetail) super.getNewBo();
     }
 
 
@@ -273,15 +274,15 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
      * <li>"#" should be valid for chart, account, sub account. </li>
      * </ul>
      * 
-     * @param newIcrAutomatedEntry
+     * @param newIndirectCostRecoveryRateDetail
      * @return true if they are valid wildcards
      */
-    protected boolean checkCorrectWildcards(IcrAutomatedEntry newIcrAutomatedEntry) {
-        String chartOfAccountsCode = newIcrAutomatedEntry.getChartOfAccountsCode();
-        String accountNumber = newIcrAutomatedEntry.getAccountNumber();
-        String subAccountNumber = newIcrAutomatedEntry.getSubAccountNumber();
-        String financialObjectCode = newIcrAutomatedEntry.getFinancialObjectCode();
-        String financialSubObjectCode = newIcrAutomatedEntry.getFinancialSubObjectCode();
+    protected boolean checkCorrectWildcards(IndirectCostRecoveryRateDetail newIndirectCostRecoveryRateDetail) {
+        String chartOfAccountsCode = newIndirectCostRecoveryRateDetail.getChartOfAccountsCode();
+        String accountNumber = newIndirectCostRecoveryRateDetail.getAccountNumber();
+        String subAccountNumber = newIndirectCostRecoveryRateDetail.getSubAccountNumber();
+        String financialObjectCode = newIndirectCostRecoveryRateDetail.getFinancialObjectCode();
+        String financialSubObjectCode = newIndirectCostRecoveryRateDetail.getFinancialSubObjectCode();
 
         boolean success = true;
 
@@ -290,20 +291,20 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         // # should be valid for chart, account, sub account.
 
         // TODO: make these into app parameters?
-        success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode, "@", "#");
-        success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber, "@", "#");
+        success &= isValidWildcard(newIndirectCostRecoveryRateDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode, "@", "#");
+        success &= isValidWildcard(newIndirectCostRecoveryRateDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber, "@", "#");
         if (!StringUtils.containsOnly(subAccountNumber, "-")) {
-            success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
+            success &= isValidWildcard(newIndirectCostRecoveryRateDetail, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
         }
 
         // second, check that object code and sub object code do not have wildcards
         if (isWildcard(financialObjectCode)) {
-            putFieldError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(newIcrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME) });
+            putFieldError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(newIndirectCostRecoveryRateDetail.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME) });
             success &= false;
         }
 
         if (isWildcard(financialSubObjectCode)) {
-            putFieldError(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(newIcrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME) });
+            putFieldError(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD, new String[] { SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(newIndirectCostRecoveryRateDetail.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME) });
             success &= false;
         }
 
@@ -312,7 +313,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             return false;
         }
 
-        success &= checkWildcardsForChartAccountSubAccount(newIcrAutomatedEntry);
+        success &= checkWildcardsForChartAccountSubAccount(newIndirectCostRecoveryRateDetail);
 
         return success;
 
@@ -321,13 +322,13 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     /**
      * This checks to see if this is a valid wildcard character the user is attempting to use
      * 
-     * @param newIcrAutomatedEntry
+     * @param newIndirectCostRecoveryRateDetail
      * @param fieldName
      * @param fieldValue
      * @param allowedWildcards
      * @return true if it is an allowed wildcard and generates an appropriate error message for the user otherwise
      */
-    private boolean isValidWildcard(IcrAutomatedEntry newIcrAutomatedEntry, String fieldName, String fieldValue, String... allowedWildcards) {
+    private boolean isValidWildcard(IndirectCostRecoveryRateDetail newIndirectCostRecoveryRateDetail, String fieldName, String fieldValue, String... allowedWildcards) {
         if (!StringUtils.isBlank(fieldValue)) {
             if (!StringUtils.isAlphanumeric(fieldValue)) {
                 for (String wildcard : allowedWildcards) {
@@ -340,7 +341,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     return true;
                 }
                 // validation didn't pass against allowed list of wildcards
-                putInvalidWildcardError(newIcrAutomatedEntry, fieldName, allowedWildcards);
+                putInvalidWildcardError(newIndirectCostRecoveryRateDetail, fieldName, allowedWildcards);
                 return false;
             }
         }
@@ -354,7 +355,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
      * @param fieldName
      * @param allowedWildcards
      */
-    private void putInvalidWildcardError(IcrAutomatedEntry instance, String fieldName, String... allowedWildcards) {
+    private void putInvalidWildcardError(IndirectCostRecoveryRateDetail instance, String fieldName, String... allowedWildcards) {
         StringBuilder sb = new StringBuilder();
         // build a human readable string listing all the possible values for the allowed values string.
         for (int i = 0; i < allowedWildcards.length; i++) {
@@ -383,10 +384,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
      * @param subAccountNumber
      * @return
      */
-    protected boolean checkWildcardsForChartAccountSubAccount(IcrAutomatedEntry icrAutomatedEntry) {
-        String chartOfAccountsCode = icrAutomatedEntry.getChartOfAccountsCode();
-        String accountNumber = icrAutomatedEntry.getAccountNumber();
-        String subAccountNumber = icrAutomatedEntry.getSubAccountNumber();
+    protected boolean checkWildcardsForChartAccountSubAccount(IndirectCostRecoveryRateDetail IndirectCostRecoveryRateDetail) {
+        String chartOfAccountsCode = IndirectCostRecoveryRateDetail.getChartOfAccountsCode();
+        String accountNumber = IndirectCostRecoveryRateDetail.getAccountNumber();
+        String subAccountNumber = IndirectCostRecoveryRateDetail.getSubAccountNumber();
 
         if (isWildcard(chartOfAccountsCode) || isWildcard(accountNumber) || isWildcard(subAccountNumber)) {
             // these should never be null
@@ -394,9 +395,9 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // dashes
             boolean success = chartOfAccountsCode.equals(accountNumber) && (chartOfAccountsCode.equals(subAccountNumber) || StringUtils.containsOnly(subAccountNumber, "-"));
             if (!success) {
-                String chartDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String accountDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-                String subAccountDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
+                String chartDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String accountDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.getClass(), KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+                String subAccountDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.getClass(), KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
 
                 String groupDesc = chartDesc + ", " + accountDesc + ", and " + subAccountDesc;
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] { groupDesc, subAccountDesc });
@@ -416,18 +417,18 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
      * @param financialSubObjectCode
      * @return
      */
-    protected boolean checkWildcardsForChartObjectSubObject(IcrAutomatedEntry icrAutomatedEntry) {
-        String chartOfAccountsCode = icrAutomatedEntry.getChartOfAccountsCode();
-        String financialObjectCode = icrAutomatedEntry.getFinancialObjectCode();
-        String financialSubObjectCode = icrAutomatedEntry.getFinancialSubObjectCode();
+    protected boolean checkWildcardsForChartObjectSubObject(IndirectCostRecoveryRateDetail IndirectCostRecoveryRateDetail) {
+        String chartOfAccountsCode = IndirectCostRecoveryRateDetail.getChartOfAccountsCode();
+        String financialObjectCode = IndirectCostRecoveryRateDetail.getFinancialObjectCode();
+        String financialSubObjectCode = IndirectCostRecoveryRateDetail.getFinancialSubObjectCode();
 
         if (isWildcard(chartOfAccountsCode) || isWildcard(financialObjectCode) || isWildcard(financialSubObjectCode)) {
             // these should never be null
             boolean success = chartOfAccountsCode.equals(financialObjectCode) && (chartOfAccountsCode.equals(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-"));
             if (!success) {
-                String chartDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String objectDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
-                String subObjectDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
+                String chartDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String objectDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
+                String subObjectDesc = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
 
                 String groupDesc = chartDesc + ", " + objectDesc + ", and " + subObjectDesc;
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] { groupDesc, subObjectDesc });

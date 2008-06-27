@@ -229,7 +229,7 @@
 
 	<bean id="objectTypeDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.ObjectTypeDaoOjb" />
 
-	<bean id="icrAutomatedEntryDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoverAutomatedEntryDaoOjb" />
+	<bean id="indirectCostRecoveryAutomatedEntryDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoveryAutomatedEntryDaoOjb" />
 
 	<bean id="indirectCostRecoveryExclusionAccountDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoveryExclusionAccountDaoOjb" />
 
@@ -462,8 +462,8 @@
             <entry key="org.kuali.kfs.coa.businessobject.AccountingPeriod">
               <value>org.kuali.kfs.coa.businessobject.AccountingPeriod</value>
             </entry>    
-            <entry key="org.kuali.kfs.coa.businessobject.IcrAutomatedEntry">
-              <value>org.kuali.kfs.coa.businessobject.IcrAutomatedEntry</value>
+            <entry key="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail">
+              <value>org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail</value>
             </entry>    
             <entry key="org.kuali.kfs.fp.businessobject.WireCharge">
               <value>org.kuali.kfs.fp.businessobject.WireCharge</value>
@@ -538,7 +538,7 @@
                 <value>org.kuali.kfs.sys.businessobject.Options</value>
               </list>
             </entry>
-            <entry key="org.kuali.kfs.coa.businessobject.IcrAutomatedEntry">
+            <entry key="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail">
               <list>
                 <value>org.kuali.kfs.sys.businessobject.Options</value>
               </list>

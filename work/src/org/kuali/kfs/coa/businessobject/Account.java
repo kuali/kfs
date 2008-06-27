@@ -119,7 +119,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private Account contractControlAccount;
     private Account incomeStreamAccount;
     private Account indirectCostRecoveryAcct;
-    private ICRTypeCode acctIndirectCostRcvyType;
+    private IndirectCostRecoveryType acctIndirectCostRcvyType;
     private UniversalUser accountFiscalOfficerUser;
     private UniversalUser accountSupervisoryUser;
     private UniversalUser accountManagerUser;
@@ -1563,7 +1563,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the acctIndirectCostRcvyType.
      */
-    public ICRTypeCode getAcctIndirectCostRcvyType() {
+    public IndirectCostRecoveryType getAcctIndirectCostRcvyType() {
         return acctIndirectCostRcvyType;
     }
 
@@ -1572,7 +1572,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param acctIndirectCostRcvyType The acctIndirectCostRcvyType to set.
      */
-    public void setAcctIndirectCostRcvyType(ICRTypeCode acctIndirectCostRcvyType) {
+    public void setAcctIndirectCostRcvyType(IndirectCostRecoveryType acctIndirectCostRcvyType) {
         this.acctIndirectCostRcvyType = acctIndirectCostRcvyType;
     }
 

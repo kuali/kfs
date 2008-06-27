@@ -27,12 +27,12 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 /**
  * 
  */
-public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
+public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBase {
 
     /**
      * Default no-arg constructor.
      */
-    public IcrAutomatedEntry() {
+    public IndirectCostRecoveryRateDetail() {
         // initialize the object fiscal year to the current fiscal year
         universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }

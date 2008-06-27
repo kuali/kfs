@@ -1,0 +1,128 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument" parent="IndirectCostRecoveryRateMaintenanceDocument-parentBean" />
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate" />
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryRateMaintainableImpl" />
+    <property name="maintainableSections">
+      <list>
+        <ref bean="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRate" />
+        <ref bean="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRateDetails" />
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>universityFiscalYear</value>
+        <value>financialIcrSeriesIdentifier</value>
+      </list>
+    </property>
+    <property name="label" value="Indirect Cost Recovery Rate" />
+    <property name="shortLabel" value="Indirect Cost Recovery Rate" />
+    <property name="summary" value="Indirect Cost Recovery Rate Maintenance Document" />
+    <property name="description" value="Maintenance document which allows you to create new ICR Rates, or modify existing ICR Rates." />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KFS-CA"
+            p:parameterName="INDIRECT_COST_RECOVERY_RATE"
+            p:parameterDetailType="IndirectCostRecoveryRate" />
+    </property>
+    <property name="documentTypeName" value="IndirectCostRecoveryRateMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryRateRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentTypeCode" value="ICRR" />
+    <property name="workflowProperties" >
+      <ref bean="IndirectCostRecoveryRateMaintenanceDocument-workflowProperties" />
+    </property>
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>SY_MAINTENANCE_USERS</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRate" parent="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRate-parentBean" />
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRate-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit ICR Rate" />
+    <property name="title" value="Edit ICR Rate" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="universityFiscalYear"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="financialIcrSeriesIdentifier"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="versionNumber" />
+    	<bean parent="MaintainableFieldDefinition"
+    	      p:name="active"
+    	      p:defaultValue="true" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRateDetails" parent="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRateDetails-parentBean" />
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-EditIndirectCostRecoveryRateDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Indirect Cost Recovery Rates" />
+    <property name="title" value="Edit Indirect Cost Recovery Rates" />
+    <property name="maintainableItems" >
+      <list>
+      	<bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="indirectCostRecoveryRateDetails" />
+          <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail" />
+          <property name="maintainableFields">
+          	<list>
+			  <bean parent="MaintainableFieldDefinition"
+ 		            p:name="awardIndrCostRcvyEntryNbr"
+  		  	        p:readOnly="true" />
+			  <bean parent="MaintainableFieldDefinition"
+ 		            p:name="chartOfAccountsCode"
+  		  	        p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="accountNumber"
+    	    	    p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="subAccountNumber" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="financialObjectCode"
+    	    	    p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="financialSubObjectCode" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="transactionDebitIndicator"
+    	    	    p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+    		        p:name="awardIndrCostRcvyRatePct"
+    	    	    p:required="true" />
+		      <bean parent="MaintainableFieldDefinition"
+					p:name="versionNumber" />
+    		  <bean parent="MaintainableFieldDefinition"
+    		        p:name="active"
+    		        p:defaultValue="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowProperties" parent="IndirectCostRecoveryRateMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  </bean>
+  
+</beans>

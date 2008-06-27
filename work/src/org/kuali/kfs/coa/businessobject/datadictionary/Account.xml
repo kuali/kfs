@@ -629,7 +629,7 @@
   </bean>
   <bean id="Account-acctIndirectCostRcvyType.codeAndDescription" parent="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean" />
 
-  <bean id="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean" abstract="true" parent="ICRTypeCode-codeAndDescription">
+  <bean id="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean" abstract="true" parent="IndirectCostRecoveryType-codeAndDescription">
     <property name="name" value="acctIndirectCostRcvyType.codeAndDescription" />
     <property name="label" value="Account Indirect Cost Recovery Type Code" />
     <property name="shortLabel" value="Account Indirect Cost Recovery Type Code" />

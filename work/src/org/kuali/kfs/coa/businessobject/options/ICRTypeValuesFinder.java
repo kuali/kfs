@@ -24,7 +24,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.coa.businessobject.ICRTypeCode;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -39,7 +39,7 @@ public class ICRTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(ICRTypeCode.class);
+        Collection codes = boService.findAll(IndirectCostRecoveryType.class);
 
         List sortList = (List) codes;
 
@@ -55,7 +55,7 @@ public class ICRTypeValuesFinder extends KeyValuesBase {
 
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            ICRTypeCode icrType = (ICRTypeCode) iter.next();
+            IndirectCostRecoveryType icrType = (IndirectCostRecoveryType) iter.next();
 
             labels.add(new KeyLabelPair(icrType.getCode(), icrType.getCode() + " - " + icrType.getName()));
 

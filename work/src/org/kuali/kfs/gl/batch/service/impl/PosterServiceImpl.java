@@ -32,9 +32,9 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.dataaccess.IndirectCostRecoverAutomatedEntryDao;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryAutomatedEntryDao;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -85,7 +85,7 @@ public class PosterServiceImpl implements PosterService {
     private UniversityDateDao universityDateDao;
     private AccountingPeriodService accountingPeriodService;
     private ExpenditureTransactionDao expenditureTransactionDao;
-    private IndirectCostRecoverAutomatedEntryDao icrAutomatedEntryDao;
+    private IndirectCostRecoveryAutomatedEntryDao indirectCostRecoveryAutomatedEntryDao;
     private ObjectCodeService objectCodeService;
     private ReportService reportService;
     private ParameterService parameterService;
@@ -388,12 +388,12 @@ public class PosterServiceImpl implements PosterService {
             KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
             KualiDecimal distributionAmount = KualiDecimal.ZERO;
 
-            Collection automatedEntries = icrAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier(), et.getBalanceTypeCode());
+            Collection automatedEntries = indirectCostRecoveryAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier(), et.getBalanceTypeCode());
             int automatedEntriesCount = automatedEntries.size();
 
             if (automatedEntriesCount > 0) {
                 for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
-                    IcrAutomatedEntry icrEntry = (IcrAutomatedEntry) icrIter.next();
+                    IndirectCostRecoveryRateDetail icrEntry = (IndirectCostRecoveryRateDetail) icrIter.next();
                     KualiDecimal generatedTransactionAmount = null;
 
                     if (!icrIter.hasNext()) {
@@ -443,7 +443,7 @@ public class PosterServiceImpl implements PosterService {
      * @param runDate the transaction date for the newly created origin entry
      * @param group the group to save the origin entry to
      */
-    private void generateTransactions(ExpenditureTransaction et, IcrAutomatedEntry icrEntry, KualiDecimal generatedTransactionAmount, Date runDate, OriginEntryGroup group, Map reportErrors) {
+    private void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrEntry, KualiDecimal generatedTransactionAmount, Date runDate, OriginEntryGroup group, Map reportErrors) {
         BigDecimal pct = new BigDecimal(icrEntry.getAwardIndrCostRcvyRatePct().toString());
         pct = pct.divide(BDONEHUNDRED);
 
@@ -704,8 +704,8 @@ public class PosterServiceImpl implements PosterService {
         expenditureTransactionDao = etd;
     }
 
-    public void setIcrAutomatedEntryDao(IndirectCostRecoverAutomatedEntryDao iaed) {
-        icrAutomatedEntryDao = iaed;
+    public void setIndirectCostRecoveryAutomatedEntryDao(IndirectCostRecoveryAutomatedEntryDao iaed) {
+        indirectCostRecoveryAutomatedEntryDao = iaed;
     }
 
     public void setObjectCodeService(ObjectCodeService ocs) {

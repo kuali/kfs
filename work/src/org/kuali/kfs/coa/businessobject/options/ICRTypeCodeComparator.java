@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.Comparator;
 
-import org.kuali.kfs.coa.businessobject.ICRTypeCode;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 
 /**
  * This class allows us to compare two {@link ICRTypeCode}
@@ -25,8 +25,8 @@ import org.kuali.kfs.coa.businessobject.ICRTypeCode;
 public class ICRTypeCodeComparator implements Comparator {
 
     public int compare(Object o1, Object o2) {
-        ICRTypeCode icrType1 = (ICRTypeCode) o1;
-        ICRTypeCode icrType2 = (ICRTypeCode) o2;
+        IndirectCostRecoveryType icrType1 = (IndirectCostRecoveryType) o1;
+        IndirectCostRecoveryType icrType2 = (IndirectCostRecoveryType) o2;
         int icrTypeComp = icrType1.getCode().compareTo(icrType2.getCode());
 
         return icrTypeComp;

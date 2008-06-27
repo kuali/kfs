@@ -28,7 +28,7 @@
 <!-- Attribute Definitions -->
 
   <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode" parent="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" />
-  <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="ICRTypeCode-code">
+  <bean id="IndirectCostRecoveryExclusionType-accountIndirectCostRecoveryTypeCode-parentBean" abstract="true" parent="IndirectCostRecoveryType-code">
     <property name="name" value="accountIndirectCostRecoveryTypeCode" />
     <property name="label" value="Type Code" />
     <property name="shortLabel" value="Type" />
@@ -105,7 +105,7 @@
   <bean id="IndirectCostRecoveryExclusionType-lookupDefinition" parent="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" />
   <bean id="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Indirect Cost Recovery Exclusion By Type Lookup" />
-    <property name="lookupableID" value="indirectCostRecoveryExclusionByTypeLookupable" />
+    <property name="lookupableID" value="IndirectCostRecoveryExclusionTypeLookupable" />
     <property name="instructions" value="Lookup an Indirect Cost Recovery Exclusion By type" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

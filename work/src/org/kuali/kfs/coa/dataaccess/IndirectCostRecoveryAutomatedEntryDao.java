@@ -20,7 +20,7 @@ import java.util.Collection;
 /**
  * This interface defines the data access methods for {@link IcrAutomatedEntry}
  */
-public interface IndirectCostRecoverAutomatedEntryDao {
+public interface IndirectCostRecoveryAutomatedEntryDao {
 
     /**
      * This method looks up all

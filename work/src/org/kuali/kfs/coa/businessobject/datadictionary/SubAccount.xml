@@ -187,7 +187,7 @@
   </bean>
   <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode" parent="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" />
 
-  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" abstract="true" parent="ICRTypeCode-code">
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" abstract="true" parent="IndirectCostRecoveryType-code">
     <property name="name" value="a21SubAccount.indirectCostRecoveryTypeCode" />
     <property name="label" value="ICR Type Code" />
     <property name="shortLabel" value="ICRTypeCd" />

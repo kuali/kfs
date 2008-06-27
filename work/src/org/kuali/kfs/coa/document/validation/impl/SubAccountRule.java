@@ -28,7 +28,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
-import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -445,7 +445,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
             // Collection results = boService.findMatchingOrderBy(IcrAutomatedEntry.class, fieldValues, "universityFiscalYear",
             // true);
-            Collection results = getBoService().findMatching(IcrAutomatedEntry.class, fieldValues);
+            Collection results = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, fieldValues);
 
             // if there are any results, we need to see if there is a match on fiscal year
             boolean anyFound = false;
@@ -453,7 +453,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             if (!results.isEmpty()) {
                 anyFound = true;
                 for (Iterator iter = results.iterator(); iter.hasNext();) {
-                    IcrAutomatedEntry icrAutomatedEntry = (IcrAutomatedEntry) iter.next();
+                    IndirectCostRecoveryRateDetail icrAutomatedEntry = (IndirectCostRecoveryRateDetail) iter.next();
                     if (fiscalYear.equals(icrAutomatedEntry.getUniversityFiscalYear())) {
                         anyFoundInThisFy = true;
                         break;

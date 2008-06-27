@@ -49,7 +49,7 @@ import org.kuali.kfs.coa.batch.service.FiscalYearMakersCopyAction;
 import org.kuali.kfs.coa.batch.service.FiscalYearMakersFieldChangeAction;
 import org.kuali.kfs.coa.batch.service.FiscalYearMakersFilterAction;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.businessobject.IcrAutomatedEntry;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
@@ -346,11 +346,11 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          **************************************************************************************************************************/
         FiscalYearMakersCopyAction copyActionIcrAuto = new FiscalYearMakersCopyAction() {
             public void copyMethod(Integer baseYear, boolean replaceMode) {
-                MakersMethods<IcrAutomatedEntry> makersMethod = new MakersMethods<IcrAutomatedEntry>();
-                makersMethod.makeMethod(IcrAutomatedEntry.class, baseYear, replaceMode);
+                MakersMethods<IndirectCostRecoveryRateDetail> makersMethod = new MakersMethods<IndirectCostRecoveryRateDetail>();
+                makersMethod.makeMethod(IndirectCostRecoveryRateDetail.class, baseYear, replaceMode);
             }
         };
-        addCopyAction(IcrAutomatedEntry.class, copyActionIcrAuto);
+        addCopyAction(IndirectCostRecoveryRateDetail.class, copyActionIcrAuto);
 
         /***************************************************************************************************************************
          * LaborObject *

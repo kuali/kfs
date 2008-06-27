@@ -2,9 +2,9 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
-      <name>ICRTypeCodeMaintenanceDocument</name>
+      <name>IndirectCostRecoveryRateMaintenanceDocument</name>
       <parent>KualiMaintenanceDocument</parent>
-      <label>Indirect Cost Recovery Type</label>
+      <label>Indirect Cost Recovery Rate</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApprovePolicy>NONE</blanketApprovePolicy>

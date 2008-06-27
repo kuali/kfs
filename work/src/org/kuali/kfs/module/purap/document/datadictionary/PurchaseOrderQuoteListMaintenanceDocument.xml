@@ -98,6 +98,8 @@
                     p:readOnlyAfterAdd="true"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />                    
+              <bean parent="MaintainableFieldDefinition"
                     p:name="vendorHeaderGeneratedIdentifier"
                     p:template="vendorHeaderGeneratedIdentifier" />
               <bean parent="MaintainableFieldDefinition"

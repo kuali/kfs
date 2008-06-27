@@ -17,6 +17,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier" />
+        <ref bean="PurchaseOrderQuoteListVendor-newCollectionRecord" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" />
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" />
@@ -33,6 +34,12 @@
 
   <bean id="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier-parentBean" abstract="true" parent="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier">
   </bean>
+  
+  <bean id="PurchaseOrderQuoteListVendor-newCollectionRecord" parent="PurchaseOrderQuoteListVendor-newCollectionRecord-parentBean" />
+
+  <bean id="PurchaseOrderQuoteListVendor-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  
   <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean" />
 
   <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">

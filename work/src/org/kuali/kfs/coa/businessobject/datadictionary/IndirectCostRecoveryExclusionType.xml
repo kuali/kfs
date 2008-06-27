@@ -105,7 +105,7 @@
   <bean id="IndirectCostRecoveryExclusionType-lookupDefinition" parent="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" />
   <bean id="IndirectCostRecoveryExclusionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Indirect Cost Recovery Exclusion By Type Lookup" />
-    <property name="lookupableID" value="IndirectCostRecoveryExclusionTypeLookupable" />
+    <property name="lookupableID" value="indirectCostRecoveryExclusionByTypeLookupable" />
     <property name="instructions" value="Lookup an Indirect Cost Recovery Exclusion By type" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

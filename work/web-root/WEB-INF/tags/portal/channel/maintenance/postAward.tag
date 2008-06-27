@@ -40,7 +40,7 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Indirect Cost Recovery Rates"
+				title="Indirect Cost Recovery Rate"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
@@ -50,7 +50,7 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Indirect Cost Recovery Exclusions By Type"
+				title="Indirect Cost Recovery Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>

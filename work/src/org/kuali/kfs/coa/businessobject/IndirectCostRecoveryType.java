@@ -64,8 +64,8 @@ public class IndirectCostRecoveryType extends KualiCodeBase implements Inactivat
         return indirectCostRecoveryExclusionTypeDetails;
     }
 
-    public void setIndirectCostRecoveryExclusionTypeDetails(List indirectCostRecoveryExclusionTypeCollection) {
-        this.indirectCostRecoveryExclusionTypeDetails = indirectCostRecoveryExclusionTypeCollection;
+    public void setIndirectCostRecoveryExclusionTypeDetails(List indirectCostRecoveryExclusionTypeDetails) {
+        this.indirectCostRecoveryExclusionTypeDetails = indirectCostRecoveryExclusionTypeDetails;
     }
     
 }

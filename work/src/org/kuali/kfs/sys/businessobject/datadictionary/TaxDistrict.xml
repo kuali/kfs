@@ -8,9 +8,9 @@
 
   <bean id="TaxDistrict-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxDistrict" />
-<!--<property name="inquiryDefinition" >
+	<property name="inquiryDefinition" >
       <ref bean="TaxDistrict-inquiryDefinition" />
-    </property> -->
+    </property>
     <property name="lookupDefinition" >
       <ref bean="TaxDistrict-lookupDefinition" />
     </property>
@@ -73,15 +73,21 @@
 
   <bean id="TaxDistrict-chartOfAccountsCode" parent="TaxDistrict-chartOfAccountsCode-parentBean" />
 
-  <bean id="TaxDistrict-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
+  <bean id="TaxDistrict-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" >
+	<property name="label" value="Liability Chart Code" />
+  </bean>
 
   <bean id="TaxDistrict-accountNumber" parent="TaxDistrict-accountNumber-parentBean" />
   
-  <bean id="TaxDistrict-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
+  <bean id="TaxDistrict-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" >
+	<property name="label" value="Liability Account Number" />
+  </bean>
   
   <bean id="TaxDistrict-financialObjectCode" parent="TaxDistrict-financialObjectCode-parentBean" />
 
-  <bean id="TaxDistrict-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+  <bean id="TaxDistrict-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" >
+  	<property name="label" value="Liability Object Code" />
+  </bean>
 
   <bean id="TaxDistrict-active" parent="TaxDistrict-active-parentBean" />
 
@@ -192,5 +198,48 @@
   
   <bean id="TaxDistrictRate-versionNumber" parent="TaxDistrictRate-versionNumber-parentBean" />
   <bean id="TaxDistrictRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
+
+  <bean id="TaxDistrict-inquiryDefinition" parent="TaxDistrict-inquiryDefinition-parentBean" />
+
+  <bean id="TaxDistrict-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+  	p:title="Tax District Inquiry">
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Tax District Attributes" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="taxDistrictCode" p:noInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="taxDistrictName" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Tax District Rates" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="taxDistrictRates" />
+                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxDistrictRate" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                    <bean parent="FieldDefinition" p:attributeName="taxRate" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
 </beans>

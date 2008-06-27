@@ -101,11 +101,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
                 this.setItemDescription("");
             }
         }
-
+        
         // copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
 //        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
-
+                
         // set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.setPurapDocument(preq);
@@ -152,7 +152,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     public KualiDecimal getPoOutstandingAmount() {
         PurchaseOrderItem poi = getPurchaseOrderItem();
-        return this.getPoOutstandingAmount(poi);
+        if(ObjectUtils.isNull(this.getPurchaseOrderItemUnitPrice()) || KualiDecimal.ZERO.equals(this.getPurchaseOrderItemUnitPrice())){
+            return null;
+        }else{
+            return this.getPoOutstandingAmount(poi);
+        }
     }
 
     private KualiDecimal getPoOutstandingAmount(PurchaseOrderItem poi) {
@@ -190,7 +194,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             return null;
         }
         else {
-            return poi.getOutstandingQuantity();
+            if(ObjectUtils.isNull(this.getItemQuantity()) || KualiDecimal.ZERO.equals(this.getItemQuantity())){
+                return null;
+            }else{
+                return poi.getOutstandingQuantity();
+            }
         }
     }
 

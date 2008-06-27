@@ -16,25 +16,19 @@
 package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.validation.DiscountCustomerInvoiceDetailRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 
-public class DiscountCustomerInvoiceDetailEvent extends CustomerInvoiceDetailEventBase {
+public class DiscountCustomerInvoiceDetailEvent extends AttributedDocumentEventBase {
 
+    private final CustomerInvoiceDetail customerInvoiceDetail;
+    
     public DiscountCustomerInvoiceDetailEvent(String errorPathPrefix, Document document, CustomerInvoiceDetail customerInvoiceDetail) {
-        super("Discounting customer invoice detail for document " + getDocumentId(document), errorPathPrefix, document, customerInvoiceDetail);
-        // TODO Auto-generated constructor stub
+        super("Discounting customer invoice detail for document " + getDocumentId(document), errorPathPrefix, document);
+        this.customerInvoiceDetail = customerInvoiceDetail;
     }
 
-    @SuppressWarnings("unchecked")
-    public Class getRuleInterfaceClass() {
-        return DiscountCustomerInvoiceDetailRule.class;
-    }
-
-    @SuppressWarnings("unchecked")
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((DiscountCustomerInvoiceDetailRule) rule).processDiscountCustomerInvoiceDetailRules((AccountingDocument)getDocument(), getCustomerInvoiceDetail());
+    public CustomerInvoiceDetail getCustomerInvoiceDetail() {
+        return customerInvoiceDetail;
     }
 }

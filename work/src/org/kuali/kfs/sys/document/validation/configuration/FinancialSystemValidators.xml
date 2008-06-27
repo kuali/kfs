@@ -52,6 +52,8 @@
 		<property name="accountService"><ref bean="accountService" /></property>
 	</bean>
 	
+	<bean id="AccountingDocument-alwaysTrueValidation" class="org.kuali.kfs.sys.document.validation.impl.AlwaysTrueValidation" />
+	
 	<bean id="AccountingDocument-referenceExistsValidation" class="org.kuali.kfs.sys.document.validation.impl.ReferenceExistsValidation" abstract="true">
 		<property name="dictionaryValidationService"><ref bean="dictionaryValidationService" /></property>
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>

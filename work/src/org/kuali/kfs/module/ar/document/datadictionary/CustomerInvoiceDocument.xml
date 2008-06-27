@@ -12,7 +12,7 @@
     <property name="shortLabel" value="Customer Invoice" />
     <property name="documentTypeName" value="CustomerInvoiceDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentPreRules" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer" />
     <property name="documentTypeCode" value="INV" />
@@ -39,6 +39,7 @@
         <ref bean="CustomerInvoiceDocument-printDate" />
         <ref bean="CustomerInvoiceDocument-invoiceTermsText" />
         <ref bean="CustomerInvoiceDocument-organizationInvoiceNumber" />
+        <ref bean="CustomerInvoiceDocument-documentHeader.documentTemplateNumber" />
         <ref bean="CustomerInvoiceDocument-writeoffIndicator" />
         <ref bean="CustomerInvoiceDocument-customerPurchaseOrderNumber" />
         <ref bean="CustomerInvoiceDocument-printInvoiceIndicator" />
@@ -64,6 +65,7 @@
         <ref bean="CustomerInvoiceDocument-versionNumber" />
       </list>
     </property>
+    <property name="validationMap" ref="CustomerInvoiceDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -164,6 +166,15 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The invoice number for this invoice" />
+  </bean>
+
+  <bean id="CustomerInvoiceDocument-documentHeader.documentTemplateNumber" parent="CustomerInvoiceDocument-documentHeader.documentTemplateNumber-parentBean" />
+  
+  <bean id="CustomerInvoiceDocument-documentHeader.documentTemplateNumber-parentBean" abstract="true" parent="DocumentHeader-documentTemplateNumber">
+    <property name="name" value="documentHeader.documentTemplateNumber" />
+    <property name="label" value="Parent Invoice" />
+    <property name="shortLabel" value="Parent Invoice" />
+    <property name="description" value="The invoice number for this parent of this invoice" />
   </bean>
 
   <bean id="CustomerInvoiceDocument-writeoffIndicator" parent="CustomerInvoiceDocument-writeoffIndicator-parentBean" />
@@ -444,4 +455,53 @@
 
   <bean id="CustomerInvoiceDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+  
+  <bean id="CustomerInvoiceDocument-validations" parent="CustomerInvoiceDocument-validations-parentBean" />
+  
+  <bean id="CustomerInvoiceDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>			
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>CustomerInvoice-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>CustomerInvoice-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>CustomerInvoice-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>CustomerInvoice-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>CustomerInvoice-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>CustomerInvoice-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>CustomerInvoice-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>CustomerInvoice-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent</value></key>
+				<value>CustomerInvoice-discountCustomerInvoiceDetailValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent</value></key>
+				<value>CustomerInvoice-recalculateCustomerInvoiceDetailValidation</value>
+			</entry>			
+    	</map>
+    </property>
+  </bean>  
 </beans>

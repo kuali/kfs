@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.document.validation.event;
+package org.kuali.kfs.sys.document.validation.impl;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
-public interface CustomerInvoiceDetailEvent extends KualiDocumentEvent {
+/**
+ * A validation that _always_ returns true; to be used in BranchingValidation composite rules
+ */
+public class AlwaysTrueValidation extends GenericValidation {
 
     /**
-     * This method returns a customer invoice detail
-     * @return
+     * Just return true already!
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
-    public CustomerInvoiceDetail getCustomerInvoiceDetail();
+    public boolean validate(AttributedDocumentEvent event) {
+        return true;
+    }
+
 }

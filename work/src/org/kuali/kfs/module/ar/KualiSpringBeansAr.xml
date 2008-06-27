@@ -285,4 +285,6 @@
 		</property>
 	</bean>
 	
+	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
+	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 </beans>

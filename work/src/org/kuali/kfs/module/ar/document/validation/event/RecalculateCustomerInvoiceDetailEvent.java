@@ -16,26 +16,20 @@
 package org.kuali.kfs.module.ar.document.validation.event;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerInvoiceDetailRule;
-import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 
-public class RecalculateCustomerInvoiceDetailEvent extends CustomerInvoiceDetailEventBase implements CustomerInvoiceDetailEvent {
+public class RecalculateCustomerInvoiceDetailEvent extends AttributedDocumentEventBase {
 
+    private final CustomerInvoiceDetail customerInvoiceDetail;
+    
     public RecalculateCustomerInvoiceDetailEvent(String errorPathPrefix, Document document, CustomerInvoiceDetail customerInvoiceDetail) {
-        super("Recalculating customer invoice detail for document " + getDocumentId(document), errorPathPrefix, document, customerInvoiceDetail);
-        // TODO Auto-generated constructor stub
+        super("Recalculating customer invoice detail for document " + getDocumentId(document), errorPathPrefix, document);
+        this.customerInvoiceDetail = customerInvoiceDetail;
     }
 
-    @SuppressWarnings("unchecked")
-    public Class getRuleInterfaceClass() {
-        return RecalculateCustomerInvoiceDetailRule.class;
-    }
-
-    @SuppressWarnings("unchecked")
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((RecalculateCustomerInvoiceDetailRule) rule).processRecalculateCustomerInvoiceDetailRules((AccountingDocument)getDocument(), getCustomerInvoiceDetail());
+    public CustomerInvoiceDetail getCustomerInvoiceDetail() {
+        return customerInvoiceDetail;
     }
 
 }

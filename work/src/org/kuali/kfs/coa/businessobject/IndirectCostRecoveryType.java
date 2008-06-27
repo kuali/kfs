@@ -30,10 +30,10 @@ public class IndirectCostRecoveryType extends KualiCodeBase implements Inactivat
     private String code;
     private String name;
     private boolean active;
-    private List IndirectCostRecoveryExclusionTypeDetails;
+    private List indirectCostRecoveryExclusionTypeDetails;
 
     public IndirectCostRecoveryType () {
-        IndirectCostRecoveryExclusionTypeDetails = new TypedArrayList(IndirectCostRecoveryExclusionType.class);
+        indirectCostRecoveryExclusionTypeDetails = new TypedArrayList(IndirectCostRecoveryExclusionType.class);
     }
 
     public String getCode() {
@@ -61,11 +61,11 @@ public class IndirectCostRecoveryType extends KualiCodeBase implements Inactivat
     }
 
     public List getIndirectCostRecoveryExclusionTypeDetails() {
-        return IndirectCostRecoveryExclusionTypeDetails;
+        return indirectCostRecoveryExclusionTypeDetails;
     }
 
     public void setIndirectCostRecoveryExclusionTypeDetails(List indirectCostRecoveryExclusionTypeCollection) {
-        this.IndirectCostRecoveryExclusionTypeDetails = indirectCostRecoveryExclusionTypeCollection;
+        this.indirectCostRecoveryExclusionTypeDetails = indirectCostRecoveryExclusionTypeCollection;
     }
     
 }

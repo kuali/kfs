@@ -31,7 +31,7 @@ public class BudgetConstructionGeneralLedgerLoadBatchStep extends AbstractStep {
       // however, for testing purposes we will hard-wire it in, since we aren't running in a normal environment yet.
       GLBudgetLoadService generalLedgerBudgetLoadService = SpringContext.getBean(GLBudgetLoadService.class); 
       // normally, this would be called with no parameter, and would automatically load the fiscal year following the fiscal year of the run date. 
-      generalLedgerBudgetLoadService.loadPendingBudgetConstructionGeneralLedger(2008);
+      generalLedgerBudgetLoadService.loadPendingBudgetConstructionGeneralLedger(2009);
         return true;
     }
 

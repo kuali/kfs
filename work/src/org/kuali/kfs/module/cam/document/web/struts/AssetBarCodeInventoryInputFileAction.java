@@ -132,5 +132,5 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         // set title key
         form.setTitleKey(batchInputFileSetType.getTitleKey());
     }
-    
+
 }

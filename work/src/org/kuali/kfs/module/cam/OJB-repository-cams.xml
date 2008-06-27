@@ -726,7 +726,7 @@
 	<field-descriptor name="inventoryCorrectionTimestamp" column="AST_INVN_COR_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="assetTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="uploadScanIndicator" column="AST_UPLD_SCAN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="uploadScanTimestamp" column="AST_UPLD_SCAN_TS" jdbc-type="DATE"/>
+	<field-descriptor name="uploadScanTimestamp" column="AST_UPLD_SCAN_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>

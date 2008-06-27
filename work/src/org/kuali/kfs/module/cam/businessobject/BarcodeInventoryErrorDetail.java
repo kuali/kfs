@@ -21,7 +21,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 	private Timestamp inventoryCorrectionTimestamp;
 	private String assetTagNumber;
 	private boolean uploadScanIndicator;
-	private Date uploadScanTimestamp;
+	private Timestamp uploadScanTimestamp;
 	private String campusCode;
 	private String buildingCode;
 	private String buildingRoomNumber;
@@ -198,7 +198,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 	 * @return Returns the uploadScanTimestamp
 	 * 
 	 */
-	public Date getUploadScanTimestamp() { 
+	public Timestamp getUploadScanTimestamp() { 
 		return uploadScanTimestamp;
 	}
 
@@ -208,7 +208,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 	 * @param uploadScanTimestamp The uploadScanTimestamp to set.
 	 * 
 	 */
-	public void setUploadScanTimestamp(Date uploadScanTimestamp) {
+	public void setUploadScanTimestamp(Timestamp uploadScanTimestamp) {
 		this.uploadScanTimestamp = uploadScanTimestamp;
 	}
 

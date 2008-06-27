@@ -28,7 +28,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
     public BarcodeInventoryErrorForm() {
         super();
-        LOG.info("*******BarcodeInventoryErrorForm");
+        //LOG.info("*******BarcodeInventoryErrorForm");
         setDocument(new BarcodeInventoryErrorDocument());
     }
 
@@ -37,16 +37,15 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         return (BarcodeInventoryErrorDocument) getDocument();
     }
     
-    @Override
+/*    @Override
     public void populate(HttpServletRequest request) {
 
         super.populate(request);
-        LOG.info("*******BarcodeInventoryErrorForm - populate");
         BarcodeInventoryErrorDocument ccDoc = getBarcodeInventoryErrorDocument();
 
         for (BarcodeInventoryErrorDetail detail : ccDoc.getBarcodeInventoryErrorDetail()) {
             LOG.info("******* form:"+detail.getAssetTagNumber());
         }
     }
-    
+  */  
 }

@@ -159,7 +159,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {
-        return CamsKeyConstants.BarCodeInventory.TITLE_BAR_CODE_INVENTORY;
+        return CamsKeyConstants.BarcodeInventory.TITLE_BAR_CODE_INVENTORY;
     }
 
     /**

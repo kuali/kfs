@@ -16,7 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['viewOnly']}" />
-<kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}">
+<!-- kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}"-->
+<kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" >
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Barcode Inventory Error(s)">
 			<tr>
@@ -26,23 +27,27 @@
 			    <!-- Columns Header -->
 				<!-- kul:htmlAttributeHeaderCell literalLabel="Line#" /-->
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadRowNumber}" width="1%" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetTagNumber}"  width="10%"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetTagNumber}"  width="6%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" width="3%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanTimestamp}" width="10%"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.campusCode}" width="8%"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingCode}" width="12%"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" width="10%"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" width="8%"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetConditionCode}" width="8%"/>
-				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" width="30%"/>
-				<kul:htmlAttributeHeaderCell literalLabel="&nbsp"/>				
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.campusCode}" width="6%"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingCode}" width="9%"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" width="8%"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" width="5%"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetConditionCode}" width="5%"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" width="20%"/>
+				<kul:htmlAttributeHeaderCell literalLabel="Action" width="5%"/>
 			</tr>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
-				<cams:barcodeInventoryErrorDetail
-					barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
-					propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
-					readOnly="${!readOnly}" 
-					cssClass="datacell"/>
+				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>
+            	<c:if test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR}">
+					<cams:barcodeInventoryErrorDetail
+						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
+						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
+						readOnly="${!readOnly}" 
+						cssClass="datacell"
+						lineNumber="${ctr}" />
+            	</c:if>
 			</logic:iterate>
 		</table>
 	</div>

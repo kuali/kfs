@@ -326,9 +326,7 @@ public class CamsPropertyConstants {
         public static String BUILDING_ROOM_REFERENCE="buildingRoom";
         public static String CONDITION_REFERENCE="condition";
         
-        
-        
+        public static final String BARCODE_INVENTORY_DETAIL = "barcodeInventoryErrorDetail";
     }
-
 }
 

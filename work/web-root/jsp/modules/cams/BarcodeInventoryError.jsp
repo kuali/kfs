@@ -14,7 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" renderMultipart="true"  showTabButtons="true">
+<kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" 
+renderMultipart="true"  showTabButtons="true">
     <kul:hiddenDocumentFields />
   	<html:hidden property="document.uploaderUniversalIdentifier"/>
  

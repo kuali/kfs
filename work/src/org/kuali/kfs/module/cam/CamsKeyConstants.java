@@ -139,11 +139,15 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL = "error.asset.location.no.asset.location.detail.line";
     }
 
-    public static class BarCodeInventory {
+    public static class BarcodeInventory {
         public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";
         public static final String MESSAGE_UPLOAD_RECCOUNT="message.upload.record.count";
         public static final String MESSAGE_UPLOAD_ERROR_RECCOUNT="message.upload.record.error.count";
-        public static final String MESSAGE_DOCUMENT_URL="message.upload.document.barcodeInventory";        
+        public static final String MESSAGE_DOCUMENT_URL="message.upload.document.barcodeInventory";
+        
+        public static final String ERROR_INVALID_FIELD="error.document.invalid.field";
+        public static final String ERROR_CAPITAL_ASSET_DOESNT_EXISTS="error.document.capitalAsset.not.found";
+        public static final String ERROR_DUPLICATED_TAG_NUMBER="error.document.duplicated.tagNumber";
     }
 
     public static class EquipmentLoanOrReturn {

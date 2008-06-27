@@ -19,13 +19,16 @@
 <%@ attribute name="readOnly" required="true" description="determines whether the detail lines will be displayed readonly"%>
 <%@ attribute name="propertyName" required="true" description="name of form property containing the cash control document"%>
 <%@ attribute name="cssClass" required="true"%>
+<%@ attribute name="lineNumber" required="true"%>
+
 
 <tr>
-	<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute
+	<td align="right" class="${cssClass}">
+	    ${lineNumber+1}	
+		<!--kul:htmlControlAttribute
 			attributeEntry="${barcodeInventoryDetailAttributes.uploadRowNumber}"
 			property="${propertyName}.uploadRowNumber"
-			readOnly="true" />
+			readOnly="true" /-->
 	</td>
 
 	<td align=left class="${cssClass}">&nbsp
@@ -67,7 +70,7 @@
 			readOnly="${readOnly}" />
 			<c:if test="${not readOnly}">
 				&nbsp;
-				<kul:lookup boClassName="org.kuali.kfs.bo.Building" 
+				<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
 				fieldConversions="buildingCode:${propertyName}.buildingCode,campusCode:${propertyName}.campusCode" 
 				lookupParameters="${propertyName}.buildingCode:buildingCode,${propertyName}.campusCode:campusCode" />				
 			</c:if>
@@ -80,7 +83,7 @@
 			readOnly="${readOnly}" />
 			<c:if test="${not readOnly}">
 				&nbsp;
-				<kul:lookup boClassName="org.kuali.kfs.bo.Room" 
+				<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
 				fieldConversions="buildingCode:${propertyName}.buildingCode,campusCode:${propertyName}.campusCode,buildingRoomNumber:${propertyName}.buildingRoomNumber" 
 				lookupParameters="${propertyName}.buildingCode:buildingCode,${propertyName}.campusCode:campusCode" />				
 			</c:if>			
@@ -101,7 +104,7 @@
 			readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
 			&nbsp;
-			<kul:lookup boClassName="org.kuali.module.cams.bo.AssetCondition" fieldConversions="assetConditionCode:${propertyName}.assetConditionCode"
+			<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:${propertyName}.assetConditionCode"
 			lookupParameters="${propertyName}.assetConditionCode:assetConditionCode" />			
 		</c:if>
 
@@ -122,3 +125,12 @@
                 </td>
          </c:if>
 </tr>
+<!-- tr>
+<td align=left class="${cssClass}">&nbsp</td>
+<td colspan="10">
+		<kul:htmlControlAttribute
+			attributeEntry="${barcodeInventoryDetailAttributes.errorDescription}"
+			property="${propertyName}.errorDescription"
+			readOnly="${readOnly}" />
+</td>
+</tr-->

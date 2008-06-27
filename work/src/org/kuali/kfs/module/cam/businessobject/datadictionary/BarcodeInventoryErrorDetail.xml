@@ -42,13 +42,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Error" />
     <property name="shortLabel" value="Error(s)" />
-    <property name="maxLength" value="30" />
+    <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="30" />
+            p:size="40" />
     </property>
     <property name="summary" value="Error" />
     <property name="description" value="error description..." />
@@ -57,9 +57,10 @@
   <bean id="BarcodeInventoryErrorDetail-assetConditionCode" parent="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" />
 
   <bean id="BarcodeInventoryErrorDetail-assetConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="required" value="true" />
     <property name="name" value="assetConditionCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Condition Code" />
+    <property name="label" value="Condition Code" />
     <property name="shortLabel" value="Cond. Code" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
@@ -75,9 +76,10 @@
   <bean id="BarcodeInventoryErrorDetail-assetTagNumber" parent="BarcodeInventoryErrorDetail-assetTagNumber-parentBean" />
 
   <bean id="BarcodeInventoryErrorDetail-assetTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="required" value="true" />  
     <property name="name" value="assetTagNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Tag Number" />
+    <property name="label" value="Tag Number" />
     <property name="shortLabel" value="Tag#" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
@@ -93,6 +95,7 @@
   <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean" />
 
   <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="required" value="true" />  
     <property name="name" value="buildingCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Code" />
@@ -111,9 +114,10 @@
   <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber" parent="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" />
 
   <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="required" value="true" />  
     <property name="name" value="buildingRoomNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Room Number" />
+    <property name="label" value="Room Number" />
     <property name="shortLabel" value="Room#" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
@@ -131,7 +135,7 @@
   <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingSubRoomNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Sub Room Number" />
+    <property name="label" value="Sub Room Number" />
     <property name="shortLabel" value="Sub Room#" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -147,9 +151,10 @@
   <bean id="BarcodeInventoryErrorDetail-campusCode" parent="BarcodeInventoryErrorDetail-campusCode-parentBean" />
 
   <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="required" value="true" />  
     <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus code" />
+    <property name="label" value="Campus Code" />
     <property name="shortLabel" value="Campus" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -240,7 +245,7 @@
     <property name="name" value="uploadRowNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Upload Row Number" />
-    <property name="shortLabel" value="Ln.#" />
+    <property name="shortLabel" value="L#" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -277,13 +282,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Inventory Date" />
     <property name="shortLabel" value="Inventory Date" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="14" />
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="9" />
+            p:size="14" />
     </property>
     <property name="summary" value="uploadScanTimestamp" />
     <property name="description" value="uploadScanTimestamp description..." />

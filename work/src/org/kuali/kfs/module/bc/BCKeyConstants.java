@@ -86,5 +86,14 @@ public class BCKeyConstants {
     public static final String MSG_LOCK_ACCOUNTKEY = "message.budget.lock.accountKey";
     public static final String ERROR_LOCK_INVALID_USER = "error.budget.lock.invalidUser";
     public static final String ERROR_PAYRATE_IMPORT_UPDATE_NOT_ALLOWED = "error.budget.payrateImportExport.updatesNotAllowed";
+    public static final String ERROR_NO_RECORDS_MY_ACCOUNTS = "error.budget.noRecordsMyAccounts";
+    public static final String ERROR_NO_ACCOUNTS_PUSH_DOWN = "error.budget.noAccountsPushDown";
+    public static final String ERROR_NO_ACCOUNTS_PULL_UP = "error.budget.noAccountsPullUp";
+    
+    public static final String MSG_ACCOUNT_PULLUP_LIST = "message.budget.accountPullupList";
+    public static final String MSG_ACCOUNT_PUSHDOWN_LIST = "message.budget.accountPushdownList";
+    public static final String MSG_ACCOUNT_MANAGER_DELEGATE_LIST = "message.budget.accountManagerDelegateList";
+    public static final String MSG_ORG_PULL_UP_SUCCESSFUL = "message.budget.orgPullUpSuccessful";
+    public static final String MSG_ORG_PUSH_DOWN_SUCCESSFUL = "message.budget.orgPushDownSuccessful";
 }
 

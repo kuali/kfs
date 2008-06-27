@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDocumentSearchService {
-
     private static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchServiceImpl.class);
 
     private OrganizationBCDocumentSearchDao organizationBCDocumentSearchDao;
@@ -48,6 +47,15 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
         organizationBCDocumentSearchDao.cleanAccountSelectPullList(personUserIdentifier);
 
         return organizationBCDocumentSearchDao.buildBudgetedAccountsAbovePointsOfView(personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService#buildAccountManagerDelegateList(java.lang.String, java.lang.Integer)
+     */
+    public int buildAccountManagerDelegateList(String personUserIdentifier, Integer universityFiscalYear) {
+        organizationBCDocumentSearchDao.cleanAccountSelectPullList(personUserIdentifier);
+
+        return organizationBCDocumentSearchDao.buildAccountManagerDelegateList(personUserIdentifier, universityFiscalYear);
     }
 
     /**

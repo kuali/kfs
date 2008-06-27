@@ -47,7 +47,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public BudgetConstructionPullup() {
-
+        pullFlag = new Integer(0);
     }
 
     /**

@@ -42,4 +42,27 @@ public interface BudgetOrganizationPushPullDao {
      */
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);    
 
+    /**
+     * Builds list of budget documents that are in the selected organizations and above the user's point of view. Called from the Org Pull Up screen to display the documents
+     * that will be affected by the pull up.
+     * 
+     * @param personUniversalIdentifier current user doing the pullup
+     * @param fiscalYear budget fiscal year
+     * @param pointOfViewCharOfAccountsCode user's point of view chart
+     * @param pointOfViewOrganizationCode user's point of view org
+     * @return int number of rows affected (number of documents)
+     */
+    public int buildPullUpBudgetedDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
+    
+    /**
+     * Builds list of budget documents that are in the selected organizations and at the user's point of view. Called from the Org Push Down screen to display the documents
+     * that will be affected by the push down.
+     * 
+     * @param personUniversalIdentifier current user doing the pushdown
+     * @param fiscalYear budget fiscal year
+     * @param pointOfViewCharOfAccountsCode user's point of view chart
+     * @param pointOfViewOrganizationCode user's point of view org
+     * @return int number of rows affected (number of documents)
+     */
+    public int buildPushDownBudgetedDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
 }

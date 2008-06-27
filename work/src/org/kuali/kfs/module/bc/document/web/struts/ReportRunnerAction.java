@@ -41,6 +41,7 @@ import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountMonthlyDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSalaryDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionDocumentAccountObjectDetailReportService;
+import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -160,20 +161,14 @@ public class ReportRunnerAction extends BudgetExpansionAction {
      * Builds URL for the report dump url.
      */
     private String buildReportExportForwardURL(ReportRunnerForm reportRunnerForm, ActionMapping mapping, String documentReportMode) {
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        Map<String, String> parameters = new HashMap<String, String>();
 
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(reportRunnerForm, BCConstants.FORMKEY_PREFIX));
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportRunnerForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, reportRunnerForm.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, reportRunnerForm.getAccountNumber());
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, reportRunnerForm.getSubAccountNumber());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "false");
-
-        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_EXPORT_ACTION, parameters);
+        
+        return BudgetUrlUtil.buildBudgetUrl(mapping, reportRunnerForm, BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 }

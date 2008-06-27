@@ -33,9 +33,6 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
     private String otherFieldDelimiter;
     private String otherTextFieldDelimiter;
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
-    private Integer universityFiscalYear;
-    
-    
     
     public BudgetConstructionRequestImportForm() {
         super();

@@ -29,31 +29,12 @@ import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 public interface LaborDao {
 
     /**
-     * This method returns a CSF Tracker total for a given selection criteria
-     * 
-     * @param fieldValues
-     * @return
-     */
-    @Deprecated
-    Object getCSFTrackerTotal(Map fieldValues);
-
-    /**
      * This method returns an encumberence total for a given selection criteria
      * 
      * @param fieldValues
      * @return
      */
     Object getEncumbranceTotal(Map fieldValues);
-
-    /**
-     * This method returns base funds data
-     * 
-     * @param fieldValues
-     * @param isConsolidated
-     * @return Collection
-     */
-    @Deprecated
-    Iterator getBaseFunds(Map fieldValues, boolean isConsolidated);
 
     /**
      * This method returns current funds data
@@ -63,15 +44,6 @@ public interface LaborDao {
      * @return Collection
      */
     Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated);
-
-    /**
-     * This method returns current funds data
-     * 
-     * @param fieldValues
-     * @return Iterator
-     */
-    @Deprecated
-    Iterator getEmployeeFunding(Map fieldValues);
 
     /**
      * This method returns current July1 Position Funding data

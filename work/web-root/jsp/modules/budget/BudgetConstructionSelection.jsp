@@ -49,7 +49,9 @@
 <%--	<kfs:hiddenDocumentFields /> --%>
 
 	<kul:errors keyMatch="budgetConstructionHeader" errorTitle="Errors found in Search Criteria:" />
-	<kul:messages/>
+	<c:forEach items="${KualiForm.messages}" var="message">
+	   ${message}
+	</c:forEach>
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 	    <tr>

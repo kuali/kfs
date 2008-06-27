@@ -36,9 +36,17 @@
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToOrganizationCode" />
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].versionNumber" />
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].personUniversalIdentifier" />
-                <html:select property="selectionSubTreeOrgs[${status.index}].pullFlag">
-                    <html:optionsCollection property="pullFlagKeyLabels" label="label" value="key" />
-                </html:select>
+                
+                <c:choose>
+                   	<c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP or KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">                   
+                      <html:select property="selectionSubTreeOrgs[${status.index}].pullFlag">
+                        <html:optionsCollection property="pullFlagKeyLabels" label="label" value="key" />
+                      </html:select>
+                    </c:when>
+                    <c:otherwise>
+                       <html:checkbox property="selectionSubTreeOrgs[${status.index}].pullFlag" value="1" />
+                    </c:otherwise>
+                </c:choose>      
             </div>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">

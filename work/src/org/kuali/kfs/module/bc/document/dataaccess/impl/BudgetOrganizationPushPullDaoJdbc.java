@@ -29,8 +29,9 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao
 public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetOrganizationPushPullDao {
 
     private static String[] pullupSelectedOrganizationDocumentsTemplates = new String[8];
-
     private static String[] pushdownSelectedOrganizationDocumentsTemplates = new String[11];
+    private static String[] accountSelectBudgetedDocumentsPullUpTemplates = new String[2];
+    private static String[] accountSelectBudgetedDocumentsPushDownTemplates = new String[1];
 
     public BudgetOrganizationPushPullDaoJdbc() {
 
@@ -442,6 +443,201 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         pushdownSelectedOrganizationDocumentsTemplates[10] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
+        // build list of budget documents for selected orgs and below user's point of view (documents that will be pulled up by org
+        // pullup)
+        sqlText.append("INSERT INTO ld_bcn_acctsel_t \n");
+        sqlText.append("SELECT ?,\n");
+        sqlText.append("        head.univ_fiscal_yr,\n");
+        sqlText.append("        head.fin_coa_cd, \n");
+        sqlText.append("        head.account_nbr, \n");
+        sqlText.append("        head.sub_acct_nbr, \n");
+        sqlText.append("        head.fdoc_nbr, \n");
+        sqlText.append("        1, \n");
+        sqlText.append("        head.org_level_cd, \n");
+        sqlText.append("        head.org_coa_of_lvl_cd, \n");
+        sqlText.append("        head.org_of_lvl_cd, \n");
+        sqlText.append("        fphd.fdoc_status_cd, \n");
+        sqlText.append("        '', \n");
+        sqlText.append("        fphd.temp_doc_fnl_dt \n");
+        sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
+        sqlText.append("      fp_doc_header_t fphd, \n");
+        sqlText.append("      (SELECT head2.fdoc_nbr \n");
+        sqlText.append("      FROM ld_bcnstr_hdr_t head2, \n");
+        sqlText.append("            ld_bcn_pullup_t pull, \n");
+        sqlText.append("            ld_bcn_acct_org_hier_t hs, \n");
+        sqlText.append("            ld_bcn_acct_org_hier_t  hp \n");
+        sqlText.append("     WHERE pull.pull_flag = ?  \n");
+        sqlText.append("       AND pull.person_unvl_id = ? \n");
+        sqlText.append("       AND hs.univ_fiscal_yr = ? \n");
+        sqlText.append("       AND hs.org_fin_coa_cd = pull.fin_coa_cd \n");
+        sqlText.append("       AND hs.org_cd = pull.org_cd \n");
+        sqlText.append("       AND hp.org_fin_coa_cd = ? \n");
+        sqlText.append("       AND hp.org_cd= ? \n");
+        sqlText.append("       AND hp.univ_fiscal_yr = hs.univ_fiscal_yr \n");
+        sqlText.append("       AND hp.fin_coa_cd = hs.fin_coa_cd \n");
+        sqlText.append("       AND hp.account_nbr = hs.account_nbr \n");
+        sqlText.append("       AND head2.univ_fiscal_yr = hp.univ_fiscal_yr \n");
+        sqlText.append("       AND head2.fin_coa_cd = hp.fin_coa_cd \n");
+        sqlText.append("       AND head2.account_nbr = hp.account_nbr \n");
+        sqlText.append("       AND head2.org_level_cd < hp.org_level_cd \n");
+        sqlText.append("     UNION \n");
+        sqlText.append("     SELECT head2.fdoc_nbr \n");
+        sqlText.append("     FROM ld_bcnstr_hdr_t head2, \n");
+        sqlText.append("           ld_bcn_pullup_t pull, \n");
+        sqlText.append("           ld_bcn_acct_org_hier_t  hs, \n");
+        sqlText.append("           ld_bcn_acct_org_hier_t  hp, \n");
+        sqlText.append("           ld_bcn_acct_rpts_t bar \n");
+        sqlText.append("    WHERE pull.pull_flag = ? \n");
+        sqlText.append("       AND pull.person_unvl_id = ? \n");
+        sqlText.append("       AND hs.univ_fiscal_yr = ? \n");
+        sqlText.append("       AND hs.org_fin_coa_cd = pull.fin_coa_cd \n");
+        sqlText.append("       AND hs.org_cd = pull.org_cd \n");
+        sqlText.append("       AND hp.org_fin_coa_cd = ? \n");
+        sqlText.append("       AND hp.org_cd= ? \n");
+        sqlText.append("       AND hp.univ_fiscal_yr = hs.univ_fiscal_yr \n");
+        sqlText.append("       AND hp.fin_coa_cd = hs.fin_coa_cd \n");
+        sqlText.append("       AND hp.account_nbr = hs.account_nbr \n");
+        sqlText.append("       AND head2.univ_fiscal_yr = hp.univ_fiscal_yr \n");
+        sqlText.append("       AND head2.fin_coa_cd = hp.fin_coa_cd \n");
+        sqlText.append("       AND head2.account_nbr = hp.account_nbr \n");
+        sqlText.append("       AND head2.org_level_cd < hp.org_level_cd \n");
+        sqlText.append("       AND bar.fin_coa_cd = hs.fin_coa_cd \n");
+        sqlText.append("       AND bar.account_nbr = hs.account_nbr \n");
+        sqlText.append("       AND bar.rpts_to_fin_coa_cd = hs.org_fin_coa_cd \n");
+        sqlText.append("       AND bar.rpts_to_org_cd = hs.org_cd \n");
+        sqlText.append("     UNION \n");
+        sqlText.append("     SELECT head2.fdoc_nbr \n");
+        sqlText.append("     FROM ld_bcnstr_hdr_t head2, \n");
+        sqlText.append("           ld_bcn_pullup_t pull, \n");
+        sqlText.append("           ld_bcn_acct_org_hier_t  hs, \n");
+        sqlText.append("           ld_bcn_acct_org_hier_t  hp, \n");
+        sqlText.append("           ld_bcn_acct_rpts_t bar \n");
+        sqlText.append("    WHERE pull.pull_flag = ? \n");
+        sqlText.append("       AND pull.person_unvl_id = ? \n");
+        sqlText.append("       AND hs.univ_fiscal_yr = ? \n");
+        sqlText.append("       AND hs.org_fin_coa_cd = pull.fin_coa_cd \n");
+        sqlText.append("       AND hs.org_cd = pull.org_cd \n");
+        sqlText.append("       AND hp.org_fin_coa_cd = ? \n");
+        sqlText.append("       AND hp.org_cd= ? \n");
+        sqlText.append("       AND hp.univ_fiscal_yr = hs.univ_fiscal_yr \n");
+        sqlText.append("       AND hp.fin_coa_cd = hs.fin_coa_cd \n");
+        sqlText.append("       AND hp.account_nbr = hs.account_nbr \n");
+        sqlText.append("       AND head2.univ_fiscal_yr = hp.univ_fiscal_yr \n");
+        sqlText.append("       AND head2.fin_coa_cd = hp.fin_coa_cd \n");
+        sqlText.append("       AND head2.account_nbr = hp.account_nbr \n");
+        sqlText.append("       AND head2.org_level_cd < hp.org_level_cd \n");
+        sqlText.append("       AND bar.fin_coa_cd = hs.fin_coa_cd \n");
+        sqlText.append("       AND bar.account_nbr = hs.account_nbr \n");
+        sqlText.append("       AND (bar.rpts_to_fin_coa_cd <> hs.org_fin_coa_cd \n");
+        sqlText.append("            OR bar.rpts_to_org_cd <> hs.org_cd) \n");
+        sqlText.append("    ) s \n");
+        sqlText.append("   WHERE head.fdoc_nbr = s.fdoc_nbr \n");
+        sqlText.append("      AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+
+        accountSelectBudgetedDocumentsPullUpTemplates[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // update org for accounts at level 0
+        sqlText.append("  UPDATE ld_bcn_acctsel_t \n");
+        sqlText.append("  SET org_fin_coa_cd = \n");
+        sqlText.append("     (SELECT rpts2.rpts_to_fin_coa_cd \n");
+        sqlText.append("     FROM ld_bcn_acct_rpts_t rpts2 \n");
+        sqlText.append("     WHERE ld_bcn_acctsel_t.fin_coa_cd = rpts2.fin_coa_cd \n");
+        sqlText.append("       AND ld_bcn_acctsel_t.account_nbr = rpts2.account_nbr), \n");
+        sqlText.append("     org_cd = \n");
+        sqlText.append("      (SELECT rpts2.rpts_to_org_cd \n");
+        sqlText.append("       FROM ld_bcn_acct_rpts_t rpts2 \n");
+        sqlText.append("       WHERE ld_bcn_acctsel_t.fin_coa_cd = rpts2.fin_coa_cd \n");
+        sqlText.append("          AND ld_bcn_acctsel_t.account_nbr = rpts2.account_nbr) \n");
+        sqlText.append("   WHERE ld_bcn_acctsel_t.person_unvl_id = ? \n");
+        sqlText.append("      AND ld_bcn_acctsel_t.univ_fiscal_yr = ? \n");
+        sqlText.append("      AND ld_bcn_acctsel_t.org_level_cd = 0 \n");
+        sqlText.append("      AND EXISTS (select * \n");
+        sqlText.append("                  FROM ld_bcn_acct_rpts_t rpts \n");
+        sqlText.append("                  WHERE ld_bcn_acctsel_t.fin_coa_cd = rpts.fin_coa_cd \n");
+        sqlText.append("                     AND ld_bcn_acctsel_t.account_nbr = rpts.account_nbr) \n");
+
+        accountSelectBudgetedDocumentsPullUpTemplates[1] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // build list of budget documents for selected orgs at user's point of view (documents that will be pushed down by org
+        // pushdown)
+        sqlText.append("INSERT INTO ld_bcn_acctsel_t \n");
+        sqlText.append("SELECT ?, \n");
+        sqlText.append("    head.univ_fiscal_yr, \n");
+        sqlText.append("    head.fin_coa_cd, \n");
+        sqlText.append("    head.account_nbr, \n");
+        sqlText.append("    head.sub_acct_nbr, \n");
+        sqlText.append("    head.fdoc_nbr, \n");
+        sqlText.append("    1, \n");
+        sqlText.append("    head.org_level_cd, \n");
+        sqlText.append("    head.org_coa_of_lvl_cd, \n");
+        sqlText.append("    head.org_of_lvl_cd, \n");
+        sqlText.append("    fphd.fdoc_status_cd, \n");
+        sqlText.append("    '', \n");
+        sqlText.append("    fphd.temp_doc_fnl_dt   \n");
+        sqlText.append("FROM ld_bcn_pullup_t pull, \n");
+        sqlText.append("    ld_bcn_acct_org_hier_t hier, \n");
+        sqlText.append("    ld_bcn_acct_org_hier_t hier2, \n");
+        sqlText.append("    ld_bcnstr_hdr_t head, \n");
+        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("WHERE pull.pull_flag in (?,?,?,?) \n");
+        sqlText.append("  AND pull.person_unvl_id = ? \n");
+        sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND hier.org_fin_coa_cd = pull.fin_coa_cd \n");
+        sqlText.append("  AND hier.org_cd = pull.org_cd  \n");
+        sqlText.append("  AND hier.univ_fiscal_yr = hier2.univ_fiscal_yr \n");
+        sqlText.append("  AND hier.fin_coa_cd = hier2.fin_coa_cd \n");
+        sqlText.append("  AND hier.account_nbr = hier2.account_nbr   \n");
+        sqlText.append("  AND hier2.org_fin_coa_cd = ? \n");
+        sqlText.append("  AND hier2.org_cd = ? \n");
+        sqlText.append("  AND head.univ_fiscal_yr = hier2.univ_fiscal_yr \n");
+        sqlText.append("  AND head.fin_coa_cd = hier2.fin_coa_cd \n");
+        sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
+        sqlText.append("  AND head.org_level_cd = hier2.org_level_cd \n");
+        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+        sqlText.append("UNION \n");
+        sqlText.append("SELECT ?, \n");
+        sqlText.append("    head.univ_fiscal_yr, \n");
+        sqlText.append("    head.fin_coa_cd, \n");
+        sqlText.append("    head.account_nbr, \n");
+        sqlText.append("    head.sub_acct_nbr, \n");
+        sqlText.append("    head.fdoc_nbr, \n");
+        sqlText.append("    1, \n");
+        sqlText.append("    head.org_level_cd, \n");
+        sqlText.append("    head.org_coa_of_lvl_cd, \n");
+        sqlText.append("    head.org_of_lvl_cd, \n");
+        sqlText.append("    fphd.fdoc_status_cd, \n");
+        sqlText.append("    '', \n");
+        sqlText.append("    fphd.temp_doc_fnl_dt     \n");
+        sqlText.append("FROM ld_bcn_pullup_t pull, \n");
+        sqlText.append("    ld_bcn_acct_org_hier_t hier, \n");
+        sqlText.append("    ld_bcn_acct_org_hier_t hier2, \n");
+        sqlText.append("    ld_bcn_acct_rpts_t rpts, \n");
+        sqlText.append("    ld_bcnstr_hdr_t head, \n");
+        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("WHERE pull.pull_flag = ? \n");
+        sqlText.append("  AND pull.person_unvl_id = ? \n");
+        sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND hier.org_fin_coa_cd = pull.fin_coa_cd \n");
+        sqlText.append("  AND hier.org_cd = pull.org_cd \n");
+        sqlText.append("  AND hier.fin_coa_cd = rpts.fin_coa_cd \n");
+        sqlText.append("  AND hier.account_nbr = rpts.account_nbr \n");
+        sqlText.append("  AND hier.org_fin_coa_cd = rpts.rpts_to_fin_coa_cd  \n");
+        sqlText.append("  AND hier.org_cd = rpts.rpts_to_org_cd   \n");
+        sqlText.append("  AND hier.univ_fiscal_yr = hier2.univ_fiscal_yr \n");
+        sqlText.append("  AND hier.fin_coa_cd = hier2.fin_coa_cd \n");
+        sqlText.append("  AND hier.account_nbr = hier2.account_nbr  \n");
+        sqlText.append("  AND hier2.org_fin_coa_cd = ? \n");
+        sqlText.append("  AND hier2.org_cd = ? \n");
+        sqlText.append("  AND head.univ_fiscal_yr = hier2.univ_fiscal_yr \n");
+        sqlText.append("  AND head.fin_coa_cd = hier2.fin_coa_cd \n");
+        sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
+        sqlText.append("  AND head.org_level_cd = hier2.org_level_cd \n");
+        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+
+        accountSelectBudgetedDocumentsPushDownTemplates[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
     }
 
     /**
@@ -476,12 +672,12 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
         String sessionId = new Guid().toString();
-        
-        // use some local vars to improve readability 
-        Integer orgLev = OrgSelControlOption.ORGLEV.getKey(); 
-        Integer mgrLev = OrgSelControlOption.MGRLEV.getKey(); 
-        Integer orgMgrLev = OrgSelControlOption.ORGMGRLEV.getKey(); 
-        Integer levOne = OrgSelControlOption.LEVONE.getKey(); 
+
+        // use some local vars to improve readability
+        Integer orgLev = OrgSelControlOption.ORGLEV.getKey();
+        Integer mgrLev = OrgSelControlOption.MGRLEV.getKey();
+        Integer orgMgrLev = OrgSelControlOption.ORGMGRLEV.getKey();
+        Integer levOne = OrgSelControlOption.LEVONE.getKey();
         Integer levZero = OrgSelControlOption.LEVZERO.getKey();
         String puid = personUniversalIdentifier;
 
@@ -503,6 +699,51 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         this.clearTempTableBySesId("ld_bcn_doc_pushdown02_mt", "SESID", sessionId);
         this.clearTempTableBySesId("ld_bcn_doc_pushdown03_mt", "SESID", sessionId);
         this.clearTempTableBySesId("ld_bcn_doc_pushdown04_mt", "SESID", sessionId);
+    }
+
+    /**
+     * Uses sql jdbc call to populate the account select table for the set of pull up documents.
+     * 
+     * @see org.kuali.kfs.module.bc.document.dataaccess..BudgetOrganizationPushPullDao#buildPullUpBudgetedDocuments(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public int buildPullUpBudgetedDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+        // clear temp records for users
+        this.clearTempTableByUnvlId("ld_bcn_acctsel_t", "person_unvl_id", personUniversalIdentifier);
+
+        Integer org = OrgSelControlOption.ORG.getKey();
+        Integer subOrg = OrgSelControlOption.SUBORG.getKey();
+        Integer both = OrgSelControlOption.BOTH.getKey();
+
+        // build account select
+        int rowCount = this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPullUpTemplates[0], personUniversalIdentifier, both, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, org, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, subOrg, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+
+        // update org for accounts at level zero
+        this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPullUpTemplates[1], personUniversalIdentifier, fiscalYear);
+
+        return rowCount;
+    }
+
+    /**
+     * Uses sql jdbc call to populate the account select table for the set of push up documents.
+     * 
+     * @see org.kuali.kfs.module.bc.document.dataaccess..BudgetOrganizationPushPullDao#buildPushDownBudgetedDocuments(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public int buildPushDownBudgetedDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+        // clear temp records for users
+        this.clearTempTableByUnvlId("ld_bcn_acctsel_t", "person_unvl_id", personUniversalIdentifier);
+
+        Integer orgLev = OrgSelControlOption.ORGLEV.getKey();
+        Integer mgrLev = OrgSelControlOption.MGRLEV.getKey();
+        Integer orgMgrLev = OrgSelControlOption.ORGMGRLEV.getKey();
+        Integer levOne = OrgSelControlOption.LEVONE.getKey();
+        Integer levZero = OrgSelControlOption.LEVZERO.getKey();
+
+        // build account select
+        int rowCount = this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPushDownTemplates[0], personUniversalIdentifier, orgLev, orgMgrLev, levOne, levZero, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, personUniversalIdentifier, mgrLev, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+
+        return rowCount;
     }
 
 }

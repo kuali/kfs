@@ -28,7 +28,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
  */
 public class OrganizationReportSelectionForm extends BudgetExpansionForm {
     private String reportMode;
-    private Integer universityFiscalYear;
     private boolean reportConsolidation;
     private String currentPointOfViewKeyCode;
 
@@ -124,24 +123,6 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
      */
     public void setOperatingModeTitle(String operatingModeTitle) {
         this.operatingModeTitle = operatingModeTitle;
-    }
-
-    /**
-     * Gets the universityFiscalYear
-     * 
-     * @return Returns the universityFiscalYear
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
     }
   
     /**

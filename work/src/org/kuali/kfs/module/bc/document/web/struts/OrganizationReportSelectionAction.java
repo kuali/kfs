@@ -62,6 +62,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionSubFundSummary
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSynchronizationProblemsReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
+import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -314,18 +315,11 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      * Builds URL for the report dump url.
      */
     private String buildReportExportForwardURL(OrganizationReportSelectionForm organizationReportSelectionForm, ActionMapping mapping) {
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationReportSelectionForm, BCConstants.FORMKEY_PREFIX));
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationReportSelectionForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "true");
         
-        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_EXPORT_ACTION, parameters);
+        return BudgetUrlUtil.buildBudgetUrl(mapping, organizationReportSelectionForm, BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 
     /**

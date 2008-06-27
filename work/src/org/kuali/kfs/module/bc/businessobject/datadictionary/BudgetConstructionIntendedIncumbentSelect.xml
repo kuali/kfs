@@ -20,7 +20,7 @@
         <ref bean="BudgetConstructionIntendedIncumbentSelect-financialObjectCode" />
         <ref bean="BudgetConstructionIntendedIncumbentSelect-personName" />
         <ref bean="BudgetConstructionIntendedIncumbentSelect-personUniversalIdentifier" />
-        <ref bean="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption" />
+        <ref bean="BudgetConstructionIntendedIncumbentSelect-universityFiscalYear" />
         <ref bean="BudgetConstructionIntendedIncumbentSelect-versionNumber" />
       </list>
     </property>
@@ -100,15 +100,16 @@
     <property name="summary" value="personUniversalIdentifier" />
     <property name="description" value="personUniversalIdentifier description..." />
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption" parent="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption-parentBean" />
+  
+  <bean id="BudgetConstructionIntendedIncumbentSelect-universityFiscalYear" parent="BudgetConstructionIntendedIncumbentSelect-universityFiscalYear-parentBean" />
 
-  <bean id="BudgetConstructionIntendedIncumbentSelect-dummyBusinessObject.linkButtonOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-linkButtonOption">
-    <property name="name" value="dummyBusinessObject.linkButtonOption" />
-    <property name="label" value="Incumbent Salary Setting" />
-    <property name="shortLabel" value="Incumbent SalSet" />
-    <property name="summary" value="Incumbent Salary Setting" />
-    <property name="description" value="Incumbent Salary Setting ..." />
+  <bean id="BudgetConstructionIntendedIncumbentSelect-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+    <property name="name" value="universityFiscalYear" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
   </bean>
+  
   <bean id="BudgetConstructionIntendedIncumbentSelect-versionNumber" parent="BudgetConstructionIntendedIncumbentSelect-versionNumber-parentBean" />
 
   <bean id="BudgetConstructionIntendedIncumbentSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -166,6 +167,8 @@
               p:attributeName="personName" />
         <bean parent="FieldDefinition"
               p:attributeName="personUniversalIdentifier" />
+         <bean parent="FieldDefinition"
+              p:attributeName="universityFiscalYear" />             
       </list>
     </property>
     <property name="resultFields" >
@@ -176,8 +179,6 @@
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="personName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.linkButtonOption" />
       </list>
     </property>
   </bean>

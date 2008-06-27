@@ -24,7 +24,6 @@ public class ReportExportForm extends BudgetConstructionImportExportForm {
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
-    private Integer universityFiscalYear;
     private boolean orgReport;
     
     /**
@@ -32,24 +31,6 @@ public class ReportExportForm extends BudgetConstructionImportExportForm {
      */
     public ReportExportForm() {
         super();
-    }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
     }
     
     public String getHtmlFormAction() {

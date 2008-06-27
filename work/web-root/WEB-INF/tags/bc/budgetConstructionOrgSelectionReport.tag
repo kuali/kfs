@@ -16,8 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:tab tabTitle="Reports And Exports" defaultOpen="true" tabErrorKey="reportSel">
-	<div class="tab-container" align="center" id="G02" style="display: block;">
-    		<h3>Reports</h3>
+	<div class="tab-container" align="center">
+    	<h3>Reports</h3>
 
         <table width="100%" cellpadding="0" cellspacing="0">
               <tr>
@@ -87,7 +87,7 @@
                 <td>Payroll Synchronization Problems </td>
                 <td>
                   <div align="center">
-                    <html:image property="methodToCall.performReport.(((SynchronizationProblemsReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Payroll Synchronization Problems" alt="Payroll Synchronization Problems" styleClass="tinybutton" />
+                    <html:image property="methodToCall.performReport.(((SynchronizationProblemsReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Payroll Synchronization Problems" alt="Payroll Synchronization Problems" styleClass="tinybutton" onblur="formHasAlreadyBeenSubmitted = false"/>
                   </div>
                 </td>
               </tr>

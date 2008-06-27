@@ -17,9 +17,10 @@
 
 <kul:tabTop tabTitle="${KualiForm.operatingModeTitle}" defaultOpen="true" tabErrorKey="orgSel,selectionSubTreeOrgs">
     <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
-    <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
-	<div class="tab-container" align="center" id="G02" style="display: block;">
-        		<h3>Current Point of View Organization Selection </h3>
+	<div class="tab-container" align="center">
+    <h3>Current Point of View Organization Selection </h3>
+    
+        <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />    
         <table cellpadding=0 cellspacing="0"  summary="">
           	<tr>
                	<td>

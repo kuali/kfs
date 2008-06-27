@@ -27,7 +27,6 @@
         <ref bean="BudgetConstructionPositionSelect-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionPositionSelect-setidSalary" />
         <ref bean="BudgetConstructionPositionSelect-universityFiscalYear" />
-        <ref bean="BudgetConstructionPositionSelect-dummyBusinessObject.linkButtonOption" />
         <ref bean="BudgetConstructionPositionSelect-versionNumber" />
       </list>
     </property>
@@ -233,15 +232,7 @@
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
   </bean>
-  <bean id="BudgetConstructionPositionSelect-dummyBusinessObject.linkButtonOption" parent="BudgetConstructionPositionSelect-dummyBusinessObject.linkButtonOption-parentBean" />
-
-  <bean id="BudgetConstructionPositionSelect-dummyBusinessObject.linkButtonOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-linkButtonOption">
-    <property name="name" value="dummyBusinessObject.linkButtonOption" />
-    <property name="label" value="Position Salary Setting" />
-    <property name="shortLabel" value="Position SalSet" />
-    <property name="summary" value="Position Salary Setting" />
-    <property name="description" value="Position Salary Setting ..." />
-  </bean>
+  
   <bean id="BudgetConstructionPositionSelect-versionNumber" parent="BudgetConstructionPositionSelect-versionNumber-parentBean" />
 
   <bean id="BudgetConstructionPositionSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -343,8 +334,6 @@
               p:attributeName="grade" />
         <bean parent="FieldDefinition"
               p:attributeName="personName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.linkButtonOption" />
       </list>
     </property>
   </bean>

@@ -38,8 +38,6 @@ import org.kuali.kfs.sys.context.SpringContext;
  * This class...
  */
 public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
-
-    private Integer universityFiscalYear;
     private String documentNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -131,24 +129,6 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
         // TODO probably don't need these, editingmode drives expansion screen actions
         // setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
-    }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
     }
 
     /**

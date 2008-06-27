@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,37 +45,26 @@ import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService;
 import org.kuali.kfs.module.bc.document.service.BudgetPushPullService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
+import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * This class...
+ * Handles organization budget action requests from menu.
  */
 public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-
-        OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
-
-
-        return forward;
-    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
@@ -101,36 +92,33 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets up the initial mode of the drill down screen based on a passed in calling mode attribute This can be one of
-     * five modes - pullup, pushdown, reports, salset, account. Each mode causes a slightly different rendition of the controls
-     * presented to the user, but the basic point of view selection and organization drill down functionality is the same in all
-     * five modes.
+     * Sets up the initial mode of the drill down screen based on a passed in calling mode attribute This can be one of five modes -
+     * pullup, pushdown, reports, salset, account. Each mode causes a slightly different rendition of the controls presented to the
+     * user, but the basic point of view selection and organization drill down functionality is the same in all five modes.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
 
+        // check if user has only one available point of view. if so, select that point of view and build selection
+        List<Org> pointOfViewOrgs = SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getNetworkId());
+        if (pointOfViewOrgs != null && pointOfViewOrgs.size() == 1) {
+            orgSelTreeForm.setCurrentPointOfViewKeyCode(pointOfViewOrgs.get(0).getChartOfAccountsCode() + "-" + pointOfViewOrgs.get(0).getOrganizationCode());
+
+            return performBuildPointOfView(mapping, form, request, response);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method is called by the close button. It removes the user's BudgetConstructionPullup table rows and returns the user to
-     * the seleection screen action.
+     * Called by the close button. It removes the user's BudgetConstructionPullup table rows and returns the user to the seleection
+     * screen action.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // depopulate any selection subtrees for the user
@@ -141,18 +129,13 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method implements functionality behind the refresh button on the Organization Selection Tree screen. This is also called
-     * when the value of the point of view select control changed and javascript is enabled on the user's browser
+     * Implements functionality behind the refresh button on the Organization Selection Tree screen. This is also called when the
+     * value of the point of view select control changed and javascript is enabled on the user's browser
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performBuildPointOfView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
 
         // check for point of view change
@@ -187,18 +170,13 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method handles saving the BudgetConstructionPullup current row to the previous branches stack and displaying the
-     * associated children.
+     * Handles saving the BudgetConstructionPullup current row to the previous branches stack and displaying the associated
+     * children.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward navigateDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
@@ -218,18 +196,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method handles navigation back to a previous branch BudgetConstructionPullup row displaying the associated parent and
-     * it's siblings
+     * Handles navigation back to a previous branch BudgetConstructionPullup row displaying the associated parent and it's siblings
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward navigateUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
@@ -265,17 +237,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations
+     * Sets the pullFlag for all displayed subtree organizations
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.YES.getKey());
 
@@ -283,17 +250,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method clears the pullFlag for all displayed subtree organizations
+     * Clears the pullFlag for all displayed subtree organizations
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward clearAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.NO.getKey());
 
@@ -301,17 +263,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPullOrgAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.ORG.getKey());
 
@@ -319,17 +276,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPullSubOrgAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.SUBORG.getKey());
 
@@ -337,17 +289,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPullBothAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.BOTH.getKey());
 
@@ -355,17 +302,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushOrgLevAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.ORGLEV.getKey());
 
@@ -373,17 +315,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushMgrLevAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.MGRLEV.getKey());
 
@@ -391,17 +328,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushOrgMgrLevAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.ORGMGRLEV.getKey());
 
@@ -409,17 +341,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushLevOneAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.LEVONE.getKey());
 
@@ -427,17 +354,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
+     * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectPushLevZeroAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         setPullFlag(organizationSelectionTreeForm.getSelectionSubTreeOrgs(), OrgSelControlOption.LEVZERO.getKey());
 
@@ -445,13 +367,12 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method sets the pullFlags for each of the objects in the list to the pullFlagValue.
+     * Sets the pullFlags for each of the objects in the list to the pullFlagValue.
      * 
      * @param selOrgs
      * @param pullFlagValue
      */
     protected void setPullFlag(List<BudgetConstructionPullup> selOrgs, Integer pullFlagValue) {
-
         for (int i = 0; i < selOrgs.size(); i++) {
             selOrgs.get(i).setPullFlag(pullFlagValue);
         }
@@ -486,278 +407,209 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * This method checks the selection and calls the Position Pick list screen action.
+     * Checks the selection and calls the Position Pick list screen action.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performPositionPick(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
 
-            // build out base path for return location, using config service
-            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        // forward to temp list action for displaying results
+        String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.POSITION_SELECT, BudgetConstructionPositionSelect.class.getName(), null);
 
-            // build out the actual form key that will be used to retrieve the form on refresh
-            String docFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
-
-            // now add required parameters
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-
-            parameters.put(KFSConstants.DOC_FORM_KEY, docFormKey);
-            parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect");
-            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
-            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
-
-            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-
-            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.POSITION_SELECT));
-
-            // String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
-            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
-
-            return new ActionForward(lookupUrl, true);
-
-            // TODO this will eventually change to call the position picklist screen
-            // return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
+        return new ActionForward(url, true);
     }
 
     /**
-     * This method checks the selection and calls the Budgeted Incumbents Pick list screen action.
+     * Checks the selection and calls the Budgeted Incumbents Pick list screen action.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performIncumbentPick(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
 
+        // forward to temp list action for displaying results
+        String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT, BudgetConstructionIntendedIncumbentSelect.class.getName(), null);
 
-            // build out base path for return location, using config service
-            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-
-            // build out the actual form key that will be used to retrieve the form on refresh
-            String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
-
-            // now add required parameters
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-
-            parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
-            parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect");
-            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
-            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
-
-            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-
-            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT));
-
-            // String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
-            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
-
-            return new ActionForward(lookupUrl, true);
-        }
-
+        return new ActionForward(url, true);
     }
 
     /**
-     * This method checks the selection and calls the Budget Documents pick list screen action.
+     * Checks the selection and calls the Budget Documents pick list screen action.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performShowBudgetDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
-            // build table but give a message if empty
-            int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear());
-            if (rowCount == 0) {
-                GlobalVariables.getMessageList().add("error.inquiry");
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
 
-            // build out base path for return location, using config service
-            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-
-            // build out the actual form key that will be used to retrieve the form on refresh
-            String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
-
-            // now add required parameters
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-
-            parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
-            parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect");
-            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
-            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
-
-            parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-
-            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS));
-
-            // String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
-            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
-
-            return new ActionForward(lookupUrl, true);
-            // TODO this will eventually change to call the budget documents picklist screen using the showall mode
-            // return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        // build table but give a message if empty
+        int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear());
+        if (rowCount == 0) {
+            GlobalVariables.getMessageList().add("error.inquiry");
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // forward to temp list action for displaying results
+        String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
+
+        return new ActionForward(url, true);
     }
 
     /**
-     * This method checks the selection and performs the Pull up screen action.
+     * Checks the selection and performs the Pull up screen action.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performPullUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
 
-            // get the needed params from the form and environment
-            String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
-            String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
-            Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
-            String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        // get the needed params from the form and environment
+        String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
+        String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
+        Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
-            SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
-            // TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
-            // build process should return number of accounts in list, if non-zero call display
-            // otherwise add successful pullup message if no accounts are on the list
+        // build Budgeted Account list of Documents set at level that is less than the user's point of view
+        // build process should return number of accounts in list, if non-zero call display otherwise add successful pullup message
+        // if no accounts are on the list
+        int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPullUpBudgetedDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        if (rowCount != 0) {
+            String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PULLUP_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
 
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return new ActionForward(url, true);
         }
+        
+        GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PULL_UP_SUCCESSFUL);
 
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method checks the selection and performs the show budget docs to be pulled up screen action.
+     * Checks at least one org was selected then calls organization push/pull service to built the account list for budgeted
+     * documents below the user's point of view and forwards to the temp list action to display the results.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performShowPullUpBudgetDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
 
-            // TODO this will eventually change to perform show budget docs to be pulled up
-            // TODO i.e. Budgeted Account list of Documents set at level that is less than the user's point of view
+        String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
+        String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
+        Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+
+        // call service to build account list data
+        int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPullUpBudgetedDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        if (rowCount == 0) {
+            String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.ERROR_NO_ACCOUNTS_PULL_UP);
+            message = MessageFormat.format(message, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+            organizationSelectionTreeForm.addMessage(message);
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // forward to temp list action for displaying results
+        String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PULLUP_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
+
+        return new ActionForward(url, true);
     }
 
     /**
-     * This method checks the selection and performs the Push down screen action.
+     * Checks the selection and performs the Push down screen action.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performPushDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
 
-            // get the needed params from the form and environment
-            String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
-            String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
-            Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
-            String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        // get the needed params from the form and environment
+        String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
+        String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
+        Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
-            SpringContext.getBean(BudgetPushPullService.class).pushdownSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        SpringContext.getBean(BudgetPushPullService.class).pushdownSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
-            // TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
-            // build process should return number of accounts in list, if non-zero call display
-            // otherwise add successful pullup message if no accounts are on the list
+        // build Budgeted Account list of Documents set at level that is less than the user's point of view
+        // build process should return number of accounts in list, if non-zero call display
+        // otherwise add successful pullup message if no accounts are on the list
+        int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPushDownBudgetedDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        if (rowCount != 0) {
+            String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
 
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            return new ActionForward(url, true);        
         }
-
+        
+        GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ORG_PUSH_DOWN_SUCCESSFUL);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method checks the selection and performs the show budget docs to be pushed down screen action.
+     * Checks at least one org was selected then calls organization push/pull service to built the account list for budgeted
+     * documents at the user's point of view and forwards to the temp list action to display the results.
      * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward performShowPushDownBudgetDocs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
 
-            // TODO this will eventually change to perform show budget docs to be pushed down
+        String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
+        String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
+        Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+        String personUniversalIdentifier = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+
+        // call service to build account list data
+        int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPushDownBudgetedDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        if (rowCount == 0) {
+            String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.ERROR_NO_ACCOUNTS_PUSH_DOWN);
+            message = MessageFormat.format(message, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+            organizationSelectionTreeForm.addMessage(message);
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // forward to temp list action for displaying results
+        String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
+
+        return new ActionForward(url, true);
     }
 
     /**
@@ -785,15 +637,14 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // report select(subfund or object code) screen
         String[] pointOfViewFields = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear(), pointOfViewFields[0], pointOfViewFields[1]);
-        
+
         // in case of 2PLG or Sync report should move to account list page.
         boolean forceToAccountListScreen = false;
-        String reportModeName = organizationSelectionTreeForm.getReportMode(); 
+        String reportModeName = organizationSelectionTreeForm.getReportMode();
         if (reportModeName.equals(BudgetConstructionReportMode.TWOPLG_LIST_REPORT.reportModeName) || reportModeName.equals(BudgetConstructionReportMode.SYNCHRONIZATION_PROBLEMS_REPORT.reportModeName)) {
             forceToAccountListScreen = true;
         }
-        
-        
+
         String forwardURL = "";
         if (rowCount != 0 || forceToAccountListScreen) {
             forwardURL = buildAccountListForwardURL(organizationSelectionTreeForm, mapping, forceToAccountListScreen);
@@ -806,7 +657,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     }
 
     /**
-     * removes unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
+     * Removes unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
      * 
      * @param selectionSubTreeOrgs
      * @return
@@ -841,57 +692,37 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Builds URL for the action listing action.
      */
     private String buildAccountListForwardURL(OrganizationSelectionTreeForm organizationSelectionTreeForm, ActionMapping mapping, boolean forceToAccountListScreen) {
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        Map<String, String> urlParms = new HashMap<String, String>();
+        urlParms.put(BCConstants.Report.REPORT_MODE, organizationSelectionTreeForm.getReportMode());
+        urlParms.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
 
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationSelectionTreeForm, BCConstants.FORMKEY_PREFIX));
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionAccountSelect.class.getName());
-        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        
-        boolean supressActions = true;
-        parameters.put(KFSConstants.SUPPRESS_ACTIONS, supressActions);
-        
-        parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
-        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        parameters.put(BCConstants.Report.REPORT_MODE, organizationSelectionTreeForm.getReportMode());
-        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV));
-        parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
-        String forceToAccountList = "false";
-        if (forceToAccountListScreen){
-            forceToAccountList = "true";
+        if (forceToAccountListScreen) {
+            urlParms.put(BCConstants.FORCE_TO_ACCOUNT_LIST_SCREEN, "true");
         }
-        parameters.put(BCConstants.FORCE_TO_ACCOUNT_LIST_SCREEN, forceToAccountList);
+        else {
+            urlParms.put(BCConstants.FORCE_TO_ACCOUNT_LIST_SCREEN, "false");
+        }
 
         if ((organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountSummaryConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_OBJECT_DETAIL_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountObjectDetailConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.MONTH_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isMonthObjectSummaryConsolidation())) {
-            parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
+            urlParms.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
         }
 
-        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
+        return BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV, BudgetConstructionAccountSelect.class.getName(), urlParms);
     }
 
     /**
      * Builds URL for the organization selection action.
      */
     private String buildReportSelectForwardURL(OrganizationSelectionTreeForm organizationSelectionTreeForm, ActionMapping mapping) {
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(organizationSelectionTreeForm, BCConstants.FORMKEY_PREFIX));
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(BCConstants.Report.REPORT_MODE, organizationSelectionTreeForm.getReportMode());
         parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
-        
+
         if ((organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountSummaryConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_OBJECT_DETAIL_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountObjectDetailConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.MONTH_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isMonthObjectSummaryConsolidation())) {
             parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
         }
 
-        return UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_REPORT_SELECTION_ACTION, parameters);
+        return BudgetUrlUtil.buildBudgetUrl(mapping, organizationSelectionTreeForm, BCConstants.ORG_REPORT_SELECTION_ACTION, parameters);
     }
 
 }

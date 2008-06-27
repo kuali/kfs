@@ -29,7 +29,6 @@
         <ref bean="BudgetConstructionAccountSelect-subAccountNumber" />
         <ref bean="BudgetConstructionAccountSelect-universityFiscalYear" />
         <ref bean="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
-        <ref bean="BudgetConstructionAccountSelect-dummyBusinessObject.linkButtonOption" />
         <ref bean="BudgetConstructionAccountSelect-versionNumber" />
       </list>
     </property>
@@ -262,15 +261,7 @@
     <property name="summary" value="Bdgt. Lock" />
     <property name="description" value="Bdgt. Lock" />
   </bean>
-  <bean id="BudgetConstructionAccountSelect-dummyBusinessObject.linkButtonOption" parent="BudgetConstructionAccountSelect-dummyBusinessObject.linkButtonOption-parentBean" />
-
-  <bean id="BudgetConstructionAccountSelect-dummyBusinessObject.linkButtonOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-linkButtonOption">
-    <property name="name" value="dummyBusinessObject.linkButtonOption" />
-    <property name="label" value="Load Document" />
-    <property name="shortLabel" value="Load Doc" />
-    <property name="summary" value="Load Document" />
-    <property name="description" value="Load Document ..." />
-  </bean>
+  
   <bean id="BudgetConstructionAccountSelect-versionNumber" parent="BudgetConstructionAccountSelect-versionNumber-parentBean" />
 
   <bean id="BudgetConstructionAccountSelect-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -382,8 +373,6 @@
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.linkButtonOption" />
       </list>
     </property>
   </bean>

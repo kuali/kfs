@@ -31,14 +31,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * This class...
  */
-public class BudgetConstructionSelectionForm extends KualiForm {
+public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSelectionForm.class);
 
     private BudgetConstructionHeader budgetConstructionHeader;
     private boolean hideDetails = false;
-
-    // holds the BC fiscal year that is currently active
-    private Integer universityFiscalYear;
 
     public BudgetConstructionSelectionForm() {
         super();
@@ -74,24 +71,6 @@ public class BudgetConstructionSelectionForm extends KualiForm {
      */
     public void setBudgetConstructionHeader(BudgetConstructionHeader budgetConstructionHeader) {
         this.budgetConstructionHeader = budgetConstructionHeader;
-    }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
     }
 
     /**

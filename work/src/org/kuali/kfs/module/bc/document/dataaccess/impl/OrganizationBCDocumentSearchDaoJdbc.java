@@ -15,18 +15,22 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
+import org.kuali.core.service.DocumentTypeService;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
 
 /**
  * This class...
  */
 public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJdbcBase implements OrganizationBCDocumentSearchDao {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchDaoJdbc.class);
 
     private static String[] buildAccountSelectPullListTemplates = new String[1];
-
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
+    private static String[] buildAccountManagerDelegateListTemplates = new String[3];
+
+    private DocumentTypeService documentTypeService;
 
     public OrganizationBCDocumentSearchDaoJdbc() {
 
@@ -114,7 +118,97 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" AND ah.account_nbr = head.account_nbr \n");
         sqlText.append(" AND ah.org_level_cd = head.org_level_cd \n");
         buildBudgetedAccountsAbovePointsOfView[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
 
+        // build list of accounts where user is fiscal officer or delegate
+        sqlText.append("INSERT INTO ld_bcn_acctsel_t \n");
+        sqlText.append("SELECT ?, \n");
+        sqlText.append("    head.univ_fiscal_yr, \n");
+        sqlText.append("    head.fin_coa_cd, \n");
+        sqlText.append("    head.account_nbr, \n");
+        sqlText.append("    head.sub_acct_nbr, \n");
+        sqlText.append("    head.fdoc_nbr, \n");
+        sqlText.append("    1, \n");
+        sqlText.append("    head.org_level_cd, \n");
+        sqlText.append("    NULL, \n");
+        sqlText.append("    NULL, \n");
+        sqlText.append("    fphd.fdoc_status_cd, \n");
+        sqlText.append("    '', \n");
+        sqlText.append("    fphd.temp_doc_fnl_dt \n");
+        sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
+        sqlText.append("    ca_acct_delegate_t adel, \n");
+        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("WHERE head.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND adel.acct_dlgt_unvl_id = ? \n");
+        sqlText.append("  AND adel.acct_dlgt_actv_cd = 'Y' \n");
+        sqlText.append("  AND adel.fdoc_typ_cd in (?, ?)  \n");
+        sqlText.append("  AND head.fin_coa_cd = adel.fin_coa_cd \n");
+        sqlText.append("  AND head.account_nbr = adel.account_nbr \n");
+        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+        sqlText.append("UNION \n");
+        sqlText.append("SELECT ?, \n");
+        sqlText.append("    head.univ_fiscal_yr, \n");
+        sqlText.append("    head.fin_coa_cd, \n");
+        sqlText.append("    head.account_nbr, \n");
+        sqlText.append("    head.sub_acct_nbr, \n");
+        sqlText.append("    head.fdoc_nbr, \n");
+        sqlText.append("    1, \n");
+        sqlText.append("    head.org_level_cd, \n");
+        sqlText.append("    NULL, \n");
+        sqlText.append("    NULL, \n");
+        sqlText.append("    fphd.fdoc_status_cd, \n");
+        sqlText.append("    '', \n");
+        sqlText.append("    fphd.temp_doc_fnl_dt \n");
+        sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
+        sqlText.append("    ca_account_t acct, \n");
+        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("WHERE head.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND acct.acct_fsc_ofc_uid = ? \n");
+        sqlText.append("  AND head.fin_coa_cd = acct.fin_coa_cd \n");
+        sqlText.append("  AND head.account_nbr = acct.account_nbr \n");
+        sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+
+        buildAccountManagerDelegateListTemplates[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // assign org for the account's current level
+        sqlText.append("UPDATE ld_bcn_acctsel_t asel \n");
+        sqlText.append("SET (org_fin_coa_cd, org_cd) =  \n");
+        sqlText.append("    (SELECT h1.org_fin_coa_cd, \n");
+        sqlText.append("            h1.org_cd \n");
+        sqlText.append("    FROM ld_bcn_acct_org_hier_t h1 \n");
+        sqlText.append("    WHERE asel.univ_fiscal_yr = h1.univ_fiscal_yr \n");
+        sqlText.append("      AND asel.fin_coa_cd = h1.fin_coa_cd \n");
+        sqlText.append("      AND asel.account_nbr = h1.account_nbr \n");
+        sqlText.append("      AND asel.org_level_cd = h1.org_level_cd) \n");
+        sqlText.append("WHERE asel.person_unvl_id = ? \n");
+        sqlText.append("AND EXISTS (SELECT * \n");
+        sqlText.append("    FROM ld_bcn_acct_org_hier_t h2 \n");
+        sqlText.append("    WHERE asel.univ_fiscal_yr = h2.univ_fiscal_yr \n");
+        sqlText.append("      AND asel.fin_coa_cd = h2.fin_coa_cd \n");
+        sqlText.append("      AND asel.account_nbr = h2.account_nbr \n");
+        sqlText.append("      AND asel.org_level_cd = h2.org_level_cd) \n");
+
+        buildAccountManagerDelegateListTemplates[1] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // assign org for accounts at level 0
+        sqlText.append("UPDATE ld_bcn_acctsel_t asel \n");
+        sqlText.append("SET (org_fin_coa_cd, org_cd) =  \n");
+        sqlText.append("    (SELECT r1.rpts_to_fin_coa_cd, \n");
+        sqlText.append("            r1.rpts_to_org_cd \n");
+        sqlText.append("    FROM ld_bcn_acct_rpts_t r1 \n");
+        sqlText.append("    WHERE asel.fin_coa_cd = r1.fin_coa_cd \n");
+        sqlText.append("      AND asel.account_nbr = r1.account_nbr) \n");
+        sqlText.append("WHERE asel.person_unvl_id = ? \n");
+        sqlText.append("  AND asel.org_level_cd = 0 \n");
+        sqlText.append("  AND EXISTS (select * \n");
+        sqlText.append("    FROM ld_bcn_acct_rpts_t r2 \n");
+        sqlText.append("    WHERE asel.fin_coa_cd = r2.fin_coa_cd \n");
+        sqlText.append("      AND asel.account_nbr = r2.account_nbr)  \n");
+
+        buildAccountManagerDelegateListTemplates[2] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
     }
 
     /**
@@ -140,10 +234,34 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#buildAccountManagerDelegateList(java.lang.String,
+     *      java.lang.Integer)
+     */
+    public int buildAccountManagerDelegateList(String personUserIdentifier, Integer universityFiscalYear) {
+        String budgetDocumentType = documentTypeService.getDocumentTypeCodeByClass(BudgetConstructionDocument.class);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, budgetDocumentType, BCConstants.DOCUMENT_TYPE_CODE_ALL, personUserIdentifier, universityFiscalYear, personUserIdentifier);
+      
+        // update level chart and org
+        getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], personUserIdentifier);
+        getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[2], personUserIdentifier);
+
+        return rowsAffected;
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
      */
     public void cleanAccountSelectPullList(String personUserIdentifier) {
         clearTempTableByUnvlId("ld_bcn_acctsel_t", "PERSON_UNVL_ID", personUserIdentifier);
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * 
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
 }

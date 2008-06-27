@@ -19,39 +19,55 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * This class...
+ * Base lookupable helper service for budget selection lookups.
  */
-public class SelectLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class SelectLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
+     * Super impl clears out hidden values but we need to keep personUniversalIdentifier hidden field in the criteria. 
+     * Overridding here so that the call to clear hiddens is not executed.
+     * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // TODO may want to push this method to a parent class to be used by all BC temp table lookups
-
-        // We need to keep the personUniversalIdentifier hidden field in the criteria when
-        // operating against BC temp lookup tables that are built on the fly. This field is
-        // set behind the scenes so as to operate on only those rows associated with the current user.
-        // LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
-
         setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
 
         List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
+
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
+
         return searchResults;
     }
 
+    
+    /**
+     * Since this lookupable is called by the budget lookup action, the context will be KFS, not Rice. So the generated inquiries
+     * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
+     * around the issue.
+     * 
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     *      java.lang.String)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        String inquiryUrl = super.getInquiryUrl(bo, propertyName);
+        inquiryUrl = StringUtils.replace(inquiryUrl, KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION);
+
+        return inquiryUrl;
+    }
 }

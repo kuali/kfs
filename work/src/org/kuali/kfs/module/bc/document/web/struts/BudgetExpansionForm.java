@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.core.web.struts.form.KualiForm;
 
 /**
@@ -25,11 +28,18 @@ public class BudgetExpansionForm extends KualiForm {
     private String returnAnchor;
     private String returnFormKey;
 
+    // current active budget fiscal year
+    private Integer universityFiscalYear;
+
+    // form messages
+    private List<String> messages;
+
     /**
      * Default Constructor
      */
     public BudgetExpansionForm() {
         super();
+        messages = new ArrayList<String>();
     }
 
     /**
@@ -85,4 +95,54 @@ public class BudgetExpansionForm extends KualiForm {
     public void setReturnFormKey(String returnFormKey) {
         this.returnFormKey = returnFormKey;
     }
+
+    /**
+     * Gets the messages attribute.
+     * 
+     * @return Returns the messages.
+     */
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    /**
+     * Sets the messages attribute value.
+     * 
+     * @param messages The messages to set.
+     */
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
+    }
+
+    /**
+     * Adds a message to the form message list.
+     * 
+     * @param message message to add
+     */
+    public void addMessage(String message) {
+        if (this.messages == null) {
+            messages = new ArrayList<String>();
+        }
+
+        this.messages.add(message);
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
 }

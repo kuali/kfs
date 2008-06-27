@@ -51,8 +51,6 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     // passed parms
     private String operatingMode;
 
-    // holds the BC fiscal year that is currently active
-    private Integer universityFiscalYear;
     private boolean accountSummaryConsolidation;
     private boolean accountObjectDetailConsolidation;
     private boolean monthObjectSummaryConsolidation = true; 
@@ -327,24 +325,6 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
      */
     public void setOperatingModePullFlagLabel(String operatingModePullFlagLabel) {
         this.operatingModePullFlagLabel = operatingModePullFlagLabel;
-    }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
     }
 
     public boolean isAccountSummaryConsolidation() {

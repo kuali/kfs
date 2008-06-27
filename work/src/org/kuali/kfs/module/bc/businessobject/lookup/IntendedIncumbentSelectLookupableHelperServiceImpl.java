@@ -15,184 +15,66 @@
  */
 package org.kuali.kfs.module.bc.businessobject.lookup;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.datadictionary.mask.Mask;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.comparator.CellComparatorHelper;
-import org.kuali.core.web.format.BooleanFormatter;
-import org.kuali.core.web.format.DateFormatter;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.ui.Column;
-import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
-import org.kuali.kfs.module.bc.document.web.struts.TempListLookupForm;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
- * This class is used by the BC Organization Salary Setting process to customize the Intended Incumbent Selection lookup operations.
- * The lookup operations here are different than the standard lookups in that there is no value returned and the lookupable is for a
- * table built on the fly and that only the rows associated with the user are operated on.
+ * Lookupable helper service implementation for the intended incumbent select screen.
  */
 public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
 
     /**
-     * This method differs from the one found in AbstractLookupableHelperServiceImpl in that it also uses a LookupForm object to
-     * help set some of the values in the inquiryURL from instance vars found there.
+     * Override to set the fiscal year on the BudgetConstructionIntendedIncumbentSelect objects after they have been retrieved.
      * 
-     * @param bo
-     * @param propertyName
-     * @param lookupForm
-     * @return
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
-     *      java.lang.String)
+     * @see org.kuali.module.budget.web.lookupable.SelectLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
-    public String getInquiryUrl(BusinessObject bo, String propertyName, LookupForm lookupForm) {
-        String lookupUrl;
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        Integer universityFiscalYear = Integer.valueOf(fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
+        fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
 
-        if (propertyName.equals("dummyBusinessObject.linkButtonOption")) {
+        List<BudgetConstructionIntendedIncumbentSelect> resultIntendedIncumbents = new ArrayList<BudgetConstructionIntendedIncumbentSelect>();
 
-            TempListLookupForm tempListLookupForm = (TempListLookupForm) lookupForm;
-            BudgetConstructionIntendedIncumbentSelect intendedIncumbentSelect = (BudgetConstructionIntendedIncumbentSelect) bo;
+        List searchResults = super.getSearchResults(fieldValues);
+        for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
+            BudgetConstructionIntendedIncumbentSelect intendedIncumbentSelect = (BudgetConstructionIntendedIncumbentSelect) iterator.next();
+            intendedIncumbentSelect.setUniversityFiscalYear(universityFiscalYear);
 
-            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.INCUMBENT_SALARY_SETTING_METHOD);
-
-            parameters.put("emplid", intendedIncumbentSelect.getEmplid());
-            // TODO BCFY needs added as hidden to all previous expansion/lookup screens
-            parameters.put("universityFiscalYear", tempListLookupForm.getUniversityFiscalYear().toString());
-            parameters.put("budgetByAccountMode", "false");
-            parameters.put("addLine", "false");
-
-            // anchor, if it exists
-            // if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            // parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
-            // }
-
-            // should be no return needed if opened in new window
-            parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
-
-            lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
-
+            resultIntendedIncumbents.add(intendedIncumbentSelect);
         }
-        else {
-            // TODO Auto-generated method stub
-            lookupUrl = super.getInquiryUrl(bo, propertyName);
-        }
-        return lookupUrl;
 
+        return new CollectionIncomplete(resultIntendedIncumbents, new Long(0));
     }
 
     /**
-     * This method overrides the one in AbstractLookupableHelperServiceImpl so as to call getInquiryURL with the LookupForm object
-     * added.
-     * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm,
-     *      java.util.Collection, boolean)
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
      */
     @Override
-    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
+    public String getActionUrls(BusinessObject businessObject) {
+        BudgetConstructionIntendedIncumbentSelect intendedIncumbentSelect = (BudgetConstructionIntendedIncumbentSelect) businessObject;
 
-        // call search method to get results
-        if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
-            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        }
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.INCUMBENT_SALARY_SETTING_METHOD);
 
-        // iterate through result list and wrap rows with return url and action urls
-        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
-            BusinessObject element = (BusinessObject) iter.next();
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, intendedIncumbentSelect.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.EMPLID, intendedIncumbentSelect.getEmplid());
+        parameters.put(BCConstants.BUDGET_BY_ACCOUNT_MODE, "false");
+        parameters.put(KFSConstants.ADD_LINE_METHOD, "false");
 
-            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-            String actionUrls = getActionUrls(element);
+        String url = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
 
-            List<Column> columns = getColumns();
-            List<Column> rowColumns = new ArrayList<Column>();
-            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
-
-                Column col = (Column) iterator.next();
-                Formatter formatter = col.getFormatter();
-
-                // pick off result column from result list, do formatting
-                String propValue = "";
-                Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
-
-                // set comparator and formatter based on property type
-                Class propClass = null;
-                try {
-                    propClass = ObjectUtils.getPropertyType(element, col.getPropertyName(), getPersistenceStructureService());
-                }
-                catch (Exception e) {
-                    throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
-                }
-
-                // formatters
-                if (prop != null) {
-                    // for Booleans, always use BooleanFormatter
-                    if (prop instanceof Boolean) {
-                        formatter = new BooleanFormatter();
-                    }
-
-                    // for Dates, always use DateFormatter
-                    if (prop instanceof Date) {
-                        formatter = new DateFormatter();
-                    }
-
-                    if (formatter != null) {
-                        propValue = (String) formatter.format(prop);
-                    }
-                    else {
-                        propValue = prop.toString();
-                    }
-                }
-
-                // comparator
-                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-
-                // check security on field and do masking if necessary
-                boolean viewAuthorized = KNSServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getFinancialSystemUser(), element.getClass().getName(), col.getPropertyName());
-                if (!viewAuthorized) {
-                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-                    propValue = displayMask.maskValue(propValue);
-                }
-                col.setPropertyValue(propValue);
-
-
-                if (StringUtils.isNotBlank(propValue)) {
-                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName(), lookupForm));
-                }
-
-                rowColumns.add(col);
-            }
-
-            ResultRow row = new ResultRow(rowColumns, returnUrl, actionUrls);
-            if (element instanceof PersistableBusinessObject) {
-                row.setObjectId(((PersistableBusinessObject) element).getObjectId());
-            }
-            resultTable.add(row);
-        }
-
-        return displayList;
+        return url = "<a href=\"" + url + "\" target=\"blank\" title=\"Incumbent Salary Setting\">Incumbent Salary Setting</a>";
     }
-
+ 
 }

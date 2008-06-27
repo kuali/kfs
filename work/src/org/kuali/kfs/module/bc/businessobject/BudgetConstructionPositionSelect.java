@@ -35,9 +35,6 @@ public class BudgetConstructionPositionSelect extends PersistableBusinessObjectB
     private String positionDescription;
     private String personName;
 
-    // we use the linkButtonOption from this object
-    private TransientBalanceInquiryAttributes dummyBusinessObject;
-
     private BudgetConstructionPosition budgetConstructionPosition;
 
     /**
@@ -45,8 +42,6 @@ public class BudgetConstructionPositionSelect extends PersistableBusinessObjectB
      */
     public BudgetConstructionPositionSelect() {
         super();
-        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
-        this.dummyBusinessObject.setLinkButtonOption("Position SalSet");
     }
 
     /**
@@ -275,24 +270,6 @@ public class BudgetConstructionPositionSelect extends PersistableBusinessObjectB
      */
     public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
         this.budgetConstructionPosition = budgetConstructionPosition;
-    }
-
-    /**
-     * Gets the dummyBusinessObject attribute.
-     * 
-     * @return Returns the dummyBusinessObject.
-     */
-    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
-        return dummyBusinessObject;
-    }
-
-    /**
-     * Sets the dummyBusinessObject attribute value.
-     * 
-     * @param dummyBusinessObject The dummyBusinessObject to set.
-     */
-    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
-        this.dummyBusinessObject = dummyBusinessObject;
     }
 
     /**

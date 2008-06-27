@@ -37,9 +37,7 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
      */
     @Logged
     public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
-
         budgetOrganizationPushPullDao.pullupSelectedOrganizationDocuments(personUniversalIdentifier, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
-
     }
 
     /**
@@ -47,17 +45,21 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
      */
     @Logged
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
-
         budgetOrganizationPushPullDao.pushdownSelectedOrganizationDocuments(personUniversalIdentifier, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
-
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#buildPullUpBudgetedDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public int buildPullUpBudgetedDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+        return budgetOrganizationPushPullDao.buildPullUpBudgetedDocuments(personUniversalIdentifier, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
     }
 
     /**
-     * Gets the budgetOrganizationPushPullDao attribute. 
-     * @return Returns the budgetOrganizationPushPullDao.
+     * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#buildPushDownBudgetedDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public BudgetOrganizationPushPullDao getBudgetOrganizationPushPullDao() {
-        return budgetOrganizationPushPullDao;
+    public int buildPushDownBudgetedDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+        return budgetOrganizationPushPullDao.buildPushDownBudgetedDocuments(personUniversalIdentifier, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
     }
 
     /**
@@ -67,5 +69,7 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
     public void setBudgetOrganizationPushPullDao(BudgetOrganizationPushPullDao budgetOrganizationPushPullDao) {
         this.budgetOrganizationPushPullDao = budgetOrganizationPushPullDao;
     }
+    
+    
 
 }

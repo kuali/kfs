@@ -279,6 +279,9 @@ public class BCConstants extends JSTLConstants {
         public final static int ACCOUNT_SELECT_BUDGETED_DOCUMENTS = 4;
         public final static int LOCK_MONITOR = 5;
         public final static int CSF_TRACKER_POSITION_LOOKUP = 6;
+        public final static int ACCOUNT_SELECT_PULLUP_DOCUMENTS = 7;
+        public final static int ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS = 8;
+        public final static int ACCOUNT_SELECT_MANAGER_DELEGATE = 9;
     }
 
     public enum RequestImportFileType {
@@ -383,6 +386,7 @@ public class BCConstants extends JSTLConstants {
         public final static String TRANSACTION_LOCK = "transaction lock";
     }
     
+    public static final String PICK_LIST_MODE = "pickListMode";
     public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
     
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);

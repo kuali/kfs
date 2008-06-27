@@ -23,18 +23,7 @@
 		    <span class="subhead-left">Report/Dump</span>
 		</td>
     </tr>
-    <tr>
-            <td class="datacell" nowrap>
-                <div align="center">
-                Description
-                </div>
-            </td>
-            <td class="datacell" nowrap>
-                <div align="center">
-                Action
-                </div>
-            </td>
-    </tr>
+
     <c:forEach items="${KualiForm.budgetConstructionDocumentReportModes}" var="item" varStatus="status" >
         <tr>
             <td class="datacell" nowrap>

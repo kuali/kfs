@@ -21,7 +21,7 @@ import org.kuali.core.bo.user.UniversalUser;
 /**
  * Labor business object for PositionFunding
  */
-public class PositionFunding extends CalculatedSalaryFoundationTracker {
+public class PositionFunding extends LaborCalculatedSalaryFoundationTracker {
     private UniversalUser ledgerPerson;
 
     /**

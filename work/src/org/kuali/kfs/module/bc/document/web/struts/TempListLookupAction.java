@@ -59,13 +59,13 @@ public class TempListLookupAction extends KualiLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TempListLookupAction.class);
 
     /**
-     * TempListLookupAction can be called to build and display different lists. This method determines what the requested behavior is
-     * and either makes a build call for that list or sets up a message (if the list has already been built). If the request parameter
-     * showInitialResults is true, an initial search will be performed before display of the screen.
+     * TempListLookupAction can be called to build and display different lists. This method determines what the requested behavior
+     * is and either makes a build call for that list or sets up a message (if the list has already been built). If the request
+     * parameter showInitialResults is true, an initial search will be performed before display of the screen.
      * 
      * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */ 
+     */
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
@@ -75,28 +75,45 @@ public class TempListLookupAction extends KualiLookupAction {
             case BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT:
                 SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
                 break;
-       
+
             case BCConstants.TempListLookupMode.POSITION_SELECT:
                 SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
                 break;
-        
+
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV:
-                //check report mode for 2PLG or Sync
-                if (tempListLookupForm.isForceToAccountListScreen()){
+                // check report mode for 2PLG or Sync
+                if (tempListLookupForm.isForceToAccountListScreen()) {
                     GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_EMPTY_ACCOUNT_LIST);
-                    
-                } else {
+                }
+                else {
                     // Show Account above current point of view for user
                     // The table was already built in OrganizationSelectionTreeAction.performReport
                     GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
                 }
-                
                 break;
-       
+
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS:
                 // Show Budgeted Docs (BudgetConstructionAccountSelect) in the point of view subtree for the selected org(s)
                 // The table was already built in OrganizationSelectionTreeAction.performShowBudgetDocs
                 GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_ACCOUNT_LIST);
+                break;
+
+            case BCConstants.TempListLookupMode.ACCOUNT_SELECT_PULLUP_DOCUMENTS:
+                // Show Budgeted Docs (BudgetConstructionAccountSelect) for the selected org(s) below the users point of view
+                // The table was already built in OrganizationSelectionTreeAction.performShowPullUpBudgetDocs
+                GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ACCOUNT_PULLUP_LIST);
+                break;
+
+            case BCConstants.TempListLookupMode.ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS:
+                // Show Budgeted Docs (BudgetConstructionAccountSelect) for the selected org(s) at the users point of view
+                // The table was already built in OrganizationSelectionTreeAction.performShowPullUpBudgetDocs
+                GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ACCOUNT_PUSHDOWN_LIST);
+                break;
+
+            case BCConstants.TempListLookupMode.ACCOUNT_SELECT_MANAGER_DELEGATE:
+                // Show Budgeted Docs (BudgetConstructionAccountSelect) where the user is a fiscal officer or delegate
+                // The table was already built in BudgetConstructionSelectionTreeAction.performMyAccounts
+                GlobalVariables.getMessageList().add(BCKeyConstants.MSG_ACCOUNT_MANAGER_DELEGATE_LIST);
                 break;
         }
 
@@ -143,20 +160,20 @@ public class TempListLookupAction extends KualiLookupAction {
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-        
+
         switch (tempListLookupForm.getTempListLookupMode()) {
             case BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT:
                 SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
                 break;
-       
+
             case BCConstants.TempListLookupMode.POSITION_SELECT:
                 SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPersonUniversalIdentifier());
                 break;
-        
-            default:               
+
+            default:
                 SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
-        
+
         return super.cancel(mapping, form, request, response);
     }
 
@@ -184,7 +201,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
         return new ActionForward(lookupUrl, true);
     }
-    
+
     /**
      * Unlocks a current budget lock and returns back to lock monitor with refreshed locks.
      * 
@@ -193,7 +210,7 @@ public class TempListLookupAction extends KualiLookupAction {
      */
     public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-        
+
         // populate BudgetConstructionLockSummary with the information for the record to unlock (passed on unlock button)
         String unlockKeyString = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isBlank(unlockKeyString)) {
@@ -201,17 +218,17 @@ public class TempListLookupAction extends KualiLookupAction {
         }
         BudgetConstructionLockSummary lockSummary = populateLockSummary(unlockKeyString);
         String lockKeyMessage = buildLockKeyMessage(lockSummary.getLockType(), lockSummary.getLockUserId(), lockSummary.getChartOfAccountsCode(), lockSummary.getAccountNumber(), lockSummary.getSubAccountNumber(), lockSummary.getUniversityFiscalYear(), lockSummary.getPositionNumber());
-        
+
         // confirm the unlock
         ActionForward forward = doUnlockConfirmation(mapping, form, request, response, lockSummary.getLockType(), lockKeyMessage);
         if (forward != null) {
             return forward;
         }
-        
+
         // verify lock for user still exists, if not give warning message
         boolean lockExists = SpringContext.getBean(LockService.class).checkLockExists(lockSummary);
         if (!lockExists) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_LOCK_NOTEXIST, lockSummary.getLockType(), lockKeyMessage);       
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_LOCK_NOTEXIST, lockSummary.getLockType(), lockKeyMessage);
         }
         else {
             // do the unlock
@@ -224,23 +241,23 @@ public class TempListLookupAction extends KualiLookupAction {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_UNLOCK_NOTSUCCESSFUL, lockSummary.getLockType(), lockKeyMessage);
             }
         }
-        
+
         // refresh locks before returning
         return this.search(mapping, form, request, response);
-    }    
-    
+    }
 
-    
+
     /**
-     * Gives a confirmation first time called. The next time will check the confirmation result. If the returned forward is not null, that indicates we are fowarding to the question
-     * or they selected No to the confirmation and we should return to the unlock page.
+     * Gives a confirmation first time called. The next time will check the confirmation result. If the returned forward is not
+     * null, that indicates we are fowarding to the question or they selected No to the confirmation and we should return to the
+     * unlock page.
      * 
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward doUnlockConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String lockType, String lockKeyMessage) throws Exception {
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-     
+
         if (question == null) { // question hasn't been asked
             String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_CONFIRMATION);
             message = MessageFormat.format(message, lockType, lockKeyMessage);
@@ -258,26 +275,26 @@ public class TempListLookupAction extends KualiLookupAction {
         // selected no to confirmation so return to lock screen with refreshed results
         return this.search(mapping, form, request, response);
     }
-    
+
     /**
-     * Parses the methodToCall parameter which contains the lock information in a known format. Populates a BudgetConstructionLockSummary
-     * that represents the record to unlock.
+     * Parses the methodToCall parameter which contains the lock information in a known format. Populates a
+     * BudgetConstructionLockSummary that represents the record to unlock.
      * 
      * @param methodToCallString - request parameter containing lock information
      * @return lockSummary populated from request parameter
      */
     protected BudgetConstructionLockSummary populateLockSummary(String methodToCallString) {
         BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
-        
+
         // parse lock fields from methodToCall parameter
         String lockType = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
         String lockFieldsString = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         String lockUser = StringUtils.substringBetween(methodToCallString, KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL);
-    
+
         // space was replaced by underscore for html
-        lockSummary.setLockType(StringUtils.replace(lockType,"_", " "));
+        lockSummary.setLockType(StringUtils.replace(lockType, "_", " "));
         lockSummary.setLockUserId(lockUser);
-        
+
         // parse key fields
         StrTokenizer strTokenizer = new StrTokenizer(lockFieldsString, "%");
         strTokenizer.setIgnoreEmptyTokens(false);
@@ -290,10 +307,10 @@ public class TempListLookupAction extends KualiLookupAction {
         lockSummary.setAccountNumber(strTokenizer.nextToken());
         lockSummary.setSubAccountNumber(strTokenizer.nextToken());
         lockSummary.setPositionNumber(strTokenizer.nextToken());
-        
+
         return lockSummary;
     }
-    
+
     /**
      * Retrieves the message text for the lock key and fills in message parameters based on the lock type.
      * 
@@ -309,7 +326,7 @@ public class TempListLookupAction extends KualiLookupAction {
         }
         else if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
             lockKeyMessage = kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_LOCK_POSITIONFUNDINGKEY);
-            lockKeyMessage = MessageFormat.format(lockKeyMessage, lockUserId, fiscalYear.toString(), positionNumber, chartOfAccountsCode, accountNumber, subAccountNumber);          
+            lockKeyMessage = MessageFormat.format(lockKeyMessage, lockUserId, fiscalYear.toString(), positionNumber, chartOfAccountsCode, accountNumber, subAccountNumber);
         }
         else {
             lockKeyMessage = kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_LOCK_ACCOUNTKEY);
@@ -318,5 +335,5 @@ public class TempListLookupAction extends KualiLookupAction {
 
         return lockKeyMessage;
     }
-    
+
 }

@@ -300,6 +300,9 @@
 	</bean>
 
 	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.OrganizationBCDocumentSearchDaoJdbc">
+	    <property name="documentTypeService">
+	      <ref bean="documentTypeService" />
+	    </property>
 	</bean>
 	
 	<bean id="bcBudgetPullupDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetPullupDaoJdbc">

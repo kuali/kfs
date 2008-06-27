@@ -31,17 +31,14 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
     private String financialObjectCode;
     private String personName;
 
-    // we use the linkButtonOption from this object
-    private TransientBalanceInquiryAttributes dummyBusinessObject;
+    // dummy field
+    private Integer universityFiscalYear;
 
     /**
      * Default constructor.
      */
     public BudgetConstructionIntendedIncumbentSelect() {
         super();
-        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
-        // this.dummyBusinessObject.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
-        this.dummyBusinessObject.setLinkButtonOption("Incumbent SalSet");
     }
 
     /**
@@ -120,21 +117,21 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
     }
 
     /**
-     * Gets the dummyBusinessObject attribute.
+     * Gets the universityFiscalYear attribute.
      * 
-     * @return Returns the dummyBusinessObject.
+     * @return Returns the universityFiscalYear.
      */
-    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
-        return dummyBusinessObject;
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
     }
 
     /**
-     * Sets the dummyBusinessObject attribute value.
+     * Sets the universityFiscalYear attribute value.
      * 
-     * @param dummyBusinessObject The dummyBusinessObject to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      */
-    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
-        this.dummyBusinessObject = dummyBusinessObject;
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
     }
 
     /**

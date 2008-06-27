@@ -27,7 +27,6 @@ public class BudgetConstructionImportExportForm extends BudgetExpansionForm {
     private String title;
     private String reportMode;
     private BudgetConstructionRequestImport budgetConstructionRequestImport;
-    private Integer universityFiscalYear;
     
     public BudgetConstructionImportExportForm() {
         super();
@@ -124,23 +123,6 @@ public class BudgetConstructionImportExportForm extends BudgetExpansionForm {
      */
     public void setBudgetConstructionRequestImport(BudgetConstructionRequestImport budgetConstructionRequestImport) {
         this.budgetConstructionRequestImport = budgetConstructionRequestImport;
-    }
-    
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
     }
     
     /**

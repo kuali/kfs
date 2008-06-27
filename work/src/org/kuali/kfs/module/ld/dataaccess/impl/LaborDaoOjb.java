@@ -34,10 +34,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants.AccountingPeriodProperties;
-import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
-import org.kuali.kfs.module.ld.businessobject.CalculatedSalaryFoundationTracker;
-import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 import org.kuali.kfs.module.ld.dataaccess.LaborDao;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
@@ -49,42 +46,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
  */
 public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborDaoOjb.class);
-
-    /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getCSFTrackerData(java.util.Map)
-     */
-    @Deprecated
-    public Object getCSFTrackerTotal(Map fieldValues) {
-
-        Criteria criteria = new Criteria();
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
-
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
-
-        List<String> groupByList = new ArrayList<String>();
-        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-
-        query.setAttributes(new String[] { ConsolidationUtil.sum(KFSPropertyConstants.CSF_AMOUNT) });
-        query.addGroupBy(groupBy);
-
-        Object[] csf = null;
-
-        Iterator<Object[]> calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        while (calculatedSalaryFoundationTracker != null && calculatedSalaryFoundationTracker.hasNext()) {
-            csf = calculatedSalaryFoundationTracker.next();
-        }
-        KualiDecimal csfAmount = KualiDecimal.ZERO;
-        if (csf != null) {
-            csfAmount = new KualiDecimal(csf[0].toString());
-        }
-        return csfAmount;
-    }
 
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getEncumbranceTotal(java.util.Map)
@@ -139,15 +100,6 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getBaseFunds(java.util.Map)
-     */
-    @Deprecated
-    public Iterator getBaseFunds(Map fieldValues, boolean isConsolidated) {
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-        return getAccountStatus(AccountStatusBaseFunds.class, fieldValues, isConsolidated);
-    }
-
-    /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getCurrentFunds(java.util.Map)
      */
     public Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated) {
@@ -188,42 +140,6 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         }
 
         return query;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborDao#getEmployeeFunding(java.util.Map)
-     */
-    @Deprecated
-    public Iterator getEmployeeFunding(Map fieldValues) {
-
-        ArrayList objectTypeCodes = new ArrayList();
-        objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_EXPENSE_OBJECT_TYPE_CODE);
-        objectTypeCodes.add(LaborConstants.BalanceInquiries.EMPLOYEE_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE);
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "'" + KFSConstants.BALANCE_TYPE_ACTUAL + "'");
-        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCodes);
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new EmployeeFunding()));
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(EmployeeFunding.class, criteria);
-
-        List<String> groupByList = new ArrayList<String>();
-        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
-        groupByList.add(KFSPropertyConstants.EMPLID);
-
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-        List<String> attributeList = new ArrayList<String>(groupByList);
-        attributeList.add(0, ConsolidationUtil.sum(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT));
-        query.setAttributes((String[]) attributeList.toArray(new String[attributeList.size()]));
-
-        query.addGroupBy(groupBy);
-        OJBUtility.limitResultSize(query);
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
     /**

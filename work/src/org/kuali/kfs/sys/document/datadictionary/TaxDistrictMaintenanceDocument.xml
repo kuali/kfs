@@ -34,7 +34,9 @@
       </list>
     </property>
     
-    <property name="documentAuthorizerClass" value="org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxDistrictDocumentAuthorizer" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxDistrictRule" />
+    
     <property name="workflowProperties" >
       <ref bean="BuildingMaintenanceDocument-workflowProperties" />
     </property>
@@ -58,7 +60,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
             p:parameterNamespace="KFS-SYS"
-            p:parameterName="TAXDISTRICT"
+            p:parameterName="TAX_DISTRICT"
             p:parameterDetailType="TaxDistrict" />
     </property>
     <property name="documentTypeName" value="TaxDistrictMaintenanceDocument" />
@@ -78,9 +80,9 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="taxDistrictCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="taxDistrictName" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber"  p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"  />
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" />
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
       </list>
@@ -98,14 +100,17 @@
         	p:id="TaxDistrictRatesSection"
         	p:name="taxDistrictRates"
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxDistrictRate"
-        	p:attributeToHighlightOnDuplicateKey="effectiveDate"
+
         	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Effective Date/Rate">
+        	<!-- 
+        	p:attributeToHighlightOnDuplicateKey="effectiveDate"
         	<property name="duplicateIdentificationFields">
         		<list>
+        			<bean parent="MaintainableFieldDefinition" p:name="taxDistrictCode" />
         			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
         		</list>
-        	</property>
+        	</property>-->
         	<property name="summaryFields">
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />

@@ -155,7 +155,7 @@ public class TestSuiteBuilder {
     /**
      * Unconditionally excludes the annotated test class (and all its methods) from any suite built by this class. This is useful
      * with negative matching strategies, e.g., all test methods without the {@code @ShouldCommitTransactions} annotation, except
-     * the ones in SpringShutdownTest.
+     * the ones in SpringShutdownUtil.
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)

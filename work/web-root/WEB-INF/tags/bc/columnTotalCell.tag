@@ -42,6 +42,7 @@
 
 <td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}" colspan="${colSpan}">
 <div style="text-align: ${fieldAlign};">
+<strong>
 <span class="nowrap">
     <c:choose>
         <c:when test="${empty formattedNumberValue}">
@@ -53,5 +54,6 @@
         </c:otherwise>
     </c:choose>
 </span>
+</strong>
 </div>
 </td>

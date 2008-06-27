@@ -31,6 +31,7 @@
 
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
+<c:set var="pbglRevPropertyName" value="document.pendingBudgetConstructionGeneralLedgerRevenueLines"/>
 
 <kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
 <div class="tab-container" align=center>
@@ -123,6 +124,7 @@
             </c:if>
             
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenueLines}" var="item" varStatus="status" >
+			<c:set var="itemLineName" value="${pbglRevPropertyName}[${status.index}]"/>	
 
              <c:choose>
                 <c:when test="${readOnly}">
@@ -132,9 +134,10 @@
                     <c:set var="lineIsEditable" value="true" />
                 </c:otherwise>
             </c:choose>
+            <c:set var="rowspan" value="${ (!KualiForm.hideAdjustmentMeasurement && (lineIsEditable && !(empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0))) ? 2: 1}"/>
  
             <tr>
-              <kul:htmlAttributeHeaderCell scope="row" rowspan="1">
+              <kul:htmlAttributeHeaderCell scope="row" rowspan="${rowspan}">
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].documentNumber"/>
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].universityFiscalYear"/>
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].chartOfAccountsCode"/>
@@ -154,6 +157,7 @@
                   boClassSimpleName="ObjectCode"
                   readOnly="true"
                   displayHidden="false"
+                  rowSpan="${rowspan}"
                   lookupOrInquiryKeys="chartOfAccountsCode"
                   lookupUnkeyedFieldConversions="financialObjectTypeCode:document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].objectTypeCode,"
                   accountingLineValuesMap="${item.valuesMap}"
@@ -174,6 +178,7 @@
                   boClassSimpleName="SubObjCd"
                   readOnly="true"
                   displayHidden="false"
+                  rowSpan="${rowspan}"
                   lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
                   accountingLineValuesMap="${item.valuesMap}"
                   inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}" />
@@ -217,7 +222,7 @@
                   readOnly="true"
                   rowSpan="1" dataFieldCssClass="amount" />
 
-             <td class="datacell" nowrap>
+             <td class="datacell" rowspan="${rowspan}" nowrap>
                  <div align="center">
 				   <c:choose>
 					 <c:when test="${empty item.budgetConstructionMonthly[0]}" > 
@@ -260,26 +265,39 @@
              </td>
             </tr>
 
+            <c:if test="${rowspan == 2}">
+              <tr>
+               <td class="datacell" colspan = "3" nowrap><center>
+				 <bc:requestAdjustment attributes="${pbglRevenueAttributes}" 
+					 adjustmentAmountFieldName="${itemLineName}.adjustmentAmount"
+					 methodToCall="adjustRevenueLinePercent"
+					 lineIndex = "${status.index}"
+					 anchor="anchorrevenueeexistingLineLineAnchor${status.index}"/>
+				 </center>
+               </td>
+              </tr>
+            </c:if>
+
 			</c:forEach>
 
 			<tr>
 				<kul:htmlAttributeHeaderCell literalLabel="Revenue Totals" colspan="3" horizontal="true" />
-                <bc:columnTotalCell dataCellCssClass="datacell"
+                <bc:columnTotalCell dataCellCssClass="infoline"
                     cellProperty="document.revenueFinancialBeginningBalanceLineAmountTotal"
                     textStyle="${textStyle}"
                     fieldAlign="right"
                     colSpan="1" />
-                <bc:columnTotalCell dataCellCssClass="datacell"
+                <bc:columnTotalCell dataCellCssClass="infoline"
                     cellProperty="document.revenueAccountLineAnnualBalanceAmountTotal"
                     textStyle="${textStyle}"
                     fieldAlign="right"
                     colSpan="1" />
-                <bc:columnTotalCell dataCellCssClass="datacell"
+                <bc:columnTotalCell dataCellCssClass="infoline"
                     cellProperty="document.revenuePercentChangeTotal"
                     textStyle="${textStyle}"
                     fieldAlign="right"
                     colSpan="1" />
-				<td>&nbsp;</td>
+				<td class="infoline">&nbsp;</td>
 			</tr>
 
             <c:if test="${!readOnly}">

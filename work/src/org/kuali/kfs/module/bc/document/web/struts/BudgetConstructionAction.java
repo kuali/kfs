@@ -827,6 +827,25 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward adjustRevenueLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm docForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        PendingBudgetConstructionGeneralLedger revLine = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
+
+        this.adjustRequest(revLine);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward adjustExpenditureLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm docForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        PendingBudgetConstructionGeneralLedger expLine = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
+
+        this.adjustRequest(expLine);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
     
     public ActionForward adjustAllRevenueLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm docForm = (BudgetConstructionForm) form;

@@ -98,7 +98,7 @@
 		</li>
         <li>
         	<portal:portalLink displayTitle="true"
-        		title="Purchase Order Quote Lists"
+        		title="Purchase Order Quote List"
         		url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>

@@ -182,29 +182,6 @@
             </td>
             <td colspan="2">&nbsp;</td>
         </tr>
-        <tr>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuotePriceExpirationDate}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuotePriceExpirationDate}" property="newPurchaseOrderVendorQuote.purchaseOrderQuotePriceExpirationDate" />
-            </td>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteStatusCode}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteStatusCode" />
-            </td>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.purchaseOrderQuoteRankNumber}" property="newPurchaseOrderVendorQuote.purchaseOrderQuoteRankNumber" />
-            </td>
-        </tr>
 		</c:if>
 
 		<c:set var="isAnyQuoteTransmitted" value="false" />

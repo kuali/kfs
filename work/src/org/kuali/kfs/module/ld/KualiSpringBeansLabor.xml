@@ -995,7 +995,10 @@
 	<!-- validations -->
 	<import resource="document/validation/configuration/LaborValidations.xml" />
 	<import resource="document/validation/configuration/SalaryExpenseTransferValidations.xml" />
+	
+	<!-- not exist
 	<import resource="document/validation/configuration/YearEndSalaryExpenseTransferValidations.xml" />
+	-->
 			
 </beans>
 

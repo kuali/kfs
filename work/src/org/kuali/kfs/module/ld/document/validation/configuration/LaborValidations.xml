@@ -28,7 +28,7 @@
 	
 	<bean id="SalaryExpenseTransferDocument-pendingLedgerEntryValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferPendingLegerEntryValidation" />
 	
-	<bean id="SalaryExpenseTransferDocument-salaryObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferSalaryObjectCodeValidation" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-salaryObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferSalaryObjectCodeValidation">
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>	
 	

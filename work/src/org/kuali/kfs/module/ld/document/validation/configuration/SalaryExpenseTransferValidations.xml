@@ -104,7 +104,7 @@
 	
 	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation" parent="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="SalaryExpenseTransferDocument-pendingLedgerEntryValidation" scope="prototype">

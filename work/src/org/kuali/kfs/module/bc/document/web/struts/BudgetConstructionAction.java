@@ -832,7 +832,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
         PendingBudgetConstructionGeneralLedger revLine = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
 
-        this.adjustRequest(revLine);
+        if (revLine.getAdjustmentAmount() != null){
+            this.adjustRequest(revLine);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -842,7 +844,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
         PendingBudgetConstructionGeneralLedger expLine = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
 
-        this.adjustRequest(expLine);
+        if (expLine.getAdjustmentAmount() != null){
+            this.adjustRequest(expLine);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -853,15 +857,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         List<PendingBudgetConstructionGeneralLedger> revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines();
 
         KualiDecimal adjustmentAmount = docForm.getRevenueAdjustmentAmount();
-        
-        // not sure we need this check since the tool isn't displayed in view mode
-        boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-        for (PendingBudgetConstructionGeneralLedger revenueLine : revenueLines) {
-            if (isEditable){
-                revenueLine.setAdjustmentAmount(adjustmentAmount);
-                this.adjustRequest(revenueLine);
-            }
+        if (adjustmentAmount != null){
             
+            // not sure we need this check since the tool isn't displayed in view mode
+            boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+            for (PendingBudgetConstructionGeneralLedger revenueLine : revenueLines) {
+                if (isEditable){
+                    revenueLine.setAdjustmentAmount(adjustmentAmount);
+                    this.adjustRequest(revenueLine);
+                }
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -873,15 +878,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         List<PendingBudgetConstructionGeneralLedger> expenditureLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
 
         KualiDecimal adjustmentAmount = docForm.getExpenditureAdjustmentAmount(); 
+        if (adjustmentAmount != null){
 
-        // not sure we need this check since the tool isn't displayed in view mode
-        boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-//        (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')
-        for (PendingBudgetConstructionGeneralLedger expenditureLine : expenditureLines) {
-            boolean isLineEditable = (isEditable && (docForm.isBenefitsCalculationDisabled()  || (expenditureLine.getLaborObject() == null) || !expenditureLine.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
-            if (isLineEditable){
-                expenditureLine.setAdjustmentAmount(adjustmentAmount);
-                this.adjustRequest(expenditureLine);
+            // not sure we need this check since the tool isn't displayed in view mode
+            boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
+//            (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')
+            for (PendingBudgetConstructionGeneralLedger expenditureLine : expenditureLines) {
+                boolean isLineEditable = (isEditable && (docForm.isBenefitsCalculationDisabled()  || (expenditureLine.getLaborObject() == null) || !expenditureLine.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
+                if (isLineEditable){
+                    expenditureLine.setAdjustmentAmount(adjustmentAmount);
+                    this.adjustRequest(expenditureLine);
+                }
             }
         }
 

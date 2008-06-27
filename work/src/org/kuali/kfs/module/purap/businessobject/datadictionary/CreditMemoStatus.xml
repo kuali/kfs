@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="CreditMemoStatus-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="creditMemoStatusCode" />
+    <property name="titleAttribute" value="statusCode" />
     <property name="objectLabel" value="Credit Memo Status" />
     <property name="attributes" >
       <list>

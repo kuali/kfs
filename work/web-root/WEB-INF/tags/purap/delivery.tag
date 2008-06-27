@@ -123,7 +123,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
-                    	property="document.deliveryBuildingLine2Address" readOnly="${notOtherDeliveryBuilding or not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+                    	property="document.deliveryBuildingLine2Address" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}"/></div>

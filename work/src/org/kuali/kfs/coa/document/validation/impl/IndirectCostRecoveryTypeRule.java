@@ -37,11 +37,9 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
 
     private IndirectCostRecoveryType indirectCostRecoveryType;
     private List IndirectCostRecoveryExclusionTypeDetails;
-    private DataDictionaryService dataDictionaryService;
     private ChartService chartService;
     
     public IndirectCostRecoveryTypeRule () {
-        dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         chartService = SpringContext.getBean(ChartService.class);
     }
     
@@ -85,11 +83,11 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
                 if(item.getChartOfAccountsCode().equals(chartService.getUniversityChart().getChartOfAccountsCode())) {
                     item.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
                     if(ObjectUtils.isNull(item.getObjectCodeCurrent())) {
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, dataDictionaryService.getAttributeLabel(IndirectCostRecoveryExclusionType.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, ddService.getAttributeLabel(IndirectCostRecoveryExclusionType.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
                         isValid = false;
                     }
                 } else {
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, item.getChartOfAccountsCode(), dataDictionaryService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, item.getChartOfAccountsCode(), ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
                     isValid = false;                    
                 }
                 
@@ -97,8 +95,8 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
                 // it seems like this should be more of a system error, or something related to functional superusers?
             }
         } else {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(Chart.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_REQUIRED, ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_REQUIRED, ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
             isValid = false;
         }
         return isValid;

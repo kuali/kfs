@@ -31,7 +31,8 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
     private Integer purchaseOrderQuoteListIdentifier;
     private String purchaseOrderQuoteListName;
     private Integer contractManagerCode;
-
+    private String contractManagerName;
+    
     private ContractManager contractManager;
 
     private List<PurchaseOrderQuoteListVendor> quoteListVendors;
@@ -77,6 +78,15 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 
     public ContractManager getContractManager() {
         return contractManager;
+    }
+
+    
+    public String getContractManagerName() {
+        return contractManager.getContractManagerName();
+    }
+
+    public void setContractManagerName(String contractManagerName) {
+        this.contractManagerName = contractManagerName;
     }
 
     /**

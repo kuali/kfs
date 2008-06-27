@@ -2911,6 +2911,9 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="purchaseOrderQuoteListName" column="PO_QT_LST_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
+    <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="contractManagerCode" />
+    </reference-descriptor>
     <collection-descriptor name="quoteListVendors" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="purchaseOrderQuoteListIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="purchaseOrderQuoteListIdentifier" />

@@ -28,20 +28,20 @@
 
 <table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
-		<th>&nbsp;</th>
-		<th>Row Operation</th>
-		<th>Amount</th>
-		<th>Hourly</th>
-		<th>Months</th>
-		<th>Percent Time</th>
-		<th>FTE</th>
-		<th>Reason Select</th>
-		<th>Reason Amount</th>
+		<th style="width: 15%;">&nbsp;</th>
+		<th style="width: 20%;">Row Operation</th>
+		<th style="width: 10%;">Amount</th>
+		<th style="width: 5%;">Hourly</th>
+		<th style="width: 5%;">Months</th>
+		<th style="width: 10%;">Percent Time</th>
+		<th style="width: 10%;">FTE</th>
+		<th style="width: 10%;">Reason Select</th>
+		<th style="width: 15%;">Reason Amount</th>
 	</tr>
 	
 	<c:if test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
 	<tr>
-		<th align="right">CSF:</th>	
+		<th style="text-align: right;">CSF:</th>	
 		
 		<td class="datacell">
 			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
@@ -87,7 +87,7 @@
 	</c:if>
       
 	<tr>
-		<th align="right">Request:</th>	
+		<th style="text-align: right;">Request:</th>	
 		<td class="datacell">&nbsp;</td>				
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -155,7 +155,7 @@
 	</tr>
 	
 	<tr>
-		<th align="right">Leave Request CSF:</th>
+		<th style="text-align: right;">Leave Request CSF:</th>
 			
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="${fundingLine}"
@@ -201,7 +201,7 @@
 	</tr>
 	
 	<tr>
-		<th align="right">Total Intended:</th>		
+		<th style="text-align: right;">Total Intended:</th>		
 		<td class="datacell">&nbsp;</td> 
 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"

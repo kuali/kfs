@@ -127,8 +127,8 @@
 		</c:if>
 	
 		<tr>
-			<td colspan="${countOfColumns}">	
-				<h3>${groupDescription}</h3>
+			<td colspan="${countOfColumns}" class="subhead">	
+				<span class="subhead-left">${groupDescription}</span>
 			</td>		
 		</tr>
 	
@@ -194,8 +194,8 @@
 
 	<c:if test="${fn:length(grandTotalFieldNames) > 0}" >
 		<tr>
-			<td colspan="${countOfColumns}">
-				<h3>Grand Totals</h3>
+			<td colspan="${countOfColumns}" class="subhead">	
+				<span class="subhead-left">Grand Totals</span>
 			</td>		
 		</tr>
 	

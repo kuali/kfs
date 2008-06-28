@@ -39,7 +39,7 @@ import org.kuali.kfs.module.purap.document.validation.event.AddAttributedPurchas
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.datadictionary.KFSTransactionalDocumentEntry;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
 import org.kuali.kfs.sys.document.validation.AddAccountingLineRule;
 import org.kuali.kfs.sys.document.validation.DeleteAccountingLineRule;
@@ -68,7 +68,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
      * @see org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule#validateForEvent(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     public boolean validateForEvent(AttributedDocumentEvent event) {
-        KFSTransactionalDocumentEntry documentEntry = getDataDictionaryEntryForDocument((TransactionalDocument)event.getDocument());
+        FinancialSystemTransactionalDocumentEntry documentEntry = getDataDictionaryEntryForDocument((TransactionalDocument)event.getDocument());
         Map<Class, String> validationMap = documentEntry.getValidationMap();
         
         if (validationMap == null || !validationMap.containsKey(event.getClass())) {
@@ -85,8 +85,8 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
      * @param document the document to look up a data dictionary entry for
      * @return a document entry
      */
-    protected KFSTransactionalDocumentEntry getDataDictionaryEntryForDocument(TransactionalDocument document) {
-        return (KFSTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(document.getClass().getName());
+    protected FinancialSystemTransactionalDocumentEntry getDataDictionaryEntryForDocument(TransactionalDocument document) {
+        return (FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(document.getClass().getName());
     }
 
     /**

@@ -23,7 +23,7 @@ import org.kuali.core.datadictionary.TransactionalDocumentEntry;
  * An extension of the Rice TransactionalDocumentEntry that allows for KFS-centric properties, such as
  * Accounting Document validations 
  */
-public class KFSTransactionalDocumentEntry extends TransactionalDocumentEntry {
+public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocumentEntry {
     private Map<Class, String> validationMap;
 
     /**

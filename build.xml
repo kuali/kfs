@@ -286,6 +286,7 @@
 				<path refid="compile.tests.classpath" />
 			</classpath>
 			<formatter type="xml" />
+			<test name="org.kuali.kfs.sys.context.${test.startup.class}" todir="${test.xml.results.directory}" />
 			<batchtest todir="${test.xml.results.directory}">
 				<fileset dir="${test.unit.source.directory}">
 					<include name="${tests.includes}" />
@@ -294,7 +295,7 @@
 					<include name="${tests.includes}" />
 				</fileset>
 			</batchtest>
-			<test name="org.kuali.kfs.sys.context.${test.spring.shutdown}" todir="${test.xml.results.directory}" />
+			<test name="org.kuali.kfs.sys.context.${test.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />
 		<junitreport todir="${test.html.results.directory}">

@@ -21,9 +21,8 @@ import org.kuali.kfs.suite.TestSuiteBuilder;
  * This class shuts down spring after unit testing
  */
 @TestSuiteBuilder.Exclude
-public class SpringShutdownUtil extends KualiTestBase {
-    // TODO this is a hack. sure there's a better way to keep from initializing and shutting down spring for each unit
-    // test, but still shut spring down after they've all run
+public class ContinuousIntegrationShutdown extends KualiTestBase {
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();

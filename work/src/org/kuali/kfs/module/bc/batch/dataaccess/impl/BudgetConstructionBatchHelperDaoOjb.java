@@ -212,14 +212,14 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
         String[] returnSelectList = {""};
         // get the attribute/DB column name map for the class
         HashMap<String,String> allFields = getDBFieldNamesForClass(ojbClass);
-        // build a COUNT (DISTINCT wrapper around the DB column name
+        // build a COUNT( DISTINCT wrapper around the DB column name
         String dbColumnName = allFields.get(ojbAttributeName);
         if (dbColumnName == null)
         {
             // return an empty list if we fail
             return returnSelectList;
         }
-        returnSelectList[0] = "COUNT (DISTINCT "+dbColumnName+")";
+        returnSelectList[0] = "COUNT(DISTINCT "+dbColumnName+")";
         return returnSelectList;
     }
 
@@ -315,7 +315,7 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
     
     /**
      * 
-     * build the MYSQL-specific COUNT (DISTINCT syntax
+     * build the MYSQL-specific COUNT(DISTINCT syntax
      * @param ojbMySqlPlatform is the Kuali constant matching the configuration property for MySQL
      */
     public void setOjbMySqlPlatform(String ojbMySqlPlatform)

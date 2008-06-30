@@ -142,6 +142,7 @@
                     <c:set var="lineIsEditable" value="true" />
                 </c:otherwise>
             </c:choose>
+            <c:set var="detailSalarylineIsDeleteable" value="${lineIsEditable && (salsetDisabled || (!empty item.laborObject && !(item.laborObject.detailPositionRequiredIndicator && item.pendingBudgetConstructionAppointmentFundingExists)))}" />
             <c:set var="rowspan" value="${ (!KualiForm.hideAdjustmentMeasurement && (lineIsEditable && !(empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0))) ? 2: 1}"/>
 
             <tr>
@@ -281,7 +282,7 @@
 				   </c:choose>
 
 				   <c:choose>
-                     <c:when test="${lineIsEditable && (empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0)}">
+                     <c:when test="${lineIsEditable && (empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0) && detailSalarylineIsDeleteable}">
                        <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>
                      </c:when>
 				     <c:otherwise> 

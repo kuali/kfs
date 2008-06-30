@@ -12,28 +12,27 @@
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
 
   <!-- Core Kuali packages that all optional modules can depend on -->
-	<package name="core" package="org.kuali.core" subpackages="include" needdeclarations="false"/>
-	<package name="chart" package="org.kuali.kfs.coa" subpackages="include" needdeclarations="false"/>
-	<package name="financial" package="org.kuali.kfs.fp" subpackages="include" needdeclarations="false"/>
+	<package name="rice" package="org.kuali.core" subpackages="include" needdeclarations="false"/>
+	<package name="coa" package="org.kuali.kfs.coa" subpackages="include" needdeclarations="false"/>
+	<package name="fp" package="org.kuali.kfs.fp" subpackages="include" needdeclarations="false"/>
 	<package name="gl" package="org.kuali.kfs.gl" subpackages="include" needdeclarations="false"/>
-	<package name="kfs" package="org.kuali.kfs" subpackages="include" needdeclarations="false"/>
+	<package name="sys" package="org.kuali.kfs.sys" subpackages="include" needdeclarations="false"/>
 	<package name="sax" package="org.xml.sax" subpackages="include" />
 	<package name="pdp" package="org.kuali.kfs.pdp" subpackages="include" needdeclarations="false">
 		<depends>sax</depends>
 	</package>
-	<package name="vendor" package="org.kuali.kfs.vnd" subpackages="include" needdeclarations="false"/>
+	<package name="vnd" package="org.kuali.kfs.vnd" subpackages="include" needdeclarations="false"/>
 	<package name="integration" package="org.kuali.kfs.integration" subpackages="include" needdeclarations="false"/>
   
   <!-- Optional module packages -->
 	<package name="ar" package="org.kuali.kfs.module.ar" subpackages="include"/>
-	<package name="budget" package="org.kuali.kfs.module.bc" subpackages="include"/>
-	<package name="cams" package="org.kuali.kfs.module.cam" subpackages="include"/>
+	<package name="bc" package="org.kuali.kfs.module.bc" subpackages="include"/>
+	<package name="cam" package="org.kuali.kfs.module.cam" subpackages="include"/>
 	<package name="cg" package="org.kuali.kfs.module.cg" subpackages="include"/>
-	<package name="effort" package="org.kuali.kfs.module.ec" subpackages="include"/>
-	<package name="kra" package="org.kuali.kfs.module.cg" subpackages="include"/>
-	<package name="labor" package="org.kuali.kfs.module.ld" subpackages="include"/>
+	<package name="ec" package="org.kuali.kfs.module.ec" subpackages="include"/>
+	<package name="ld" package="org.kuali.kfs.module.ld" subpackages="include"/>
 	<package name="purap" package="org.kuali.kfs.module.purap" subpackages="include"/>
-	<package name="capitalAssetBuilder" package="org.kuali.kfs.module.cab" subpackages="include">
+	<package name="cab" package="org.kuali.kfs.module.cab" subpackages="include">
 		<depends>cam</depends>
 		<depends>purap</depends>
 	</package>

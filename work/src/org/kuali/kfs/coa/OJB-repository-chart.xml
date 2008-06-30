@@ -1015,8 +1015,8 @@
     <field-descriptor name="costShareSourceAccountNumber" column="CST_SHRSRCACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="indirectCostRecoveryTypeCode" class-ref="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="code" />
+    <reference-descriptor name="indirectCostRecoveryType" class-ref="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="indirectCostRecoveryTypeCode" />
     </reference-descriptor>
 
     <reference-descriptor name="indirectCostRecoveryChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

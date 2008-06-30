@@ -518,10 +518,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
 
             if ((needToDistributeAccount && !performedAccountDistribution && !foundAccountDistributionError)) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "Account");
+                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "account numbers");
             }
             if (needToDistributeCommodityCode && !performedCommodityCodeDistribution && !foundCommodityCodeDistributionError) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "Commodity Code");
+                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "commodity codes");
             }
         }
         else {

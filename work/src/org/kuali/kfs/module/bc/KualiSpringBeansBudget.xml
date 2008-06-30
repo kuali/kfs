@@ -769,6 +769,9 @@
 		<property name="budgetParameterService">
 			<ref bean="budgetParameterService" />
 		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
 	</bean>
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">

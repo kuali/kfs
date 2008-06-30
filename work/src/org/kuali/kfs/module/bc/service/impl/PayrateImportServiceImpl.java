@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiInteger;
@@ -44,9 +43,8 @@ import org.kuali.kfs.module.bc.service.PayrateImportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -61,6 +59,8 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     private int importCount;
     private int updateCount;
     private BudgetParameterService budgetParameterService;
+    private OptionsService optionsService;
+    
     
     /**
      * 
@@ -142,7 +142,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                     
                     BudgetConstructionHeader header = getHeaderRecord(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
                     if (header == null ) {
-                        //TODO: are the parameters for this message correct? (see step 16b on spec).
                         messages.add("Can't find budget doc for " + budgetYear + "," + fundingRecord.getChartOfAccountsCode() + "," + fundingRecord.getAccountNumber() + "," + fundingRecord.getSubAccountNumber());
                         messages.add(fundingRecord.getEmplid() + "," + fundingRecord.getPositionNumber() + "," + fundingRecord.getChartOfAccountsCode() + "," + fundingRecord.getAccountNumber() + "," + fundingRecord.getSubAccountNumber() + ": No funding update, error during object level update");
                         updateContainsErrors = true;
@@ -161,15 +160,25 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                         pendingRecord.setFinancialObjectCode(fundingRecord.getFinancialObjectCode());
                         pendingRecord.setFinancialSubObjectCode(fundingRecord.getFinancialSubObjectCode());
                         pendingRecord.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-                        pendingRecord.setFinancialObjectTypeCode("EX");
+                        pendingRecord.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd());
                         pendingRecord.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
                         pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
                     }
                     
+                    System.out.println("Pending Record document number =  " + pendingRecord.getDocumentNumber() );
+                    System.out.println("Pending Record university fiscal year =  " + pendingRecord.getUniversityFiscalYear() );
+                    System.out.println("Pending Record chart of accounts code =  " + pendingRecord.getChartOfAccountsCode() );
+                    System.out.println("Pending Record account number =  " + pendingRecord.getAccountNumber() );
+                    System.out.println("Pending Record sub account number =  " + pendingRecord.getSubAccountNumber() );
+                    System.out.println("Pending Record financial object code =  " + pendingRecord.getFinancialObjectCode() );
+                    System.out.println("Pending Record sub object code =  " + pendingRecord.getFinancialSubObjectCode() );
+                    System.out.println("Pending Record financial balance type code =  " + pendingRecord.getFinancialBalanceTypeCode() );
+                    System.out.println("Pending Record financial object type code =  " + pendingRecord.getFinancialObjectTypeCode() );
+                    System.out.println("Pending Record financial begining balance line amount =  " + pendingRecord.getFinancialBeginningBalanceLineAmount() );
+                    System.out.println("Pending Record account line annual balance amount =  " + pendingRecord.getAccountLineAnnualBalanceAmount() ); 
+                    
                     this.businessObjectService.save(pendingRecord);
                     
-                    //2PLG
-                    //TODO: should I use fundingRecord for this comparison or pendingRecord?
                     if ( !fundingRecord.getAccount().isForContractsAndGrants() && !fundingRecord.getAccount().getSubFundGroupCode().equals("SDCI") ) {
                         PendingBudgetConstructionGeneralLedger plg = findPendingBudgetConstructionGeneralLedger(header, fundingRecord, true);
                         
@@ -181,12 +190,10 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                             plg.setChartOfAccountsCode(fundingRecord.getChartOfAccountsCode());
                             plg.setAccountNumber(fundingRecord.getAccountNumber());
                             plg.setSubAccountNumber(fundingRecord.getSubAccountNumber());
-                            //TODO: is there a constant for this?
-                            plg.setFinancialObjectCode("2PLG");
+                            plg.setFinancialObjectCode(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
                             plg.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
                             plg.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-                            //TODO: is there a constant for this?
-                            plg.setFinancialObjectTypeCode("EX");
+                            plg.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd());
                             plg.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
                             plg.setAccountLineAnnualBalanceAmount(updateAmount.negated());
                         }
@@ -196,6 +203,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                     
                     fundingRecord.setAppointmentRequestedPayRate(holdingRecord.getAppointmentRequestedPayRate());
                     fundingRecord.setAppointmentRequestedAmount(annualAmount);
+                    this.businessObjectService.save(fundingRecord);
                 }
             }
             this.updateCount ++;
@@ -242,7 +250,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         budgetConstructionPayRateHolding.setGrade(record.getGrade());
         budgetConstructionPayRateHolding.setUnionCode(record.getPositionUnionCode());
         budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(record.getAppointmentRequestPayRate().divide(new BigDecimal(100)));
-        //TODO: SHOULD I USE CSF FREEZE DATE?
         
         return budgetConstructionPayRateHolding;
     }
@@ -328,10 +335,10 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fundingRecord.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, fundingRecord.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, fundingRecord.getSubAccountNumber());
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, is2PLG ? "2PLG" : budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, "BIWEEKLY_PAY_OBJECT_CODES"));
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, "BIWEEKLY_PAY_OBJECT_CODES"));
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : fundingRecord.getFinancialSubObjectCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "EX");
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, optionsService.getOptions(fundingRecord.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd());
         
         return (PendingBudgetConstructionGeneralLedger)this.businessObjectService.findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
     }
@@ -340,7 +347,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     private static class DefaultImportFileFormat {
         private static final int[] fieldLengths = new int[] {11, 8, 50, 5, 4, 3, 3, 10, 8};
         //TODO: use constants for field names
-        private static final String[] fieldNames = new String[] {"emplid", "positionNumber", "personName", "setidSalary()", "salaryAdministrationPlan", "grade", "positionUnionCode", "appointmentRequestPayRate", "csfFreezeDate"};
+        private static final String[] fieldNames = new String[] {"emplid", "positionNumber", "personName", "setidSalary", "salaryAdministrationPlan", "grade", "positionUnionCode", "appointmentRequestPayRate", "csfFreezeDate"};
     }
 
     public int getImportCount() {
@@ -363,6 +370,10 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     @NonTransactional
     public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
         this.budgetParameterService = budgetParameterService;
+    }
+    
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
     
 }

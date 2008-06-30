@@ -34,7 +34,7 @@
 	<package name="labor" package="org.kuali.kfs.module.ld" subpackages="include"/>
 	<package name="purap" package="org.kuali.kfs.module.purap" subpackages="include"/>
 	<package name="capitalAssetBuilder" package="org.kuali.kfs.module.cab" subpackages="include">
-		<depends>cams</depends>
+		<depends>cam</depends>
 		<depends>purap</depends>
 	</package>
 </design>

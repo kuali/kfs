@@ -14,7 +14,8 @@
     <property name="lookupDefinition" >
       <ref bean="TaxDistrict-lookupDefinition" />
     </property>
-    <property name="objectLabel" value="TaxDistrict" />
+    <property name="titleAttribute" value="taxDistrictCode" />
+    <property name="objectLabel" value="Tax District" />
     <property name="attributes" >
       <list>
         <ref bean="TaxDistrict-taxDistrictCode" />
@@ -201,7 +202,7 @@
 
   <bean id="TaxDistrict-inquiryDefinition" parent="TaxDistrict-inquiryDefinition-parentBean" />
 
-  <bean id="TaxDistrict-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+  <bean id="TaxDistrict-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
   	p:title="Tax District Inquiry">
     <property name="inquirySections" >
       <list>

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.context;
 
-import static org.kuali.kfs.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
+import static org.kuali.kfs.sys.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -29,12 +29,12 @@ import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.core.UserSession;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.KualiTestConstants;
-import org.kuali.kfs.suite.JiraRelatedSuite;
-import org.kuali.kfs.suite.RelatesTo;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.JiraRelatedSuite;
+import org.kuali.kfs.sys.suite.RelatesTo;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;

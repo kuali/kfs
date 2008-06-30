@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.suite;
+package org.kuali.kfs.sys.suite;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs;
+package org.kuali.kfs.sys;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Document;

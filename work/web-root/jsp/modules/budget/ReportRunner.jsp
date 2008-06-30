@@ -18,7 +18,7 @@
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetReportRunner" renderMultipart="true"
 	showTabButtons="false"
-	docTitle="Document Reports and Dumps"
+	docTitle="Document Reports and Exports"
     transactionalDocument="false"
 	>
               <html:hidden property="returnAnchor" />

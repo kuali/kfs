@@ -15,12 +15,12 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Report/Dump" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS}">
+<kul:tabTop tabTitle="Report/Export" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
     <tr>
         <td colspan="2" class="subhead">
-		    <span class="subhead-left">Report/Dump</span>
+		    <span class="subhead-left">Report/Export</span>
 		</td>
     </tr>
 

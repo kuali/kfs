@@ -17,9 +17,9 @@ package org.kuali.kfs.fp.service;
 
 import java.util.ArrayList;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.fp.businessobject.CashDetailTypeCode;
 import org.kuali.kfs.fp.service.impl.CashDetailTypeCodeServiceImpl;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

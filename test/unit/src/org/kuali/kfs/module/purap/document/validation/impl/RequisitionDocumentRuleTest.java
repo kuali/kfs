@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;

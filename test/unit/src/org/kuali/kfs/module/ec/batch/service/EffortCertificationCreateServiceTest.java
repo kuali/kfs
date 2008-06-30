@@ -22,8 +22,8 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;

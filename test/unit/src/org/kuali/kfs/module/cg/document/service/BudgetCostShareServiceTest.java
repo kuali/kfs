@@ -15,19 +15,19 @@
  */
 package org.kuali.kfs.module.cg.document.service;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertEquality;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetThirdPartyCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

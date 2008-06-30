@@ -16,10 +16,10 @@
 package org.kuali.kfs.module.ar.fixture;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;

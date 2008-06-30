@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import org.kuali.kfs.KualiTestConstants.TestConstants.Data1;
+import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data1;
 
 /**
  * Mock object for CollectorBatch. Used so the object does not need built from XML everytime we need it for a parameter.

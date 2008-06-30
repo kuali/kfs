@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;

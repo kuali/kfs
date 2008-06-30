@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

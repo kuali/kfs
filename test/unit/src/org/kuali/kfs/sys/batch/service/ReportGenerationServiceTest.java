@@ -23,9 +23,9 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

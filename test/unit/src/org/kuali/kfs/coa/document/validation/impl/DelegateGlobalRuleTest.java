@@ -18,8 +18,8 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.DelegateGlobalDetail;
+import org.kuali.kfs.sys.ConfigureContext;
 
 @ConfigureContext
 public class DelegateGlobalRuleTest extends ChartRuleTestBase {

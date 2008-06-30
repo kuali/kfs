@@ -21,7 +21,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;

@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;

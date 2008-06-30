@@ -22,8 +22,8 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.TestDataPreparator;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBalance;
 import org.kuali.kfs.integration.businessobject.LaborLedgerEntry;
 import org.kuali.kfs.integration.service.LaborModuleService;

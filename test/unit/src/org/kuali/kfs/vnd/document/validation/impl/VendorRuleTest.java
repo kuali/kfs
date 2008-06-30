@@ -16,11 +16,10 @@
 package org.kuali.kfs.vnd.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;

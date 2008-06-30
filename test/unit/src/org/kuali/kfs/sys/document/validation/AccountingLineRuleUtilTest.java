@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED;
 import static org.kuali.kfs.sys.fixture.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED;
@@ -31,7 +31,7 @@ import static org.kuali.kfs.sys.fixture.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.KFSConstants;

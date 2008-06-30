@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
@@ -49,12 +49,12 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;

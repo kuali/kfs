@@ -19,13 +19,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.service.A21SubAccountService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;

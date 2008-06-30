@@ -32,10 +32,10 @@ import org.kuali.core.service.impl.LookupServiceImpl;
 import org.kuali.core.service.impl.PersistenceServiceImpl;
 import org.kuali.core.service.impl.PostDataLoadEncryptionServiceImpl;
 import org.kuali.core.service.impl.SequenceAccessorServiceImpl;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.PreCommitSuite;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.springframework.aop.framework.AopProxyUtils;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext

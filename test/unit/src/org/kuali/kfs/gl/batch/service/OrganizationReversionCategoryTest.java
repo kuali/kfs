@@ -17,10 +17,10 @@ package org.kuali.kfs.gl.batch.service;
 
 import java.util.Map;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

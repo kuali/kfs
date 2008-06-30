@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;

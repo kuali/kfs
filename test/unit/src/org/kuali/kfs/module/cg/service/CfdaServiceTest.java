@@ -17,9 +17,9 @@ package org.kuali.kfs.module.cg.service;
 
 import java.io.IOException;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

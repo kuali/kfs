@@ -26,8 +26,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 

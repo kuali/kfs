@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.sys.service;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertSparselyEqualBean;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertSparselyEqualBean;
 import static org.kuali.kfs.sys.fixture.OffsetAccountFixture.OFFSET_ACCOUNT1;
 
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.fp.businessobject.OffsetAccount;
 import org.kuali.kfs.sys.KFSConstants;

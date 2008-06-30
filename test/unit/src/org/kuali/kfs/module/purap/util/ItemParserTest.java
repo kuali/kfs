@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.purap.util;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
 
@@ -27,7 +27,6 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -36,10 +35,11 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
 
 /**
  * Test class for testing <code>{@link ItemParser}</code>

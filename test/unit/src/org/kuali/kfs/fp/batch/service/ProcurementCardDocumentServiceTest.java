@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.batch.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
 
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

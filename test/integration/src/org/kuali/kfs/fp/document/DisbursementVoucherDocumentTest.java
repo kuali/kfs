@@ -15,11 +15,12 @@
  */
 package org.kuali.kfs.fp.document;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.HSCHREIN;
+
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.saveDocument;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE7;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.CSWINSON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.HSCHREIN;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.MYLARGE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.VPUTMAN;
 
@@ -36,10 +37,10 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 @ConfigureContext

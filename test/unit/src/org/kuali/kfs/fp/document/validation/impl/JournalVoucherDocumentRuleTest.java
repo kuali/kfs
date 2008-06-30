@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.getBusinessRule;
@@ -45,8 +45,8 @@ import java.util.Map;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;

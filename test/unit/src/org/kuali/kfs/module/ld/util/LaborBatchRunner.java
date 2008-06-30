@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ld.util;
 import java.util.Date;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.JobDescriptor;
 import org.kuali.kfs.sys.batch.Step;

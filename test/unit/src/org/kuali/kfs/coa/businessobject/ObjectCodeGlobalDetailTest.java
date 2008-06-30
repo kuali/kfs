@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;

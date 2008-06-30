@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.dbplatform.KualiDBPlatformOracle;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

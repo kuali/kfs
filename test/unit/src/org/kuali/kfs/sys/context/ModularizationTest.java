@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.kuali.core.authorization.KualiModuleAuthorizerBase;
 import org.kuali.core.service.KualiModuleService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ModularizationTest extends KualiTestBase {

@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.kfs.TestDataPreparator;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.TestDataPreparator;
 
 public class LaborTestDataPreparator {
     /**

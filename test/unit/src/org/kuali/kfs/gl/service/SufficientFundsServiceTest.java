@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

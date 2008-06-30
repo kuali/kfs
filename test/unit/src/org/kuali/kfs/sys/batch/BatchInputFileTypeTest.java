@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.KualiTestConstants.TestConstants.Data4;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data4;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

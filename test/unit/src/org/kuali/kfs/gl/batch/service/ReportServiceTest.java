@@ -18,9 +18,9 @@ package org.kuali.kfs.gl.batch.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.gl.service.NightlyOutService;
 import org.kuali.kfs.gl.service.ReportService;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;

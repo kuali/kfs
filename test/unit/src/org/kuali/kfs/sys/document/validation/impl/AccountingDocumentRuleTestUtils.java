@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertSparselyEqualBean;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertSparselyEqualBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,7 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.ThresholdFixture;
 import org.kuali.kfs.sys.context.SpringContext;

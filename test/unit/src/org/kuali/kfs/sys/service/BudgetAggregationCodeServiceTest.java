@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

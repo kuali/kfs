@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
 import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetInstitutionCostShare;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnel;
 import org.kuali.kfs.module.cg.businessobject.BudgetNonpersonnelTest;
@@ -33,6 +32,7 @@ import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.InstitutionCostSharePersonnel;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTask;
 import org.kuali.kfs.module.cg.businessobject.UserAppointmentTaskPeriod;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 /**

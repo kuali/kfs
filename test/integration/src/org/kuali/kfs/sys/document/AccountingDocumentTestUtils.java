@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.sys.document;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertEquality;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertInequality;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertInequality;
 
 import java.util.ArrayList;
 import java.util.List;

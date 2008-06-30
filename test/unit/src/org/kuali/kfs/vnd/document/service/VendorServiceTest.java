@@ -24,7 +24,7 @@ import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address4;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;

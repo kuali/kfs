@@ -17,8 +17,10 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
-import org.kuali.kfs.ConfigureContext;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 
 @ConfigureContext(session = KHUNTLEY)

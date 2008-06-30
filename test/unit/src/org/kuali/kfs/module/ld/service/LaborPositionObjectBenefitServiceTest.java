@@ -18,9 +18,9 @@ package org.kuali.kfs.module.ld.service;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.KualiTestConstants.TestConstants.PositionObjectTestData;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KualiTestConstants.TestConstants.PositionObjectTestData;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 

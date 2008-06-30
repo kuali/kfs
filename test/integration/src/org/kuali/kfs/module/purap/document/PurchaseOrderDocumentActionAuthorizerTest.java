@@ -15,15 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
@@ -31,6 +30,7 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;

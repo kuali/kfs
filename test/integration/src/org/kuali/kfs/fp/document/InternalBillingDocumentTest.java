@@ -15,12 +15,13 @@
  */
 package org.kuali.kfs.fp.document;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.approveDocument;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.routeDocument;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE2;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE3;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
 
@@ -35,10 +36,8 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -48,6 +47,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
 
 /**
  * This class is used to test InternalBillingDocument.

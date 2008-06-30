@@ -15,17 +15,17 @@
  */
 package org.kuali.kfs.sys.service;
 
-import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE2_TOF;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE2_TOF;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.ConfigureContext;
-import org.kuali.kfs.DocumentTestUtils;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;

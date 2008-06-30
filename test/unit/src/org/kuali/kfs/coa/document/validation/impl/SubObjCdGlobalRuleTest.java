@@ -21,10 +21,10 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobal;
 import org.kuali.kfs.coa.businessobject.SubObjCdGlobalDetail;
+import org.kuali.kfs.sys.ConfigureContext;
 
 @ConfigureContext
 public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {

@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 

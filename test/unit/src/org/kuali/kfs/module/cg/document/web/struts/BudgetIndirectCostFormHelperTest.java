@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriod;
 import org.kuali.kfs.module.cg.businessobject.BudgetPeriodTest;
 import org.kuali.kfs.module.cg.businessobject.BudgetTask;
 import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 @ConfigureContext

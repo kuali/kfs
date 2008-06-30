@@ -16,22 +16,21 @@
 package org.kuali.kfs.sys.businessobject;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.ConfigureContext;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
-import org.kuali.kfs.suite.AnnotationTestSuite;
-import org.kuali.kfs.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.CrossSectionSuite;
 
 /**
  * Test class for testing <code>{@link AccountingLineParserBase}</code>

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.sql.Timestamp;
@@ -33,7 +33,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;

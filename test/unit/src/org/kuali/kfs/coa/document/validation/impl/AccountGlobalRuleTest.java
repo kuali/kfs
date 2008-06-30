@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 
 @ConfigureContext

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;

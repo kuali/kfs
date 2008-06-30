@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;

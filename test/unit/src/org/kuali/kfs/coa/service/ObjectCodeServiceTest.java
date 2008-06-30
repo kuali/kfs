@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

@@ -175,6 +175,10 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
 
+        //set the last update user id 
+        AccountsPayableDocumentBase document = (AccountsPayableDocumentBase)apForm.getDocument();
+        document.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier() );
+        
         // if form is not yet calculated, return and prompt user to calculate
         if (requiresCaculate(apForm)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);

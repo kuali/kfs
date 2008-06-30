@@ -111,20 +111,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
-
-        //set the last action performed to find out who was the last to route
-        paymentRequestDocument.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier() );
-        
-        return super.route(mapping, form, request, response);
-    }
-    
-    /**
      * Clears the initial fields on the <code>PaymentRequestDocument</code> which should be accessible from the given form.
      * 
      * @param mapping An ActionMapping

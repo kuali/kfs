@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="VendorStipulation-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="vendorStipulationIdentifier" />
+    <property name="titleAttribute" value="vendorStipulationName" />
     <property name="objectLabel" value="Vendor Stipulation" />
     <property name="attributes" >
       <list>

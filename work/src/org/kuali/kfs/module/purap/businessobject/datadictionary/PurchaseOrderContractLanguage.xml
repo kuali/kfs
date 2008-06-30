@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PurchaseOrderContractLanguage-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="campusCode" />
     <property name="objectLabel" value="Purchase Order Contract Language" />
     <property name="attributes" >
       <list>

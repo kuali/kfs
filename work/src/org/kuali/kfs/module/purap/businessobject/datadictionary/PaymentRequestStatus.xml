@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PaymentRequestStatus-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="paymentRequestStatusCode" />
+    <property name="titleAttribute" value="statusCode" />
     <property name="objectLabel" value="Payment Request Status" />
     <property name="attributes" >
       <list>

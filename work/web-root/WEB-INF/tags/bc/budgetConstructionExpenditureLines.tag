@@ -133,7 +133,7 @@
 
 <%--
                 <c:when test="${!readOnly && empty item.laborObject || (!empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode != 'F')}">
---%>
+
             <c:choose>
                 <c:when test="${readOnly || (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == BCConstants.LABOR_OBJECT_FRINGE_CODE)}">
                     <c:set var="lineIsEditable" value="false" />
@@ -142,7 +142,9 @@
                     <c:set var="lineIsEditable" value="true" />
                 </c:otherwise>
             </c:choose>
-            <c:set var="detailSalarylineIsDeleteable" value="${lineIsEditable && (salsetDisabled || (!empty item.laborObject && !(item.laborObject.detailPositionRequiredIndicator && item.pendingBudgetConstructionAppointmentFundingExists)))}" />
+--%>
+            <c:set var="lineIsEditable" value="${!(readOnly || (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == BCConstants.LABOR_OBJECT_FRINGE_CODE))}" />
+            <c:set var="detailSalarylineIsDeleteable" value="${lineIsEditable && (salsetDisabled || empty item.laborObject || !(item.laborObject.detailPositionRequiredIndicator && item.pendingBudgetConstructionAppointmentFundingExists))}" />
             <c:set var="rowspan" value="${ (!KualiForm.hideAdjustmentMeasurement && (lineIsEditable && !(empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0))) ? 2: 1}"/>
 
             <tr>

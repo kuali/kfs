@@ -104,6 +104,7 @@
 
   <bean id="EffortCertificationDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="CS Sub-Acct" />
+    <property name="required" value="false" />
   </bean>
   <bean id="EffortCertificationDetail-universityFiscalYear" parent="EffortCertificationDetail-universityFiscalYear-parentBean" />
 

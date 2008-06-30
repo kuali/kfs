@@ -25,6 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -342,4 +343,11 @@ public interface PurchaseOrderService {
      * @return               The resulting PurchaseOrderVendorQuote object.
      */
     public PurchaseOrderVendorQuote populateQuoteWithVendor(Integer headerId, Integer detailId, String documentNumber);
+    
+    /**
+     * 
+     * This method takes care of creating PurchaseOrderDocuments from a list of Requisitions on an ACM
+     * @param acmDoc An assign a contract manager document
+     */
+    public void processACMReq(AssignContractManagerDocument acmDoc);
 }

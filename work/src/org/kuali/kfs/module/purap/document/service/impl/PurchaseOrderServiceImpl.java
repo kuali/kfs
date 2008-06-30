@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,11 +63,13 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.VendorChoice;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -1455,5 +1458,29 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
             vendor.setDefaultFaxNumber(defaultAddress.getVendorFaxNumber());
         }
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#processACMReq(org.kuali.kfs.module.purap.document.AssignContractManagerDocument)
+     */
+    public void processACMReq(AssignContractManagerDocument acmDoc) {
+        List<AssignContractManagerDetail> acmDetails = acmDoc.getAssignContractManagerDetails();
+        for (Iterator iter = acmDetails.iterator(); iter.hasNext();) {
+            AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
+
+            if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
+                // Get the requisition for this AssignContractManagerDetail.
+                RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
+
+                if (req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
+                    // only update REQ if code is empty and status is correct
+                    purapService.updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
+                    purapService.saveDocumentNoValidation(req);
+                    createPurchaseOrderDocument(req, acmDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId(), detail.getContractManagerCode());
+                }
+            }
+
+        }// endfor
     }
 }

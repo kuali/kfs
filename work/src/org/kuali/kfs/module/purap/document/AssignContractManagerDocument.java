@@ -118,24 +118,9 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
 
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             boolean isSuccess = true;
+            //TODO: we don't seem to be doing anything with these "failedReqs"
             StringBuffer failedReqs = new StringBuffer();
-            for (Iterator iter = this.getAssignContractManagerDetails().iterator(); iter.hasNext();) {
-                AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
-
-                if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
-                    // Get the requisition for this AssignContractManagerDetail.
-                    RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
-
-                    if (req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
-                        // only update REQ if code is empty and status is correct
-                        SpringContext.getBean(PurapService.class).updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
-                        SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(req);
-                        SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId(), detail.getContractManagerCode());
-
-                    }
-                }
-
-            }// endfor
+            SpringContext.getBean(PurchaseOrderService.class).processACMReq(this);
 
             if (!isSuccess) {
                 failedReqs.deleteCharAt(failedReqs.lastIndexOf(","));
@@ -157,7 +142,6 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
         }
         LOG.debug("handleRouteStatusChange() Leaving method.");
     }
-
 
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();

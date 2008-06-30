@@ -44,6 +44,7 @@ import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.ConfigureContext;
+import org.kuali.kfs.suite.RelatesTo;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
@@ -71,6 +72,7 @@ import edu.iu.uis.eden.xml.XmlConstants;
  * within the attribute is also verfied.
  */
 @ConfigureContext
+@RelatesTo(RelatesTo.JiraIssue.KFSMI1026)
 public class KualiXmlAttributeImplTest extends KualiTestBase {
 
     private static Log LOG = LogFactory.getLog(KualiXmlRuleAttributeImpl.class);

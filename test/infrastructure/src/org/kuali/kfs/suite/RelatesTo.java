@@ -56,7 +56,7 @@ public @interface RelatesTo {
      */
     public enum JiraIssue {
         
-        KULPURAP2226,KULPURAP2283,KFSMI838,NONE;
+        KULPURAP2226,KULPURAP2283,KFSMI838,KFSMI1026,NONE;
 
         private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");
 

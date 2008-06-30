@@ -28,16 +28,19 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.service.ChartService;
 
 public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
     private IndirectCostRecoveryType indirectCostRecoveryType;
     private List IndirectCostRecoveryExclusionTypeDetails;
     private ChartService chartService;
+
     
     public IndirectCostRecoveryTypeRule () {
         chartService = SpringContext.getBean(ChartService.class);
@@ -92,7 +95,7 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
                 }
                 
             } else {
-                // it seems like this should be more of a system error, or something related to functional superusers?
+                LOG.debug("entering isExpired()");
             }
         } else {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_REQUIRED, ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));

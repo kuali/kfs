@@ -16,7 +16,7 @@
         <ref bean="A21SubAccount-accountNumber" />
         <ref bean="A21SubAccount-subAccountNumber" />
         <ref bean="A21SubAccount-subAccountTypeCode" />
-        <ref bean="A21SubAccount-indirectCostRecoveryType" />
+        <ref bean="A21SubAccount-indirectCostRecoveryTypeCode" />
         <ref bean="A21SubAccount-financialIcrSeriesIdentifier" />
         <ref bean="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" />
         <ref bean="A21SubAccount-indirectCostRecoveryAccountNumber" />
@@ -65,11 +65,12 @@
             p:size="2" />
     </property>
   </bean>
-  <bean id="A21SubAccount-indirectCostRecoveryType" parent="A21SubAccount-indirectCostRecoveryType-parentBean" />
-
-  <bean id="A21SubAccount-indirectCostRecoveryType-parentBean" abstract="true" parent="IndirectCostRecoveryType-code">
-    <property name="name" value="indirectCostRecoveryType" />
+  
+  <bean id="A21SubAccount-indirectCostRecoveryTypeCode" parent="A21SubAccount-indirectCostRecoveryTypeCode-parentBean" />
+  <bean id="A21SubAccount-indirectCostRecoveryTypeCode-parentBean" abstract="true" parent="IndirectCostRecoveryType-code">
+    <property name="name" value="indirectCostRecoveryTypeCode" />
   </bean>
+  
   <bean id="A21SubAccount-financialIcrSeriesIdentifier" parent="A21SubAccount-financialIcrSeriesIdentifier-parentBean" />
 
   <bean id="A21SubAccount-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

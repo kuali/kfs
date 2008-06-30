@@ -42,7 +42,7 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryTypeMaintainableImpl.class);
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
-    public static final String DETAIL_ERROR_PATH = MAINTAINABLE_ERROR_PATH + ".add.indirectCostRecoveryExclusionByTypeDetails";
+    public static final String DETAIL_ERROR_PATH = MAINTAINABLE_ERROR_PATH + ".add.indirectCostRecoveryExclusionTypeDetails";
 
     @Override
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
@@ -59,9 +59,9 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
         List<MaintainableSectionDefinition> sections = getMaintenanceDocumentDictionaryService().getMaintainableSections(docTypeName);
         Map<String, String> template = MaintenanceUtils.generateMultipleValueLookupBOTemplate(sections, collectionName);
         try {
-            GlobalVariables.getErrorMap().addToErrorPath(DETAIL_ERROR_PATH);
             int collectionItemNumber = 0; // is there a better way to do this? ie- old school i=0;i<rawValues.size();i++ and rawValues.get(i)?
             boolean isValid = true;
+            GlobalVariables.getErrorMap().addToErrorPath(DETAIL_ERROR_PATH);
             for (PersistableBusinessObject nextBo : rawValues) {
                 IndirectCostRecoveryExclusionType templatedBo = (IndirectCostRecoveryExclusionType) ObjectUtils.createHybridBusinessObject(collectionClass, nextBo, template);
                 templatedBo.setNewCollectionRecord(true);
@@ -69,15 +69,16 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
                 if(!hasBusinessObjectExisted(templatedBo, existingIdentifierList, duplicateIdentifierFieldsFromDataDictionary)) {
                     if(templatedBo.getChartOfAccountsCode().equals(SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode())) {
                         maintCollection.add(templatedBo);
-                    } else {
+                    } else {                
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
                         isValid = false;
                     }
                 }
                 collectionItemNumber++;
                 templatedBo.setActive(true); // TODO remove after active indicator work is complete
             }
-            // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
             GlobalVariables.getErrorMap().removeFromErrorPath(DETAIL_ERROR_PATH);
+            // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
         } 
         catch (Exception e) {
             LOG.error("Unable to add multiple value lookup results " + e.getMessage());
@@ -85,7 +86,6 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
         }
     }
     
-    // GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
  
     @Override
     public void processAfterNew( MaintenanceDocument document, Map<String,String[]> parameters ) {

@@ -37,7 +37,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="check-modularization" depends="make-source">
 		<verifydesign design="design.xml">
 			<path>
-				<fileset dir="build/war/WEB-INF/classes/org/kuali/module" includes="**/*.class" />
+				<fileset dir="build/war/WEB-INF/classes/org/kuali/kfs/module" includes="**/*.class" />
       		</path>
     	</verifydesign>
   	</target>

@@ -194,7 +194,7 @@
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ICRTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.IndirectCostRecoveryTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

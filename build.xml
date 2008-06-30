@@ -286,7 +286,6 @@
 				<path refid="compile.tests.classpath" />
 			</classpath>
 			<formatter type="xml" />
-			<test name="org.kuali.kfs.sys.context.${test.startup.class}" todir="${test.xml.results.directory}" />
 			<batchtest todir="${test.xml.results.directory}">
 				<fileset dir="${test.unit.source.directory}">
 					<include name="${tests.includes}" />

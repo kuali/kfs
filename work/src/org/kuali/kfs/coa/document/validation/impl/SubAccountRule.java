@@ -431,7 +431,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         // existence check for ICR Type Code
         if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryTypeCode())) {
-            if (ObjectUtils.isNull(a21.getIcrTypeCode())) {
+            if (ObjectUtils.isNull(a21.getIndirectCostRecoveryType())) {
                 putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KFSKeyConstants.ERROR_EXISTENCE, "ICR Type Code: " + a21.getIndirectCostRecoveryTypeCode());
             }
         }

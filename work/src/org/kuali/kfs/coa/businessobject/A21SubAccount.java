@@ -45,7 +45,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     private Chart costShareChartOfAccount;
     private Account costShareAccount;
     private SubAccount costShareSourceSubAccount;
-    private IndirectCostRecoveryType icrTypeCode;
+    private IndirectCostRecoveryType indirectCostRecoveryType;
     private Chart chartOfAccounts;
     private Account account;
 
@@ -102,21 +102,21 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the icrTypeCode attribute.
+     * Gets the indirectCostRecoveryType attribute.
      * 
-     * @return Returns the icrTypeCode.
+     * @return Returns the indirectCostRecoveryType.
      */
-    public IndirectCostRecoveryType getIcrTypeCode() {
-        return icrTypeCode;
+    public IndirectCostRecoveryType getIndirectCostRecoveryType() {
+        return indirectCostRecoveryType;
     }
 
     /**
-     * Sets the icrTypeCode attribute value.
+     * Sets the indirectCostRecoveryType attribute value.
      * 
-     * @param icrTypeCode The icrTypeCode to set.
+     * @param indirectCostRecoveryType The indirectCostRecoveryType to set.
      */
-    public void setIcrTypeCode(IndirectCostRecoveryType icrTypeCode) {
-        this.icrTypeCode = icrTypeCode;
+    public void setIndirectCostRecoveryType(IndirectCostRecoveryType icrTypeCode) {
+        this.indirectCostRecoveryType = icrTypeCode;
     }
 
     /**

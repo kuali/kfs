@@ -363,7 +363,7 @@
 		</property>
 	</bean>
 	
-	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.kfs.coa.businessobject.lookup.IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

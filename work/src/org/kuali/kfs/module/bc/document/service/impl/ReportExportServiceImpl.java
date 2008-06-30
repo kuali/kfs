@@ -473,7 +473,7 @@ public class ReportExportServiceImpl implements ReportExportService {
         line = line + pendingEntry.getFinancialBeginningBalanceLineAmount() + fieldSeperator;
         line = line + pendingEntry.getAccountLineAnnualBalanceAmount() + fieldSeperator;
         line = line + textDelimiter + accountReport.getBudgetConstructionOrganizationReports().getResponsibilityCenterCode() + textDelimiter;
-        line = line + "\n";
+        line = line + "\r\n";
         
         return line;
     }
@@ -522,10 +522,10 @@ public class ReportExportServiceImpl implements ReportExportService {
         }
         if ( ObjectUtils.isNotNull(fundingRecord.getBudgetConstructionAdministrativePost()) ) line = line + textDelimiter + fundingRecord.getBudgetConstructionAdministrativePost().getAdministrativePost() + textDelimiter + fieldSeperator;
         else line = line + textDelimiter + textDelimiter + fieldSeperator;
-        //TODO: csf amount kuali integer instead of decimal?
-        line = line + new KualiDecimal(fundingRecord.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount().intValue()) + fieldSeperator;
-        line = line + new KualiDecimal(fundingRecord.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity()) + fieldSeperator;
-        line = line + new KualiDecimal(fundingRecord.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent()) + fieldSeperator;
+        
+        line = line + ( (fundingRecord.getBcnCalculatedSalaryFoundationTracker() == null) ? "" : new KualiDecimal(fundingRecord.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount().intValue())) + fieldSeperator;
+        line = line + ( (fundingRecord.getBcnCalculatedSalaryFoundationTracker() == null) ? "" : new KualiDecimal(fundingRecord.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity())) + fieldSeperator;
+        line = line + ( (fundingRecord.getBcnCalculatedSalaryFoundationTracker() == null) ? "" : new KualiDecimal(fundingRecord.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent())) + fieldSeperator;
         line = line + textDelimiter + fundingRecord.getAppointmentFundingDurationCode() + textDelimiter + fieldSeperator;
         line = line + new KualiDecimal(fundingRecord.getAppointmentRequestedCsfAmount().intValue()) + fieldSeperator;
         line = line + new KualiDecimal(fundingRecord.getAppointmentRequestedCsfFteQuantity()) + fieldSeperator;
@@ -538,9 +538,9 @@ public class ReportExportServiceImpl implements ReportExportService {
         line = line + new KualiDecimal(fundingRecord.getAppointmentRequestedPayRate()) + fieldSeperator;
         line = line + textDelimiter + (fundingRecord.isAppointmentFundingDeleteIndicator() ? "Y" : "N") + textDelimiter + fieldSeperator;
         line = line + fundingRecord.getAppointmentFundingMonth() + fieldSeperator;
-        line = line + textDelimiter + fundingRecord.getBudgetConstructionAppointmentFundingReason().get(0).getAppointmentFundingReasonCode() + textDelimiter + fieldSeperator;
+        line = line + textDelimiter + ((fundingRecord.getBudgetConstructionAppointmentFundingReason().get(0).getAppointmentFundingReasonCode() == null) ? "" : fundingRecord.getBudgetConstructionAppointmentFundingReason().get(0).getAppointmentFundingReasonCode() ) + textDelimiter + fieldSeperator;
         line = line + textDelimiter + accountReport.getBudgetConstructionOrganizationReports().getResponsibilityCenterCode() + textDelimiter;
-        line = line + "\n";
+        line = line + "\r\n";
         
         return line;
     }
@@ -562,7 +562,7 @@ public class ReportExportServiceImpl implements ReportExportService {
         String line = "";
         
         line = line + textDelimiter + monthlyRecord.getDocumentNumber() + textDelimiter + fieldSeperator;
-        line = line + textDelimiter + monthlyRecord.getUniversityFiscalYear() + textDelimiter + fieldSeperator;
+        line = line + monthlyRecord.getUniversityFiscalYear() + fieldSeperator;
         line = line + textDelimiter + monthlyRecord.getChartOfAccountsCode() + textDelimiter + fieldSeperator;
         line = line + textDelimiter + monthlyRecord.getAccountNumber() + textDelimiter + fieldSeperator;
         line = line + textDelimiter + accountReport.getReportsToOrganizationCode() + textDelimiter + fieldSeperator;
@@ -585,7 +585,7 @@ public class ReportExportServiceImpl implements ReportExportService {
         line = line + new KualiDecimal(monthlyRecord.getFinancialDocumentMonth12LineAmount().intValue()) + fieldSeperator;
         line = line + textDelimiter + accountReport.getBudgetConstructionOrganizationReports().getResponsibilityCenterCode() + textDelimiter;
         
-        line = line + "\n";
+        line = line + "\r\n";
         
         return line;
     }

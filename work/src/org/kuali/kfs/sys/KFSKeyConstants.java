@@ -902,7 +902,8 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD = "error.document.IndirectCostRecovery.fieldMustNotBeWildcard";
         public static final String ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART = "error.document.IndirectCostRecovery.chartMustBeUniversityChart";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL = "error.document.IndirectCostRecovery.ratePercentsNotEqual";
-        public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT = "error.document.IndirectCostRecovery.ratePercentsInvalidFormat";
+        public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatScale";
+        public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatZero";
         public static final String ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP = "error.document.IndirectCostRecovery.chartMustBeUniversityChartMultivalueLookup";
     }
 

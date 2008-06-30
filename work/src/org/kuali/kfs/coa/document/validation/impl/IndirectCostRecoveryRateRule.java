@@ -43,8 +43,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 
 public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
-    
-    protected static final String MAINTAINABLE_DETAIL_ERROR_PATH = "add.indirectCostRecoveryRateDetails";
+
+    protected static final String MAINTAINABLE_DETAIL_ERROR_PATH = "indirectCostRecoveryRateDetails";
+    protected static final String MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH = "add.indirectCostRecoveryRateDetails";
     
     private IndirectCostRecoveryRate indirectCostRecoveryRate;
     private IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail;
@@ -58,21 +59,21 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        
+
         BigDecimal awardIndrCostRcvyRatePctCredits = new BigDecimal(0);
         BigDecimal awardIndrCostRcvyRatePctDebits = new BigDecimal(0);
         
         for(int i = 0;i<indirectCostRecoveryRateDetails.size();i++) {
             if(indirectCostRecoveryRateDetails.get(i).isActive()) {
-                GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH + "{" + i + "}");
+                GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH + "[" + i + "]");
                 success &= processCollectionLine(indirectCostRecoveryRateDetails.get(i));
-                GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH + "{" + i + "}");
+                GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH + "[" + i + "]");
                 
                 if(KFSConstants.GL_CREDIT_CODE.equals(indirectCostRecoveryRateDetails.get(i).getTransactionDebitIndicator())) {
-                    awardIndrCostRcvyRatePctCredits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
+                    awardIndrCostRcvyRatePctCredits = awardIndrCostRcvyRatePctCredits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
                 }
                 if(KFSConstants.GL_DEBIT_CODE.equals(indirectCostRecoveryRateDetails.get(i).getTransactionDebitIndicator())) {
-                    awardIndrCostRcvyRatePctDebits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
+                    awardIndrCostRcvyRatePctDebits = awardIndrCostRcvyRatePctDebits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
                 }
             }
         }
@@ -87,12 +88,11 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
 
         // global errors, in KeyConstants or KFSconstants or something, use one for the top of the page (mark doc once)
         // include the key word active (informing that only active records are considered)
-        
-        if(!credits.equals(debits)) {
+        if(!(credits.compareTo(debits) == 0)) {
             for(int i=0;i<indirectCostRecoveryRateDetails.size();i++) {
-                GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH + "{" + i + "}");
+                GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject." + MAINTAINABLE_DETAIL_ERROR_PATH + "[" + i + "]");
                 logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL);
-                GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH + "{" + i + "}");
+                GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject." + MAINTAINABLE_DETAIL_ERROR_PATH + "[" + i + "]");
             }
             success = false;
         }
@@ -136,9 +136,9 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         Integer year = indirectCostRecoveryRate.getUniversityFiscalYear();
         pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         if(!checkExistenceFromTable(Options.class, pkMap)) {
-            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH);
+            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH);
             logErrorUtility(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RiceKeyConstants.ERROR_EXISTENCE);
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH);
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH);
             success = false;
         }
         return success;
@@ -361,13 +361,15 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     
     public boolean checkRateFormat(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
-
         BigDecimal zero = new BigDecimal(0.00);
-        if(item.getAwardIndrCostRcvyRatePct().scale() < 3 || item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) { // recheck
-            logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT);
+        if(item.getAwardIndrCostRcvyRatePct().scale() > 3) { // recheck
+            logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE);
             success = false;
         }
-                
+        if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) { // recheck
+            logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO);
+            success = false;
+        }
         return success;
     }
     

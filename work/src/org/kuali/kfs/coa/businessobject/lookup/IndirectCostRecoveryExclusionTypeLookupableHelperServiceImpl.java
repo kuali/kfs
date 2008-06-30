@@ -21,7 +21,7 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 /**
  * This class overrides the base getActionUrls to set it to an empty string
  */
-public class IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
      * @returns Empty string because we don't want any action links to be displayed on the lookups results page.

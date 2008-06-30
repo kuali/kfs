@@ -28,7 +28,7 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
     
     private Integer universityFiscalYear;
     private String financialIcrSeriesIdentifier;
-    private String active;
+    private boolean active;
     private List indirectCostRecoveryRateDetails;
     
     private Options universityFiscal;
@@ -56,14 +56,6 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
         this.universityFiscalYear = universityFiscalYear;
     }
 
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
-    }
-
     public Options getUniversityFiscal() {
         return universityFiscal;
     }
@@ -86,6 +78,14 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
 
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
         this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
 }

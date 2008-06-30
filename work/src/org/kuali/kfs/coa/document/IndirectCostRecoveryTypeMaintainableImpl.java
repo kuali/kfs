@@ -61,6 +61,7 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
         try {
             GlobalVariables.getErrorMap().addToErrorPath(DETAIL_ERROR_PATH);
             int collectionItemNumber = 0; // is there a better way to do this? ie- old school i=0;i<rawValues.size();i++ and rawValues.get(i)?
+            boolean isValid = true;
             for (PersistableBusinessObject nextBo : rawValues) {
                 IndirectCostRecoveryExclusionType templatedBo = (IndirectCostRecoveryExclusionType) ObjectUtils.createHybridBusinessObject(collectionClass, nextBo, template);
                 templatedBo.setNewCollectionRecord(true);
@@ -69,12 +70,13 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
                     if(templatedBo.getChartOfAccountsCode().equals(SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode())) {
                         maintCollection.add(templatedBo);
                     } else {
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+                        isValid = false;
                     }
                 }
                 collectionItemNumber++;
                 templatedBo.setActive(true); // TODO remove after active indicator work is complete
             }
+            // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
             GlobalVariables.getErrorMap().removeFromErrorPath(DETAIL_ERROR_PATH);
         } 
         catch (Exception e) {
@@ -83,6 +85,8 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
         }
     }
     
+    // GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+ 
     @Override
     public void processAfterNew( MaintenanceDocument document, Map<String,String[]> parameters ) {
         IndirectCostRecoveryType bo = (IndirectCostRecoveryType) document.getNewMaintainableObject().getBusinessObject();

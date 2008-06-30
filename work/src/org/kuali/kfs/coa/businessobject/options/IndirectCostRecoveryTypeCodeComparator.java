@@ -22,7 +22,7 @@ import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 /**
  * This class allows us to compare two {@link ICRTypeCode}
  */
-public class ICRTypeCodeComparator implements Comparator {
+public class IndirectCostRecoveryTypeCodeComparator implements Comparator {
 
     public int compare(Object o1, Object o2) {
         IndirectCostRecoveryType icrType1 = (IndirectCostRecoveryType) o1;

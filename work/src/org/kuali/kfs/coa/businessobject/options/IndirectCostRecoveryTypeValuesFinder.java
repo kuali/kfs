@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link ICRTypeCode}s)
  */
-public class ICRTypeValuesFinder extends KeyValuesBase {
+public class IndirectCostRecoveryTypeValuesFinder extends KeyValuesBase {
 
     /**
      * Creates a list of {@link ICRTypeCode}s using their code as their key, and their code "-" name as the display value
@@ -44,7 +44,7 @@ public class ICRTypeValuesFinder extends KeyValuesBase {
         List sortList = (List) codes;
 
         // calling comparator.
-        ICRTypeCodeComparator icrTypeCodeComparator = new ICRTypeCodeComparator();
+        IndirectCostRecoveryTypeCodeComparator icrTypeCodeComparator = new IndirectCostRecoveryTypeCodeComparator();
 
         // sort using comparator.
         Collections.sort(sortList, icrTypeCodeComparator);

@@ -20,20 +20,28 @@
 			  description="The object containing the appointment funding lines"%>			  			  
 
 <table style="border-top: 1px solid rgb(153, 153, 153); width:90%;" cellpadding="0" cellspacing="0" border="0" class="datatable">
-	<tr>
-		<th style="width: 35%;">&nbsp;</th>
+	<tr>		
+		<th style="width: 15%;">&nbsp;</th>
+		<th style="width: 25%;">&nbsp;</th>
 		<th style="width: 10%;">Amount</th>
-		<th style="width: 20%;">Standard Hours</th>
+		<th style="width: 5%;">&nbsp;</th>
+		<th style="width: 5%;">&nbsp;</th>
+		<th style="width: 10%;">Standard Hours</th>
 		<th style="width: 10%;">FTE</th>
-		<th colspan="2" style="width: 25%;">&nbsp;</th>
+		<th style="width: 10%;">&nbsp;</th>
+		<th style="width: 10%;">&nbsp;</th>
 	</tr>
 	
 	<tr>
-		<th style="text-align: right;">CSF:</th>		             	
+		<th style="text-align: right;">CSF:</th>
+		<td>&nbsp;</td>		             	
 		
 		<td style="text-align: right;">		
          	<fmt:formatNumber value="${KualiForm.csfAmountTotal}" type="number" groupingUsed="true"/>
-		</td>	             	
+		</td>
+		
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>	             	
 		
 		<td style="text-align: right;">
 			<fmt:formatNumber value="${KualiForm.csfStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />
@@ -43,15 +51,21 @@
          	<fmt:formatNumber value="${KualiForm.csfFullTimeEmploymentQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
 		</td>
 		
-		<td colspan="2">&nbsp;</td>	             	         
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>	             	         
 	</tr>
 	
 	<tr>
 		<th style="text-align: right;">Request:</th>	
+		
+		<td>&nbsp;</td>
 
 		<td style="text-align: right;">
 			<fmt:formatNumber value="${KualiForm.appointmentRequestedAmountTotal}" type="number" groupingUsed="true"/>
 		</td>	             	
+		
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
 		
 		<td style="text-align: right;">
          	<fmt:formatNumber value="${KualiForm.appointmentRequestedStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />	
@@ -61,15 +75,21 @@
          	<fmt:formatNumber value="${KualiForm.appointmentRequestedFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />	
 		</td>
 		
-		<td colspan="2">&nbsp;</td>	             		         
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>	             		         
 	</tr>
 		
 	<tr>
 		<th style="text-align: right;">Leaves Request CSF:</th>	
+		
+		<td>&nbsp;</td>
 
-         <td style="text-align: right;">
+        <td style="text-align: right;">
 			<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfAmountTotal}" type="number" groupingUsed="true"/>			
 		</td>	             	
+		
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
 		
 		<td style="text-align: right;">
          	<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfStandardHoursTotal}" type="number" groupingUsed="true" minFractionDigits="2" />	    	
@@ -79,6 +99,7 @@
          	<fmt:formatNumber value="${KualiForm.appointmentRequestedCsfFteQuantityTotal}" type="number" groupingUsed="true" minFractionDigits="4" />
 		</td>
 		
-		<td colspan="2">&nbsp;</td>	         
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>	         
 	</tr>
 </table>	

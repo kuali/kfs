@@ -58,14 +58,14 @@
     <property name="name" value="appointmentFundingReasonAmount" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Funding Reason Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
+    <property name="shortLabel" value="Reason Amount" />
+    <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="9" />
     </property>
     <property name="summary" value="appointmentFundingReasonAmount" />
     <property name="description" value="appointmentFundingReasonAmount description..." />

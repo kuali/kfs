@@ -45,7 +45,10 @@
 <html:hidden property="${fundingLineName}.emplid" />
 <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
-<html:hidden property="${fundingLineName}.versionNumber" />   
+<html:hidden property="${fundingLineName}.versionNumber" /> 
+<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
+<html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
+<html:hidden property="${fundingLineName}.newLineIndicator" /> 
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>

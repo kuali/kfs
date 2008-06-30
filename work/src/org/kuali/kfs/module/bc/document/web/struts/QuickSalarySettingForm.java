@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 
 
 public class QuickSalarySettingForm extends SalarySettingBaseForm {
@@ -59,20 +61,9 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      * 
      * @return the key map for the salary setting expension
      */
-    public Map<String, Object> getKeyMapOfSalarySettingItem() {
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-
-        keyMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
-        keyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getUniversityFiscalYear());
-        keyMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
-        keyMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
-        keyMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.getSubAccountNumber());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, this.getFinancialSubObjectCode());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getFinancialBalanceTypeCode());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, this.getFinancialObjectTypeCode());
-
-        return keyMap;
+    @Override
+    public Map<String, Object> getKeyMapOfSalarySettingItem() {        
+        return ObjectUtil.buildPropertyMap(this, SalarySettingExpansion.getPrimaryKeyFields());
     }
 
     /**

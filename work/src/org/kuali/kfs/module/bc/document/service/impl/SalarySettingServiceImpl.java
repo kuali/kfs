@@ -18,13 +18,11 @@ package org.kuali.kfs.module.bc.document.service.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -32,14 +30,15 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSConstants;
@@ -57,6 +56,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
     private LaborModuleService laborModuleService;
+    private BudgetDocumentService budgetDocumentService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#getDisabled()
@@ -74,7 +74,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateHourlyPayRate(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public BigDecimal calculateHourlyPayRate(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("calculateHourlyPayRate() start");
+        LOG.debug("calculateHourlyPayRate() start");
 
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         BigDecimal fteQuantity = this.calculateFteQuantity(appointmentFunding);
@@ -88,7 +88,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateAnnualPayAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("calculateAnnualPayAmount() start");
+        LOG.debug("calculateAnnualPayAmount() start");
 
         BigDecimal hourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
         BigDecimal fteQuantity = this.calculateFteQuantity(appointmentFunding);
@@ -105,6 +105,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @return the fte quantity calculated from the information of the given appointment funding
      */
     public BigDecimal calculateFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.debug("calculateFteQuantity() start");
+        
         BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
         BigDecimal payMonth = BigDecimal.valueOf(position.getIuPayMonths());
         BigDecimal fundingMonth = BigDecimal.valueOf(appointmentFunding.getAppointmentFundingMonth());
@@ -120,7 +122,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#isHourlyPaid(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger)
      */
     public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger) {
-        LOG.info("isHourlyPaid() start");
+        LOG.debug("isHourlyPaid() start");
 
         Integer fiscalYear = pendingBudgetConstructionGeneralLedger.getUniversityFiscalYear();
         String chartOfAccountsCode = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode();
@@ -154,6 +156,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public PendingBudgetConstructionAppointmentFunding findVacantAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.debug("findVacantAppointmentFunding() start");
+        
         Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
         List<String> keyFields = new ArrayList<String>();
         keyFields.addAll(keyFieldValues.keySet());
@@ -176,6 +180,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public boolean canBeVacant(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("canBeVacant() start");
         
+        if(appointmentFunding.isNewLineIndicator()) {
+            return false;
+        }
+
         // the given funding line has not been deleted
         if (appointmentFunding.isAppointmentFundingDeleteIndicator()) {
             return false;
@@ -309,6 +317,18 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#retriveSalarySalarySettingExpansion(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        BudgetConstructionHeader budgetDocument = this.getBudgetConstructionHeader(appointmentFunding);
+
+        Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(appointmentFunding, SalarySettingExpansion.getPrimaryKeyFields());
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetDocument.getDocumentNumber());
+
+        return (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#resetAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public void resetAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
@@ -321,9 +341,12 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);
         appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO);
 
-        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
         appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
+
+        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        appointmentFunding.setPositionObjectChangeIndicator(false);
+        appointmentFunding.setPositionSalaryChangeIndicator(false);
     }
 
     /**
@@ -340,15 +363,30 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public void revert(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        PendingBudgetConstructionAppointmentFunding vacantFunding = this.findVacantAppointmentFunding(appointmentFundings, appointmentFunding); 
-        
-        if(vacantFunding != null) {
+        PendingBudgetConstructionAppointmentFunding vacantFunding = this.findVacantAppointmentFunding(appointmentFundings, appointmentFunding);
+
+        if (vacantFunding != null) {
             appointmentFundings.remove(vacantFunding);
-        } 
-        
-        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = (PendingBudgetConstructionAppointmentFunding)businessObjectService.retrieve(appointmentFunding);
-        appointmentFundings.add(newAppointmentFunding);  
+        }
+
+        PendingBudgetConstructionAppointmentFunding newAppointmentFunding = (PendingBudgetConstructionAppointmentFunding) businessObjectService.retrieve(appointmentFunding);
+        appointmentFundings.add(newAppointmentFunding);
         appointmentFundings.remove(appointmentFunding);
+    }
+
+    /**
+     * get the budget document with the information provided by the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return the budget document with the information provided by the given appointment funding
+     */
+    private BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+        String accountNumber = appointmentFunding.getAccountNumber();
+        String subAccountNumber = appointmentFunding.getSubAccountNumber();
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+
+        return budgetDocumentService.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
     }
 
     /**
@@ -359,13 +397,14 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     private void resetDeletedFundingLines(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : pendingBudgetConstructionAppointmentFunding) {
-            if (appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isPersistedDeleteIndicator()) {
-                this.markAsDelete(appointmentFunding);
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator() || appointmentFunding.isPersistedDeleteIndicator()) {
+                continue;
+            }
 
-                List<BudgetConstructionAppointmentFundingReason> reasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
-                if (reasons != null) {
-                    reasons.clear();
-                }
+            this.markAsDelete(appointmentFunding);
+            List<BudgetConstructionAppointmentFundingReason> reasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
+            if (reasons != null) {
+                reasons.clear();
             }
         }
     }
@@ -406,17 +445,20 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         int indexOfMonth = 1;
         for (String[] monthlyAmountFieldPair : BCConstants.BC_MONTHLY_AMOUNTS) {
             String monthlyAmountField = monthlyAmountFieldPair[0];
-            if (PropertyUtils.isReadable(monthlyGLRecord, monthlyAmountField) && PropertyUtils.isWriteable(monthlyGLRecord, monthlyAmountField)) {
-                try {
-                    KualiInteger currentMonthlyAmount = (KualiInteger) PropertyUtils.getProperty(monthlyGLRecord, monthlyAmountField);
-                    KualiInteger newMonthlyAmount = this.getNewMonthlyAmount(currentMonthlyAmount, adjustment, indexOfMonth++, remainder);
+            
+            if (!PropertyUtils.isReadable(monthlyGLRecord, monthlyAmountField) || !PropertyUtils.isWriteable(monthlyGLRecord, monthlyAmountField)) {
+                continue;
+            }
+            
+            try {
+                KualiInteger currentMonthlyAmount = (KualiInteger) PropertyUtils.getProperty(monthlyGLRecord, monthlyAmountField);
+                KualiInteger newMonthlyAmount = this.getNewMonthlyAmount(currentMonthlyAmount, adjustment, indexOfMonth++, remainder);
 
-                    PropertyUtils.setProperty(monthlyGLRecord, monthlyAmountField, newMonthlyAmount);
-                }
-                catch (Exception e) {
-                    LOG.fatal("Cannot update the monthly amount." + e);
-                    throw new RuntimeException("Cannot update the monthly amount." + e);
-                }
+                PropertyUtils.setProperty(monthlyGLRecord, monthlyAmountField, newMonthlyAmount);
+            }
+            catch (Exception e) {
+                LOG.fatal("Cannot update the monthly amount." + e);
+                throw new RuntimeException("Cannot update the monthly amount." + e);
             }
         }
     }
@@ -512,5 +554,14 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
         this.laborModuleService = laborModuleService;
+    }
+
+    /**
+     * Sets the budgetDocumentService attribute value.
+     * 
+     * @param budgetDocumentService The budgetDocumentService to set.
+     */
+    public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
+        this.budgetDocumentService = budgetDocumentService;
     }
 }

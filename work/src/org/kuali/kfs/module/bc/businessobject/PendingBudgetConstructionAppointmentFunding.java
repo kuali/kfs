@@ -85,6 +85,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private KualiDecimal adjustmentAmount;
     private boolean persistedDeleteIndicator;
     private boolean vacatable;
+    private boolean newLineIndicator;
 
 
     /**
@@ -909,5 +910,22 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         super.afterLookup(persistenceBroker);
 
         this.setPersistedDeleteIndicator(this.isAppointmentFundingDeleteIndicator());
+        this.setNewLineIndicator(false);
+    }
+
+    /**
+     * Gets the newLineIndicator attribute. 
+     * @return Returns the newLineIndicator.
+     */
+    public boolean isNewLineIndicator() {
+        return newLineIndicator;
+    }
+
+    /**
+     * Sets the newLineIndicator attribute value.
+     * @param newLineIndicator The newLineIndicator to set.
+     */
+    public void setNewLineIndicator(boolean newLineIndicator) {
+        this.newLineIndicator = newLineIndicator;
     }
 }

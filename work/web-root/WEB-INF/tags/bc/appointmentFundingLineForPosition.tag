@@ -45,7 +45,10 @@
 <html:hidden property="${fundingLineName}.positionNumber" />
 <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
 <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
-<html:hidden property="${fundingLineName}.versionNumber" />   
+<html:hidden property="${fundingLineName}.versionNumber" />  
+<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
+<html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
+<html:hidden property="${fundingLineName}.newLineIndicator" />
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>
@@ -67,9 +70,9 @@
 		    attributes="${pbcafAttributes}"
 		    field="appointmentFundingDeleteIndicator"
 		    fieldAlign="center"
-		    readOnly="${!hasBeenAdded}"
+		    readOnly="false"
 		    rowSpan="1 "dataFieldCssClass="nobord"
-		    anchor="salaryexistingLineLineAnchor${lineIndex}" />
+		    anchor="salaryexistingLineLineAnchor${lineIndex}" disabled="true"/>
 		      
 		 <bc:pbglLineDataCell dataCellCssClass="datacell"
 		    accountingLine="${fundingLineName}"

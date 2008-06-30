@@ -98,9 +98,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
-        // use the passed url parms to get the record from DB
         Map<String, Object> keyMap = salarySettingForm.getKeyMapOfSalarySettingItem();
-
         SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, keyMap);
 
         if (salarySettingExpansion == null) {

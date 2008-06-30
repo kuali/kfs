@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.bc.businessobject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.kuali.kfs.integration.businessobject.LaborLedgerPositionObjectBenefit
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessObjectBase {
@@ -627,18 +629,25 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return the primary key map with the field names as the map keys and the field values as the map values
      */
     public Map<String, Object> buildPrimaryKeyMap() {
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-
-        keyMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
-        keyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.getUniversityFiscalYear());
-        keyMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
-        keyMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
-        keyMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.getSubAccountNumber());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, this.getFinancialSubObjectCode());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getFinancialBalanceTypeCode());
-        keyMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, this.getFinancialObjectTypeCode());
-
-        return keyMap;
+        return ObjectUtil.buildPropertyMap(this, getPrimaryKeyFields());
+    }
+    
+    /**
+     * get the list of primary keys
+     * @return the list of primary keys
+     */
+    public static List<String> getPrimaryKeyFields(){
+        List<String> primaryKeyFields = new ArrayList<String>();
+        primaryKeyFields.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+        primaryKeyFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        primaryKeyFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        primaryKeyFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        primaryKeyFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        primaryKeyFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        primaryKeyFields.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        primaryKeyFields.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        primaryKeyFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        
+        return primaryKeyFields;
     }
 }

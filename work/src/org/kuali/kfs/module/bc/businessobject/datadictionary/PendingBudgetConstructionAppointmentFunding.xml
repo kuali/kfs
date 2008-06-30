@@ -161,7 +161,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Amount" />
     <property name="shortLabel" value="Requested Csf Amount" />
-    <property name="maxLength" value="16" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -179,13 +179,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Fte Quantity" />
     <property name="shortLabel" value="Requested Csf FTE" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="7" />
+            p:size="8" />
     </property>
     <property name="summary" value="appointmentRequestedCsfFteQuantity" />
     <property name="description" value="appointmentRequestedCsfFteQuantity description..." />
@@ -197,13 +197,13 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Time Percent" />
     <property name="shortLabel" value="Requested Csf Time Percent" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="7" />
+            p:size="8" />
     </property>
     <property name="summary" value="appointmentRequestedCsfTimePercent" />
     <property name="description" value="appointmentRequestedCsfTimePercent description..." />
@@ -233,7 +233,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Pay Rate" />
     <property name="shortLabel" value="Pay Rate" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
@@ -251,7 +251,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Time Percent" />
     <property name="shortLabel" value="Requested Time Percent" />
-    <property name="maxLength" value="6" />
+    <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
@@ -287,7 +287,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Total Intended FTE Quantity" />
     <property name="shortLabel" value="Total Intended FTE" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
@@ -464,7 +464,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Adjustment Amount" />
     <property name="shortLabel" value="Adjustment Amount" />
-    <property name="maxLength" value="19" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -482,7 +482,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Adjust" />
     <property name="shortLabel" value="Adjust" />
-    <property name="maxLength" value="19" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>

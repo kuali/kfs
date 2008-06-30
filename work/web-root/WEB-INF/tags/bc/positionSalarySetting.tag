@@ -51,6 +51,12 @@
     <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="fundingLine" varStatus="status">
 		<c:set var="fundingLineName" value="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"/>
 		<c:set var="isVacant" value="${fundingLine.emplid eq BCConstants.VACANT_EMPLID}" />
+		<c:set var="isNewLine" value="${fundingLine.newLineIndicator}" />
+		<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
+		<c:set var="notEditable" value="${readOnly || fundingLine.persistedDeleteIndicator}"/>
+		<c:set var="canPurge" value="${not notEditable && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
+		<c:set var="canDelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.appointmentFundingDeleteIndicator }" />
+		<c:set var="canUndelete" value="${not notEditable && not isVacant && not isNewLine && not fundingLine.vacatable && fundingLine.appointmentFundingDeleteIndicator}" />
 		
 	    <c:set var="subTabTitle" value="${fundingLine.chartOfAccountsCode}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.accountNumber}"/>
@@ -61,16 +67,32 @@
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${subTabTitle}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true">    		
-	    		<c:if test="${not isVacant}">
+	    		<c:if test="${fundingLine.vacatable}">
 					<html:image property="methodToCall.vacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-vacate.gif" 
 						title="Vacate Salary Setting Line ${status.index}"
 						alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
-					
+				</c:if>
+				
+				<c:if test="${canPurge}">	
 					<html:image property="methodToCall.purgeSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
 						src="${ConfigProperties.externalizable.images.url}tinybutton-purge.gif" 
 						title="Purge Salary Setting Line ${status.index}"
 						alt="Purge Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</c:if>
+				
+				<c:if test="${canDelete && not canPurge}">	
+					<html:image property="methodToCall.deleteSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif" 
+						title="Delete Salary Setting Line ${status.index}"
+						alt="Delete Salary Setting Line ${status.index}" styleClass="tinybutton" />
+				</c:if>
+				
+				<c:if test="${canUndelete}">	
+					<html:image property="methodToCall.revertSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-revert1.gif" 
+						title="revert Salary Setting Line ${status.index}"
+						alt="revert Salary Setting Line ${status.index}" styleClass="tinybutton" />
 				</c:if>
 			</bc:appointmentFundingLineForPosition>	
 		</kul:subtab>

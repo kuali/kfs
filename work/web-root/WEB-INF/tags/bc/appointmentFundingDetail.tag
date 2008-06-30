@@ -29,14 +29,14 @@
 <table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
 		<th style="width: 15%;">&nbsp;</th>
-		<th style="width: 20%;">Row Operation</th>
+		<th style="width: 25%;">Row Operation</th>
 		<th style="width: 10%;">Amount</th>
 		<th style="width: 5%;">Hourly</th>
 		<th style="width: 5%;">Months</th>
 		<th style="width: 10%;">Percent Time</th>
 		<th style="width: 10%;">FTE</th>
 		<th style="width: 10%;">Reason Select</th>
-		<th style="width: 15%;">Reason Amount</th>
+		<th style="width: 10%;">Reason Amount</th>
 	</tr>
 	
 	<c:if test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">
@@ -132,7 +132,7 @@
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedFteQuantity"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="${true}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -193,7 +193,7 @@
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedCsfFteQuantity"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="${true}"
                 rowSpan="1" dataFieldCssClass="amount" />
 						
         <td class="datacell">&nbsp;</td>

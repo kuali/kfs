@@ -154,4 +154,12 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      */
     public void revert(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * retrive the salary setting expension from the information provided by the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return the salary setting expension with the information provided by the given appointment funding
+     */
+    public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

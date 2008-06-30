@@ -98,6 +98,7 @@
 			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
 			<html:hidden property="${fundingLineName}.versionNumber" />
 			<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
+			<html:hidden property="${fundingLineName}.newLineIndicator" />
 		</bc:pbglLineDataCell>
 	
 		<%-- Position Number --%>	

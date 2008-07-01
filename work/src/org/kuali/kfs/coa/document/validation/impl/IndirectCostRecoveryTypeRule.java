@@ -79,28 +79,21 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
     
     public boolean itemIsValid(IndirectCostRecoveryExclusionType item) {
         boolean isValid = true;
-        if(StringUtils.isNotBlank(item.getChartOfAccountsCode()) && StringUtils.isNotBlank(item.getFinancialObjectCode())) {
-            if(ObjectUtils.isNotNull(chartService.getUniversityChart().getChartOfAccountsCode())) {
-                
-                item.refreshReferenceObject(KFSPropertyConstants.CHART);
-                if(item.getChartOfAccountsCode().equals(chartService.getUniversityChart().getChartOfAccountsCode())) {
-                    item.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
-                    if(ObjectUtils.isNull(item.getObjectCodeCurrent())) {
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, ddService.getAttributeLabel(IndirectCostRecoveryExclusionType.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
-                        isValid = false;
-                    }
-                } else {
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, item.getChartOfAccountsCode(), ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-                    isValid = false;                    
+        if(ObjectUtils.isNotNull(chartService.getUniversityChart().getChartOfAccountsCode())) {
+            item.refreshReferenceObject(KFSPropertyConstants.CHART);
+            if(item.getChartOfAccountsCode().equals(chartService.getUniversityChart().getChartOfAccountsCode())) {
+                item.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
+                if(ObjectUtils.isNull(item.getObjectCodeCurrent())) {
+                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, ddService.getAttributeLabel(IndirectCostRecoveryExclusionType.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
+                    isValid = false;
                 }
-                
             } else {
-                LOG.debug("entering isExpired()");
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, item.getChartOfAccountsCode(), ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+                isValid = false;                    
             }
+            
         } else {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_REQUIRED, ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_REQUIRED, ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
-            isValid = false;
+            LOG.info("The Chart Service found no Charts of University type.");
         }
         return isValid;
     }

@@ -58,10 +58,10 @@ public class IndirectCostRecoveryRateMaintainableImpl extends KualiMaintainableI
         IndirectCostRecoveryRateDetail addLine = (IndirectCostRecoveryRateDetail) newCollectionLines.get(collectionName);
         List<IndirectCostRecoveryRateDetail> maintCollection = (List<IndirectCostRecoveryRateDetail>) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
         
-        if(StringUtils.isBlank(addLine.getSubAccountNumber())) {
+        if(StringUtils.isBlank(addLine.getSubAccountNumber()) || StringUtils.containsOnly(addLine.getSubAccountNumber(), "-")) {
             addLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
-        if(StringUtils.isBlank(addLine.getFinancialSubObjectCode())) {
+        if(StringUtils.isBlank(addLine.getFinancialSubObjectCode()) || StringUtils.containsOnly(addLine.getFinancialSubObjectCode(), "-")) {
             addLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
 

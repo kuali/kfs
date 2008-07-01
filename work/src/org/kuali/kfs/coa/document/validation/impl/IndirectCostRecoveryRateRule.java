@@ -304,7 +304,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     public boolean propertyIsWildcard(String property) {
         boolean success = false;
         if(!(property == null)) {
-            success = property.equals("@") || property.equals("#");
+            success = KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(property) || KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(property);
         }
         return success;
     }
@@ -317,20 +317,22 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         String objCd = item.getFinancialObjectCode();
         String subObjCd = item.getFinancialSubObjectCode();
         
+        boolean blah = (true) || (false);
+        
         success =
-            (chart.equals("@") && 
-                    acct.equals("@") && 
-                    (StringUtils.isBlank(subAcct) || subAcct.equals("@") || StringUtils.containsOnly(subAcct, "-")) && 
+            (KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(chart) &&
+                    KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(acct) &&
+                    (StringUtils.isBlank(subAcct) || KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(subAcct) || StringUtils.containsOnly(subAcct, "-")) &&
                     StringUtils.isNumeric(objCd) &&
                     (StringUtils.isBlank(subObjCd) || StringUtils.isAlphanumeric(subObjCd) || StringUtils.containsOnly(subObjCd, "-"))
-                    ) ||
-            (chart.equals("#") && 
-                    acct.equals("#") && 
-                    (StringUtils.isBlank(subAcct) || subAcct.equals("#") || StringUtils.containsOnly(subAcct, "-")) && 
+            ) ||
+            (KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(chart) &&
+                    KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(acct) &&
+                    (StringUtils.isBlank(subAcct) || KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(subAcct) || StringUtils.containsOnly(subAcct, "-")) &&
                     StringUtils.isNumeric(objCd) &&
                     (StringUtils.isBlank(subObjCd) || StringUtils.isAlphanumeric(subObjCd) || StringUtils.containsOnly(subObjCd, "-"))
-                    ) ;
-
+            );
+            
         return success;
     }
     
@@ -343,15 +345,15 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         String subObjCd = item.getFinancialSubObjectCode();
         
         success =
-            (chart.equals("@") && 
-                    objCd.equals("@") && 
-                    (StringUtils.isBlank(subObjCd) || subObjCd.equals("@") || StringUtils.containsOnly(subObjCd, "-")) && 
+            (KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(chart) && 
+                    KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(objCd) && 
+                    (StringUtils.isBlank(subObjCd) || KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(subObjCd) || StringUtils.containsOnly(subObjCd, "-")) && 
                     StringUtils.isNumeric(acct) &&
                     (StringUtils.isBlank(subAcct) || StringUtils.isAlphanumeric(subAcct) || StringUtils.containsOnly(subAcct, "-"))
                     ) ||
-            (chart.equals("#") && 
-                    objCd.equals("#") && 
-                    (StringUtils.isBlank(subObjCd) || subObjCd.equals("#") || StringUtils.containsOnly(subObjCd, "-")) && 
+            (KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(chart) && 
+                    KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(objCd) && 
+                    (StringUtils.isBlank(subObjCd) || KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(subObjCd) || StringUtils.containsOnly(subObjCd, "-")) && 
                     StringUtils.isNumeric(acct) &&
                     (StringUtils.isBlank(subAcct) || StringUtils.isAlphanumeric(subAcct) || StringUtils.containsOnly(subAcct, "-"))
                     ) ;

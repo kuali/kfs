@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
@@ -590,7 +590,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true if GLPE entries are successfully created.
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.core.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -740,7 +740,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true general ledger pending entries are generated without any problems
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

@@ -13,8 +13,11 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
  */
-INSERT INTO FP_DOC_TYPE_T(FDOC_TYP_CD, OBJ_ID, VER_NBR, FDOC_GRP_CD, FDOC_NM, FIN_ELIM_ELGBL_CD, FDOC_TYP_ACTIVE_CD, FDOC_RTNG_RULE_CD, FDOC_AUTOAPRV_DAYS, FDOC_BALANCED_CD, TRN_SCRBBR_OFST_GEN_IND)
-    VALUES('PROG', sys_guid(), 0, 'MR', 'Program Code', 'N', 'Y', 'N', 0, 'N', 'N')
+INSERT INTO FP_DOC_TYPE_T(FDOC_TYP_CD, OBJ_ID, VER_NBR, FDOC_NM, FDOC_TYP_ACTIVE_CD)
+    VALUES('PROG', sys_guid(), 0, 'Program Code', 'Y')
+/
+insert into fp_doc_type_attr_t (DOC_TYP_ATTR_VAL,DOC_TYP_ATTR_CD,ID,OBJ_ID,VER_NBR,ACTIVE_IND,FDOC_TYP_CD) 
+    values ('Y','TRANSACTION_SCRUBBER_OFFSET_GENERATION',FP_DOC_TYPE_ATTR_ID_SEQ.nextval,sys_guid(),1,'Y','PROG'
 /
 COMMIT
 /

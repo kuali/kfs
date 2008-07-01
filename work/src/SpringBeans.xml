@@ -56,7 +56,7 @@
 		<property name="dbPlatform" ref="dbPlatform" />
 	</bean>
 
-	<bean id="kfsRootResourceLoader" class="org.kuali.core.workflow.KFSResourceLoader">
+	<bean id="kfsRootResourceLoader" class="org.kuali.kfs.sys.context.FinancialSystemResourceLoader">
 		<property name="overridableServices">
 			<set>
 				<value>kualiConfigurationService</value>
@@ -345,7 +345,6 @@
 				<value>classpath:org/kuali/core/bo/datadictionary/Campus.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/CampusType.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/DocumentHeader.xml</value>
-				<value>classpath:org/kuali/core/bo/datadictionary/DocumentStatus.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/DocumentType.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/EmployeeStatus.xml</value>
 				<value>classpath:org/kuali/core/bo/datadictionary/EmployeeType.xml</value>

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -387,7 +387,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -423,7 +423,7 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
 
     /**
      * The Cash Control document doesn't generate general ledger pending entries based off of the accounting lines on the document
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;

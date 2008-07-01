@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
@@ -28,6 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
@@ -217,7 +217,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
      * @return true if there are no issues creating GLPE's
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

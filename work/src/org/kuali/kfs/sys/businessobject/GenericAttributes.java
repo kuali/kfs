@@ -31,9 +31,18 @@ public class GenericAttributes extends AttributeReferenceDummy {
     private String maxDollarAmount;
     private String minDollarAmount;
     private String totalDollarAmount;
+    private String financialDocumentStatusName;
 
     public GenericAttributes() {
         super();
+    }
+
+    public String getFinancialDocumentStatusName() {
+        return financialDocumentStatusName;
+    }
+
+    public void setFinancialDocumentStatusName(String financialDocumentStatusName) {
+        this.financialDocumentStatusName = financialDocumentStatusName;
     }
 
     public String getDocumentTotalAmount() {

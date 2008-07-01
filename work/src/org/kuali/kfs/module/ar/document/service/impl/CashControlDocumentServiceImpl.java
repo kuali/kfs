@@ -22,7 +22,7 @@ import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.service.ChartService;
@@ -123,7 +123,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createCashReceiptGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument,
-     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createCashReceiptGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
@@ -167,7 +167,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createDistributionOfIncomeAndExpenseGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createDistributionOfIncomeAndExpenseGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createDistributionOfIncomeAndExpenseGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -218,7 +218,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createGeneralErrorCorrectionGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createGeneralErrorCorrectionGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;

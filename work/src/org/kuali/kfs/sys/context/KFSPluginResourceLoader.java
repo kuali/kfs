@@ -19,14 +19,13 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.core.workflow.KFSResourceLoader;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.BaseResourceLoader;
 import org.kuali.rice.resourceloader.ResourceLoader;
 
 /**
  * A ResourceLoader for the KFS plugin for KEW.  Essentially, this will load the KFS
- * Spring Context and then delegate calls to the KFSResourceLoader which is loaded
+ * Spring Context and then delegate calls to the FinancialSystemResourceLoader which is loaded
  * by Spring.
  *
  * @author Eric Westfall
@@ -48,9 +47,9 @@ public class KFSPluginResourceLoader extends BaseResourceLoader {
             return;
         }
         SpringContext.initializePluginApplicationContext();
-        ResourceLoader kfsResourceLoader = SpringContext.getBean(KFSResourceLoader.class);
+        ResourceLoader kfsResourceLoader = SpringContext.getBean(FinancialSystemResourceLoader.class);
         if (kfsResourceLoader == null) {
-            throw new RuntimeException("Could not locate the KFSResourceLoader");
+            throw new RuntimeException("Could not locate the FinancialSystemResourceLoader");
         }
         delegateResourceLoader = kfsResourceLoader;
         super.start();

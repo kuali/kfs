@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.fp.businessobject.JournalVoucherAccountingLineParser;
@@ -375,7 +375,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @return This method always returns true.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override

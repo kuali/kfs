@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class...
+ * This class is a Financial System specific Document Service class to allow for the {@link #findByDocumentHeaderStatusCode(Class, String)} method.
  */
 public class FinancialSystemDocumentServiceImpl extends DocumentServiceImpl implements FinancialSystemDocumentService {
     

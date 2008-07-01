@@ -25,7 +25,7 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.MaintenanceDocumentService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -105,7 +105,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;

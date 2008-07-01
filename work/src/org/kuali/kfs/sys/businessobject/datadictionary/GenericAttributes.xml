@@ -39,6 +39,7 @@
 <ref bean="GenericAttributes-displayType"/>
 <ref bean="GenericAttributes-documentTotalAmount"/>
 <ref bean="GenericAttributes-routingAttributeTitle"/>
+<ref bean="GenericAttributes-financialDocumentStatusName"/>
 </list>
 </property>
 </bean>
@@ -494,5 +495,23 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Title is not used" />
+  </bean>
+  <bean id="GenericAttributes-financialDocumentStatusName" parent="GenericAttributes-financialDocumentStatusName-parentBean" />
+
+  <bean id="GenericAttributes-financialDocumentStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentStatusName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Financial Document Status Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+    <property name="summary" value="financialDocumentStatusName" />
+    <property name="description" value="financialDocumentStatusName description..." />
   </bean>
 </beans>

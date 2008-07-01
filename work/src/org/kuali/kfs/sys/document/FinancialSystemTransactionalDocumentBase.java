@@ -19,11 +19,11 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.exception.WorkflowRuntimeException;
@@ -106,16 +106,16 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     @Override
     public void handleRouteStatusChange() {
         if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.CANCELLED);
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
         else if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.ENROUTE);
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.DISAPPROVED);
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KNSConstants.DocumentStatusCodes.APPROVED);
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
         if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {

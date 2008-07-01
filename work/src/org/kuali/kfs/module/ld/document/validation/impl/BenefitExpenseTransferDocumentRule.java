@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -114,7 +114,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * @param accountingLine AccountingLine type
      * @return boolean
      * @see org.kuali.kfs.module.ld.document.validation.impl.LaborExpenseTransferDocumentRules#processGenerateLaborLedgerPendingEntries(org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument,
-     *      org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument document, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

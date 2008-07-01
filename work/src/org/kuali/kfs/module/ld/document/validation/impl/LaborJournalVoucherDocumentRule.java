@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.fp.document.validation.impl.JournalVoucherDocumentRule;
@@ -133,7 +133,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
      * @param sequenceHelper
      * @return boolean
      * @see org.kuali.kfs.module.ld.document.validation.GenerateLaborLedgerPendingEntriesRule#processGenerateLaborLedgerPendingEntries(org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");

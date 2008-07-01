@@ -408,12 +408,24 @@
         <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--71fe7729">
           <documentTypeCode>TF</documentTypeCode>
           <documentName>TRANSFER OF FUNDS</documentName>
-          <finEliminationsEligibilityIndicator>false</finEliminationsEligibilityIndicator>
           <documentTypeActiveIndicator>true</documentTypeActiveIndicator>
+<!--
+          <finEliminationsEligibilityIndicator>false</finEliminationsEligibilityIndicator>
           <finDocumentRoutingRuleCode>F</finDocumentRoutingRuleCode>
           <finDocAutomaticApprovalDays>0</finDocAutomaticApprovalDays>
           <financialDocumentBalancedIndicator>false</financialDocumentBalancedIndicator>
           <transactionScrubberOffsetGenerationIndicator>false</transactionScrubberOffsetGenerationIndicator>
+-->
+          <documentTypeAttributes class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl">
+            <org.kuali.core.bo.DocumentTypeAttribute>
+              <id>2</id>
+              <key>TRANSACTION_SCRUBBER_OFFSET_GENERATION</key>
+              <label>Scrubber Offset Indicator</label>
+              <value>N</value>
+              <active>Y</active>
+              <documentTypeCode>TF</documentTypeCode>
+            </org.kuali.core.bo.DocumentTypeAttribute>
+          </documentTypeAttributes>
           <versionNumber>1</versionNumber>
           <objectId>053BCA133ECD9D86E043814FD8819D86</objectId>
           <newCollectionRecord>false</newCollectionRecord>

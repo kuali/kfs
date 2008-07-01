@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.bo.DocumentTypeAttribute;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -1522,9 +1523,23 @@ public class ScrubberProcess {
         // type code is turned off in the document type table
         String documentTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();
         DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
-        if ((!documentType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
-            return true;
+        if (flexibleOffsetAccountService.getEnabled()) {
+            if (ObjectUtils.isNull(documentType.getDocumentTypeAttributes()) || (documentType.getDocumentTypeAttributes().isEmpty())) {
+                return true;
+            } else {
+                for (DocumentTypeAttribute attribute : documentType.getDocumentTypeAttributes()) {
+                    if (KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY.equals(attribute.getKey())) {
+                        if (!KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE.equals(attribute.getValue())) {
+                            return true;
+                        }
+                        break;
+                    }
+                }
+            }
         }
+//        if ((!documentType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
+//            return true;
+//        }
 
         // Create an offset
         OriginEntryFull offsetEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);

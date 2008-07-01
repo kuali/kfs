@@ -53,6 +53,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String KNS = KNSConstants.KNS_NAMESPACE;
     }
     
+    public static class DocumentTypeAttributes {
+        public static final String INDICATOR_ATTRIBUTE_TRUE_VALUE = "Y";
+
+        public static final String TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY = "TRANSACTION_SCRUBBER_OFFSET_GENERATION";
+    }
+    
     // special user used in the post-processor
     public static final String SYSTEM_USER = "KULUSER";
 

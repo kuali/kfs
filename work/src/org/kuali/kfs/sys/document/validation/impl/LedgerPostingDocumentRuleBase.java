@@ -15,17 +15,11 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import org.apache.log4j.Logger;
+import org.kuali.core.rules.DocumentRuleBase;
+
 
 /**
- * This class contains a helper method used to implement a rule for the CashManagementDocument (a FinancialDocument) as well as to
- * implement rules for TransactionalDocuments.
+ * This class contains all of the business rules that are common to all ledger posting documents.
  */
-public class GeneralLedgerPostingDocumentRuleBase extends LedgerPostingDocumentRuleBase {
-    /**
-     * Logger for this class
-     */
-    private static final Logger LOG = Logger.getLogger(GeneralLedgerPostingDocumentRuleBase.class);
-
-    
+public class LedgerPostingDocumentRuleBase extends DocumentRuleBase {
 }

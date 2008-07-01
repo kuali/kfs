@@ -137,7 +137,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         }
 
         // if the blocking document hasn't been routed, we can ignore it
-        return KNSConstants.DocumentStatusCodes.INITIATED.equals(documentHeader.getFinancialDocumentStatusCode());
+        return KFSConstants.DocumentStatusCodes.INITIATED.equals(documentHeader.getFinancialDocumentStatusCode());
     }
     
     /**

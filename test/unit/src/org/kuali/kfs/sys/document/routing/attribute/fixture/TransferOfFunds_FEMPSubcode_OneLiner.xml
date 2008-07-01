@@ -1117,7 +1117,7 @@
                         <transactionEntryOffsetIndicator>false</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
                         <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
-                        <documentHeader class="org.kuali.core.bo.DocumentHeader--EnhancerByCGLIB--28833962" />
+                        <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
                         <account reference="../../../sourceAccountingLines/org.kuali.kfs.bo.SourceAccountingLine/account" />
@@ -1166,7 +1166,7 @@
                         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
                         <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
-                        <documentHeader class="org.kuali.core.bo.DocumentHeader--EnhancerByCGLIB--28833962" />
+                        <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
                         <account reference="../../../sourceAccountingLines/org.kuali.kfs.bo.SourceAccountingLine/account" />
@@ -1213,7 +1213,7 @@
                         <transactionEntryOffsetIndicator>false</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
                         <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
-                        <documentHeader class="org.kuali.core.bo.DocumentHeader--EnhancerByCGLIB--28833962" />
+                        <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
                         <account reference="../../../targetAccountingLines/org.kuali.kfs.bo.TargetAccountingLine/account" />
@@ -1260,7 +1260,7 @@
                         <transactionEntryOffsetIndicator>true</transactionEntryOffsetIndicator>
                         <transactionEntryProcessedTs>2006-06-13</transactionEntryProcessedTs>
                         <documentType class="org.kuali.core.bo.DocumentType--EnhancerByCGLIB--b97b4f17" />
-                        <documentHeader class="org.kuali.core.bo.DocumentHeader--EnhancerByCGLIB--28833962" />
+                        <documentHeader class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader--EnhancerByCGLIB--28833962" />
                         <option reference="../../../accountingPeriod/options" />
                         <chart reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
                         <account reference="../../../targetAccountingLines/org.kuali.kfs.bo.TargetAccountingLine/account" />

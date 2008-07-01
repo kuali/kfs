@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -314,7 +314,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * @param LaborLedgerPostingDocument the given labor ledger accounting document
      * @return true after creating a list of Expense Pending entries and Benefit pending Entries
      * @see org.kuali.kfs.module.ld.document.validation.impl.LaborExpenseTransferDocumentRules#processGenerateLaborLedgerPendingEntries(org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument,
-     *      org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument document, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -335,7 +335,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * @param LaborLedgerPostingDocument the given labor ledger accounting document
      * @return true after generate Benefit Clearing Pending Entries for the document
      * @see org.kuali.kfs.module.ld.document.validation.GenerateLaborLedgerBenefitClearingPendingEntriesRule#processGenerateLaborLedgerBenefitClearingPendingEntries(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries()");

@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ld.document.validation;
 
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**

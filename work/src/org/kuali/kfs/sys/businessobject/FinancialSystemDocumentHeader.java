@@ -21,10 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.kfs.sys.KFSConstants;
 
 /**
- * This class...
+ * This class is a custom {@link DocumentHeader} class used by KFS to facilitate custom data fields and a few UI fields
  */
 public class FinancialSystemDocumentHeader extends DocumentHeader {
     
@@ -40,7 +40,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      */
     public FinancialSystemDocumentHeader() {
         super();
-        financialDocumentStatusCode = KNSConstants.DocumentStatusCodes.INITIATED;
+        financialDocumentStatusCode = KFSConstants.DocumentStatusCodes.INITIATED;
     }
 
     /**

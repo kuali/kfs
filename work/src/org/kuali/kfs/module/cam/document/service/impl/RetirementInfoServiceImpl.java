@@ -26,8 +26,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Implements RetirementInfoService, assists in identifying the latest retirement record
@@ -81,7 +81,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
      */
     private boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
         assetRetirementDoc.refreshReferenceObject(CamsConstants.AssetRetirementGlobal.DOCUMENT_HEADER);
-        if (assetRetirementDoc.getDocumentHeader() != null && KNSConstants.DocumentStatusCodes.APPROVED.equals(assetRetirementDoc.getDocumentHeader().getFinancialDocumentStatusCode())) {
+        if (assetRetirementDoc.getDocumentHeader() != null && KFSConstants.DocumentStatusCodes.APPROVED.equals(assetRetirementDoc.getDocumentHeader().getFinancialDocumentStatusCode())) {
             return true;
         }
         return false;

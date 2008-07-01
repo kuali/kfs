@@ -110,7 +110,7 @@
   </bean>
   <bean id="CashControlDetail-status" parent="CashControlDetail-status-parentBean" />
 
-  <bean id="CashControlDetail-status-parentBean" abstract="true" parent="DocumentStatus-financialDocumentStatusName">
+  <bean id="CashControlDetail-status-parentBean" abstract="true" parent="GenericAttributes-financialDocumentStatusName">
     <property name="name" value="status" />
     <property name="label" value="Status" />
     <property name="shortLabel" value="Status" />

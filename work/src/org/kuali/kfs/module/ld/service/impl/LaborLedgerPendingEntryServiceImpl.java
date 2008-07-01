@@ -24,7 +24,7 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.LookupService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;

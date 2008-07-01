@@ -138,11 +138,19 @@ public interface ReceivingService {
     public void addNoteToReceivingDocument(ReceivingDocument receivingDocument, String note) throws Exception;
     
     /**
-     * Returns a delivery campus code on a receiving document based on the purchase order identifier passed in.
+     * Returns a delivery campus code on a receiving document based on the purchase order passed in.
      * 
-     * @param purapIdentifier
+     * @param po
      * @return
      */
-    public String getReceivingDeliveryCampusCode(Integer purapIdentifier);
-        
+    public String getReceivingDeliveryCampusCode(PurchaseOrderDocument po);
+
+    /**
+     * Determines if there is at least one receiving line document that has gone to final for a purchase order.
+     * 
+     * @param poId
+     * @return
+     * @throws RuntimeException
+     */
+    public boolean isReceivingLineDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException;
 }

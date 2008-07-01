@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingCorrectionItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingLineItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingLineView;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
@@ -569,7 +571,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                 
                 //add note to amendment po document
                 try{
-                    String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items";
+                    String note = "Purchase Order Amendment " + amendmentPo.getPurapDocumentIdentifier() + " (document id " + amendmentPo.getDocumentNumber() + ") created for new unordered line items due to Receiving (document id " + rlDoc.getDocumentNumber() + ")";
                     
                     Note noteObj = documentService.createNoteFromDocument(amendmentPo, note);
                     documentService.addNoteToDocument(amendmentPo, noteObj);
@@ -735,7 +737,77 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
     
     //TODO: Implment method
-    public String getReceivingDeliveryCampusCode(Integer purapIdentifier){
-        return "";
+    public String getReceivingDeliveryCampusCode(PurchaseOrderDocument po){
+        String deliveryCampusCode = "";
+        String latestDocumentNumber = "";
+                        
+        List<ReceivingLineView> rViews = null;
+        KualiWorkflowDocument workflowDocument = null;
+        Timestamp latestCreateDate = null;
+        
+        //get related views
+        if(ObjectUtils.isNotNull(po.getRelatedViews()) ){
+            if(ObjectUtils.isNotNull(po.getRelatedViews().getRelatedReceivingLineViews())){        
+            rViews = po.getRelatedViews().getRelatedReceivingLineViews();
+            }
+        }
+        
+        //if not empty, then grab the latest receiving view
+        if(ObjectUtils.isNotNull(rViews) && rViews.isEmpty() == false){                                    
+            
+            for(ReceivingLineView rView : rViews){
+                try{
+                    workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rView.getDocumentNumber()), GlobalVariables.getUserSession().getFinancialSystemUser());
+                    
+                    //if latest create date is null or the latest is before the current, current is newer
+                    if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.before(workflowDocument.getCreateDate()) ){
+                        latestCreateDate = workflowDocument.getCreateDate();
+                        latestDocumentNumber = workflowDocument.getRouteHeaderId().toString();
+                    }
+                }catch(WorkflowException we){
+                    throw new RuntimeException(we);
+                }                
+            }
+            
+            //if there is a create date, a latest workflow doc was found
+            if( ObjectUtils.isNotNull(latestCreateDate)){
+                try{                                    
+                    ReceivingLineDocument rlDoc = (ReceivingLineDocument)documentService.getByDocumentHeaderId(latestDocumentNumber);                    
+                    deliveryCampusCode = rlDoc.getDeliveryCampusCode();
+                }catch(WorkflowException we){
+                    throw new RuntimeException(we);
+                }
+            }
+        }
+                
+        return deliveryCampusCode;
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#isReceivingLineDocumentGeneratedForPurchaseOrder(java.lang.Integer)
+     */
+    public boolean isReceivingLineDocumentGeneratedForPurchaseOrder(Integer poId) throws RuntimeException{
+        
+        boolean isGenerated = false;
+        
+        List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
+        KualiWorkflowDocument workflowDocument = null;
+                
+        for (String docNumber : docNumbers) {
+        
+            try{
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+            }catch(WorkflowException we){
+                throw new RuntimeException(we);
+            }
+            
+            if(workflowDocument.stateIsFinal()){                     
+                isGenerated = true;
+                break;
+            }
+        }
+
+        return isGenerated;
+    }
+
 }

@@ -39,6 +39,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PurchaseOrderAmendmentDocument-newUnorderedItem" />
+        <ref bean="PurchaseOrderAmendmentDocument-receivingDeliveryCampusCode" />
       </list>
     </property>
   </bean>
@@ -56,6 +57,20 @@
        <bean parent="CheckboxControlDefinition" />
     </property>
     <property name="maxLength" value="1" />
+  </bean>
+
+  <bean id="PurchaseOrderAmendmentDocument-receivingDeliveryCampusCode" parent="PurchaseOrderAmendmentDocument-receivingDeliveryCampusCode-parentBean" />
+
+  <bean id="PurchaseOrderAmendmentDocument-receivingDeliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
+    <property name="name" value="receivingDeliveryCampusCode" />
+    <property name="label" value="Delivery Campus" />
+    <property name="shortLabel" value="Delivery Campus" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CampusNoBlankValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
 
 <!-- Exported Workflow Properties -->

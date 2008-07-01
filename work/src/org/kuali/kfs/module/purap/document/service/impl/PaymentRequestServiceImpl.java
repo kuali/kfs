@@ -70,6 +70,7 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -1404,8 +1405,21 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
     }
     
-    //TODO: Implement method
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isAwaitingReceiving(java.lang.Integer)
+     */
     public boolean isAwaitingReceiving(Integer paymentRequestIdentifier){
-        return false;
+        boolean isAwaitingReceiving = false;
+        
+        PaymentRequestDocument preq = getPaymentRequestById(paymentRequestIdentifier);        
+        boolean hasReceivingLineDocument = SpringContext.getBean(ReceivingService.class).isReceivingLineDocumentGeneratedForPurchaseOrder( preq.getPurchaseOrderDocument().getPurapDocumentIdentifier() );
+                
+        //if receiving document required and a receiving line document hasn't been generated
+        // still awaiting receiving
+        if(preq.isReceivingDocumentRequiredIndicator() && hasReceivingLineDocument == false){
+           isAwaitingReceiving = true; 
+        }
+        
+        return isAwaitingReceiving;
     }
 }

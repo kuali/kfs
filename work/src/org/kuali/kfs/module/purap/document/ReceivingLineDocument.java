@@ -24,6 +24,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     //Collections
     private List<ReceivingLineItem> items;
 
+    //Used by Routing
     boolean awaitingPurchaseOrderOpen;
     /**
      * Default constructor.

@@ -100,6 +100,7 @@
         <ref bean="PaymentRequestDocument-grandTotalExcludingDiscount" />
         <ref bean="PaymentRequestDocument-grandTotal" />
         <ref bean="PaymentRequestDocument-closePurchaseOrderIndicator" />
+        <ref bean="PaymentRequestDocument-awaitingReceiving" />        
       </list>
     </property>
   </bean>
@@ -650,6 +651,18 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+  </bean>
+  <bean id="PaymentRequestDocument-awaitingReceiving" parent="PaymentRequestDocument-awaitingReceiving-parentBean" />
+  
+  <bean id="PaymentRequestDocument-awaitingReceiving-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awaitingReceiving" />
+    <property name="label" value="Awaiting Receiving" />
+    <property name="shortLabel" value="Awaiting Receiving" />
+    <property name="description" value="Payment Request is awaiting creation of a Receiving Document" />
+    <property name="control" >
+       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="maxLength" value="1" />
   </bean>
 
 <!-- Exported Workflow Properties -->

@@ -117,7 +117,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
    public void populateDocumentForRouting() {
        super.populateDocumentForRouting();
        newUnorderedItem = SpringContext.getBean(PurchaseOrderService.class).hasNewUnorderedItem(this);
-       receivingDeliveryCampusCode = SpringContext.getBean(ReceivingService.class).getReceivingDeliveryCampusCode(this.getPurapDocumentIdentifier());
+       receivingDeliveryCampusCode = SpringContext.getBean(ReceivingService.class).getReceivingDeliveryCampusCode(this);
    }
 
     public boolean isNewUnorderedItem() {

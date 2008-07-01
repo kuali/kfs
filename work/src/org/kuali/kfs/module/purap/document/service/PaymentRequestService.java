@@ -354,5 +354,12 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     
     public void processPaymentRequestInReceivingStatus();
     
+    /**
+     * Determines if the payment request is still awaiting the creation of a receiving line document
+     * if the payment request has the receiving required indicator set to true.
+     * 
+     * @param paymentRequestIdentifier
+     * @return
+     */
     public boolean isAwaitingReceiving(Integer paymentRequestIdentifier);
 }

@@ -69,6 +69,7 @@
         <ref bean="ReceivingLineDocument-vendorStateCode" />
         <ref bean="ReceivingLineDocument-vendorPostalCode" />
         <ref bean="ReceivingLineDocument-versionNumber" />
+        <ref bean="ReceivingLineDocument-awaitingPurchaseOrderOpen" />        
       </list>
     </property>
   </bean>
@@ -443,4 +444,18 @@
 
   <bean id="ReceivingLineDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
+  
+  <bean id="ReceivingLineDocument-awaitingPurchaseOrderOpen" parent="ReceivingLineDocument-awaitingPurchaseOrderOpen-parentBean" />
+  
+  <bean id="ReceivingLineDocument-awaitingPurchaseOrderOpen-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awaitingPurchaseOrderOpen" />
+    <property name="label" value="Awaiting Purchase Order Open" />
+    <property name="shortLabel" value="Awaiting Purchase Order Open" />
+    <property name="description" value="Receiving Document is awaiting Purchase Order Open State" />
+    <property name="control" >
+       <bean parent="CheckboxControlDefinition" />
+    </property>
+    <property name="maxLength" value="1" />
+  </bean>
+  
 </beans>

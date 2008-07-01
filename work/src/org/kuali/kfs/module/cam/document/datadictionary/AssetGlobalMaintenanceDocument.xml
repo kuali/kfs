@@ -49,7 +49,7 @@
     <property name="description" value="Document used to create or update global asset document." />
     <property name="documentTypeName" value="AssetGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.AssetGlobalAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalAuthorizer" />
     <property name="documentTypeCode" value="GAA" />
     <property name="webScriptFiles" >
       <list>

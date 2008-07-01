@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ld.document.authorization;
+package org.kuali.kfs.module.cam.document.authorization;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentA
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
     
     /**
      * READ ONLY

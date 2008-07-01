@@ -17,8 +17,12 @@
 <%@ attribute name="assetPayments" type="java.util.List" required="true" description="Asset payments list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <%@ attribute name="assetValueObj" type="java.lang.String" required="false" description="Asset object name" %>
+
+<%@ attribute name="assetValue" type="org.kuali.kfs.module.cam.businessobject.Asset" required="false" description="Asset object value" %>
+
 	<c:if test="${assetValueObj==null}">
 		<c:set var="assetValueObj" value="document.asset" />
+		<c:set var="assetValue" value="${KualiForm.document.asset}" />
 	</c:if>
 	<c:set var="assetPaymentAttributes" value="${DataDictionary.AssetPayment.attributes}" />
 	<c:set var="pos" value="-1" />
@@ -45,9 +49,18 @@
 			</tr>
 	<c:forEach var="payment" items="${assetPayments}">
 	 	<c:set var="pos" value="${pos+1}" />
+	 	<c:set var="posValue" value="${pos}" />
 			<tr>
-				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
-				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true"/></td>								
+ 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
+
+				<td class="grid">
+					<kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true" readOnlyBody="true">								
+						<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${assetValue.assetPayments[posValue].chartOfAccountsCode}&amp;accountNumber=${assetValue.assetPayments[posValue].accountNumber}" render="true">
+                			<html:hidden write="true" property="${assetValueObj}.assetPayments[${pos}].accountNumber" />
+                		</kul:inquiry>&nbsp;
+            		</kul:htmlControlAttribute>
+		      	</td>
+
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].subAccountNumber" attributeEntry="${assetPaymentAttributes.subAccountNumber}" readOnly="true"/></td>								
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].financialObjectCode" attributeEntry="${assetPaymentAttributes.financialObjectCode}" readOnly="true"/></td>								
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].financialSubObjectCode" attributeEntry="${assetPaymentAttributes.financialSubObjectCode}" readOnly="true"/></td>								

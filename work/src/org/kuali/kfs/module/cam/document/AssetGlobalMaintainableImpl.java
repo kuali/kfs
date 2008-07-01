@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
@@ -53,33 +54,147 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument,
-     *      java.util.Map)
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.core.document.MaintenanceDocument, java.util.Map)
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+        LOG.info("AssetGlobalMaintainableImpl.processAfterNew CALLED....");
+        
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
+        
+        // set asset and type code
+        setSeparateSourceCapitalAssetNumber(assetGlobal, parameters);
+        setFinancialDocumentTypeCode(assetGlobal, parameters);
+        
+        if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentTypeCode())) {
+            if (assetGlobal.getFinancialDocumentTypeCode().equals(CamsConstants.DocumentTypeCodes.ASSET_SEPARATE)) {
+                
+                // populate Asset Separate document
+                populateAssetSeparateAssetDetails(assetGlobal, getSeparateSourceCapitalAsset(assetGlobal));
+                populateAssetSeparatePaymentDetails(assetGlobal);
+                
+            }
+        }
+        
+        LOG.info("AssetGlobalMaintainableImpl.processAfterNew FINISHED....");
+        super.processAfterNew(document, parameters);
+    }
+    
+    /**
+     * IN PROGRESS
+     * get Asset
+     * 
+     * @param assetGlobal
+     * @return
+     */
+    private Asset getSeparateSourceCapitalAsset(AssetGlobal assetGlobal){
+        HashMap map = new HashMap();
+        map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
+        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
+        return asset;
+    }
+    
+    /**
+     * IN PROGRESS
+     * populate Asset Details for Asset Separate doc
+     * 
+     * @param assetGlobal
+     */
+    private void populateAssetSeparateAssetDetails(AssetGlobal assetGlobal, Asset asset) {
+        
+        assetGlobal.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
+        assetGlobal.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
+        assetGlobal.setAgencyNumber(asset.getAgencyNumber());
+        assetGlobal.setAcquisitionTypeCode(asset.getAcquisitionTypeCode());
+        assetGlobal.setInventoryStatusCode(asset.getInventoryStatusCode());
+        assetGlobal.setConditionCode(asset.getConditionCode());
+        assetGlobal.setCapitalAssetDescription(asset.getCapitalAssetDescription());
+        assetGlobal.setCapitalAssetTypeCode(asset.getCapitalAssetTypeCode());
+        assetGlobal.setVendorName(asset.getVendorName());
+        assetGlobal.setManufacturerName(asset.getManufacturerName());
+        assetGlobal.setManufacturerModelNumber(asset.getManufacturerModelNumber());
+        
+        assetGlobal.setOrganizationText(assetGlobal.getOrganizationText());
+        
+        assetGlobal.setLastInventoryDate(new java.sql.Date(asset.getLastInventoryDate().getTime()));
+        assetGlobal.setCreateDate(asset.getCreateDate());
+        assetGlobal.setCapitalAssetInServiceDate(asset.getCapitalAssetInServiceDate());
 
-        // TODO once the we define the source capital asset referenceObject in OJB, we can use this code.
-        //assetGlobal.refreshReferenceObject("asset");
-        //assetGlobal.setSeparateSourceCapitalAsset(asset);
+        assetGlobal.setCapitalAssetDepreciationDate(assetGlobal.getCapitalAssetDepreciationDate());
+        
+        assetGlobal.setLandCountyName(asset.getLandCountyName());
+        assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
+        assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());   
+    }
+    
+    
+    /**
+     * IN PROGRESS
+     * populate Asset Payment Details for Asset Separate doc
+     * 
+     * @param assetGlobal
+     */
+    private void populateAssetSeparatePaymentDetails(AssetGlobal assetGlobal) {        
+        // clear and create temp AssetPaymentDetail list
+        assetGlobal.getAssetPaymentDetails().clear();
+        List<AssetPaymentDetail> newAssetPaymentDetailList = assetGlobal.getAssetPaymentDetails();
 
-        // separate an asset - get capital asset number
+        for (AssetPayment assetPayment : getSeparateSourceCapitalAsset(assetGlobal).getAssetPayments()) {
+            // create new AssetPaymentDetail
+            AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
+            
+            // populate AssetPaymentDetail with AssetPayment data
+            assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
+            assetPaymentDetail.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
+            assetPaymentDetail.setAccountNumber(assetPayment.getAccountNumber());
+            assetPaymentDetail.setSubAccountNumber(assetPayment.getSubAccountNumber());
+            assetPaymentDetail.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
+            assetPaymentDetail.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
+            assetPaymentDetail.setProjectCode(assetPayment.getProjectCode());
+            assetPaymentDetail.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+            assetPaymentDetail.setExpenditureFinancialDocumentNumber(assetPayment.getDocumentNumber());
+            assetPaymentDetail.setRequisitionNumber(assetPayment.getRequisitionNumber());
+            assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(assetPayment.getFinancialDocumentPostingDate());
+            assetPaymentDetail.setFinancialDocumentPostingYear(assetPayment.getFinancialDocumentPostingYear());
+            assetPaymentDetail.setFinancialDocumentPostingPeriodCode(assetPayment.getFinancialDocumentPostingPeriodCode());
+            assetPaymentDetail.setAmount(assetPayment.getAccountChargeAmount());
+            
+            // add assetPaymentDetail to AssetPaymentDetail list
+            newAssetPaymentDetailList.add(assetPaymentDetail);
+        }
+
+        // set AssetGlobal payment details with new payment details
+        assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
+    }
+    
+    
+    /**
+     * Gets capital asset number from URL.
+     * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
+     * 
+     * @param assetGlobal
+     * @param parameters
+     */
+    private void setSeparateSourceCapitalAssetNumber(AssetGlobal assetGlobal, Map<String, String[]> parameters) {
         String[] separateSourceCapitalAssetNumber = parameters.get(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER);
-        //LOG.info("AssetGlobalMaintainableImpl.processAfterNew separateSourceCapitalAssetNumber = '" + separateSourceCapitalAssetNumber[0].toString() + "'");
         if (separateSourceCapitalAssetNumber != null) {
             assetGlobal.setSeparateSourceCapitalAssetNumber(Long.parseLong(separateSourceCapitalAssetNumber[0].toString()));
         }
-        // separate an asset - get doc type code
+    }
+    
+    /**
+     * Gets document type code from URL.
+     * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
+     * 
+     * @param assetGlobal
+     * @param parameters
+     */
+    private void setFinancialDocumentTypeCode(AssetGlobal assetGlobal, Map<String, String[]> parameters) {
         String[] financialDocumentTypeCode = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        //LOG.info("AssetGlobalMaintainableImpl.processAfterNew financialDocumentTypeCode = '" + financialDocumentTypeCode[0].toString() + "'");
         if (financialDocumentTypeCode != null) {
             assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0].toString());
         }
-
-        super.processAfterNew(document, parameters);
     }
 
     /**

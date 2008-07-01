@@ -72,6 +72,11 @@ public class CamsPropertyConstants {
         public static final String FINANCIAL_OBJECT_SUB_TYP_CODE = "financialObjectSubTypeCode";
         public static final String CONDITION_CODE = "conditionCode";
         public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
+        
+        public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
+        public static final String LAND_COUNTRY_NAME = "landCountyName";
+        public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
+        public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
 
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
@@ -270,6 +275,8 @@ public class CamsPropertyConstants {
         public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
         public static final String VERSION_NUMBER = "versionNumber";
         public static final String SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER = "separateSourceCapitalAssetNumber";
+        public static final String ORGANIZATION_TEXT = "organizationText";
+        public static final String CAPITAL_ASSET_DEPRECIATION_DATE = "capitalAssetDepreciationDate";
     }
 
     public static class AssetGlobalDetail {

@@ -25,10 +25,11 @@ import org.apache.log4j.Logger;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
@@ -48,7 +49,8 @@ public class ThresholdTest extends KualiTestBase {
     }
     
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() 
+    throws Exception {
         super.setUp();
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
@@ -88,7 +90,7 @@ public class ThresholdTest extends KualiTestBase {
         PurchaseOrderDocument poDocument = buildSimplePODocument();
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
-        checkReceivingFlagInPO(poDocument,map,true);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART);
     }
     
     public final void testReceivingRequiredFlagWithChartNegTest()
@@ -96,7 +98,7 @@ public class ThresholdTest extends KualiTestBase {
         PurchaseOrderDocument poDocument = buildSimplePODocument();
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
-        checkReceivingFlagInPO(poDocument,map,false);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART);
     }
     
     public final void testReceivingRequiredFlagWithFund()
@@ -106,7 +108,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ACCOUNT_TYPE_CODE,accTypeCode);
-        checkReceivingFlagInPO(poDocument,map,true);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_FUND);
     }
     
     public final void testReceivingRequiredFlagWithFundNegativeTest()
@@ -116,7 +118,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ACCOUNT_TYPE_CODE,accTypeCode);
-        checkReceivingFlagInPO(poDocument,map,false);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_FUND);
     }
     
     public final void testReceivingRequiredFlagWithSubFund()
@@ -126,7 +128,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.SUBFUND_GROUP_CODE,subFundGroupCode);
-        checkReceivingFlagInPO(poDocument,map,true);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_SUBFUND);
     }
     
     public final void testReceivingRequiredFlagWithSubFundNegativeTest()
@@ -136,7 +138,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.SUBFUND_GROUP_CODE,subFundGroupCode);
-        checkReceivingFlagInPO(poDocument,map,false);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_SUBFUND);
     }
     
     public final void testReceivingRequiredFlagWithObjectCode()
@@ -146,7 +148,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.FINANCIAL_OBJECT_CODE,objectCode);
-        checkReceivingFlagInPO(poDocument,map,true);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_OBJECTCODE);
     }
     
     public final void testReceivingRequiredFlagWithObjectCodeNegativeTest()
@@ -156,7 +158,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.FINANCIAL_OBJECT_CODE,objectCode);
-        checkReceivingFlagInPO(poDocument,map,false);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_OBJECTCODE);
     }
     
     public final void testReceivingRequiredFlagWithOrgCode()
@@ -166,7 +168,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ORGANIZATION_CODE,orgCode);
-        checkReceivingFlagInPO(poDocument,map,true);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_ORGCODE);
     }
     
     public final void testReceivingRequiredFlagWithOrgCodeNegativeTest()
@@ -176,7 +178,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ORGANIZATION_CODE,orgCode);
-        checkReceivingFlagInPO(poDocument,map,false);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_ORGCODE);
     }
     
     public final void testReceivingRequiredFlagWithVendor()
@@ -188,7 +190,7 @@ public class ThresholdTest extends KualiTestBase {
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.VENDOR_HEADER_GENERATED_ID,vendorGeneratedId);
         map.put(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID,vendorAssignedId);
-        checkReceivingFlagInPO(poDocument,map,true);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_VENDOR);
     }
     
     public final void testReceivingRequiredFlagWithVendorNegativeTest()
@@ -200,32 +202,58 @@ public class ThresholdTest extends KualiTestBase {
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.VENDOR_HEADER_GENERATED_ID,vendorGeneratedId);
         map.put(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID,vendorAssignedId);
-        checkReceivingFlagInPO(poDocument,map,false);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_VENDOR);
+    }
+    
+    public final void testReceivingRequiredFlagWithCommodityCode()
+    throws Exception {
+        PurchaseOrderDocument poDocument = buildSimplePODocument();
+        String commodityCode = ((PurchaseOrderItem)poDocument.getItem(0)).getPurchasingCommodityCode();
+        HashMap map = new HashMap();
+        map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
+        map.put(ThresholdField.COMMODITY_CODE,commodityCode);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_COMMODITYCODE);
+    }
+    
+    public final void testReceivingRequiredFlagWithCommodityCodeNegativeTest()
+    throws Exception {
+        PurchaseOrderDocument poDocument = buildSimplePODocument();
+        String commodityCode = ((PurchaseOrderItem)poDocument.getItem(0)).getPurchasingCommodityCode();
+        HashMap map = new HashMap();
+        map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
+        map.put(ThresholdField.COMMODITY_CODE,commodityCode);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_COMMODITYCODE);
     }
     
     private void checkReceivingFlagInPO(PurchaseOrderDocument poDocument,
-                                        Map thresholdCriteria,
-                                        boolean isPositiveTest)
+                                        Map thresholdCriteriaFieldValues,
+                                        boolean isPositiveTest,
+                                        ThresholdCriteria thresholdCriteria)
     throws Exception {
+        
         if (isPositiveTest){
-            insertThresholdRecord(thresholdCriteria,poDocument.getItem(0).getExtendedPrice().subtract(new KualiDecimal(1)));
+            insertThresholdRecord(thresholdCriteriaFieldValues,poDocument.getItem(0).getExtendedPrice().subtract(new KualiDecimal(1)));
         }else{
-            insertThresholdRecord(thresholdCriteria,poDocument.getItem(0).getExtendedPrice().add(new KualiDecimal(1)));
+            insertThresholdRecord(thresholdCriteriaFieldValues,poDocument.getItem(0).getExtendedPrice().add(new KualiDecimal(1)));
         }
         
         PurchaseOrderDocument result = routePO(poDocument);
-        assertEquals("Receiving Flag test[" + thresholdCriteria + ",isPositiveTest=" + isPositiveTest + "]",isPositiveTest,result.isReceivingDocumentRequiredIndicator());
+        assertEquals("Receiving Flag test[" + thresholdCriteriaFieldValues + ",isPositiveTest=" + isPositiveTest + "]",
+                     isPositiveTest,
+                     result.isReceivingDocumentRequiredIndicator());
+        /**
+         * This check is needed here irrespective of checking the receiving required flag in PO.
+         * We should make sure that the flag has been set for the correct threshold criteria.
+         * For eg, consider the CHART_AND_COMMODITYCODE criteria, here it could be possible for the flag 
+         * to set if the chart criteria is satisfied instead of chart and commoditycode one.
+         */
+        ThresholdHelper thresholdHelper = new ThresholdHelper(poDocument);
+        assertEquals(isPositiveTest,
+                     thresholdHelper.isReceivingDocumentRequired(thresholdCriteria));
     }
     
     private PurchaseOrderDocument routePO(PurchaseOrderDocument poDocument) 
     throws Exception {
-      /**
-       * FIXME: This is a temp fix if PO.ITEMS_REQUIRE_COMMODITY_CODE_IND='Y' since we're not using commodity code in the PO item fixture.
-       * Have to add CommodityCode in PO item fixture but facing user authorization issue since PARKE doesnt have permission to create vendormaintdoc
-       * for the given CC (Getting exception from POService.updateVendorCommodityCode(PurchaseOrderDocument po))   
-       */
-      TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND,"N");
-      
       String docId = poDocument.getDocumentNumber();
       DocumentService documentService = SpringContext.getBean(DocumentService.class);
       poDocument.prepareForSave();       

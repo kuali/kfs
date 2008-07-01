@@ -191,7 +191,8 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
             PurApItemFixture.ITEM_FOR_THRESHOLD_CHECK, // purApItemFixture
-            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 }, // purchaseOrderAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_BASIC_ACTIVE //commodityCodeFixture 
     ),
     ;
 

@@ -225,7 +225,11 @@ public class ThresholdHelper {
         return false;
     }
     
-    private boolean isReceivingDocumentRequired(ThresholdCriteria thresholdEnum){
+    /**
+     * This method is public since it's required in the ThresholdTest class. To know the receiving required doc status for a PO,
+     * it's always better to call isReceivingDocumentRequired() instead of this method.
+     */
+    public boolean isReceivingDocumentRequired(ThresholdCriteria thresholdEnum){
         
         List<ThresholdSummary> summaryList = getThresholdSummaryCollection(thresholdEnum);
         

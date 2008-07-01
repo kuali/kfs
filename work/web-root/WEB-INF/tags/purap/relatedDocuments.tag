@@ -23,9 +23,11 @@
     <c:when test="${fn:contains(documentType, 'PurchaseOrder')}">
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
     </c:when>
-    <c:when test="${not fn:contains(documentType, 'Requisition')}">
-        <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
-    </c:when>
+    <c:otherwise>
+	    <c:if test="${not fn:contains(documentType, 'Requisition')}">
+	        <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
+	    </c:if>
+	</c:otherwise>
 </c:choose>
 
 <kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.RELATED_DOCS_TAB_ERRORS}">

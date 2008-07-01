@@ -46,6 +46,9 @@
 				        </c:otherwise>
 				    </c:choose>
 				</c:if>
+				<c:if test="${not empty limitByPoId and limitByPoId eq view.purapDocumentIdentifier}">
+			    	<c:set var="viewShown" value="true"/>
+			    </c:if>
 			</logic:iterate>
 			
 			<!--  Only display the notes if the document type is not Purchase Order -->
@@ -55,7 +58,6 @@
                         <h3 style="color: #6b6b6b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <c:out value="Please refer to the Notes and Attachments Tab for the Purchase Order Notes"/></h3>
 			    </c:when>
 			    <c:otherwise>
-
                     <logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
                     	<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
 				            <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
@@ -84,7 +86,9 @@
 	       	        </logic:iterate>
 	       	    </c:otherwise>
             </c:choose>
-		    <br />
-		    <br />
+            <c:if test="${empty limitByPoId or viewShown}">
+		   		<br />
+		    	<br />
+		    </c:if>
 		</logic:notEmpty>
 

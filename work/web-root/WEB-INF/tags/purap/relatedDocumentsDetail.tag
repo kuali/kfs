@@ -23,8 +23,8 @@
 
 	   	<logic:notEmpty name="KualiForm" property="${viewList}">
 			<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
-				<c:if test="${(limitByPoId eq null) or (limitByPoId eq view.purchaseOrderIdentifier)}">
-				        <h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
+				<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purchaseOrderIdentifier)}">
+				    <h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
 				    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 				    	<c:if test="${!empty view.notes}">
 							<tr>
@@ -53,8 +53,13 @@
 						</c:if>	
 			    	</table>
 			    </c:if>
+			    <c:if test="${not empty limitByPoId and limitByPoId eq view.purchaseOrderIdentifier}">
+			    	<c:set var="viewShown" value="true"/>
+			    </c:if>
 	       	</logic:iterate>
-		    <br />
-		    <br />
+	       	<c:if test="${empty limitByPoId or viewShown}">
+				<br />
+				<br />
+			</c:if>
 		</logic:notEmpty>
 

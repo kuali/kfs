@@ -39,9 +39,9 @@ public class GenesisBatchStep extends AbstractStep {
 
     public boolean execute(String jobName, Date jobRunDate) {
         genesisService = SpringContext.getBean(GenesisService.class);
-        // @@TODO: in production, we will use the current fiscal year, not the last one
-        Integer baseFiscalYear = genesisService.genesisFiscalYearFromToday() - 1;
-        genesisService.genesisStep(baseFiscalYear);
+        // @@TODO: in production, we will use the current fiscal year, not 2007
+        // Integer baseFiscalYear = genesisService.genesisFiscalYearFromToday() - 1;
+        genesisService.genesisStep(2007);
         setInitiatedParameter();
         return true;
     }

@@ -144,7 +144,7 @@ public class TestSuiteBuilder {
     private static File getTestRootPackageDir() {
         try {
             File thisClassFile = new File(THIS_CLASS.getResource(THIS_CLASS.getSimpleName() + ".class").toURI());
-            return thisClassFile.getParentFile().getParentFile().getParentFile();
+            return thisClassFile.getParentFile().getParentFile().getParentFile().getParentFile();
         }
         catch (URISyntaxException e) {
             throw new AssertionError(e); // if the classloader doesn't always return the "file:" protocol, then this method needs

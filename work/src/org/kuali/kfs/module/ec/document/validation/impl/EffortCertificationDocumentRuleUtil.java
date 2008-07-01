@@ -51,12 +51,17 @@ public class EffortCertificationDocumentRuleUtil {
      * @param detailLine the given detail line
      */
     public static void applyDefaultValues(EffortCertificationDetail detailLine) {        
-        if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
-            detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        }
-
+      
+   /**  
+    *   Re: KULEFR-151
+    *      
+    *   if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
+    *       detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+    *   }
+    */
+        
         if (StringUtils.isBlank(detailLine.getCostShareSourceSubAccountNumber())) {
-            detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+           detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
 
         if (StringUtils.isBlank(detailLine.getSourceChartOfAccountsCode())) {

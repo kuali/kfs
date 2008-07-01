@@ -36,18 +36,18 @@ public class ModularizationTest extends KualiTestBase {
     }
     private KualiModuleService moduleService;
 
-    public void testSpring() throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(BASE_SPRING_FILESET.split(","));
-        moduleService = (KualiModuleService)context.getBean("kualiModuleService");
-        context.close();
-        boolean testSucceeded = true;
-        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
-        for (String moduleId : OPTIONAL_MODULE_IDS.keySet()) {
-            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
-        }
-        System.out.print(errorMessage.toString());
-        assertTrue(errorMessage.toString(), testSucceeded);
-    }
+//    public void testSpring() throws Exception {
+//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(BASE_SPRING_FILESET.split(","));
+//        moduleService = (KualiModuleService)context.getBean("kualiModuleService");
+//        context.close();
+//        boolean testSucceeded = true;
+//        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
+//        for (String moduleId : OPTIONAL_MODULE_IDS.keySet()) {
+//            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
+//        }
+//        System.out.print(errorMessage.toString());
+//        assertTrue(errorMessage.toString(), testSucceeded);
+//    }
     
     private boolean testOptionalModuleSpringConfiguration(String moduleId, StringBuffer errorMessage) {
         ClassPathXmlApplicationContext context = null;

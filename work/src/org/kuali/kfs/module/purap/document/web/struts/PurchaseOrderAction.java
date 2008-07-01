@@ -40,6 +40,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -1261,11 +1262,20 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderVendorQuote awardedQuote = new PurchaseOrderVendorQuote();
 
         // verify that all vendors have a quote status
+        // also run dictionary validations to validate against the DD.
+        boolean dictionaryValid = true;
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
             if (poQuote.getPurchaseOrderQuoteStatusCode() == null) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_STATUS_NOT_SELECTED);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             } 
+            else {
+                dictionaryValid &= SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(poQuote, PurapPropertyConstants.VENDOR_QUOTES);
+            }
+        }
+        
+        if (!dictionaryValid) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         // verify quote status fields

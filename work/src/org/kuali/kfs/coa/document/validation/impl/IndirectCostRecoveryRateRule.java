@@ -364,13 +364,17 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     public boolean checkRateFormat(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
         BigDecimal zero = new BigDecimal(0.00);
-        if(item.getAwardIndrCostRcvyRatePct().scale() > 3) { // recheck
-            logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE);
-            success = false;
-        }
-        if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) { // recheck
-            logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO);
-            success = false;
+        if(!(item.getAwardIndrCostRcvyRatePct() == null)) {
+            if(item.getAwardIndrCostRcvyRatePct().scale() > 3) { // recheck
+                logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE);
+                success = false;
+            }
+            if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) { // recheck
+                logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO);
+                success = false;
+            }            
+        } else {
+            
         }
         return success;
     }

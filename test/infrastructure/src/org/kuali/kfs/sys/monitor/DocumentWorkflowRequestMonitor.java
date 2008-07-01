@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.document.routing;
+package org.kuali.kfs.sys.monitor;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;

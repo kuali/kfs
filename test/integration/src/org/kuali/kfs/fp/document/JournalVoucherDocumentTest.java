@@ -32,10 +32,9 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -44,10 +43,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.sys.document.routing.ChangeMonitor;
-import org.kuali.kfs.sys.document.routing.DocumentWorkflowStatusMonitor;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.kfs.sys.monitor.ChangeMonitor;
+import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
+import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 
 import edu.iu.uis.eden.EdenConstants;
 

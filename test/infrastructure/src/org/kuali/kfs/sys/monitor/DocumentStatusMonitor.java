@@ -20,7 +20,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.routing.ChangeMonitor;
 
 /**
  * DocumentStatusMonitor

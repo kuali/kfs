@@ -42,11 +42,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.document.routing.ChangeMonitor;
-import org.kuali.kfs.sys.document.routing.DocumentVersionMonitor;
-import org.kuali.kfs.sys.document.routing.DocumentWorkflowStatusMonitor;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.monitor.ChangeMonitor;
+import org.kuali.kfs.sys.monitor.DocumentVersionMonitor;
+import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

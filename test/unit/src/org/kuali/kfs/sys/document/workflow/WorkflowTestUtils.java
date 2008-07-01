@@ -24,10 +24,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.routing.ChangeMonitor;
-import org.kuali.kfs.sys.document.routing.DocumentWorkflowNodeMonitor;
-import org.kuali.kfs.sys.document.routing.DocumentWorkflowRequestMonitor;
-import org.kuali.kfs.sys.document.routing.DocumentWorkflowStatusMonitor;
+import org.kuali.kfs.sys.monitor.ChangeMonitor;
+import org.kuali.kfs.sys.monitor.DocumentWorkflowNodeMonitor;
+import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
+import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;

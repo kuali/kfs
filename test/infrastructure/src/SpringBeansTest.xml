@@ -20,7 +20,7 @@
 		<property name="testMode" value="true" />
 	</bean>
 	
-	<bean id="mailService" class="org.kuali.kfs.NonSendingMailService">
+	<bean id="mailService" class="org.kuali.kfs.sys.NonSendingMailService">
 		<property name="mailSender">
 			<ref bean="mailSender" />
 		</property>

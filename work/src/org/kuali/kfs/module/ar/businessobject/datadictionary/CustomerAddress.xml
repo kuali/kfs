@@ -362,6 +362,8 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
+              p:attributeName="customerNumber" />      
+        <bean parent="FieldDefinition"
               p:attributeName="customerAddressTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="customerAddressName" />

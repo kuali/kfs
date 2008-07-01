@@ -440,7 +440,10 @@
 					</c:if>
 				</tr>
 				
-	
+				<c:set var="columnCount" value="8"/>
+				<c:if test="${displayRequisitionFields}">
+					<c:set var="columnCount" value="9"/>
+				</c:if>
 				<c:choose>
                 <c:when test="${amendmentEntry}">                
                     <c:choose>
@@ -455,7 +458,8 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}" />
+						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+						itemColSpan="${columnCount}" />
     				    </c:when>
 	        			<c:otherwise>
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
@@ -467,7 +471,8 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}" />
+						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+						itemColSpan="${columnCount}" />
 				        </c:otherwise>
 				    </c:choose>
 				</c:when>
@@ -482,7 +487,8 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}" />				
+						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+						itemColSpan="${columnCount}" />				
 				</c:when>
 				<c:when test="${(!amendmentEntry)}">
 					<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && (KualiForm.editingMode['allowItemEntry'] == itemLine.itemIdentifier)}" >
@@ -496,7 +502,8 @@
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}" ctr="${ctr}" />
+						itemsAttributes="${itemAttributes}" ctr="${ctr}"
+						itemColSpan="${columnCount}" />
 				</c:when>
 				</c:choose>
 				

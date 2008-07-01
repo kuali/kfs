@@ -118,15 +118,15 @@
 	
 <c:choose>
 	<c:when test="${descriptionFirst}">
-		<kul:htmlAttributeHeaderCell colspan="2"
+		<kul:htmlAttributeHeaderCell colspan="3"
 			attributeEntry="${itemAttributes.itemDescription}" />
-		<kul:htmlAttributeHeaderCell colspan="4"
+		<kul:htmlAttributeHeaderCell colspan="5"
 			attributeEntry="${itemAttributes.extendedPrice}" />
 	</c:when>
     <c:otherwise>
-		<kul:htmlAttributeHeaderCell colspan="2"
+		<kul:htmlAttributeHeaderCell colspan="3"
 			attributeEntry="${itemAttributes.extendedPrice}" />
-		<kul:htmlAttributeHeaderCell colspan="4"
+		<kul:htmlAttributeHeaderCell colspan="5"
 			attributeEntry="${itemAttributes.itemDescription}" />
 	</c:otherwise>
 </c:choose>	
@@ -191,22 +191,22 @@
 			</c:if>
 			<c:choose>
 				<c:when test="${descriptionFirst}">
-					<td class="infoline" colspan="2">
+					<td class="infoline" colspan="3">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
-					<td class="infoline" colspan="4">
+					<td class="infoline" colspan="5">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
 				</c:when>
     			<c:otherwise>
-					<td class="infoline" colspan="2">
+					<td class="infoline" colspan="3">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
-					<td class="infoline" colspan="4">
+					<td class="infoline" colspan="5">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
 				</c:otherwise>
@@ -222,7 +222,7 @@
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				hideFields="amount" accountingAddLineIndex="${ctr}" 
-				ctr="${ctr}"/>
+				ctr="${ctr}" itemColSpan="12"/>
 		</c:if>
 		
 		<!-- KULPURAP-1500 -->
@@ -243,7 +243,7 @@
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
-				    ctr="${ctr}" />
+				    ctr="${ctr}" itemColSpan="12" />
 		    </c:if>
 		</c:if>
 	</c:if>

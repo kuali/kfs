@@ -191,7 +191,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
-			ctr="${ctr}"/>	
+			ctr="${ctr}" itemColSpan="10" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

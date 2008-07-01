@@ -74,6 +74,7 @@
 <%@ attribute name="hideFields" required="false" description="comma delimited list of fields to hide for this type of accounting line"%>
 <%@ attribute name="accountingAddLineIndex" required="false" description="index for multiple add new source lines"%>
 <%@ attribute name="ctr" required="true" description="item count"%>
+<%@ attribute name="itemColSpan" required="true" description="item columns to span"%>
 
     <c:if test="${!accountingLineScriptsLoaded}">
         <script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -104,7 +105,7 @@
     <%-- add extra columns count for the "Action" button and/or dual amounts --%>
     <c:set var="columnCount" value="${columnCountUntilAmount + (debitCreditAmount || currentBaseAmount ? 2 : 1) - (not empty hideFields ? 0 : numHideFields) + (empty editingMode['viewOnly'] ? 0 : 1)}" />
     <%@ include file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag"%>
-    
+
     <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
     <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
     <c:set var="tabTitle" value="AccountingLines-${currentTabIndex}" />
@@ -126,27 +127,25 @@
     <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 	<tr>
-	<td colspan="${columnCount}">
+	<td colspan="${itemColSpan}">
 	<table border="0" cellspacing="0" cellpadding="0" width="100%">
 	<tr>
+		<th colspan="${columnCount}" style="padding: 0px; border-right: none;">
+		    <div align=left>
+		  	    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+		         <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+		     </c:if>
+		     <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+		         <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+		     </c:if>
+		    	Accounting Lines
+		    </div>
+		</th>
+	</tr>
 
-    <th colspan="${columnCount}" style="padding: 0px; border-right: none;">
-        <div align=left>
-      	    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-	        </c:if>
-	        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-	        </c:if>
-        	Accounting Lines
-        </div>
-    </th>
-</tr>
-
-
-<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-    <tr style="display: none;"  id="tab-${tabKey}-div">
-</c:if>   
+	<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+	    <tr style="display: none;"  id="tab-${tabKey}-div">
+	</c:if>   
         <th colspan="${columnCount}" style="padding:0;">
         	<purap:puraccountingLines editingMode="${editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="${sourceAccountingLinesOnly}" optionalFields="${optionalFields}" extraHiddenFields="${extraHiddenFields}"
                 accountingLineAttributes="${accountingLineAttributes}" accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}" hideFields="${hideFields}" accountingAddLineIndex="${accountingAddLineIndex}" >
@@ -154,9 +153,9 @@
             </purap:puraccountingLines>
         </th>
     
-<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-    </tr>
-</c:if>
+	<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+	    </tr>
+	</c:if>
 
 </table>
 </td>

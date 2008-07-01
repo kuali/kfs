@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 import java.util.SortedSet;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 
 /**
@@ -34,6 +35,7 @@ public class BudgetConstructionLockStatus {
     private String positionLockOwner;
     private String transactionLockOwner;
     private SortedSet<BudgetConstructionFundingLock> fundingLocks;
+    private BudgetConstructionHeader budgetConstructionHeader;
 
     /**
      * Constructs a BudgetConstructionLockStatus object.
@@ -44,6 +46,7 @@ public class BudgetConstructionLockStatus {
         positionLockOwner = null;
         fundingLocks = null;
         transactionLockOwner = null;
+        budgetConstructionHeader = null;
     }
 
     /**
@@ -134,5 +137,21 @@ public class BudgetConstructionLockStatus {
      */
     public void setTransactionLockOwner(String transactionLockOwner) {
         this.transactionLockOwner = transactionLockOwner;
+    }
+
+    /**
+     * Gets the budgetConstructionHeader attribute. 
+     * @return Returns the budgetConstructionHeader.
+     */
+    public BudgetConstructionHeader getBudgetConstructionHeader() {
+        return budgetConstructionHeader;
+    }
+
+    /**
+     * Sets the budgetConstructionHeader attribute value.
+     * @param budgetConstructionHeader The budgetConstructionHeader to set.
+     */
+    public void setBudgetConstructionHeader(BudgetConstructionHeader budgetConstructionHeader) {
+        this.budgetConstructionHeader = budgetConstructionHeader;
     }
 }

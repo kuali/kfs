@@ -64,6 +64,7 @@ public class LockServiceImpl implements LockService {
 
         BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
         if (bcHeader != null) {
+            bcLockStatus.setBudgetConstructionHeader(bcHeader);
             if (bcHeader.getBudgetLockUserIdentifier() == null) {
                 bcHeader.setBudgetLockUserIdentifier(personUniversalIdentifier);
                 try {
@@ -80,6 +81,7 @@ public class LockServiceImpl implements LockService {
                         // get a freshcopy of header incase we lost the optimistic lock
                         BudgetConstructionHeader freshBcHeader = budgetConstructionDao.getByCandidateKey(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
                         unlockAccount(freshBcHeader);
+                        bcLockStatus.setBudgetConstructionHeader(freshBcHeader);
                         bcLockStatus.setLockStatus(LockStatus.FLOCK_FOUND);
                     }
                 }

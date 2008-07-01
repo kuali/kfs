@@ -36,6 +36,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
@@ -52,12 +53,16 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.document.validation.event.DeletePendingBudgetGeneralLedgerLineEvent;
+import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -91,6 +96,45 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
+                
+                // TODO: maybe move this to BC document service
+                if (!budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                    LockService lockService = SpringContext.getBean(LockService.class);
+                    HashMap primaryKey = new HashMap();
+                    primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocument().getDocumentNumber());
+
+                    BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+                    if (budgetConstructionHeader != null){
+                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+
+                        // TODO: make this a switch
+                        if (bcLockStatus.getLockStatus() == LockStatus.SUCCESS){
+                            
+                            // update the document version number so the saved lock of header doesn't produce an optimistic lock error
+                            // and has the info we just put in the header so doc save doesn't wipe out the lock
+                            budgetConstructionForm.getBudgetConstructionDocument().setVersionNumber(bcLockStatus.getBudgetConstructionHeader().getVersionNumber());
+                            budgetConstructionForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(bcLockStatus.getBudgetConstructionHeader().getBudgetLockUserIdentifier());
+                        }
+                        else {
+                            if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER){
+                                String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
+                                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(document is locked by "+lockerName+")", budgetConstructionForm.isPickListMode());
+                            }
+                            else {
+                                if (bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND){
+                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(funding for document is locked)", budgetConstructionForm.isPickListMode());
+                                }
+                                else {
+                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(optimistic lock or other failure during lock attempt)", budgetConstructionForm.isPickListMode());
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        // unlikely
+                        throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(can't find document for locking)", budgetConstructionForm.isPickListMode());
+                    }
+                }
             }
         }
 
@@ -239,6 +283,31 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 // else go to close logic below
             }
         }
+        
+        // TODO: maybe move this to BC document service
+        // do the unlock if they have full access and not system view mode
+        if (docForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
+            
+            if (!docForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                LockService lockService = SpringContext.getBean(LockService.class);
+                HashMap primaryKey = new HashMap();
+                primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, docForm.getDocument().getDocumentNumber());
+
+                BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+                if (budgetConstructionHeader != null){
+                    LockStatus lockStatus = lockService.unlockAccount(budgetConstructionHeader);
+
+                    // TODO: figure out if we need error message and redisplay for not success?
+                    if (lockStatus != LockStatus.SUCCESS){
+                        
+                    }
+                }
+                else {
+                    // unlikely, but benign problem here
+                }
+            }
+        }
+
 
         if (docForm.isPickListMode()) {
             // TODO for now just redisplay with a message

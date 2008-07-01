@@ -44,7 +44,7 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class DocumentTypeCodes {
-        public static final String ASSET_SEPERATE = "ASEP";
+        public static final String ASSET_SEPARATE = "ASEP";
         public static final String ASSET_RETIREMENT_DOCTYPE_CD = "AMRG";
     }
 

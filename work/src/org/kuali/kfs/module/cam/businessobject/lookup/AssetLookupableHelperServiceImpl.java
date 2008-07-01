@@ -97,7 +97,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         //parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         
         // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
-        parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypeCodes.ASSET_SEPERATE);
+        parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypeCodes.ASSET_SEPARATE);
 
         String url = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
         url = "<a href=\"" + url + "\">" + CamsConstants.AssetActions.SEPARATE + "</a>";

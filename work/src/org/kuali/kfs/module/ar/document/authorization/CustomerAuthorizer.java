@@ -33,7 +33,7 @@ import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
-import org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {

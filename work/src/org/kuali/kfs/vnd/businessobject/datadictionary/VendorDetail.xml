@@ -1139,6 +1139,11 @@
     <property name="instructions" value="Lookup a Vendor Detail" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>vendorName</value>
+          </list>     
+        </property> 
       </bean>
     </property>
     <property name="lookupFields" >

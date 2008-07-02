@@ -15,6 +15,16 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+
 public interface PaymentApplicationDocumentService {
-    
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber);
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document);
+    public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalCashControlForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
+    public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
 }

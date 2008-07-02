@@ -18,13 +18,16 @@ package org.kuali.kfs.module.ar.document;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 
 public class PaymentApplicationDocument extends AccountingDocumentBase {
@@ -35,6 +38,7 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private NonAppliedHolding nonAppliedHolding;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    private PaymentApplicationDocumentService paymentApplicationDocumentService;
     
     public PaymentApplicationDocument() {
         super();
@@ -42,8 +46,29 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
         this.nonInvoicedPayments = new ArrayList<NonInvoiced>();
         this.nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
         this.nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
+        this.paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
     }
 
+    public KualiDecimal getTotalUnappliedFunds() {
+        return paymentApplicationDocumentService.getTotalUnappliedFundsForPaymentApplicationDocument(getDocumentNumber());
+    }
+    
+    public KualiDecimal getTotalCashControl() {
+        return paymentApplicationDocumentService.getTotalCashControlForPaymentApplicationDocument(getDocumentNumber());
+    }
+    
+    public KualiDecimal getTotalUnappliedFundsToBeApplied() {
+        return paymentApplicationDocumentService.getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(getDocumentNumber());
+    }
+    
+    public KualiDecimal getTotalToBeApplied() {
+        return paymentApplicationDocumentService.getTotalToBeAppliedForPaymentApplicationDocument(getDocumentNumber());
+    }
+    
+    public KualiDecimal getTotalAppliedAmount() {
+        return paymentApplicationDocumentService.getTotalAppliedAmountForPaymentApplicationDocument(getDocumentNumber());
+    }
+    
     /**
      * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)

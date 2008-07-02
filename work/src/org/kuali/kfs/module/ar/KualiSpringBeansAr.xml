@@ -197,6 +197,12 @@
 		</property>	
 	</bean>	
 	
+	<bean id="paymentApplicationDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.PaymentApplicationDocumentServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
 	<bean id="cashControlDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl">
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />

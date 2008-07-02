@@ -89,47 +89,100 @@
     
     <div class="tab-container" align="center">
     
-    	<c:choose>
-	    	<c:when test="${empty KualiForm.document.appliedPayments}">
-	    		No applied payments.
-	    	</c:when>
-	    	<c:otherwise>
-				<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-					<tr>
-						<th>Invoice #</th>
-						<td>A12345678</td>
-						<th>Item #</th>
-						<td>1</td>
-						<th>Description</th>
-						<td>Foo</td>
-						<th>Applied Amount</th>
-						<td>$1234.00</td>
-					</tr>
-				</table>
-	      	</c:otherwise>
-	    </c:choose>
+    
+			      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+			        <tr>
+			          <td style='vertical-align: top;' colspan='2'>
+				    	<c:choose>
+					    	<c:when test="${empty KualiForm.document.appliedPayments}">
+					    		No applied payments.
+					    	</c:when>
+					    	<c:otherwise>
+					            <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+					              <tr>
+					                <td colspan='4' class='tab-subhead'>Unapplied Funds</td>
+					              </tr>
+					              <tr>
+					                <th>Doc Nbr</th>
+					                <th>Amount Available</th>
+					                <th>Date</th>
+					                <th>Apply</th>
+					              </tr>
+					              <tr>
+					              	<td>123456</td>
+					              	<td>$100.00</td>
+					              	<td>12-01-2008</td>
+					              	<td><input type='checkbox' value='1' name='a'/></td>
+					              </tr>
+					              <tr>
+					              	<td>123456</td>
+					              	<td>$100.00</td>
+					              	<td>12-01-2008</td>
+					              	<td><input type='checkbox' value='1' name='a'/></td>
+					              </tr>
+					              <tr>
+					              	<td>123456</td>
+					              	<td>$100.00</td>
+					              	<td>12-01-2008</td>
+					              	<td><input type='checkbox' value='1' name='a'/></td>
+					              </tr>
+					            </table>	    	
+					      	</c:otherwise>
+					    </c:choose>
+			          </td>
+						<td valign='top'>
+			            <table class='datatable'>
+			              <tr>
+			              	<th class='tab-subhead'>Total Unapplied Funds</th>
+			                <th class='tab-subhead'>Cash Control</th>
+			                <th class='tab-subhead'>Unapplied Funds to be Applied</th>
+			                <th class='tab-subhead'>Total to be Applied</th>
+			                <th class='tab-subhead'>Applied Amount</th>
+			              </tr>
+			              <tr>
+			              	<td>$<c:out value="${KualiForm.document.totalUnappliedFunds}"/></td>
+			              	<td>$<c:out value="${KualiForm.cashControlTotalForPaymentApplicationDocument}"/></td>
+			              	<td>$<c:out value="${KualiForm.document.totalUnappliedFundsToBeApplied}"/></td>
+			                <td>$<c:out value="${KualiForm.document.totalToBeApplied}"/></td>
+			                <td>$<c:out value="${KualiForm.document.totalAppliedAmount}"/></td>
+			              </tr>
+			            </table>
+    				</td>
+   				</tr>
+			</table>
     </div>
   </kul:tab>
   
-  <kul:tab tabTitle="Quick Apply" defaultOpen="true"
+  <kul:tab tabTitle="Quick Apply to Invoice" defaultOpen="true"
     tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
     
     <div class="tab-container" align="center">
     
     <table width="100%" cellpadding="0" celspacing="0" class="datatable">
-    	
+    	<tr>
+    		<th>Invoice Number</th>
+    		<th>Open Amount</th>
+    		<th>Quick Apply</th>
+    	</tr>
     	<c:forEach items="${KualiForm.invoices}" var="invoice">
     	
     		<tr>
     			<td><c:out value="${invoice.documentNumber}"/></td>
+    			<td>$<c:out value="${invoice.balance}"/></td>
     			<td><input type="checkbox" name="quickApply" value="${invoice.documentNumber}" /></td>
     		</tr>
     	
     	</c:forEach>
     	
     	<tr>
-    		<td colspan='2' style='text-align: right;'>
-    			<input type='submit' value='Quick Apply' />
+    		<td colspan='3' style='text-align: right;'>
+					<html:image property="methodToCall.apply"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+						alt="Apply"
+						title="Apply"
+						styleClass="tinybutton" />
+    		
+    			<input type='submit' value='Quick Apply to Invoice' />
     		</td>
     	</tr>
     	
@@ -139,7 +192,7 @@
 	
   </kul:tab>
   
-  <kul:tab tabTitle="Application Details" defaultOpen="true"
+  <kul:tab tabTitle="Apply to Invoice Detail" defaultOpen="true"
     tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
 
     <div class="tab-container" align="center">
@@ -152,7 +205,7 @@
 					attributeEntry="${customerAttributes.customerNumber}"
 					property="customerNumber"
 					readOnly="${readOnly}" />
-				<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
+				<kul:lookup boClassName="org.kuali.module.ar.bo.Customer" 
 					fieldConversions="customerNumber:customer.customerNumber" />
 			</td>
 		</tr>
@@ -186,45 +239,6 @@
 			    <td>
 			      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			        <tr>
-			          <td style='vertical-align: top;'>
-			            <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-			              <tr>
-			                <td colspan='4' class='tab-subhead'>Unapplied Funds</td>
-			              </tr>
-			              <tr>
-			                <th>Sequence</th>
-			                <th>Doc Nbr</th>
-			                <th>Type</th>
-			                <th>Amount Available</th>
-			              </tr>
-			              <c:forEach items="${KualiForm.nonAppliedHoldingsForCustomer}" var="holding">
-				              <tr>
-				              	<td>&nbsp;</td>
-				              	<td><c:out value="${holding.referenceFinancialDocumentNumber}"/></td>
-				              	<td>&nbsp;</td>
-				              	<td><c:out value="${holding.financialDocumentLineAmount}"/></td>
-				              </tr>
-			              </c:forEach>
-			            </table>
-			          </td>
-			          <td style="vertical-align: top;">
-			            <table class='datatable'>
-			              <tr>
-			                <th class='tab-subhead'>Cash Control</th>
-			              </tr>
-			              <tr>
-			                <td><input type='text'/></td>
-			              </tr>
-			              <tr>
-			                <th class='tab-subhead'>Non-AR</th>
-			              </tr>
-			              <tr>
-			                <td><input type='text'/></td>
-			              </tr>
-			            </table>
-			          </td>
-			        </tr>
-			        <tr>
 			          <td colspan='2' class='tab-subhead'>
 			            Invoices
 			            <select name="goToInvoiceDocumentNumber">
@@ -248,7 +262,7 @@
 			        </tr>
 			        <tr>
 			        	<th colspan='2' class='tab-subhead'>
-			        		<c:out value="Invoice ${KualiForm.selectedInvoiceDocumentNumber}" />
+			        		<c:out value="Invoice ${KualiForm.selectedInvoiceDocumentNumber}" />&nbsp;
 			        		<c:if test="${!empty KualiForm.previousInvoiceDocumentNumber}">
 								<c:out escapeXml="false" value="<a href='arPaymentApplicationDocument.do?methodToCall=setCustomer&selectedInvoiceDocumentNumber=${KualiForm.previousInvoiceDocumentNumber}&document.documentNumber=${KualiForm.document.documentNumber}'><- Previous Invoice</a>" />
 				        	</c:if>
@@ -265,13 +279,13 @@
 			                <th>Invoice Number</th>
 			                <th>Invoice Header/Custom Name</th>
 			                <th>Balance/Total</th>
-			                <th>Apply Amount</th>
+			                <th>Amount Applied to Invoice</th>
 			              </tr>
 			              <tr>
 			                <td>${KualiForm.selectedInvoiceDocumentNumber}</td>
 			                <td><input type='text' value='${KualiForm.selectedInvoiceDocument.accountsReceivableDocumentHeader.financialDocumentExplanationText}'></td>
 			                <td><input type='text' value='${KualiForm.balanceForSelectedInvoiceDocument}'></td>
-			                <td rowspan='2' style='vertical-align: top;'><input type='text' value='${KualiForm.amountAppliedDirectlyToInvoice}'/></td>
+			                <td rowspan='2' style='vertical-align: top;'>${KualiForm.amountAppliedDirectlyToInvoice}</td>
 			              </tr>
 			              <tr>
 			                <td>&nbsp;</td>
@@ -292,6 +306,7 @@
 			                      <th>Item Tot Amt</th>
 			                      <th>Dtl Balance</th>
 			                      <th>Apply Amount</th>
+			                      <th>Apply Full Amount</th>
 			                    </tr>
 			                    <c:forEach items="${KualiForm.customerInvoiceDetailsForSelectedCustomerInvoiceDocument}" var="customerInvoiceDetail">
 				                    <tr>
@@ -302,6 +317,7 @@
 				                      <td><input type='text' value='${customerInvoiceDetail.amount}'></td>
 				                      <td><input type='text' value='${customerInvoiceDetail.balance}'></td>
 				                      <td><input type='text' value='${customerInvoiceDetail.appliedAmount}'></td>
+				                      <td><input type='checkbox' value='1' name=''></td>
 				                    </tr>
 			                    </c:forEach>
 			                  </table>
@@ -309,7 +325,7 @@
 			              </tr>
 			              <tr>
 			              	<td style='text-align: right;' colspan='4'>
-				              	<input type='text' value='Apply Amounts to Invoice' />
+				              	<input type='text' value='Apply to Invoice Detail' />
 			              	</td>
 			              </tr>
 			            </table>

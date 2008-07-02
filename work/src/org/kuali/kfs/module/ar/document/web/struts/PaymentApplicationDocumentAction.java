@@ -47,6 +47,12 @@ public class PaymentApplicationDocumentAction extends KualiAccountingDocumentAct
         workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
     }
     
+    public ActionForward apply(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean trap = true;
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO Auto-generated method stub

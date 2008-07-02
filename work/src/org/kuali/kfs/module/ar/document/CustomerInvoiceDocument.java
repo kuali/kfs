@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -27,6 +26,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
@@ -86,6 +86,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
 	/**
 	 * Default constructor.
@@ -93,8 +94,18 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	public CustomerInvoiceDocument() {
 	    super();
 	    this.nextInvoiceItemNumber = new Integer(1);
+	    this.customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
 	}
 
+	/**
+	 * This method calculates the outstanding balance on an invoice.
+	 * 
+	 * @return the outstanding balance on this invoice
+	 */
+	public KualiDecimal getBalance() {
+	    return customerInvoiceDocumentService.getBalanceForCustomerInvoiceDocument(this);
+	}
+	
 	/**
 	 * Gets the documentNumber attribute.
 	 *

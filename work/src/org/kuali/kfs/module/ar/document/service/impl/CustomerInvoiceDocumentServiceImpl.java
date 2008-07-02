@@ -87,6 +87,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public KualiDecimal getBalanceForCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
+        if(null == invoice) { return null; }
         return getTotalAmountForCustomerInvoiceDocument(invoice).subtract(getPaidAppliedTotalForInvoice(invoice));
     }
 
@@ -94,6 +95,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getBalanceForCustomerInvoiceDocument(java.lang.String)
      */
     public KualiDecimal getBalanceForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
+        if(null == customerInvoiceDocumentNumber) { return null; }
         return getBalanceForCustomerInvoiceDocument(getInvoiceByInvoiceDocumentNumber(customerInvoiceDocumentNumber));
     }
 
@@ -101,6 +103,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getTotalAmountForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public KualiDecimal getTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument invoice) {
+        if(null == invoice) { return null; }
         KualiDecimal total = new KualiDecimal(0);
         for(CustomerInvoiceDetail detail : customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice)) {
             total = total.add(detail.getAmount());
@@ -141,14 +144,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             }
         }
         
-//        try {
-        invoices = documentDao.findByDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
-
-            // invoices = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
-//        } catch(WorkflowException we) {
-//            throw new InfrastructureException("Unable to retrieve CustomerInvoiceDocuments", we);
-//        }
-        
+        if(0 < documentHeaderIds.size()) {
+            invoices = documentDao.findByDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+        }
         return invoices;
     }
     

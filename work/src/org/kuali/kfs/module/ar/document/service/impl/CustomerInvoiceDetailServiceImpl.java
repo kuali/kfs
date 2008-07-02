@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -370,6 +371,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(CustomerInvoiceDocument customerInvoiceDocument) {
+        if(null == customerInvoiceDocument) { return new ArrayList<CustomerInvoiceDetail>(); }
         return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
     }
     

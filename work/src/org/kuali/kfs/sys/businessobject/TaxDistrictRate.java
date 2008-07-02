@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
+/**
+ * Tax District Rate business object.
+ */
 public class TaxDistrictRate extends PersistableBusinessObjectBase {
 
     private String taxDistrictCode;

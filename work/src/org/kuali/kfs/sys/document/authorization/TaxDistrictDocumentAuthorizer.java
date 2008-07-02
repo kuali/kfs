@@ -27,12 +27,13 @@ import org.kuali.kfs.sys.businessobject.TaxDistrictRate;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * 
- * This class...
+ * This class implements authorization for Tax District Maintenance Document.
  */
 public class TaxDistrictDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     /**
+     * If a effective date for a tax rate is not in future, make it read only.
+     *   
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(

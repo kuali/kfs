@@ -15,28 +15,32 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.HSCHREIN;
-
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.saveDocument;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE7;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.CSWINSON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.HSCHREIN;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.MYLARGE;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.VPUTMAN;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -58,6 +62,7 @@ import edu.iu.uis.eden.EdenConstants;
 @ConfigureContext(session = HSCHREIN)
 // @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
+    private static Logger LOG = Logger.getLogger(DisbursementVoucherDocumentTest.class);
 
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;
     // The set of Route Nodes that the test document will progress through
@@ -65,6 +70,43 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private static final String ACCOUNT_REVIEW = "Account Review";
     private static final String ORG_REVIEW = "Org Review";
     private static final String CAMPUS_CODE = "Campus Code";
+    
+    /**
+     * Adds DisbursementVoucherDocumentationLocation record for the tests.
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        
+        // can we retrieve the location code?
+        Map pkMap = new LinkedHashMap();
+        pkMap.put("disbursementVoucherDocumentationLocationCode", "F");
+        DisbursementVoucherDocumentationLocation location = (DisbursementVoucherDocumentationLocation)boService.findByPrimaryKey(DisbursementVoucherDocumentationLocation.class, pkMap);
+
+        if (location == null) {
+            location = new DisbursementVoucherDocumentationLocation();
+            location.setDisbursementVoucherDocumentationLocationCode("F");
+            location.setDisbursementVoucherDocumentationLocationName("FMS - Bloomington");
+            location.setDisbursementVoucherDocumentationLocationAddress("Financial Management Support\nPoplars 526\nBLOOMINGTON CAMPUS");
+            boService.save(location);
+        }
+    }
+
+    /**
+     * Deletes the location code for methods that commit transactions
+     */
+    private void cleanUpForCommittedTransactions(DisbursementVoucherDocument document) throws Exception { 
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        boService.delete(document);
+        // get the location code
+        Map pkMap = new LinkedHashMap();
+        pkMap.put("disbursementVoucherDocumentationLocationCode", "F");
+        DisbursementVoucherDocumentationLocation location = (DisbursementVoucherDocumentationLocation)boService.findByPrimaryKey(DisbursementVoucherDocumentationLocation.class, pkMap);
+        boService.delete(location);
+    }
+
 
     public final void testConvertIntoCopy_clear_additionalCodeInvalidVendor() throws Exception {
         GlobalVariables.setMessageList(new ArrayList());
@@ -148,6 +190,8 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         changeCurrentUser(VPUTMAN);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        
+        cleanUpForCommittedTransactions((DisbursementVoucherDocument)document);
     }
 
     private int getExpectedPrePeCount() {
@@ -242,7 +286,9 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
+        DisbursementVoucherDocument document = buildDocument();
+        AccountingDocumentTestUtils.testRouteDocument(document, SpringContext.getBean(DocumentService.class));
+        cleanUpForCommittedTransactions(document);
     }
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
@@ -259,11 +305,20 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         // verify
         assertMatch(document, result);
 
+        cleanUpForCommittedTransactions((DisbursementVoucherDocument)document);
     }
 
     @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+        DisbursementVoucherDocument document = buildDocument();
+        String originalDocumentNumber = document.getDocumentNumber();
+
+        AccountingDocumentTestUtils.testConvertIntoCopy(document, SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+        String copiedDocumentNumber = document.getDocumentNumber();
+        
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        SpringContext.getBean(BusinessObjectService.class).delete((DisbursementVoucherDocument)documentService.getByDocumentHeaderId(originalDocumentNumber));
+        cleanUpForCommittedTransactions((DisbursementVoucherDocument)documentService.getByDocumentHeaderId(copiedDocumentNumber));
     }
 
     // test util methods

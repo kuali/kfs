@@ -28,8 +28,17 @@ import org.kuali.kfs.sys.businessobject.TaxDistrict;
 import org.kuali.kfs.sys.businessobject.TaxDistrictRate;
 import org.kuali.kfs.sys.context.SpringContext;
 
+/**
+ * This class implements add collection line business rule for tax district rate.
+ */
 public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
 
+    /**
+     * Rules:
+     * 1) Effective date should be a future date.
+     * 2) Tax rate should be a numeric value between 0 and 1 (inclusive).
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(
             MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {

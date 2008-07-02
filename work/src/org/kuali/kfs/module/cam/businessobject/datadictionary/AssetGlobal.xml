@@ -107,7 +107,7 @@
 
   <bean id="AssetGlobal-representativeUniversalIdentifier-parentBean" abstract="true" parent="Asset-representativeUniversalIdentifier">
     <property name="name" value="asset.representativeUniversalIdentifier" />
-    <property name="label" value="Asset Representitive" />
+    <property name="label" value="Asset Representative" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -118,7 +118,7 @@
 
   <bean id="AssetGlobal-assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
     <property name="name" value="assetRepresentative.personUserIdentifier" />
-    <property name="label" value="Asset Representitive" />
+    <property name="label" value="Asset Representative" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
@@ -131,7 +131,7 @@
 
   <bean id="AssetGlobal-assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
     <property name="name" value="assetRepresentative.personName" />
-    <property name="label" value="Asset Representitive" />
+    <property name="label" value="Asset Representative" />
     <property name="required" value="false" />
   </bean>
   <bean id="AssetGlobal-lastInventoryDate" parent="AssetGlobal-lastInventoryDate-parentBean" />

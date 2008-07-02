@@ -516,17 +516,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
             }
-            else {
-                CommodityCode commodityCode = purItem.getCommodityCode();
-                if (commodityCode == null) {
-                    Collection result = SpringContext.getBean(BusinessObjectService.class).findMatching(CommodityCode.class, fieldValues);
-                    commodityCode = (CommodityCode)result.iterator().next();
-                }
-                if (!commodityCode.isActive()) {
-                    //This is the case where the commodity code on the item is not active.
-                    valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + identifierString);
-                }
+            else if (!purItem.getCommodityCode().isActive()) {
+                //This is the case where the commodity code on the item is not active.
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + identifierString);
             }
         }
         

@@ -253,7 +253,7 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     }
 
     public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber.toUpperCase();
+        this.customerNumber = null == customerNumber ? null : customerNumber.toUpperCase();
     }
 
     public String getSelectedInvoiceDocumentNumber() {

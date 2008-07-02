@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
@@ -77,4 +78,16 @@ public interface CreditMemoDao {
      * @return - document number
      */
     public String getDocumentNumberByCreditMemoId(Integer id);
+    
+    /**
+     * Retrieves a list of potentially active credit memos for a purchase order by
+     * status code. Active being defined as being enroute and before final. The issue
+     * is that a status of vendor_tax_review may not mean that it's in review, but could be
+     * in final (as there isn't a final status code for payment request). Workflow status
+     * must be checked further after retrieval.
+     * 
+     * @param purchaseOrderId
+     * @return
+     */
+    public List<String> getActiveCreditMemoDocumentNumbersForPurchaseOrder(Integer purchaseOrderId);
 }

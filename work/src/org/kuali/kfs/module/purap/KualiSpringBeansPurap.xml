@@ -371,6 +371,12 @@
 	</bean>
 
 	<bean id="receivingService" class="org.kuali.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
+        <property name="paymentRequestService">
+            <ref bean="paymentRequestService" />
+        </property>	
+        <property name="creditMemoService">
+            <ref bean="creditMemoService" />
+        </property>	
         <property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>	

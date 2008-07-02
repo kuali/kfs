@@ -187,4 +187,13 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param processDate  The date to be set as the credit memo's paid timestamp.
      */
     public void markPaid(CreditMemoDocument cm, Date processDate);
+    
+    /**
+     * Determines if there are active credit memos for a purchase order.
+     * 
+     * @param purchaseOrderIdentifier
+     * @return
+     */
+    public boolean hasActiveCreditMemosForPurchaseOrder(Integer purchaseOrderIdentifier);
+
 }

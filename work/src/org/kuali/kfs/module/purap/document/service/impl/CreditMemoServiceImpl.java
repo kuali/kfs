@@ -36,6 +36,8 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -89,6 +91,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private PurchaseOrderService purchaseOrderService;
     private PurapAccountingService purapAccountingService;
     private AccountsPayableService accountsPayableService;
+    private WorkflowDocumentService workflowDocumentService;
     
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
@@ -550,6 +553,10 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         this.parameterService = parameterService;
     }
 
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService){
+        this.workflowDocumentService = workflowDocumentService;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
@@ -643,5 +650,36 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#hasActiveCreditMemosForPurchaseOrder(java.lang.Integer)
+     */
+    public boolean hasActiveCreditMemosForPurchaseOrder(Integer purchaseOrderIdentifier){
+        
+        boolean hasActiveCreditMemos = false;
+        List<String> docNumbers= null;
+        KualiWorkflowDocument workflowDocument = null;
+        
+        docNumbers= creditMemoDao.getActiveCreditMemoDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
+        
+        for (String docNumber : docNumbers) {
+            try{
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+            }catch(WorkflowException we){
+                throw new RuntimeException(we);
+            }
+            
+            //if the document is not in a non-active status then return true and stop evaluation
+            if(!(workflowDocument.stateIsCanceled() ||
+                    workflowDocument.stateIsException() ||
+                    workflowDocument.stateIsFinal()) ){
+                hasActiveCreditMemos = true;
+                break;
+            }
+
+        }
+        
+        return hasActiveCreditMemos;
     }
 }

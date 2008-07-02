@@ -17,8 +17,10 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -29,7 +31,9 @@ import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -184,4 +188,21 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }
 
+    public List<String> getActiveCreditMemoDocumentNumbersForPurchaseOrder(Integer purchaseOrderId){
+        LOG.debug("getActiveCreditmemoDocumentNumbersForPurchaseOrder() started");
+                
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
+        criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(CreditMemoStatuses.STATUSES_POTENTIALLY_ACTIVE));
+        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+        
+        Iterator<Object[]> iter = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        return returnList;
+    }
 }

@@ -51,6 +51,8 @@ import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
+import org.kuali.kfs.module.purap.document.service.CreditMemoService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -64,6 +66,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 @Transactional
 public class ReceivingServiceImpl implements ReceivingService {
 
+    private PaymentRequestService paymentRequestService;
+    private CreditMemoService creditMemoService;
     private PurchaseOrderService purchaseOrderService;
     private ReceivingDao receivingDao;
     private DocumentService documentService;
@@ -71,7 +75,15 @@ public class ReceivingServiceImpl implements ReceivingService {
     private KualiConfigurationService configurationService;    
     private PurapService purapService;
     private NoteService noteService;
-    
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
+    }
+
+    public void setCreditMemoService(CreditMemoService creditMemoService) {
+        this.creditMemoService = creditMemoService;
+    }
+
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
@@ -182,9 +194,34 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreateReceivingLineDocument(po, null);
     }
     
-    public boolean isAwaitingPurchaseOrderOpen(String documentNumber) {
-        //return true if po not in one of these statuses (OPEN|CLOSED|PMTHOLD)
-        return false;
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.ReceivingService#isAwaitingPurchaseOrderOpen(java.lang.String)
+     */
+    public boolean isAwaitingPurchaseOrderOpen(String documentNumber) {       
+        boolean awaitingPurchaseOrderOpen = false;
+        ReceivingLineDocument rlDoc = null;
+        PurchaseOrderDocument po = null;
+        
+        try{
+            //retrieve receiving doc
+            rlDoc = (ReceivingLineDocument) documentService.getByDocumentHeaderId(documentNumber);
+        }catch(WorkflowException we){
+            throw new RuntimeException(we);
+        }
+        
+        po = rlDoc.getPurchaseOrderDocument();
+        //if po is not in "open" status, able to have receiving line docs created, and
+        // there are pending payment requests or credit memos, its awaiting purchase order open
+        if( po != null &&
+            !(po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
+              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
+              po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) ||
+             (paymentRequestService.hasActivePaymentRequestsForPurchaseOrder(rlDoc.getPurchaseOrderIdentifier()) ||
+              creditMemoService.hasActiveCreditMemosForPurchaseOrder(rlDoc.getPurchaseOrderIdentifier())) ){
+            awaitingPurchaseOrderOpen = true;
+        }
+        
+        return awaitingPurchaseOrderOpen;
     }
 
     private boolean canCreateReceivingLineDocument(PurchaseOrderDocument po, String receivingDocumentNumber){

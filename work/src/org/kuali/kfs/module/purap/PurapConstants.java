@@ -580,7 +580,9 @@ public class PurapConstants extends JSTLConstants {
         }
 
         public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { COMPLETE };
-
+        
+        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, AWAITING_ACCOUNTS_PAYABLE_REVIEW, AWAITING_FISCAL_REVIEW };
+               
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();
         public static final Set STATUSES_NOT_REQUIRING_ENTRY_REVERSAL = new HashSet();

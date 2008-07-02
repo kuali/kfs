@@ -189,7 +189,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     @Override
     public void populateDocumentForRouting() {
         super.populateDocumentForRouting();
-        awaitingPurchaseOrderOpen = SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(this.getDocumentNumber());        
+        this.setAwaitingPurchaseOrderOpen( SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(this.getDocumentNumber()) );        
     }
 
     public boolean isAwaitingPurchaseOrderOpen() {

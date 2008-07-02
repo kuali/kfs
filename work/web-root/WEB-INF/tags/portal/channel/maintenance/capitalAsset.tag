@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <channel:portalChannelTop
-	channelTitle="Capital Asset" />
+	channelTitle="Capital Asset Management" />
 <div class="body">
 	<ul class="chan">
 		<li>

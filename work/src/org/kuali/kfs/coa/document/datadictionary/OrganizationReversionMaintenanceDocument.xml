@@ -67,7 +67,7 @@
     </property>
     <property name="documentTypeName" value="OrganizationReversionMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionPreRules" />
     <property name="documentTypeCode" value="ORGR" />
     <property name="webScriptFiles" >

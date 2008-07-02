@@ -55,7 +55,7 @@
     </property>
     <property name="documentTypeName" value="ObjectCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodePreRules" />
     <property name="documentTypeCode" value="OBJT" />
     <property name="webScriptFiles" >

@@ -86,7 +86,7 @@
     </property>
     <property name="documentTypeName" value="AwardMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardPreRules" />
     <property name="documentTypeCode" value="AWRD" />
     <property name="displayTopicFieldInNotes" value="true" />

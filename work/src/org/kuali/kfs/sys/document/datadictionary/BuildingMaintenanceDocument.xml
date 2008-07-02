@@ -41,7 +41,7 @@
             p:parameterDetailType="Building" />
     </property>
     <property name="documentTypeName" value="BuildingMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BLDG" />
     <property name="workflowProperties" >
       <ref bean="BuildingMaintenanceDocument-workflowProperties" />

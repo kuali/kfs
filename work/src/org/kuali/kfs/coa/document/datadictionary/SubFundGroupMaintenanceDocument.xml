@@ -37,7 +37,7 @@
             p:parameterDetailType="SubFundGroup" />
     </property>
     <property name="documentTypeName" value="SubFundGroupMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SFGR" />
     <property name="workflowProperties" >
       <ref bean="SubFundGroupMaintenanceDocument-workflowProperties" />

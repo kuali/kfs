@@ -31,7 +31,7 @@
     </property>
     <property name="documentTypeName" value="AppointmentTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AppointmentTypeMaintenanceDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="APPT" />
     <property name="workflowProperties" >
       <ref bean="AppointmentTypeMaintenanceDocument-workflowProperties" />

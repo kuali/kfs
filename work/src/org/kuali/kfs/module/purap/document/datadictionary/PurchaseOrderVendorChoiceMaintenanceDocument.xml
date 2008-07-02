@@ -28,7 +28,7 @@
             p:parameterDetailType="PurchaseOrderVendorChoice" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderVendorChoiceMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMVC" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderVendorChoiceMaintenanceDocument-workflowProperties" />

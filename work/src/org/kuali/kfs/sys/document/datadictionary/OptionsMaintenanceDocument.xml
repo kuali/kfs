@@ -98,7 +98,7 @@
             p:parameterDetailType="Options" />
     </property>
     <property name="documentTypeName" value="OptionsMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SOPT" />
     <property name="workflowProperties" >
       <ref bean="OptionsMaintenanceDocument-workflowProperties" />

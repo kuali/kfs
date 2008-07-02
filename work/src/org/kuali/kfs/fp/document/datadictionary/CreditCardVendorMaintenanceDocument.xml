@@ -68,7 +68,7 @@
     </property>
     <property name="documentTypeName" value="CreditCardVendorMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CCVN" />
     <property name="workflowProperties" >
       <ref bean="CreditCardVendorMaintenanceDocument-workflowProperties" />

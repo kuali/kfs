@@ -28,7 +28,7 @@
             p:parameterDetailType="ContractManager" />
     </property>
     <property name="documentTypeName" value="ContractManagerMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCO" />
     <property name="workflowProperties" >
       <ref bean="ContractManagerMaintenanceDocument-workflowProperties" />

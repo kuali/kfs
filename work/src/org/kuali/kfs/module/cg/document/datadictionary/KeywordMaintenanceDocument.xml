@@ -30,7 +30,7 @@
             p:parameterDetailType="Keyword" />
     </property>
     <property name="documentTypeName" value="KeywordMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="KEYW" />
     <property name="workflowProperties" >
       <ref bean="KeywordMaintenanceDocument-workflowProperties" />

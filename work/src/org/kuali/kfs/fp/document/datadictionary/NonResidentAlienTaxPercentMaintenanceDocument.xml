@@ -31,7 +31,7 @@
             p:parameterDetailType="NonResidentAlienTaxPercent" />
     </property>
     <property name="documentTypeName" value="NonResidentAlienTaxPercentMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVTX" />
     <property name="workflowProperties" >
       <ref bean="NonResidentAlienTaxPercentMaintenanceDocument-workflowProperties" />

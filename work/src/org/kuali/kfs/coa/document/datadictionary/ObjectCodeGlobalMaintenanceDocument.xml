@@ -54,7 +54,7 @@
     </property>
     <property name="documentTypeName" value="ObjectCodeGlobalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeGlobalPreRules" />
     <property name="documentTypeCode" value="GOBJ" />
     <property name="workflowProperties" >

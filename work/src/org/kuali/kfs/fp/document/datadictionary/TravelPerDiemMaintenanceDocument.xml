@@ -31,7 +31,7 @@
             p:parameterDetailType="TravelPerDiem" />
     </property>
     <property name="documentTypeName" value="TravelPerDiemMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVPD" />
     <property name="workflowProperties" >
       <ref bean="TravelPerDiemMaintenanceDocument-workflowProperties" />

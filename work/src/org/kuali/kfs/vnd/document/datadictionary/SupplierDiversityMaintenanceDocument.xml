@@ -28,7 +28,7 @@
             p:parameterDetailType="SupplierDiversity" />
     </property>
     <property name="documentTypeName" value="SupplierDiversityMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMSD" />
     <property name="workflowProperties" >
       <ref bean="SupplierDiversityMaintenanceDocument-workflowProperties" />

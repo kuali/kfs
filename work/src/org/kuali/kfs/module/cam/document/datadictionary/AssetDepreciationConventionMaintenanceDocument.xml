@@ -32,7 +32,7 @@
     <property name="description" value="Document used to create or update asset depreciation convention objects" />
     <property name="documentTypeName" value="AssetDepreciationConventionMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DPRC" />
     <property name="authorizations" >
       <list>

@@ -30,7 +30,7 @@
             p:parameterDetailType="ObjSubTyp" />
     </property>
     <property name="documentTypeName" value="ObjSubTypMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="OSTY" />
     <property name="workflowProperties" >
       <ref bean="ObjSubTypMaintenanceDocument-workflowProperties" />

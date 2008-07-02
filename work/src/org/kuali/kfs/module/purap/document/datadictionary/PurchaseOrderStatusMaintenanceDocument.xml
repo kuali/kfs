@@ -29,7 +29,7 @@
             p:parameterDetailType="PurchaseOrderStatus" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMPS" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderStatusMaintenanceDocument-workflowProperties" />

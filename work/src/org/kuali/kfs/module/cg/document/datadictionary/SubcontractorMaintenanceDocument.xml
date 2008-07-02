@@ -31,7 +31,7 @@
     </property>
     <property name="documentTypeName" value="SubcontractorMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="SUBC" />
     <property name="workflowProperties" >
       <ref bean="SubcontractorMaintenanceDocument-workflowProperties" />

@@ -30,7 +30,7 @@
             p:parameterDetailType="FiscalYearFunctionControl" />
     </property>
     <property name="documentTypeName" value="FunctionControlCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BFNC" />
     <property name="workflowProperties" >
       <ref bean="FunctionControlCodeMaintenanceDocument-workflowProperties" />

@@ -30,7 +30,7 @@
             p:parameterDetailType="ProposalAwardType" />
     </property>
     <property name="documentTypeName" value="ProposalAwardTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PATY" />
     <property name="workflowProperties" >
       <ref bean="ProposalAwardTypeMaintenanceDocument-workflowProperties" />

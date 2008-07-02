@@ -30,7 +30,7 @@
             p:parameterDetailType="CreditCardType" />
     </property>
     <property name="documentTypeName" value="CreditCardTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CCTY" />
     <property name="workflowProperties" >
       <ref bean="CreditCardTypeMaintenanceDocument-workflowProperties" />

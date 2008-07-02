@@ -30,7 +30,7 @@
     </property>
     <property name="documentTypeName" value="OrganizationParameterMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.OrganizationParameterRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMOP" />
     <property name="workflowProperties" >
       <ref bean="OrganizationParameterMaintenanceDocument-workflowProperties" />

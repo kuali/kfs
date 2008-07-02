@@ -28,7 +28,7 @@
             p:parameterDetailType="PurchaseOrderQuoteStatus" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderQuoteStatusMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMQS" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderQuoteStatusMaintenanceDocument-workflowProperties" />

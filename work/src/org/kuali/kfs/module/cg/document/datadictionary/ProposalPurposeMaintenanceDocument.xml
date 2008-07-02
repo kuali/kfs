@@ -30,7 +30,7 @@
             p:parameterDetailType="ProposalPurpose" />
     </property>
     <property name="documentTypeName" value="ProposalPurposeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PURP" />
     <property name="workflowProperties" >
       <ref bean="ProposalPurposeMaintenanceDocument-workflowProperties" />

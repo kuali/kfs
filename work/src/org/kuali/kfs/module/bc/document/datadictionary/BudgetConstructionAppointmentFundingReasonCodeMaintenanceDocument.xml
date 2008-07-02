@@ -24,7 +24,7 @@
     <property name="summary" value="Budget Construction Appointment Funding Reason Code Maintenance Document" />
     <property name="description" value="Document used to create or update Budget Construction Appointment Funding Reason Code Maintenance Document objects" />
     <property name="documentTypeName" value="AppointmentFundingReasonCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="BCRC" />
     <property name="authorizations" >
       <list>

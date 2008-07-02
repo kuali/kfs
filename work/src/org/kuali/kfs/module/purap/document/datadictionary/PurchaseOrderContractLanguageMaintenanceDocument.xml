@@ -29,7 +29,7 @@
     </property>
     <property name="documentTypeName" value="PurchaseOrderContractLanguageMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderContractLanguageRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCL" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderContractLanguageMaintenanceDocument-workflowProperties" />

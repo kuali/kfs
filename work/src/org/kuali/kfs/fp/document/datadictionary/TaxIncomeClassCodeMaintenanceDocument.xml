@@ -30,7 +30,7 @@
             p:parameterDetailType="TaxIncomeClassCode" />
     </property>
     <property name="documentTypeName" value="TaxIncomeClassCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVIC" />
     <property name="workflowProperties" >
       <ref bean="TaxIncomeClassCodeMaintenanceDocument-workflowProperties" />

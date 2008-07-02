@@ -25,7 +25,7 @@
     <property name="summary" value="Period Status Code  Maintenance Document" />
     <property name="description" value="Document used to create or update Effort Certification Period Status Code  Maintenance Document" />
     <property name="documentTypeName" value="EffortCertificationPeriodStatusCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ARPS" />
     <property name="authorizations" >
       <list>

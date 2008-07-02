@@ -23,7 +23,7 @@
     <property name="label" value="Commodity Code" />
     <property name="shortLabel" value="Commodity Code" />
     <property name="documentTypeName" value="CommodityCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCC" />
     <property name="authorizations" >
       <list>

@@ -30,7 +30,7 @@
             p:parameterDetailType="State" />
     </property>
     <property name="documentTypeName" value="StateMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="STAT" />
     <property name="workflowProperties" >
       <ref bean="StateMaintenanceDocument-workflowProperties" />

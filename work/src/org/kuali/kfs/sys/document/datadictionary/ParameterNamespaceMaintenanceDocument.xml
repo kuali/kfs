@@ -26,7 +26,7 @@
     <property name="description" value="This document can be used to create or update modules." />
     <property name="documentTypeName" value="ParameterNamespaceMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PNMS" />
     <property name="workflowProperties" >
       <ref bean="ParameterNamespaceMaintenanceDocument-workflowProperties" />

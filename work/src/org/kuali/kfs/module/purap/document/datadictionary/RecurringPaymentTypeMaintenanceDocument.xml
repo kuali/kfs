@@ -28,7 +28,7 @@
             p:parameterDetailType="RecurringPaymentType" />
     </property>
     <property name="documentTypeName" value="RecurringPaymentTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMRP" />
     <property name="workflowProperties" >
       <ref bean="RecurringPaymentTypeMaintenanceDocument-workflowProperties" />

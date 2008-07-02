@@ -30,7 +30,7 @@
             p:parameterDetailType="Country" />
     </property>
     <property name="documentTypeName" value="CountryMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CTRY" />
     <property name="workflowProperties" >
       <ref bean="CountryMaintenanceDocument-workflowProperties" />

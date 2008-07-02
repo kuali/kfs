@@ -36,7 +36,7 @@
     <property name="summary" value="Room maintenance document" />
     <property name="description" value="Document used to create or update Room objects" />
     <property name="documentTypeName" value="RoomMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ROOM" />
     <property name="authorizations" >
       <list>

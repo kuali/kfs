@@ -30,7 +30,7 @@
             p:parameterDetailType="OrganizationReversionCategory" />
     </property>
     <property name="documentTypeName" value="OrganizationReversionCategoryMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ORGC" />
     <property name="workflowProperties" >
       <ref bean="OrganizationReversionCategoryMaintenanceDocument-workflowProperties" />

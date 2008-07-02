@@ -30,7 +30,7 @@
             p:parameterDetailType="FederalFundedCode" />
     </property>
     <property name="documentTypeName" value="FederalFundedCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="FFC" />
     <property name="workflowProperties" >
       <ref bean="FederalFundedCodeMaintenanceDocument-workflowProperties" />

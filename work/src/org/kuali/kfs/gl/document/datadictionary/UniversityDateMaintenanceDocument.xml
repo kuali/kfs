@@ -37,7 +37,7 @@
             p:parameterDetailType="UniversityDate" />
     </property>
     <property name="documentTypeName" value="UniversityDateMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="UDAT" />
     <property name="workflowProperties" >
       <ref bean="UniversityDateMaintenanceDocument-workflowProperties" />

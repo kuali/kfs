@@ -44,7 +44,7 @@
     <property name="description" value="Document used to create or update Pre-Asset Tagging" />
     <property name="documentTypeName" value="PretagMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.PretagRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PTAG" />
     <property name="authorizations" >
       <list>

@@ -30,7 +30,7 @@
             p:parameterDetailType="PaymentReasonCode" />
     </property>
     <property name="documentTypeName" value="PaymentReasonCodeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="DVPR" />
     <property name="workflowProperties" >
       <ref bean="PaymentReasonCodeMaintenanceDocument-workflowProperties" />

@@ -22,7 +22,7 @@
     <property name="label" value="Item Reason Added" />
     <property name="shortLabel" value="Item Reason" />
     <property name="documentTypeName" value="ItemReasonAddedMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="IRAD" />
     <property name="workflowProperties" >
       <ref bean="ItemReasonAddedMaintenanceDocument-workflowProperties" />

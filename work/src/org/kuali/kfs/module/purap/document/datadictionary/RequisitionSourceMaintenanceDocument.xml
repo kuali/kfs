@@ -28,7 +28,7 @@
             p:parameterDetailType="RequisitionSource" />
     </property>
     <property name="documentTypeName" value="RequisitionSourceMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMSO" />
     <property name="workflowProperties" >
       <ref bean="RequisitionSourceMaintenanceDocument-workflowProperties" />

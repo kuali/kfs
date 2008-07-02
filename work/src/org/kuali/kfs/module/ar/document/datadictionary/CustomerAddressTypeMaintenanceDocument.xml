@@ -24,7 +24,7 @@
     <property name="summary" value="Customer Address Type maintenance document" />
     <property name="description" value="Document used to create or update Customer Address Type objects" />
     <property name="documentTypeName" value="CustomerAddressTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CATY" />
     <property name="authorizations" >
       <list>

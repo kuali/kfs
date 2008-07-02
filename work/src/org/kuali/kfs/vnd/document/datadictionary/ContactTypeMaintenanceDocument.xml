@@ -28,7 +28,7 @@
             p:parameterDetailType="ContactType" />
     </property>
     <property name="documentTypeName" value="ContactTypeMaintenanceDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMCT" />
     <property name="workflowProperties" >
       <ref bean="ContactTypeMaintenanceDocument-workflowProperties" />

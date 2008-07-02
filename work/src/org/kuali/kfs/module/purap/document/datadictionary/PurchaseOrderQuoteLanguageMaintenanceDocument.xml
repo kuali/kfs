@@ -29,7 +29,7 @@
     </property>
     <property name="documentTypeName" value="PurchaseOrderQuoteLanguageMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteLanguageRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.web.struts.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMQL" />
     <property name="workflowProperties" >
       <ref bean="PurchaseOrderQuoteLanguageMaintenanceDocument-workflowProperties" />

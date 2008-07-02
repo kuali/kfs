@@ -38,7 +38,31 @@
         <ref bean="AssetGlobal-financialDocumentTypeCode" />
       </list>
     </property>
-<!-- deleted Relationships -->
+	<property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetRepresentative" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="representativeUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="assetRepresentative.personUserIdentifier"
+                    p:targetName="personUserIdentifier" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="assetRepresentative.personName"
+                    p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -105,8 +129,8 @@
   </bean>
   <bean id="AssetGlobal-representativeUniversalIdentifier" parent="AssetGlobal-representativeUniversalIdentifier-parentBean" />
 
-  <bean id="AssetGlobal-representativeUniversalIdentifier-parentBean" abstract="true" parent="Asset-representativeUniversalIdentifier">
-    <property name="name" value="asset.representativeUniversalIdentifier" />
+  <bean id="AssetGlobal-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+    <property name="name" value="representativeUniversalIdentifier" />
     <property name="label" value="Asset Representative" />
     <property name="required" value="false" />
     <property name="control" >

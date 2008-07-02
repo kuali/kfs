@@ -23,6 +23,8 @@ import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryTypeDao;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
@@ -49,6 +51,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     private A21SubAccountDao a21SubAccountDao;
     private IndirectCostRecoveryExclusionAccountDao indirectCostRecoveryExclusionAccountDao;
     private IndirectCostRecoveryExclusionTypeDao indirectCostRecoveryExclusionTypeDao;
+    private IndirectCostRecoveryTypeDao indirectCostRecoveryTypeDao;
     private ExpenditureTransactionDao expenditureTransactionDao;
 
     public void setA21SubAccountDao(A21SubAccountDao asad) {
@@ -81,7 +84,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @param account the account of the transaction
      * @param subAccountNumber the subAccountNumber of the transaction
      * @param objectCode the object code of the transaction
-     * @param universityFiscalPeriodCode the accounting period code of the transactoin
+     * @param universityFiscalPeriodCode the accounting period code of the transaction
      * @return true if the transaction is an ICR transaction and therefore should have an expenditure transaction created for it; false if otherwise
      */
     public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode) {
@@ -140,7 +143,9 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                 }
                 // second step checks if the top level object code is to be excluded...
                 IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(), currentObjectCode.getChartOfAccountsCode(), currentObjectCode.getFinancialObjectCode());
-                if (excType != null) {
+                IndirectCostRecoveryType icrType = indirectCostRecoveryTypeDao.getByPrimaryKey(excType.getAccountIndirectCostRecoveryTypeCode());
+                
+                if (excType != null && excType.isActive() && icrType.isActive()) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR Excluded type - not posted");
                     return false;

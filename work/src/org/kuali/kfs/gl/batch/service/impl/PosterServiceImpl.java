@@ -34,7 +34,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryAutomatedEntryDao;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryRateDetailDao;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -85,7 +85,7 @@ public class PosterServiceImpl implements PosterService {
     private UniversityDateDao universityDateDao;
     private AccountingPeriodService accountingPeriodService;
     private ExpenditureTransactionDao expenditureTransactionDao;
-    private IndirectCostRecoveryAutomatedEntryDao indirectCostRecoveryAutomatedEntryDao;
+    private IndirectCostRecoveryRateDetailDao indirectCostRecoveryRateDetailDao;
     private ObjectCodeService objectCodeService;
     private ReportService reportService;
     private ParameterService parameterService;
@@ -388,7 +388,7 @@ public class PosterServiceImpl implements PosterService {
             KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
             KualiDecimal distributionAmount = KualiDecimal.ZERO;
 
-            Collection automatedEntries = indirectCostRecoveryAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier(), et.getBalanceTypeCode());
+            Collection automatedEntries = indirectCostRecoveryRateDetailDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier());
             int automatedEntriesCount = automatedEntries.size();
 
             if (automatedEntriesCount > 0) {
@@ -704,8 +704,8 @@ public class PosterServiceImpl implements PosterService {
         expenditureTransactionDao = etd;
     }
 
-    public void setIndirectCostRecoveryAutomatedEntryDao(IndirectCostRecoveryAutomatedEntryDao iaed) {
-        indirectCostRecoveryAutomatedEntryDao = iaed;
+    public void setIndirectCostRecoveryRateDetailDao(IndirectCostRecoveryRateDetailDao iaed) {
+        indirectCostRecoveryRateDetailDao = iaed;
     }
 
     public void setObjectCodeService(ObjectCodeService ocs) {

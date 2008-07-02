@@ -207,7 +207,7 @@ diff -N work/src/edu/sample/kuali/module/chart/datadictionary/docs/AccountMainte
 +                    <maintainableField name="contractControlAccountNumber" required="false" />
 +                    <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
 +                    <maintainableField name="financialIcrSeriesIdentifier" required="false" >
-+                         <overrideLookupClass>org.kuali.module.chart.bo.IcrAutomatedEntry</overrideLookupClass>
++                         <overrideLookupClass>org.kuali.module.chart.bo.IndirectCostRecoveryRateDetail</overrideLookupClass>
 +                         <overrideFieldConversions>financialIcrSeriesIdentifier:financialIcrSeriesIdentifier</overrideFieldConversions>
 +                    </maintainableField>  
 +                    <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />

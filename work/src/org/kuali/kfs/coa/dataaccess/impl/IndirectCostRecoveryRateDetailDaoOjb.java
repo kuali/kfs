@@ -22,26 +22,25 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
-import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryAutomatedEntryDao;
+import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryRateDetailDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
- * This class implements the {@link IndirectCostRecoverAutomatedEntryDao} data access methods using Ojb
+ * This class implements the {@link IndirectCostRecoverRateDetailDao} data access methods using Ojb
  */
-public class IndirectCostRecoveryAutomatedEntryDaoOjb extends PlatformAwareDaoBaseOjb implements IndirectCostRecoveryAutomatedEntryDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryAutomatedEntryDaoOjb.class);
+public class IndirectCostRecoveryRateDetailDaoOjb extends PlatformAwareDaoBaseOjb implements IndirectCostRecoveryRateDetailDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryRateDetailDaoOjb.class);
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoverAutomatedEntryDao#getEntriesBySeries(java.lang.Integer, java.lang.String,
+     * @see org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryRateDetailDao#getEntriesBySeries(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
-    public Collection getEntriesBySeries(Integer universityFiscalYear, String financialIcrSeriesIdentifier, String balanceTypeCode) {
+    public Collection getEntriesBySeries(Integer universityFiscalYear, String financialIcrSeriesIdentifier) {
         LOG.debug("getEntriesBySeries() started");
 
         Criteria crit = new Criteria();
         crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         crit.addEqualTo(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, financialIcrSeriesIdentifier);
-        crit.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
 
         QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryRateDetail.class, crit);
         qbc.addOrderByAscending(KFSPropertyConstants.AWARD_INDR_COST_RCVY_ENTRY_NBR);

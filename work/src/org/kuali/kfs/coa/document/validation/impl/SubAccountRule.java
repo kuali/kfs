@@ -443,7 +443,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
             Map fieldValues = new HashMap();
             fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
-            // Collection results = boService.findMatchingOrderBy(IcrAutomatedEntry.class, fieldValues, "universityFiscalYear",
+            // Collection results = boService.findMatchingOrderBy(IndirectCostRecoveryRateDetail.class, fieldValues, "universityFiscalYear",
             // true);
             Collection results = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, fieldValues);
 
@@ -453,8 +453,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             if (!results.isEmpty()) {
                 anyFound = true;
                 for (Iterator iter = results.iterator(); iter.hasNext();) {
-                    IndirectCostRecoveryRateDetail icrAutomatedEntry = (IndirectCostRecoveryRateDetail) iter.next();
-                    if (fiscalYear.equals(icrAutomatedEntry.getUniversityFiscalYear())) {
+                    IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail = (IndirectCostRecoveryRateDetail) iter.next();
+                    if (fiscalYear.equals(indirectCostRecoveryRateDetail.getUniversityFiscalYear())) {
                         anyFoundInThisFy = true;
                         break;
                     }

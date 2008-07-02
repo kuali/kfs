@@ -342,7 +342,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
           addCopyAction(EffortCertificationReportPosition.class, copyActionEffortReportPosition);
 
         /***************************************************************************************************************************
-         * IcrAutomatedEntry *
+         * IndirectCostRecoveryRate *
          **************************************************************************************************************************/
         FiscalYearMakersCopyAction copyActionIcrAuto = new FiscalYearMakersCopyAction() {
             public void copyMethod(Integer baseYear, boolean replaceMode) {

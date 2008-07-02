@@ -229,7 +229,7 @@
 
 	<bean id="objectTypeDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.ObjectTypeDaoOjb" />
 
-	<bean id="indirectCostRecoveryAutomatedEntryDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoveryAutomatedEntryDaoOjb" />
+	<bean id="indirectCostRecoveryRateDetailDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoveryRateDetailDaoOjb" />
 
 	<bean id="indirectCostRecoveryExclusionAccountDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoveryExclusionAccountDaoOjb" />
 

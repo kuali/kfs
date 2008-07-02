@@ -37,6 +37,8 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 public class AssetTransferServiceTest extends KualiTestBase {
 
@@ -55,6 +57,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULCAP394)
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
     public void testCreateGLPostables_Success() throws Exception {
         // set up the data
@@ -95,6 +98,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULCAP394)
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
     public void testCreateGLPostables_No_Offset() throws Exception {
         // set up the data

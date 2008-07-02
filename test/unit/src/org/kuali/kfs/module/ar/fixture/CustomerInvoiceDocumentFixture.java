@@ -35,7 +35,8 @@ public enum CustomerInvoiceDocumentFixture {
             null, //paymentFinancialObjectCode
             null, //paymentSubObjectCode
             null, //paymentProjectCode
-            null
+            null, 
+            null //financialDocumentHeader
     ),
     
     BASE_CIDOC_WITH_CUSTOMER( "ABB2", //customerNumber 
@@ -47,7 +48,21 @@ public enum CustomerInvoiceDocumentFixture {
             null, //paymentFinancialObjectCode
             null, //paymentSubObjectCode
             null, //paymentProjectCode
+            null,
             null
+    ),    
+    
+    REVERSAL_CIDOC( null, //customerNumber 
+            "BA", //processingChartOfAccountsCode
+            "ACAC", //processingOrganizationCode
+            null, //paymentChartOfAccountsCode
+            null, //paymentAccountNumber
+            null, //paymentSubAccountNumber
+            null, //paymentFinancialObjectCode
+            null, //paymentSubObjectCode
+            null, //paymentProjectCode
+            null,
+            "123456"
     ),    
     
     CIDOC_WITH_FAU_RECEIVABLE( "ABB2", //customerNumber 
@@ -60,6 +75,7 @@ public enum CustomerInvoiceDocumentFixture {
             "001", //paymentSubObjectCode
             null, //paymentProjectCode
             "FAU" //FAU
+, null
     );
     
     public String customerNumber;
@@ -72,8 +88,9 @@ public enum CustomerInvoiceDocumentFixture {
     public String paymentFinancialSubObjectCode;
     public String paymentProjectCode;
     public String paymentOrganizationReferenceIdentifier;
+    public String financialDocumentInErrorNumber;
     
-    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier ){
+    private CustomerInvoiceDocumentFixture( String customerNumber, String processingChartOfAccountsCode, String processingOrganizationCode, String paymentChartOfAccountsCode, String paymentAccountNumber, String paymentSubAccountNumber, String paymentFinancialObjectCode, String paymentFinancialSubObjectCode, String paymentProjectCode, String paymentOrganizationReferenceIdentifier, String financialDocumentInErrorNumber ){
         this.customerNumber = customerNumber;
         this.processingOrganizationCode = processingOrganizationCode;
         this.processingChartOfAccountsCode = processingChartOfAccountsCode;
@@ -84,6 +101,7 @@ public enum CustomerInvoiceDocumentFixture {
         this.paymentFinancialSubObjectCode = paymentFinancialSubObjectCode;
         this.paymentProjectCode = paymentProjectCode;
         this.paymentOrganizationReferenceIdentifier = paymentOrganizationReferenceIdentifier;
+        this.financialDocumentInErrorNumber = financialDocumentInErrorNumber;
     }
     
     /**
@@ -127,6 +145,7 @@ public enum CustomerInvoiceDocumentFixture {
         customerInvoiceDocument.setPaymentFinancialSubObjectCode(paymentFinancialSubObjectCode);
         customerInvoiceDocument.setPaymentProjectCode(paymentProjectCode);
         customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(paymentOrganizationReferenceIdentifier);
+        customerInvoiceDocument.getDocumentHeader().setFinancialDocumentInErrorNumber(financialDocumentInErrorNumber);
         
         //set AR doc Header
         AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
@@ -137,9 +156,11 @@ public enum CustomerInvoiceDocumentFixture {
         customerInvoiceDocument.setAccountsReceivableDocumentHeader(arDocHeader);
         
         //associated customer invoice detail fixtures with invoice document
-        for (CustomerInvoiceDetailFixture customerInvoiceDetailFixture : customerInvoiceDetailFixtures) { 
-            customerInvoiceDetailFixture.addTo(customerInvoiceDocument);
-        }        
+        if ( customerInvoiceDetailFixtures != null ){
+            for (CustomerInvoiceDetailFixture customerInvoiceDetailFixture : customerInvoiceDetailFixtures) { 
+                customerInvoiceDetailFixture.addTo(customerInvoiceDocument);
+            }        
+        }
         
         return customerInvoiceDocument;
     }

@@ -31,11 +31,12 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
     
     private CustomerInvoiceDocument customerInvoiceDocument;
     private DateTimeService dateTimeService;
+    private ParameterService parameterService;
     
     public boolean validate(AttributedDocumentEvent event) {
         
         Timestamp dueDateTimestamp = new Timestamp(customerInvoiceDocument.getInvoiceDueDate().getTime());
-        Timestamp billingDateTimestamp = new Timestamp(dateTimeService.getCurrentSqlDate().getTime());
+        Timestamp billingDateTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
         
         if (dueDateTimestamp.before(billingDateTimestamp) || dueDateTimestamp.equals(billingDateTimestamp)) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE);
@@ -43,7 +44,7 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
         }
         else {
             double diffInDays = DateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
-            int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
+            int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
             if (diffInDays >= maxNumOfDaysAfterCurrentDateForInvoiceDueDate) {
                 GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS, maxNumOfDaysAfterCurrentDateForInvoiceDueDate + "");
                 return false;
@@ -69,5 +70,12 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+    
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

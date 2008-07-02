@@ -112,7 +112,7 @@
 		</property>		
 	</bean>		
 	
-	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.kfs.module.ar.document.validation.impl.AccountsReceivableDocumentHeaderServiceImpl">
+	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				

@@ -39,7 +39,11 @@
    	
    	<bean id="CustomerInvoice-detailAmountValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailAmountValidation" />
    	   	
-   	<bean id="CustomerInvoice-detailSubFundGroupReceivableValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSubFundGroupReceivableValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-detailSubFundGroupReceivableValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSubFundGroupReceivableValidation" abstract="true">
+   		<property name="parameterService">
+   			<ref bean="parameterService" />
+   		</property>
+   	</bean>
    	
    	<bean id="CustomerInvoice-detailChartCodeReceivableValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailChartCodeReceivableValidation" abstract="true"/>
    	
@@ -65,6 +69,9 @@
    		<property name="dateTimeService" >
    			<ref bean="dateTimeService" />
    		</property>   	
+   		<property name="parameterService">
+   			<ref bean="parameterService" />
+   		</property>   		
    	</bean>
    	
    	<bean id="CustomerInvoice-numberOfInvoiceDetailsValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceNumberOfInvoiceDetailsValidation" abstract="true"/>

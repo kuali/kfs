@@ -32,12 +32,21 @@ import org.kuali.kfs.sys.service.ParameterService;
 public class CustomerInvoiceDetailSubFundGroupReceivableValidation extends GenericValidation {
 
     private CustomerInvoiceDetail customerInvoiceDetail;
+    private ParameterService parameterService;
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
     public boolean validate(AttributedDocumentEvent event) {
         customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         Account account = customerInvoiceDetail.getAccount();
         if (StringUtils.isNotEmpty(account.getSubFundGroupCode())) {
-            String receivableObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, account.getSubFundGroupCode());
+            String receivableObjectCode = parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, account.getSubFundGroupCode());
 
             if (StringUtils.isEmpty(receivableObjectCode)) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD, account.getSubFundGroupCode(), account.getAccountNumber());

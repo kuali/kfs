@@ -52,6 +52,13 @@ public class CustomerInvoiceDetailUnitPriceValidation extends GenericValidation 
                 }
             }
             else {
+                
+                //No need to check for this because if the line is a discount and the amount is negative, we will negate the line.
+                /*
+                if (customerInvoiceDetail.isDiscountLine() && unitPrice.isPositive()){
+                    GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    return false;       
+                }*/
                 if (!customerInvoiceDetail.isDiscountLine() && unitPrice.isNegative()) {
                     GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;

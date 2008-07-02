@@ -29,7 +29,7 @@ public class CustomerInvoiceReceivableFinancialSubObjectCodeValidation extends G
     
     public boolean validate(AttributedDocumentEvent event) {
         if (StringUtils.isNotEmpty(customerInvoiceDocument.getPaymentFinancialSubObjectCode())) {
-            customerInvoiceDocument.refreshReferenceObject(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT);
+            customerInvoiceDocument.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentFinancialSubObject())) {
                 GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_OBJECT_CODE);
                 return false;

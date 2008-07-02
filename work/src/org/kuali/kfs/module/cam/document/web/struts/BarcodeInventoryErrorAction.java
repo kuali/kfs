@@ -15,9 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanPropertyValueEqualsPredicate;
+import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -28,11 +35,13 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInventoryEvent;
+import org.kuali.kfs.module.cams.util.BarcodeInventoryErrorDetailPredicate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
+
 
 public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
@@ -75,26 +84,70 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
 
 
     /**
-     * This method deletes a  detail
      * 
-     * @param mapping action mapping
-     * @param form action form
+     * This method deletes selected lines from the document
+     * @param mapping
+     * @param form
      * @param request
      * @param response
-     * @return action forward
+     * @return
      * @throws Exception
      */
     public ActionForward deleteBarcodeInventoryErrorDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm barcodeInventoryErrorForm = (BarcodeInventoryErrorForm) form;
-        BarcodeInventoryErrorDocument inventoryUploadErrorDocument = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
-        
-        int indexOfLineToDelete = getLineToDelete(request);
-        
-        BarcodeInventoryErrorDetail inventoryUploadErrorDetail = inventoryUploadErrorDocument.getBarcodeInventoryErrorDetail(indexOfLineToDelete);
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
+        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
 
-        inventoryUploadErrorDocument.deleteBarcodeInventoryErrorDetail(indexOfLineToDelete);
-
+        //Iterating over the array of checkboxes that hold the number of lines selected
+        int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
+        for(int i=0;i<selectedCheckboxes.length;i++) {
+            barcodeInventoryErrorDetails.remove(selectedCheckboxes[i]);
+        }
+        
+        //Reorganizing the order of each line
+        int i=1;
+        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
+            detail.setUploadRowNumber(new Long(i));
+            barcodeInventoryErrorDetails.add(i-1, detail);
+        }
+        
+        //Reassigning the changes to the document.
+        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    public ActionForward searchAndReplace(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BarcodeInventoryErrorForm barcodeInventoryErrorForm = (BarcodeInventoryErrorForm) form;
+        BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
+        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
+                       
+        BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
+        
+/*                barcodeInventoryErrorForm.getCurrentTagNumber(),
+                barcodeInventoryErrorForm.getCurrentScanCode(),
+                barcodeInventoryErrorForm.getCurrentCampusCode(),
+                barcodeInventoryErrorForm.getCurrentBuildingNumber(),     
+                barcodeInventoryErrorForm.getCurrentRoom(),
+                barcodeInventoryErrorForm.getCurrentSubroom(),
+                barcodeInventoryErrorForm.getCurrentConditionCode());*/ 
+     
+        
+        //Collection<BarcodeInventoryErrorDetail> matches = CollectionUtils.select(barcodeInventoryErrorDetails, predicate);
+        CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
+        
+        // filter the Collection
+        //CollectionUtils.filter( barcodeInventoryErrorDetails, predicate );
+        
+        //Reorganizing the order of each line
+        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
+            LOG.info("****Tag#: "+detail.getAssetTagNumber());
+        }
+        
+        //Reassigning the changes to the document.
+        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);        
+    }
+    
 }

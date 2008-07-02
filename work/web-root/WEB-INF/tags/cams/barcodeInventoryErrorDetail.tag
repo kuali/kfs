@@ -24,12 +24,13 @@
 
 <tr>
 	<td align="right" class="${cssClass}">
-	    ${lineNumber+1}	
-		<!--kul:htmlControlAttribute
-			attributeEntry="${barcodeInventoryDetailAttributes.uploadRowNumber}"
-			property="${propertyName}.uploadRowNumber"
-			readOnly="true" /-->
+		<html:checkbox property="rowCheckbox" value="${propertyName}.uploadRowNumber"/>
 	</td>
+
+	<td align="right" class="${cssClass}">
+	    ${lineNumber+1}	
+	</td>
+
 
 	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute
@@ -116,21 +117,4 @@
 			property="${propertyName}.errorDescription"
 			readOnly="${readOnly}" />
 	</td>
-		
-         <c:if test="${not readOnly}">
-               <td class="datacell">
-                  	<div align="center">
-                   		<html:image property="methodToCall.deleteBarcodeInventoryErrorDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete a barcode inventory error line" title="Delete line" styleClass="tinybutton"/>
-                  	</div>
-                </td>
-         </c:if>
 </tr>
-<!-- tr>
-<td align=left class="${cssClass}">&nbsp</td>
-<td colspan="10">
-		<kul:htmlControlAttribute
-			attributeEntry="${barcodeInventoryDetailAttributes.errorDescription}"
-			property="${propertyName}.errorDescription"
-			readOnly="${readOnly}" />
-</td>
-</tr-->

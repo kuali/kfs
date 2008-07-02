@@ -34,7 +34,6 @@ public class TaxDistrictRule extends KfsMaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(
             MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         TaxDistrictRate taxDistrictRate = (TaxDistrictRate)bo;
-        LOG.info("taxDistrictRate : "+taxDistrictRate);
         boolean success = true;
         if(taxDistrictRate!=null)
         {

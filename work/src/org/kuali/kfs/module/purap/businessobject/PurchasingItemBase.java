@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 /**
@@ -93,6 +94,9 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     }
 
     public CommodityCode getCommodityCode() {
+        if (ObjectUtils.isNull(commodityCode))  {
+            refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
+        }
         return commodityCode;
     }
 

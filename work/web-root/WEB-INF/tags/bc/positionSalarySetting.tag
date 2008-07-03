@@ -17,7 +17,7 @@
 
 <%@ attribute name="readOnly" required="false" description="determine whether the contents can be read only or not"%>
 
-<c:set var="tableWidth" value="98%"/>
+<c:set var="tableWidth" value="100%"/>
 
 <html:hidden property="returnAnchor" />
 <html:hidden property="returnFormKey" />
@@ -39,7 +39,7 @@
     
 <kul:tab tabTitle="Position Funding" defaultOpen="true" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align="center">
-        
+     ${KualiForm.newBCAFLine.appointmentFundingMonth}   
 	<kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="Add Funding">      
 		<bc:appointmentFundingLineForPosition fundingLine="${KualiForm.newBCAFLine}" fundingLineName="newBCAFLine" hasBeenAdded="false" countOfMajorColumns="9">
 			<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 

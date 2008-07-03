@@ -23,6 +23,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
@@ -35,6 +36,8 @@ public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
         Collection<BudgetConstructionAppointmentFundingReasonCode> reasonCodes = boService.findAll(BudgetConstructionAppointmentFundingReasonCode.class);
 
         List<KeyLabelPair> reasonCodeKeyLabels = new ArrayList<KeyLabelPair>();
+        reasonCodeKeyLabels.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
+        
         for (BudgetConstructionAppointmentFundingReasonCode reasonCode : reasonCodes) {
             String code = reasonCode.getAppointmentFundingReasonCode();
 

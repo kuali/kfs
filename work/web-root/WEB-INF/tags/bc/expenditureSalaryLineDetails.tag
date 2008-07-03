@@ -274,15 +274,19 @@
 	
 	    <bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1"
 	    	cellProperty="csfAmountTotal" disableHiddenField="true"/>
-	
+		
+		<fmt:formatNumber var="formattedCsfFTETotal" value="${KualiForm.csfFullTimeEmploymentQuantityTotal}" 
+        	type="number" groupingUsed="true" minFractionDigits="4" />
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="csfFullTimeEmploymentQuantityTotal" disableHiddenField="true"/>
+			cellProperty="csfFullTimeEmploymentQuantityTotal" formattedNumberValue="${formattedCsfFTETotal}" disableHiddenField="true"/>
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="${3 - numOfColumsRemoved}" 
 			cellProperty="appointmentRequestedAmountTotal" disableHiddenField="true"/>
 	
+		<fmt:formatNumber var="formattedRequestedFTETotal" value="${KualiForm.appointmentRequestedFteQuantityTotal}" 
+        	type="number" groupingUsed="true" minFractionDigits="4" />
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
-			cellProperty="appointmentRequestedFteQuantityTotal" disableHiddenField="true"/>
+			cellProperty="appointmentRequestedFteQuantityTotal" formattedNumberValue="${formattedRequestedFTETotal}" disableHiddenField="true"/>
 	
 		<bc:columnTotalCell dataCellCssClass="datacell" textStyle="${textStyle}" fieldAlign="right" colSpan="1" 
 			cellProperty="percentChangeTotal" disableHiddenField="true"/>

@@ -807,5 +807,22 @@
 			<ref bean="budgetConstructionDao" />
 		</property>  
     </bean>
-	
+    
+    <bean id="budgetConstructionDurationService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionDurationServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property> 
+    </bean>
+    
+    <bean id="budgetConstructionAppointmentFundingReasonCodeService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionAppointmentFundingReasonCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property> 
+    </bean>    
+
+    <bean id="budgetConstructionIntendedIncumbentService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionIntendedIncumbentServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property> 
+    </bean> 	
 </beans>

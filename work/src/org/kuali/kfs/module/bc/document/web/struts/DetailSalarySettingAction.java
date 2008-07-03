@@ -68,10 +68,12 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
-
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
-        if (StringUtils.right(refreshCaller, KFSConstants.LOOKUPABLE_SUFFIX.length()).equalsIgnoreCase(KFSConstants.LOOKUPABLE_SUFFIX)) {
+        
+        if (refreshCaller!= null && refreshCaller.endsWith(KFSConstants.LOOKUPABLE_SUFFIX)) {
             salarySettingForm.getNewBCAFLine().refreshNonUpdateableReferences();
         }
 
@@ -115,11 +117,23 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = salarySettingForm.getNewBCAFLine();
+        this.applyDefaultValuesIfEmpty(newAppointmentFunding);
         appointmentFundings.add(newAppointmentFunding);
 
-        salarySettingForm.populateBCAFLines();
+        salarySettingForm.populateBCAFLines();        
         salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    // apply the default values to the certain fields when the fields are empty
+    private void applyDefaultValuesIfEmpty(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        if(StringUtils.isBlank(appointmentFunding.getSubAccountNumber())) {
+            appointmentFunding.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
+        
+        if(StringUtils.isBlank(appointmentFunding.getFinancialSubObjectCode())) {
+            appointmentFunding.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
     }
 }

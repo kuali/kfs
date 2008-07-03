@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 
 /**
@@ -39,12 +38,14 @@ public interface SalarySettingService {
     public boolean isSalarySettingDisabled();
 
     /**
-     * determine whehter the salary is paid at hourly rate
+     * determine whehter the given object code is of a biweekly or hourly pay type
      * 
-     * @param pendingBudgetConstructionGeneralLedger the given pending Budget construction general ledger entry
-     * @return true if the salary is paid at hourly rate; otherwise, false
+     * @param fiscalYear the given fiscal year
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param objectCode the given object code
+     * @return true if the given object code is of a biweekly or hourly pay type; otherwise, false
      */
-    public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger);
+    public boolean isHourlyPaidObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
     /**
      * calculate the hourly pay rate from the request amount in the given appointment funding
@@ -68,7 +69,17 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @return the fte quantity calculated from the information of the given appointment funding
      */
-    public BigDecimal calculateFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    public BigDecimal calculateFteQuantityFromAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * calculate the FTE quantity through the given information
+     * 
+     * @param payMonth the given number of pay months
+     * @param fundingMonth the given number of funding months
+     * @param requestedTimePercent the requested FTE time percent
+     * @return the FTE quantity calculated from the given information
+     */
+    public BigDecimal calculateFteQuantity(Integer payMonth, Integer fundingMonth, BigDecimal requestedTimePercent);
 
     /**
      * determine whehter the given appointment funding can be vacated

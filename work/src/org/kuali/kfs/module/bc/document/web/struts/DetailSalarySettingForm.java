@@ -16,10 +16,13 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,13 +66,28 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
     
     /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#populateBCAFLines()
+     */
+    @Override
+    public void populateBCAFLines() {
+        super.populateBCAFLines();
+        
+        this.refreshBCAFLine(this.getNewBCAFLine());
+    }
+    
+    /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#refreshBCAFLine(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     @Override
     public void refreshBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         super.refreshBCAFLine(appointmentFunding);
+        
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
+        
+        if(appointmentFunding.getBudgetConstructionPosition() != null) {
+            appointmentFunding.setAppointmentRequestedFteQuantity(salarySettingService.calculateFteQuantityFromAppointmentFunding(appointmentFunding));
+        }
     }
     
     /**
@@ -83,8 +101,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         appointmentFunding.setUniversityFiscalYear(this.getUniversityFiscalYear());
         appointmentFunding.setAppointmentFundingDeleteIndicator(false);
         appointmentFunding.setNewLineIndicator(true);
-        
-        salarySettingService.resetAppointmentFunding(appointmentFunding);
+        appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
 
         return appointmentFunding;
     }

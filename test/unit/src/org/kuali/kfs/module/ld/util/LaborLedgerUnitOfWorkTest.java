@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.kfs.gl.web.TestDataGenerator;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -32,7 +31,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 @ConfigureContext(session = KHUNTLEY)
 public class LaborLedgerUnitOfWorkTest extends KualiTestBase {
 
-    private TestDataGenerator testDataGenerator;
     private LaborOriginEntry laborOriginEntry;
     private LaborLedgerUnitOfWork laborLedgerUnitOfWork;
 

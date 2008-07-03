@@ -29,10 +29,16 @@
               If this attribute is empty, this tag generates a blank line in the same CSS class,
               for consistent spacing. Any supplied field that starts with a semicolon will be treated as a text
               field, rather than a database field. The semicolon will be ignored in the output." %>
-
+<%@ attribute name="dataFieldCssClass" required="false"
+              description="The name of the CSS class for this data field." %>
+<%@ attribute name="formattedNumberValue" required="false"
+              description="number to format instead of property" %>              
+              
+<c:set var="class" value="${empty dataFieldCssClass ? 'fineprint' : dataFieldCssClass}"/> 
+             
 <c:if test="${!KualiForm.hideDetails}">
 <%--    <br/> --%>
-    <div id="${accountingLine}.${detailField}.div" class="fineprint">
+    <div id="${accountingLine}.${detailField}.div" class="${class}">
     <c:if test="${!empty detailFields}">
 	    <c:forTokens var="key" items="${detailFields}" delims=",">
 	        <c:set var="field" value="${key}"/>
@@ -41,13 +47,18 @@
 	    			<c:out value="${fn:substringAfter(field,';')}" />
 			    </c:when>
 				<c:otherwise>		
-					<bean:write name="KualiForm" property="${accountingLine}.${field}"/>&nbsp;
+					<bean:write name="KualiForm" property="${accountingLine}.${field}"/>
 			    </c:otherwise>
     		</c:choose>    
 	    </c:forTokens>    
     </c:if>
-    <c:if test="${!empty detailField && empty detailFields}">
-            <bean:write name="KualiForm" property="${accountingLine}.${detailField}"/>&nbsp;
+    
+    <c:if test="${!empty detailField && empty detailFields && empty formattedNumberValue}">
+        <bean:write name="KualiForm" property="${accountingLine}.${detailField}"/>
+    </c:if>
+    
+    <c:if test="${!empty detailField && empty detailFields && not empty formattedNumberValue}">
+        ${formattedNumberValue}
     </c:if>
   </div>
 </c:if>

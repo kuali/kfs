@@ -65,7 +65,11 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      * @return true if the salary is paid at hourly rate; otherwise, false
      */
     public boolean isHourlyPaid() {
-        return SpringContext.getBean(SalarySettingService.class).isHourlyPaid(this);
+        Integer fiscalYear = this.getUniversityFiscalYear();
+        String chartOfAccountsCode = this.getChartOfAccountsCode();
+        String objectCode = this.getFinancialObjectCode();
+        
+        return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
     }
 
     /**

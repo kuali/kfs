@@ -33,8 +33,10 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * 
@@ -927,5 +929,18 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public void setNewLineIndicator(boolean newLineIndicator) {
         this.newLineIndicator = newLineIndicator;
+    }
+    
+    /**
+     * determine whehter the salary is paid at hourly rate
+     * 
+     * @return true if the salary is paid at hourly rate; otherwise, false
+     */
+    public boolean isHourlyPaid() {
+        Integer fiscalYear = this.getUniversityFiscalYear();
+        String chartOfAccountsCode = this.getChartOfAccountsCode();
+        String objectCode = this.getFinancialObjectCode();
+        
+        return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
     }
 }

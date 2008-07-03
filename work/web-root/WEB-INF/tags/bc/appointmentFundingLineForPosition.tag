@@ -30,8 +30,13 @@
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/BudgetConstructionAppointmentFundingReasonCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/BudgetConstructionDurationService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SalarySettingService.js"></script>
+	
 	<script language="JavaScript" type="text/javascript" src="dwr/interface/FinancialSystemUserService.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/budget/objectInfo.js"></script>
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
@@ -97,7 +102,7 @@
 			accountingLineValuesMap="${fundingLine.valuesMap}" />
 	  
 		<c:set var="doAccountLookupOrInquiry" value="false"/>
-	  	<c:if test="${fundingLine.subAccountNumber ne '-----'}"><%-- FIXME: need to get current "default" value from constants --%>
+	  	<c:if test="${fundingLine.subAccountNumber ne BCConstants.DASH_SUB_ACCOUNT_NUMBER}">
 	      	<c:set var="doAccountLookupOrInquiry" value="true"/>
 	  	</c:if>
 	  	
@@ -126,7 +131,7 @@
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />
 	
 	  	<c:set var="doLookupOrInquiry" value="false"/>
-	  	<c:if test="${fundingLine.financialSubObjectCode ne '---'}"><%-- FIXME: need to get current "default" value from constants --%>
+	  	<c:if test="${fundingLine.financialSubObjectCode ne BCConstants.DASH_SUB_OBJECT_CODE}">
 	      	<c:set var="doLookupOrInquiry" value="true"/>
 	  	</c:if>
 	  	
@@ -144,7 +149,7 @@
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />
 	
 		<c:set var="doLookupOrInquiry" value="false"/>
-		<c:if test="${fundingLine.emplid ne KFSConstants.BudgetConstructionConstants.VACANT_EMPLID}">
+		<c:if test="${fundingLine.emplid ne BCConstants.VACANT_EMPLID}">
 			<c:set var="doLookupOrInquiry" value="true"/>
 		</c:if>
 	

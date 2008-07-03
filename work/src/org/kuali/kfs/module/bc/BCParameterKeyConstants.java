@@ -28,4 +28,6 @@ public class BCParameterKeyConstants implements ParameterKeyConstants {
     public static final String FRINGE_BENEFIT_DESIGNATOR_CODES = "FRINGE_BENEFIT_DESIGNATOR_CODES";
     public static final String SALARY_SETTING_FUND_GROUPS = "SALARY_SETTING_FUND_GROUPS";
     public static final String SALARY_SETTING_SUB_FUND_GROUPS = "SALARY_SETTING_SUB_FUND_GROUPS";
+    public static final String BIWEEKLY_PAY_TYPE_CODES = "BIWEEKLY_PAY_TYPE_CODES";
+    public static final String ANNUAL_WORKING_HOURS = "ANNUAL_WORKING_HOURS";
 }

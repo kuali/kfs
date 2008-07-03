@@ -26,12 +26,15 @@
 <c:set var="bcsfAttributes"	value="${DataDictionary['BudgetConstructionCalculatedSalaryFoundationTracker'].attributes}" />
 <c:set var="pbcafAttributes" value="${DataDictionary['PendingBudgetConstructionAppointmentFunding'].attributes}" />
 
+<c:set var="hourlyPaid" value="${fundingLine.hourlyPaid}" />
+<c:set var="newLine" value="${fundingLine.newLineIndicator}" />
+
 <table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
 		<th style="width: 15%;">&nbsp;</th>
 		<th style="width: 25%;">Row Operation</th>
 		<th style="width: 10%;">Amount</th>
-		<th style="width: 5%;">Hourly</th>
+		<th style="width: 5%;">Hourly Rate</th>
 		<th style="width: 5%;">Months</th>
 		<th style="width: 10%;">Percent Time</th>
 		<th style="width: 10%;">FTE</th>
@@ -44,15 +47,17 @@
 		<th style="text-align: right;">CSF:</th>	
 		
 		<td class="datacell">
+			<c:if test="${!readOnly}">
 			<bc:salaryAdjustment attributes="${pbcafAttributes}" 
 				adjustmentMeasurementFieldName="${fundingLineName}.adjustmentMeasurement" 
 				adjustmentAmountFieldName="${fundingLineName}.adjustmentAmount"
 				methodToCall="adjustSalarySettingLinePercent"
 				lineIndex="${lineIndex}"/>
+			</c:if>
 		</td>		
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
+                accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfAmount"
                 attributes="${bcsfAttributes}"
                 field="csfAmount"
@@ -64,22 +69,23 @@
 		<td class="datacell">&nbsp;</td>
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
+                accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfTimePercent"
                 attributes="${bcsfAttributes}"
                 field="csfTimePercent"
                 fieldAlign="right"
                 readOnly="true"
                 rowSpan="1" dataFieldCssClass="amount" />
-                
+        
+        <fmt:formatNumber var="formattedCsfFteQuantity" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" />         
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
+                accountingLine="${fundingLineName}"
                 cellProperty="${fundingLineName}.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity"
                 attributes="${bcsfAttributes}"
                 field="csfFullTimeEmploymentQuantity"
-                fieldAlign="right"
-                readOnly="true"
-                rowSpan="1" dataFieldCssClass="amount" />
+                fieldAlign="right" readOnly="true"
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfFteQuantity}"/>
 		
 		<td class="datacell">&nbsp;</td>
 		<td class="datacell">&nbsp;</td>
@@ -91,8 +97,7 @@
 		<td class="datacell">&nbsp;</td>				
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedAmount"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedAmount"
                 fieldAlign="right"
@@ -100,17 +105,15 @@
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedPayRate"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedPayRate"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="${readOnly || not (hourlyPaid || newLine)}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentFundingMonth"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentFundingMonth"
                 fieldAlign="right"
@@ -118,34 +121,35 @@
                 rowSpan="1" dataFieldCssClass="amount" />
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedTimePercent"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
-                field="appointmentRequestedTimePercent"
+                field="appointmentRequestedTimePercent" detailFunction="budgetObjectInfoUpdator.recalculateFTE"
+				detailFunctionExtraParam="'budgetConstructionPosition.iuPayMonths','${fundingLineName}.appointmentFundingMonth', "
                 fieldAlign="right"
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
-		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedFteQuantity"
-                attributes="${pbcafAttributes}"
-                field="appointmentRequestedFteQuantity"
-                fieldAlign="right"
-                readOnly="${true}"
-                rowSpan="1" dataFieldCssClass="amount" />
+        <td class="datacell" style="text-align: right;" rowSpan="1">
+        	<fmt:formatNumber var="formattedFteQuantity" value="${fundingLine.appointmentRequestedFteQuantity}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" />	
+        		
+		    <bc:pbglLineDataCellDetail detailField="appointmentRequestedFteQuantity" accountingLine="${fundingLineName}" 
+		    	dataFieldCssClass="nowrap" formattedNumberValue="${formattedFteQuantity}"/>
+		</td>        
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-              accountingLine="${fundingLine}"
+              accountingLine="${fundingLineName}"
               cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonCode"
               attributes="${reasonAttributes}"
+              detailField="budgetConstructionAppointmentFundingReason[0].appointmentFundingReason.appointmentFundingReasonDescription" 
+              detailFunction="budgetObjectInfoUpdator.loadReasonCodeInfo"
               field="appointmentFundingReasonCode"
               fieldAlign="left"
               readOnly="${readOnly}"
               rowSpan="1"/>
 	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-              accountingLine="${fundingLine}"
+              accountingLine="${fundingLineName}"
               cellProperty="${fundingLineName}.budgetConstructionAppointmentFundingReason[0].appointmentFundingReasonAmount"
               attributes="${reasonAttributes}"
               field="appointmentFundingReasonAmount"
@@ -158,43 +162,44 @@
 		<th style="text-align: right;">Leave Request CSF:</th>
 			
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentFundingDurationCode"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
+                detailField="budgetConstructionDuration.appointmentDurationDescription" 
+                detailFunction="budgetObjectInfoUpdator.loadDurationInfo"
                 field="appointmentFundingDurationCode"
                 fieldAlign="left"
                 readOnly="${readOnly}"
-                rowSpan="1" />		
-
+                rowSpan="1" />
+                	                	
+		<c:set var="disabled" value="${fundingLine.appointmentFundingDurationCode eq BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT}" />
+		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedCsfAmount"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedCsfAmount"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="${readOnly}" disabled="${disabled}"
                 rowSpan="1" dataFieldCssClass="amount" />
                 
 		<td>&nbsp;</td>		
 		<td>&nbsp;</td>
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedCsfTimePercent"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedCsfTimePercent"
                 fieldAlign="right"
-                readOnly="${readOnly}"
+                readOnly="${readOnly}" disabled="${disabled}"
                 rowSpan="1" dataFieldCssClass="amount" />
-                
+        
+        <fmt:formatNumber var="formattedReqCsfFteQuantity" value="${fundingLine.appointmentRequestedCsfFteQuantity}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" />        
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentRequestedCsfFteQuantity"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedCsfFteQuantity"
-                fieldAlign="right"
-                readOnly="${true}"
-                rowSpan="1" dataFieldCssClass="amount" />
+                fieldAlign="right" readOnly="true"
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedReqCsfFteQuantity}"/>
 						
         <td class="datacell">&nbsp;</td>
         <td class="datacell">&nbsp;</td>        
@@ -205,8 +210,7 @@
 		<td class="datacell">&nbsp;</td> 
 
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentTotalIntendedAmount"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentTotalIntendedAmount"
                 fieldAlign="right"
@@ -216,15 +220,16 @@
 		<td>&nbsp;</td>		
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-                
+        
+        <fmt:formatNumber var="formattedIndendedFteQuantity" value="${fundingLine.appointmentTotalIntendedFteQuantity}" 
+        		type="number" groupingUsed="true" minFractionDigits="4" />          
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-                accountingLine="${fundingLine}"
-                cellProperty="${fundingLineName}.appointmentTotalIntendedFteQuantity"
+                accountingLine="${fundingLineName}"
                 attributes="${pbcafAttributes}"
                 field="appointmentTotalIntendedFteQuantity"
                 fieldAlign="right"
                 readOnly="${readOnly}"
-                rowSpan="1" dataFieldCssClass="amount" />
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedIndendedFteQuantity}"/>
 		
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>

@@ -22,7 +22,7 @@ while ($_ = <ATTRIB>){
 	if (/\<\/ruleAttribute\>/) {
 		$flag=0;
 		$tempPage = $tempPage.$tlx;
-		open OUTFILE, '>', $name.".xml" or die "Couldn't open ".$name.".xml";
+		open OUTFILE, '>', "./temp/".$name.".xml" or die "Couldn't open ".$name.".xml";
 		print OUTFILE $tempPage;
 		close OUTFILE;
 		$tempPage="";

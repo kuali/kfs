@@ -14,8 +14,8 @@
       <routingVersion>1</routingVersion>
       <routePaths>
         <routePath>
-          <start name="Adhoc Routing" nextNode="Central Review" />
-          <requests name="Central Review" />
+          <start name="Adhoc Routing" nextNode="Workflow Review" />
+          <requests name="Workflow Review" />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -24,9 +24,9 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </start>
-        <requests name="Central Review">
+        <requests name="Workflow Review">
           <activationType>S</activationType>
-          <ruleTemplate>KualiCentralRoutingTemplate</ruleTemplate>
+          <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>

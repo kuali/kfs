@@ -25,7 +25,7 @@
     <property name="description" value="Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="INDIRECT_COST_RECOVERY_TYPE"
             p:parameterDetailType="IndirectCostRecoveryType" />
     </property>

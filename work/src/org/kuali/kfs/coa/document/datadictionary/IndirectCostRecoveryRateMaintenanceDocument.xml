@@ -26,7 +26,7 @@
     <property name="description" value="Maintenance document which allows you to create new ICR Rates, or modify existing ICR Rates." />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CA"
+            p:parameterNamespace="KFS-COA"
             p:parameterName="INDIRECT_COST_RECOVERY_RATE"
             p:parameterDetailType="IndirectCostRecoveryRate" />
     </property>

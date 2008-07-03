@@ -162,4 +162,17 @@ public interface ParameterService {
      * @param parameterText
      */
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText);
+    /**
+     * This method can be used to set a namespace.
+     * 
+     * @param documentOrStepClass
+     * 
+     */
+    public String getNamespace(Class documentOrStepClass);
+    /**
+     * This method can be used to change the value of a Parameter for unit testing purposes.
+     * 
+     * @param documentOrStepClass
+     */
+    public String getDetailType(Class documentOrStepClass);
 }

@@ -294,7 +294,7 @@ public class ParameterServiceImpl implements ParameterService {
         }
     }
 
-    private String getNamespace(Class documentOrStepClass) {
+    public String getNamespace(Class documentOrStepClass) {
         if (documentOrStepClass != null) {
             if (documentOrStepClass.isAnnotationPresent(NAMESPACE.class)) {
                 return ((NAMESPACE) documentOrStepClass.getAnnotation(NAMESPACE.class)).namespace();
@@ -313,7 +313,7 @@ public class ParameterServiceImpl implements ParameterService {
         }
     }
 
-    private String getDetailType(Class documentOrStepClass) {
+    public String getDetailType(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
             return ((COMPONENT) documentOrStepClass.getAnnotation(COMPONENT.class)).component();
         }

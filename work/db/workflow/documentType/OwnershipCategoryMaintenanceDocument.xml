@@ -4,7 +4,7 @@
     <documentType>
       <name>OwnershipCategoryMaintenanceDocument</name>
       <parent>VendorModuleMaintenanceDocument</parent>
-      <label>Ownership Type Category</label>
+      <label>Ownership Category</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>

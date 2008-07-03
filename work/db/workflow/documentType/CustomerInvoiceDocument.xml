@@ -11,44 +11,6 @@
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler</docHandler>
       <active>true</active>
-      <attributes>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentCustomerNumber</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentBillingCOA</name>
-        </attribute>          
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentBillingOrganization</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentProcessingCOA</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentProcessingOrganization</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentAccount</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentOrganizationInvoiceNumber</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentParentInvoiceNumber</name>
-        </attribute>          
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentCustomerPurchaseOrderNumber</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentItemCode</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocumentInvoiceAmount</name>
-        </attribute>
-        <attribute>
-          <name>KualiCustomerInvoiceDocSearchResultProcessor</name>
-        </attribute>           
-      </attributes>
       <policies>
         <policy>
           <name>DEFAULT_APPROVE</name>

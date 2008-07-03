@@ -7,6 +7,7 @@
       <label>Requisition</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
       <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
       <active>true</active>

@@ -4,7 +4,7 @@
     <documentType>
       <name>ContractManagerMaintenanceDocument</name>
       <parent>VendorModuleMaintenanceDocument</parent>
-      <label>Purchasing Contract Manager</label>
+      <label>Contract Manager</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>

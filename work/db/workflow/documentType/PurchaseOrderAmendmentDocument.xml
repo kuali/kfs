@@ -14,7 +14,8 @@
       <routePaths>
         <routePath>
           <start name="Adhoc Routing" nextNode="Account Review" />
-          <requests name="Account Review" />
+          <requests name="Account Review" nextNode="New Unordered Items" />
+          <requests name="New Unordered Items" />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -26,6 +27,12 @@
         <requests name="Account Review">
           <activationType>S</activationType>
           <ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="New Unordered Items">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiNewUnorderedItemsTemplate</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>

@@ -95,7 +95,7 @@ public class SpringContext {
                     LOG.debug("Could not find bean of type " + type.getName() + " - checking KNS context");
                 }
                 try {
-                    bean = KNSServiceLocator.getBean(type);
+                    bean = KNSServiceLocator.getNervousSystemContextBean(type);
                 }
                 catch (Exception e) {
                     LOG.error(e);
@@ -169,7 +169,7 @@ public class SpringContext {
                     LOG.debug("Could not find bean named " + name + " - checking KNS context");
                 }
                 try {
-                    bean = KNSServiceLocator.getBean(type, name);
+                    bean = KNSServiceLocator.getNervousSystemContextBean(type, name);
                 }
                 catch (Exception e) {
                     LOG.error(e);
@@ -196,7 +196,7 @@ public class SpringContext {
     public static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
         List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList();
         methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
-        methodCacheInterceptors.add(KNSServiceLocator.getBean(MethodCacheInterceptor.class));
+        methodCacheInterceptors.add(KNSServiceLocator.getNervousSystemContextBean(MethodCacheInterceptor.class));
         return methodCacheInterceptors;
     }
 

@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
+import edu.iu.uis.eden.clientapp.vo.ReturnPointVO;
 import edu.iu.uis.eden.clientapp.vo.RouteHeaderVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
 import edu.iu.uis.eden.clientapp.vo.WorkflowAttributeDefinitionVO;
@@ -402,12 +403,22 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
 
     }
 
+    public void returnToPreviousNode(String annotation, String nodeName) throws WorkflowException {
+    }
+    public void returnToPreviousNode(String annotation, ReturnPointVO returnPoint) throws WorkflowException {
+    }
+    public void setReceiveFutureRequests() throws WorkflowException {
+    }
+    public void setDoNotReceiveFutureRequests() throws WorkflowException {
+    }
+    public void setClearFutureRequests() throws WorkflowException {
+    }
+
     /**
      * @see org.kuali.core.workflow.service.KualiWorkflowDocument#returnToPreviousRouteLevel(java.lang.String, java.lang.Integer)
      */
     public void returnToPreviousRouteLevel(String annotation, Integer destRouteLevel) throws WorkflowException {
         // TODO Auto-generated method stub
-
     }
 
     /**
@@ -522,4 +533,5 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
         return null;
     }
 
+    
 }

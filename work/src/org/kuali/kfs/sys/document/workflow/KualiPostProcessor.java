@@ -24,6 +24,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 import edu.iu.uis.eden.clientapp.PostProcessorRemote;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
+import edu.iu.uis.eden.clientapp.vo.AfterProcessEventVO;
+import edu.iu.uis.eden.clientapp.vo.BeforeProcessEventVO;
 import edu.iu.uis.eden.clientapp.vo.DeleteEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
@@ -67,4 +69,11 @@ public class KualiPostProcessor implements PostProcessorRemote {
         return SpringContext.getBean(PostProcessorService.class).doRouteLevelChange(levelChangeEvent);
     }
 
+    public boolean afterProcess(AfterProcessEventVO arg0) throws Exception {
+        return true;
+    }
+
+    public boolean beforeProcess(BeforeProcessEventVO arg0) throws Exception {
+        return true;
+    }
 }

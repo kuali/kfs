@@ -72,7 +72,6 @@
 				<value>workflowInfoService</value>
 				<value>encryptionService</value>
 				<value>enEncryptionService</value>
-				<value>ojbCollectionHelper</value>
 				<value>persistenceStructureService</value>
 				<value>persistenceService</value>
 				<value>sequenceAccessorService</value>
@@ -579,14 +578,18 @@
 		</property>
 	</bean>
 
-	<bean id="persistenceStructureService" class="org.kuali.core.service.impl.PersistenceStructureServiceImpl" />
+  	<bean id="persistenceStructureService" class="org.kuali.core.service.impl.PersistenceStructureServiceOjbImpl" />
 
-	<bean id="persistenceService" class="org.kuali.core.service.impl.PersistenceServiceImpl">
-		<property name="persistenceDao" ref="persistenceDao" />
-		<property name="moduleService" ref="kualiModuleService" />
+  	<bean id="persistenceService" class="org.kuali.core.service.impl.PersistenceServiceOjbImpl">
+    	<property name="persistenceDao" ref="persistenceDao" />
+    	<property name="moduleService" ref="kualiModuleService" />
+  	</bean>
+  
+	<bean id="persistenceDao" class="org.kuali.core.dao.proxy.PersistenceDaoProxy">
+    	<property name="persistenceDaoOjb" ref="persistenceDaoOjb" />
 	</bean>
 
-	<bean id="persistenceDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.PersistenceDaoOjb" />
+  <bean id="persistenceDaoOjb" parent="platformAwareDao" class="org.kuali.core.dao.ojb.PersistenceDaoOjb" />
 
 	<bean id="dictionaryValidationService" class="org.kuali.core.service.impl.DictionaryValidationServiceImpl">
 		<property name="dataDictionaryService">
@@ -638,8 +641,6 @@
 			<ref bean="moduleUserPropertyDao" />
 		</property>
 	</bean>
-
-	<bean id="ojbCollectionHelper" class="org.kuali.core.util.OjbCollectionHelper" />
 
 	<bean id="kualiLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
@@ -768,6 +769,5 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
-        <property name="ojbCollectionHelper" ref="ojbCollectionHelper" />
 	</bean>
 </beans>

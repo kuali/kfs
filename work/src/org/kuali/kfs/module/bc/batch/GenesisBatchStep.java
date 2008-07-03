@@ -16,13 +16,18 @@
 package org.kuali.kfs.module.bc.batch;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.context.SpringContext;
+
 
 public class GenesisBatchStep extends AbstractStep {
 
@@ -36,6 +41,8 @@ public class GenesisBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to know because the GenesisBatchJob needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
     private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "FP_OPERATIONS";
+    
+    
 
     public boolean execute(String jobName, Date jobRunDate) {
         genesisService = SpringContext.getBean(GenesisService.class);
@@ -51,16 +58,47 @@ public class GenesisBatchStep extends AbstractStep {
      */
     private void setInitiatedParameter() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        
-        Parameter runIndicatorParameter = new Parameter();
-        runIndicatorParameter.setParameterNamespaceCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-        runIndicatorParameter.setParameterDetailTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
-        runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
+        PersistenceStructureService psService = SpringContext.getBean(PersistenceStructureService.class);
+        // first see if we can find an existing Parameter object with this key
+        Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildSearchKeyMap());
+        if (runIndicatorParameter == null)
+        {
+           runIndicatorParameter = new Parameter();
+           runIndicatorParameter.setVersionNumber(new Long(1));
+           runIndicatorParameter.setParameterNamespaceCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
+           runIndicatorParameter.setParameterDetailTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+           runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
+           runIndicatorParameter.setParameterConstraintCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
+           runIndicatorParameter.setParameterTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
+           runIndicatorParameter.setParameterWorkgroupName(GenesisBatchStep.RUN_INDICATOR_PARAMETER_WORKGROUP);
+        }
         runIndicatorParameter.setParameterValue(GenesisBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
-        runIndicatorParameter.setParameterConstraintCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
-        runIndicatorParameter.setParameterTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-        runIndicatorParameter.setParameterWorkgroupName(GenesisBatchStep.RUN_INDICATOR_PARAMETER_WORKGROUP);
-        runIndicatorParameter.setVersionNumber(new Long(1));
         boService.save(runIndicatorParameter);
+    }
+    
+    private Map<String,Object> buildSearchKeyMap()
+    {
+       Map<String,Object> pkMapForParameter = new HashMap<String,Object>();
+       PersistenceStructureService psService = SpringContext.getBean(PersistenceStructureService.class);
+
+       // set up a list of all the  field names and values of the fields in the Parameter object.
+       // the OJB names are nowhere in Kuali properties, apparently.
+       // but, since we use set routines above, we know what the names must be.  if they change at some point, we will have to change the set routines anyway.
+       // we can change the code here also when we do that.
+       Map<String,Object> fieldNamesValuesForParameter = new HashMap<String,Object>();
+       fieldNamesValuesForParameter.put("parameterNamespaceCode",GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
+       fieldNamesValuesForParameter.put("parameterDetailTypeCode",GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+       fieldNamesValuesForParameter.put("parameterName",Job.STEP_RUN_PARM_NM);
+       fieldNamesValuesForParameter.put("parameterConstraintCode",GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
+       fieldNamesValuesForParameter.put("parameterTypeCode",GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
+       fieldNamesValuesForParameter.put("parameterWorkgroupName",GenesisBatchStep.RUN_INDICATOR_PARAMETER_WORKGROUP);
+
+       // get the primary keys and assign them to values
+       List<String> parameterPKFields = psService.getPrimaryKeys(Parameter.class);
+       for (String pkFieldName: parameterPKFields)
+       {
+           pkMapForParameter.put(pkFieldName,fieldNamesValuesForParameter.get(pkFieldName));
+       }
+       return (pkMapForParameter);
     }
 }

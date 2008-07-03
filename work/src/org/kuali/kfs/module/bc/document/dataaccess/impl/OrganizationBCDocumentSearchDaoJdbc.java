@@ -141,7 +141,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    fphd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
         sqlText.append("    ca_acct_delegate_t adel, \n");
-        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("    fs_doc_header_t fphd \n");
         sqlText.append("WHERE head.univ_fiscal_yr = ? \n");
         sqlText.append("  AND adel.acct_dlgt_unvl_id = ? \n");
         sqlText.append("  AND adel.acct_dlgt_actv_cd = 'Y' \n");
@@ -165,7 +165,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    fphd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
         sqlText.append("    ca_account_t acct, \n");
-        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("    fs_doc_header_t fphd \n");
         sqlText.append("WHERE head.univ_fiscal_yr = ? \n");
         sqlText.append("  AND acct.acct_fsc_ofc_uid = ? \n");
         sqlText.append("  AND head.fin_coa_cd = acct.fin_coa_cd \n");

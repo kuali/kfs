@@ -460,7 +460,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("        '', \n");
         sqlText.append("        fphd.temp_doc_fnl_dt \n");
         sqlText.append("FROM ld_bcnstr_hdr_t head, \n");
-        sqlText.append("      fp_doc_header_t fphd, \n");
+        sqlText.append("      fs_doc_header_t fphd, \n");
         sqlText.append("      (SELECT head2.fdoc_nbr \n");
         sqlText.append("      FROM ld_bcnstr_hdr_t head2, \n");
         sqlText.append("            ld_bcn_pullup_t pull, \n");
@@ -580,7 +580,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("    ld_bcn_acct_org_hier_t hier, \n");
         sqlText.append("    ld_bcn_acct_org_hier_t hier2, \n");
         sqlText.append("    ld_bcnstr_hdr_t head, \n");
-        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("    fs_doc_header_t fphd \n");
         sqlText.append("WHERE pull.pull_flag in (?,?,?,?) \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
@@ -615,7 +615,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("    ld_bcn_acct_org_hier_t hier2, \n");
         sqlText.append("    ld_bcn_acct_rpts_t rpts, \n");
         sqlText.append("    ld_bcnstr_hdr_t head, \n");
-        sqlText.append("    fp_doc_header_t fphd \n");
+        sqlText.append("    fs_doc_header_t fphd \n");
         sqlText.append("WHERE pull.pull_flag = ? \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");

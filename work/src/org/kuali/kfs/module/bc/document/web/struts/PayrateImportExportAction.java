@@ -18,9 +18,11 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +36,9 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
-import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.service.PayrateImportService;
+import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,7 +48,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     public ActionForward performImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
         PayrateImportService payrateImportService = SpringContext.getBean(PayrateImportService.class);
-        List<String> messageList = new ArrayList<String>();
+        List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -59,29 +61,33 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         }
         
         Date startTime = new Date();
-        messageList.add("Import run started " + dateFormatter.format(startTime));
+        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE, dateFormatter.format(startTime)));
         
-        List<String> parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
+        List<ExternalizedMessageWrapper> parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
         
         if (!parsingErrors.isEmpty()) {
-            messageList.add(parsingErrors.toString());
+            messageList.addAll(parsingErrors);
             payrateImportService.generatePdf(messageList, baos);
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "exportMessages.pdf");
             return null;
         }
-        if (payrateImportService.getImportCount() == 0 ) messageList.add("No records found to import.");
-        else  messageList.add("Import count: " + payrateImportService.getImportCount());
+        if (payrateImportService.getImportCount() == 0 ) messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS));
+        else  messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COUNT, String.valueOf(payrateImportService.getImportCount())));
         
-        messageList.add("Import complete");
+        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COMPLETE));
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        List<String> updateMessages = payrateImportService.update(budgetYear, user);
+        List<ExternalizedMessageWrapper> updateMessages = payrateImportService.update(budgetYear, user);
         
         messageList.addAll(updateMessages);
-        messageList.add("Update complete, records processed: " + payrateImportService.getUpdateCount());
-        messageList.add("Update run ended " + dateFormatter.format(new Date()));
+        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_UPDATE_COMPLETE, String.valueOf(payrateImportService.getUpdateCount())));
+        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER, dateFormatter.format(new Date())));
         
         payrateImportService.generatePdf(messageList, baos);
+        
+        payrateImportExportForm.setImportCount(payrateImportService.getImportCount());
+        payrateImportExportForm.setUpdateCount(payrateImportService.getUpdateCount());
+        
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "exportMessages.pdf");
         
         return null;
@@ -115,12 +121,13 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
-        if ( !budgetUpdatesAllowed ) {
+        /*if ( !budgetUpdatesAllowed ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_IMPORT_UPDATE_NOT_ALLOWED);
             isValid = false;
-        }
+        }*/
         
         
         return isValid;
     }
+    
 }

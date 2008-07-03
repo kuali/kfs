@@ -95,5 +95,24 @@ public class BCKeyConstants {
     public static final String MSG_ACCOUNT_MANAGER_DELEGATE_LIST = "message.budget.accountManagerDelegateList";
     public static final String MSG_ORG_PULL_UP_SUCCESSFUL = "message.budget.orgPullUpSuccessful";
     public static final String MSG_ORG_PUSH_DOWN_SUCCESSFUL = "message.budget.orgPushDownSuccessful";
+    
+    public static final String ERROR_PAYRATE_IMPORT_ABORTED = "error.budget.payrate.importAborted";
+    public static final String ERROR_PAYRATE_UPDATE_ABORTED = "error.budget.payrate.updateAborted";
+    public static final String ERROR_PAYRATE_IMPORT_NO_PAYROLL_MATCH = "error.budget.payrate.noPayrollMatch";
+    public static final String ERROR_PAYRATE_NO_ACTIVE_FUNDING_RECORDS = "error.budget.payrate.noActiveFundingRecords";
+    public static final String ERROR_PAYRATE_NO_BUDGET_DOCUMENT = "error.budget.payrate.noBudgetDocument";
+    public static final String ERROR_PAYRATE_OBJECT_LEVEL_ERROR = "error.budget.payrate.objectLevelError";
+    public static final String ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS = "error.budget.payrate.accountLockExists";
+    public static final String ERROR_PAYRATE_FUNDING_LOCK_EXISTS = "error.budget.payrate.fundingLockExists";
+    public static final String ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED = "error.budget.payrate.batchAccountLockFailed";
+    public static final String ERROR_PAYRATE_NO_UPDATE_FTE_ZERO_OR_BLANK = "error.budget.payrate.noUpdateFteZero";
+    
+    public static final String MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE = "message.budget.payrate.headerLine";
+    public static final String MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS = "message.budget.payrate.noImportRecords";
+    public static final String MSG_PAYRATE_IMPORT_COUNT = "message.budget.payrate.importCount";
+    public static final String MSG_PAYRATE_IMPORT_COMPLETE = "message.budget.payrate.importComplete";
+    public static final String MSG_PAYRATE_IMPORT_UPDATE_COMPLETE = "message.budget.payrate.updateComplete";
+    public static final String MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER = "message.budget.payrate.footerLine";
+    
 }
 

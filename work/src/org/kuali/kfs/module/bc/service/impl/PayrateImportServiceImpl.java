@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,23 +30,31 @@ import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.PayrateImportLine;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.PayrateImportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.service.PayrateImportService;
+import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -60,17 +69,17 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     private int updateCount;
     private BudgetParameterService budgetParameterService;
     private OptionsService optionsService;
-    
+    private PayrateImportDao payrateImportDao;
     
     /**
      * 
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#importFile(java.io.InputStream)
      */
     @Transactional
-    public List<String> importFile(InputStream fileImportStream) {
+    public List<ExternalizedMessageWrapper> importFile(InputStream fileImportStream) {
         clearPayrateHoldingTable();
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileImportStream));
-        List<String> messages = new ArrayList<String>();
+        List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         this.importCount = 0;
         
         try {
@@ -85,12 +94,12 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         }
         catch (Exception e) {
             clearPayrateHoldingTable();
-            messages.add("Import Aborted");
+            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_IMPORT_ABORTED));
             
-            return messages;
+            return messageList;
         }
 
-        return messages;
+        return messageList;
     }
     
     /**
@@ -98,29 +107,30 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#update()
      */
     @Transactional
-    public List<String> update(Integer budgetYear, UniversalUser user) {
-        List<String> messages = new ArrayList<String>();
+    public List<ExternalizedMessageWrapper> update(Integer budgetYear, UniversalUser user) {
+        List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         Map<String, PendingBudgetConstructionAppointmentFunding> lockMap = new HashMap<String, PendingBudgetConstructionAppointmentFunding>();
         boolean updateContainsErrors = false;
         this.updateCount = 0;
         
         List<BudgetConstructionPayRateHolding> records = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
         
-        if ( !getPayRateLock(lockMap, messages, budgetYear, user, records) ) {
-            messages.add("Update Aborted, records processed: " + this.updateCount);
-            return messages;
+        if ( !getPayrateLock(lockMap, messageList, budgetYear, user, records) ) {
+            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_UPDATE_ABORTED, String.valueOf(this.updateCount)));
+            doRollback();
+            return messageList;
         }
         
         for (BudgetConstructionPayRateHolding holdingRecord : records) {
             if (holdingRecord.getAppointmentRequestedPayRate().equals( -1.0)) {
-                messages.add(holdingRecord.getEmplid() + ", " + holdingRecord.getPositionNumber() + ": no match in payroll.");
+                messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_IMPORT_NO_PAYROLL_MATCH, holdingRecord.getEmplid(), holdingRecord.getPositionNumber()));
                 updateContainsErrors = true;
                 continue;
             } 
             
-            List<PendingBudgetConstructionAppointmentFunding> fundingRecords = getFundingRecords(holdingRecord, budgetYear);
+            List<PendingBudgetConstructionAppointmentFunding> fundingRecords = this.payrateImportDao.getFundingRecords(holdingRecord, budgetYear, budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES));
             if (fundingRecords.isEmpty()) {
-                messages.add(holdingRecord.getEmplid() + ", " + holdingRecord.getPositionNumber() + ": no active funding records found.");
+                messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_NO_ACTIVE_FUNDING_RECORDS, holdingRecord.getEmplid(), holdingRecord.getPositionNumber()));
                 updateContainsErrors = true;
                 continue;
             }
@@ -129,7 +139,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                 
                 if ( !fundingRecord.getAppointmentRequestedPayRate().equals(holdingRecord.getAppointmentRequestedPayRate()) ) {
                     if (fundingRecord.getAppointmentRequestedPayRate().equals(0) || fundingRecord.getAppointmentRequestedPayRate() == null) {
-                        messages.add(holdingRecord.getEmplid() + ", " + holdingRecord.getPositionNumber() + ", " + fundingRecord.getChartOfAccountsCode() + ", " + fundingRecord.getAccountNumber() + ", " + fundingRecord.getSubAccountNumber() + ": No update, FTE is zero or blank.");
+                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_NO_UPDATE_FTE_ZERO_OR_BLANK, holdingRecord.getEmplid(), holdingRecord.getPositionNumber(), fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber()));
                         updateContainsErrors = true;
                         continue;
                     } 
@@ -142,8 +152,8 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                     
                     BudgetConstructionHeader header = getHeaderRecord(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
                     if (header == null ) {
-                        messages.add("Can't find budget doc for " + budgetYear + "," + fundingRecord.getChartOfAccountsCode() + "," + fundingRecord.getAccountNumber() + "," + fundingRecord.getSubAccountNumber());
-                        messages.add(fundingRecord.getEmplid() + "," + fundingRecord.getPositionNumber() + "," + fundingRecord.getChartOfAccountsCode() + "," + fundingRecord.getAccountNumber() + "," + fundingRecord.getSubAccountNumber() + ": No funding update, error during object level update");
+                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_NO_BUDGET_DOCUMENT, budgetYear.toString(), fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber()));
+                        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_OBJECT_LEVEL_ERROR, fundingRecord.getEmplid(), fundingRecord.getPositionNumber(), fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber()));
                         updateContainsErrors = true;
                         continue;
                     }
@@ -165,21 +175,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                         pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
                     }
                     
-                    System.out.println("Pending Record document number =  " + pendingRecord.getDocumentNumber() );
-                    System.out.println("Pending Record university fiscal year =  " + pendingRecord.getUniversityFiscalYear() );
-                    System.out.println("Pending Record chart of accounts code =  " + pendingRecord.getChartOfAccountsCode() );
-                    System.out.println("Pending Record account number =  " + pendingRecord.getAccountNumber() );
-                    System.out.println("Pending Record sub account number =  " + pendingRecord.getSubAccountNumber() );
-                    System.out.println("Pending Record financial object code =  " + pendingRecord.getFinancialObjectCode() );
-                    System.out.println("Pending Record sub object code =  " + pendingRecord.getFinancialSubObjectCode() );
-                    System.out.println("Pending Record financial balance type code =  " + pendingRecord.getFinancialBalanceTypeCode() );
-                    System.out.println("Pending Record financial object type code =  " + pendingRecord.getFinancialObjectTypeCode() );
-                    System.out.println("Pending Record financial begining balance line amount =  " + pendingRecord.getFinancialBeginningBalanceLineAmount() );
-                    System.out.println("Pending Record account line annual balance amount =  " + pendingRecord.getAccountLineAnnualBalanceAmount() ); 
-                    
                     this.businessObjectService.save(pendingRecord);
                     
-                    if ( !fundingRecord.getAccount().isForContractsAndGrants() && !fundingRecord.getAccount().getSubFundGroupCode().equals("SDCI") ) {
+                    if ( !fundingRecord.getAccount().isForContractsAndGrants() && !fundingRecord.getAccount().getSubFundGroupCode().equals(this.budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS).get(0)) ) {
                         PendingBudgetConstructionGeneralLedger plg = findPendingBudgetConstructionGeneralLedger(header, fundingRecord, true);
                         
                         if (plg != null) plg.setAccountLineAnnualBalanceAmount(plg.getAccountLineAnnualBalanceAmount().subtract(updateAmount));
@@ -216,7 +214,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             this.lockService.unlockFunding(recordToUnlock.getChartOfAccountsCode(), recordToUnlock.getAccountNumber(), recordToUnlock.getSubAccountNumber(), budgetYear, user.getPersonUniversalIdentifier());
         }
         
-        return messages;
+        return messageList;
     }
     
     /**
@@ -224,11 +222,17 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#generatePdf(java.lang.StringBuilder, java.io.ByteArrayOutputStream)
      */
     @NonTransactional
-    public void generatePdf(List<String> logMessages, ByteArrayOutputStream baos) throws DocumentException {
+    public void generatePdf(List<ExternalizedMessageWrapper> logMessages, ByteArrayOutputStream baos) throws DocumentException {
         Document document = new Document();
         PdfWriter.getInstance(document, baos);
         document.open();
-        for (String message : logMessages) {
+        for (ExternalizedMessageWrapper messageWrapper : logMessages) {
+            String message;
+            if (messageWrapper.getParams().length == 0 ) message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageWrapper.getMessageKey());
+            else {
+                String temp = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageWrapper.getMessageKey());
+                message = MessageFormat.format(temp, messageWrapper.getParams());
+            }
             document.add(new Paragraph(message));
         }
 
@@ -237,6 +241,32 @@ public class PayrateImportServiceImpl implements PayrateImportService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public int getImportCount() {
+        return importCount;
+    }
+
+    public int getUpdateCount() {
+        return updateCount;
+    }
+    
+    public void setLockService(LockService lockService) {
+        this.lockService = lockService;
+    }
+    
+    @NonTransactional
+    public BudgetParameterService getBudgetParameterService() {
+        return budgetParameterService;
+    }
+    
+    @NonTransactional
+    public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
+        this.budgetParameterService = budgetParameterService;
+    }
+    
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
     
     private BudgetConstructionPayRateHolding createHoldingRecord(PayrateImportLine record) {
@@ -252,18 +282,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(record.getAppointmentRequestPayRate().divide(new BigDecimal(100)));
         
         return budgetConstructionPayRateHolding;
-    }
-    
-    private List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(BudgetConstructionPayRateHolding holdingRecord, Integer budgetYear) {
-        Map searchCriteria = new HashMap();
-        
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, "BIWEEKLY_PAY_OBJECT_CODES"));
-        searchCriteria.put(KFSPropertyConstants.EMPLID, holdingRecord.getEmplid());
-        searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, holdingRecord.getPositionNumber());
-        searchCriteria.put(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR, "N");
-        
-        return (List<PendingBudgetConstructionAppointmentFunding>) this.businessObjectService.findMatching(PendingBudgetConstructionAppointmentFunding.class, searchCriteria);
     }
     
     private String getLockingKeyString(PendingBudgetConstructionAppointmentFunding record) {
@@ -289,39 +307,42 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         }
     }
     
-    private boolean getPayRateLock(Map<String, PendingBudgetConstructionAppointmentFunding> lockMap, List<String> messages, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
+    private boolean getPayrateLock(Map<String, PendingBudgetConstructionAppointmentFunding> lockMap, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
         Map<String,PendingBudgetConstructionAppointmentFunding> noLockMap = new HashMap<String,PendingBudgetConstructionAppointmentFunding>();
         
         for (BudgetConstructionPayRateHolding record: records) {
-            try {
-                List<PendingBudgetConstructionAppointmentFunding> fundingRecords = getFundingRecords(record, budgetYear);
+                List<PendingBudgetConstructionAppointmentFunding> fundingRecords = this.payrateImportDao.getFundingRecords(record, budgetYear, budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES));
                 for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
                     BudgetConstructionHeader header = getHeaderRecord(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
                     String lockingKey = getLockingKeyString(fundingRecord);
                     if ( !lockMap.containsKey(lockingKey) && !noLockMap.containsKey(lockingKey)) {
-                        BudgetConstructionLockStatus accountLockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
-                        BudgetConstructionLockStatus fundingLockStatus = this.lockService.lockFunding(header, user.getPersonUniversalIdentifier());
-                        if ( !accountLockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
-                            messages.add("Batch account lock failed - Budget locks exist.");
+                        BudgetConstructionLockStatus lockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
+                        System.out.println("!!! lockStatus = " + lockStatus.getLockStatus().toString());
+                        /*if ( !accountLockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
                             noLockMap.put(lockingKey, fundingRecord);
                         } else if ( !fundingLockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
-                            messages.add("Batch account lock failed - Funding locks exist.");
+                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
                             lockMap.remove(lockingKey);
                             noLockMap.put(lockingKey, fundingRecord);
+                        } else {
+                            lockMap.put(lockingKey, fundingRecord);
+                        }*/
+                        if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
+                            return false;
+                        } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
+                            return false;
+                        } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED));
+                            return false;
                         } else {
                             lockMap.put(lockingKey, fundingRecord);
                         }
                     }
                 }
-            }
             
-            //TODO: is this right? spec says to clear payrate holding table and return exception file if any errors are encountered.
-            catch (RuntimeException e) {
-               clearPayrateHoldingTable();
-               messages.add("Batch account lock failed");
-               
-               return false;
-            }
         }
         
         return true;
@@ -343,37 +364,26 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         return (PendingBudgetConstructionGeneralLedger)this.businessObjectService.findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
     }
     
-    
     private static class DefaultImportFileFormat {
         private static final int[] fieldLengths = new int[] {11, 8, 50, 5, 4, 3, 3, 10, 8};
         //TODO: use constants for field names
         private static final String[] fieldNames = new String[] {"emplid", "positionNumber", "personName", "setidSalary", "salaryAdministrationPlan", "grade", "positionUnionCode", "appointmentRequestPayRate", "csfFreezeDate"};
     }
 
-    public int getImportCount() {
-        return importCount;
+    public void setPayrateImportDao(PayrateImportDao payrateImportDao) {
+        this.payrateImportDao = payrateImportDao;
     }
+    
+    /**
+     * If retrieving budget locks fails, this method rollsback previous changes
+     * 
+     */
+    private void doRollback() {
+        PlatformTransactionManager transactionManager = SpringContext.getBean(PlatformTransactionManager.class);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        transactionManager.rollback( transactionStatus );
 
-    public int getUpdateCount() {
-        return updateCount;
-    }
-    
-    public void setLockService(LockService lockService) {
-        this.lockService = lockService;
-    }
-    
-    @NonTransactional
-    public BudgetParameterService getBudgetParameterService() {
-        return budgetParameterService;
-    }
-    
-    @NonTransactional
-    public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
-        this.budgetParameterService = budgetParameterService;
-    }
-    
-    public void setOptionsService(OptionsService optionsService) {
-        this.optionsService = optionsService;
     }
     
 }

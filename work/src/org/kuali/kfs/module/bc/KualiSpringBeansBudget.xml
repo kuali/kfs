@@ -775,8 +775,14 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
+		<property name="payrateImportDao">
+			<ref bean="payrateImportDao" />
+		</property>
 	</bean>
 	
+	<bean id="payrateImportDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.PayrateImportDaoOjb">
+    </bean>
+    
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">
     </bean>
     

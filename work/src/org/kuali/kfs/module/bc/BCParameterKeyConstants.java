@@ -30,4 +30,6 @@ public class BCParameterKeyConstants implements ParameterKeyConstants {
     public static final String SALARY_SETTING_SUB_FUND_GROUPS = "SALARY_SETTING_SUB_FUND_GROUPS";
     public static final String BIWEEKLY_PAY_TYPE_CODES = "BIWEEKLY_PAY_TYPE_CODES";
     public static final String ANNUAL_WORKING_HOURS = "ANNUAL_WORKING_HOURS";
+    public static final String BIWEEKLY_PAY_OBJECT_CODES = "BIWEEKLY_PAY_OBJECT_CODES";
+    public static final String GENERATE_2PLG_SUB_FUND_GROUPS = "GENERATE_2PLG_SUB_FUND_GROUPS";
 }

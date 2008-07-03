@@ -236,14 +236,28 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     public void setInvoiceItemDescription(String invoiceItemDescription) {
         this.invoiceItemDescription = invoiceItemDescription;
     }
+    
+    /**
+     * This method returns the invoice pre tax amount
+     * @return
+     */
+    public KualiDecimal getInvoiceItemPreTaxAmount(){
+        if( ObjectUtils.isNotNull(invoiceItemUnitPrice) && ObjectUtils.isNotNull(invoiceItemQuantity)){
+            return invoiceItemUnitPrice.multiply(new KualiDecimal(invoiceItemQuantity));
+        } else {
+            return KualiDecimal.ZERO;
+        }
+        
+    }
 
     /**
      * Gets the invoiceItemTaxAmount attribute.
+     * TODO Use tax service to get invoice item tax amount
      * 
      * @return Returns the invoiceItemTaxAmount.
      */
     public KualiDecimal getInvoiceItemTaxAmount() {
-        return invoiceItemTaxAmount;
+        return KualiDecimal.ZERO;
     }
 
     /**
@@ -329,9 +343,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
      * Update line amount based on quantity and unit price
      */
     public void updateAmountBasedOnQuantityAndUnitPrice() {
-        if (ObjectUtils.isNotNull(this.invoiceItemQuantity) && ObjectUtils.isNotNull(this.invoiceItemUnitPrice)) {
-            setAmount(getInvoiceItemUnitPrice().multiply(new KualiDecimal(getInvoiceItemQuantity())));
-        }
+            setAmount(getInvoiceItemPreTaxAmount());
     }
 
 

@@ -103,11 +103,10 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefault(Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
 
-        Map criteria = new HashMap();
+        Map<String,Object> criteria = new HashMap<String,Object>();
         criteria.put("universityFiscalYear", universityFiscalYear);
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
@@ -195,7 +194,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
 
         CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail) ObjectUtils.deepCopy(customerInvoiceDetail);
@@ -203,7 +201,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         discountCustomerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
         discountCustomerInvoiceDetail.setInvoiceItemDescription(ArConstants.DISCOUNT_PREFIX + StringUtils.trimToEmpty(customerInvoiceDetail.getInvoiceItemDescription()));
 
-        Map criteria = new HashMap();
+        Map<String,Object> criteria = new HashMap<String,Object>();
         criteria.put("universityFiscalYear", universityFiscalYear);
         criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
         criteria.put("processingOrganizationCode", organizationCode);
@@ -274,7 +272,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getOpenAmount(java.lang.Integer, org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
-    @SuppressWarnings("unchecked")
     public KualiDecimal getOpenAmount(Integer invoiceItemNumber,CustomerInvoiceDetail customerInvoiceDetail) {
         KualiDecimal totalAppliedAmount = KualiDecimal.ZERO;
         KualiDecimal appliedAmount;
@@ -283,7 +280,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         
         String documentNumber = customerInvoiceDetail.getDocumentNumber();
         
-        Map criteria = new HashMap();
+        Map<String,Object> criteria = new HashMap<String,Object>();
         criteria.put("documentNumber", documentNumber);
         criteria.put("invoiceItemNumber", invoiceItemNumber);
         

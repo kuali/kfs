@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -1022,8 +1023,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         getGeneralLedgerPendingEntryService().populateExplicitGeneralLedgerPendingEntry(this, glpeSourceDetail, sequenceHelper, explicitEntry);
 
         //modify amount (since income should exclude state and district tax amounts);
-        KualiDecimal subTotalAmount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
-        explicitEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForDetail(customerInvoiceDetail));
+        explicitEntry.setTransactionLedgerEntryAmount(customerInvoiceDetail.getInvoiceItemPreTaxAmount());
 
         //add pending entry
         addPendingEntry(explicitEntry);
@@ -1240,6 +1240,32 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     public void setPrintInvoiceOption(PrintInvoiceOptions printInvoiceOption) {
         this.printInvoiceOption = printInvoiceOption;
+    }    
+    
+    /**
+     * This method returns the total of all pre tax amounts for all customer invoice detail lines
+     * @return
+     */
+    public KualiDecimal getInvoiceItemPreTaxAmountTotal(){
+        
+        KualiDecimal invoiceItemPreTaxAmountTotal = new KualiDecimal(0);
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            invoiceItemPreTaxAmountTotal = invoiceItemPreTaxAmountTotal.add(((CustomerInvoiceDetail)i.next()).getInvoiceItemPreTaxAmount());
+        }
+        return invoiceItemPreTaxAmountTotal;
+    }
+    
+    /**
+     * This method returns the total of all tax amounts for all customer invoice detail lines
+     * @return
+     */
+    public KualiDecimal getInvoiceItemTaxAmountTotal(){
+        
+        KualiDecimal invoiceItemTaxAmountTotal = new KualiDecimal(0);
+        for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
+            invoiceItemTaxAmountTotal = invoiceItemTaxAmountTotal.add(((CustomerInvoiceDetail)i.next()).getInvoiceItemTaxAmount());
+        }
+        return invoiceItemTaxAmountTotal;
     }    
 }
 

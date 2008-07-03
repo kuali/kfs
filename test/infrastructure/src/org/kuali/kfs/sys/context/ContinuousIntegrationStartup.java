@@ -19,8 +19,10 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.suite.TestSuiteBuilder;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.suite.TestSuiteBuilder;
 
 /**
  * This class preps for the tests to run
@@ -32,7 +34,7 @@ public class ContinuousIntegrationStartup extends KualiTestBase {
     @Override
     protected void tearDown() throws Exception {
         super.setUp();
-        BatchSpringContext.getStep("genesisBatchStep").execute("genesisBatchJob", SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        Job.runStep(SpringContext.getBean(ParameterService.class), "genesisBatchJob", 1, BatchSpringContext.getStep("genesisBatchStep"), SpringContext.getBean(DateTimeService.class).getCurrentDate());
     }
 
     public void testNothing() throws Exception {

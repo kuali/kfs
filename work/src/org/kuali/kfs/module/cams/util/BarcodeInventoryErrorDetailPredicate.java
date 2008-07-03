@@ -22,77 +22,98 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 
 public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure {
-
-    BarcodeInventoryErrorForm bcieForm;
-    public BarcodeInventoryErrorDetailPredicate(BarcodeInventoryErrorForm form) {
-        BarcodeInventoryErrorForm bcieForm = form;
-    }
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDetailPredicate.class);
+    private BarcodeInventoryErrorForm bcieForm;
     
+    
+    public BarcodeInventoryErrorDetailPredicate(BarcodeInventoryErrorForm form) {
+        this.bcieForm = form;
+    }
+       
+    /**
+     * 
+     * @see org.apache.commons.collections.Predicate#evaluate(java.lang.Object)
+     */
     public boolean evaluate(Object object) {
         boolean satisfies = true;
 
         if( object instanceof BarcodeInventoryErrorDetail) {
             BarcodeInventoryErrorDetail detail = (BarcodeInventoryErrorDetail) object;
 
-            /*if ((this.bcieForm.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentTagNumber())) {
+            if ((this.bcieForm.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentTagNumber())) {
                 if(!StringUtils.equals(this.bcieForm.getCurrentTagNumber(),detail.getAssetTagNumber())) {
                     satisfies=false;
                 }
-            }*/
-
+            }
             
-            /*
-            satisfies&= (this.scanCode.equals("Y") && detail.isUploadScanIndicator());
-
-            if (!StringUtils.isBlank(this.campusCode)) {
-                if(!StringUtils.equals(this.campusCode,detail.getCampusCode())) {
+            if (this.bcieForm.getCurrentScanCode() != null && !StringUtils.isBlank(this.bcieForm.getCurrentScanCode())) {
+                satisfies&= (this.bcieForm.getCurrentScanCode().equals("Y") && detail.isUploadScanIndicator());
+            }
+            
+            if (this.bcieForm.getCurrentCampusCode() != null && !StringUtils.isBlank(this.bcieForm.getCurrentCampusCode())) {
+                if(!StringUtils.equals(this.bcieForm.getCurrentCampusCode(),detail.getCampusCode())) {
                     satisfies=false;
                 }
             }
 
-            if (!StringUtils.isBlank(this.buildingNumber)) {
-                if(!StringUtils.equals(this.buildingNumber,detail.getBuildingRoomNumber())) {
+            if ((this.bcieForm.getCurrentBuildingNumber() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentBuildingNumber())) {
+                if(!StringUtils.equals(this.bcieForm.getCurrentBuildingNumber(),detail.getBuildingRoomNumber())) {
                     satisfies=false;
                 }
             }
-*/
-            if (!StringUtils.isBlank(this.bcieForm.getCurrentRoom())) {
+
+            if ((this.bcieForm.getCurrentRoom() != null ) && !StringUtils.isBlank(this.bcieForm.getCurrentRoom())) {
                 if(!StringUtils.equals(this.bcieForm.getCurrentRoom(),detail.getBuildingRoomNumber())) {
                     satisfies=false;
                 }
             }
-/*
-            if (!StringUtils.isBlank(this.subRoom)) {
-                if(!StringUtils.equals(this.subRoom,detail.getBuildingSubRoomNumber())) {
+
+            if ((this.bcieForm.getCurrentSubroom()!= null) && !StringUtils.isBlank(this.bcieForm.getCurrentSubroom())) {
+                if(!StringUtils.equals(this.bcieForm.getCurrentSubroom(),detail.getBuildingSubRoomNumber())) {
                     satisfies=false;
                 }
             }
 
-            if (!StringUtils.isBlank(this.conditionCode)) {
-                if(!StringUtils.equals(this.conditionCode,detail.getAssetConditionCode())){
+            if ((this.bcieForm.getCurrentConditionCode() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentConditionCode())) {
+                if(!StringUtils.equals(this.bcieForm.getCurrentConditionCode(),detail.getAssetConditionCode())){
                     satisfies=false;
                 }
-            }*/       
+            }       
         } else {
             satisfies=false;
         }
         return satisfies;
     }
     
-    
+    /**
+     * 
+     * @see org.apache.commons.collections.Closure#execute(java.lang.Object)
+     */
     public void execute(Object object) {
         if (this.evaluate(object)) {    
             BarcodeInventoryErrorDetail detail = (BarcodeInventoryErrorDetail) object;
 
-            if (!StringUtils.isEmpty(this.bcieForm.getNewRoom())) {
+            if (this.bcieForm.getCurrentCampusCode() != null && !StringUtils.isBlank(this.bcieForm.getCurrentCampusCode())) {
+                detail.setCampusCode(this.bcieForm.getNewCampusCode());
+            }
+
+            if ((this.bcieForm.getCurrentBuildingNumber() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentBuildingNumber())) {
+                detail.setBuildingCode(this.bcieForm.getNewBuildingNumber());
+            }
+
+            if ((this.bcieForm.getCurrentRoom() != null ) && !StringUtils.isBlank(this.bcieForm.getCurrentRoom())) {
                 detail.setBuildingRoomNumber(this.bcieForm.getNewRoom());
             }
-            
-            
-            
+
+            if ((this.bcieForm.getCurrentSubroom()!= null) && !StringUtils.isBlank(this.bcieForm.getCurrentSubroom())) {
+                detail.setBuildingSubRoomNumber(this.bcieForm.getNewSubroom());
+            }
+
+            if ((this.bcieForm.getCurrentConditionCode() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentConditionCode())) {
+                detail.setAssetConditionCode(this.bcieForm.getNewConditionCode());
+            }
+        
         }
         
     }
-    
-    
 }

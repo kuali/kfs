@@ -77,9 +77,7 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
-        
-        // apply rules for the new cash control detail                
-        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document));        
+        this.invokeRules(document);
     }
 
 
@@ -113,6 +111,8 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         
         //Reassigning the changes to the document.
         document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+
+        this.invokeRules(document);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -123,31 +123,24 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
                        
         BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
-        
-/*                barcodeInventoryErrorForm.getCurrentTagNumber(),
-                barcodeInventoryErrorForm.getCurrentScanCode(),
-                barcodeInventoryErrorForm.getCurrentCampusCode(),
-                barcodeInventoryErrorForm.getCurrentBuildingNumber(),     
-                barcodeInventoryErrorForm.getCurrentRoom(),
-                barcodeInventoryErrorForm.getCurrentSubroom(),
-                barcodeInventoryErrorForm.getCurrentConditionCode());*/ 
-     
-        
-        //Collection<BarcodeInventoryErrorDetail> matches = CollectionUtils.select(barcodeInventoryErrorDetails, predicate);
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
         
-        // filter the Collection
-        //CollectionUtils.filter( barcodeInventoryErrorDetails, predicate );
-        
         //Reorganizing the order of each line
-        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
-            LOG.info("****Tag#: "+detail.getAssetTagNumber());
-        }
+//        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
+//            LOG.info("****error Code: "+detail.getErrorCorrectionStatusCode());
+//        }
         
-        //Reassigning the changes to the document.
-        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+        this.invokeRules(document);
+        
+        barcodeInventoryErrorForm.resetSearchFields();
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
+    }
+    
+    
+    private void invokeRules(BarcodeInventoryErrorDocument document) {
+        // apply rules for the new cash control detail                
+        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document));
     }
     
 }

@@ -50,7 +50,6 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     
     public BarcodeInventoryErrorForm() {
         super();
-        //LOG.info("*******BarcodeInventoryErrorForm");
         setDocument(new BarcodeInventoryErrorDocument());
     }
 
@@ -59,19 +58,6 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         return (BarcodeInventoryErrorDocument) getDocument();
     }
     
-/*    @Override
-    public void populate(HttpServletRequest request) {
-
-        super.populate(request);
-        BarcodeInventoryErrorDocument ccDoc = getBarcodeInventoryErrorDocument();
-
-        for (BarcodeInventoryErrorDetail detail : ccDoc.getBarcodeInventoryErrorDetail()) {
-            LOG.info("******* form:"+detail.getAssetTagNumber());
-        }
-    }
-  */  
-
-
     /**
      * Get rowCheckbox
      * @return String
@@ -238,5 +224,21 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         this.newConditionCode = newConditionCode;
     }
 
-    
+
+    public void resetSearchFields() {
+        currentTagNumber="";
+        currentScanCode="";
+        currentCampusCode="";
+        currentBuildingNumber="";
+        currentRoom="";
+        currentSubroom="";
+        currentConditionCode="";
+        newTagNumber="";
+        newScanCode="";
+        newCampusCode="";
+        newBuildingNumber="";
+        newRoom="";
+        newSubroom="";
+        newConditionCode="";        
+    }
 }

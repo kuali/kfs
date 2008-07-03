@@ -51,6 +51,15 @@
             	</c:if>
 			</logic:iterate>
 		</table>
+		<table>
+		<tr>
+		<td><div align="center">
+			<html:image property="methodToCall.searchAndReplace" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_delete.gif"
+			    		alt="Delete selected lines"
+			        	styleClass="tinybutton" align="center"/></div>
+		</td>
+		</tr>
+		</table>
 	</div>
 </kul:tab>
 <kul:tab tabTitle="Global replace" defaultOpen="true">
@@ -75,7 +84,7 @@
 				<td align=left class="${cssClass}">&nbsp
 					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="newTagNumber"/>
 				</td-->
-		        <th align=right valign=middle class="grid"><div align="right"></div></th>				
+		        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
 				<td align=left class="${cssClass}">&nbsp</td>
 
 			</tr>				
@@ -85,7 +94,7 @@
 				<td align=left class="${cssClass}">&nbsp				
 					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="currentScanCode"/>
 				</td>
-		        <th align=right valign=middle class="grid"><div align="right"></div></th>				
+		        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
 				<td align=left class="${cssClass}">&nbsp</td>
 
 		        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>				

@@ -22,11 +22,11 @@
 <%@ attribute name="lineNumber" required="true"%>
 
 
+<!-- html:hidden property="${propertyName}.errorCorrectionStatusCode" /-->
 <tr>
 	<td align="right" class="${cssClass}">
-		<html:checkbox property="rowCheckbox" value="${propertyName}.uploadRowNumber"/>
+		<html:checkbox property="rowCheckbox" value="${lineNumber}" />
 	</td>
-
 	<td align="right" class="${cssClass}">
 	    ${lineNumber+1}	
 	</td>

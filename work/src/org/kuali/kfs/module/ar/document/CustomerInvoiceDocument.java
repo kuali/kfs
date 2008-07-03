@@ -21,6 +21,7 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerProcessingType;
+import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -83,18 +84,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private ObjectCode paymentFinancialObject;
     private SubObjCd paymentFinancialSubObject;
     private ProjectCode paymentProject;
-
+    private PrintInvoiceOptions printInvoiceOption;
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
-	/**
+    /**
 	 * Default constructor.
 	 */
 	public CustomerInvoiceDocument() {
 	    super();
 	    this.nextInvoiceItemNumber = new Integer(1);
-	    this.customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 * @return the outstanding balance on this invoice
 	 */
 	public KualiDecimal getBalance() {
-	    return customerInvoiceDocumentService.getBalanceForCustomerInvoiceDocument(this);
+	    return SpringContext.getBean(CustomerInvoiceDocumentService.class).getBalanceForCustomerInvoiceDocument(this);
 	}
 	
 	/**
@@ -1233,6 +1233,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void setCustomerBillToAddress(CustomerAddress customerBillToAddress) {
         this.customerBillToAddress = customerBillToAddress;
     }
+    
+    public PrintInvoiceOptions getPrintInvoiceOption() {
+        return printInvoiceOption;
+    }
+
+    public void setPrintInvoiceOption(PrintInvoiceOptions printInvoiceOption) {
+        this.printInvoiceOption = printInvoiceOption;
+    }    
 }
 
 

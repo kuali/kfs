@@ -36,7 +36,6 @@ import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailPar
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailSubFundGroupReceivableValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitOfMeasureValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDetailUnitPriceValidationTest;
-import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDocumentRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDueDateValidationTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceItemCodeRuleTest;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceNumberOfInvoiceDetailsValidationTest;
@@ -65,7 +64,6 @@ public class AllAccountsReceivableTests {
 
         suite.addTestSuite(PaymentApplicationDocumentTest.class);
         suite.addTestSuite(CashControlDocumentRuleTest.class);
-        suite.addTestSuite(CustomerInvoiceDocumentRuleTest.class);
         suite.addTestSuite(CustomerInvoiceItemCodeRuleTest.class);
         suite.addTestSuite(CustomerRuleTest.class);
         suite.addTestSuite(OrganizationAccountingDefaultRuleTest.class);

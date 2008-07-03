@@ -147,10 +147,19 @@
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right">Inv Print Option</div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.printInvoiceIndicator }" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${documentAttributes.printInvoiceIndicator }" property="document.printInvoiceIndicator" readOnly="${readOnly}"/>               
+					<c:choose>
+						<c:when test="${not readOnly}">
+							<kul:htmlControlAttribute attributeEntry="${documentAttributes.printInvoiceIndicator }" property="document.printInvoiceIndicator" readOnly="${readOnly}"/>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${not empty KualiForm.document.printInvoiceOption }">
+								${KualiForm.document.printInvoiceOption.printInvoiceDescription}
+							</c:if>
+						</c:otherwise>
+					</c:choose>
                 </td>
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${ documentAttributes.printDate }" /></div>

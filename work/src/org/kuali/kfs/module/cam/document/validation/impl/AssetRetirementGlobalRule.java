@@ -28,9 +28,13 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
+import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -82,7 +86,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         setupConvenienceObjects();
         valid &= assetRetirementValidation(assetRetirementGlobal);
 
-        if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+        if ((valid & super.processCustomSaveDocumentBusinessRules(document)) && !assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && validateAssetObjectCodeExistence(assetRetirementGlobal)) {
             // create poster
             AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader)document.getDocumentHeader());
             // create postables
@@ -101,6 +105,23 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+
+    private boolean validateAssetObjectCodeExistence(AssetRetirementGlobal assetRetirementGlobal) {
+        boolean valid = true;
+        
+        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            Asset asset = assetRetirementGlobalDetail.getAsset();
+            for (AssetPayment assetPayment : asset.getAssetPayments()) {
+                AssetObjectCode assetObjectCode = assetRetirementService.getAssetObjectCode(asset, assetPayment);
+                if (ObjectUtils.isNull(assetObjectCode)) {
+                    putFieldError(CamsPropertyConstants.AssetRetirementGlobal.VERSION_NUMBER, CamsKeyConstants.Retirement.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] {asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode()});
+                    valid = false;
+                    break;
+                }
+            }
+        }
+        return valid;
+    }
 
     /**
      * 

@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
 
@@ -84,4 +86,13 @@ public interface AssetRetirementService {
      * Creates GL Postables
      */
     boolean createGLPostables(AssetRetirementGlobal assetRetirementGlobal, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster);
+    
+    /**
+     * Get Asset Object Code
+     * 
+     * @param asset
+     * @param assetPayment
+     * @return
+     */
+    public AssetObjectCode getAssetObjectCode(Asset asset, AssetPayment assetPayment);
 }

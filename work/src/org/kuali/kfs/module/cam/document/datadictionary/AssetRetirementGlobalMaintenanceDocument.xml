@@ -183,6 +183,9 @@
                     p:readOnly="true"
                     p:template="organizationOwnerAccountNumber" />
               <bean parent="MaintainableFieldDefinition"
+                    p:name="organizationCode"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
                     p:name="asset.acquisitionTypeCode"
                     p:readOnly="true"
                     p:template="acquisitionTypeCode" />

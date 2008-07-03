@@ -338,7 +338,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         boolean success = true;
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
 
-        AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        AssetObjectCode assetObjectCode = getAssetObjectCode(asset, assetPayment);
         if (category.isObjectCodeExists(assetObjectCode)) {
             category.setParams(postable, assetPayment, assetObjectCode);
 
@@ -361,6 +361,11 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             success = false;
         }
         return success;
+    }
+
+    public AssetObjectCode getAssetObjectCode(Asset asset, AssetPayment assetPayment) {
+        AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        return assetObjectCode;
     }
 
 

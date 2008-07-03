@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.businessobject.Country;
@@ -583,6 +584,16 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
 
     public void setDocumentHeader(DocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
+    }
+
+    public String getOrganizationCode() {
+        if (ObjectUtils.isNotNull(asset)) {
+            asset.refreshReferenceObject("organizationOwnerAccount");
+            if (ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
+                return asset.getOrganizationOwnerAccount().getOrganizationCode();
+            }
+        }
+        return null;
     }
 
 

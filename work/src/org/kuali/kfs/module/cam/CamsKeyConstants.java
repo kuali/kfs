@@ -128,6 +128,7 @@ public class CamsKeyConstants {
         public static final String ERROR_DISALLOWED_RETIREMENT_REASON_CODE = "error.disallowed.retirement.reason.code";
         public static final String ERROR_MULTIPLE_ASSET_RETIRED = "error.multiple.asset.retired";
         public static final String ERROR_INVALID_OBJECT_CODE_FROM_ASSET_OBJECT_CODE = "error.invalid.asset.object.code";
+        public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";
     }
 
     public static class AssetLocationGlobal {

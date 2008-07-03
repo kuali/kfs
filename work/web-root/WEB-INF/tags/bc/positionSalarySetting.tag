@@ -45,6 +45,9 @@
 			<html:image property="methodToCall.insertSalarySettingLine.anchorsalarynewLineLineAnchor" 
 		       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
 		       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
+		    
+		    <html:hidden property="newBCAFLine.budgetConstructionPosition.iuPayMonths" />
+			<html:hidden property="newBCAFLine.budgetConstructionPosition.iuNormalWorkMonths" />   	
 		</bc:appointmentFundingLineForPosition>
 	</kul:subtab>
         		
@@ -63,7 +66,10 @@
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.subAccountNumber}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.financialObjectCode}"/>
 	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.financialSubObjectCode}"/>
-	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.emplid}"/>    
+	    <c:set var="subTabTitle" value="${subTabTitle}, ${fundingLine.emplid}"/>  
+	    
+	    <html:hidden property="${fundingLineName}.budgetConstructionPosition.iuPayMonths" />
+		<html:hidden property="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths" />  
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${subTabTitle}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true">    		

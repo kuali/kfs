@@ -112,11 +112,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-        if (position != null) {
+        if (position == null) {
             return null;
         }
         
-        Integer payMonth = appointmentFunding.getBudgetConstructionPosition().getIuPayMonths();
+        Integer payMonth = position.getIuPayMonths();
         Integer fundingMonth = appointmentFunding.getAppointmentFundingMonth();
         BigDecimal requestedTimePercent = appointmentFunding.getAppointmentRequestedTimePercent();
 
@@ -135,8 +135,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
-        BigDecimal fundingMonthAsdecimal = BigDecimal.valueOf(fundingMonth);
-        BigDecimal fundingMonthPercent = fundingMonthAsdecimal.divide(payMonthAsDecimal);
+        BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);
+        BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal);
+        
+        LOG.info("======" + payMonthAsDecimal + ":" + fundingMonthAsDecimal + ":" + fundingMonthPercent);
         return requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
     }
 

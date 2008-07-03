@@ -86,7 +86,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         
         if(appointmentFunding.getBudgetConstructionPosition() != null) {
-            appointmentFunding.setAppointmentRequestedFteQuantity(salarySettingService.calculateFteQuantityFromAppointmentFunding(appointmentFunding));
+            //appointmentFunding.setAppointmentRequestedFteQuantity(salarySettingService.calculateFteQuantityFromAppointmentFunding(appointmentFunding));
         }
     }
     

@@ -198,7 +198,7 @@
 		<td colspan="${colspan}" class="infoline" style="border-bottom: none;">
 			<center><br/>
 			<bc:appointmentFundingDetail fundingLine="${fundingLine}" fundingLineName="${fundingLineName}" 
-				lineIndex="${lineIndex}" readOnly="${readOnly}"/>
+				lineIndex="${lineIndex}" readOnly="${readOnly}" isSetteingByIncumbent="true"/>
 			<br/></center>
 		</td>            
 	</tr>

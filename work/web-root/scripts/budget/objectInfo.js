@@ -101,13 +101,10 @@ BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(reasonCod
 	}
 }
 
-BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, fundingMonthsFieldName, timePercentFieldName, fteQuantityFieldName ) {
+BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, fundingMonthsFieldName, fteQuantityFieldName, timePercentFieldName, fteQuantityField ) {
     var timePercent = DWRUtil.getValue(timePercentFieldName);
     var payMonths = DWRUtil.getValue(payMonthsFieldName);
     var fundingMonths = DWRUtil.getValue(fundingMonthsFieldName);
-    
-    var fieldNamePrefix = findElPrefix(timePercentFieldName);
-    var fteQuantityFieldName = fieldNamePrefix + fteQuantitySuffix;
 
 	if (timePercent=='' || payMonths=='' || fundingMonths=='') {
 		clearRecipients(fteQuantityFieldName, '');

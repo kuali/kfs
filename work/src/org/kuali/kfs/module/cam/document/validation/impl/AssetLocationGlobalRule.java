@@ -64,7 +64,6 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetLocationGlobal.ASSET_LOCATION_GLOBAL_DETAILS + "[" + index + "]";
 
         if (hasAssetLocationGlobalDetails(assetLocationGlobalDetails)) {
-
             for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 success &= validateActiveCapitalAsset(detail);
@@ -212,8 +211,8 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean validateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
         boolean success = true;
-
-        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber())) {
+        
+        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber()) && ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber())) {
             // call AssetService, get Assets from doc, gather all assets matching this tag number
             List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(assetLocationGlobalDetail.getCampusTagNumber());
 

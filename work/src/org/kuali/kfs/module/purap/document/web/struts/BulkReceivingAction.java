@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,8 @@ import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -45,10 +49,10 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         
         //set identifier from form value
         blkRecDoc.setPurchaseOrderIdentifier( blkForm.getPurchaseOrderId() );
-        if (blkForm.getPurchaseOrderId() != null){
-            blkForm.setPOAvailable(true);
-            blkRecDoc.setPOAvailable(true);
-        }
+//        if (blkForm.getPurchaseOrderId() != null){
+//            blkForm.setPOAvailable(true);
+//            blkRecDoc.setPOAvailable(true);
+//        }
         
         blkRecDoc.initiateDocument();
         
@@ -67,6 +71,17 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         ActionForward forward = isDuplicateDocumentEntry(mapping, form, request, response, blkRecDoc);
         if( forward != null ){
             return forward;
+        }
+        
+        if (blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier() != null &&
+            blkRecDoc.getAlternateVendorDetailAssignedIdentifier() != null){
+            VendorDetail alternateVendor = SpringContext.getBean(VendorService.class).getVendorDetail(blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier(), blkRecDoc.getAlternateVendorDetailAssignedIdentifier());
+            blkRecDoc.setAlternateVendorDetail(alternateVendor);
+            
+            List<VendorDetail> vendors = new ArrayList<VendorDetail>();
+            vendors.add(blkRecDoc.getVendorDetail());
+            vendors.add(blkRecDoc.getAlternateVendorDetail());
+            blkForm.setVendorsListForGoodsDeliveryBy(vendors);
         }
         
         //populate and save Receiving Line Document from Purchase Order        
@@ -99,7 +114,8 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         ActionForward forward = null;
         HashMap<String, String> duplicateMessages = SpringContext.getBean(BulkReceivingService.class).bulkReceivingDuplicateMessages(bulkReceivingDocument);
         
-        if (duplicateMessages != null && !duplicateMessages.isEmpty()) {
+        if (duplicateMessages != null && 
+            !duplicateMessages.isEmpty()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
 

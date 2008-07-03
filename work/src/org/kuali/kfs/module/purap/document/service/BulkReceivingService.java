@@ -61,4 +61,6 @@ public interface BulkReceivingService {
      */
     public HashMap<String, String> bulkReceivingDuplicateMessages(BulkReceivingDocument blkRecDoc);
     
+    public void completeBulkReceivingDocument(BulkReceivingDocument blkRecDocument);
+    
 }

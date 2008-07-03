@@ -31,9 +31,18 @@
     </c:otherwise>
     </c:choose>
     
-	 <c:if test="${KualiForm.editingMode['displayInitTab']}" > 
+	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
     	<purap:bulkReceivingInit documentAttributes="${DataDictionary.BulkReceivingDocument.attributes}"/>
 	</c:if>
+
+    <c:choose>
+    <c:when test="${not empty KualiForm.document.purchaseOrderIdentifier}" >    
+    	<c:set var="isPOAvailable" value="true" scope="request" />
+    </c:when>
+    <c:otherwise>
+    	<c:set var="isPOAvailable" value="false" scope="request" />
+    </c:otherwise>
+    </c:choose>
     
    <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 	<html:hidden property="document.purchaseOrderIdentifier" />
@@ -52,7 +61,8 @@
 			documentAttributes="${DataDictionary.BulkReceivingDocument.attributes}"
 			deliveryReadOnly="true" /> 
 		          	
-	    
+	    <purap:relatedDocuments
+            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 	            
 		<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
 	

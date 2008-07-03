@@ -53,24 +53,6 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
         
         return valid;
     }
-    /**
-     * TODO: move this up
-     * This method...
-     * @param receivingDocument
-     * @return
-     */
-    private boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
-        for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
-            if (((PurapEnterableItem)item).isConsideredEntered()) {
-                //if any item is entered return true
-                return true;
-            }
-        }
-        //if no items are entered return false
-        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED);
-        return false;
-        
-    }    
     
     public boolean processContinuePurapBusinessRules(TransactionalDocument document) {
         

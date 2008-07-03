@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.util;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
+import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
@@ -39,6 +40,7 @@ public class PurApRelatedViews {
 
     private transient List<ReceivingLineView> relatedReceivingLineViews;
     private transient List<ReceivingCorrectionView> relatedReceivingCorrectionViews;
+    private transient List<BulkReceivingView> relatedBulkReceivingViews;
 
     public PurApRelatedViews(String documentNumber, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         super();
@@ -127,5 +129,11 @@ public class PurApRelatedViews {
         relatedReceivingCorrectionViews = updateRelatedView(ReceivingCorrectionView.class, relatedReceivingCorrectionViews, true);
         return relatedReceivingCorrectionViews;
     }
+    
+    public List<BulkReceivingView> getRelatedBulkReceivingViews() {
+        relatedBulkReceivingViews = updateRelatedView(BulkReceivingView.class, relatedBulkReceivingViews, true);
+        return relatedBulkReceivingViews;
+    }
+
 
 }

@@ -15,19 +15,23 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentActionAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     
     private Integer purchaseOrderId;
-    private boolean isPOAvailable;
+//    private boolean isPOAvailable;
+    private List<VendorDetail> vendorsListForGoodsDeliveryBy = new ArrayList<VendorDetail>();
     
     /**
      * Constructs a BulkReceivingForm instance and sets up the appropriately casted document.
@@ -54,13 +58,13 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         this.purchaseOrderId = purchaseOrderId;
     }
 
-    public boolean isPOAvailable() {
-        return isPOAvailable;
-    }
-
-    public void setPOAvailable(boolean isPOAvailable) {
-        this.isPOAvailable = isPOAvailable;
-    }
+//    public boolean isPOAvailable() {
+//        return isPOAvailable;
+//    }
+//
+//    public void setPOAvailable(boolean isPOAvailable) {
+//        this.isPOAvailable = isPOAvailable;
+//    }
     
     /**
      * Override the superclass method to add appropriate buttons for
@@ -72,7 +76,7 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
         
-        BulkReceivingDocumentActionAuthorizer auth = new BulkReceivingDocumentActionAuthorizer(this.getBulkReceivingDocument(), getEditingMode());        
+//        BulkReceivingDocumentActionAuthorizer auth = new BulkReceivingDocumentActionAuthorizer(this.getBulkReceivingDocument(), getEditingMode());        
 
         if (this.getEditingMode().containsKey(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB)) {
             if (this.getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
@@ -102,6 +106,18 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
 
     public boolean isStateFinal(){        
         return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
+    }
+
+    public List<VendorDetail> getVendorsListForGoodsDeliveryBy() {
+        return vendorsListForGoodsDeliveryBy;
+    }
+
+    public void setVendorsListForGoodsDeliveryBy(List<VendorDetail> vendorsListForGoodsDeliveryBy) {
+        this.vendorsListForGoodsDeliveryBy = vendorsListForGoodsDeliveryBy;
+    }
+    
+    public String getGoodsDeliveredByLabel(){
+        return PurapKeyConstants.MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL;
     }
 
 }

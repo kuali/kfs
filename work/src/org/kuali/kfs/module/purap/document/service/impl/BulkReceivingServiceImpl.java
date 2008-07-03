@@ -31,6 +31,9 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.BulkReceivingDao;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -75,6 +78,11 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
+    }
+    
+    public void completeBulkReceivingDocument(BulkReceivingDocument blkRecDocument) {
+
+        purapService.saveDocumentNoValidation(blkRecDocument);
     }
     
     /**
@@ -189,7 +197,6 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
                                                    String bulkReceivingDocumentNumber){
 
         boolean canCreate = false;
-       
         if(  po != null &&
              ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) &&
              (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
@@ -220,7 +227,6 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
                 throw new RuntimeException(we);
             }
             
-            System.out.println(bulkReceivingDocumentNumber + "   " + docNumber);
             if(!(workflowDocument.stateIsCanceled() ||
                  workflowDocument.stateIsException() ||
                  workflowDocument.stateIsFinal()) &&

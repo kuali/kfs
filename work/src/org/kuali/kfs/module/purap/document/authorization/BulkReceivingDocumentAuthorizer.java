@@ -22,6 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -34,40 +35,40 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
 public class BulkReceivingDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase  {
 
-    @Override
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-        try {
-            return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
-        }
-        catch (GroupNotFoundException e) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
-        }
-    }
+//    @Override
+//    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+//        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+//        try {
+//            return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
+//        }
+//        catch (GroupNotFoundException e) {
+//            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
+//        }
+//    }
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override    
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, 
+                           UniversalUser user) {
+        
+        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument)document;
+        
         Map editModeMap = super.getEditMode(document, user);
 
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;        
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        
+        if (workflowDocument.stateIsInitiated() || 
+            workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
         }
-        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            //List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-            // only allow full entry if status allows it
-
-                editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-        }
-
+        
         editModeMap.put(editMode, "TRUE");
 
         //display init tab
@@ -79,6 +80,13 @@ public class BulkReceivingDocumentAuthorizer extends FinancialSystemTransactiona
             editModeMap.put(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB, "FALSE");
         }
 
+        if (workflowDocument.stateIsInitiated() || 
+            workflowDocument.stateIsSaved()) {
+            if (ObjectUtils.isNotNull(blkRecDoc.getVendorHeaderGeneratedIdentifier())) {
+                editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
+            }
+        }
+        
         return editModeMap;
     }
 

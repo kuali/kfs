@@ -35,7 +35,7 @@
   <bean id="AssetType-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Type Code" />
+    <property name="label" value="Asset Type" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
@@ -46,7 +46,7 @@
             p:size="9" />
     </property>
     <property name="summary" value="capitalAssetTypeCode" />
-    <property name="description" value="Capital Asset type code" />
+    <property name="description" value="Capital Asset type" />
   </bean>
   <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean" />
 
@@ -129,7 +129,7 @@
   <bean id="AssetType-inquiryDefinition" parent="AssetType-inquiryDefinition-parentBean" />
 
   <bean id="AssetType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Type Code Inquiry" />
+    <property name="title" value="Asset Type Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -162,8 +162,8 @@
   <bean id="AssetType-lookupDefinition" parent="AssetType-lookupDefinition-parentBean" />
 
   <bean id="AssetType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Type Code Lookup" />
-    <property name="instructions" value="Look up an Asset Type Code" />
+    <property name="title" value="Asset Type Lookup" />
+    <property name="instructions" value="Look up an Asset Type" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

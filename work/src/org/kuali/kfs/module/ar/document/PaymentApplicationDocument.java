@@ -38,7 +38,7 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private NonAppliedHolding nonAppliedHolding;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    private PaymentApplicationDocumentService paymentApplicationDocumentService;
+    private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
     
     public PaymentApplicationDocument() {
         super();

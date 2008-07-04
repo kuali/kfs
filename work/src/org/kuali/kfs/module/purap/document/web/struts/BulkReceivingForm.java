@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
@@ -27,11 +29,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
+import edu.iu.uis.eden.EdenConstants;
+
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     
     private Integer purchaseOrderId;
 //    private boolean isPOAvailable;
-    private List<VendorDetail> vendorsListForGoodsDeliveryBy = new ArrayList<VendorDetail>();
+//    private List<VendorDetail> vendorsListForGoodsDeliveryBy = new ArrayList<VendorDetail>();
     
     /**
      * Constructs a BulkReceivingForm instance and sets up the appropriately casted document.
@@ -108,16 +112,27 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
     }
 
-    public List<VendorDetail> getVendorsListForGoodsDeliveryBy() {
-        return vendorsListForGoodsDeliveryBy;
-    }
-
-    public void setVendorsListForGoodsDeliveryBy(List<VendorDetail> vendorsListForGoodsDeliveryBy) {
-        this.vendorsListForGoodsDeliveryBy = vendorsListForGoodsDeliveryBy;
-    }
+//    public List<VendorDetail> getVendorsListForGoodsDeliveryBy() {
+//        return vendorsListForGoodsDeliveryBy;
+//    }
+//
+//    public void setVendorsListForGoodsDeliveryBy(List<VendorDetail> vendorsListForGoodsDeliveryBy) {
+//        this.vendorsListForGoodsDeliveryBy = vendorsListForGoodsDeliveryBy;
+//    }
     
     public String getGoodsDeliveredByLabel(){
         return PurapKeyConstants.MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL;
     }
 
+    @Override
+    public Map getAdHocActionRequestCodes() {
+        Map adHocActionRequestCodes = new HashMap();
+        if (getWorkflowDocument() != null) {
+            if (getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+        }
+        return adHocActionRequestCodes;
+    }
 }

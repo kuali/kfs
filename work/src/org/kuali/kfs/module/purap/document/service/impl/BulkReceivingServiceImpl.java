@@ -246,7 +246,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
             PurchaseOrderDocument poDoc = purchaseOrderService.getCurrentPurchaseOrder(blkRecDoc.getPurchaseOrderIdentifier());
             if(poDoc != null){
                 blkRecDoc.populateBulkReceivingFromPurchaseOrder(poDoc);
-            }            
+            }
         }
     }
 

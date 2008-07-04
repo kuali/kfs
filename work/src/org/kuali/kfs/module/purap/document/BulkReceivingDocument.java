@@ -20,14 +20,17 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
@@ -36,11 +39,13 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
@@ -113,6 +118,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private Carrier carrier;
     private VendorDetail vendorDetail;
     private VendorDetail alternateVendorDetail;
+    private Org organization;
     
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
 
@@ -121,7 +127,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     /**
      * Added recently
      */
-    private String organizationName;
+    private String organizationCode;
     
     /**
      * Not persisted in DB
@@ -131,6 +137,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String goodsDeliveredVendorName;
     private String vendorContact;
     private String deliveryCampusName;
+    private String organizationName;
     
     public BulkReceivingDocument() {
         super();
@@ -182,9 +189,10 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setDeliveryToEmailAddress( po.getDeliveryToEmailAddress() );
         setDeliveryToName( po.getDeliveryToName() );
         setDeliveryToPhoneNumber( po.getDeliveryToPhoneNumber() );
-        setDeliveryCampus(po.getDeliveryCampus());
-        setDeliveryCampusName(po.getDeliveryCampus().getCampusName());
-        setOrganizationName(po.getOrganization().getOrganizationName());
+        setDeliveryCampus(po.getDeliveryCampus()); // Object assign - Is it reqd? It's not there in PO doc
+//        setDeliveryCampusName(po.getDeliveryCampus().getCampusName());
+        setOrganizationCode(po.getOrganizationCode());
+        setOrganization(po.getOrganization()); // Object assign - Is it reqd? It's not there in PO doc. Here we need to display the org name. so i think it's reqd
         
 
         //Requestor and Requisition preparer
@@ -298,7 +306,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-
+        
         // first populate, then call super
         if (event instanceof ContinuePurapEvent) {
             SpringContext.getBean(BulkReceivingService.class).populateBulkReceivingFromPurchaseOrder(this);
@@ -314,7 +322,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             /**
              * FIXME: this is not needed.
              */
-            SpringContext.getBean(BulkReceivingService.class).completeBulkReceivingDocument(this);
+//            SpringContext.getBean(BulkReceivingService.class).completeBulkReceivingDocument(this);
         }
     }
     
@@ -327,15 +335,34 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         return m;
     }
 
+//    @Override
+//    public String getDocumentTitle() {
+//        
+//        String docTitle = ""; 
+//        
+//        if (getPurchaseOrderIdentifier() != null && 
+//            getVendorName() != null){
+//            
+//            docTitle = "PO: " + getPurchaseOrderIdentifier() + " Vendor: " + getVendorName();
+//
+//            int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+//            if (noteTextMaxLength < docTitle.length()) {
+//                docTitle = docTitle.substring(0, noteTextMaxLength);
+//            }
+//            
+//            return docTitle;
+//        }
+//        
+//        return super.getDocumentTitle();
+//        
+//    }
+    
     private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
-        /**
-         * FIXME: Having some bug here.... have to look into it - vpc
-         */
-//        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_DESCRIPTION).intValue();
-//        if (noteTextMaxLength < description.length()) {
-//            description = description.substring(0, noteTextMaxLength);
-//        }
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        if (noteTextMaxLength < description.length()) {
+            description = description.substring(0, noteTextMaxLength);
+        }
         getDocumentHeader().setDocumentDescription(description);
     }
 
@@ -726,12 +753,12 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.deliveryCampusName = deliveryCampusName;
     }
 
-    public String getOrganizationName() {
-        return organizationName;
+    public String getOrganizationCode() {
+        return organizationCode;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
     }
 
     public String getRequestorPersonName() {
@@ -780,6 +807,22 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
 
     public void setPreparerPersonWorkflowId(String preparerPersonWorkflowId) {
         this.preparerPersonWorkflowId = preparerPersonWorkflowId;
+    }
+
+    public Org getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
 

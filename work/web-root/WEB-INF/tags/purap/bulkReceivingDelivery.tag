@@ -101,7 +101,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.organizationName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationName}" property="document.organizationName" readOnly="true" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationName}" property="document.organization.organizationName" readOnly="true" />
                	 	</td>
                	 	<th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCampusName}" /></div>

@@ -29,6 +29,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -47,12 +48,8 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         BulkReceivingForm blkForm = (BulkReceivingForm)kualiDocumentFormBase;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument)blkForm.getDocument();
         
-        //set identifier from form value
         blkRecDoc.setPurchaseOrderIdentifier( blkForm.getPurchaseOrderId() );
-//        if (blkForm.getPurchaseOrderId() != null){
-//            blkForm.setPOAvailable(true);
-//            blkRecDoc.setPOAvailable(true);
-//        }
+        blkRecDoc.getDocumentHeader().setDocumentDescription(PurapKeyConstants.MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION);
         
         blkRecDoc.initiateDocument();
         
@@ -73,16 +70,16 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
             return forward;
         }
         
-        if (blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier() != null &&
-            blkRecDoc.getAlternateVendorDetailAssignedIdentifier() != null){
-            VendorDetail alternateVendor = SpringContext.getBean(VendorService.class).getVendorDetail(blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier(), blkRecDoc.getAlternateVendorDetailAssignedIdentifier());
-            blkRecDoc.setAlternateVendorDetail(alternateVendor);
-            
-            List<VendorDetail> vendors = new ArrayList<VendorDetail>();
-            vendors.add(blkRecDoc.getVendorDetail());
-            vendors.add(blkRecDoc.getAlternateVendorDetail());
-            blkForm.setVendorsListForGoodsDeliveryBy(vendors);
-        }
+//        if (blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier() != null &&
+//            blkRecDoc.getAlternateVendorDetailAssignedIdentifier() != null){
+//            VendorDetail alternateVendor = SpringContext.getBean(VendorService.class).getVendorDetail(blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier(), blkRecDoc.getAlternateVendorDetailAssignedIdentifier());
+//            blkRecDoc.setAlternateVendorDetail(alternateVendor);
+//            
+//            List<VendorDetail> vendors = new ArrayList<VendorDetail>();
+//            vendors.add(blkRecDoc.getVendorDetail());
+//            vendors.add(blkRecDoc.getAlternateVendorDetail());
+//            blkForm.setVendorsListForGoodsDeliveryBy(vendors);
+//        }
         
         //populate and save Receiving Line Document from Purchase Order        
         SpringContext.getBean(BulkReceivingService.class).populateAndSaveBulkReceivingDocument(blkRecDoc);

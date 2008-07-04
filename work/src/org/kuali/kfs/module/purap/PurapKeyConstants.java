@@ -282,5 +282,6 @@ public class PurapKeyConstants {
     public static final String ERROR_BULK_RECEIVING_DOCUMENT_ACTIVE_FOR_PO = "errors.bulkReceiving.documentActiveForPo";
     public static final String ERROR_BULK_RECEIVING_DOCUMENT_INVALID_PO = "errors.bulkReceiving.invalidPo";
     public static final String MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL = "message.bulkReceiving.goodsDeliveredBy.label";
+    public static final String MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION = "message.bulkReceiving.defaultdescription";
     
 }

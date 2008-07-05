@@ -13,10 +13,7 @@
     <property name="summary" value="Auxiliary Voucher document" />
     <property name="description" value="blah blah Document blah Auxiliary Voucher blah blah" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="AUXILIARY_VOUCHER"
-            p:parameterDetailType="AuxiliaryVoucher" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" p:parameterName="AUXILIARY_VOUCHER" />
     </property>
     <property name="documentTypeName" value="AuxiliaryVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" />

@@ -92,10 +92,7 @@
     <property name="summary" value="SystemOptionsMaintenanceDocument" />
     <property name="description" value="Document used to create or update Options" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="OPTIONS"
-            p:parameterDetailType="Options" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Options" p:parameterName="OPTIONS" />
     </property>
     <property name="documentTypeName" value="OptionsMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

@@ -15,10 +15,7 @@
             target=&quot;_blank&quot; href=&quot;http://www.fms.indiana.edu/fis/documentation/gec.pdf&quot;&gt; 
             http://www.fms.indiana.edu/fis/documentation/gec.pdf &lt;/a&gt;" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="YEAR_END_GENERAL_ERROR_CORRECTION"
-            p:parameterDetailType="YearEndGeneralErrorCorrection" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" p:parameterName="YEAR_END_GENERAL_ERROR_CORRECTION" />
     </property>
     <property name="documentTypeName" value="YearEndGeneralErrorCorrectionDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" />

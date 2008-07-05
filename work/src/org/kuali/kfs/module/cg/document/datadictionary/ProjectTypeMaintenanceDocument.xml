@@ -24,10 +24,7 @@
     <property name="summary" value="Project Type maintenance document" />
     <property name="description" value="Document used to create or update Project Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="PROJECT_TYPE"
-            p:parameterDetailType="ProjectType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProjectType" p:parameterName="PROJECT_TYPE" />
     </property>
     <property name="documentTypeName" value="ProjectTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

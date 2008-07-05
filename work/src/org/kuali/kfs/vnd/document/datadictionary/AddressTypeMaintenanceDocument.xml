@@ -22,10 +22,7 @@
     <property name="label" value="Address Type" />
     <property name="shortLabel" value="Address Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="ADDRESS_TYPE"
-            p:parameterDetailType="AddressType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.AddressType" p:parameterName="ADDRESS_TYPE" />
     </property>
     <property name="documentTypeName" value="AddressTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

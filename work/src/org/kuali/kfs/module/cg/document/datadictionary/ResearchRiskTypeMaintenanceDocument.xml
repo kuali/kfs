@@ -24,10 +24,7 @@
     <property name="summary" value="Research Risk Type Maintenance Document" />
     <property name="description" value="Document used to create or update Research Risk Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="RESEARCH_RISK_TYPE"
-            p:parameterDetailType="ResearchRiskType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" p:parameterName="RESEARCH_RISK_TYPE" />
     </property>
     <property name="documentTypeName" value="ResearchRiskTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.ResearchRiskTypeMaintenanceDocumentAuthorizer" />

@@ -22,10 +22,7 @@
     <property name="label" value="Carrier" />
     <property name="shortLabel" value="Carrier" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="CARRIER"
-            p:parameterDetailType="Carrier" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.Carrier" p:parameterName="CARRIER" />
     </property>
     <property name="documentTypeName" value="CarrierMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

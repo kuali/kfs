@@ -13,10 +13,7 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The Internal Billing (IB) document is used for the billing of goods or services provided by a university department to another university department, reflecting income to the provider and expense to the customer." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="INTERNAL_BILLING"
-            p:parameterDetailType="InternalBilling" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.InternalBillingDocument" p:parameterName="INTERNAL_BILLING" />
     </property>
     <property name="documentTypeName" value="InternalBillingDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument" />

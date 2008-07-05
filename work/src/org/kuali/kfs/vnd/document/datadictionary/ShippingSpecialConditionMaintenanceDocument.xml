@@ -22,10 +22,7 @@
     <property name="label" value="Shipping Special Conditions" />
     <property name="shortLabel" value="Shipping Special Conditions" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="SHIPPING_SPECIAL_CONDITION"
-            p:parameterDetailType="ShippingSpecialCondition" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" p:parameterName="SHIPPING_SPECIAL_CONDITION" />
     </property>
     <property name="documentTypeName" value="ShippingSpecialConditionMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

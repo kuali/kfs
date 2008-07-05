@@ -10,10 +10,7 @@
     <property name="label" value="Payment Request" />
     <property name="shortLabel" value="Payment Request" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PAYMENT_REQUEST"
-            p:parameterDetailType="PaymentRequest" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PaymentRequestDocument" p:parameterName="PAYMENT_REQUEST" />
     </property>
     <property name="documentTypeName" value="PaymentRequestDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument" />

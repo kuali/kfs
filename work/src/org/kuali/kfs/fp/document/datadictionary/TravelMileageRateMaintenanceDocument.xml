@@ -25,10 +25,7 @@
     <property name="summary" value="Travel Mileage Rate Maintenance Document" />
     <property name="description" value="Document used to create or update Travel Mileage Rate objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="TRAVEL_MILEAGE_RATE"
-            p:parameterDetailType="TravelMileageRate" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelMileageRate" p:parameterName="TRAVEL_MILEAGE_RATE" />
     </property>
     <property name="documentTypeName" value="TravelMileageRateMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

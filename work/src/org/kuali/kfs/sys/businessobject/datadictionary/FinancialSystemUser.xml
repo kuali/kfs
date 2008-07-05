@@ -505,10 +505,7 @@
     <property name="summary" value="Financial System User Maintenance Document" />
     <property name="description" value="Document used to create or update Financial System User attributes." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="FINANCIAL_SYSTEM_USER"
-            p:parameterDetailType="FinancialSystemUser" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.FinancialSystemUser" p:parameterName="FINANCIAL_SYSTEM_USER" />
     </property>
     <property name="documentTypeName" value="FinancialSystemUserMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemUserDocumentAuthorizer" />

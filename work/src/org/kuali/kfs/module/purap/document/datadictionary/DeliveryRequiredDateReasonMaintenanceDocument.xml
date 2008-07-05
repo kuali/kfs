@@ -22,10 +22,7 @@
     <property name="label" value="Delivery Required Date Reason" />
     <property name="shortLabel" value="Delivery Required Date Reason" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="DELIVERY_REQUIRED_DATE_REASON"
-            p:parameterDetailType="DeliveryRequiredDateReason" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason" p:parameterName="DELIVERY_REQUIRED_DATE_REASON" />
     </property>
     <property name="documentTypeName" value="DeliveryRequiredDateReasonMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

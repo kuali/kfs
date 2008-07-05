@@ -13,10 +13,7 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="&amp;nbsp;" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="INDIRECT_COST_ADJUSTMENT"
-            p:parameterDetailType="IndirectCostAdjustment" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" p:parameterName="INDIRECT_COST_ADJUSTMENT" />
     </property>
     <property name="documentTypeName" value="IndirectCostAdjustmentDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" />

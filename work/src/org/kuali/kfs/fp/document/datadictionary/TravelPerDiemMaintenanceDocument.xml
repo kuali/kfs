@@ -25,10 +25,7 @@
     <property name="summary" value="Travel Per Diem Maintenance Document" />
     <property name="description" value="Document used to create or update Travel Per Diem objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="TRAVEL_PER_DIEM"
-            p:parameterDetailType="TravelPerDiem" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelPerDiem" p:parameterName="TRAVEL_PER_DIEM" />
     </property>
     <property name="documentTypeName" value="TravelPerDiemMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

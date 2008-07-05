@@ -24,10 +24,7 @@
     <property name="summary" value="Question Type Maintenance Document" />
     <property name="description" value="Document used to create or update Question Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="QUESTION_TYPE"
-            p:parameterDetailType="QuestionType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.QuestionType" p:parameterName="QUESTION_TYPE" />
     </property>
     <property name="documentTypeName" value="QuestionTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cg.document.authorization.QuestionTypeMaintenanceDocumentAuthorizer" />

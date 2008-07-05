@@ -41,10 +41,7 @@
     <property name="summary" value="Bank Account maintenance document" />
     <property name="description" value="Document used to create or update Bank Account objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="BANK_ACCOUNT"
-            p:parameterDetailType="BankAccount" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.BankAccount" p:parameterName="BANK_ACCOUNT" />
     </property>
     <property name="documentTypeName" value="BankAccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.BankAccountRule" />

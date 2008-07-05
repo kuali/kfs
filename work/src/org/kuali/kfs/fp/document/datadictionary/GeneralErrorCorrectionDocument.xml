@@ -13,10 +13,7 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The General Error Correction document is used to correct inappropriate or incorrect account numbers or sub-account numbers, and/or object codes or sub-object codes, on general ledger entries generated from other financial transactions." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="GENERAL_ERROR_CORRECTION"
-            p:parameterDetailType="GeneralErrorCorrection" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" p:parameterName="GENERAL_ERROR_CORRECTION" />
     </property>
     <property name="documentTypeName" value="GeneralErrorCorrectionDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument" />

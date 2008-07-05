@@ -42,10 +42,7 @@
     <property name="summary" value="Labor Calculation Maintenance Document" />
     <property name="description" value="Document used to create or update Labor calculations." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-LD"
-            p:parameterName="LABOR_BENEFITS_CALCULATION"
-            p:parameterDetailType="BenefitsCalculation" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" p:parameterName="LABOR_BENEFITS_CALCULATION" />
     </property>
     <property name="documentTypeName" value="BenefitsCalculationMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.BenefitsCalculationDocumentRule" />

@@ -24,10 +24,7 @@
     <property name="summary" value="Grant Description Maintenance Document" />
     <property name="description" value="Document used to create or update Grant Description objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="GRANT_DESCRIPTION"
-            p:parameterDetailType="GrantDescription" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.GrantDescription" p:parameterName="GRANT_DESCRIPTION" />
     </property>
     <property name="documentTypeName" value="GrantDescriptionMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

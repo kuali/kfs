@@ -24,10 +24,7 @@
     <property name="summary" value="Payment Reason Code Maintenance Document" />
     <property name="description" value="Document used to create or update Payment Reason objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="PAYMENT_REASON"
-            p:parameterDetailType="PaymentReasonCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.PaymentReasonCode" p:parameterName="PAYMENT_REASON" />
     </property>
     <property name="documentTypeName" value="PaymentReasonCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

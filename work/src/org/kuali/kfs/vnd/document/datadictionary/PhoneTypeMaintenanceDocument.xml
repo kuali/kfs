@@ -22,10 +22,7 @@
     <property name="label" value="Phone Type" />
     <property name="shortLabel" value="Phone Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="PHONE_TYPE"
-            p:parameterDetailType="PhoneType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PhoneType" p:parameterName="PHONE_TYPE" />
     </property>
     <property name="documentTypeName" value="PhoneTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

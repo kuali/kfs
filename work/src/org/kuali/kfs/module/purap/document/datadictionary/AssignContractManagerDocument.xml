@@ -10,10 +10,7 @@
     <property name="label" value="Contract Manager Assignment" />
     <property name="shortLabel" value="Contract Manager Assignment" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="ASSIGN_CONTRACT_MANAGER"
-            p:parameterDetailType="AssignContractManager" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" p:parameterName="ASSIGN_CONTRACT_MANAGER" />
     </property>
     <property name="documentTypeName" value="AssignContractManagerDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" />

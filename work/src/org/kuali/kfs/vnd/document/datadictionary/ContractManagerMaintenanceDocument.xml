@@ -22,10 +22,7 @@
     <property name="label" value="Contract Manager" />
     <property name="shortLabel" value="Contract Manager" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="CONTRACT_MANAGER"
-            p:parameterDetailType="ContractManager" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ContractManager" p:parameterName="CONTRACT_MANAGER" />
     </property>
     <property name="documentTypeName" value="ContractManagerMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

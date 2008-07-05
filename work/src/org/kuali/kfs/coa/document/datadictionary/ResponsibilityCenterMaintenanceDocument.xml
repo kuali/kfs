@@ -24,10 +24,7 @@
     <property name="summary" value="Responsibility Center maintenance document" />
     <property name="description" value="Document used to create or update Responsibility Center objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="RESPONSIBILITY_CENTER"
-            p:parameterDetailType="ResponsibilityCenter" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ResponsibilityCenter" p:parameterName="RESPONSIBILITY_CENTER" />
     </property>
     <property name="documentTypeName" value="ResponsibilityCenterMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

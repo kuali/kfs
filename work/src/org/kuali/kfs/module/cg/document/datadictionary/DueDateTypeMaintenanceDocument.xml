@@ -24,10 +24,7 @@
     <property name="summary" value="Due Date Type maintenance document" />
     <property name="description" value="Document used to create or update Due Date Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="DUE_DATE_TYPE"
-            p:parameterDetailType="DueDateType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.DueDateType" p:parameterName="DUE_DATE_TYPE" />
     </property>
     <property name="documentTypeName" value="DueDateTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

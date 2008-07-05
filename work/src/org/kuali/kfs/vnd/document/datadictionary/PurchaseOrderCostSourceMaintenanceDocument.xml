@@ -22,10 +22,7 @@
     <property name="label" value="Cost Source" />
     <property name="shortLabel" value="Cost Source" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="PURCHASE_ORDER_COST_SOURCE"
-            p:parameterDetailType="PurchaseOrderCostSource" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" p:parameterName="PURCHASE_ORDER_COST_SOURCE" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderCostSourceMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

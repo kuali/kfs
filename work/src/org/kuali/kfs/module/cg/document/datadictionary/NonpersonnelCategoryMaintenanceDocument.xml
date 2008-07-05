@@ -24,10 +24,7 @@
     <property name="summary" value="Nonpersonnel Category maintenance document" />
     <property name="description" value="Document used to create or update Nonpersonnel Category objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="NONPERSONNEL_CATEGORY"
-            p:parameterDetailType="NonpersonnelCategory" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory" p:parameterName="NONPERSONNEL_CATEGORY" />
     </property>
     <property name="documentTypeName" value="NonpersonnelCategoryMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

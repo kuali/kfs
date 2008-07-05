@@ -22,10 +22,7 @@
     <property name="label" value="Payment Terms Type" />
     <property name="shortLabel" value="Payment Terms Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="PAYMENT_TERM_TYPE"
-            p:parameterDetailType="PaymentTermType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.PaymentTermType" p:parameterName="PAYMENT_TERM_TYPE" />
     </property>
     <property name="documentTypeName" value="PaymentTermTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

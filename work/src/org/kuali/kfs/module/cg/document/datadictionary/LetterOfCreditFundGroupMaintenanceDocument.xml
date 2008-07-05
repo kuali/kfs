@@ -24,10 +24,7 @@
     <property name="summary" value="Letter of Credit Fund Group Maintenance Document" />
     <property name="description" value="Document used to create or update Letter of Credit Fund Group objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="LETTER_OF_CREDIT_FUND_GROUP"
-            p:parameterDetailType="LetterOfCreditFundGroup" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" p:parameterName="LETTER_OF_CREDIT_FUND_GROUP" />
     </property>
     <property name="documentTypeName" value="LetterOfCreditFundGroupMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

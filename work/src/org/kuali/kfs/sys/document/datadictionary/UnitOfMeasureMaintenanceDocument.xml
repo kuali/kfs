@@ -22,10 +22,7 @@
     <property name="label" value="Unit Of Measure" />
     <property name="shortLabel" value="Unit Of Measure" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="UNIT_OF_MEASURE"
-            p:parameterDetailType="UnitOfMeasure" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.UnitOfMeasure" p:parameterName="UNIT_OF_MEASURE" />
     </property>
     <property name="documentTypeName" value="UnitOfMeasureMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

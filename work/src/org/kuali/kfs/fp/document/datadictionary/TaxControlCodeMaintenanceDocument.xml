@@ -24,10 +24,7 @@
     <property name="summary" value="Tax Control Code Maintenance Document" />
     <property name="description" value="Document used to create or update Tax Control objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="TAX_CONTROL"
-            p:parameterDetailType="TaxControlCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TaxControlCode" p:parameterName="TAX_CONTROL" />
     </property>
     <property name="documentTypeName" value="TaxControlCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

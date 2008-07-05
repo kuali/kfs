@@ -32,10 +32,7 @@
     <property name="label" value="Vendor" />
     <property name="shortLabel" value="Vendor" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="VENDOR"
-            p:parameterDetailType="VendorDetail" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:parameterName="VENDOR" />
     </property>
     <property name="documentTypeName" value="VendorDetailMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.VendorRule" />

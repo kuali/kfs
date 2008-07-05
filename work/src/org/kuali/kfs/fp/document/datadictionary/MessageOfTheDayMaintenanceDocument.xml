@@ -31,10 +31,7 @@
     <property name="summary" value="Message Of The Day maintenance document" />
     <property name="description" value="Document used to create or update Message Of The Day objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="MESSAGE_OF_THE_DAY"
-            p:parameterDetailType="MessageOfTheDay" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.MessageOfTheDay" p:parameterName="MESSAGE_OF_THE_DAY" />
     </property>
     <property name="documentTypeName" value="MessageOfTheDayMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase" />

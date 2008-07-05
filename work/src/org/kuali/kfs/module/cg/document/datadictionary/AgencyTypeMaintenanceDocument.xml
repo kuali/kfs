@@ -24,10 +24,7 @@
     <property name="summary" value="Agency Type maintenance document" />
     <property name="description" value="Document used to create or update Agency Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="AGENCY_TYPE"
-            p:parameterDetailType="AgencyType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AgencyType" p:parameterName="AGENCY_TYPE" />
     </property>
     <property name="documentTypeName" value="AgencyTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

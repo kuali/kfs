@@ -22,10 +22,7 @@
     <property name="label" value="Purchase Order Quote Language" />
     <property name="shortLabel" value="Purchase Order Quote Language" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PURCHASE_ORDER_QUOTE_LANGUAGE"
-            p:parameterDetailType="PurchaseOrderQuoteLanguage" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage" p:parameterName="PURCHASE_ORDER_QUOTE_LANGUAGE" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderQuoteLanguageMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderQuoteLanguageRule" />

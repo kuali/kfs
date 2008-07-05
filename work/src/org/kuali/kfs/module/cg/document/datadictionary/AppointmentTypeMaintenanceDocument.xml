@@ -24,10 +24,7 @@
     <property name="summary" value="Appointment Type maintenance document" />
     <property name="description" value="Document used to create or update AppointmentType objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="APPOINTMENT_TYPE"
-            p:parameterDetailType="AppointmentType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.AppointmentType" p:parameterName="APPOINTMENT_TYPE" />
     </property>
     <property name="documentTypeName" value="AppointmentTypeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AppointmentTypeMaintenanceDocumentRule" />

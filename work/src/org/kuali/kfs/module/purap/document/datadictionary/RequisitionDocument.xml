@@ -10,10 +10,7 @@
     <property name="label" value="Requisition" />
     <property name="shortLabel" value="Requisition" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="REQUISITION"
-            p:parameterDetailType="Requisition" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.RequisitionDocument" p:parameterName="REQUISITION" />
     </property>
     <property name="documentTypeName" value="RequisitionDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.RequisitionDocument" />

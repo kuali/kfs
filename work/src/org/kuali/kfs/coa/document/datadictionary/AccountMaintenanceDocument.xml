@@ -98,10 +98,7 @@
     <property name="summary" value="Account maintenance document" />
     <property name="description" value="Document used to create or update Account objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="ACCOUNT"
-            p:parameterDetailType="Account" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.Account" p:parameterName="ACCOUNT" />
     </property>
     <property name="documentTypeName" value="AccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule" />

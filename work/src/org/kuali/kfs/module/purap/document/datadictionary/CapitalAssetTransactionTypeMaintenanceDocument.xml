@@ -22,10 +22,7 @@
     <property name="label" value="Capital Asset Transaction Type" />
     <property name="shortLabel" value="Capital Asset Transaction Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="CAPITAL_ASSET_TRANSACTION_TYPE"
-            p:parameterDetailType="CapitalAssetTransactionType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" p:parameterName="CAPITAL_ASSET_TRANSACTION_TYPE" />
     </property>
     <property name="documentTypeName" value="CapitalAssetTransactionTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

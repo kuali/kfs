@@ -58,10 +58,7 @@
       </list>
     </property>
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="TAX_DISTRICT"
-            p:parameterDetailType="TaxDistrict" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.TaxDistrict" p:parameterName="TAX_DISTRICT" />
     </property>
     <property name="documentTypeName" value="TaxDistrictMaintenanceDocument" />
     <property name="documentTypeCode" value="TAXD" />

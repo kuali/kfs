@@ -22,10 +22,7 @@
     <property name="label" value="Requisition Source" />
     <property name="shortLabel" value="Requisition Source" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="REQUISITION_SOURCE"
-            p:parameterDetailType="RequisitionSource" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.RequisitionSource" p:parameterName="REQUISITION_SOURCE" />
     </property>
     <property name="documentTypeName" value="RequisitionSourceMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

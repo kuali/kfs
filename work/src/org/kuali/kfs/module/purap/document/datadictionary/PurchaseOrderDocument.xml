@@ -10,10 +10,7 @@
     <property name="label" value="Purchase Order" />
     <property name="shortLabel" value="PO" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PURCHASE_ORDER"
-            p:parameterDetailType="PurchaseOrder" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" p:parameterName="PURCHASE_ORDER" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />

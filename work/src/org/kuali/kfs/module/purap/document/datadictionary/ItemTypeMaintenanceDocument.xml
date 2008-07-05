@@ -22,10 +22,7 @@
     <property name="label" value="Item Type" />
     <property name="shortLabel" value="Item Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="ITEM_TYPE"
-            p:parameterDetailType="ItemType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.ItemType" p:parameterName="ITEM_TYPE" />
     </property>
     <property name="documentTypeName" value="ItemTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

@@ -24,10 +24,7 @@
     <property name="summary" value="Proposal Award Type Maintenance Document" />
     <property name="description" value="Document used to create or update Proposal Award Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="PROPOSAL_AWARD_TYPE"
-            p:parameterDetailType="ProposalAwardType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" p:parameterName="PROPOSAL_AWARD_TYPE" />
     </property>
     <property name="documentTypeName" value="ProposalAwardTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

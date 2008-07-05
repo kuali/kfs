@@ -32,10 +32,7 @@
     <property name="label" value="Payment Request Auto Approve Exclusions" />
     <property name="shortLabel" value="Payment Request Auto Approve Exclusions" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="AUTO_APPROVE_EXCLUDE"
-            p:parameterDetailType="AutoApproveExclude" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" p:parameterName="AUTO_APPROVE_EXCLUDE" />
     </property>
     <property name="documentTypeName" value="AutoApproveExcludeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

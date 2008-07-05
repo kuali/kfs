@@ -25,10 +25,7 @@
     <property name="summary" value="Non resident alien tax percent" />
     <property name="description" value="Document used to create or update Tax Percent objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="NON_RESIDENT_ALIEN_TAX_PERCENT"
-            p:parameterDetailType="NonResidentAlienTaxPercent" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" p:parameterName="NON_RESIDENT_ALIEN_TAX_PERCENT" />
     </property>
     <property name="documentTypeName" value="NonResidentAlienTaxPercentMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

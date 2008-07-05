@@ -32,10 +32,7 @@
     <property name="summary" value="Agency Maintenance Document" />
     <property name="description" value="Document used to create or update Agency objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="AGENCY"
-            p:parameterDetailType="Agency" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Agency" p:parameterName="AGENCY" />
     </property>
     <property name="documentTypeName" value="AgencyMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AgencyRule" />

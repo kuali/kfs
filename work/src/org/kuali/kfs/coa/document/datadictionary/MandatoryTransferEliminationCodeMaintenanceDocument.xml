@@ -24,10 +24,7 @@
     <property name="summary" value="Mandatory Transfer EliminationCode Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create new Mandatory Transfer Elimination Codes, or modify existing Mandatory Transfer Elimination Codes." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="MANDATORY_TRANSFER_ELIMINATION"
-            p:parameterDetailType="MandatoryTransferEliminationCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode" p:parameterName="MANDATORY_TRANSFER_ELIMINATION" />
     </property>
     <property name="documentTypeName" value="MandatoryTransferEliminationCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

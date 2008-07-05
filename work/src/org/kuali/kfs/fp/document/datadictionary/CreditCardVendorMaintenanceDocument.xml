@@ -61,10 +61,7 @@
     <property name="summary" value="Credit Card Vendor Maintenance Document" />
     <property name="description" value="Document used to create or update a credit card vendor." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="CREDIT_CARD_VENDOR"
-            p:parameterDetailType="CreditCardVendor" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.CreditCardVendor" p:parameterName="CREDIT_CARD_VENDOR" />
     </property>
     <property name="documentTypeName" value="CreditCardVendorMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule" />

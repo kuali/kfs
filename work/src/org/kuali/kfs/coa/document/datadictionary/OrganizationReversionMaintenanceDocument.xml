@@ -60,10 +60,7 @@
     <property name="summary" value="Organization Reversion Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create new Organization Reversions, remove exsiting Organization Reversions, or modify existing Organization Reversions." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="ORGANIZATION_REVERSION"
-            p:parameterDetailType="OrganizationReversion" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.OrganizationReversion" p:parameterName="ORGANIZATION_REVERSION" />
     </property>
     <property name="documentTypeName" value="OrganizationReversionMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionRule" />

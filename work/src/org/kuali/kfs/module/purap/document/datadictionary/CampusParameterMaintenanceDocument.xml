@@ -22,10 +22,7 @@
     <property name="label" value="Campus Parameter" />
     <property name="shortLabel" value="Campus Parameter" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="CAMPUS_PARAMETER"
-            p:parameterDetailType="CampusParameter" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.CampusParameter" p:parameterName="CAMPUS_PARAMETER" />
     </property>
     <property name="documentTypeName" value="CampusParameterMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

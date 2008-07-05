@@ -30,10 +30,7 @@
     <property name="summary" value="Customer Maintenance Document" />
     <property name="description" value="Document used to create or update Customer objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-AR"
-            p:parameterName="CUSTOMER"
-            p:parameterDetailType="Customer" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.businessobject.Customer" p:parameterName="CUSTOMER" />
     </property>
     <property name="documentTypeName" value="CustomerMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule" />

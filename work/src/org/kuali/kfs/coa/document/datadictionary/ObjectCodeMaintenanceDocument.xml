@@ -48,10 +48,7 @@
     <property name="summary" value="Object Code maintenance document" />
     <property name="description" value="Document used to create or update Object Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="OBJECT_CODE"
-            p:parameterDetailType="ObjectCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:parameterName="OBJECT_CODE" />
     </property>
     <property name="documentTypeName" value="ObjectCodeMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeRule" />

@@ -24,10 +24,7 @@
     <property name="summary" value="Catalog of Federal Domestic Assistance Reference Maintenance Document" />
     <property name="description" value="Document used to create or update Catalog of Federal Domestic Assistance Reference objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE"
-            p:parameterDetailType="Cfda" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Cfda" p:parameterName="CATALOG_OF_FEDERAL_DOMESTIC_ASSISTANCE_REFERENCE" />
     </property>
     <property name="documentTypeName" value="CfdaMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

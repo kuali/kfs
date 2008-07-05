@@ -25,10 +25,7 @@
     <property name="summary" value="Accounting Period maintenance document" />
     <property name="description" value="Document used to create or update Accounting Period objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="ACCOUNTING_PERIOD"
-            p:parameterDetailType="AccountingPeriod" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.AccountingPeriod" p:parameterName="ACCOUNTING_PERIOD" />
     </property>
     <property name="documentTypeName" value="AccountingPeriodMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountingPeriodRule" />

@@ -23,10 +23,7 @@
     <property name="label" value="Payment Request Status" />
     <property name="shortLabel" value="Payment Request Status" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PAYMENT_REQUEST_STATUS"
-            p:parameterDetailType="PaymentRequestStatus" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" p:parameterName="PAYMENT_REQUEST_STATUS" />
     </property>
     <property name="documentTypeName" value="PaymentRequestStatusMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

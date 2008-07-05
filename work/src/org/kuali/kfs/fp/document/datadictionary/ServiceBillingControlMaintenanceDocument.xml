@@ -35,10 +35,7 @@
     <property name="summary" value="Service Billing Control maintenance document" />
     <property name="description" value="Document used to create or update Service Billing Control objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="SERVICE_BILLING_CONTROL"
-            p:parameterDetailType="ServiceBillingControl" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.ServiceBillingControl" p:parameterName="SERVICE_BILLING_CONTROL" />
     </property>
     <property name="documentTypeName" value="ServiceBillingControlMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.ServiceBillingControlRule" />

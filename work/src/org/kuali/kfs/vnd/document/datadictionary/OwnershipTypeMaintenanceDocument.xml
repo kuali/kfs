@@ -22,10 +22,7 @@
     <property name="label" value="Ownership Type" />
     <property name="shortLabel" value="Ownership Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="OWNERSHIP_TYPE"
-            p:parameterDetailType="OwnershipType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.OwnershipType" p:parameterName="OWNERSHIP_TYPE" />
     </property>
     <property name="documentTypeName" value="OwnershipTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

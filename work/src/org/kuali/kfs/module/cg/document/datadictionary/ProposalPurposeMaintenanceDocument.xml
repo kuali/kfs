@@ -24,10 +24,7 @@
     <property name="summary" value="Proposal Purpose Maintenance Document" />
     <property name="description" value="Document used to create or update Proposal Purpose objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="PROPOSAL_PURPOSE"
-            p:parameterDetailType="ProposalPurpose" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" p:parameterName="PROPOSAL_PURPOSE" />
     </property>
     <property name="documentTypeName" value="ProposalPurposeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

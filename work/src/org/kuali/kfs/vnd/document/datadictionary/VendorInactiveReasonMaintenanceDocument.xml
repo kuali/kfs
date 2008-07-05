@@ -22,10 +22,7 @@
     <property name="label" value="Vendor Inactive Reason" />
     <property name="shortLabel" value="Vendor Inactive Reason" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="VENDOR_INACTIVE_REASON"
-            p:parameterDetailType="VendorInactiveReason" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.VendorInactiveReason" p:parameterName="VENDOR_INACTIVE_REASON" />
     </property>
     <property name="documentTypeName" value="VendorInactiveReasonMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

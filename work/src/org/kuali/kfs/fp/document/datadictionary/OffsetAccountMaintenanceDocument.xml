@@ -50,10 +50,7 @@
     <property name="summary" value="OffsetAccountMaintenanceDocument" />
     <property name="description" value="Document used to create or update Offset Accounts" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="OFFSET_ACCOUNT"
-            p:parameterDetailType="OffsetAccount" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.OffsetAccount" p:parameterName="OFFSET_ACCOUNT" />
     </property>
     <property name="documentTypeName" value="OffsetAccountMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

@@ -24,10 +24,7 @@
     <property name="summary" value="Country maintenance document" />
     <property name="description" value="Document used to create or update Country objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="COUNTRY"
-            p:parameterDetailType="Country" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Country" p:parameterName="COUNTRY" />
     </property>
     <property name="documentTypeName" value="CountryMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

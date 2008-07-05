@@ -24,10 +24,7 @@
     <property name="summary" value="Object Sub-Type Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="OBJECT_SUB_TYPE"
-            p:parameterDetailType="ObjSubTyp" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.ObjSubTyp" p:parameterName="OBJECT_SUB_TYPE" />
     </property>
     <property name="documentTypeName" value="ObjSubTypMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

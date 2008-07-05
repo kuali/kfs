@@ -31,10 +31,7 @@
     <property name="summary" value="Postal Code maintenance document" />
     <property name="description" value="Document used to create or update Postal Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="POSTAL_CODE"
-            p:parameterDetailType="PostalZipCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.PostalZipCode" p:parameterName="POSTAL_CODE" />
     </property>
     <property name="documentTypeName" value="PostalZipCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

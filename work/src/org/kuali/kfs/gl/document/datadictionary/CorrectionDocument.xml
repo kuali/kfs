@@ -12,10 +12,7 @@
     <property name="summary" value="General Ledger Correction Process Document" />
     <property name="description" value="General Ledger Correction Process Document" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-GL"
-            p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS"
-            p:parameterDetailType="Correction" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.gl.document.CorrectionDocument" p:parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />
     </property>
     <property name="documentTypeName" value="CorrectionDocument" />
     <property name="documentClass" value="org.kuali.kfs.gl.document.CorrectionDocument" />

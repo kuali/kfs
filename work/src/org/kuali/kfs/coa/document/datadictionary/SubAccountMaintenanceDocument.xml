@@ -53,10 +53,7 @@
     <property name="summary" value="Sub-Account maintenance document" />
     <property name="description" value="Document used to create or update Sub-Account objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="SUB_ACCOUNT"
-            p:parameterDetailType="SubAccount" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.SubAccount" p:parameterName="SUB_ACCOUNT" />
     </property>
     <property name="documentTypeName" value="SubAccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule" />

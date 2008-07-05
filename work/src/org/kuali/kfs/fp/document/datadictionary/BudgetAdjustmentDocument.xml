@@ -16,10 +16,7 @@
         create a budget for a new account established after the beginning of a new fiscal year, and it may also be used to transfer funds between
         general fund accounts belonging to the same chart of accounts." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="BUDGET_ADJUSTMENT"
-            p:parameterDetailType="BudgetAdjustment" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" p:parameterName="BUDGET_ADJUSTMENT" />
     </property>
     <property name="documentTypeName" value="BudgetAdjustmentDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument" />

@@ -10,10 +10,7 @@
     <property name="label" value="Customer Credit Memo" />
     <property name="shortLabel" value="Customer Credit Memo" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-AR"
-            p:parameterName="CRM"
-            p:parameterDetailType="CustomerCreditMemo" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" p:parameterName="CRM" />
     </property>
     <property name="documentTypeName" value="CustomerCreditMemoDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />

@@ -10,10 +10,7 @@
     <property name="label" value="Receiving Correction" />
     <property name="shortLabel" value="Receiving Correction" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="RECEIVING_CORRECTION"
-            p:parameterDetailType="ReceivingCorrection" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument" p:parameterName="RECEIVING_CORRECTION" />
     </property>        
     <property name="documentTypeName" value="ReceivingCorrectionDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ReceivingCorrectionDocument" />

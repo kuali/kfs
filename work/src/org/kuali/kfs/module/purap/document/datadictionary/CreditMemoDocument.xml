@@ -10,10 +10,7 @@
     <property name="label" value="Credit Memo" />
     <property name="shortLabel" value="Credit Memo" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="CREDIT_MEMO"
-            p:parameterDetailType="CreditMemo" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.CreditMemoDocument" p:parameterName="CREDIT_MEMO" />
     </property>
     <property name="documentTypeName" value="CreditMemoDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.CreditMemoDocument" />

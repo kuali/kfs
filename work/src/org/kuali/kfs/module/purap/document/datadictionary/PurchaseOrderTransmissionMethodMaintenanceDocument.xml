@@ -22,10 +22,7 @@
     <property name="label" value="Method of PO Transmission" />
     <property name="shortLabel" value="Method of PO Transmission" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD"
-            p:parameterDetailType="PurchaseOrderTransmissionMethod" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" p:parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderTransmissionMethodMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

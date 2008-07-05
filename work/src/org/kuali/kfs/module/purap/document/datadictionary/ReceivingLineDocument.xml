@@ -10,10 +10,7 @@
     <property name="label" value="Receiving Line" />
     <property name="shortLabel" value="Receiving Line" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="RECEIVING_LINE"
-            p:parameterDetailType="ReceivingLine" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ReceivingLineDocument" p:parameterName="RECEIVING_LINE" />
     </property>    
     <property name="documentTypeName" value="ReceivingLineDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ReceivingLineDocument" />

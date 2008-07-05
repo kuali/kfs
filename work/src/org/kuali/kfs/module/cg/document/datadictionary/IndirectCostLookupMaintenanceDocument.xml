@@ -32,10 +32,7 @@
     <property name="summary" value="Indirect Cost Lookup maintenance document" />
     <property name="description" value="Document used to create or update Indirect Cost Lookup objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="INDIRECT_COST_LOOKUP"
-            p:parameterDetailType="IndirectCostLookup" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.IndirectCostLookup" p:parameterName="INDIRECT_COST_LOOKUP" />
     </property>
     <property name="documentTypeName" value="IndirectCostLookupMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.IndirectCostLookupRule" />

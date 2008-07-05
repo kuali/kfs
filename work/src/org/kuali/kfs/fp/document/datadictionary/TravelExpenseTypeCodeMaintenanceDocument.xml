@@ -24,10 +24,7 @@
     <property name="summary" value="Travel Expense Type Code Maintenance Document" />
     <property name="description" value="Document used to create or update Travel Expense Type objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="TRAVEL_EXPENSE_TYPE_CODE"
-            p:parameterDetailType="TravelExpenseTypeCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode" p:parameterName="TRAVEL_EXPENSE_TYPE_CODE" />
     </property>
     <property name="documentTypeName" value="TravelExpenseTypeCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

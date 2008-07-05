@@ -10,10 +10,7 @@
     <property name="label" value="Post-Award Close" />
     <property name="shortLabel" value="Post-Award Close" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="CLOSE"
-            p:parameterDetailType="Close" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Close" p:parameterName="CLOSE" />
     </property>
     <property name="documentTypeName" value="CloseDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.cg.businessobject.Close" />

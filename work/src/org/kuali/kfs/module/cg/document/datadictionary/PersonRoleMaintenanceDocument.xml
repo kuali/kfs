@@ -24,10 +24,7 @@
     <property name="summary" value="Person Role maintenance document" />
     <property name="description" value="Document used to create or update Person Role objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="PERSON_ROLE"
-            p:parameterDetailType="PersonRole" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.PersonRole" p:parameterName="PERSON_ROLE" />
     </property>
     <property name="documentTypeName" value="PersonRoleMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

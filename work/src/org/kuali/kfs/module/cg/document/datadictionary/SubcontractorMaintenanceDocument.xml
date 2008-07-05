@@ -24,10 +24,7 @@
     <property name="summary" value="Subcontractor Maintenance Document" />
     <property name="description" value="Document used to create or update Subcontractor objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="SUBCONTRACTOR"
-            p:parameterDetailType="Subcontractor" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Subcontractor" p:parameterName="SUBCONTRACTOR" />
     </property>
     <property name="documentTypeName" value="SubcontractorMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.SubcontractorRule" />

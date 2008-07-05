@@ -24,10 +24,7 @@
     <property name="summary" value="Project Director Maintenance Document" />
     <property name="description" value="Document used to create or update Project Director objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="PROJECT_DIRECTOR"
-            p:parameterDetailType="ProjectDirector" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ProjectDirector" p:parameterName="PROJECT_DIRECTOR" />
     </property>
     <property name="documentTypeName" value="ProjectDirectorMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

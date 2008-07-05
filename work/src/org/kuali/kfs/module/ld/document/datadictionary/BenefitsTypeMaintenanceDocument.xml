@@ -24,10 +24,7 @@
     <property name="summary" value="Benefits Type Maintenance Document" />
     <property name="description" value="Document used to create or update Benefit type codes." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-LD"
-            p:parameterName="LABOR_BENEFITS_TYPE"
-            p:parameterDetailType="BenefitsType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ld.businessobject.BenefitsType" p:parameterName="LABOR_BENEFITS_TYPE" />
     </property>
     <property name="documentTypeName" value="BenefitsTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

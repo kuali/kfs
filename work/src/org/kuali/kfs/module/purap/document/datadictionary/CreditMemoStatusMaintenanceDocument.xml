@@ -23,10 +23,7 @@
     <property name="label" value="Credit Memo Status" />
     <property name="shortLabel" value="Credit Memo Status" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="CREDIT_MEMO_STATUS"
-            p:parameterDetailType="CreditMemoStatus" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" p:parameterName="CREDIT_MEMO_STATUS" />
     </property>
     <property name="documentTypeName" value="CreditMemoStatusMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

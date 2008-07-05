@@ -66,10 +66,7 @@
     <property name="summary" value="Proposal maintenance document" />
     <property name="description" value="Document used to create or update Proposal objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="PROPOSAL"
-            p:parameterDetailType="Proposal" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Proposal" p:parameterName="PROPOSAL" />
     </property>
     <property name="documentTypeName" value="ProposalMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.ProposalRule" />

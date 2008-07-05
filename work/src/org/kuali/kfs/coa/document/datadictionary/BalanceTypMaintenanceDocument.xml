@@ -24,10 +24,7 @@
     <property name="summary" value="Balance Type Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create new Balance Types, or modify existing Balance Types." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-COA"
-            p:parameterName="BALANCE_TYPE"
-            p:parameterDetailType="BalanceTyp" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.coa.businessobject.BalanceTyp" p:parameterName="BALANCE_TYPE" />
     </property>
     <property name="documentTypeName" value="BalanceTypMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

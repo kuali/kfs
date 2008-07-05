@@ -24,10 +24,7 @@
     <property name="summary" value="Research Type Code maintenance document" />
     <property name="description" value="Document used to create or update Research Type Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="RESEARCH_TYPE_CODE"
-            p:parameterDetailType="ResearchTypeCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.ResearchTypeCode" p:parameterName="RESEARCH_TYPE_CODE" />
     </property>
     <property name="documentTypeName" value="ResearchTypeCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

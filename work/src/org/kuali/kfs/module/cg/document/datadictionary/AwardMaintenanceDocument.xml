@@ -79,10 +79,7 @@
     <property name="summary" value="Award maintenance document" />
     <property name="description" value="Document used to create or update Award objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="AWARD"
-            p:parameterDetailType="Award" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.Award" p:parameterName="AWARD" />
     </property>
     <property name="documentTypeName" value="AwardMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cg.document.validation.impl.AwardRule" />

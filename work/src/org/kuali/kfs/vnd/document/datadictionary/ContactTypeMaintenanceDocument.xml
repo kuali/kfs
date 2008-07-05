@@ -22,10 +22,7 @@
     <property name="label" value="Contact Type" />
     <property name="shortLabel" value="Contact Type" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-VND"
-            p:parameterName="CONTACT_TYPE"
-            p:parameterDetailType="ContactType" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.vnd.businessobject.ContactType" p:parameterName="CONTACT_TYPE" />
     </property>
     <property name="documentTypeName" value="ContactTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

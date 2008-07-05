@@ -24,10 +24,7 @@
     <property name="summary" value="Origination Code maintenance document" />
     <property name="description" value="Document used to create or update Origination Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-SYS"
-            p:parameterName="ORIGINATION"
-            p:parameterDetailType="OriginationCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.OriginationCode" p:parameterName="ORIGINATION" />
     </property>
     <property name="documentTypeName" value="OriginationCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

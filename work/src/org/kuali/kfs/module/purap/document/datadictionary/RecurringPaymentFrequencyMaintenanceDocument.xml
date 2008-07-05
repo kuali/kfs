@@ -22,10 +22,7 @@
     <property name="label" value="Recurring Payment Frequency" />
     <property name="shortLabel" value="Recurring Payment Frequency" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="RECURRING_PAYMENT_FREQUENCY"
-            p:parameterDetailType="RecurringPaymentFrequency" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency" p:parameterName="RECURRING_PAYMENT_FREQUENCY" />
     </property>
     <property name="documentTypeName" value="RecurringPaymentFrequencyMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

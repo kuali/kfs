@@ -12,10 +12,7 @@
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="A Credit Card Receipt document is used to record credit card receipts and distribute the monetary amount received for them, into the appropriate accounts in the financial system. Once submitted, a Credit Card Receipt routes straight to FINAL and is applied to the General Ledger, since it is a form of an advance deposit." />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-FP"
-            p:parameterName="CREDIT_CARD_RECEIPT"
-            p:parameterDetailType="CreditCardReceipt" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.fp.document.CreditCardReceiptDocument" p:parameterName="CREDIT_CARD_RECEIPT" />
     </property>
     <property name="documentTypeName" value="CreditCardReceiptDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument" />

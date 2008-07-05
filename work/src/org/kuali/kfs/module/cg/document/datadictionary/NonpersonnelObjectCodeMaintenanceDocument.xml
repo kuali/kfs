@@ -37,10 +37,7 @@
     <property name="summary" value="Object Code maintenance document" />
     <property name="description" value="Document used to create or update Object Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-CG"
-            p:parameterName="NONPERSONNEL_OBJECT_CODE"
-            p:parameterDetailType="NonpersonnelObjectCode" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" p:parameterName="NONPERSONNEL_OBJECT_CODE" />
     </property>
     <property name="documentTypeName" value="NonpersonnelObjectCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

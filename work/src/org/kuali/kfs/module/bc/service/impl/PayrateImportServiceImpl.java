@@ -34,6 +34,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.PayrateImportLine;
@@ -297,7 +298,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         budgetConstructionPayRateHolding.setSalaryAdministrationPlan(record.getSalaryAdministrationPlan());
         budgetConstructionPayRateHolding.setGrade(record.getGrade());
         budgetConstructionPayRateHolding.setUnionCode(record.getPositionUnionCode());
-        budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(record.getAppointmentRequestPayRate().divide(new BigDecimal(100)));
+        budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(record.getAppointmentRequestedPayRate().divide(new BigDecimal(100)));
         
         return budgetConstructionPayRateHolding;
     }
@@ -373,8 +374,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     
     private static class DefaultImportFileFormat {
         private static final int[] fieldLengths = new int[] {11, 8, 50, 5, 4, 3, 3, 10, 8};
-        //TODO: use constants for field names
-        private static final String[] fieldNames = new String[] {"emplid", "positionNumber", "personName", "setidSalary", "salaryAdministrationPlan", "grade", "positionUnionCode", "appointmentRequestPayRate", "csfFreezeDate"};
+        private static final String[] fieldNames = new String[] {KFSPropertyConstants.EMPLID, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.PERSON_NAME, BCPropertyConstants.SET_SALARY_ID, BCPropertyConstants.SALARY_ADMINISTRATION_PLAN, BCPropertyConstants.GRADE, BCPropertyConstants.POSITION_UNION_CODE, BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCPropertyConstants.CSF_FREEZE_DATE};
     }
 
     

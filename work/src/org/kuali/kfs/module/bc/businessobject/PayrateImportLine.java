@@ -28,7 +28,7 @@ public class PayrateImportLine extends TransientBusinessObjectBase {
     private String setidSalary;
     private String salaryAdministrationPlan;
     private String grade;
-    private BigDecimal appointmentRequestPayRate;
+    private BigDecimal appointmentRequestedPayRate;
     private String positionUnionCode;
     
     @Override
@@ -41,17 +41,17 @@ public class PayrateImportLine extends TransientBusinessObjectBase {
         m.put("setidSalary", setidSalary);
         m.put("salaryAdministrationPlan", salaryAdministrationPlan);
         m.put("grade", grade);
-        m.put("appointmentRequestPayRate", appointmentRequestPayRate);
+        m.put("appointmentRequestPayRate", appointmentRequestedPayRate);
         
         return m;
     }
 
-    public BigDecimal getAppointmentRequestPayRate() {
-        return appointmentRequestPayRate;
+    public BigDecimal getAppointmentRequestedPayRate() {
+        return appointmentRequestedPayRate;
     }
 
-    public void setAppointmentRequestPayRate(BigDecimal appointmentRequestPayRate) {
-        this.appointmentRequestPayRate = appointmentRequestPayRate;
+    public void setAppointmentRequestedPayRate(BigDecimal appointmentRequestPayRate) {
+        this.appointmentRequestedPayRate = appointmentRequestPayRate;
     }
 
     public String getEmplid() {

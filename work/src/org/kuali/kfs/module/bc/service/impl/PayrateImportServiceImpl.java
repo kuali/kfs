@@ -174,7 +174,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                         pendingRecord.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
                         pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
                     }
-                    System.out.println("PendingBudgetConstructionGeneralLedger object saved: " + pendingRecord.toString());
+                    
                     this.businessObjectService.save(pendingRecord);
                     
                     if ( !fundingRecord.getAccount().isForContractsAndGrants() && !fundingRecord.getAccount().getSubFundGroupCode().equals(this.budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS).get(0)) ) {
@@ -195,15 +195,13 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                             plg.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
                             plg.setAccountLineAnnualBalanceAmount(updateAmount.negated());
                         }
-                        System.out.println("2plg object saved: " + plg.toString());
+                        
                         this.businessObjectService.save(plg);
                     }
                     
                     fundingRecord.setAppointmentRequestedPayRate(holdingRecord.getAppointmentRequestedPayRate());
                     fundingRecord.setAppointmentRequestedAmount(annualAmount);
                     this.businessObjectService.save(fundingRecord);
-                    System.out.println("funding object saved: " + fundingRecord.toString());
-                    System.out.println();
                 }
             }
             this.updateCount ++;

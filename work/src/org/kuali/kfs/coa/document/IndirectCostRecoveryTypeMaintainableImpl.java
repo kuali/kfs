@@ -86,17 +86,4 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends KualiMaintainableI
         }
     }
     
- 
-    @Override
-    public void processAfterNew( MaintenanceDocument document, Map<String,String[]> parameters ) {
-        IndirectCostRecoveryType bo = (IndirectCostRecoveryType) document.getNewMaintainableObject().getBusinessObject();
-        bo.setActive(true);
-    }
-    
-    @Override
-    public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
-        IndirectCostRecoveryType bo = (IndirectCostRecoveryType) document.getNewMaintainableObject().getBusinessObject();
-        bo.setActive(true);        
-    }
-    
 }

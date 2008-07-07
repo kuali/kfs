@@ -50,32 +50,50 @@
  						  renderOtherFields="true"						  
  						  lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier" 
 						  fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
-						  hasErrors="${hasErrors}"/>
+						  hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}" readOnly="true"/></th>
                 <td class="grid" width="25%"> 	                        
-                	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" />
+                	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate"  readOnly="${readOnly}" />
                 </td>                          
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.expectedReturnDate}" /></th>
-                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate"/> </td>
-	            <c:choose>
+			   	<c:choose>
+		            <c:when test="${readOnly}">
+		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" readOnly="${readOnly}" />
+		            </c:when>
+		            <c:otherwise>
+		                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" /> </td>
+		            </c:otherwise>
+ 		       </c:choose>
+
+			   	<c:choose>
 	                <c:when test="${displayNewLoanTab}">
-						<th class="grid" width="25%" align="right" colspan="2"></th>
-	                </c:when>
-	                <c:otherwise>
-					    <th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>
-			            <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate"/></td> 
-	                </c:otherwise>
-	            </c:choose>
+	                
+					   	<c:choose>
+							<c:when test="${empty KualiForm.document.loanReturnDate}">
+								<th class="grid" width="25%" align="right" colspan="2"></th>
+				            </c:when>
+				            <c:otherwise>	                
+			    				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>	                
+						        <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" readOnly="${readOnly}" />
+				            </c:otherwise>
+ 				       </c:choose>
+		            </c:when>
+		            <c:otherwise>
+		    			<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>	                
+						<td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" /></td> 
+				    </c:otherwise>
+			    </c:choose>
+
        		</tr>		    
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.signatureCode}" readOnly="true"/></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.signatureCode" attributeEntry="${eqipAttributes.signatureCode}"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.signatureCode" attributeEntry="${eqipAttributes.signatureCode}" readOnly="${readOnly}" /></td>								
 			</tr>
-		</table>   
+		</table>
 		</div>
 	</kul:tab>
 
@@ -86,51 +104,55 @@
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>
 				<td class="tab-subhead"  width="50%" colspan="2">Borrower</td>
-				<td class="tab-subhead"  width="50%" colspan="2">Stored at</td>				
+				<td class="tab-subhead"  width="50%" colspan="2">Stored at</td>			
 			</tr>	
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerAddress}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerAddress" attributeEntry="${eqipAttributes.borrowerAddress}"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerAddress" attributeEntry="${eqipAttributes.borrowerAddress}" readOnly="${readOnly}" /></td>								
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageAddress}" readOnly="true"/></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageAddress" attributeEntry="${eqipAttributes.borrowerStorageAddress}"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageAddress" attributeEntry="${eqipAttributes.borrowerStorageAddress}" readOnly="${readOnly}" /></td>								
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerCityName}" /></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerCityName" attributeEntry="${eqipAttributes.borrowerCityName}"/></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerCityName" attributeEntry="${eqipAttributes.borrowerCityName}" readOnly="${readOnly}" /></td>		      	
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageCityName}" readOnly="true"/></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageCityName" attributeEntry="${eqipAttributes.borrowerStorageCityName}"/></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageCityName" attributeEntry="${eqipAttributes.borrowerStorageCityName}" readOnly="${readOnly}" /></td>		      	
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStateCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStateCode" attributeEntry="${eqipAttributes.borrowerStateCode}"/>								
-					&nbsp;
-	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.borrowerStateCode" lookupParameters="document.borrowerStateCode:postalStateCode" />
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStateCode" attributeEntry="${eqipAttributes.borrowerStateCode}" readOnly="${readOnly}" />								
+					<c:if test="${not readOnly}">
+						&nbsp;
+		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.borrowerStateCode" lookupParameters="document.borrowerStateCode:postalStateCode" />
+					</c:if>
                 </td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageStateCode}" readOnly="true"/></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageStateCode" attributeEntry="${eqipAttributes.borrowerStorageStateCode}"/>								
-					&nbsp;
-	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.borrowerStorageStateCode" lookupParameters="document.borrowerStorageStateCode:postalStateCode" />
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageStateCode" attributeEntry="${eqipAttributes.borrowerStorageStateCode}" readOnly="${readOnly}" />								
+					<c:if test="${not readOnly}">
+						&nbsp;
+		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.borrowerStorageStateCode" lookupParameters="document.borrowerStorageStateCode:postalStateCode" />
+					</c:if>
                 </td>
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerZipCode}" /></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerZipCode" attributeEntry="${eqipAttributes.borrowerZipCode}"/></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerZipCode" attributeEntry="${eqipAttributes.borrowerZipCode}" readOnly="${readOnly}" /></td>		      	
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageZipCode}" readOnly="true"/></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageZipCode" attributeEntry="${eqipAttributes.borrowerStorageZipCode}"/></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageZipCode" attributeEntry="${eqipAttributes.borrowerStorageZipCode}" readOnly="${readOnly}" /></td>		      	
 		    </tr>		    
 		    <tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerCountryCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerCountryCode" attributeEntry="${eqipAttributes.borrowerCountryCode}"/>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerCountryCode" attributeEntry="${eqipAttributes.borrowerCountryCode}" readOnly="${readOnly}" />								
 				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStorageCountryCode}" readOnly="true"/></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageCountryCode" attributeEntry="${eqipAttributes.borrowerStorageCountryCode}"/>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageCountryCode" attributeEntry="${eqipAttributes.borrowerStorageCountryCode}" readOnly="${readOnly}" />								
 				</td>
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerPhoneNumber}" readOnly="true"/></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerPhoneNumber" attributeEntry="${eqipAttributes.borrowerPhoneNumber}"/></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerPhoneNumber" attributeEntry="${eqipAttributes.borrowerPhoneNumber}" readOnly="${readOnly}" /></td>		      	
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerStoragePhoneNumber}" readOnly="true"/></th>
-		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStoragePhoneNumber" attributeEntry="${eqipAttributes.borrowerStoragePhoneNumber}"/></td>		      	
+		      	<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStoragePhoneNumber" attributeEntry="${eqipAttributes.borrowerStoragePhoneNumber}" readOnly="${readOnly}" /></td>		      	
 		    </tr>		    
 		  </table>   
         </div>

@@ -165,7 +165,7 @@ are intended for use only by Kuali Foundation developers.
         		<filter token="rice-datasource-password-test" value="${rice.datasource.password.test}" />
       		</filterset>
     	</copy>
-    	<maven goals="clean:clean install source:jar javadoc:jar" options="-U -Dpackaging=jar" />
+    	<maven goals="clean:clean install source:jar javadoc:jar package" options="-U -Dpackaging=jar" />
     	<touch file="${rice.project.directory}/pom.xml" />
 	</target>
   

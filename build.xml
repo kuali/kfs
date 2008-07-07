@@ -107,7 +107,7 @@
 	
 	<target name="make-javadoc" depends="init-make-references">
 		<mkdir dir="${doc.directory}"/>
-		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
+		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${doc.max.memory}">
 			<sourcepath><pathelement location="${source.directory}"/></sourcepath>
 			<classpath refid="compile.source.classpath"/>
 		</javadoc>
@@ -277,7 +277,7 @@
 	<target name="test">
 		<mkdir dir="${test.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="512M">
+		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="${test.max.memory}">
 			<!-- the test classes must come first so they can override classes as necessary in
 			     the loaded libraries -->
 			<classpath>
@@ -286,7 +286,7 @@
 			</classpath>
 			<test name="org.kuali.kfs.sys.context.${test.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="512M">
+		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="${test.max.memory}">
 			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues"/>
 			<!-- the test classes must come first so they can override classes as necessary in
 			     the loaded libraries -->

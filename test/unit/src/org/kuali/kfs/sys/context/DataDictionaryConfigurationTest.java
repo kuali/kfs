@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -30,8 +31,11 @@ import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.datadictionary.FieldDefinition;
+import org.kuali.core.datadictionary.LookupDefinition;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -111,6 +115,25 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
 
+    public void testActiveFieldExistInLookupAndResultSection() throws Exception{
+        DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
+        List<Class> noActiveFieldClassList = new ArrayList<Class>();
+        for(BusinessObjectEntry businessObjectEntry:dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()){
+            List<Class> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
+            try {
+                if(iList.contains(Class.forName("org.kuali.core.bo.Inactivateable"))){
+                    LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
+                    if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
+                        noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
+                    }
+                }
+            }
+            catch (ClassNotFoundException e) {
+                throw(e);
+            }
+        }
+        assertEquals(noActiveFieldClassList.toString(), 0, noActiveFieldClassList.size());
+    }
 
     private void loadDataDictionary() throws Exception {
 //        for (String key : dataDictionary.getFileLocationMap().keySet()) {

@@ -39,9 +39,11 @@ import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@Transactional
 public class BulkReceivingServiceImpl implements BulkReceivingService {
 
     private PurchaseOrderService purchaseOrderService;

@@ -174,7 +174,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                         pendingRecord.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
                         pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
                     }
-                    
+                    System.out.println("PendingBudgetConstructionGeneralLedger object saved: " + pendingRecord.toString());
                     this.businessObjectService.save(pendingRecord);
                     
                     if ( !fundingRecord.getAccount().isForContractsAndGrants() && !fundingRecord.getAccount().getSubFundGroupCode().equals(this.budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS).get(0)) ) {
@@ -195,13 +195,15 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                             plg.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
                             plg.setAccountLineAnnualBalanceAmount(updateAmount.negated());
                         }
-                        
+                        System.out.println("2plg object saved: " + plg.toString());
                         this.businessObjectService.save(plg);
                     }
                     
                     fundingRecord.setAppointmentRequestedPayRate(holdingRecord.getAppointmentRequestedPayRate());
                     fundingRecord.setAppointmentRequestedAmount(annualAmount);
                     this.businessObjectService.save(fundingRecord);
+                    System.out.println("funding object saved: " + fundingRecord.toString());
+                    System.out.println();
                 }
             }
             this.updateCount ++;
@@ -238,19 +240,23 @@ public class PayrateImportServiceImpl implements PayrateImportService {
 
         document.close();
     }
-
+    
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     
+    @NonTransactional
     public int getImportCount() {
         return importCount;
     }
 
+    @NonTransactional
     public int getUpdateCount() {
         return updateCount;
     }
     
+    @NonTransactional
     public void setLockService(LockService lockService) {
         this.lockService = lockService;
     }
@@ -265,8 +271,14 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         this.budgetParameterService = budgetParameterService;
     }
     
+    @NonTransactional
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+    
+    @NonTransactional
+    public void setPayrateImportDao(PayrateImportDao payrateImportDao) {
+        this.payrateImportDao = payrateImportDao;
     }
     
     private BudgetConstructionPayRateHolding createHoldingRecord(PayrateImportLine record) {
@@ -317,21 +329,10 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                     String lockingKey = getLockingKeyString(fundingRecord);
                     if ( !lockMap.containsKey(lockingKey) && !noLockMap.containsKey(lockingKey)) {
                         BudgetConstructionLockStatus lockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
-                        System.out.println("!!! lockStatus = " + lockStatus.getLockStatus().toString());
-                        /*if ( !accountLockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
-                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
-                            noLockMap.put(lockingKey, fundingRecord);
-                        } else if ( !fundingLockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
-                            messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
-                            lockMap.remove(lockingKey);
-                            noLockMap.put(lockingKey, fundingRecord);
-                        } else {
-                            lockMap.put(lockingKey, fundingRecord);
-                        }*/
-                        if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                        if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
                             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
                             return false;
-                        } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                        } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
                             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
                             return false;
                         } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
@@ -370,12 +371,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         private static final String[] fieldNames = new String[] {"emplid", "positionNumber", "personName", "setidSalary", "salaryAdministrationPlan", "grade", "positionUnionCode", "appointmentRequestPayRate", "csfFreezeDate"};
     }
 
-    public void setPayrateImportDao(PayrateImportDao payrateImportDao) {
-        this.payrateImportDao = payrateImportDao;
-    }
     
     /**
-     * If retrieving budget locks fails, this method rollsback previous changes
+     * If retrieving budget locks fails, this method rolls back previous changes
      * 
      */
     private void doRollback() {

@@ -60,9 +60,9 @@ public class EffortCertificationDocumentRuleUtil {
     *   }
     */
         
-     //   if (StringUtils.isBlank(detailLine.getCostShareSourceSubAccountNumber())) {
-     //      detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-     //   }
+        if (StringUtils.isBlank(detailLine.getCostShareSourceSubAccountNumber())) {
+           detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
 
         if (StringUtils.isBlank(detailLine.getSourceChartOfAccountsCode())) {
             detailLine.setSourceChartOfAccountsCode(EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);

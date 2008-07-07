@@ -78,7 +78,7 @@
 			</tr>
 	</c:forEach>
 			<tr>
-				<th class="grid" align="right" colspan="14"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true" /></th>
+				<th class="grid" align="right" colspan="15"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true" /></th>
 				<td class="grid" align="right"><kul:htmlControlAttribute property="${assetValueObj}.paymentTotalCost" attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true"/></td>
 			</tr>						
 		</table>

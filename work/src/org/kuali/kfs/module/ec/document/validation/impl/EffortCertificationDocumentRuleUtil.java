@@ -120,8 +120,8 @@ public class EffortCertificationDocumentRuleUtil {
     //    if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
      //       return false;
     //    }
-
-        return ObjectUtils.isNotNull(detailLine.getSubAccount().getA21SubAccount());
+        return true ;
+    //   return ObjectUtils.isNotNull(detailLine.getSubAccount().getA21SubAccount());
     }
 
     /**

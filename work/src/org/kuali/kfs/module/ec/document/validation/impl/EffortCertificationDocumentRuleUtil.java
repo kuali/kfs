@@ -116,10 +116,10 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if the sub account associated with the given detail line is a valid A21 sub account; otherwise, false
      */
     public static boolean hasA21SubAccount(EffortCertificationDetail detailLine) {
-        String subAccountNumber = detailLine.getSubAccountNumber();
-        if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
-            return false;
-        }
+    //    String subAccountNumber = detailLine.getSubAccountNumber();
+    //    if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
+     //       return false;
+    //    }
 
         return ObjectUtils.isNotNull(detailLine.getSubAccount().getA21SubAccount());
     }

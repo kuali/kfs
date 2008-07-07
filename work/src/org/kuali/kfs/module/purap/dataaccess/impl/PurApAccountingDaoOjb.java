@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestSummaryAccount;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
@@ -63,7 +63,7 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
             Criteria criteria = new Criteria();
             criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
 
-            getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(PaymentRequestSummaryAccount.class, criteria));
+            getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(AccountsPayableSummaryAccount.class, criteria));
             getPersistenceBrokerTemplate().clearCache();
         }
     }

@@ -52,7 +52,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestSummaryAccount;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -275,9 +275,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
 
         Map actualsNegative = new HashMap();
-        List<PaymentRequestSummaryAccount> oldAccountingLines = getPaymentRequestSummaryAccounts(preq.getPurapDocumentIdentifier());
+        List<AccountsPayableSummaryAccount> oldAccountingLines = getPaymentRequestSummaryAccounts(preq.getPurapDocumentIdentifier());
 
-        for (PaymentRequestSummaryAccount oldAccount : oldAccountingLines) {
+        for (AccountsPayableSummaryAccount oldAccount : oldAccountingLines) {
             actualsNegative.put(oldAccount.generateSourceAccountingLine(), oldAccount.getAmount());
             LOG.debug("generateEntriesModifyPaymentRequest() actualsNegative: " + oldAccount.getAccountNumber() + " = " + oldAccount.getAmount());
         }
@@ -1351,9 +1351,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private void savePaymentRequestSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier) {
         LOG.debug("savePaymentRequestSummaryAccounts() started");
         purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier);
-        List<PaymentRequestSummaryAccount> preqSummaryAccounts = new ArrayList();
+        List<AccountsPayableSummaryAccount> preqSummaryAccounts = new ArrayList();
         for (SummaryAccount summaryAccount : summaryAccounts) {
-            preqSummaryAccounts.add(new PaymentRequestSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier));
+            preqSummaryAccounts.add(new AccountsPayableSummaryAccount(summaryAccount.getAccount(), purapDocumentIdentifier));
         }
         businessObjectService.save(preqSummaryAccounts);
     }
@@ -1368,7 +1368,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         LOG.debug("getPaymentRequestSummaryAccounts() started");
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.PURAP_DOC_ID, purapDocumentIdentifier);
-        return new ArrayList(businessObjectService.findMatching(PaymentRequestSummaryAccount.class, fieldValues));
+        return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));
     }
 
     /**

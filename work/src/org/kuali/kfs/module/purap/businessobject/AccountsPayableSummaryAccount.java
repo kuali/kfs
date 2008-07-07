@@ -22,22 +22,23 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 /**
  * Payment Request Summary Account Business Object.
  */
-public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
+public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
 
     private Integer purapDocumentIdentifier;
     private String postingPeriodCode;
     
     private PaymentRequestDocument paymentRequest;
     private AccountingPeriod financialDocumentPostingPeriod;
+    private Integer creditMemoId;
     
     /**
      * Default constructor.
      */
-    public PaymentRequestSummaryAccount() {
+    public AccountsPayableSummaryAccount() {
 
     }
 
-    public PaymentRequestSummaryAccount(SourceAccountingLine account, Integer purapDocumentIdentifier) {
+    public AccountsPayableSummaryAccount(SourceAccountingLine account, Integer purapDocumentIdentifier) {
         this.setPurapDocumentIdentifier(purapDocumentIdentifier);
         this.setChartOfAccountsCode(account.getChartOfAccountsCode());
         this.setAccountNumber(account.getAccountNumber());

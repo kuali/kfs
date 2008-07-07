@@ -59,10 +59,11 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+        //get start date for log file
         Date startTime = new Date();
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE, dateFormatter.format(startTime)));
         
+        //parse file
         List<ExternalizedMessageWrapper> parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
         
         if (!parsingErrors.isEmpty()) {
@@ -77,14 +78,18 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COMPLETE));
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        
+        //perform updates
         List<ExternalizedMessageWrapper> updateMessages = payrateImportService.update(budgetYear, user);
         
         messageList.addAll(updateMessages);
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_UPDATE_COMPLETE, String.valueOf(payrateImportService.getUpdateCount())));
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER, dateFormatter.format(new Date())));
         
+        //write messages to log file
         payrateImportService.generatePdf(messageList, baos);
         
+        //TODO: how to update form since response is set to null?
         payrateImportExportForm.setImportCount(payrateImportService.getImportCount());
         payrateImportExportForm.setUpdateCount(payrateImportService.getUpdateCount());
         
@@ -101,6 +106,12 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * Performs form validation
+     * 
+     * @param form
+     * @return
+     */
     public boolean validateFormData(PayrateImportExportForm form) {
         boolean isValid = true;
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
@@ -121,10 +132,10 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
-        /*if ( !budgetUpdatesAllowed ) {
+        if ( !budgetUpdatesAllowed ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_IMPORT_UPDATE_NOT_ALLOWED);
             isValid = false;
-        }*/
+        }
         
         
         return isValid;

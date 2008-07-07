@@ -239,19 +239,27 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         document.close();
     }
     
-    @NonTransactional
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
+    /**
+     * 
+     * @see org.kuali.kfs.module.bc.service.PayrateImportService#getImportCount()
+     */
     @NonTransactional
     public int getImportCount() {
         return importCount;
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.bc.service.PayrateImportService#getUpdateCount()
+     */
     @NonTransactional
     public int getUpdateCount() {
         return updateCount;
+    }
+    
+    @NonTransactional
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
     
     @NonTransactional

@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.suite.JiraRelatedSuite;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -118,8 +119,9 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             finally {
                 tearDown();
                 if ( springContextInitialized ) {
-                    LOG.info( "clearing method cache" );
+                    LOG.info( "clearing caches" );
                     clearMethodCache();
+                    SpringContext.getBean(ParameterService.class).clearCache();
                 }
             }
         }

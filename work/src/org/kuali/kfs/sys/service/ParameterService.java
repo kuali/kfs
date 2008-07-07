@@ -162,6 +162,12 @@ public interface ParameterService {
      * @param parameterText
      */
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText);
+    
+    /**
+     * This method can be used to clear the parameter cache during unit testing.
+     */
+    public void clearCache();
+    
     /**
      * This method can be used to set a namespace.
      * 
@@ -169,6 +175,7 @@ public interface ParameterService {
      * 
      */
     public String getNamespace(Class documentOrStepClass);
+    
     /**
      * This method can be used to change the value of a Parameter for unit testing purposes.
      * 

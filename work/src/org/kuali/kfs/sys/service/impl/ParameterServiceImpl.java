@@ -281,17 +281,14 @@ public class ParameterServiceImpl implements ParameterService {
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {
         Parameter parameter = (Parameter) getParameter(componentClass, parameterName);
         parameter.setParameterValue(parameterText);
-        // since parameters are now cached in a ThreadLocal, there is no need to save them
-        // since all tests run in a single thread
-        //SpringContext.getBean(BusinessObjectService.class).save(parameter);
-        try {
-            removeCachedMethod(ParameterService.class.getMethod("getParameterValue", new Class[] { Class.class, String.class }), new Object[] { componentClass, parameterName });
-            removeCachedMethod(ParameterService.class.getMethod("getIndicatorParameter", new Class[] { Class.class, String.class }), new Object[] { componentClass, parameterName });
-            removeCachedMethod(ParameterService.class.getMethod("getParameterValues", new Class[] { Class.class, String.class }), new Object[] { componentClass, parameterName });
-        }
-        catch (Exception e) {
-            throw new RuntimeException(new StringBuffer("The setParameterForTesting of ParameterServiceImpl failed: ").append(componentClass).append(" / ").append(parameterName).toString(), e);
-        }
+        SpringContext.getBean(BusinessObjectService.class).save(parameter);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ParameterService#clearCache()
+     */
+    public void clearCache() {
+        parameterCache.set(null);
     }
 
     public String getNamespace(Class documentOrStepClass) {
@@ -380,15 +377,18 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     private Parameter getParameter(Class componentClass, String parameterName) {
+        String key = componentClass.toString() + ":" + parameterName;
+        Parameter parameter = null;
         if (parameterCache.get() == null) {
             parameterCache.set(new HashMap<String,Parameter>());
         }
-        String key = componentClass.toString() + ":" + parameterName;
-        Parameter value = parameterCache.get().get(key);
-        if (value != null) {
-            return value;
+        else {
+            parameter = parameterCache.get().get(key);
+            if (parameter != null) {
+                return parameter;
+            }
         }
-        Parameter parameter = getParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName);
+        parameter = getParameter(getNamespace(componentClass), getDetailType(componentClass), parameterName);
         if (parameter == null) {
             throw new IllegalArgumentException("The getParameter method of ParameterServiceImpl requires a componentClass and parameterName that correspond to an existing parameter");
         }

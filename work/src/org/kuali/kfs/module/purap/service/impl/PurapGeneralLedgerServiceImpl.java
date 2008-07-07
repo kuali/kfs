@@ -38,7 +38,6 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -68,6 +67,7 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -134,14 +134,18 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             Calendar priorClosingDate = Calendar.getInstance();
             priorClosingDate.setTime(priorClosingDateTemp);
 
+            //adding 1 to set the date to midnight the day after backpost is allowed so that preqs allow backpost on the last day
             Calendar allowBackpostDate = Calendar.getInstance();
             allowBackpostDate.setTime(priorClosingDate.getTime());
-            allowBackpostDate.add(Calendar.DATE, allowBackpost);
+            allowBackpostDate.add(Calendar.DATE, allowBackpost + 1);
 
             Calendar preqInvoiceDate = Calendar.getInstance();
             preqInvoiceDate.setTime(preq.getInvoiceDate());
 
-            if (today.after(priorClosingDate) && today.before(allowBackpostDate) && (preqInvoiceDate.before(priorClosingDate) || preqInvoiceDate.equals(priorClosingDate))) {
+            //if today is after the closing date but before/equal to the allowed backpost date and the invoice date is for the prior year, set the year to prior year
+            if ((today.compareTo(priorClosingDate) > 0) && 
+                    (today.compareTo(allowBackpostDate) <= 0) && 
+                    (preqInvoiceDate.compareTo(priorClosingDate) <= 0)) {
                 LOG.debug("createGlPendingTransaction() within range to allow backpost; posting entry to period 12 of previous FY");
                 explicitEntry.setUniversityFiscalYear(currentFY - 1);
                 explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH12);

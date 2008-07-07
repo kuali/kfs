@@ -88,7 +88,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private PrintInvoiceOptions printInvoiceOption;
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
     /**
 	 * Default constructor.

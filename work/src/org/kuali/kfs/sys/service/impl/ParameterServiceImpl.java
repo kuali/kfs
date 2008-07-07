@@ -281,7 +281,6 @@ public class ParameterServiceImpl implements ParameterService {
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {
         Parameter parameter = (Parameter) getParameter(componentClass, parameterName);
         parameter.setParameterValue(parameterText);
-        SpringContext.getBean(BusinessObjectService.class).save(parameter);
     }
     
     /**

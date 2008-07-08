@@ -37,17 +37,20 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 public class AssetTransferServiceTest extends KualiTestBase {
 
+    private UniversityDateService universityDateService;
     private AssetTransferService assetTransferService;
 
     @Override
     @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
+        universityDateService = SpringContext.getBean(UniversityDateService.class);
         assetTransferService = SpringContext.getBean(AssetTransferService.class);
     }
 
@@ -57,7 +60,6 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULCAP394)
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
     public void testCreateGLPostables_Success() throws Exception {
         // set up the data
@@ -98,7 +100,6 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULCAP394)
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
     public void testCreateGLPostables_No_Offset() throws Exception {
         // set up the data
@@ -177,7 +178,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(chartOfAccountsCode, glPostable.getChartOfAccountsCode());
         assertEquals(financialLineDesc, glPostable.getFinancialDocumentLineDescription());
         assertEquals(financialObjectCode, glPostable.getFinancialObjectCode());
-        assertEquals(Integer.valueOf(2008), glPostable.getPostingYear());
+        assertEquals(this.universityDateService.getCurrentFiscalYear(), glPostable.getPostingYear());
         assertNull(glPostable.getOrganizationReferenceId());
         assertNull(glPostable.getProjectCode());
         assertNull(glPostable.getReferenceNumber());

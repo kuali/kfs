@@ -135,10 +135,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
-        BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);
-        BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal);
+        BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);        
+        BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
         
-        LOG.info("======" + payMonthAsDecimal + ":" + fundingMonthAsDecimal + ":" + fundingMonthPercent);
         return requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
     }
 

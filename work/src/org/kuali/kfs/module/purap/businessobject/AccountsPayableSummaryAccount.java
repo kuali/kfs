@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.util.Date;
+
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -30,6 +32,7 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
     private PaymentRequestDocument paymentRequest;
     private AccountingPeriod financialDocumentPostingPeriod;
     private Integer creditMemoId;
+    private Date updateTimestamp;
     
     /**
      * Default constructor.

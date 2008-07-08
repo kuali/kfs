@@ -265,7 +265,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     public boolean itemPassesWildcardRules(IndirectCostRecoveryRateDetail item) {
         boolean success = false;
         
-        success = checkAcctBasedRules(item) || checkObjCdBasedRules(item) || !itemUsesWildcard(item); // Is this last condition extraneous??
+        success = !itemUsesWildcard(item) || checkWildcardRules(item);
         
         if(!success) {
             logErrorUtility(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH);
@@ -309,7 +309,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    public boolean checkAcctBasedRules(IndirectCostRecoveryRateDetail item) {
+    public boolean checkWildcardRules(IndirectCostRecoveryRateDetail item) {
         boolean success = false;
         String chart = item.getChartOfAccountsCode();
         String acct = item.getAccountNumber();
@@ -317,47 +317,37 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         String objCd = item.getFinancialObjectCode();
         String subObjCd = item.getFinancialSubObjectCode();
         
-        boolean blah = (true) || (false);
-        
-        success =
-            (KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(chart) &&
-                    KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(acct) &&
-                    (StringUtils.isBlank(subAcct) || KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(subAcct) || StringUtils.containsOnly(subAcct, "-")) &&
-                    StringUtils.isNumeric(objCd) &&
-                    (StringUtils.isBlank(subObjCd) || StringUtils.isAlphanumeric(subObjCd) || StringUtils.containsOnly(subObjCd, "-"))
-            ) ||
-            (KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(chart) &&
-                    KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(acct) &&
-                    (StringUtils.isBlank(subAcct) || KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(subAcct) || StringUtils.containsOnly(subAcct, "-")) &&
-                    StringUtils.isNumeric(objCd) &&
-                    (StringUtils.isBlank(subObjCd) || StringUtils.isAlphanumeric(subObjCd) || StringUtils.containsOnly(subObjCd, "-"))
-            );
+        success = 
+            (
+             KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(chart) &&
+             KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(acct) &&
+             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY, subAcct) &&
+             (KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(objCd) || StringUtils.isAlphanumeric(objCd)) &&
+             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY, subObjCd)
+             ) ||
+            (
+             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(chart) &&
+             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(acct) &&
+             StringUtils.isAlphanumeric(objCd) &&
+             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT, subAcct) &&
+             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT, subObjCd)
+             ) ||
+            (
+             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(objCd) &&
+             StringUtils.isNumeric(acct) &&
+             subFieldsValueValid("", subAcct) &&
+             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(objCd) &&
+             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT, subObjCd)
+             );
             
         return success;
     }
     
-    public boolean checkObjCdBasedRules(IndirectCostRecoveryRateDetail item) {
+    public boolean subFieldsValueValid(String wildcard, String value) {
         boolean success = false;
-        String chart = item.getChartOfAccountsCode();
-        String acct = item.getAccountNumber();
-        String subAcct = item.getSubAccountNumber();
-        String objCd = item.getFinancialObjectCode();
-        String subObjCd = item.getFinancialSubObjectCode();
-        
-        success =
-            (KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(chart) && 
-                    KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(objCd) && 
-                    (StringUtils.isBlank(subObjCd) || KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(subObjCd) || StringUtils.containsOnly(subObjCd, "-")) && 
-                    StringUtils.isNumeric(acct) &&
-                    (StringUtils.isBlank(subAcct) || StringUtils.isAlphanumeric(subAcct) || StringUtils.containsOnly(subAcct, "-"))
-                    ) ||
-            (KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(chart) && 
-                    KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(objCd) && 
-                    (StringUtils.isBlank(subObjCd) || KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(subObjCd) || StringUtils.containsOnly(subObjCd, "-")) && 
-                    StringUtils.isNumeric(acct) &&
-                    (StringUtils.isBlank(subAcct) || StringUtils.isAlphanumeric(subAcct) || StringUtils.containsOnly(subAcct, "-"))
-                    ) ;
-
+        if(StringUtils.isBlank(value) || StringUtils.containsOnly(value, "-") || wildcard.equals(value)) {
+            success = true;
+        }
         return success;
     }
     
@@ -365,11 +355,11 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         BigDecimal zero = new BigDecimal(0.00);
         if(!(item.getAwardIndrCostRcvyRatePct() == null)) {
-            if(item.getAwardIndrCostRcvyRatePct().scale() > 3) { // recheck
+            if(item.getAwardIndrCostRcvyRatePct().scale() > 3) {
                 logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE);
                 success = false;
             }
-            if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) { // recheck
+            if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) {
                 logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO);
                 success = false;
             }            

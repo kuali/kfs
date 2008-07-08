@@ -211,7 +211,7 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     @SuppressWarnings("unchecked")
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(boolean refresh) {
         
-        if(refresh || nonAppliedHoldings.isEmpty()) {
+        if((refresh || nonAppliedHoldings.isEmpty()) && null != getCustomer()) {
             Map args = new HashMap();
             args.put("customerNumber", getCustomer().getCustomerNumber());
             nonAppliedHoldings = businessObjectService.findMatching(NonAppliedHolding.class, args);

@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +51,19 @@ public class PaymentApplicationDocumentAction extends KualiAccountingDocumentAct
     }
     
     public ActionForward apply(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean trap = true;
+        Object applyToInvoices = request.getParameter("quickApply");
+        List<String> invoiceNumbers = new ArrayList<String>();
+        if(!applyToInvoices.getClass().isArray()) {
+            invoiceNumbers.add((String)applyToInvoices);
+        } else {
+            invoiceNumbers.addAll(Arrays.asList((String[])applyToInvoices));
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward quickApply(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean trap = true;
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

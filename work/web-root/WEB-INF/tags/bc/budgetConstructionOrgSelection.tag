@@ -25,7 +25,7 @@
           	<tr>
                	<td>
                	<div align="center"> <br>
-                   	<table style="width:inherit" border="0" cellpadding="0" cellspacing="0" class="nobord">
+                   	<table style="width:auto" border="0" cellpadding="0" cellspacing="0" class="nobord">
                        	<tr>
                            	<td width="200" style="border-style:solid; border-color:#999999; border-width:1px; padding:6px; background-color:#EAE9E9">
                            	<div align="center">

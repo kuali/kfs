@@ -68,7 +68,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         if (!parsingErrors.isEmpty()) {
             messageList.addAll(parsingErrors);
             payrateImportService.generatePdf(messageList, baos);
-            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "exportMessages.pdf");
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "import_log.pdf");
             return null;
         }
         if (payrateImportService.getImportCount() == 0 ) messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS));

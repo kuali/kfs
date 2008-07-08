@@ -244,12 +244,9 @@ are intended for use only by Kuali Foundation developers.
     	<property name="springide.config.file" location=".springBeans"/>
     	<echo append="false" file="${springide.config.file}"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
-	<version>1</version>
-	<pluginVersion>2.0.3.v200802061800</pluginVersion>
-	<configSuffixes>
-		<configSuffix>xml</configSuffix>
-	</configSuffixes>
-	<enableImports>false</enableImports>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
 	<configs>    		
 ]]></echo>
     	<antcall target="dump-kns-dd-config-files" inheritall="true">
@@ -292,6 +289,7 @@ are intended for use only by Kuali Foundation developers.
         	</configs>
     	</configSet>
 	</configSets>
+	<springVersion>2.0</springVersion>
 </beansProjectDescription>
 ]]></echo>
     </target>

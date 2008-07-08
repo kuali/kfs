@@ -26,9 +26,11 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanInfoServiceImpl;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     private static final int THREE_DAYS_LATER = 3;
@@ -50,6 +52,7 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     }
 
     @Override
+    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         equipmentLoanInfoService = new EquipmentLoanInfoServiceImpl();

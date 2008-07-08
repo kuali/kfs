@@ -266,6 +266,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     }
                     if (accPrimaryDepreciationAmount == null) {
                         accPrimaryDepreciationAmount = KualiDecimal.ZERO;
+                        assetPayment.setAccumulatedPrimaryDepreciationAmount(KualiDecimal.ZERO);
                     }
                     if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && !accountChargeAmount.subtract(accPrimaryDepreciationAmount).isZero()) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
@@ -304,6 +305,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 }
                 if (accPrimaryDepreciationAmount == null) {
                     accPrimaryDepreciationAmount = KualiDecimal.ZERO;
+                    assetPayment.setAccumulatedPrimaryDepreciationAmount(KualiDecimal.ZERO);
                 }
                 if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && !accountChargeAmount.subtract(accPrimaryDepreciationAmount).isZero()) {
                     document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));

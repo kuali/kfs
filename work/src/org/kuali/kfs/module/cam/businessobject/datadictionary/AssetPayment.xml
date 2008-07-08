@@ -1221,7 +1221,8 @@
               p:attributeName="asset.campusTagNumber"
               p:noLookup="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
+              p:attributeName="capitalAssetNumber"
+              p:noLookup="true" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -1247,9 +1248,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountChargeAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="asset.totalCostAmount" />
+              p:attributeName="asset.totalCostAmount" 
+              p:noLookup="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="asset.capitalAssetInServiceDate" />
+              p:attributeName="asset.capitalAssetInServiceDate" 
+              p:noLookup="true" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingDate" />
         <bean parent="FieldDefinition"

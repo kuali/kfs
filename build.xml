@@ -287,7 +287,7 @@
 			<test name="org.kuali.kfs.sys.context.${test.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" >
-			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
 			<jvmarg value="-Xms40m" />
 			<jvmarg value="-Xmx1024m" />
 			<jvmarg value="-XX:MaxPermSize=128m" />

@@ -52,7 +52,7 @@ import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 public abstract class KualiTestBase extends TestCase implements KualiTestConstants {
     private static final Logger LOG = Logger.getLogger(KualiTestBase.class);
-    public static final String SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES = "org.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues";
+    public static final String SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES = "KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues";
     private static boolean log4jConfigured = false;
     private static RuntimeException configurationFailure;
     private static boolean springContextInitialized = false;

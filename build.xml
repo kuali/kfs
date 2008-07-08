@@ -96,10 +96,10 @@
 		</path>
 		<!-- the test classes must come first so they can override classes as necessary in
 		     the loaded libraries -->
-		<classpath id="run.tests.classpath">
+		<path id="run.tests.classpath">
 			<pathelement location="${test.classes.directory}" />
 			<path refid="compile.tests.classpath" />
-		</classpath>
+		</path>
 	</target>
 	
 	<target name="make-javadoc" depends="init-make-references">

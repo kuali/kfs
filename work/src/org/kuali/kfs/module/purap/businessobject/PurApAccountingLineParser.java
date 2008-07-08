@@ -24,7 +24,10 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.PERCENT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * This class is used to parse an PurApItem accounting line.
@@ -54,4 +57,17 @@ public class PurApAccountingLineParser extends AccountingLineParserBase {
     public String[] getTargetAccountingLineFormat() {
         return PURAP_FORMAT;
     }
+    
+    /**
+     * @see org.kuali.core.bo.AccountingLineParser#getSourceAccountingLineClass(org.kuali.core.document.AccountingDocument)
+     */
+    @Override
+    protected Class getSourceAccountingLineClass(final AccountingDocument accountingDocument) {
+        if (accountingDocument instanceof RequisitionDocument)
+            return RequisitionAccount.class;
+        else if (accountingDocument instanceof PurchaseOrderDocument)
+            return PurchaseOrderAccount.class;
+        else return super.getSourceAccountingLineClass(accountingDocument);
+    }
+
 }

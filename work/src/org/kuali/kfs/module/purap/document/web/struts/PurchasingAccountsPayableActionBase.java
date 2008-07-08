@@ -131,7 +131,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase)purapForm.getFinancialDocument();
         PurApAccountingLineParser accountingLineParser = (PurApAccountingLineParser)purapDocument.getAccountingLineParser();
         List importedLines = null;
-        String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapConstants.ITEM_TAB_ERRORS;
+        String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY;
         //String errorPathPrefix = "accountDistributionnewSourceLine";
 
         // import the lines

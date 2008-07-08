@@ -99,9 +99,18 @@ public class AccountingLineParserBase implements AccountingLineParser {
      *      java.lang.String)
      */
     public final SourceAccountingLine parseSourceAccountingLine(AccountingDocument transactionalDocument, String sourceAccountingLineString) {
-        Class sourceAccountingLineClass = transactionalDocument.getSourceAccountingLineClass();
+        Class sourceAccountingLineClass = getSourceAccountingLineClass(transactionalDocument);
         SourceAccountingLine sourceAccountingLine = (SourceAccountingLine) populateAccountingLine(transactionalDocument, sourceAccountingLineClass, sourceAccountingLineString, parseAccountingLine(sourceAccountingLineClass, sourceAccountingLineString), transactionalDocument.getNextSourceLineNumber());
         return sourceAccountingLine;
+    }
+    
+    /**
+     * Given a document, determines what class the source lines of that document uses
+     * @param accountingDocument the document to find the class of the source lines for
+     * @return the class of the source lines
+     */
+    protected Class getSourceAccountingLineClass(final AccountingDocument accountingDocument) {
+        return accountingDocument.getSourceAccountingLineClass();
     }
 
     /**
@@ -109,9 +118,18 @@ public class AccountingLineParserBase implements AccountingLineParser {
      *      java.lang.String)
      */
     public final TargetAccountingLine parseTargetAccountingLine(AccountingDocument transactionalDocument, String targetAccountingLineString) {
-        Class targetAccountingLineClass = transactionalDocument.getTargetAccountingLineClass();
+        Class targetAccountingLineClass = getTargetAccountingLineClass(transactionalDocument);
         TargetAccountingLine targetAccountingLine = (TargetAccountingLine) populateAccountingLine(transactionalDocument, targetAccountingLineClass, targetAccountingLineString, parseAccountingLine(targetAccountingLineClass, targetAccountingLineString), transactionalDocument.getNextTargetLineNumber());
         return targetAccountingLine;
+    }
+    
+    /**
+     * Given a document, determines what class that document uses for target accounting lines
+     * @param accountingDocument the document to determine the target accounting line class for
+     * @return the class of the target lines for the given document
+     */
+    protected Class getTargetAccountingLineClass(final AccountingDocument accountingDocument) {
+        return accountingDocument.getTargetAccountingLineClass();
     }
 
     /**

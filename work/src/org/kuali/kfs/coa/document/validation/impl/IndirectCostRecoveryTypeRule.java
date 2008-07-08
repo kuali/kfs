@@ -38,7 +38,7 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
     private IndirectCostRecoveryType indirectCostRecoveryType;
-    private List IndirectCostRecoveryExclusionTypeDetails;
+    private List indirectCostRecoveryExclusionTypeDetails;
     private ChartService chartService;
 
     
@@ -48,7 +48,7 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
     
     public void setupConvenienceObjects() {
         indirectCostRecoveryType = (IndirectCostRecoveryType) super.getNewBo();
-        IndirectCostRecoveryExclusionTypeDetails = indirectCostRecoveryType.getIndirectCostRecoveryExclusionTypeDetails();
+        indirectCostRecoveryExclusionTypeDetails = indirectCostRecoveryType.getIndirectCostRecoveryExclusionTypeDetails();
     }
     
     @Override
@@ -67,13 +67,14 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
         return isValid;
     }
     
-    public boolean checkCollectionItems() { //TODO: check the included error path
+    public boolean checkCollectionItems() {
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath("add.IndirectCostRecoveryExclusionTypeDetails");
-        for(int i=0;i<IndirectCostRecoveryExclusionTypeDetails.size();i++) {
-            isValid &= itemIsValid((IndirectCostRecoveryExclusionType) IndirectCostRecoveryExclusionTypeDetails.get(i));
+        for(int i=0;i<indirectCostRecoveryExclusionTypeDetails.size();i++) {
+            String collectionElementPath = "indirectCostRecoveryExclusionTypeDetails[" + i + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(collectionElementPath);
+            isValid &= itemIsValid((IndirectCostRecoveryExclusionType) indirectCostRecoveryExclusionTypeDetails.get(i));
+            GlobalVariables.getErrorMap().removeFromErrorPath(collectionElementPath);
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath("add.IndirectCostRecoveryExclusionTypeDetails");
         return isValid;
     }
     

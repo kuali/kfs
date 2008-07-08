@@ -388,30 +388,30 @@ public class PosterServiceImpl implements PosterService {
             KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
             KualiDecimal distributionAmount = KualiDecimal.ZERO;
 
-            Collection automatedEntries = indirectCostRecoveryRateDetailDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier());
-            int automatedEntriesCount = automatedEntries.size();
+            Collection icrRateDetails = indirectCostRecoveryRateDetailDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier());
+            int rateDetailsCount = icrRateDetails.size();
 
-            if (automatedEntriesCount > 0) {
-                for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
-                    IndirectCostRecoveryRateDetail icrEntry = (IndirectCostRecoveryRateDetail) icrIter.next();
+            if (rateDetailsCount > 0) {
+                for (Iterator icrIter = icrRateDetails.iterator(); icrIter.hasNext();) {
+                    IndirectCostRecoveryRateDetail icrRateDetail = (IndirectCostRecoveryRateDetail) icrIter.next();
                     KualiDecimal generatedTransactionAmount = null;
 
                     if (!icrIter.hasNext()) {
                         generatedTransactionAmount = distributionAmount;
 
                         // Log differences that are over WARNING_MAX_DIFFERENCE
-                        if (getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
+                        if (getPercentage(transactionAmount, icrRateDetail.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
                             List warnings = new ArrayList();
                             warnings.add("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE);
                             reportErrors.put(et, warnings);
                         }
                     }
-                    else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
-                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
+                    else if (icrRateDetail.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrRateDetail.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.add(generatedTransactionAmount);
                     }
-                    else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
-                        generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
+                    else if (icrRateDetail.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
+                        generatedTransactionAmount = getPercentage(transactionAmount, icrRateDetail.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.subtract(generatedTransactionAmount);
                     }
                     else {
@@ -421,7 +421,7 @@ public class PosterServiceImpl implements PosterService {
                         reportErrors.put(et, warnings);
                     }
 
-                    generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, group, reportErrors);
+                    generateTransactions(et, icrRateDetail, generatedTransactionAmount, runDate, group, reportErrors);
                     reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
                 }
             }

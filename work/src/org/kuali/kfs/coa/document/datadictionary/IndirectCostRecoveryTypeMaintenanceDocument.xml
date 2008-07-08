@@ -80,6 +80,15 @@
           <property name="name" value="indirectCostRecoveryExclusionTypeDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType" />
           <property name="sourceClassName" value="org.kuali.kfs.coa.businessobject.ObjectCode" />
+          <property name="summaryTitle" value="ICR Exclusion by Type" />
+          <property name="summaryFields" >
+            <list>
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="chartOfAccountsCode" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialObjectCode" />
+            </list>
+          </property>
           <property name="maintainableFields">
           	<list>
 			  <bean parent="MaintainableFieldDefinition"
@@ -90,6 +99,8 @@
     		        p:name="financialObjectCode"
     		        p:template="financialObjectCode"
     	    	    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
 		      <bean parent="MaintainableFieldDefinition"
 					p:name="versionNumber" />
     		  <bean parent="MaintainableFieldDefinition"

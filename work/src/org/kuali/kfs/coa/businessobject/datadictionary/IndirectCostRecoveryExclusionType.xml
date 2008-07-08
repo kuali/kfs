@@ -21,6 +21,7 @@
         <ref bean="IndirectCostRecoveryExclusionType-financialObjectCode" />
         <ref bean="IndirectCostRecoveryExclusionType-versionNumber" />
         <ref bean="IndirectCostRecoveryExclusionType-active" />
+		<ref bean="IndirectCostRecoveryExclusionType-newCollectionRecord" />
       </list>
     </property>
   </bean>
@@ -74,6 +75,9 @@
   <bean id="IndirectCostRecoveryExclusionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
     <property name="name" value="active" />
   </bean>
+  
+  <bean id="IndirectCostRecoveryExclusionType-newCollectionRecord" parent="IndirectCostRecoveryExclusionType-newCollectionRecord-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionType-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord"/>
 
 <!-- Business Object Inquiry Definition -->
 

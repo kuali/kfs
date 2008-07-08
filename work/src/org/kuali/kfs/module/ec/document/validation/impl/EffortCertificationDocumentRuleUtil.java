@@ -52,9 +52,9 @@ public class EffortCertificationDocumentRuleUtil {
      */
     public static void applyDefaultValues(EffortCertificationDetail detailLine) {        
       
-       if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
-           detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-       }
+    //   if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
+    //       detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+    //   }
         
         if (StringUtils.isBlank(detailLine.getCostShareSourceSubAccountNumber())) {
            detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());

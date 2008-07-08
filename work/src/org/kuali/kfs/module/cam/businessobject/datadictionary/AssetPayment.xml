@@ -1218,10 +1218,10 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="asset.campusTagNumber"
+              p:attributeName="capitalAssetNumber"
               p:noLookup="true" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber"
+              p:attributeName="asset.campusTagNumber"
               p:noLookup="true" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />

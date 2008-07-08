@@ -94,20 +94,17 @@
 			<path refid="compile.source.classpath" />
 			<fileset dir="${test.lib.directory}" includes="*.jar" />
 		</path>
-		<patternset id="non.java.resources">
-			<include name="**/*.properties" />
-			<include name="**/*.dtd" />
-			<include name="**/*.xml" />
-			<include name="**/*.html" />
-			<include name="**/*.xsd" />
-			<include name="**/*.jasper" />
-			<include name="**/*.jrxml" />
-		</patternset>
+		<!-- the test classes must come first so they can override classes as necessary in
+		     the loaded libraries -->
+		<classpath id="run.tests.classpath">
+			<pathelement location="${test.classes.directory}" />
+			<path refid="compile.tests.classpath" />
+		</classpath>
 	</target>
 	
 	<target name="make-javadoc" depends="init-make-references">
 		<mkdir dir="${doc.directory}"/>
-		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${doc.max.memory}">
+		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
 			<sourcepath><pathelement location="${source.directory}"/></sourcepath>
 			<classpath refid="compile.source.classpath"/>
 		</javadoc>
@@ -233,9 +230,7 @@
 			<classpath refid="compile.source.classpath" />
 		</javac>
 		<copy todir="${make-source.target.directory}">
-			<fileset dir="${source.directory}">
-				<patternset refid="non.java.resources" />
-			</fileset>
+			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
 	</target>
 
@@ -249,27 +244,12 @@
 			<src path="${test.integration.source.directory}" />
 		</javac>
 		<copy todir="${test.classes.directory}">
-			<fileset dir="${test.infrastructure.source.directory}">
-					<patternset refid="non.java.resources" />	
-					<include name="**/*.txt" />
-			</fileset>
+			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" />
+			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" />
+			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" />
 		</copy>
 		<copy todir="${test.classes.directory}">
-			<fileset dir="${test.unit.source.directory}">
-				<patternset refid="non.java.resources" />	
-				<include name="**/*.txt" />
-			</fileset>
-		</copy>
-		<copy todir="${test.classes.directory}">
-			<fileset dir="${test.integration.source.directory}">
-				<patternset refid="non.java.resources" />	
-				<include name="**/*.txt" />
-			</fileset>
-		</copy>
-		<copy todir="${test.classes.directory}">
-			<fileset dir="${source.directory}">
-				<patternset refid="non.java.resources" />
-			</fileset>
+			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
 	</target>
 
@@ -277,26 +257,16 @@
 	<target name="test">
 		<mkdir dir="${test.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" maxmemory="${test.max.memory}">
-			<!-- the test classes must come first so they can override classes as necessary in
-			     the loaded libraries -->
-			<classpath>
-				<pathelement location="${test.classes.directory}" />
-				<path refid="compile.tests.classpath" />
-			</classpath>
-			<test name="org.kuali.kfs.sys.context.${test.startup.class}" todir="${test.xml.results.directory}" />
+		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" >
+			<classpath refid="run.tests.classpath" />
+			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" >
 			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
-			<jvmarg value="-Xms40m" />
-			<jvmarg value="-Xmx1024m" />
-			<jvmarg value="-XX:MaxPermSize=128m" />
-			<!-- the test classes must come first so they can override classes as necessary in
-			     the loaded libraries -->
-			<classpath>
-				<pathelement location="${test.classes.directory}" />
-				<path refid="compile.tests.classpath" />
-			</classpath>
+			<jvmarg value="-Xms${run.tests.min.memory}" />
+			<jvmarg value="-Xmx${run.tests.max.memory}" />
+			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+			<classpath refid="run.tests.classpath" />
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
 				<fileset dir="${test.unit.source.directory}">
@@ -306,7 +276,7 @@
 					<include name="${tests.includes}" />
 				</fileset>
 			</batchtest>
-			<test name="org.kuali.kfs.sys.context.${test.shutdown.class}" todir="${test.xml.results.directory}" />
+			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />
 		<junitreport todir="${test.html.results.directory}">

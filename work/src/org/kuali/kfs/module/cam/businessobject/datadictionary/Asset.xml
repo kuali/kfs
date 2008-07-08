@@ -2049,10 +2049,10 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="campusTagNumber" />
-        <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber"
               p:noLookup="true" />
+        <bean parent="FieldDefinition"
+              p:attributeName="campusTagNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationOwnerChartOfAccountsCode" />
         <bean parent="FieldDefinition"

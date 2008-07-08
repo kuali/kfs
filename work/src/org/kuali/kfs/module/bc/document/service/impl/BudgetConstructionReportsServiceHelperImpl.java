@@ -113,7 +113,13 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
         searchCriteria.put(KFSPropertyConstants.EMPLID, salaryFunding.getEmplid());
-        return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
+        
+        List<String> orderList = new ArrayList();
+        orderList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        orderList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+        orderList.add(KFSPropertyConstants.PERSON_NAME);
+        orderList.add(KFSPropertyConstants.EMPLID);
+        return (BudgetConstructionSalarySocialSecurityNumber) budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria, orderList);
     }
     
     public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump) {

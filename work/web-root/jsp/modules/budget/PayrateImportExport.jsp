@@ -73,7 +73,7 @@
 						<kul:htmlControlAttribute property="importCount" readOnly="true" attributeEntry="${payrateImportExportAttributes.importCount}"/>
 					</td>
 					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.exportCount}" /></b>
+						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.updateCount}" /></b>
 						<kul:htmlControlAttribute property="updateCount" readOnly="true" attributeEntry="${payrateImportExportAttributes.updateCount}"/>
 					</td>
 					

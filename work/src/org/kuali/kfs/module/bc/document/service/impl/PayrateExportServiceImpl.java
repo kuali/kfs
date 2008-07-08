@@ -56,19 +56,26 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * 
      * @see org.kuali.kfs.module.bc.service.PayrateExportService#getExportCount()
      */
+    @NonTransactional
     public int getExportCount() {
         return exportCount;
     }
 
     /**
      * 
-     * This method...
      * @param businessObjectService
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
+    
+    /**
+     * 
+     * 
+     * @param payrateExportDao
+     */
+    @NonTransactional
     public void setPayrateExportDao(PayrateExportDao payrateExportDao) {
         this.payrateExportDao = payrateExportDao;
     }
@@ -141,6 +148,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @param fieldSize
      * @return
      */
+    @NonTransactional
     private String padString(String stringToPad, int fieldSize) {
         if (stringToPad.length() < fieldSize) return StringUtils.leftPad(stringToPad, fieldSize - stringToPad.length());
         else if (stringToPad.length() > fieldSize) return stringToPad.substring(0, fieldSize - 1);
@@ -148,6 +156,11 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         return stringToPad;
     }
     
+    /**
+     * Clears all records from payrate holding table
+     * 
+     */
+    @Transactional
     private void clearPayrateHoldingTable() {
         this.businessObjectService.delete((List<PersistableBusinessObject>)this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class));
     }

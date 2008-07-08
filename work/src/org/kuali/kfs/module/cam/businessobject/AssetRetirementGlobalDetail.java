@@ -586,17 +586,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
         this.documentHeader = documentHeader;
     }
 
-    public String getOrganizationCode() {
-        if (ObjectUtils.isNotNull(asset)) {
-            asset.refreshReferenceObject("organizationOwnerAccount");
-            if (ObjectUtils.isNotNull(asset.getOrganizationOwnerAccount())) {
-                return asset.getOrganizationOwnerAccount().getOrganizationCode();
-            }
-        }
-        return null;
-    }
-
-
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

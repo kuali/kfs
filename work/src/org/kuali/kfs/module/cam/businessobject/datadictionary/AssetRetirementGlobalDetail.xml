@@ -38,7 +38,7 @@
         <ref bean="AssetRetirementGlobalDetail-newCollectionRecord" />
         <ref bean="AssetRetirementGlobalDetail-asset.organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetRetirementGlobalDetail-asset.organizationOwnerAccountNumber" />
-        <ref bean="AssetRetirementGlobalDetail-organizationCode" />
+        <ref bean="AssetRetirementGlobalDetail-asset.organizationOwnerAccount.organizationCode" />
         <ref bean="AssetRetirementGlobalDetail-asset.agencyNumber" />
         <ref bean="AssetRetirementGlobalDetail-asset.acquisitionTypeCode" />
         <ref bean="AssetRetirementGlobalDetail-asset.inventoryStatusCode" />
@@ -360,11 +360,10 @@
   <bean id="AssetRetirementGlobalDetail-asset.organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
     <property name="name" value="asset.organizationOwnerAccountNumber" />
   </bean>
-  <bean id="AssetRetirementGlobalDetail-organizationCode" parent="AssetRetirementGlobalDetail-organizationCode-parentBean" />
+  <bean id="AssetRetirementGlobalDetail-asset.organizationOwnerAccount.organizationCode" parent="AssetRetirementGlobalDetail-asset.organizationOwnerAccount.organizationCode-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-organizationCode-parentBean" abstract="true" parent="Asset-organizationOwnerAccount.organizationCode">
-    <property name="name" value="organizationCode" />
-   
+  <bean id="AssetRetirementGlobalDetail-asset.organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Asset-organizationOwnerAccount.organizationCode">
+    <property name="name" value="asset.organizationOwnerAccount.organizationCode" />
   </bean>
   <bean id="AssetRetirementGlobalDetail-asset.agencyNumber" parent="AssetRetirementGlobalDetail-asset.agencyNumber-parentBean" />
 

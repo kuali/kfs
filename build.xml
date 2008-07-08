@@ -322,14 +322,7 @@
 			<fileset dir="${make-source.target.directory}"/>
 		</copy>
 		<copy todir="${plugin.lib.directory}">
-			<fileset dir="${lib.directory}">
-				<exclude name="rice-kew-*.jar"/>
-				<exclude name="rice-ksb-*.jar"/>
-				<exclude name="rice-core-*.jar"/>
-				<exclude name="rice-shared-*.jar"/>
-				<exclude name="commons-logging*.jar"/>
-				<exclude name="spring-2*.jar"/>
-			</fileset>
+			<fileset dir="${lib.directory}" excludes="${plugin.lib.excludes}" />
 		</copy>
 		<copy todir="${plugin.directory}">
 			<fileset dir="${build.plugin.directory}"/>
@@ -343,9 +336,9 @@
 			<fileset dir="${build.appserver.directory}" includes="*.jar"/>
 		</copy>
 		<copy todir="${build.standalone.directory}/WEB-INF/classes">
-			<fileset dir="${build.appserver.directory}" includes="carol.properties"/>
+			<fileset dir="${build.appserver.directory}" includes="${carol.file}"/>
 		</copy>
-		<copy file="build/external/appserver/standalone-kew-web.xml" tofile="${build.standalone.directory}/WEB-INF/web.xml"/>
+		<copy file="build/external/appserver/standalone-kew-web.xml" tofile="${build.standalone.directory}/WEB-INF/${web.file}"/>
 		<copy todir="${build.standalone.directory}">
 			<fileset dir="${webroot.directory}/en" excludes="**/CVS/*,.cvsignore"/>
 		</copy>

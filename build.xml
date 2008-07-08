@@ -287,7 +287,10 @@
 			<test name="org.kuali.kfs.sys.context.${test.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" >
-			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues -Xms40m -Xmx1024m -XX:MaxPermSize=128m"/>
+			<jvmarg value="-Dorg.kuali.test.KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+			<jvmarg value="-Xms40m" />
+			<jvmarg value="-Xmx1024m" />
+			<jvmarg value="-XX:MaxPermSize=128m" />
 			<!-- the test classes must come first so they can override classes as necessary in
 			     the loaded libraries -->
 			<classpath>

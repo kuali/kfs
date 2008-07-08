@@ -762,6 +762,9 @@
 		</property>					
 	</bean>
 	
+	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">
+    </bean>
+	
 	<bean id="budgetPayrateImportService" class="org.kuali.kfs.module.bc.service.impl.PayrateImportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -783,9 +786,18 @@
 	<bean id="payrateImportDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.PayrateImportDaoOjb">
     </bean>
     
-	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">
+    <bean id="budgetPayrateExportService" class="org.kuali.kfs.module.bc.service.impl.PayrateExportServiceImpl" >
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+		<property name="payrateExportDao">
+			<ref bean="payrateExportDao" />
+		</property>
+	</bean>
+	
+	<bean id="payrateExportDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.PayrateExportDaoOjb">
     </bean>
-    
+
     <bean id="reportDumpService" class="org.kuali.kfs.module.bc.document.service.impl.ReportExportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

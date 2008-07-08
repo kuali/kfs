@@ -18,11 +18,9 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.service.PayrateExportService;
 import org.kuali.kfs.module.bc.service.PayrateImportService;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
@@ -99,7 +98,21 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     }
     
     public ActionForward performExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
+        PayrateExportService payrateExportService = SpringContext.getBean(PayrateExportService.class);
+        Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
+        
+        //TODO: form validation
+        
+        //TODO: position union code validation
+        
+        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, payrateImportExportForm.getPositionUnionCode());
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write(fileContents.toString().getBytes());
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "payrateExport.txt");
+        
+        return null;
     }
     
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -58,4 +58,5 @@ public class BCPropertyConstants {
     public static final String GRADE = "grade";
     public static final String POSITION_UNION_CODE = "positionUnionCode";
     public static final String CSF_FREEZE_DATE = "csfFreezeDate";
+    public static final String CONFIDENTIAL_POSITION = "confidentialPosition";
 }

@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
@@ -37,6 +38,7 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 
 /**
  * 
@@ -89,6 +91,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private boolean vacatable;
     private boolean newLineIndicator;
 
+    private UniversalUser employee;
 
     /**
      * Default constructor.
@@ -943,4 +946,23 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         
         return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
     }
+    
+    /**
+     * Gets the employee attribute.
+     * 
+     * @return Returns the employee.
+     */
+    public UniversalUser getEmployee() {
+        return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
+    }
+    
+    /**
+     * Sets the employee attribute value.
+     * 
+     * @param employee The employee to set.
+     */
+    public void setEmployee(UniversalUser employee) {
+        this.employee = employee;
+    }
+
 }

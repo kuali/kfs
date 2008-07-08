@@ -35,8 +35,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.service.PayrateExportService;
-import org.kuali.kfs.module.bc.service.PayrateImportService;
+import org.kuali.kfs.module.bc.document.service.PayrateExportService;
+import org.kuali.kfs.module.bc.document.service.PayrateImportService;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -92,7 +92,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         payrateImportExportForm.setImportCount(payrateImportService.getImportCount());
         payrateImportExportForm.setUpdateCount(payrateImportService.getUpdateCount());
         
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "exportMessages.pdf");
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "import_log.pdf");
         
         return null;
     }

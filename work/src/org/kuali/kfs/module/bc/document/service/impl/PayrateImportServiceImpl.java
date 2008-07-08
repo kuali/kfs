@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -43,8 +43,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateImportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.LockService;
-import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionLockStatus;
-import org.kuali.kfs.module.bc.service.PayrateImportService;
+import org.kuali.kfs.module.bc.document.service.PayrateImportService;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;

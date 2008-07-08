@@ -765,7 +765,7 @@
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">
     </bean>
 	
-	<bean id="budgetPayrateImportService" class="org.kuali.kfs.module.bc.service.impl.PayrateImportServiceImpl" >
+	<bean id="budgetPayrateImportService" class="org.kuali.kfs.module.bc.document.service.impl.PayrateImportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -786,7 +786,7 @@
 	<bean id="payrateImportDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.PayrateImportDaoOjb">
     </bean>
     
-    <bean id="budgetPayrateExportService" class="org.kuali.kfs.module.bc.service.impl.PayrateExportServiceImpl" >
+    <bean id="budgetPayrateExportService" class="org.kuali.kfs.module.bc.document.service.impl.PayrateExportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -843,4 +843,7 @@
 			<ref bean="businessObjectService" />
 		</property> 
     </bean> 	
+    
+    <bean id="payrollPerimeterService" class="org.kuali.kfs.module.bc.document.service.impl.PayrollPerimeterServiceImpl">
+	</bean> 	
 </beans>

@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.service;
+package org.kuali.kfs.module.bc.document.service.impl;
 
-public interface PayrateExportService {
+import org.kuali.kfs.module.bc.document.service.PayrollPerimeterService;
+
+public class PayrollPerimeterServiceImpl implements PayrollPerimeterService {
     
     /**
-     * Builds the Payrate Export File
      * 
-     * @return
+     * @see org.kuali.kfs.module.bc.document.service.PayrollPerimeterService#validatePositionUnionCode(java.lang.String)
      */
-    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode);
-    
-    /**
-     * Returns the number export records
-     * 
-     * @return
-     */
-    public int getExportCount();
+    public boolean validatePositionUnionCode(String positionUnionCode) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
 }

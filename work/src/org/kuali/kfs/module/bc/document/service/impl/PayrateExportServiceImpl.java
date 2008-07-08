@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.service.impl;
+package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao;
-import org.kuali.kfs.module.bc.service.PayrateExportService;
+import org.kuali.kfs.module.bc.document.service.PayrateExportService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.springframework.transaction.annotation.Transactional;
 

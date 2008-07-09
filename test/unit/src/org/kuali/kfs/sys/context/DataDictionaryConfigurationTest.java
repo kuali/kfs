@@ -41,6 +41,8 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -115,6 +117,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
 
+    @RelatesTo(JiraIssue.KFSMI1091)
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         DataDictionaryService dataDictionaryService = (DataDictionaryService)SpringContext.getBean(DataDictionaryService.class);
         List<Class> noActiveFieldClassList = new ArrayList<Class>();

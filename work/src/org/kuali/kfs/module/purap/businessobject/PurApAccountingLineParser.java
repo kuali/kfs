@@ -51,14 +51,6 @@ public class PurApAccountingLineParser extends AccountingLineParserBase {
     }
     
     /**
-     * @see org.kuali.core.bo.AccountingLineParser#getTargetAccountingLineFormat()
-     */
-    @Override
-    public String[] getTargetAccountingLineFormat() {
-        return PURAP_FORMAT;
-    }
-    
-    /**
      * @see org.kuali.core.bo.AccountingLineParser#getSourceAccountingLineClass(org.kuali.core.document.AccountingDocument)
      */
     @Override

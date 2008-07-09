@@ -131,16 +131,17 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase)purapForm.getFinancialDocument();
         PurApAccountingLineParser accountingLineParser = (PurApAccountingLineParser)purapDocument.getAccountingLineParser();
         List importedLines = null;
-        String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY;
+        String errorPathPrefix = PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY;
         //String errorPathPrefix = "accountDistributionnewSourceLine";
 
         // import the lines
         try {
-            if (isSource) {
-                FormFile sourceFile = purapForm.getSourceFile();
-                checkUploadFile(sourceFile);
-                importedLines = accountingLineParser.importSourceAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), purapDocument);
-            }
+             FormFile sourceFile = purapForm.getSourceFile();
+             checkUploadFile(sourceFile);
+             GlobalVariables.getErrorMap().clearErrorPath();
+             GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);                
+             importedLines = accountingLineParser.importSourceAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), purapDocument);
+             GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);            
         }
         catch (AccountingLineParserException e) {
             GlobalVariables.getErrorMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());

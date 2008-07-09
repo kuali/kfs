@@ -61,6 +61,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     private Boolean dvPayeeSubjectPaymentCode;
     private Boolean disbVchrAlienPaymentCode;
     private Boolean disbVchrPayeeEmployeeCode;
+    private Boolean disbVchrEmployeePaidOutsidePayrollCode;
     private String disbursementVoucherPayeeTypeCode;
 
     private PaymentReasonCode disbVchrPaymentReason;
@@ -535,7 +536,8 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
             }
             else if(StringUtils.equals(disbursementVoucherPayeeTypeCode, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
                 try {
-                disbVchrPayeeEmployeeCode = SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(getDisbVchrVendorHeaderIdNumberAsInteger());
+                    disbVchrPayeeEmployeeCode = SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(getDisbVchrVendorHeaderIdNumberAsInteger());
+                    this.setDisbVchrEmployeePaidOutsidePayrollCode(disbVchrPayeeEmployeeCode);
                 } catch(Exception ex) {
                     disbVchrPayeeEmployeeCode = false;
                     ex.printStackTrace();
@@ -608,6 +610,30 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         this.dvPayeeSubjectPaymentCode = dvPayeeSubjectPaymentCode;
     }
 
+    /**
+     * Gets the disbVchrEmployeePaidOutsidePayrollCode attribute. 
+     * @return Returns the disbVchrEmployeePaidOutsidePayrollCode.
+     */
+    public boolean isDisbVchrEmployeePaidOutsidePayrollCode() {
+        return disbVchrEmployeePaidOutsidePayrollCode;
+    }
+
+    /**
+     * Gets the disbVchrEmployeePaidOutsidePayrollCode attribute. 
+     * @return Returns the disbVchrEmployeePaidOutsidePayrollCode.
+     */
+    public boolean getDisbVchrEmployeePaidOutsidePayrollCode() {
+        return disbVchrEmployeePaidOutsidePayrollCode;
+    }
+
+    /**
+     * Sets the disbVchrEmployeePaidOutsidePayrollCode attribute value.
+     * @param disbVchrEmployeePaidOutsidePayrollCode The disbVchrEmployeePaidOutsidePayrollCode to set.
+     */
+    public void setDisbVchrEmployeePaidOutsidePayrollCode(boolean disbVchrEmployeePaidOutsidePayrollCode) {
+        this.disbVchrEmployeePaidOutsidePayrollCode = disbVchrEmployeePaidOutsidePayrollCode;
+    }
+    
     /**
      * Gets the disbVchrPaymentReason attribute.
      * 
@@ -733,8 +759,14 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return
      */
     public boolean isEmployee() {
+        // If is vendor, then check vendor employee flag
+        if(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR.equals(disbursementVoucherPayeeTypeCode)) {
+            return SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(getDisbVchrVendorHeaderIdNumberAsInteger());
+        }
+        
+        // Otherwise, just check payee type code equal to "E"
         return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(disbursementVoucherPayeeTypeCode);
-    }
+     }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -781,5 +813,5 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         
         return address.toString();
     }
-    
+
 }

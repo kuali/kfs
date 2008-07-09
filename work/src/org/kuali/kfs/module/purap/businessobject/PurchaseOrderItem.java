@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -173,6 +174,9 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     public PurchaseOrderDocument getPurchaseOrder() {
+        if (ObjectUtils.isNull(purchaseOrder)) {
+            refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
+        }
         return super.getPurapDocument();
     }
 

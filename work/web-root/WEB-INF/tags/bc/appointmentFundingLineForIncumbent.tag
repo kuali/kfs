@@ -29,14 +29,11 @@
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/BudgetConstructionAppointmentFundingReasonCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/BudgetConstructionDurationService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SalarySettingService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>	
 	
-	<script language="JavaScript" type="text/javascript" src="dwr/interface/FinancialSystemUserService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/budget/objectInfo.js"></script>
+	<script type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<script type="text/javascript" src="scripts/budget/objectInfo.js"></script>
+	
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
@@ -148,8 +145,13 @@
 		
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
             accountingLine="${fundingLineName}"
-            field="positionNumber" detailFunction="loadPositionInfo"
+            field="positionNumber" detailFunction="budgetObjectInfoUpdator.loadPositionInfo"
             detailField="budgetConstructionPosition.positionDescription"
+            detailFunctionExtraParam="'${fundingLineName}.universityFiscalYear', '${fundingLineName}.emplid',
+            	'${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths',
+            	'${fundingLineName}.budgetConstructionPosition.iuPayMonths',
+				'${fundingLineName}.budgetConstructionPosition.positionFullTimeEquivalency', 
+				'${fundingLineName}.budgetConstructionAdministrativePost.administrativePost',"
             attributes="${pbcafAttributes}" inquiry="true" lookup="true" 
             boClassSimpleName="BudgetConstructionPosition"
             boPackageName="org.kuali.kfs.module.bc.businessobject"
@@ -157,41 +159,26 @@
             displayHidden="false"
             lookupOrInquiryKeys="positionNumber"
             accountingLineValuesMap="${fundingLine.valuesMap}"/>
-
-		<bc:pbglLineDataCell dataCellCssClass="datacell"
-            accountingLine="${fundingLineName}.budgetConstructionPosition"
-           	field="iuNormalWorkMonths"
-           	attributes="${positionAttributes}"
-           	readOnly="true"
-           	displayHidden="false"/>
         
-		<bc:pbglLineDataCell dataCellCssClass="datacell"
-            accountingLine="${fundingLineName}.budgetConstructionPosition"
-           	field="iuPayMonths"
-           	attributes="${positionAttributes}"
-           	readOnly="true"
-           	displayHidden="false"/>
+        <td class="datacell" rowSpan="1">        		
+		    <bc:pbglLineDataCellDetail detailField="budgetConstructionPosition.iuNormalWorkMonths" 
+		    	accountingLine="${fundingLineName}" dataFieldCssClass="nowrap" />
+		</td>
            	
-		<bc:pbglLineDataCell dataCellCssClass="datacell"
-            accountingLine="${fundingLineName}.budgetConstructionPosition"
-           	field="positionFullTimeEquivalency"
-           	attributes="${positionAttributes}"
-           	readOnly="true"
-           	displayHidden="false"/>           	
-           		
-		<c:choose>
-			<c:when test="${hasBeenAdded && KualiForm.emplid ne BCConstants.VACANT_EMPLID}">	 		        
-		        <bc:pbglLineDataCell dataCellCssClass="datacell"
-		           	accountingLine="${fundingLineName}.budgetConstructionAdministrativePost"
-		           	field="administrativePost"
-		           	attributes="${adminPostAttributes}"
-		           	readOnly="true"
-		           	displayHidden="false" /> 	         
-		   	</c:when>
-	   		<c:otherwise>
-		       <td class="datacell"></td>
-		    </c:otherwise>
-		</c:choose>
+        <td class="datacell" rowSpan="1">        		
+		    <bc:pbglLineDataCellDetail detailField="budgetConstructionPosition.iuPayMonths" 
+		    	accountingLine="${fundingLineName}" dataFieldCssClass="nowrap" />
+		</td> 
+           	          	
+        <td class="datacell" rowSpan="1">        		
+		    <bc:pbglLineDataCellDetail detailField="budgetConstructionPosition.positionFullTimeEquivalency" 
+		    	accountingLine="${fundingLineName}" dataFieldCssClass="nowrap" />
+		</td> 
+		
+		<td class="datacell" rowSpan="1">        		
+		    <bc:pbglLineDataCellDetail detailField="budgetConstructionAdministrativePost.administrativePost" 
+		    	accountingLine="${fundingLineName}" dataFieldCssClass="nowrap" />
+		</td>
 	</tr>
 	                                
 	<tr id="${fundingLineName}">

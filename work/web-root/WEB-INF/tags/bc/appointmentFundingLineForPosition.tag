@@ -30,13 +30,10 @@
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/BudgetConstructionAppointmentFundingReasonCodeService.js"></script>
-	<script type='text/javascript' src="dwr/interface/BudgetConstructionDurationService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SalarySettingService.js"></script>
 	
-	<script language="JavaScript" type="text/javascript" src="dwr/interface/FinancialSystemUserService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/budget/objectInfo.js"></script>
+	<script type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<script type="text/javascript" src="scripts/budget/objectInfo.js"></script>
+	
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
@@ -155,8 +152,11 @@
 	
 		<bc:pbglLineDataCell dataCellCssClass="datacell"
 			accountingLine="${fundingLineName}"
-			field="emplid" detailFunction="loadEmplInfo"
+			field="emplid" detailFunction="budgetObjectInfoUpdator.loadIntendedIncumbentInfo"
 			detailField="budgetConstructionIntendedIncumbent.personName"
+			detailFunctionExtraParam="'${fundingLineName}.positionNumber', 
+						'${fundingLineName}.budgetConstructionIntendedIncumbent.iuClassificationLevel', 
+						'${fundingLineName}.budgetConstructionAdministrativePost.administrativePost',"
 			attributes="${pbcafAttributes}" inquiry="${doLookupOrInquiry}" lookup="true"
 			boClassSimpleName="BudgetConstructionIntendedIncumbent"
 			boPackageName="org.kuali.kfs.module.bc.businessobject"
@@ -166,19 +166,15 @@
 			accountingLineValuesMap="${fundingLine.valuesMap}"
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />	
 	 
- 		<bc:pbglLineDataCell dataCellCssClass="datacell"
-           	cellProperty="${fundingLineName}.budgetConstructionIntendedIncumbent.iuClassificationLevel"
-           	field="iuClassificationLevel"
-           	attributes="${intincAttributes}"
-           	readOnly="true"
-           	displayHidden="false" />
-        
-        <bc:pbglLineDataCell dataCellCssClass="datacell"
-           	cellProperty="${fundingLineName}.budgetConstructionAdministrativePost.administrativePost"
-           	field="administrativePost"
-           	attributes="${adminPostAttributes}"
-           	readOnly="true"
-           	displayHidden="false"/> 	         
+        <td class="datacell" rowSpan="1">        		
+		    <bc:pbglLineDataCellDetail detailField="budgetConstructionIntendedIncumbent.iuClassificationLevel" 
+		    	accountingLine="${fundingLineName}" dataFieldCssClass="nowrap" />
+		</td> 
+		
+		<td class="datacell" rowSpan="1">        		
+		    <bc:pbglLineDataCellDetail detailField="budgetConstructionAdministrativePost.administrativePost" 
+		    	accountingLine="${fundingLineName}" dataFieldCssClass="nowrap" />
+		</td>  		         
 	</tr>
 	                                
 	<tr id="${fundingLineName}">

@@ -842,8 +842,20 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property> 
+    </bean> 
+        
+    <bean id="budgetConstructionPositionService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionPositionServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property> 
+    </bean>	
+    
+    <bean id="budgetConstructionAdministrativePostService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionAdministrativePostServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property> 
     </bean> 	
     
     <bean id="payrollPerimeterService" class="org.kuali.kfs.module.bc.document.service.impl.PayrollPerimeterServiceImpl">
-	</bean> 	
+	</bean>  	
 </beans>

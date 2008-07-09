@@ -13,11 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+/**
+ * import the given javascript into the hosting document
+ * 
+ * @param scriptSourceFileName the given script source file name 
+ * @param scriptSourceHolder the script source file name holder that is a key-value pair object. 
+ * One script source file name can only have one entry in the object, so it is used to avoid double load scripts.
+ */  
+function importJavascriptFile(scriptSourceFileName, scriptSourceHolder) {
+	if (scriptSourceFileName == "" || scriptSourceHolder[scriptSourceFileName] != null) {
+		return;
+	}
+	
+	var scriptElement = document.createElement("script");
+	scriptElement.type = "text/javascript";
+	scriptElement.src = scriptSourceFileName;
+	document.getElementsByTagName("head")[0].appendChild(scriptElement);
+	
+	scriptSourceHolder[scriptSourceFileName] = scriptSourceFileName;
+} 
 
+/**
+ * import the script that defines the DWR interface into the hosting document
+ * 
+ * @param interfaceName the given interface name
+ * @param interfaceScriptHolder the script name holder that is a key-value pair object
+ */	
+function importDWRInterface(interfaceName, interfaceScriptHolder) {
+	if (interfaceName == "" || interfaceScriptHolder[interfaceName] != null) {
+		return;
+	}
+	
+	var scriptSourceFileName = "dwr/interface/" + interfaceName + ".js";
+	importJavascriptFile(scriptSourceFileName, interfaceScriptHolder)
+}
+
+/**
+ * the constructor of BudgetObjectInfoUpdator object
+ */
 function BudgetObjectInfoUpdator(){ 
-	fteQuantitySuffix = ".appointmentRequestedFteQuantity";
 	requestedCsfAmountSuffix = ".appointmentRequestedCsfAmount";
 	requestedCsfTimePercentSuffix = ".appointmentRequestedCsfTimePercent";
+	
+	var interfaceScriptHolder = new Object();
+	importDWRInterface("BudgetConstructionAppointmentFundingReasonCodeService", interfaceScriptHolder);
+	importDWRInterface("BudgetConstructionIntendedIncumbentService", interfaceScriptHolder);
+	importDWRInterface("BudgetConstructionDurationService", interfaceScriptHolder);
+	importDWRInterface("BudgetConstructionAdministrativePostService", interfaceScriptHolder);
+	importDWRInterface("BudgetConstructionPositionService", interfaceScriptHolder);
+	importDWRInterface("SalarySettingService", interfaceScriptHolder);
+	importDWRInterface("FinancialSystemUserService", interfaceScriptHolder);
 }
 
 BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldName, durationDescriptionFieldName ) {
@@ -79,25 +125,90 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonCodeFieldN
 	}
 }
 
-BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(reasonCodeFieldName, reasonDescriptionFieldName ) {
-    var reasonCode = DWRUtil.getValue( reasonCodeFieldName );
+BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {
+	loadEmplInfo(emplidFieldName, personNameFieldName);
+	
+	var emplid = DWRUtil.getValue( emplidFieldName );
 
-	if (reasonCode=='') {
-		clearRecipients(reasonDescriptionFieldName, "");
+	if (emplid=='') {
+		clearRecipients(iuClassificationLevelFieldName, "");
 	} else {
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( reasonDescriptionFieldName, data.appointmentFundingReasonDescription );
+				setRecipientValue( iuClassificationLevelFieldName, data.iuClassificationLevel);
 			} else {
-				setRecipientValue( reasonDescriptionFieldName, wrapError( "reason not found" ), true );			
+				clearRecipients(iuClassificationLevelFieldName, "");			
 			} },
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( reasonDescriptionFieldName, wrapError( "reason not found" ), true );
+				setRecipientValue( iuClassificationLevelFieldName, wrapError( "Error" ), true );
 			}
 		};
 		
-		BudgetConstructionAppointmentFundingReasonCodeService.getByPrimaryId( reasonCode, dwrReply );
+		BudgetConstructionIntendedIncumbentService.getByPrimaryId( emplid, dwrReply );
+	}
+	
+	budgetObjectInfoUpdator.loadAdministrativePostInfo(emplidFieldName, positionNumberFieldName, administrativePostFieldName);
+}
+
+BudgetObjectInfoUpdator.prototype.loadPositionInfo = function(universityFiscalYearFieldName, emplidFieldName, 
+	iuNormalWorkMonthsFieldName, iuPayMonthsFieldName, positionFullTimeEquivalencyFieldName, administrativePostFieldName, 
+	positionNumberFieldName, positionDescriptionFieldName) {
+	
+	var universityFiscalYear = DWRUtil.getValue( universityFiscalYearFieldName );
+	var emplid = DWRUtil.getValue( emplidFieldName );
+	var positionNumber = DWRUtil.getValue( positionNumberFieldName );
+
+	if (positionNumber == '' || universityFiscalYear == '') {
+		clearRecipients(positionDescriptionFieldName, "");
+		clearRecipients(iuNormalWorkMonthsFieldName, "");
+		clearRecipients(iuPayMonthsFieldName, "");
+		clearRecipients(positionFullTimeEquivalencyFieldName, "");
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( positionDescriptionFieldName, data.positionDescription);
+				setRecipientValue( iuNormalWorkMonthsFieldName, data.iuNormalWorkMonths);
+				setRecipientValue( iuPayMonthsFieldName, data.iuPayMonths);
+				setRecipientValue( positionFullTimeEquivalencyFieldName, data.positionFullTimeEquivalency);
+			} else {
+				setRecipientValue( positionDescriptionFieldName, wrapError( "position not found" ), true );
+				clearRecipients(iuNormalWorkMonthsFieldName, "");
+				clearRecipients(iuPayMonthsFieldName, "");
+				clearRecipients(positionFullTimeEquivalencyFieldName, "");			
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( positionDescriptionFieldName, wrapError( "position not found" ), true );
+			}
+		};
+		
+		BudgetConstructionPositionService.getByPrimaryId(universityFiscalYear, positionNumber, dwrReply );
+	}
+	
+	budgetObjectInfoUpdator.loadAdministrativePostInfo(emplidFieldName, positionNumberFieldName, administrativePostFieldName);
+}
+
+BudgetObjectInfoUpdator.prototype.loadAdministrativePostInfo = function(emplidFieldName, positionNumberFieldName, administrativePostFieldName) {
+	var emplid = DWRUtil.getValue( emplidFieldName );
+	var positionNumber = DWRUtil.getValue( positionNumberFieldName );
+
+	if (positionNumber == '' || emplid == '') {
+		clearRecipients(administrativePostFieldName, "");
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( administrativePostFieldName, data.administrativePost);
+			} else {
+				clearRecipients(administrativePostFieldName, "");			
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( administrativePostFieldName, wrapError( "administrative post not found" ), true );
+			}
+		};
+		
+		BudgetConstructionAdministrativePostService.getByPrimaryId(emplid, positionNumber, dwrReply );
 	}
 }
 

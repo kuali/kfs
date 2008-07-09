@@ -162,7 +162,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
-        appointmentFundings.remove(appointmentFunding);
+        salarySettingService.purgeAppointmentFunding(appointmentFundings, appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

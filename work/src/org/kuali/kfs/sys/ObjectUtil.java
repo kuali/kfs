@@ -240,20 +240,7 @@ public class ObjectUtil {
         DynaProperty[] properties = dynaClass.getDynaProperties();
 
         for (DynaProperty property : properties) {
-            String propertyName = property.getName();
-            if (PersistableBusinessObjectBase.class.isAssignableFrom(property.getClass())) {
-                continue;
-            }
-
-            if (PropertyUtils.isReadable(sourceObject, propertyName) && PropertyUtils.isWriteable(targetObject, propertyName)) {
-                try {
-                    Object propertyValue = PropertyUtils.getProperty(sourceObject, propertyName);
-                    PropertyUtils.setProperty(targetObject, propertyName, propertyValue);
-                }
-                catch (Exception e) {
-                    LOG.debug(e + propertyName);
-                }
-            }
+            ObjectUtil.setProperty(targetObject, sourceObject, property, false);
         }
     }
 
@@ -263,62 +250,43 @@ public class ObjectUtil {
      * @param targetObject the target object
      * @param sourceObject the source object
      */
-    public static void buildObjectSkipDeprecatedFields(Object targetObject, Object sourceObject) {
+    public static void buildObjectWithoutReferenceFields(Object targetObject, Object sourceObject) {
         DynaClass dynaClass = WrapDynaClass.createDynaClass(targetObject.getClass());
         DynaProperty[] properties = dynaClass.getDynaProperties();
 
         for (DynaProperty property : properties) {
-            String propertyName = property.getName();
-            if (PersistableBusinessObjectBase.class.isAssignableFrom(property.getClass())) {
-                continue;
+            ObjectUtil.setProperty(targetObject, sourceObject, property, true);
+        }
+    }
+
+    /**
+     * Populate the property of the target object with the counterpart of the source object
+     * 
+     * @param targetObject the target object
+     * @param sourceObject the source object
+     * @param property the specified propety of the target object
+     * @param skipReferenceFields determine whether the referencing fields need to be populated
+     */
+    public static void setProperty(Object targetObject, Object sourceObject, DynaProperty property, boolean skipReferenceFields) {
+        String propertyName = property.getName();
+
+        try {
+            if (skipReferenceFields) {
+                Class propertyType = property.getType();
+                if (propertyType == null || PersistableBusinessObjectBase.class.isAssignableFrom(propertyType) || List.class.isAssignableFrom(propertyType)) {
+                    return;
+                }
             }
 
             if (PropertyUtils.isReadable(sourceObject, propertyName) && PropertyUtils.isWriteable(targetObject, propertyName)) {
-                String setterMethodName = "set" + StringUtils.capitalize(propertyName);
-
-                if (!isDeprecatedMethod(targetObject.getClass(), setterMethodName)) {
-                    try {
-                        Object propertyValue = PropertyUtils.getProperty(sourceObject, propertyName);
-                        PropertyUtils.setProperty(targetObject, propertyName, propertyValue);
-                    }
-                    catch (Exception e) {
-                        LOG.debug(e + propertyName);
-                    }
-                }
+                Object propertyValue = PropertyUtils.getProperty(sourceObject, propertyName);
+                PropertyUtils.setProperty(targetObject, propertyName, propertyValue);
             }
         }
-    }
-
-    /**
-     * determine whether the given method of the given class is deprecated
-     * 
-     * @param clazz the given class
-     * @param methodName the given method name
-     * @return true if the given method of the given class is deprecated; otherwise, false
-     */
-    public static boolean isDeprecatedMethod(Class clazz, String methodName) {
-        Method method = getMethod(clazz, methodName);
-
-        return method.getAnnotation(Deprecated.class) != null;
-    }
-
-    /**
-     * get the method with the given name for the given class
-     * 
-     * @param clazz the given class
-     * @param methodName the given method name
-     * @return the method with the given name for the given class
-     */
-    public static Method getMethod(Class clazz, String methodName) {
-        while (clazz != null) {
-            try {
-                return clazz.getDeclaredMethod(methodName);
-            }
-            catch (NoSuchMethodException e) {
-                clazz = clazz.getSuperclass();
-            }
+        catch (Exception e) {
+            LOG.debug(e + propertyName);
+            throw new RuntimeException("Failed to set the property:" + propertyName + "." + e);
         }
-        throw new RuntimeException("Unable to getMethod: " + methodName);
     }
 
     /**

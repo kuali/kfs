@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +76,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
         
         if (refreshCaller!= null && refreshCaller.endsWith(KFSConstants.LOOKUPABLE_SUFFIX)) {
-            salarySettingForm.getNewBCAFLine().refreshNonUpdateableReferences();
+            salarySettingForm.refreshBCAFLine(salarySettingForm.getNewBCAFLine());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -89,18 +91,19 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         DetailSalarySettingForm salarySettingForm = (DetailSalarySettingForm) form;
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
         
-        List<SalarySettingExpansion> salarySettingExpansionList = new ArrayList<SalarySettingExpansion>();
+        Set<SalarySettingExpansion> salarySettingExpansionSet = new HashSet<SalarySettingExpansion>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : appointmentFundings) {
             SalarySettingExpansion salarySettingExpansion = salarySettingService.retriveSalarySalarySettingExpansion(fundingLine);
 
             if (salarySettingExpansion != null) {
-                salarySettingExpansionList.add(salarySettingExpansion);
+                salarySettingExpansionSet.add(salarySettingExpansion);
             }
+            LOG.info("salarySettingExpansionSet.size(): " + salarySettingExpansionSet.size());
         }
 
-        businessObjectService.save(appointmentFundings);
+        salarySettingService.saveAppointmentFundings(appointmentFundings);
 
-        for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionList) {
+        for (SalarySettingExpansion salarySettingExpansion : salarySettingExpansionSet) {
             salarySettingExpansion.refreshReferenceObject(BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING);
             salarySettingService.saveSalarySetting(salarySettingExpansion);
         }

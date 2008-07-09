@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -49,7 +50,9 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements the SalarySettingService interface
+ * implements the service methods defined in the SalarySettingService
+ * 
+ * @see org.kuali.kfs.module.bc.document.service.SalarySettingService
  */
 @Transactional
 public class SalarySettingServiceImpl implements SalarySettingService {
@@ -115,7 +118,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         if (position == null) {
             return null;
         }
-        
+
         Integer payMonth = position.getIuPayMonths();
         Integer fundingMonth = appointmentFunding.getAppointmentFundingMonth();
         BigDecimal requestedTimePercent = appointmentFunding.getAppointmentRequestedTimePercent();
@@ -135,9 +138,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         BigDecimal payMonthAsDecimal = BigDecimal.valueOf(payMonth);
-        BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);        
+        BigDecimal fundingMonthAsDecimal = BigDecimal.valueOf(fundingMonth);
         BigDecimal fundingMonthPercent = fundingMonthAsDecimal.divide(payMonthAsDecimal, 4, BigDecimal.ROUND_HALF_EVEN);
-        
+
         return requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
     }
 
@@ -267,6 +270,16 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         return vacantAppointmentFunding;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#purgeAppointmentFunding(java.util.List, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void purgeAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {        
+        this.preprocessFundingReason(appointmentFunding);
+        
+        businessObjectService.delete(appointmentFunding);
+        appointmentFundings.remove(appointmentFunding);       
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#adjustRequestedSalaryByAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
@@ -327,6 +340,21 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#saveSalarySetting(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
+     */
+    public void saveAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings) {
+        LOG.debug("saveAppointmentFundings() start");
+
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            this.preprocessFundingReason(appointmentFunding);
+
+            this.preprocessLeaveRequest(appointmentFunding);
+        }
+
+        businessObjectService.save(appointmentFundings);
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateSalarySettingExpansion(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
      */
     @SuppressWarnings("deprecation")
@@ -367,16 +395,18 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFunding.setAppointmentRequestedAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentRequestedTimePercent(BigDecimal.ZERO);
         appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
+        appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO);
 
         appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO);
         appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);
-        appointmentFunding.setAppointmentRequestedFteQuantity(BigDecimal.ZERO);
 
         appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
         appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
 
         appointmentFunding.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
+        appointmentFunding.setAppointmentFundingMonth(0);
+
         appointmentFunding.setPositionObjectChangeIndicator(false);
         appointmentFunding.setPositionSalaryChangeIndicator(false);
     }
@@ -553,12 +583,41 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private PendingBudgetConstructionAppointmentFunding createVacantAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
 
-        ObjectUtil.buildObject(vacantAppointmentFunding, appointmentFunding);
+        ObjectUtil.buildObjectWithoutReferenceFields(vacantAppointmentFunding, appointmentFunding);
         vacantAppointmentFunding.setEmplid(BCConstants.VACANT_EMPLID);
         vacantAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
         vacantAppointmentFunding.setPersistedDeleteIndicator(false);
 
         return vacantAppointmentFunding;
+    }
+
+    /**
+     * preprocess the funding reason of the given appointment funding before the funding is saved
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    private void preprocessFundingReason(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        businessObjectService.deleteMatching(BudgetConstructionAppointmentFundingReason.class, appointmentFunding.getValuesMap());
+
+        List<BudgetConstructionAppointmentFundingReason> fundingReasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
+        if (StringUtils.isBlank(fundingReasons.get(0).getAppointmentFundingReasonCode())) {
+            fundingReasons.clear();
+        }
+    }
+
+    /**
+     * preprocess the leave request of the given appointment funding before the funding is saved
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    private void preprocessLeaveRequest(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        String durationCode = appointmentFunding.getAppointmentFundingDurationCode();
+
+        if (StringUtils.isEmpty(durationCode) || StringUtils.equals(durationCode, BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT)) {
+            appointmentFunding.setAppointmentRequestedCsfAmount(KualiInteger.ZERO);
+            appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO);
+            appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);
+        }
     }
 
     /**

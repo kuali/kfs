@@ -24,6 +24,14 @@
 	    	<param name="class" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition" />
 	    	<include method="getCalculatedBCPositionFTE" />
 	    </create>
+
+	    <convert converter="bean" match="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition">
+	   		<param name="include" value="positionFullTimeEquivalency,iuNormalWorkMonths,iuPayMonths,positionDescription" />
+	   	</convert>
+	    <create creator="spring" javascript="BudgetConstructionPositionService">
+	    	<param name="beanName" value="budgetConstructionPositionService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
 	    
 	    <convert converter="bean" match="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode">
 	   		<param name="include" value="appointmentFundingReasonCode,appointmentFundingReasonDescription" />
@@ -41,9 +49,17 @@
 	    	<include method="getByPrimaryId" />
 	    </create>
 	    
-	    <convert converter="bean" match="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent" />
+	    <convert converter="bean" match="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent">
+	    	<param name="include" value="emplid,personName,setidSalary,salaryAdministrationPlan,grade,iuClassificationLevel" />
+	    </convert>
 	    <create creator="spring" javascript="BudgetConstructionIntendedIncumbentService">
 	    	<param name="beanName" value="budgetConstructionIntendedIncumbentService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost" />
+	    <create creator="spring" javascript="BudgetConstructionAdministrativePostService">
+	    	<param name="beanName" value="budgetConstructionAdministrativePostService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
 	    

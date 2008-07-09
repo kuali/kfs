@@ -51,7 +51,7 @@
 
   <bean id="OwnershipType-vendorOwnershipDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Ownership Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
@@ -69,7 +69,7 @@
 
   <bean id="OwnershipType-vendorOwnershipCategoryAllowedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCategoryAllowedIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Ownership Type Category Allowed Indicator" />
     <property name="shortLabel" value="Ownership Type Category Allowed" />
     <property name="maxLength" value="1" />

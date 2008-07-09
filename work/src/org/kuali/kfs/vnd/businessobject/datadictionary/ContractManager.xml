@@ -87,7 +87,7 @@
 
   <bean id="ContractManager-contractManagerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractManagerName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Contract Manager Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -121,7 +121,7 @@
 
   <bean id="ContractManager-contractManagerSignatureImageLocationDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractManagerSignatureImageLocationDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Contract Manager Signature Image Location Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

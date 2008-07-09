@@ -81,7 +81,7 @@
 
   <bean id="CommodityCode-salesTaxIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salesTaxIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Sales Tax Indicator" />
     <property name="shortLabel" value="Sales Tax" />
     <property name="maxLength" value="1" />
@@ -93,7 +93,7 @@
 
   <bean id="CommodityCode-restrictedItemsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="restrictedItemsIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Restricted Items Indicator" />
     <property name="shortLabel" value="Restricted Items" />
     <property name="maxLength" value="1" />

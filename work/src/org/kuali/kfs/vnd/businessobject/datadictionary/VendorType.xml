@@ -57,7 +57,7 @@
 
   <bean id="VendorType-vendorTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorTypeDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
@@ -76,6 +76,7 @@
     <property name="name" value="vendorTaxNumberRequiredIndicator" />
     <property name="label" value="Tax Number Required" />
     <property name="shortLabel" value="Tax # Required" />
+    <property name="forceUppercase" value="false" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
@@ -86,6 +87,7 @@
     <property name="name" value="vendorTypeChangeAllowedIndicator" />
     <property name="label" value="Type Change Allowed" />
     <property name="shortLabel" value="Type Change" />
+    <property name="forceUppercase" value="false" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
@@ -96,6 +98,7 @@
     <property name="name" value="vendorContractAllowedIndicator" />
     <property name="label" value="Vendor Contract Allowed" />
     <property name="shortLabel" value="Contract Allowed" />
+    <property name="forceUppercase" value="false" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
@@ -106,6 +109,7 @@
     <property name="name" value="vendorShowReviewIndicator" />
     <property name="label" value="Show Review Page" />
     <property name="shortLabel" value="Show Review Page" />
+    <property name="forceUppercase" value="false" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
@@ -116,6 +120,7 @@
     <property name="name" value="commodityRequiredIndicator" />
     <property name="label" value="Commodity Code Required" />
     <property name="shortLabel" value="Commodity Code Required" />
+    <property name="forceUppercase" value="false" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>

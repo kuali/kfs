@@ -49,7 +49,7 @@
 
   <bean id="PhoneType-vendorPhoneTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorPhoneTypeDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Phone Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

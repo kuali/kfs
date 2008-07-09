@@ -50,7 +50,7 @@
 
   <bean id="ShippingTitle-vendorShippingTitleDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorShippingTitleDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Shipping Title Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

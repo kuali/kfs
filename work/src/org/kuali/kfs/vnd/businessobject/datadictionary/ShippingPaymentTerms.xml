@@ -50,7 +50,7 @@
 
   <bean id="ShippingPaymentTerms-vendorShippingPaymentTermsDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorShippingPaymentTermsDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Shipping Payment Terms Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

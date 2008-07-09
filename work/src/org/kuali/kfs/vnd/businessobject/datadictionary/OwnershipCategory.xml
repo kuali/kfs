@@ -50,7 +50,7 @@
 
   <bean id="OwnershipCategory-vendorOwnershipCategoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCategoryDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Ownership Type Category Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

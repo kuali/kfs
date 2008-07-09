@@ -843,17 +843,6 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="PersonSortCodeGroup" >
-			<groupExpression><![CDATA[$F{personSortCode}]]></groupExpression>
-			<groupHeader>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

@@ -414,32 +414,29 @@ public class KFSKeyConstants {
     public static final String ERROR_INVALID_NEGATIVE_AMOUNT = "error.invalidNegativeAmount";
     public static final String ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION = "error.invalidNegativeAmountForNonCorrection";
     public static final String ERROR_NOT_AMONG = "error.invalidNotAmong";
-    public static final String ERROR_PAYEE_INITIATOR = "error.document.payeeinitiator";
-    public static final String ERROR_PAYMENT_REASON_PAYEE = "error.document.payreason.payee";
-    public static final String ERROR_PAYMENT_REASON_EMPLOYEE = "error.document.payreason.employee";
     public static final String ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL = "error.document.checktotal.zeroOrNegative";
     public static final String ERROR_NEGATIVE_ACCOUNTING_TOTAL = "error.document.accountingtotal.negative";
     public static final String ERROR_NO_ACCOUNTING_LINES = "error.document.accountinglines.noLines";
     public static final String ERROR_CHECK_ACCOUNTING_TOTAL = "error.document.checkaccounting.match";
     public static final String ERROR_FOUND_TAX_ID_VENDOR = "error.document.payee.foundtaxidvendor";
-    public static final String ERROR_FOUND_TAX_ID_PAYEE = "error.document.payee.foundtaxidpayee";
-    public static final String ERROR_FOUND_TAX_ID_PEND_PAYEE = "error.document.payee.foundtaxidpendpayee";
     public static final String ERROR_FOUND_TAX_ID_EMPL = "error.document.payee.foundtaxidempl";
     public static final String ERROR_FOUND_TAX_ID_INSTITUTION = "error.document.payee.foundtaxidinstitution";
     public static final String ERROR_EMPL_FLAG = "error.document.payee.emplflag";
     public static final String ERROR_TAX_TYPE_REQUIRED = "error.document.taxtype.required";
     public static final String ERROR_EMPL_FLAG_NOT_SSN = "error.document.emplflag.notssn";
+
     public static final String WARNING_DV_W9_ALIEN = "message.dv.w9.alien";
     public static final String WARNING_DV_W9_NONALIEN = "message.dv.w9.nonalien";
     public static final String WARNING_MISSING_DV_W9_ALIEN = "message.dv.w9.w8ben";
     public static final String WARNING_MISSING_DV_W9_NONALIEN = "message.dv.w9.w9";
 
-    public static final String QUESTION_EXISTING_PAYEE_NAME = "question.payee.nameExist";
-    public static final String QUESTION_COPY_NEW_PAYEE_ADDRESS_LINES = "question.newPayee.copyAddressLines";
-    public static final String QUESTION_COPY_CHANGED_PAYEE_ADDRESS_LINES = "question.changePayee.copyAddressLines";
     public static final String QUESTION_GENERATE_LABOR_BENEFIT_LINES = "question.budgetAdjustment.generateBenefitLines";
 
     public static final String QUESTION_CLEAR_UNNEEDED_TAB = "question.dv.clearUnneededTab";
+
+    public static final String ERROR_PAYEE_INITIATOR = "error.document.payeeinitiator";
+    public static final String ERROR_PAYMENT_REASON_PAYEE = "error.document.payreason.payee";
+    public static final String ERROR_PAYMENT_REASON_EMPLOYEE = "error.document.payreason.employee";
 
     public static final String ERROR_DV_ALIEN_NOT_INDIVIDUAL = "message.dv.alien.notindividual";
     public static final String ERROR_DV_DUE_DATE = "error.document.dueDate";
@@ -451,9 +448,6 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING = "error.document.specialHandlingNoteMissing";
     public static final String ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING = "error.document.exceptionAttachedNoteMissing";
     public static final String ERROR_DV_PAYEE_SELECTION_EMPTY = "error.document.payeeSelectionEmpty";
-    public static final String ERROR_DV_PAYEE_CITY_NAME = "error.document.payee.cityName";
-    public static final String ERROR_DV_PAYEE_STATE_CODE = "error.document.payee.stateCode";
-    public static final String ERROR_DV_PAYEE_ZIP_CODE = "error.document.payee.zipCode";
     public static final String ERROR_DV_PAYMENT_OBJECT_LEVEL = "error.dv.paymentReasonObjectLevel";
     public static final String ERROR_DV_PAYMENT_OBJECT_CODE = "error.dv.paymentReasonObjectCode";
     public static final String ERROR_DV_OBJECT_TYPE_CODE = "error.dv.objectTypeCode";
@@ -506,13 +500,14 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_PREPAID_CHECK_TOTAL = "error.dv.prepaidCheckTotal";
     public static final String WARNING_DV_PAYEE_NONEXISTANT_CLEARED = "message.dv.payee.nonexistant.cleared";
     public static final String MESSAGE_DV_WIRE_CHARGE = "message.dv.wireCharge";
-    public static final String ERROR_EMPLOYEE_PAID_OUTSIDE_PAYROLL = "error.dv.emplPaidOutsidePayroll";
+    public static final String ERROR_DV_EMPLOYEE_PAID_OUTSIDE_PAYROLL = "error.dv.emplPaidOutsidePayroll";
     public static final String ERROR_DV_MOVING_PAYMENT_PAYEE = "error.dv.movingPaymentPayee";
     public static final String ERROR_DV_RESEARCH_PAYMENT_PAYEE = "error.dv.researchPaymentPayee";
-    public static final String ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL = "error.dv.activeEmployeePrepaidTravel";
+    public static final String ERROR_DV_ACTIVE_EMPLOYEE_PREPAID_TRAVEL = "error.dv.activeEmployeePrepaidTravel";
     public static final String ERROR_DV_REVOLVING_PAYMENT_REASON = "error.dv.revolvingPaymentReason";
     public static final String ERROR_DV_DELETE_TAX_LINE = "error.dv.deleteTaxLine";
     public static final String ERROR_DV_CHECK_TOTAL_CHANGE = "error.dv.checkTotalChange";
+    
     public static final String ERROR_BA_AMOUNT_ZERO = "error.document.ba.amount.zero";
     public static final String ERROR_BA_AMOUNT_NEGATIVE = "error.document.ba.amount.negative";
     
@@ -553,8 +548,6 @@ public class KFSKeyConstants {
     public static final String QUESTION_DISAPPROVE_DOCUMENT = "document.question.disapprove.text";
 
     public static final String ERROR_MISSING = "error.missing";
-
-    public static final String INSTITUTION_TAX_FEIN_NUMBER = "institution.tax.fein";
 
 
     // Calculated Salary Foundation Tracker Override errors

@@ -21,10 +21,28 @@
 <%@ attribute name="documentTypeLabel" required="true" %>
 <%@ attribute name="limitByPoId" required="false" %>
 
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:choose>
+    <c:when test= "${fn:contains(documentType, 'Requisition')}">
+        <c:set var="isRequisition" value="true" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="isRequisition" value="false" />
+    </c:otherwise>
+</c:choose>
+
 	   	<logic:notEmpty name="KualiForm" property="${viewList}">
-			<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
+			<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">	
 				<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purchaseOrderIdentifier)}">
-				    <h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
+					<c:choose>
+						<c:when test="${isRequisition}">
+				    		<h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a>
+				    			&nbsp;(Purchase Order - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purchaseOrderIdentifier}" /></a>)</h3>
+				    	</c:when>
+				    	<c:otherwise>
+				    		<h3><c:out value="${documentTypeLabel}"/> - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
+				    	</c:otherwise>
+				    </c:choose>
 				    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 				    	<c:if test="${!empty view.notes}">
 							<tr>
@@ -56,7 +74,7 @@
 			    <c:if test="${not empty limitByPoId and limitByPoId eq view.purchaseOrderIdentifier}">
 			    	<c:set var="viewShown" value="true"/>
 			    </c:if>
-	       	</logic:iterate>
+		    </logic:iterate>
 	       	<c:if test="${empty limitByPoId or viewShown}">
 				<br />
 				<br />

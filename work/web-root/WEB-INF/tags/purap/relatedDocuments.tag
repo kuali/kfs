@@ -40,7 +40,7 @@
 			documentTypeLabel="Requisitions" /> 
 		
 		<purap:relatedPurchaseOrderDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedPurchaseOrderViews"
+			viewList="document.relatedViews.groupedRelatedPurchaseOrderViews"
 			limitByPoId="${limitByPoId}"
 			documentTypeLabel="Purchase Order" /> 
 

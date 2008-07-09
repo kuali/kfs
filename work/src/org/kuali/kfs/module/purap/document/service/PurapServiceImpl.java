@@ -145,7 +145,7 @@ public class PurapServiceImpl implements PurapService {
 
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
-        List boList = (List) businessObjectService.findMatchingOrderBy(clazz, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
+        List boList = (List) businessObjectService.findMatchingOrderBy(clazz, criteria, PurapPropertyConstants.PURAP_DOC_ID, true);
         return boList;
     }
 

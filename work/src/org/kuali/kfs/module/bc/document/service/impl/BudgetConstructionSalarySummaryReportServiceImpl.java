@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- 
+ */
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
@@ -43,9 +43,9 @@ import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.springframework.transaction.annotation.Transactional;
 
-*//**
+/**
  * Service implementation of BudgetConstructionAccountSummaryReportService.
- *//*
+ */
 @Transactional
 public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetConstructionSalarySummaryReportService {
 
@@ -72,35 +72,27 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         Collection<BudgetConstructionOrgSalarySummaryReport> reportSet = new ArrayList();
 
         BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry;
-        Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionSalarySocialSecurityNumber.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionSalaryFunding> salarySummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionSalaryFunding.class, personUserIdentifier, buildOrderByList());
 
-            
-        Map salaryFundingMap = new HashMap();
-        
         Map administrativePostMap = new HashMap();
         Map positionMap = new HashMap();
+        Map budgetSsnMap = new HashMap();
         Map intendedIncumbentMap = new HashMap();
 
-        for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
-            
-            Collection<BudgetConstructionSalaryFunding> salaryFundingList = budgetConstructionReportsServiceHelper.getSalaryFunding(personUserIdentifier, ssnEntry.getEmplid());
-            
-            for (BudgetConstructionSalaryFunding salaryFundingEntry : salaryFundingList){
-                BudgetConstructionAdministrativePost budgetConstructionAdministrativePost = budgetConstructionReportsServiceHelper.getBudgetConstructionAdministrativePost(salaryFundingEntry.getPendingAppointmentFunding());
-                BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, salaryFundingEntry.getPendingAppointmentFunding());
-                BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = budgetConstructionReportsServiceHelper.getBudgetConstructionIntendedIncumbent(salaryFundingEntry.getPendingAppointmentFunding());
+        for (BudgetConstructionSalaryFunding salaryFundingEntry : salarySummaryList) {
+            BudgetConstructionAdministrativePost budgetConstructionAdministrativePost = budgetConstructionReportsServiceHelper.getBudgetConstructionAdministrativePost(salaryFundingEntry.getPendingAppointmentFunding());
+            BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, salaryFundingEntry.getPendingAppointmentFunding());
+            BudgetConstructionSalarySocialSecurityNumber budgetConstructionSalarySocialSecurityNumber = budgetConstructionReportsServiceHelper.getBudgetConstructionSalarySocialSecurityNumber(personUserIdentifier, salaryFundingEntry);
+            BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = budgetConstructionReportsServiceHelper.getBudgetConstructionIntendedIncumbent(salaryFundingEntry.getPendingAppointmentFunding());
 
-                administrativePostMap.put(salaryFundingEntry, budgetConstructionAdministrativePost);
-                positionMap.put(salaryFundingEntry, budgetConstructionPosition);
-                intendedIncumbentMap.put(salaryFundingEntry, budgetConstructionIntendedIncumbent);
-
-            }
-
-            salaryFundingMap.put(ssnEntry, salaryFundingList);
+            administrativePostMap.put(salaryFundingEntry, budgetConstructionAdministrativePost);
+            positionMap.put(salaryFundingEntry, budgetConstructionPosition);
+            budgetSsnMap.put(salaryFundingEntry, budgetConstructionSalarySocialSecurityNumber);
+            intendedIncumbentMap.put(salaryFundingEntry, budgetConstructionIntendedIncumbent);
         }
 
-        List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalPerson = deleteDuplicated((List) bcSalarySsnList, salaryFundingMap, 1);
-        List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalOrg = deleteDuplicated((List) bcSalarySsnList, salaryFundingMap, 2);
+        List<BudgetConstructionSalaryFunding> listForCalculateTotalPerson = deleteDuplicated((List) salarySummaryList, budgetSsnMap, 1);
+        List<BudgetConstructionSalaryFunding> listForCalculateTotalOrg = deleteDuplicated((List) salarySummaryList, budgetSsnMap, 2);
 
         // Calculate Total Section
         Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalPerson = calculatePersonTotal(universityFiscalYear, salarySummaryList, listForCalculateTotalPerson, positionMap, budgetSsnMap);
@@ -120,11 +112,11 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
 
-    *//**
+    /**
      * builds report Header
      * 
      * @param BudgetConstructionObjectDump bcod
-     *//*
+     */
     public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         String chartDesc = salaryFundingEntry.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = bcSSN.getOrganization().getOrganizationName();
@@ -167,11 +159,11 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
 
-    *//**
+    /**
      * builds report body
      * 
      * @param BudgetConstructionObjectDump bcod
-     *//*
+     */
     public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN) {
         BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
         BudgetConstructionPosition budgetConstructionPosition;
@@ -530,12 +522,12 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
 
-    *//**
+    /**
      * builds orderByList for sort order.
      * 
      * @return returnList
-     *//*
-    public List<String> buildOrderByListForSalaryFunding() {
+     */
+    public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.POSITION_NUMBER);
         returnList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -546,53 +538,38 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         returnList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         return returnList;
     }
-    
-    
-    *//**
-     * builds orderByList for sort order.
-     * 
-     * @return returnList
-     *//*
-    public List<String> buildOrderByList() {
-        List<String> returnList = new ArrayList();
-        returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
-        returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
-        returnList.add(KFSPropertyConstants.PERSON_NAME);
-        returnList.add(KFSPropertyConstants.EMPLID);
-        return returnList;
-    }
 
-    *//**
+    /**
      * Deletes duplicated entry from list
      * 
      * @param List list
      * @return a list that all duplicated entries were deleted
-     *//*
+     */
     private List deleteDuplicated(List list, Map map, int mode) {
         // mode 1 is for getting a list of total object
         // mode 2 is for getting a list of total account
         int count = 0;
-        BudgetConstructionSalarySocialSecurityNumber ssnEntry = null;
-        BudgetConstructionSalarySocialSecurityNumber ssnEntryAux = null;
+        BudgetConstructionSalaryFunding salaryFundingEntry = null;
+        BudgetConstructionSalaryFunding salaryFundingEntryAux = null;
         List returnList = new ArrayList();
         if ((list != null) && (list.size() > 0)) {
-            ssnEntry = (BudgetConstructionSalarySocialSecurityNumber) list.get(count);
-            ssnEntryAux = (BudgetConstructionSalarySocialSecurityNumber) list.get(count);
-            returnList.add(ssnEntry);
+            salaryFundingEntry = (BudgetConstructionSalaryFunding) list.get(count);
+            salaryFundingEntryAux = (BudgetConstructionSalaryFunding) list.get(count);
+            returnList.add(salaryFundingEntry);
             count++;
             while (count < list.size()) {
-                ssnEntry = (BudgetConstructionSalarySocialSecurityNumber) list.get(count);
+                salaryFundingEntry = (BudgetConstructionSalaryFunding) list.get(count);
                 switch (mode) {
                     case 1: {
-                        if (!isSameSalaryFundingEntryForTotalPerson(ssnEntry, ssnEntryAux, map)) {
-                            returnList.add(ssnEntry);
-                            ssnEntryAux = ssnEntry;
+                        if (!isSameSalaryFundingEntryForTotalPerson(salaryFundingEntry, salaryFundingEntryAux, map)) {
+                            returnList.add(salaryFundingEntry);
+                            salaryFundingEntryAux = salaryFundingEntry;
                         }
                     }
                     case 2: {
-                        if (!isSameSalaryFundingEntryForTotalOrg(ssnEntry, ssnEntryAux, map)) {
-                            returnList.add(ssnEntry);
-                            ssnEntryAux = ssnEntry;
+                        if (!isSameSalaryFundingEntryForTotalOrg(salaryFundingEntry, salaryFundingEntryAux, map)) {
+                            returnList.add(salaryFundingEntry);
+                            salaryFundingEntryAux = salaryFundingEntry;
                         }
                     }
                 }
@@ -603,10 +580,10 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
 
-    private boolean isSameSalaryFundingEntryForTotalPerson(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn, Map map) {
-        BudgetConstructionSalaryFunding firstSalaryFunding = (BudgetConstructionSalaryFunding) map.get(firstSsn);
-        BudgetConstructionSalaryFunding secondSalaryFunding = (BudgetConstructionSalaryFunding) map.get(secondSsn);
-        if (firstSalaryFunding.getOrganizationChartOfAccountsCode().equals(secondSalaryFunding.getOrganizationChartOfAccountsCode()) && firstSalaryFunding.getOrganizationCode().equals(secondSalaryFunding.getOrganizationCode()) && firstSalaryFunding.getEmplid().equals(secondSalaryFunding.getEmplid())) {
+    private boolean isSameSalaryFundingEntryForTotalPerson(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
+        BudgetConstructionSalarySocialSecurityNumber firstBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(firstbcsf);
+        BudgetConstructionSalarySocialSecurityNumber secondBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(secondbcsf);
+        if (firstBcssn.getOrganizationChartOfAccountsCode().equals(secondBcssn.getOrganizationChartOfAccountsCode()) && firstBcssn.getOrganizationCode().equals(secondBcssn.getOrganizationCode()) && firstBcssn.getEmplid().equals(secondBcssn.getEmplid())) {
             return true;
         }
         else
@@ -635,4 +612,3 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
-*/

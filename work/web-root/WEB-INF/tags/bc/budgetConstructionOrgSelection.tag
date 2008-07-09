@@ -18,14 +18,13 @@
 <kul:tabTop tabTitle="${KualiForm.operatingModeTitle}" defaultOpen="true" tabErrorKey="orgSel,selectionSubTreeOrgs">
     <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 	<div class="tab-container" align="center">
-    <h3>Current Point of View Organization Selection </h3>
-    
+    <h3>Current Point of View Organization Selection</h3></div>
+    <table cellpadding=0 cellspacing="0" summary="">
         <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />    
-        <table cellpadding=0 cellspacing="0"  summary="">
           	<tr>
                	<td>
                	<div align="center"> <br>
-                   	<table style="width:auto" border="0" cellpadding="0" cellspacing="0" class="nobord">
+                   	<table style="width:auto" cellpadding="0" cellspacing="0" class="nobord">
                        	<tr>
                            	<td width="200" style="border-style:solid; border-color:#999999; border-width:1px; padding:6px; background-color:#EAE9E9">
                            	<div align="center">
@@ -53,12 +52,12 @@
       			            		</kul:inquiry>
 	                      			</kul:htmlControlAttribute>
 	                                <span class="fineprint">(<kul:htmlControlAttribute property="pointOfViewOrg.organization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="true"/>)
-    	                            </span>
+    	                            </span></p>
         		                    </div>
                 	            </td>
                             </c:if>
                        	</tr>
-                    </table><br/>
+                    </table><br>
                 </div>
                	</td>
 			</tr>
@@ -72,5 +71,5 @@
 		  <bc:budgetConstructionOrgSelectionSubTreeOrgs />
 		</c:if>  
     
-    </div>
+ 
 </kul:tabTop>

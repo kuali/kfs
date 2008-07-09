@@ -328,19 +328,21 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         // build constants for DB independence
         // (note that we are only assigning default object codes to positions not yet assigned a default.  so, this method must
         //  be called last.  In particular, there is no check on salary plan.)
-        Integer monthConstant = new Integer(12);
-        String  positionType  = new String("SB");
-        String  defaultObject = new String("2500");
+        Integer monthConstant    = new Integer(12);
+        String  positionType     = new String("SB");
+        String  defaultObject    = new String("2500");
+        String  defaultUnionCode = new String("B1");
         StringBuilder sqlBuilder = new StringBuilder(500);
         sqlBuilder.append("UPDATE LD_BCN_POS_T\n");
         sqlBuilder.append("SET IU_NORM_WORK_MONTHS = ?,\n");
         sqlBuilder.append("    IU_PAY_MONTHS = ?,\n");
         sqlBuilder.append("    IU_POSITION_TYPE = ?,\n");
+        sqlBuilder.append("    POS_UNION_CD = ?,\n");
         sqlBuilder.append("    IU_DFLT_OBJ_CD = ?\n");
         sqlBuilder.append("WHERE (UNIV_FISCAL_YR = ?)\n");
         sqlBuilder.append("  AND (IU_DFLT_OBJ_CD IS NULL)\n");
         String sqlString = sqlBuilder.toString();
-        getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear);
+        getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultUnionCode,defaultObject,fiscalYear);
     }
     
     /**

@@ -248,14 +248,14 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
                 barcodeInventoryErrorDetail = new BarcodeInventoryErrorDetail();
 
-                barcodeInventoryErrorDetail.setAssetTagNumber(lineStrings[0]);
+                barcodeInventoryErrorDetail.setAssetTagNumber(lineStrings[0].trim());
                 barcodeInventoryErrorDetail.setUploadScanIndicator(lineStrings[1].equals("1"));
                 barcodeInventoryErrorDetail.setUploadScanTimestamp(timestamp);
-                barcodeInventoryErrorDetail.setCampusCode(lineStrings[3]);
-                barcodeInventoryErrorDetail.setBuildingCode(lineStrings[4]);
-                barcodeInventoryErrorDetail.setBuildingRoomNumber(lineStrings[5]);
-                barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6]);
-                barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7]);
+                barcodeInventoryErrorDetail.setCampusCode(lineStrings[3].trim());
+                barcodeInventoryErrorDetail.setBuildingCode(lineStrings[4].trim());
+                barcodeInventoryErrorDetail.setBuildingRoomNumber(lineStrings[5].trim());
+                barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6].trim());
+                barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7].trim());
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
             }
@@ -407,6 +407,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             } catch (Exception e) {
                 KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("BarcodeInventoryErrorDocument", GlobalVariables.getUserSession().getUniversalUser());
                 document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+                //LOG.info("**** WORKFLOW DOCUMENT TYPE:"+document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                 GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
             }
             //*****************************************************************************

@@ -20,11 +20,14 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -35,12 +38,16 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * Business rule(s) applicable to Asset Payment.
@@ -52,6 +59,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
     private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -73,20 +82,27 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         boolean valid=true;
         List<BarcodeInventoryErrorDetail> inventory = new ArrayList<BarcodeInventoryErrorDetail>();
         
+        //Deleting previous error messages
+        GlobalVariables.getErrorMap().clear();
+        
         Long lineNumber=new Long(1);
         for(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail:barcodeInventoryErrorDetails) {
-            valid=true;
             String errorPath = CamsConstants.DOCUMENT_PATH + "."+CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()-1) + "]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                        
+
+            valid=true;
+            LOG.info("*** Validating line#:"+lineNumber);        
+            
             valid&=this.validateTagNumber(barcodeInventoryErrorDetail.getAssetTagNumber());
             valid&=this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail);
             valid&=this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail,lineNumber.intValue()-1);
             valid&=this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
             valid&=this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail,lineNumber.intValue()-1);
             valid&=this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
-                    
-            if (!valid) {
+             
+            LOG.info("******************************************* - Passed? - "+valid);        
+            
+            if (!valid) {                
                 barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
                 barcodeInventoryErrorDetail.setUploadRowNumber(lineNumber);
 
@@ -105,11 +121,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         
         //Adding back all elements including those that had modifications.
         barcodeInventoryErrorDetails.addAll(inventory);
-
-        //Deleting the errors because I'm not going to display them on the page as a regular error.
-        //The errors will be displayed as part of the records.
-        //GlobalVariables.getErrorMap().clear();
-
+        
         return true;
     }
 
@@ -159,7 +171,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER,CamsKeyConstants.BarcodeInventory.ERROR_DUPLICATED_TAG_NUMBER); 
             result=false;
         }
-        //LOG.info("****ValidateTagNumber - tag#:"+tagNumber+ " Result:"+result);
+        LOG.info("****ValidateTagNumber - tag#:"+tagNumber+ " Result:"+result);
         return result;
     }
 
@@ -199,6 +211,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);            
             result=false;
         }
+        LOG.info("****validateCampusCode - campus code:"+campusCode+ " Result:"+result);
         return result;
     }
 
@@ -212,15 +225,22 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @return boolean
      */
     private boolean validateBuildingCode(String buildingCode, BarcodeInventoryErrorDetail detail) {
-        boolean result = true;
+        boolean result = true;        
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
 
+//      Building building;
+//      HashMap<String, Object> fields = new HashMap<String, Object>();
+//      fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
+//      fields.put(KFSPropertyConstants.BUILDING_CODE, detail.getBuildingCode());        
+//      building = (Building)businessObjectService.findByPrimaryKey(Building.class, fields);
+        
         detail.refreshReferenceObject(CamsPropertyConstants.BarcodeInventory.BUILDING_REFERENCE);
         if (ObjectUtils.isNull(detail.getBuilding())) {
+        //if (building == null) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);                    
             result&=false;
         }
-        //LOG.info("****validateBuildingCode - buildingCode:"+buildingCode+ " Result:"+result);        
+        LOG.info("****validateBuildingCode - buildingCode:"+buildingCode+ " Result:"+result);        
         return result;
     }
 
@@ -242,7 +262,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);                    
             result=false;
         }
-        //LOG.info("****validateBuildingRoomNumber - buildingRoom#:"+roomNumber+ " Result:"+result);                        
+        LOG.info("****validateBuildingRoomNumber - buildingRoom#:"+roomNumber+ " Result:"+result);                        
         return result;
     }
 
@@ -264,7 +284,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result&=false;
         }        
-        //LOG.info("****validateConditionCode - conditionCode:"+conditionCode+" Result:"+result);                                        
+        LOG.info("****validateConditionCode - conditionCode:"+conditionCode+" Result:"+result);                                        
         return result;
     }
 }

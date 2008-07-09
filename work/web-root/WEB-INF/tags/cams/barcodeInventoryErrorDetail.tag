@@ -20,15 +20,19 @@
 <%@ attribute name="propertyName" required="true" description="name of form property containing the cash control document"%>
 <%@ attribute name="cssClass" required="true"%>
 <%@ attribute name="lineNumber" required="true"%>
-
+<%@ attribute name="rowNumber" required="true"%>
 
 <!-- html:hidden property="${propertyName}.errorCorrectionStatusCode" /-->
+<html:hidden property="${propertyName}.documentNumber" />
+<html:hidden property="${propertyName}.versionNumber" />
+<html:hidden property="${propertyName}.objectId" />
+<html:hidden property="${propertyName}.uploadRowNumber"/>
 <tr>
 	<td align="right" class="${cssClass}">
-		<html:checkbox property="rowCheckbox" value="${lineNumber}" />
+		<html:checkbox property="rowCheckbox" value="${rowNumber}"/>
 	</td>
 	<td align="right" class="${cssClass}">
-	    ${lineNumber+1}	
+	    ${lineNumber}	
 	</td>
 
 

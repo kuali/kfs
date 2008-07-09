@@ -30,22 +30,27 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInventoryEvent;
-import org.kuali.kfs.module.cams.util.BarcodeInventoryErrorDetailPredicate;
+import org.kuali.kfs.module.cam.util.BarcodeInventoryErrorDetailPredicate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
-public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActionBase {
+public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
     private static final KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
+    private DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
@@ -74,12 +79,11 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-
+        
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
         this.invokeRules(document);
     }
-
 
     /**
      * 
@@ -91,7 +95,7 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
      * @return
      * @throws Exception
      */
-    public ActionForward deleteBarcodeInventoryErrorDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm barcodeInventoryErrorForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
@@ -99,7 +103,8 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         //Iterating over the array of checkboxes that hold the number of lines selected
         int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
         for(int i=0;i<selectedCheckboxes.length;i++) {
-            barcodeInventoryErrorDetails.remove(selectedCheckboxes[i]);
+            LOG.info("***DELETING ROW:" +selectedCheckboxes[i]);
+            barcodeInventoryErrorDetails.remove(selectedCheckboxes[i]-1);
         }
         
         //Reorganizing the order of each line
@@ -117,6 +122,16 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward searchAndReplace(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm barcodeInventoryErrorForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
@@ -124,19 +139,33 @@ public class BarcodeInventoryErrorAction extends KualiTransactionalDocumentActio
                        
         BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
-        
-        //Reorganizing the order of each line
-//        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
-//            LOG.info("****error Code: "+detail.getErrorCorrectionStatusCode());
-//        }
+
+        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+        barcodeInventoryErrorForm.setDocument(document);
+
+        this.save(mapping, form, request, response);
         
         this.invokeRules(document);
         
         barcodeInventoryErrorForm.resetSearchFields();
-        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
     
+
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        KualiDocumentFormBase kForm = (KualiDocumentFormBase)form;
+
+        ActionForward af = super.save(mapping, form, request, response);
+        
+        loadDocument(kForm);
+
+        return af;
+    }
     
     private void invokeRules(BarcodeInventoryErrorDocument document) {
         // apply rules for the new cash control detail                

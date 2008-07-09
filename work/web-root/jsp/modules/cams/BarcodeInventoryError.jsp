@@ -20,7 +20,8 @@ renderMultipart="true"  showTabButtons="true">
     <kul:hiddenDocumentFields />
   	<html:hidden property="document.uploaderUniversalIdentifier"/>
  
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />	 
+    <!-- kul:documentOverview editingMode="${KualiForm.editingMode}" /-->	 
+ 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
  	
  	<cams:barcodeInventoryErrorDetails/>
  	

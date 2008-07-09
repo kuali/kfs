@@ -39,22 +39,40 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" width="20%"/>
 				<!-- kul:htmlAttributeHeaderCell literalLabel="Action" width="5%"/-->
 			</tr>
+			<c:set var="lineNumber" value="${0}"/>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
 				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>
             	<c:if test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR}">
+            		<c:set var="lineNumber" value="${lineNumber + 1}"/>
 					<cams:barcodeInventoryErrorDetail
 						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
 						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
 						readOnly="${!readOnly}" 
 						cssClass="datacell"
-						lineNumber="${ctr}" />
+						lineNumber="${lineNumber}" 
+						rowNumber="${detail.uploadRowNumber}"
+						/>
             	</c:if>
+            	
+<!--  We don't need to display the error message text on a page because they are being already displayed in a textbox.-->
+				<c:set var="keyMatch" value="document.barcodeInventoryErrorDetail[${ctr}]*"/>            	            	
+				<c:forEach items="${ErrorPropertyList}" var="key">
+				  <c:if test="${not KualiForm.displayedErrors[key]}">            	            	
+		              <c:forEach items="${fn:split(keyMatch,',')}" var="prefix">
+			                <c:if test="${(fn:endsWith(prefix,'*') && fn:startsWith(key,fn:replace(prefix,'*',''))) || (key == prefix)}">
+			                 	<c:set target="${KualiForm.displayedErrors}" property="${key}" value="true"/>                 
+			                </c:if>
+		              </c:forEach>
+				  </c:if>
+				</c:forEach>
+<!--  ********************************************************************************************************************************** -->
+            	
 			</logic:iterate>
 		</table>
 		<table>
 		<tr>
 		<td><div align="center">
-			<html:image property="methodToCall.searchAndReplace" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_delete.gif"
+			<html:image property="methodToCall.deleteLine" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
 			    		alt="Delete selected lines"
 			        	styleClass="tinybutton" align="center"/></div>
 		</td>

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.KNSServiceLocator;
 
 
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
@@ -114,6 +118,17 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     public void deleteBarcodeInventoryErrorDetail(int index) {
         barcodeInventoryErrorDetail.remove(index);
     }   
+    
+    /**
+     * 
+     * @see org.kuali.core.document.DocumentBase#validateBusinessRules(org.kuali.core.rule.event.KualiDocumentEvent)
+     * 
+     * Left empty in order to prevent rule validation when saving the document.
+     */
+    @Override    
+    public void validateBusinessRules(KualiDocumentEvent event) {
+    }
+    
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

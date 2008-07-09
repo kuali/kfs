@@ -30,11 +30,12 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -61,6 +62,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
@@ -71,6 +73,7 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -791,7 +794,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * 
      * @param vendor
      */
-    public void templatePayee(VendorDetail vendor, VendorAddress vendorAddress) {
+    public void templateVendor(VendorDetail vendor, VendorAddress vendorAddress) {
         if (vendor == null) {
             return;
         }
@@ -823,10 +826,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
         this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(VendorConstants.VendorTypes.SUBJECT_PAYMENT.equals(vendor.getVendorHeader().getVendorTypeCode()));
-
+        this.getDvPayeeDetail().setDisbVchrEmployeePaidOutsidePayrollCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(vendor.getVendorHeaderGeneratedIdentifier()));
+        
         this.getDvPayeeDetail().setHasMultipleVendorAddresses(1 < vendor.getVendorAddresses().size());
         
-        this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator();
+        this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator()==null?false:vendor.getVendorHeader().getVendorW9ReceivedIndicator();
     }
 
     /**
@@ -851,7 +855,25 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
-        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+        // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
+        // TODO Find out if there's a constant defined out there for the S tax id type code
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(!"S".equals(employee.getPersonTaxIdentifierTypeCode()));
+
+        // Determine if employee is a research subject
+        ParameterService paramService = SpringContext.getBean(ParameterService.class);
+        ParameterEvaluator researchPaymentReasonCodeEvaluator = paramService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_PAY_REASONS_PARM_NM, this.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
+        if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
+            if (paramService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM)) {
+                String researchPayLimit = paramService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
+                if(StringUtils.isNotBlank(researchPayLimit)) {
+                    KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
+
+                    if (getDisbVchrCheckTotalAmount().isLessThan(payLimit)) {
+                            this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(true);
+                    }
+                }
+            }
+        }
 
         this.disbVchrPayeeTaxControlCode = "";
         this.disbVchrPayeeW9CompleteCode = true;
@@ -903,12 +925,36 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             payeeDetail.setDisbVchrPayeeEmployeeCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
             payeeDetail.setDvPayeeSubjectPaymentCode(SpringContext.getBean(VendorService.class).isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
         }
-        else if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
-            payeeDetail.setDisbVchrAlienPaymentCode(false); // TODO We're assuming that an employee cannot be foreign, right?
-            payeeDetail.setDisbVchrPayeeEmployeeCode(true); // If dv payee type is Employee, then flag should be true... obviously!!
-//            payeeDetail.setDvPayeeSubjectPaymentCode("");
-        }
+        else if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+            // Determine if employee is a non-resident alien
+            try {
+                UniversalUser uu = SpringContext.getBean(UniversalUserService.class).getUniversalUser(payeeDetail.getDisbVchrEmployeeIdNumber());
+                payeeDetail.setDisbVchrAlienPaymentCode(!"S".equals(uu.getPersonTaxIdentifierTypeCode())); // If tax id code is NOT "S" then assume employee is foreign
+            } catch(UserNotFoundException unfe) {
+                // Setting value to false, because I can't retrieve the value for the UniversalUser
+                payeeDetail.setDisbVchrAlienPaymentCode(false);
+            }
             
+            // Determine if employee is ... an employee! :-)
+            payeeDetail.setDisbVchrPayeeEmployeeCode(true);
+
+            // Determine if employee is a research subject
+            ParameterService paramService = SpringContext.getBean(ParameterService.class);
+            ParameterEvaluator researchPaymentReasonCodeEvaluator = paramService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_PAY_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
+            if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
+                if (paramService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM)) {
+                    String researchPayLimit = paramService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
+                    if(StringUtils.isNotBlank(researchPayLimit)) {
+                        KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
+
+                        if (getDisbVchrCheckTotalAmount().isLessThan(payLimit)) {
+                                payeeDetail.setDvPayeeSubjectPaymentCode(true);
+                        }
+                    }
+                }
+            }
+        }
+        
         super.populateDocumentForRouting(); // Call last, serializes to XML        
     }
     
@@ -982,7 +1028,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                 GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
             else {
-                templatePayee(vendorDetail, vendorAddress);
+                templateVendor(vendorDetail, vendorAddress);
             }
         }
     }
@@ -1095,7 +1141,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * Return true if GLPE's are generated successfully (i.e. there are either 0 GLPE's or 1 GLPE in dibursement voucher document)
+     * Return true if GLPE's are generated successfully (i.e. there are either 0 GLPE's or 1 GLPE in disbursement voucher document)
      * 
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class to keep track of GLPE sequence

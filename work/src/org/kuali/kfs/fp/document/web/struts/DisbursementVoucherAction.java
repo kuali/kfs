@@ -93,7 +93,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
                     }
                 }
                 DisbursementVoucherPayeeDetail dvPayeeDetail = dvDoc.getDvPayeeDetail();
-                if(dvPayeeDetail == null || StringUtils.isBlank(dvPayeeDetail.getDisbVchrVendorHeaderIdNumber())) {
+                if(dvPayeeDetail == null || StringUtils.isBlank(dvPayeeDetail.getDisbVchrPayeeIdNumber())) {
                     String payeeIdNumber = (String)request.getParameter(KFSPropertyConstants.PAYEE_ID_NUMBER);
                     String payeeAddressIdentifier = (String) request.getParameter(KFSPropertyConstants.PAYEE_ADDRESS_IDENTIFIER);
                     String payeeTypeCode = (String)request.getParameter(KFSPropertyConstants.PAYEE_TYPE_CODE);
@@ -145,7 +145,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
                 LOG.error("Exception while attempting to retrieve vendor address for vendor address id "+payeeAddressIdentifier+": "+x);
             }
         }
-        ((DisbursementVoucherDocument) dvForm.getDocument()).templatePayee(vendorDetail, vendorAddress);
+        ((DisbursementVoucherDocument) dvForm.getDocument()).templateVendor(vendorDetail, vendorAddress);
     }
     
     /**
@@ -194,6 +194,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         // document.documentHeader.workflowDocument" since we are bypassing form submit and just linking directly to the action
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         dvForm.getDocument().getDocumentHeader().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
+        
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DisbursementVoucherCoverSheetService coverSheetService = SpringContext.getBean(DisbursementVoucherCoverSheetService.class);
 

@@ -39,6 +39,7 @@ import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 
 
@@ -304,7 +305,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     public boolean propertyIsWildcard(String property) {
         boolean success = false;
         if(!(property == null)) {
-            success = KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(property) || KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(property);
+            success = GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(property) || GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(property);
         }
         return success;
     }
@@ -319,25 +320,25 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         
         success = 
             (
-             KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(chart) &&
-             KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(acct) &&
-             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY, subAcct) &&
-             (KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY.equals(objCd) || StringUtils.isAlphanumeric(objCd)) &&
-             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ENTRY, subObjCd)
+             GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(chart) &&
+             GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(acct) &&
+             subFieldsValueValid(GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY, subAcct) &&
+             (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(objCd) || StringUtils.isAlphanumeric(objCd)) &&
+             subFieldsValueValid(GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY, subObjCd)
              ) ||
             (
-             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(chart) &&
-             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(acct) &&
+             GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(chart) &&
+             GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(acct) &&
              StringUtils.isAlphanumeric(objCd) &&
-             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT, subAcct) &&
-             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT, subObjCd)
+             subFieldsValueValid(GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT, subAcct) &&
+             subFieldsValueValid(GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT, subObjCd)
              ) ||
             (
-             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(objCd) &&
+             GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(objCd) &&
              StringUtils.isNumeric(acct) &&
              subFieldsValueValid("", subAcct) &&
-             KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT.equals(objCd) &&
-             subFieldsValueValid(KFSConstants.ACCOUNTING_STRING_SOURCE_ACCOUNT, subObjCd)
+             GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT.equals(objCd) &&
+             subFieldsValueValid(GeneralLedgerConstants.PosterService.SYMBOL_USE_IRC_FROM_ACCOUNT, subObjCd)
              );
             
         return success;

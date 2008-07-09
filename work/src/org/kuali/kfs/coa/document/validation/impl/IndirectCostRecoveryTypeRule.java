@@ -25,6 +25,7 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -85,11 +86,15 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
             if(item.getChartOfAccountsCode().equals(chartService.getUniversityChart().getChartOfAccountsCode())) {
                 item.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
                 if(ObjectUtils.isNull(item.getObjectCodeCurrent())) {
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, ddService.getAttributeLabel(IndirectCostRecoveryExclusionType.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
+                    if(item.isNewCollectionRecord()) {
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE_DELETE, item.getChartOfAccountsCode(), item.getFinancialObjectCode()); 
+                    } else {
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE, item.getChartOfAccountsCode(), item.getFinancialObjectCode()); 
+                    }
                     isValid = false;
                 }
             } else {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, item.getChartOfAccountsCode(), ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART_MULTIVALUE_LOOKUP, item.getChartOfAccountsCode(), ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), KFSConstants.UNIVERSITY_CHART_CODES);
                 isValid = false;                    
             }
             

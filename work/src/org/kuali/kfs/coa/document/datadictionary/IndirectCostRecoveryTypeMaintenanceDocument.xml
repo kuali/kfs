@@ -108,6 +108,12 @@
     		        p:defaultValue="true" />
             </list>
           </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
+          		<bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" />
+          	</list>
+          </property>
         </bean>
       </list>
     </property>

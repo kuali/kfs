@@ -101,8 +101,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String ACCOUNTING_PERIOD_STATUS_CODE_FIELD = "universityFiscalPeriodStatusCode";
     public static final String ACCOUNTING_PERIOD_STATUS_CLOSED = "C";
     public static final String ACCOUNTING_PERIOD_STATUS_OPEN = "O";
-    public static final String ACCOUNTING_STRING_SOURCE_ENTRY = "@";
-    public static final String ACCOUNTING_STRING_SOURCE_ACCOUNT = "#";
     public static final String ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER = "~";
     public static final String ADD_LINE_METHOD = "addLine";
     public static final String ADD_PREFIX = "add";
@@ -1137,5 +1135,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final class CustomerParameter {
         public static final String TAX_NUMBER_REQUIRED_IND = "TAX_NUMBER_REQUIRED_INDI";
     }
+    
+    // listing of valid university chart codes
+    public static final String UNIVERSITY_CHART_CODES = "'IU'";
 }
 

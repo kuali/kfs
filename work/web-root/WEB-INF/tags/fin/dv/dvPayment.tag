@@ -58,6 +58,7 @@
                   <br><br>
                 </c:if>
                 <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeEmployeeCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrPayeeEmployeeCode" />  <br><br>
+                <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrEmployeePaidOutsidePayrollCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrEmployeePaidOutsidePayrollCode" />  <br><br>
               </td>  
               <th width="20%"  class="bord-l-b"><div align="right">Other Considerations: </div></th>
               <td width="30%"  class="datacell">

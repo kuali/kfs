@@ -48,4 +48,6 @@ public interface BudgetConstructionReportsServiceHelper {
     public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump);
     
     public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String personUserIdentifier, BudgetConstructionSalaryFunding salaryFunding);
+    
+    public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String personUserIdentifier, String emplid);
 }

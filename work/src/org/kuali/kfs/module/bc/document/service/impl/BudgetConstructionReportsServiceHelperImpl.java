@@ -123,6 +123,26 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
     }
     
+    public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String personUserIdentifier, String emplid){
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.EMPLID, emplid);
+        
+        List<String> orderList = new ArrayList();
+        orderList.add(KFSPropertyConstants.POSITION_NUMBER);
+        orderList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        orderList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        orderList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        orderList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        orderList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        orderList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        
+        return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryFunding.class, searchCriteria, orderList);
+    }
+    
+    
+    
+    
     public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump) {
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);

@@ -16,13 +16,13 @@
 package org.kuali.kfs.fp.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -34,10 +34,9 @@ public class DisbursementVoucherDocumentationLocationValuesFinder extends KeyVal
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List boList = (List) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(DisbursementVoucherDocumentationLocation.class, "disbursementVoucherDocumentationLocationName", true);
-        List keyValues = new ArrayList();
-        for (Iterator iter = boList.iterator(); iter.hasNext();) {
-            DisbursementVoucherDocumentationLocation element = (DisbursementVoucherDocumentationLocation) iter.next();
+        List<DisbursementVoucherDocumentationLocation> boList = (List<DisbursementVoucherDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(DisbursementVoucherDocumentationLocation.class, KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME, true);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        for (DisbursementVoucherDocumentationLocation element : boList) {
             keyValues.add(new KeyLabelPair(element.getDisbursementVoucherDocumentationLocationCode(), element.getDisbursementVoucherDocumentationLocationCode() + " - " + element.getDisbursementVoucherDocumentationLocationName()));
         }
 

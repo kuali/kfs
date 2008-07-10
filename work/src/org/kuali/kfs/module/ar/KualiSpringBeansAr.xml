@@ -164,6 +164,14 @@
 		</property>
 	</bean>	
 	
+	
+	<bean id="customerInvoiceGLPEService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl">
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>
+	</bean>	
+	
+	
 	<bean id="nonInvoicedDistributionService" class="org.kuali.kfs.module.ar.document.service.impl.NonInvoicedDistributionServiceImpl">
 		<property name="nonInvoicedDistributionDao">
 			<ref bean="nonInvoicedDistributionDao"/>

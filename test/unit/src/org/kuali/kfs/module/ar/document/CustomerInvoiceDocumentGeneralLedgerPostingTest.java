@@ -147,8 +147,11 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
      * @param testCustomerInvoiceDetail
      */
     public void checkBasicGeneralLedgerPendingEntries(CustomerInvoiceDocument doc, CustomerInvoiceDetail testCustomerInvoiceDetail) {        
-        //income is always in index 1
-        GeneralLedgerPendingEntry income = (GeneralLedgerPendingEntry) doc.getGeneralLedgerPendingEntries().get(1);
+        
+        String receivableOffsetGenerationMethod = TestUtils.getParameterService().getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        int index = receivableOffsetGenerationMethod.equals(ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)? 2 : 1; 
+        GeneralLedgerPendingEntry income = (GeneralLedgerPendingEntry) doc.getGeneralLedgerPendingEntries().get(index);
+        
         assertEquals("Income Chart of Accounts Code should be " + testCustomerInvoiceDetail.getChartOfAccountsCode() + " but is actually " + income.getChartOfAccountsCode(), testCustomerInvoiceDetail.getChartOfAccountsCode(), income.getChartOfAccountsCode());
         assertEquals("Income Account Number should be " + testCustomerInvoiceDetail.getAccountNumber() + " but is actually " + income.getAccountNumber(), testCustomerInvoiceDetail.getAccountNumber(), income.getAccountNumber());
         assertEquals("Income Sub Account Number should be " + testCustomerInvoiceDetail.getSubAccountNumber() + " but is actually " + income.getSubAccountNumber(), testCustomerInvoiceDetail.getSubAccountNumber(), income.getSubAccountNumber());

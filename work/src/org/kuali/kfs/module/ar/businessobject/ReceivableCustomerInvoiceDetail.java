@@ -69,7 +69,7 @@ public class ReceivableCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
     public KualiDecimal getAmount() {
-        return postable.getAmount();
+        return postable.getInvoiceItemPreTaxAmount();
     }
 
    @Override

@@ -15,11 +15,14 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
@@ -40,15 +43,21 @@ public class InternalBillingCapitalObjectValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        if (accountingLineForValidation.isSourceAccountingLine() && isCapitalObject(accountingLineForValidation)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
-            result = false;
+        // validate accounting line business object
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(accountingLineForValidation);
+        
+        // Don't bother running other validations if the accounting line isn't valid
+        if(GlobalVariables.getErrorMap().size() < 1) {
+            if (accountingLineForValidation.isSourceAccountingLine() && isCapitalObject(accountingLineForValidation)) {
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
+                result = false;
+            }
+            // TODO phase II
+            // int pendPurchaseCount = 0; 
+            // TODO need to do something with this but I have no idea what
+            // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
+            // && (pendPurchaseCount <= 0))
         }
-        // TODO phase II
-        // int pendPurchaseCount = 0; 
-        // TODO need to do something with this but I have no idea what
-        // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
-        // && (pendPurchaseCount <= 0))
         return result;
     }
 

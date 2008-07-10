@@ -783,10 +783,8 @@ public class ReceivingServiceImpl implements ReceivingService {
         Timestamp latestCreateDate = null;
         
         //get related views
-        if(ObjectUtils.isNotNull(po.getRelatedViews()) ){
-            if(ObjectUtils.isNotNull(po.getRelatedViews().getRelatedReceivingLineViews())){        
+        if(ObjectUtils.isNotNull(po.getRelatedViews()) ){       
             rViews = po.getRelatedViews().getRelatedReceivingLineViews();
-            }
         }
         
         //if not empty, then grab the latest receiving view

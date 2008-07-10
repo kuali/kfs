@@ -3890,7 +3890,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.Threshold" table="PUR_THRSHLD_T">
-	<field-descriptor name="thresholdIdentifier" column="PUR_THRSHLD_ID"  jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="THRSHLD_ID"/>
+	<field-descriptor name="thresholdIdentifier" column="PUR_THRSHLD_ID"  jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PUR_THRSHLD_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountTypeCode" column="ACCT_TYP_CD" jdbc-type="VARCHAR" index="true"/>
@@ -3929,7 +3929,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.document.BulkReceivingDocument" table="PUR_BLK_RCVNG_T">
+<!-- <class-descriptor class="org.kuali.kfs.module.purap.document.BulkReceivingDocument" table="PUR_BLK_RCVNG_T">
 
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -3940,6 +3940,7 @@
 	<field-descriptor name="shipmentPackingSlipNumber" column="SHPMNT_PKNG_SLP_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="carrierCode" column="CARI_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="shipmentBillOfLadingNumber" column="SHPMNT_BLL_OF_LDNG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="trackingNumber" column="TRAKNG_NBR" jdbc-type="VARCHAR"/>
 
 	<field-descriptor name="goodsDeliveredVendorNumber" column="GDS_DLVD_VNDR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="shipmentReferenceNumber" column="SHPMNT_REF_NBR" jdbc-type="VARCHAR"/>
@@ -3956,6 +3957,7 @@
 	<field-descriptor name="vendorPostalCode" column="VNDR_PSTL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorNoteText" column="VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
 	
 	<field-descriptor name="alternateVendorHeaderGeneratedIdentifier" column="ALTRNT_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="alternateVendorDetailAssignedIdentifier" column="ALTRNT_VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -3979,11 +3981,9 @@
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
 	
 	<field-descriptor name="requestorPersonName" column="RQSTR_PRSN_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="requestorPersonWorkflowId" column="RQSTR_PRSN_UNVL_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
     
     <field-descriptor name="preparerPersonName" column="PEPR_PRSN_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="preparerPersonWorkflowId" column="PEPR_PRSN_UNVL_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="preparerPersonPhoneNumber" column="PEPR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 	
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER" autoincrement="true" sequence-name="AP_PUR_DOC_LNK_ID"/>
@@ -4018,5 +4018,5 @@
         <foreignkey field-ref="alternateVendorDetailAssignedIdentifier" />
     </reference-descriptor>
     
-</class-descriptor> 
+</class-descriptor>  -->
 </descriptor-repository>

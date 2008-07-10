@@ -77,10 +77,16 @@ public class PurApRelatedViews {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPurchaseOrderViews()
+     * Obtains from the database a list of PurchaseOrderViews in the standard order
+     * for such views and sorts them.  They are sorted by POID, and then by current
+     * indicator, with the current documents at the top.
+     * 
+     * @return  A sorted List<PurchaseOrderView>
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
+        // Obtain a list which is sorted by workflow document ID.
         relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
+        // Sort the list.
         Collections.sort(relatedPurchaseOrderViews, 
                 new Comparator<PurchaseOrderView>() {
                     public int compare(PurchaseOrderView a, PurchaseOrderView b) {
@@ -101,6 +107,20 @@ public class PurApRelatedViews {
         return relatedPurchaseOrderViews;
     }
     
+    /**
+     * Groups PurchaseOrderViews from relatedPurchaseOrderViews by PurchaseOrderIdentifier.  Assumes
+     * the sorting by POID and by current indicator accomplished by getRelatedPurchaseOrderViews.  
+     * 
+     * This extra layer of grouping is necessary in order to display the notes for a group of related 
+     * POChange documents (which should be identical) after that group from within 
+     * relatedPurchaseOrderDocumentsDetail.tag, and before any other related groups which may result 
+     * from PO splitting, and have different PuchaseOrderIdentifiers.  With direct use 
+     * of relatedPurchaseOrderViews, location of the end of the group is problematic.
+     * 
+     * @return  A List<PurchaseOrderViewGroup>
+     * @see org.kuali.kfs.module.purap.util.PurApRelatedViews.getRelatedPurchaseOrderViews
+     * @see org.kuali.kfs.module.purap.businessobject.PurchaseOrderView
+     */
     public List<PurchaseOrderViewGroup> getGroupedRelatedPurchaseOrderViews() {
         groupedRelatedPurchaseOrderViews = new ArrayList<PurchaseOrderViewGroup>();
         PurchaseOrderViewGroup group = new PurchaseOrderViewGroup();
@@ -127,6 +147,10 @@ public class PurApRelatedViews {
         return groupedRelatedPurchaseOrderViews;
     }
     
+    /**
+     * A container for a List<PurchaseOrderView>, to be used by a nested c:forEach tag
+     * in relatedPurchaseOrderDocumentsDetail.tag.
+     */
     protected class PurchaseOrderViewGroup {
         private List<PurchaseOrderView> views = new ArrayList<PurchaseOrderView>();
         

@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
@@ -51,6 +52,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
@@ -119,10 +121,12 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * @param payeeIdNumber
      */
     private void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
-        UniversalUser employee = new UniversalUser();
-        employee.setPersonUniversalIdentifier(payeeIdNumber);
-        employee = (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
-        ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(employee);
+        try {
+            UniversalUser employee = (UniversalUser) SpringContext.getBean(FinancialSystemUserService.class).getUniversalUser(payeeIdNumber);
+            ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(employee);
+        } catch(UserNotFoundException unfe) {
+            LOG.error("Exception while attempting to retrieve universal user by universal user id "+payeeIdNumber+": "+unfe);
+        }
     }
 
     /**

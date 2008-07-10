@@ -231,28 +231,9 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, salarySettingForm);
 
-        this.normalizePayRateAndAmount(appointmentFunding);
+        salarySettingService.normalizePayRateAndAmount(appointmentFunding);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * normalize the hourly pay rate and annual pay amount of the given appointment funding
-     * 
-     * @param appointmentFunding the given appointment funding
-     */
-    private void normalizePayRateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
-        if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
-            BigDecimal hourlyPayRate = salarySettingService.calculateHourlyPayRate(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
-        }
-
-        BigDecimal currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
-        if (currentHourlyPayRate != null) {
-            KualiInteger annualPayAmount = salarySettingService.calculateAnnualPayAmount(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
-        }
     }
 
     /**

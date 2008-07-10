@@ -106,6 +106,23 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         return annualPayAmount;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#normalizePayRateAndAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public void normalizePayRateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
+        if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
+            BigDecimal hourlyPayRate = this.calculateHourlyPayRate(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
+        }
+
+        BigDecimal currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
+        if (currentHourlyPayRate != null) {
+            KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
+            appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
+        }
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#calculateFteQuantityForAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
@@ -294,6 +311,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         KualiInteger appointmentRequestedAmount = csfAmount.add(adjustmentAmount);
 
         appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
+        
+        if(appointmentFunding.isHourlyPaid()) {
+            this.normalizePayRateAndAmount(appointmentFunding);
+        }
     }
 
     /**
@@ -310,6 +331,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
             KualiInteger appointmentRequestedAmount = new KualiInteger(adjustedAmount).add(csfAmount);
             appointmentFunding.setAppointmentRequestedAmount(appointmentRequestedAmount);
+        }
+        
+        if(appointmentFunding.isHourlyPaid()) {
+            this.normalizePayRateAndAmount(appointmentFunding);
         }
     }
 

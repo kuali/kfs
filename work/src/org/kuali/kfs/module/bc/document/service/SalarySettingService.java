@@ -62,6 +62,13 @@ public interface SalarySettingService {
      * @return the annual pay amount
      */
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * normalize the hourly pay rate and annual pay amount of the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     */
+    public void normalizePayRateAndAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * calculate the fte quantity based on the information of the given appointment funding

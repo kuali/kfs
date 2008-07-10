@@ -19,6 +19,8 @@
 renderMultipart="true"  showTabButtons="true">
     <kul:hiddenDocumentFields />
   	<html:hidden property="document.uploaderUniversalIdentifier"/>
+ 	<html:hidden property="document.documentNumber" />
+	<html:hidden property="document.versionNumber" />	
  
     <!-- kul:documentOverview editingMode="${KualiForm.editingMode}" /-->	 
  	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />

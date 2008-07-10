@@ -66,6 +66,8 @@ public class BCConstants extends JSTLConstants {
     public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
     
     public static final String REQUEST_IMPORT_OUTPUT_FILE = "budgetImportLog.pdf";
+    public static final String PAYRATE_IMPORT_LOG_FILE = "payrate_import_log.pdf";
+    public static final String PAYRATE_EXPORT_FILE = "payrate_export.txt";
     
     public static final String LABOR_OBJECT_FRINGE_CODE = "F";
     public static final String MAPPING_IMPORT_EXPORT = "import_export";

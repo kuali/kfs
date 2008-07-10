@@ -57,10 +57,13 @@
 
   <bean id="PayrateImportExport-csfFreezeDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="csfFreezeDate" />
-    <property name="label" value="CSF Freeze Date" />
+    <property name="label" value="CSF Freeze Date(MM/DD/YYYY)" />
     <property name="shortLabel" value="CSF Freeze Date" />
     <property name="summary" value="CSF Freeze Date" />
     <property name="description" value="CSF Freeze Date" />
+    <property name="validationPattern" >
+      <bean parent="DateValidationPattern" />
+    </property>
   </bean>
   
   <bean id="PayrateImportExport-exportCount" parent="PayrateImportExport-exportCount-parentBean" />

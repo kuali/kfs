@@ -22,7 +22,7 @@ public interface PayrateExportService {
      * 
      * @return
      */
-    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode);
+    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate);
     
     /**
      * Returns the number export records

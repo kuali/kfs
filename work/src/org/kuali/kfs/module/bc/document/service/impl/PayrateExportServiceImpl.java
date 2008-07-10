@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,7 +39,8 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @see org.kuali.kfs.module.bc.service.PayrateExportService#buildExportFile()
      */
     @Transactional
-    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode) {
+    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate) {
+        this.exportCount = 0;
         clearPayrateHoldingTable();
         
         StringBuilder results = new StringBuilder();
@@ -46,9 +48,12 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         populatePayrateHoldingRecords(budgetYear, positionUnionCode);
         List<BudgetConstructionPayRateHolding> holdingRecords = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
         for (BudgetConstructionPayRateHolding record : holdingRecords) {
-            results.append(buildExportLine(record));
+            results.append(buildExportLine(record, csfFreezeDate));
+            exportCount++;
         }
-        
+        results.append("\r\n");
+        results.append("\r\n");
+        results.append("Export complete. Export Count: " + exportCount);
         return results;
     }
     
@@ -89,9 +94,10 @@ public class PayrateExportServiceImpl implements PayrateExportService {
     @Transactional
     private void populatePayrateHoldingRecords(Integer budgetYear, String positionUnionCode) {
         List<PendingBudgetConstructionAppointmentFunding> fundingRecordList = this.payrateExportDao.getFundingRecords(budgetYear, positionUnionCode);
-        
         BudgetConstructionPayRateHolding temp;
+        List<String> holdingRecordList = new ArrayList<String>();
         for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecordList) {
+            
             temp = new BudgetConstructionPayRateHolding();
             temp.setEmplid(fundingRecord.getEmplid());
             temp.setPositionNumber(fundingRecord.getPositionNumber());
@@ -101,8 +107,12 @@ public class PayrateExportServiceImpl implements PayrateExportService {
             temp.setGrade(fundingRecord.getBudgetConstructionPosition().getPositionGradeDefault());
             temp.setUnionCode(fundingRecord.getBudgetConstructionPosition().getPositionUnionCode());
             temp.setAppointmentRequestedPayRate(new BigDecimal(0));
-            
-            this.businessObjectService.save(temp);
+            String holdingRecordKey = temp.getEmplid() + "-" + temp.getPositionNumber();
+            //since the list of funding records is not distinct, must check holding record primary key before saving
+            if (!holdingRecordList.contains(holdingRecordKey)) {
+                holdingRecordList.add(holdingRecordKey);
+                this.businessObjectService.save(temp);
+            }
         }
     }
     
@@ -113,9 +123,8 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @return
      */
     @NonTransactional
-    private StringBuilder buildExportLine(BudgetConstructionPayRateHolding holdingRecord) {
+    private StringBuilder buildExportLine(BudgetConstructionPayRateHolding holdingRecord, String csfFreezeDate) {
         StringBuilder line = new StringBuilder();
-        
         String emplid = padString(holdingRecord.getEmplid(), 11);
         String positionNumber = padString(holdingRecord.getPositionNumber(), 8);
         String personName = padString(holdingRecord.getPersonName(), 50);
@@ -124,8 +133,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         String grade = padString(holdingRecord.getGrade(), 3);
         String unionCode = padString(holdingRecord.getUnionCode(), 3);
         String payRate = padString(String.valueOf(holdingRecord.getAppointmentRequestedPayRate().multiply(new BigDecimal(100)).intValue()), 10);
-        //TODO: where should I retrieve csf freeze date. Should I use value from form?
-        String csfFreezeDate = "";
+        csfFreezeDate = padString(csfFreezeDate, 8);
         
         line.append(emplid);
         line.append(positionNumber);
@@ -150,7 +158,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      */
     @NonTransactional
     private String padString(String stringToPad, int fieldSize) {
-        if (stringToPad.length() < fieldSize) return StringUtils.leftPad(stringToPad, fieldSize - stringToPad.length());
+        if (stringToPad.length() < fieldSize) return StringUtils.leftPad(stringToPad, fieldSize);
         else if (stringToPad.length() > fieldSize) return stringToPad.substring(0, fieldSize - 1);
         
         return stringToPad;

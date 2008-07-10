@@ -114,5 +114,10 @@ public class BCKeyConstants {
     public static final String MSG_PAYRATE_IMPORT_UPDATE_COMPLETE = "message.budget.payrate.updateComplete";
     public static final String MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER = "message.budget.payrate.footerLine";
     
+    public static final String ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE = "error.budget.payrate.export.invalidPositionUnionCode";
+    public static final String ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED = "error.budget.payrate.export.positionUnionCodeRequired";
+    public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED = "error.budget.payrate.export.CsfFreezeDateRequired";
+    public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT = "error.budget.payrate.export.CsfFreezeDateIncorrectFormat";
+    
 }
 

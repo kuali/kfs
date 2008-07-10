@@ -34,9 +34,11 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.document.service.PayrateExportService;
 import org.kuali.kfs.module.bc.document.service.PayrateImportService;
+import org.kuali.kfs.module.bc.document.service.PayrollPerimeterService;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -53,7 +55,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
         
-        boolean isValid = validateFormData(payrateImportExportForm);
+        boolean isValid = validateImportFormData(payrateImportExportForm);
         
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -68,7 +70,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         if (!parsingErrors.isEmpty()) {
             messageList.addAll(parsingErrors);
             payrateImportService.generatePdf(messageList, baos);
-            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "import_log.pdf");
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.PAYRATE_IMPORT_LOG_FILE);
             return null;
         }
         if (payrateImportService.getImportCount() == 0 ) messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS));
@@ -88,11 +90,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         //write messages to log file
         payrateImportService.generatePdf(messageList, baos);
         
-        //TODO: how to update form since response is set to null?
-        payrateImportExportForm.setImportCount(payrateImportService.getImportCount());
-        payrateImportExportForm.setUpdateCount(payrateImportService.getUpdateCount());
-        
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "import_log.pdf");
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.PAYRATE_IMPORT_LOG_FILE);
         
         return null;
     }
@@ -100,17 +98,30 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     public ActionForward performExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
         PayrateExportService payrateExportService = SpringContext.getBean(PayrateExportService.class);
+        PayrollPerimeterService payrollPerimeterService = SpringContext.getBean(PayrollPerimeterService.class);
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
+        String positionUnionCode = payrateImportExportForm.getPositionUnionCode();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         
-        //TODO: form validation
+        //form validation
+        boolean isValidPositionUnionCode = validateExportFormData(payrateImportExportForm);
+        if (!isValidPositionUnionCode) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
         
-        //TODO: position union code validation
+        //position union code validation
+        isValidPositionUnionCode = payrollPerimeterService.validatePositionUnionCode(positionUnionCode);
+        if (!isValidPositionUnionCode) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE, positionUnionCode);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        String formattedCsfFreezeDate = payrateImportExportForm.getCsfFreezeDate().replace("/","");
         
-        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, payrateImportExportForm.getPositionUnionCode());
+        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, formattedCsfFreezeDate);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(fileContents.toString().getBytes());
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, "payrateExport.txt");
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, BCConstants.PAYRATE_EXPORT_FILE);
         
         return null;
     }
@@ -125,7 +136,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
      * @param form
      * @return
      */
-    public boolean validateFormData(PayrateImportExportForm form) {
+    public boolean validateImportFormData(PayrateImportExportForm form) {
         boolean isValid = true;
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -154,4 +165,26 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         return isValid;
     }
     
+    /**
+     * Performs export form validation
+     * 
+     * @param form
+     * @return
+     */
+    public boolean validateExportFormData(PayrateImportExportForm form) {
+        boolean isValid = true;
+        PayrateImportExportForm importForm = (PayrateImportExportForm) form;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        if (StringUtils.isBlank(importForm.getPositionUnionCode()) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED);
+            isValid = false;
+        }
+        if (StringUtils.isBlank(importForm.getCsfFreezeDate()) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED);
+            isValid = false;
+        }
+        
+        return isValid;
+    }
 }

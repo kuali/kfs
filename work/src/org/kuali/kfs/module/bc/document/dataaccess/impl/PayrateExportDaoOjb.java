@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao;
@@ -31,12 +32,12 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
         Criteria criteria = new Criteria();
         
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
-        criteria.addNotEqualTo(KFSPropertyConstants.EMPLID, "VACANT");
+        criteria.addNotEqualTo(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
         criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR, "N");
         criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_UNION_CODE, positionUnionCode);
         criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.CONFIDENTIAL_POSITION, "N");
         
-        List<PendingBudgetConstructionAppointmentFunding> records = (List<PendingBudgetConstructionAppointmentFunding>)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PendingBudgetConstructionAppointmentFunding.class, criteria));
+        List<PendingBudgetConstructionAppointmentFunding> records = (List<PendingBudgetConstructionAppointmentFunding>)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PendingBudgetConstructionAppointmentFunding.class, criteria, true));
         
         return records;
     }

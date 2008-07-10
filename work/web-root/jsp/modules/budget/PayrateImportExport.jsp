@@ -39,11 +39,7 @@
 					</td> 
 					<td> 
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" /></b>
-						<kul:htmlControlAttribute property="csfFreezeDate" readOnly="false" attributeEntry="${payrateImportExportAttributes.csfFreezeDate}"/>
-					</td>
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.exportCount}" /></b>
-						<kul:htmlControlAttribute property="exportCount" readOnly="true" attributeEntry="${payrateImportExportAttributes.exportCount}"/>
+						<kul:htmlControlAttribute property="csfFreezeDate" readOnly="false" attributeEntry="${payrateImportExportAttributes.csfFreezeDate}" datePicker="true" />
 					</td>
 				</tr>
 				<tr>
@@ -68,15 +64,6 @@
 						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.fileName}" /></b>
 						<html:file property="file" />
 					</td> 
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.importCount}" /></b>
-						<kul:htmlControlAttribute property="importCount" readOnly="true" attributeEntry="${payrateImportExportAttributes.importCount}"/>
-					</td>
-					<td> 
-						<b><kul:htmlAttributeLabel attributeEntry="${payrateImportExportAttributes.updateCount}" /></b>
-						<kul:htmlControlAttribute property="updateCount" readOnly="true" attributeEntry="${payrateImportExportAttributes.updateCount}"/>
-					</td>
-					
 				</tr>
 				<tr>
 					<td colspan="3">

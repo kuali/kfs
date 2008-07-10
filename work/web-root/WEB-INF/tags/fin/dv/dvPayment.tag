@@ -25,9 +25,6 @@
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}"/></div></th>
               <td colspan="3"  class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPaymentReasonCode}" property="document.dvPayeeDetail.disbVchrPaymentReasonCode" extraReadOnlyProperty="document.dvPayeeDetail.disbVchrPaymentReasonName" onchange="paymentReasonMessages(this.value);" readOnly="${!fullEntryMode}"/>
-                <c:if test="${fullEntryMode}">
-                  <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.PaymentReasonCode" fieldConversions="code:document.dvPayeeDetail.disbVchrPaymentReasonCode"/>
-                </c:if>
                 <a href="${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode"
                    onclick="this.href='${ConfigProperties.application.url}/kr/inquiry.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.PaymentReasonCode&code=' + document.forms[0].elements['document.dvPayeeDetail.disbVchrPaymentReasonCode'].value;" target="_blank">
                   <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" styleClass="globalbuttons" alt="help"/>
@@ -50,21 +47,24 @@
               <td valign="top"  class="datacell">
                 <c:if test="${taxEntryMode}">
                   <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrAlienPaymentCode}" property="document.dvPayeeDetail.disbVchrAlienPaymentCode"/>
-                  <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrAlienPaymentCode}"/><br><br>
+                  <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrAlienPaymentCode}" noColon="true" />
+                  <br><br>
                 </c:if>
                 <c:if test="${!taxEntryMode}">
                     <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrAlienPaymentCode}"/>
                     <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrAlienPaymentCode}" property="document.dvPayeeDetail.disbVchrAlienPaymentCode" readOnly="true"/>
-                  <br><br>
+                    <br><br>
                 </c:if>
                 <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeEmployeeCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrPayeeEmployeeCode" />  <br><br>
-                <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrEmployeePaidOutsidePayrollCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrEmployeePaidOutsidePayrollCode" />  <br><br>
+				<c:if test="${KualiForm.document.dvPayeeDetail.disbursementVoucherPayeeTypeCode=='V'}">
+                	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrEmployeePaidOutsidePayrollCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrEmployeePaidOutsidePayrollCode" />  <br><br>
+                </c:if>
               </td>  
               <th width="20%"  class="bord-l-b"><div align="right">Other Considerations: </div></th>
               <td width="30%"  class="datacell">
                  <c:if test="${fullEntryMode}"> 
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrAttachmentCode}" property="document.disbVchrAttachmentCode" readOnly="false"/>
-                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrAttachmentCode}"/><br>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrAttachmentCode}" noColon="true" /><br>
                  </c:if>
                  
                  <c:if test="${!fullEntryMode}"> 
@@ -74,7 +74,7 @@
          
                  <c:if test="${fullEntryMode}">        
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}" property="document.disbVchrSpecialHandlingCode" onclick="specialHandlingMessage(this);" readOnly="false"/>
-                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}"/><br>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}" noColon="true" /><br>
                  </c:if>
                  
                  <c:if test="${!fullEntryMode}"> 
@@ -90,17 +90,17 @@
                  
                  <c:if test="${w9IndReadOnly}">    
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" property="document.disbVchrPayeeW9CompleteCode" disabled="true"/>
-                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}"/><br>                     
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" noColon="true" /><br>                     
                  </c:if>
                  
                  <c:if test="${!w9IndReadOnly}">                
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" property="document.disbVchrPayeeW9CompleteCode"/>
-                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}"/><br>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" noColon="true"/><br>
                  </c:if>
                  
                  <c:if test="${fullEntryMode}">
                    <html:checkbox property="document.exceptionIndicator" onclick="exceptionMessage(this);"/>
-                   Exception Attached:
+                   Exception Attached
                  </c:if>  
                  <c:if test="${!fullEntryMode}">
                    Exception Attached: <html:hidden write="true" property="document.exceptionIndicator"/>
@@ -116,9 +116,6 @@
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}"/></div></th>
               <td  class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.disbursementVoucherDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
-                <c:if test="${fullEntryMode}">
-                  <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" fieldConversions="disbursementVoucherDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode"/>
-                </c:if>
               </td>
             </tr>
             <tr>

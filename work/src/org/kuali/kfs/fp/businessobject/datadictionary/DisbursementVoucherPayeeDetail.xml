@@ -195,7 +195,7 @@
   <bean id="DisbursementVoucherPayeeDetail-disbVchrEmployeePaidOutsidePayrollCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbVchrEmployeePaidOutsidePayrollCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Is this employee paid outside of payroll" />
+    <property name="label" value="Is this an employee paid outside of payroll" />
     <property name="shortLabel" value="Is paid outside payroll" />
     <property name="maxLength" value="1" />
     <property name="control" >

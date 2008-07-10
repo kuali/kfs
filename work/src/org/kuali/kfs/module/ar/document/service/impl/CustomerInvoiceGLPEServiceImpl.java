@@ -76,7 +76,7 @@ public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEServic
         explicitEntry.setTransactionDebitCreditCode(isDebit? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         
         //add explicit entry
-        ((GeneralLedgerPostingDocumentBase)glpeSource).addPendingEntry(explicitEntry);
+        glpeSource.addPendingEntry(explicitEntry);
         sequenceHelper.increment();
         
         

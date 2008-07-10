@@ -17,7 +17,7 @@
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,unpack-rice-dd" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
@@ -406,6 +406,145 @@
 		</echo>
 	</target>
 
+	<!-- ================================= 
+          target: unpack-rice-dd
+         ================================= -->
+	<target name="unpack-rice-dd" depends="init-properties">
+		<delete dir="${ricedd.directory}" failonerror="false" quiet="true"/>
+		<mkdir dir="${ricedd.directory}"/>
+		<unjar src="${lib.directory}/${rice.name}-${rice.kns.name}-${rice.version}.jar" dest="${ricedd.directory}">
+			<patternset>
+				<include name="**/datadictionary/**/*.xml"/>
+				<exclude name="**/conversion/**"/>
+			</patternset>
+		</unjar>		
+	</target>
+
+	<!-- ================================= 
+          target: build-spring-config              
+         ================================= -->
+    <target name="build-spring-config" depends="init-properties" description="--> Builds the .springBeans file to allow for code completion.">
+    	<!-- get all spring configuration files -->
+    	<!-- divide into 2 groups DD and services -->
+    	<!-- search for the <beans> tag in the file -->
+    	<!-- include DD files from the KFS jar file -->
+    	<property name="springide.config.file" location=".springBeans"/>
+    	<echo append="false" file="${springide.config.file}"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
+	<configs>    		
+]]></echo>
+    	<antcall target="dump-kns-dd-config-files" inheritall="true">
+    		<param name="filename" value="${springide.config.file}"/>
+    	</antcall>
+    	<antcall target="dump-spring-dd-config-files" inheritall="true">
+    		<param name="filename" value="${springide.config.file}"/>
+    	</antcall>
+    	<antcall target="dump-spring-service-config-files" inheritall="true">
+    		<param name="filename" value="${springide.config.file}"/>
+    	</antcall>
+    	<echo append="true" file="${springide.config.file}"><![CDATA[	</configs>
+   	<configSets>
+        <configSet>
+            <name>Data Dictionary</name>
+            <allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+            <incomplete>false</incomplete>
+            <configs>    	
+]]></echo>
+    	<antcall target="dump-kns-dd-config-files" inheritall="true">
+    		<param name="filename" value="${springide.config.file}"/>
+    	</antcall>
+    	<antcall target="dump-spring-dd-config-files" inheritall="true">
+    		<param name="filename" value="${springide.config.file}"/>
+    	</antcall>
+    	<echo append="true" file="${springide.config.file}"><![CDATA[        	</configs>
+    	</configSet>
+        <configSet>
+            <name>Services</name>
+            <allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+            <incomplete>false</incomplete>
+            <configs>    	
+]]></echo>
+    	<antcall target="dump-spring-service-config-files" inheritall="true">
+    		<param name="filename" value="${springide.config.file}"/>
+    	</antcall>
+    	<echo append="true" file="${springide.config.file}"><![CDATA[        	</configs>
+    	</configSet>
+	</configSets>
+	<springVersion>2.0</springVersion>
+</beansProjectDescription>
+]]></echo>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: add-config-line                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="add-config-line">
+    	<pathconvert property="springXMLFile.safe" targetos="unix">
+    		<path location="${springXMLFile}" />
+    		<!-- strip off the leading base dir -->
+    		<map from="${basedir}${file.separator}" to="" />
+    	</pathconvert>
+        <echo append="true" file="${filename}"><![CDATA[				<config>${springXMLFile.safe}</config>
+]]></echo>
+    </target>
+	
+	<target name="dump-spring-dd-config-files">
+	<foreach target="add-config-line" 
+		 inheritall="true"
+		 param="springXMLFile"
+		 parallel="false">
+		<path>
+			<fileset dir="work/src">
+				    <include name="**/datadictionary/**/*.xml"/>
+				<exclude name="**/conversion/**"/>
+				    <exclude name="**/*Spring*.xml"/>
+				<contains casesensitive="true" text="&lt;beans"/>
+				</fileset>
+		</path>
+	</foreach>
+	</target>
+
+	<target name="dump-spring-service-config-files">
+	<foreach target="add-config-line" 
+		 inheritall="true"
+		 param="springXMLFile"
+		 parallel="false">
+		<path>
+			<fileset dir="work/src">
+				    <exclude name="**/datadictionary/**/*.xml"/>
+				    <include name="**/*.xml"/>
+				<contains casesensitive="true" text="&lt;beans"/>
+				</fileset>
+		</path>
+	</foreach>
+	</target>
+
+	<target name="dump-kns-dd-config-files" depends="init-property-files">
+	<foreach target="add-config-line" 
+		 inheritall="true"
+		 param="springXMLFile"
+		 parallel="false">
+		<path>
+			<fileset dir="${ricedd.directory}">
+				    <include name="**/datadictionary/**/*.xml"/>
+				<contains casesensitive="true" text="&lt;beans"/>
+				</fileset>
+		</path>
+	</foreach>
+	</target>
+
+    <target name="add-kns-config-line">
+    	<pathconvert property="springXMLFile.safe" targetos="unix">
+    		<path location="${springXMLFile}"/>
+    		<!-- strip off the leading base dir -->
+    		<map from="${basedir}${file.separator}temp${file.separator}" to=""/>
+    	</pathconvert>
+        <echo append="true" file="${filename}"><![CDATA[				<config>${lib.directory}/${rice.name}-${rice.kns.name}-${rice.version}.jar!/${springXMLFile.safe}</config>
+]]></echo>
+    </target>
 
 	<import file="build-foundation.xml"/>
 

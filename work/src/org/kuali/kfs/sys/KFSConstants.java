@@ -1133,7 +1133,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public static final class CustomerParameter {
-        public static final String TAX_NUMBER_REQUIRED_IND = "TAX_NUMBER_REQUIRED_INDI";
+        public static final String TAX_NUMBER_REQUIRED_IND = "TAX_NUMBER_REQUIRED_IND";
     }
     
     // listing of valid university chart codes

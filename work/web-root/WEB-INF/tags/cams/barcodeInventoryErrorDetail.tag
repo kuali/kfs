@@ -22,7 +22,7 @@
 <%@ attribute name="lineNumber" required="true"%>
 <%@ attribute name="rowNumber" required="true"%>
 
-<!-- html:hidden property="${propertyName}.errorCorrectionStatusCode" /-->
+<html:hidden property="${propertyName}.errorCorrectionStatusCode"/>
 <html:hidden property="${propertyName}.documentNumber" />
 <html:hidden property="${propertyName}.versionNumber" />
 <html:hidden property="${propertyName}.objectId" />
@@ -34,7 +34,6 @@
 	<td align="right" class="${cssClass}">
 	    ${lineNumber}	
 	</td>
-
 
 	<td align=left class="${cssClass}">&nbsp
 		<kul:htmlControlAttribute

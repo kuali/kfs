@@ -36,7 +36,8 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 	
 	//error description. This field is not being saved in any table.
 	private String errorDescription;
-	
+
+	private boolean rowSelected;
 	
 	/**
 	 * Default constructor.
@@ -326,6 +327,8 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
         if (this.uploadRowNumber != null) {
             m.put("uploadRowNumber", this.uploadRowNumber.toString());
         }
+        m.put("assetTagNumber", this.assetTagNumber);
+        m.put("errorCorrectionStatusCode", this.getErrorCorrectionStatusCode());
 	    return m;
     }
 
@@ -367,5 +370,14 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
 
     public void setErrorDescription(String errorDescription) {
         this.errorDescription = errorDescription;
-    }    
-}
+    }
+
+    public boolean isRowSelected() {
+        return rowSelected;
+    }
+
+    public void setRowSelected(boolean rowSelected) {
+        this.rowSelected = rowSelected;
+    }
+
+ }

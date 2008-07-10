@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -60,7 +61,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
     private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    
+
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -79,29 +80,34 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @return boolean
      */
     public boolean validateBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) {
+        String errorPath="";
         boolean valid=true;
         List<BarcodeInventoryErrorDetail> inventory = new ArrayList<BarcodeInventoryErrorDetail>();
-        
+
         //Deleting previous error messages
         GlobalVariables.getErrorMap().clear();
+
+//        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
+//            LOG.info("*** RULES - Before validating :"+detail.toString());
+//        }        
         
         Long lineNumber=new Long(1);
         for(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail:barcodeInventoryErrorDetails) {
-            String errorPath = CamsConstants.DOCUMENT_PATH + "."+CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()-1) + "]";
+            valid=true;
+            errorPath = CamsConstants.DOCUMENT_PATH + "."+CamsPropertyConstants.BarcodeInventory.BARCODE_INVENTORY_DETAIL + "[" + (lineNumber.intValue()-1) + "]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
 
-            valid=true;
-            LOG.info("*** Validating line#:"+lineNumber);        
-            
+            //LOG.info("*** Validating line#:"+lineNumber);        
+
             valid&=this.validateTagNumber(barcodeInventoryErrorDetail.getAssetTagNumber());
             valid&=this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail);
             valid&=this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail,lineNumber.intValue()-1);
             valid&=this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
             valid&=this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail,lineNumber.intValue()-1);
             valid&=this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
-             
-            LOG.info("******************************************* - Passed? - "+valid);        
-            
+
+            //LOG.info("******************************************* - Passed? - "+valid);        
+
             if (!valid) {                
                 barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
                 barcodeInventoryErrorDetail.setUploadRowNumber(lineNumber);
@@ -112,15 +118,20 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             } else {
                 barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
             }
+
             inventory.add(barcodeInventoryErrorDetail);
-            
+
             GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
         }        
         //Cleaning collection.
         barcodeInventoryErrorDetails.clear();
-        
+
         //Adding back all elements including those that had modifications.
         barcodeInventoryErrorDetails.addAll(inventory);
+
+//        for(BarcodeInventoryErrorDetail detail:inventory) {
+//            LOG.info("*** RULES - After validating :"+detail.toString());
+//        }        
         
         return true;
     }
@@ -135,8 +146,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private String getErrorMessages(String errorPath) {
         String message="";
         String[] fields = {CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER,CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE,
-                           CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE,CamsPropertyConstants.BarcodeInventory.BUILDING_CODE,
-                           CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER,CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE};
+                CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE,CamsPropertyConstants.BarcodeInventory.BUILDING_CODE,
+                CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER,CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE};
 
         for(int i=0;i<fields.length;i++) {
             String propertyName=errorPath+"."+fields[i];
@@ -171,7 +182,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER,CamsKeyConstants.BarcodeInventory.ERROR_DUPLICATED_TAG_NUMBER); 
             result=false;
         }
-        LOG.info("****ValidateTagNumber - tag#:"+tagNumber+ " Result:"+result);
+        //LOG.info("****ValidateTagNumber - tag#:"+tagNumber+ " Result:"+result);
         return result;
     }
 
@@ -211,7 +222,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);            
             result=false;
         }
-        LOG.info("****validateCampusCode - campus code:"+campusCode+ " Result:"+result);
+        //LOG.info("****validateCampusCode - campus code:"+campusCode+ " Result:"+result);
         return result;
     }
 
@@ -233,14 +244,14 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 //      fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
 //      fields.put(KFSPropertyConstants.BUILDING_CODE, detail.getBuildingCode());        
 //      building = (Building)businessObjectService.findByPrimaryKey(Building.class, fields);
-        
+
         detail.refreshReferenceObject(CamsPropertyConstants.BarcodeInventory.BUILDING_REFERENCE);
         if (ObjectUtils.isNull(detail.getBuilding())) {
-        //if (building == null) {
+            //if (building == null) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);                    
             result&=false;
         }
-        LOG.info("****validateBuildingCode - buildingCode:"+buildingCode+ " Result:"+result);        
+        //LOG.info("****validateBuildingCode - buildingCode:"+buildingCode+ " Result:"+result);        
         return result;
     }
 
@@ -256,13 +267,13 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail, int line) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
-        
+
         detail.refreshReferenceObject(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_REFERENCE);
         if (ObjectUtils.isNull(detail.getBuildingRoom())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);                    
             result=false;
         }
-        LOG.info("****validateBuildingRoomNumber - buildingRoom#:"+roomNumber+ " Result:"+result);                        
+        //LOG.info("****validateBuildingRoomNumber - buildingRoom#:"+roomNumber+ " Result:"+result);                        
         return result;
     }
 
@@ -284,7 +295,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE,CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);
             result&=false;
         }        
-        LOG.info("****validateConditionCode - conditionCode:"+conditionCode+" Result:"+result);                                        
+        //LOG.info("****validateConditionCode - conditionCode:"+conditionCode+" Result:"+result);                                        
         return result;
     }
 }

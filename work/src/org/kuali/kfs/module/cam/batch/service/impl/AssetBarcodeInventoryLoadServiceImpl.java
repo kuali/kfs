@@ -256,6 +256,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 barcodeInventoryErrorDetail.setBuildingRoomNumber(lineStrings[5].trim());
                 barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6].trim());
                 barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7].trim());
+                barcodeInventoryErrorDetail.setRowSelected(true);
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
             }
@@ -363,7 +364,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      *
      * @param barcodeInventoryErrorDetail
      */
-    private void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail) {
+    public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail) {
         //LOG.info("***updateAssetInformation - update - Start");
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, barcodeInventoryErrorDetail.getAssetTagNumber());

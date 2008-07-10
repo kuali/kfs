@@ -69,13 +69,20 @@
             	
 			</logic:iterate>
 		</table>
-		<table>
+		<table table cellpadding="0" cellspacing="0"  border="0">
 		<tr>
-		<td><div align="center">
-			<html:image property="methodToCall.deleteLine" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
+		<td width="49%"><div align="right">
+			<html:image property="methodToCall.validateLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-activaudit.gif"
+			    		alt="Validates selected lines"
+			        	styleClass="tinybutton" align="center"/></div>
+		</td>
+		<td width="1%">&nbsp<td/>		
+		<td width="48%"><div align="left">
+			<html:image property="methodToCall.deleteLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
 			    		alt="Delete selected lines"
 			        	styleClass="tinybutton" align="center"/></div>
 		</td>
+
 		</tr>
 		</table>
 	</div>

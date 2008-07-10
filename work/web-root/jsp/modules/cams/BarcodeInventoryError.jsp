@@ -17,7 +17,9 @@
 <script language="JavaScript" type="text/javascript" src="scripts/cams/selectAllCheckbox.js"></script>
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" 
 renderMultipart="true"  showTabButtons="true">
-    <kul:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
+	
+    <!-- kul:hiddenDocumentFields /-->
   	<html:hidden property="document.uploaderUniversalIdentifier"/>
  	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	

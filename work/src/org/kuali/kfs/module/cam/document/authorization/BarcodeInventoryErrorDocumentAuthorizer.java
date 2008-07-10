@@ -15,8 +15,20 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
 public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase  {
+    @Override
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+
+        flags.setCanSave(false);
+        flags.setCanRoute(false);
+        flags.setCanReload(false);
+        return flags;
+    }
 
 }

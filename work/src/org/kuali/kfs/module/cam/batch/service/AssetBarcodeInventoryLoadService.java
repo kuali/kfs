@@ -17,6 +17,8 @@ package org.kuali.kfs.module.cam.batch.service;
 
 import java.io.File;
 
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+
 /**
  * 
  * This service interface defines the methods that a ProcurementCardLoadTransactionsService implementation must provide.
@@ -39,4 +41,12 @@ public interface AssetBarcodeInventoryLoadService {
       * @return
       */
      public boolean processFile(File file);
+     
+     
+     /**
+      * 
+      * This method updates the asset table
+      * @param barcodeInventoryErrorDetail
+      */
+     public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail);
 }

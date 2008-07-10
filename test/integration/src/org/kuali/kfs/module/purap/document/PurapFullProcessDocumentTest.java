@@ -35,6 +35,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -63,6 +65,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     * CM
     * Close PO
      */
+    @RelatesTo(JiraIssue.KULPURAP2666)
     @ConfigureContext(session = PARKE, shouldCommitTransactions = true)
     public final void testFullProcess() throws Exception {
         // 1. use the ACM document to create the REQ and PO

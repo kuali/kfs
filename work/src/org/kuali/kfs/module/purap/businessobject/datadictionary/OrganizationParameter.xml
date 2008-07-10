@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="OrganizationParameter-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="chartOfAccountsCode" />
+    <property name="titleAttribute" value="organizationAutomaticPurchaseOrderLimit" />
     <property name="objectLabel" value="Organization Parameter" />
     <property name="attributes" >
       <list>

@@ -17,11 +17,13 @@
 
 <kul:tab tabTitle="Reports And Exports" defaultOpen="true" tabErrorKey="reportSel">
 	<div class="tab-container" align="center">
-    	<h3>Reports</h3>
 
-        <table width="100%" cellpadding="0" cellspacing="0">
+        <table class="datatable" border="0" width="100%" cellpadding="0" cellspacing="0">
+        	<tr>
+        		<td colspan="2" class="subhead">Reports</td>
+        	</tr>
               <tr>
-                <td>Account Funding Detail </td>
+                <td>Account Funding Detail</td>
                 <td width="200">
                   <div align="center">
                     <html:image property="methodToCall.performReport.(((AccountFundingDetailReport)))" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Funding Detail" alt="Account Funding Detail" styleClass="tinybutton" />

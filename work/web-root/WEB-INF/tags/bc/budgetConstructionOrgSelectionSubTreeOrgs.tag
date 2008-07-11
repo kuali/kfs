@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-    <table cellpadding=0 cellspacing="0"  summary="">
+    <table class="datatable" border="0" cellpadding="0" cellspacing="0"  summary="">
 		<tr>
 	        <td class="subhead" colspan="4">Organization Sub-Tree</td>
       	</tr>

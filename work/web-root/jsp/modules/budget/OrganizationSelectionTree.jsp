@@ -37,9 +37,13 @@
 	   ${message}
 	</c:forEach>
 
-    <br><br>
-	
-	<bc:budgetConstructionOrgSelection />
+	<br/><br/>	
+
+	<kul:tabTop tabTitle="${KualiForm.operatingModeTitle}" defaultOpen="true" tabErrorKey="orgSel,selectionSubTreeOrgs">
+	<div class="tab-container" align=center>
+		<bc:budgetConstructionOrgSelection />
+	</div>
+	</kul:tabTop>
 	
 	<c:if test="${!empty KualiForm.selectionSubTreeOrgs}">		
 		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS}">
@@ -58,7 +62,7 @@
 			<bc:budgetConstructionOrgSelectionPushOrPull />     
 		</c:if>       
     </c:if>
-    
+
 	<kul:panelFooter/>
 	
     <div id="globalbuttons" class="globalbuttons">

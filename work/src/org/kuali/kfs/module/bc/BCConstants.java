@@ -133,6 +133,8 @@ public class BCConstants extends JSTLConstants {
     public static final String BC_DOCUMENT_ACTION = "budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD = "refresh";
     public static final String BC_DOCUMENT_METHOD = "docHandler";
+    public static final String BC_DOCUMENT_PULLUP_METHOD = "performAccountPullup";
+    public static final String BC_DOCUMENT_PUSHDOWN_METHOD = "performAccountPushdown";
 
     public static final String MONTHLY_BUDGET_REFRESH_CALLER = MonthlyBudgetAction.class.getName();
     public static final String MONTHLY_BUDGET_ACTION = "budgetMonthlyBudget.do";

@@ -17,7 +17,7 @@
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,unpack-rice-dd" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
@@ -103,8 +103,8 @@
 	</target>
 	
 	<target name="make-javadoc" depends="init-make-references">
-		<mkdir dir="${doc.directory}"/>
-		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
+		<mkdir dir="${build.doc.directory}"/>
+		<javadoc destdir="${build.doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
 			<sourcepath><pathelement location="${source.directory}"/></sourcepath>
 			<classpath refid="compile.source.classpath"/>
 		</javadoc>
@@ -122,12 +122,11 @@
 				<include name="*.war" />
 				<include name="*.zip" />
 				<include name="workflow.xml"/>
-				<include name="${build.temp.directory}"/>
 			</fileset>
 		</delete>
 	</target>
 
-	<target name="clean-help" depends="init-property-files" unless="nohelp">
+	<target name="clean-help" depends="init-property-files" unless="no.filter.project.help">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${help.directory}/**" />
@@ -135,7 +134,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-rice" depends="init-property-files" unless="norice">
+	<target name="clean-rice" depends="init-property-files" unless="no.filter.project.rice">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${licenses.directory}/${rice.name}/**" />
@@ -187,24 +186,57 @@
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
 		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
+	
+	<target name="filter-project-help" unless="no.filter.project.help" depends="init-properties">
+		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
+	</target>
 
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice">
+	<target name="filter-project-rice" unless="no.filter.project.rice" depends="init-properties">
+		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
+		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+	</target>
+	
+  	<macrodef name="spring-ide-config-line">
+    	<attribute name="springfilepath" />
+       	<sequential>
+       		<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{springfilepath}${spring.ide.support.file.line.suffix}" />
+       	</sequential>
+  	</macrodef>
+  	
+  	<target name="filter-project-spring-ide" unless="no.filter.project.spring.ide" depends="init-properties">
+		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
+		<mkdir dir="${rice.datadictionary.directory}"/>
+		<unjar src="${lib.directory}/${rice.name}-${rice.kns.name}-${rice.version}.jar" dest="${rice.datadictionary.directory}">
+			<patternset>
+				<include name="${spring.ide.support.datadictionary.files}"/>
+				<exclude name="**/conversion/**"/>
+			</patternset>
+		</unjar>
+		<path id="rice.datadictionary.files"><fileset dir="${rice.datadictionary.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
+		<path id="kfs.datadictionary.files"><fileset dir="${source.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
+		<path id="kfs.service.files"><fileset dir="${source.directory}" includes="**/*.xml" excludes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
+    	<echo append="false" file="${spring.ide.support.file}" message="${spring.ide.support.file.prefix}" />
+		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.datadictionary}" />
+		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.services}" />
+		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.suffix}" />
+		<replace file="${spring.ide.support.file}" token="${basedir}${file.separator}" />
+		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />
+  	</target>
+
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
 	</target>
-
-	<target name="filter-project-help" unless="nohelp">
-		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
-	</target>
-
-	<target name="filter-project-rice" unless="norice">
-		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
-		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
-	</target>
-
+	
 	<target name="filter-local" if="is.local.build" depends="init-properties">
 		<copy file="${build.appserver.directory}/${carol.file}" todir="${appserver.classes.dir}" overwrite="true" />
 		<copy todir="${appserver.lib.dir}" overwrite="true">
@@ -225,11 +257,11 @@
 	</target>
 
 	<target name="make-source" depends="init-make-references,filter-project">
-		<mkdir dir="${make-source.target.directory}" />
-		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+		<mkdir dir="${war.classes.directory}" />
+		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.source.classpath" />
 		</javac>
-		<copy todir="${make-source.target.directory}">
+		<copy todir="${war.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
 	</target>
@@ -255,13 +287,13 @@
 
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">
-		<mkdir dir="${test.temp.directory}" />
+		<mkdir dir="${all.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" >
+		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
 			<classpath refid="run.tests.classpath" />
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}" >
+		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
 			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
@@ -285,6 +317,7 @@
 			</fileset>
 			<report format="frames" todir="${test.html.results.directory}" />
 		</junitreport>
+		<delete dir="${all.temp.directory}" failonerror="false" />
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>
 
@@ -303,23 +336,9 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="continuous-integration" depends="clean,make-tests,test">
-		<fail if="tests.failed" message="Tests failed" />
-	</target>
-
-	<target name="post-load-encrypt" depends="make-source">
-		<java classname="org.kuali.kfs.sys.context.BatchStepRunner" fork="true">
-			<arg value="postDataLoadEncryptionStep" />
-			<classpath>
-				<pathelement location="${make-source.target.directory}" />
-				<path refid="compile.source.classpath" />
-			</classpath>
-		</java>
-	</target>
-
 	<target name="dist-plugin" depends="make-source" description="Generates a plugin for standalone KEW">
 		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${make-source.target.directory}"/>
+			<fileset dir="${war.classes.directory}"/>
 		</copy>
 		<copy todir="${plugin.lib.directory}">
 			<fileset dir="${lib.directory}" excludes="${plugin.lib.excludes}" />
@@ -328,30 +347,21 @@
 			<fileset dir="${build.plugin.directory}"/>
 		</copy>
 		<zip basedir="${plugin.directory}" destfile="en-plugins.zip"/>
+		<delete dir="${all.temp.directory}" failonerror="false" />
 	</target>
 
-	<target name="dist-standalone-kew-war" depends="make-source" description="Generates a WAR for running a standalone KEW server">
-		<copy todir="${build.standalone.directory}/WEB-INF/lib">
-			<fileset dir="${lib.directory}" includes="*.jar"/>
-			<fileset dir="${build.appserver.directory}" includes="*.jar"/>
-		</copy>
-		<copy todir="${build.standalone.directory}/WEB-INF/classes">
-			<fileset dir="${build.appserver.directory}" includes="${carol.file}"/>
-		</copy>
-		<copy file="build/external/appserver/standalone-kew-web.xml" tofile="${build.standalone.directory}/WEB-INF/${web.file}"/>
-		<copy todir="${build.standalone.directory}">
-			<fileset dir="${webroot.directory}/en" excludes="**/CVS/*,.cvsignore"/>
-		</copy>
-		<copy todir="${build.standalone.directory}/ksb">
-			<fileset dir="${webroot.directory}/ksb" excludes="**/CVS/*"/>
-		</copy>
-		<copy todir="${build.standalone.directory}/WEB-INF/plugins/shared/lib">
-			<fileset dir="${lib.directory}" includes="rice-shared-*.jar"/>
-		</copy>
-		<jar destfile="en-dev.war">
-			<fileset dir="${build.standalone.directory}"/>
-		</jar>
-		<echo file="workflow.xml" message="${standalone-workflow}"  />
+	<target name="continuous-integration" depends="clean,make-tests,test">
+		<fail if="tests.failed" message="Tests failed" />
+	</target>
+
+	<target name="post-load-encrypt" depends="make-source">
+		<java classname="org.kuali.kfs.sys.context.BatchStepRunner" fork="true">
+			<arg value="postDataLoadEncryptionStep" />
+			<classpath>
+				<pathelement location="${war.classes.directory}" />
+				<path refid="compile.source.classpath" />
+			</classpath>
+		</java>
 	</target>
 
 	<target name="help" depends="init-properties" description="Describe public targets">
@@ -406,146 +416,12 @@
 		</echo>
 	</target>
 
-	<!-- ================================= 
-          target: unpack-rice-dd
-         ================================= -->
-	<target name="unpack-rice-dd" depends="init-properties">
-		<delete dir="${ricedd.directory}" failonerror="false" quiet="true"/>
-		<mkdir dir="${ricedd.directory}"/>
-		<unjar src="${lib.directory}/${rice.name}-${rice.kns.name}-${rice.version}.jar" dest="${ricedd.directory}">
-			<patternset>
-				<include name="**/datadictionary/**/*.xml"/>
-				<exclude name="**/conversion/**"/>
-			</patternset>
-		</unjar>		
-	</target>
-
-	<!-- ================================= 
-          target: build-spring-config              
-         ================================= -->
-    <target name="build-spring-config" depends="init-properties" description="--> Builds the .springBeans file to allow for code completion.">
-    	<!-- get all spring configuration files -->
-    	<!-- divide into 2 groups DD and services -->
-    	<!-- search for the <beans> tag in the file -->
-    	<!-- include DD files from the KFS jar file -->
-    	<property name="springide.config.file" location=".springBeans"/>
-    	<echo append="false" file="${springide.config.file}"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<beansProjectDescription>
-	<configExtensions>
-		<configExtension>xml</configExtension>
-	</configExtensions>
-	<configs>    		
-]]></echo>
-    	<antcall target="dump-kns-dd-config-files" inheritall="true">
-    		<param name="filename" value="${springide.config.file}"/>
-    	</antcall>
-    	<antcall target="dump-spring-dd-config-files" inheritall="true">
-    		<param name="filename" value="${springide.config.file}"/>
-    	</antcall>
-    	<antcall target="dump-spring-service-config-files" inheritall="true">
-    		<param name="filename" value="${springide.config.file}"/>
-    	</antcall>
-    	<echo append="true" file="${springide.config.file}"><![CDATA[	</configs>
-   	<configSets>
-        <configSet>
-            <name>Data Dictionary</name>
-            <allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
-            <incomplete>false</incomplete>
-            <configs>    	
-]]></echo>
-    	<antcall target="dump-kns-dd-config-files" inheritall="true">
-    		<param name="filename" value="${springide.config.file}"/>
-    	</antcall>
-    	<antcall target="dump-spring-dd-config-files" inheritall="true">
-    		<param name="filename" value="${springide.config.file}"/>
-    	</antcall>
-    	<echo append="true" file="${springide.config.file}"><![CDATA[        	</configs>
-    	</configSet>
-        <configSet>
-            <name>Services</name>
-            <allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
-            <incomplete>false</incomplete>
-            <configs>    	
-]]></echo>
-    	<antcall target="dump-spring-service-config-files" inheritall="true">
-    		<param name="filename" value="${springide.config.file}"/>
-    	</antcall>
-    	<echo append="true" file="${springide.config.file}"><![CDATA[        	</configs>
-    	</configSet>
-	</configSets>
-	<springVersion>2.0</springVersion>
-</beansProjectDescription>
-]]></echo>
-    </target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: add-config-line                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="add-config-line">
-    	<pathconvert property="springXMLFile.safe" targetos="unix">
-    		<path location="${springXMLFile}" />
-    		<!-- strip off the leading base dir -->
-    		<map from="${basedir}${file.separator}" to="" />
-    	</pathconvert>
-        <echo append="true" file="${filename}"><![CDATA[				<config>${springXMLFile.safe}</config>
-]]></echo>
-    </target>
-	
-	<target name="dump-spring-dd-config-files">
-	<foreach target="add-config-line" 
-		 inheritall="true"
-		 param="springXMLFile"
-		 parallel="false">
-		<path>
-			<fileset dir="work/src">
-				    <include name="**/datadictionary/**/*.xml"/>
-				<exclude name="**/conversion/**"/>
-				    <exclude name="**/*Spring*.xml"/>
-				<contains casesensitive="true" text="&lt;beans"/>
-				</fileset>
-		</path>
-	</foreach>
-	</target>
-
-	<target name="dump-spring-service-config-files">
-	<foreach target="add-config-line" 
-		 inheritall="true"
-		 param="springXMLFile"
-		 parallel="false">
-		<path>
-			<fileset dir="work/src">
-				    <exclude name="**/datadictionary/**/*.xml"/>
-				    <include name="**/*.xml"/>
-				<contains casesensitive="true" text="&lt;beans"/>
-				</fileset>
-		</path>
-	</foreach>
-	</target>
-
-	<target name="dump-kns-dd-config-files" depends="init-property-files">
-	<foreach target="add-config-line" 
-		 inheritall="true"
-		 param="springXMLFile"
-		 parallel="false">
-		<path>
-			<fileset dir="${ricedd.directory}">
-				    <include name="**/datadictionary/**/*.xml"/>
-				<contains casesensitive="true" text="&lt;beans"/>
-				</fileset>
-		</path>
-	</foreach>
-	</target>
-
-    <target name="add-kns-config-line">
-    	<pathconvert property="springXMLFile.safe" targetos="unix">
-    		<path location="${springXMLFile}"/>
-    		<!-- strip off the leading base dir -->
-    		<map from="${basedir}${file.separator}temp${file.separator}" to=""/>
-    	</pathconvert>
-        <echo append="true" file="${filename}"><![CDATA[				<config>${lib.directory}/${rice.name}-${rice.kns.name}-${rice.version}.jar!/${springXMLFile.safe}</config>
-]]></echo>
-    </target>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="build/foundation/ant-contrib-1.0b3.jar" />
+			<pathelement location="build/foundation/bcel-5.2.jar" />
+		</classpath>
+	</taskdef>    	
 
 	<import file="build-foundation.xml"/>
-
 </project>

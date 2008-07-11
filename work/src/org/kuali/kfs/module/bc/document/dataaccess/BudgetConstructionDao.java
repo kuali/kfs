@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -164,4 +165,14 @@ public interface BudgetConstructionDao {
      * @return
      */
     public boolean isDelegate(String chartCd, String accountNbr, String personUniversalIdentifier);
+    
+    /**
+     * Returns a list of account organization hierarchy levels for an account
+     * 
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param universityFiscalYear
+     * @return
+     */
+    public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierForAccount(String chartOfAccountsCode, String accountNumber, Integer universityFiscalYear);
 }

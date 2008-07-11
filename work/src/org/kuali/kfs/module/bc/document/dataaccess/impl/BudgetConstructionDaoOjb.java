@@ -34,6 +34,7 @@ import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -336,6 +337,26 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         }
         
         return retval;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getAccountOrgHierForAccount(java.lang.String, java.lang.String, java.lang.Integer)
+     */
+    public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierForAccount(String chartOfAccountsCode, String accountNumber, Integer universityFiscalYear) {
+        List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHier = new ArrayList();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountNumber", accountNumber);
+
+        QueryByCriteria query = QueryFactory.newQuery(BudgetConstructionAccountOrganizationHierarchy.class, criteria);
+        query.addOrderByAscending("organizationLevelCode");
+
+        accountOrgHier = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        
+        return accountOrgHier;
     }
 
     /**

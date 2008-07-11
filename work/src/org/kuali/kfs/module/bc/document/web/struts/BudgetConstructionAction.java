@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,11 +44,13 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -88,40 +91,44 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // apprise user of granted access
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)) {
+
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
             }
+
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.VIEW_ONLY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_VIEW_ONLY);
             }
+
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
-                
+
                 // TODO: maybe move this to BC document service
-                if (!budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+                if (!budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                     LockService lockService = SpringContext.getBean(LockService.class);
                     HashMap primaryKey = new HashMap();
                     primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocument().getDocumentNumber());
 
                     BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-                    if (budgetConstructionHeader != null){
+                    if (budgetConstructionHeader != null) {
                         BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
                         // TODO: make this a switch
-                        if (bcLockStatus.getLockStatus() == LockStatus.SUCCESS){
-                            
-                            // update the document version number so the saved lock of header doesn't produce an optimistic lock error
+                        if (bcLockStatus.getLockStatus() == LockStatus.SUCCESS) {
+
+                            // update the document version number
+                            // so the saved lock of header doesn't produce an optimistic lock error
                             // and has the info we just put in the header so doc save doesn't wipe out the lock
                             budgetConstructionForm.getBudgetConstructionDocument().setVersionNumber(bcLockStatus.getBudgetConstructionHeader().getVersionNumber());
                             budgetConstructionForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(bcLockStatus.getBudgetConstructionHeader().getBudgetLockUserIdentifier());
                         }
                         else {
-                            if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER){
+                            if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER) {
                                 String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
-                                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(document is locked by "+lockerName+")", budgetConstructionForm.isPickListMode());
+                                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(document is locked by " + lockerName + ")", budgetConstructionForm.isPickListMode());
                             }
                             else {
-                                if (bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND){
+                                if (bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND) {
                                     throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(funding for document is locked)", budgetConstructionForm.isPickListMode());
                                 }
                                 else {
@@ -135,11 +142,46 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(can't find document for locking)", budgetConstructionForm.isPickListMode());
                     }
                 }
+
+                // getting here implies a lock or system view mode, try to build a pullup list
+                // pushdown is only allowed if user has edit access (regardless of system view only mode)
+                if (budgetConstructionForm.getBudgetConstructionDocument().getOrganizationLevelCode() != 0) {
+                    if (!budgetConstructionForm.getAccountOrgHierLevels().isEmpty()) {
+                        budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), false);
+                    }
+                }
+            }
+
+            // pullup is allowed regardless of editMode
+            if (!budgetConstructionForm.getAccountOrgHierLevels().isEmpty()) {
+                budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), true);
             }
         }
 
         return forward;
     }
+
+
+    // private List<KeyLabelPair> populatePushPullLevelKeyLabels(List<BudgetConstructionAccountOrganizationHierarchy> levels,
+    // boolean isPull) {
+    //
+    // List<KeyLabelPair> levelKeyLabels = new ArrayList<KeyLabelPair>();
+    // for (BudgetConstructionAccountOrganizationHierarchy level : levels) {
+    // SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level,"organization");
+    // if (isPull || level.getOrganizationLevelCode() != 0) {
+    // levelKeyLabels.add(new KeyLabelPair(level.getOrganizationLevelCode(), level.getOrganizationLevelCode().toString() + ":" +
+    // level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " +
+    // level.getOrganization().getOrganizationName()));
+    // }
+    // else {
+    // // push list level zero case needs special desc
+    // levelKeyLabels.add(new KeyLabelPair(level.getOrganizationLevelCode(), level.getOrganizationLevelCode().toString() + ":" +
+    // level.getOrganizationChartOfAccountsCode() + "-" + level.getOrganizationCode() + " " + "Fiscal Officer Access Level"));
+    // }
+    // }
+    //
+    // return levelKeyLabels;
+    // }
 
     /**
      * gwp - no call to super, need to work through command we will use randall - This method might be unnecessary, but putting it
@@ -283,23 +325,23 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 // else go to close logic below
             }
         }
-        
+
         // TODO: maybe move this to BC document service
         // do the unlock if they have full access and not system view mode
         if (docForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY)) {
-            
-            if (!docForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+
+            if (!docForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 LockService lockService = SpringContext.getBean(LockService.class);
                 HashMap primaryKey = new HashMap();
                 primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, docForm.getDocument().getDocumentNumber());
 
                 BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-                if (budgetConstructionHeader != null){
+                if (budgetConstructionHeader != null) {
                     LockStatus lockStatus = lockService.unlockAccount(budgetConstructionHeader);
 
                     // TODO: figure out if we need error message and redisplay for not success?
-                    if (lockStatus != LockStatus.SUCCESS){
-                        
+                    if (lockStatus != LockStatus.SUCCESS) {
+
                     }
                 }
                 else {
@@ -464,16 +506,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
-          BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-          budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-          budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
-          budgetConstructionForm.initializePersistedRequestAmounts();
+            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+            budgetConstructionForm.initializePersistedRequestAmounts();
 
-          // repop and refresh refs - esp monthly so jsp can properly display state
-          budgetConstructionForm.populatePBGLLines();
+            // repop and refresh refs - esp monthly so jsp can properly display state
+            budgetConstructionForm.populatePBGLLines();
 
-      }
+        }
 
         PendingBudgetConstructionGeneralLedger pbglLine;
         if (isRevenue) {
@@ -658,7 +700,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         bcDoc.addPBGLLine(line, isRevenue);
 
         // adjust totals
-        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
             }
@@ -666,7 +708,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(line.getAccountLineAnnualBalanceAmount()));
             }
         }
-        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().add(line.getFinancialBeginningBalanceLineAmount()));
             }
@@ -675,7 +717,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
-        
+
         // TODO add the decorator, if determined to be needed
 
     }
@@ -770,7 +812,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
 
         // adjust totals
-        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO){
+        if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
             }
@@ -778,7 +820,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().subtract(line.getAccountLineAnnualBalanceAmount()));
             }
         }
-        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO){
+        if (line.getFinancialBeginningBalanceLineAmount() != null && line.getFinancialBeginningBalanceLineAmount() != KualiInteger.ZERO) {
             if (isRevenue) {
                 bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
             }
@@ -786,7 +828,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().subtract(line.getFinancialBeginningBalanceLineAmount()));
             }
         }
-        
+
         // remove the line
         if (isRevenue) {
             bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
@@ -898,40 +940,40 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     public ActionForward adjustRevenueLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm docForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument();
         PendingBudgetConstructionGeneralLedger revLine = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
 
-        if (revLine.getAdjustmentAmount() != null){
+        if (revLine.getAdjustmentAmount() != null) {
             this.adjustRequest(revLine);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward adjustExpenditureLinePercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm docForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument();
         PendingBudgetConstructionGeneralLedger expLine = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
 
-        if (expLine.getAdjustmentAmount() != null){
+        if (expLine.getAdjustmentAmount() != null) {
             this.adjustRequest(expLine);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward adjustAllRevenueLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm docForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument();
         List<PendingBudgetConstructionGeneralLedger> revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines();
 
         KualiDecimal adjustmentAmount = docForm.getRevenueAdjustmentAmount();
-        if (adjustmentAmount != null){
-            
+        if (adjustmentAmount != null) {
+
             // not sure we need this check since the tool isn't displayed in view mode
             boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
             for (PendingBudgetConstructionGeneralLedger revenueLine : revenueLines) {
-                if (isEditable){
+                if (isEditable) {
                     revenueLine.setAdjustmentAmount(adjustmentAmount);
                     this.adjustRequest(revenueLine);
                 }
@@ -940,21 +982,21 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward adjustAllExpenditureLinesPercent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm docForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument(); 
+        BudgetConstructionDocument bcDoc = docForm.getBudgetConstructionDocument();
         List<PendingBudgetConstructionGeneralLedger> expenditureLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
 
-        KualiDecimal adjustmentAmount = docForm.getExpenditureAdjustmentAmount(); 
-        if (adjustmentAmount != null){
+        KualiDecimal adjustmentAmount = docForm.getExpenditureAdjustmentAmount();
+        if (adjustmentAmount != null) {
 
             // not sure we need this check since the tool isn't displayed in view mode
             boolean isEditable = (docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !docForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY));
-//            (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')
+            // (!benecalcDisabled && !empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode == 'F')
             for (PendingBudgetConstructionGeneralLedger expenditureLine : expenditureLines) {
-                boolean isLineEditable = (isEditable && (docForm.isBenefitsCalculationDisabled()  || (expenditureLine.getLaborObject() == null) || !expenditureLine.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
-                if (isLineEditable){
+                boolean isLineEditable = (isEditable && (docForm.isBenefitsCalculationDisabled() || (expenditureLine.getLaborObject() == null) || !expenditureLine.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
+                if (isLineEditable) {
                     expenditureLine.setAdjustmentAmount(adjustmentAmount);
                     this.adjustRequest(expenditureLine);
                 }
@@ -963,7 +1005,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
@@ -1045,7 +1087,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
         // validate and save without checking monthly RI since the spread will keep things consistent
-        if (isRevenue){
+        if (isRevenue) {
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
         }
         else {
@@ -1066,7 +1108,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
             }
         }
-        
+
         // repop and refresh refs - esp monthly so jsp can properly display state
         tForm.populatePBGLLines();
 
@@ -1089,9 +1131,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-        
+
         // validate and save without checking monthly RI since the delete will make RI check moot
-        if (isRevenue){
+        if (isRevenue) {
             budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.REVENUE, false);
         }
         else {
@@ -1136,16 +1178,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private void adjustRequest(PendingBudgetConstructionGeneralLedger pbglLine){
-        
+    private void adjustRequest(PendingBudgetConstructionGeneralLedger pbglLine) {
+
         KualiInteger baseAmount = pbglLine.getFinancialBeginningBalanceLineAmount();
-        if (baseAmount.isNonZero()){
+        if (baseAmount.isNonZero()) {
             KualiDecimal percent = pbglLine.getAdjustmentAmount();
             BigDecimal adjustedAmount = baseAmount.multiply(percent).divide(KFSConstants.ONE_HUNDRED);
-            
+
             KualiInteger requestAmount = new KualiInteger(adjustedAmount).add(baseAmount);
             pbglLine.setAccountLineAnnualBalanceAmount(requestAmount);
         }
-        
+
     }
 }

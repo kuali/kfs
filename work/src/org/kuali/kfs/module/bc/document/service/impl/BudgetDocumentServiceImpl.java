@@ -116,26 +116,25 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.core.document.Document)
-     * 
-     *  TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls add to interface this
-     *  should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass) above instead
-     *  of duplicating all the calls up to the point of workflow related calls
+     *      TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls add to
+     *      interface this should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass)
+     *      above instead of duplicating all the calls up to the point of workflow related calls
      */
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument bcDoc) throws ValidationException {
-        
+
         return this.saveDocumentNoWorkFlow(bcDoc, MonthSpreadDeleteType.NONE, true);
 
     }
-    
+
     public Document saveDocumentNoWorkFlow(BudgetConstructionDocument bcDoc, MonthSpreadDeleteType monthSpreadDeleteType, boolean doMonthRICheck) throws ValidationException {
-        
+
         checkForNulls(bcDoc);
 
         bcDoc.prepareForSave();
 
         // validate and save the local objects not workflow objects
         // this eventually calls BudgetConstructionRules.processSaveDocument() which overrides the method in DocumentRuleBase
-        if (doMonthRICheck){
+        if (doMonthRICheck) {
             validateAndPersistDocument(bcDoc, new SaveDocumentEvent(bcDoc));
         }
         else {
@@ -198,7 +197,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setBenefitsCalcNeeded(false);
-        if (!bcDoc.isSalarySettingOnly()){
+        if (!bcDoc.isSalarySettingOnly()) {
 
             // pbgl lines are saved at this point, calc benefits
             benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
@@ -218,7 +217,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
-        if (!bcDoc.isSalarySettingOnly()){
+        if (!bcDoc.isSalarySettingOnly()) {
 
             // pbgl lines are saved at this point, calc benefits
             benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
@@ -382,15 +381,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
-        
+
         isFiscalOfcOrDelegate = u.getPersonUniversalIdentifier().equalsIgnoreCase(bcHeader.getAccount().getAccountFiscalOfficerSystemIdentifier()) || budgetConstructionDao.isDelegate(chartOfAccountsCode, accountNumber, u.getPersonUniversalIdentifier());
 
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {
             if (isFiscalOfcOrDelegate) {
-                if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())){
+                if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-                } else {
+                }
+                else {
                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
                 }
                 return editMode;
@@ -399,11 +399,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         // drops here if we need to check for org approver access for any doc level
         editMode = this.getOrgApproverAcessMode(bcHeader, u);
-        if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))){
-            
-            // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user level
+        if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
+
+            // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user
+            // level
             editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
-            
+
         }
 
 
@@ -411,10 +412,9 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * Gets the Budget Construction access mode for a Budget Construction document header and Organization Approver user.
-     * This method assumes the Budget Document exists in the database and the Account Organization Hierarchy rows exist
-     * for the account. This will not check the special case where the document is at level 0. Most authorization routines
-     * should use getAccessMode()
+     * Gets the Budget Construction access mode for a Budget Construction document header and Organization Approver user. This
+     * method assumes the Budget Document exists in the database and the Account Organization Hierarchy rows exist for the account.
+     * This will not check the special case where the document is at level 0. Most authorization routines should use getAccessMode()
      * 
      * @param bcHeader
      * @param u
@@ -469,9 +469,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
                                 }
                                 else {
-                                    if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())){
+                                    if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
                                         editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-                                    } else {
+                                    }
+                                    else {
                                         editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
                                     }
 
@@ -492,21 +493,39 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
                 }
             }
             catch (Exception e) {
-                
+
                 // TODO should this reraise workflow exception? or should the method say it throws an exception
-                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: "+u.getPersonUserIdentifier(),e);
+                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + u.getPersonUserIdentifier(), e);
             }
         }
         else {
 
             // TODO should this raise an exception? no hierarchy for account?
-            LOG.error("Budget Construction Document's Account Organization Hierarchy not found for: "+bcHeader.getUniversityFiscalYear().toString()+","+bcHeader.getChartOfAccountsCode()+","+bcHeader.getAccountNumber());
+            LOG.error("Budget Construction Document's Account Organization Hierarchy not found for: " + bcHeader.getUniversityFiscalYear().toString() + "," + bcHeader.getChartOfAccountsCode() + "," + bcHeader.getAccountNumber());
 
         }
 
         return editMode;
     }
 
+    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser u) {
+        List<BudgetConstructionAccountOrganizationHierarchy> pushOrPullList = new ArrayList<BudgetConstructionAccountOrganizationHierarchy>();
+
+        pushOrPullList.addAll(budgetConstructionDao.getAccountOrgHierForAccount(bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getUniversityFiscalYear()));
+
+        if (pushOrPullList.size() >= 1) {
+            BudgetConstructionAccountOrganizationHierarchy levelZero = new BudgetConstructionAccountOrganizationHierarchy();
+            levelZero.setUniversityFiscalYear(bcDoc.getUniversityFiscalYear());
+            levelZero.setChartOfAccountsCode(bcDoc.getChartOfAccountsCode());
+            levelZero.setAccountNumber(bcDoc.getAccountNumber());
+            levelZero.setOrganizationLevelCode(0);
+            levelZero.setOrganizationChartOfAccountsCode(pushOrPullList.get(0).getOrganizationChartOfAccountsCode());
+            levelZero.setOrganizationCode(pushOrPullList.get(0).getOrganizationCode());
+            pushOrPullList.add(0, levelZero);
+        }
+
+        return pushOrPullList;
+    }
 
     /**
      * Sets the budgetConstructionDao attribute value.
@@ -607,6 +626,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the fiscalYearFunctionControlService attribute value.
+     * 
      * @param fiscalYearFunctionControlService The fiscalYearFunctionControlService to set.
      */
     public void setFiscalYearFunctionControlService(FiscalYearFunctionControlService fiscalYearFunctionControlService) {

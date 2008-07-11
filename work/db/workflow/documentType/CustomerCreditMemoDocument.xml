@@ -11,6 +11,17 @@
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
       <active>true</active>
+      <attributes>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocumentCustomerNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocumentBillingOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocumentInvoiceNumber</name>
+        </attribute>
+      </attributes>
       <policies>
         <policy>
           <name>DEFAULT_APPROVE</name>

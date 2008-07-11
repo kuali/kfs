@@ -105,8 +105,9 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         Date maxDate = new Date(cal.getTime().getTime());
 
         // Loan can not be before today
+        Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
         DateUtils.clearTimeFields(loanDate);
-        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
+        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date())) && (loanReturnDate == null)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_DATE);
         }
 
@@ -121,7 +122,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         }
 
         // loan return date must be >= loan date and withing 2 years limit
-        Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
         if (loanReturnDate != null) {
             DateUtils.clearTimeFields(loanReturnDate);
             if (loanDate.after(loanReturnDate) || maxDate.before(loanReturnDate)) {

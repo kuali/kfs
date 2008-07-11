@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -41,14 +40,7 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
         // If this is not done, when document description error is there, message comes back with read-only mode
         Map<String, String> editModeMap = new HashMap<String, String>();
         editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-        if (equipmentLoanOrReturnDocument.isReturnLoan()) {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
-        }
-        else {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
-        }
         setEditingMode(editModeMap);
-
     }
 
     /**

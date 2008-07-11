@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
@@ -37,8 +38,7 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends FinancialSystemTran
     public Map getEditMode(Document document, UniversalUser user) {
         Map<String, String> editModeMap = super.getEditMode(document, user);
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-
-        if (equipmentLoanOrReturnDocument.isReturnLoan()) {
+        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
             editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
         }
         else {

@@ -74,8 +74,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
     private Asset asset;
-    
-    private boolean returnLoan;
 
     /**
      * Default constructor.
@@ -715,14 +713,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
-    }
-
-    public boolean isReturnLoan() {
-        return returnLoan;
-    }
-
-    public void setReturnLoan(boolean returnLoan) {
-        this.returnLoan = returnLoan;
     }
 
 

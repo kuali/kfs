@@ -110,22 +110,6 @@
 		</javadoc>
 	</target>
 
-	<target name="clean-project" depends="init-property-files,clean-help,clean-rice">
-		<delete failonerror="false">
-			<fileset dir="${basedir}">
-				<include name="${source.directory}/${configuration.file}" />
-				<include name="${source.directory}/${p6spy.file}" />
-				<include name="${webinf.directory}/${web.file}" />
-				<include name="${lib.directory}/${log4j.library.file}" />
-				<include name="${war.directory}/**/**" />
-				<include name="${test.directory}/**/**" />
-				<include name="*.war" />
-				<include name="*.zip" />
-				<include name="workflow.xml"/>
-			</fileset>
-		</delete>
-	</target>
-
 	<target name="clean-help" depends="init-property-files" unless="no.filter.project.help">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
@@ -141,6 +125,27 @@
 				<include name="${webroot.directory}/${rice.application}/**" />
 				<include name="${webroot.directory}/${tags.directory}/${rice.application}/**" />
 				<include name="${webroot.directory}/${workflow.application}/**" />
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="clean-spring-ide" depends="init-property-files" unless="no.filter.project.spring.ide">
+		<delete dir="${rice.datadictionary.directory}" failonerror="false" />
+		<delete file="${spring.ide.support.file}" failonerror="false" />
+	</target>
+
+	<target name="clean-project" depends="init-property-files,clean-help,clean-rice,clean-spring-ide">
+		<delete failonerror="false">
+			<fileset dir="${basedir}">
+				<include name="${source.directory}/${configuration.file}" />
+				<include name="${source.directory}/${p6spy.file}" />
+				<include name="${webinf.directory}/${web.file}" />
+				<include name="${lib.directory}/${log4j.library.file}" />
+				<include name="${war.directory}/**/**" />
+				<include name="${test.directory}/**/**" />
+				<include name="*.war" />
+				<include name="*.zip" />
+				<include name="workflow.xml"/>
 			</fileset>
 		</delete>
 	</target>

@@ -19,11 +19,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityContractManager;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 
@@ -96,7 +99,9 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
      * @return Integer the default contract manager code if applicable, or null.
      */
     public Integer getContractManagerCode() {
-        if ( (contractManagerCode == null) && getFirstLineItem().getCommodityCode() != null) {
+        String paramName = PurapParameterConstants.ENABLE_DEFAULT_CONTRACT_MANAGER_IND;
+        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "AssignContractManager", paramName);
+        if ( paramValue.equals("Y") && (contractManagerCode == null) && getFirstLineItem().getCommodityCode() != null) {
             List<CommodityContractManager> commodityContractManagers = getFirstLineItem().getCommodityCode().getCommodityContractManagers();
             if (commodityContractManagers != null && commodityContractManagers.size() > 0) {
                 int count = 0;

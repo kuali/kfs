@@ -57,6 +57,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     
     public static final String SHOW_CLEAR_AND_LOAD_QTY_BUTTONS = "SHOW_CLEAR_AND_LOAD_QTY_BUTTONS";
     
+    public static final String ENABLE_DEFAULT_CONTRACT_MANAGER_IND = "ENABLE_DEFAULT_CONTRACT_MANAGER_IND";
+    
     public static class CapitalAsset {
         public static final String CAPITAL_ASSET_OBJECT_LEVELS = "CAPITAL_ASSET_OBJECT_LEVELS";
         public static final String POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS = "POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS";

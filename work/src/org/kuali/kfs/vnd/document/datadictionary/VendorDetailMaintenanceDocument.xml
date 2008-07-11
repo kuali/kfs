@@ -512,7 +512,7 @@
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="commodityDefaultIndicator"
-                    p:defaultValue="true" />
+                    p:defaultValue="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"

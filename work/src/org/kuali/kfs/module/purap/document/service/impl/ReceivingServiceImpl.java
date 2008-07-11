@@ -549,6 +549,9 @@ public class ReceivingServiceImpl implements ReceivingService {
                     KualiDecimal receivingItemReceived = receivingItem.getItemReceivedTotalQuantity(); 
                     KualiDecimal receivingItemTotalReceivedAdjested = receivingItemReceived.subtract(receivingItemReceivedOriginal); 
                     
+                    if (ObjectUtils.isNull(poItemReceivedTotal)){
+                        poItemReceivedTotal = KualiDecimal.ZERO;
+                    }
                     KualiDecimal poItemReceivedTotalAdjusted = poItemReceivedTotal.add(receivingItemTotalReceivedAdjested); 
                     
                     KualiDecimal receivingItemReturnedOriginal = receivingItem.getItemOriginalReturnedTotalQuantity();
@@ -563,11 +566,20 @@ public class ReceivingServiceImpl implements ReceivingService {
                     poItem.setItemReceivedTotalQuantity(poItemReceivedTotalAdjusted);
                     
                     KualiDecimal poTotalDamaged = poItem.getItemDamagedTotalQuantity();
+                    if (ObjectUtils.isNull(poTotalDamaged)){
+                        poTotalDamaged = KualiDecimal.ZERO; 
+                    }
+
                     KualiDecimal receivingItemTotalDamagedOriginal = receivingItem.getItemOriginalDamagedTotalQuantity();
                     if (ObjectUtils.isNull(receivingItemTotalDamagedOriginal)){
                         receivingItemTotalDamagedOriginal = KualiDecimal.ZERO; 
                     }
+                    
                     KualiDecimal receivingItemTotalDamaged = receivingItem.getItemDamagedTotalQuantity();
+                    if (ObjectUtils.isNull(receivingItemTotalDamaged)){
+                        receivingItemTotalDamaged = KualiDecimal.ZERO; 
+                    }
+                    
                     KualiDecimal receivingItemTotalDamagedAdjusted = receivingItemTotalDamaged.subtract(receivingItemTotalDamagedOriginal);
                     
                     poItem.setItemDamagedTotalQuantity(poTotalDamaged.add(receivingItemTotalDamagedAdjusted));

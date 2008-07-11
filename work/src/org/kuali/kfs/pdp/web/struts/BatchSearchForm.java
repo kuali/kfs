@@ -39,7 +39,6 @@ public class BatchSearchForm extends ActionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSearchForm.class);
 
     private List indivSearchResults;
-    private String paymentSearchType;
     private List batchSearchResults;
 
     private String batchId; // Integer
@@ -51,13 +50,6 @@ public class BatchSearchForm extends ActionForm {
     private String orgCode;
     private String subUnitCode;
 
-
-    /**
-     * @param advancedSearch
-     */
-    public BatchSearchForm() {
-        this.paymentSearchType = "B";
-    }
 
     public BatchSearch getBatchSearch() {
         BatchSearch pds = new BatchSearch();
@@ -159,20 +151,6 @@ public class BatchSearchForm extends ActionForm {
 
         LOG.debug("Exiting validate()  There were " + actionErrors.size() + " ActionMessages found.");
         return actionErrors;
-    }
-
-    /**
-     * @return Returns the paymentSearchType.
-     */
-    public String getPaymentSearchType() {
-        return paymentSearchType;
-    }
-
-    /**
-     * @param paymentSearchType The paymentSearchType to set.
-     */
-    public void setPaymentSearchType(String paymentSearchType) {
-        this.paymentSearchType = paymentSearchType;
     }
 
     /**

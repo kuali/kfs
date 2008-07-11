@@ -312,7 +312,7 @@
 	      <td align="center" valign="middle">
 		  	<c:if test="${KualiForm.document.organizationLevelCode == 0}">
 				Account Level Update Access
-		  	</c:if>
+		  	</c:if>&nbsp;
 	      </td>
 		</tr>
 	    <tr>

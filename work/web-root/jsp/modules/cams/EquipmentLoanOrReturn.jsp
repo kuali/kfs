@@ -54,15 +54,20 @@
 				</td>
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}" readOnly="true"/></th>
-                <td class="grid" width="25%"> 	                        
-                	<kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate"  readOnly="${readOnly}" />
-                </td>                          
+			   	<c:choose>
+		            <c:when test="${readOnly or (not (empty KualiForm.document.loanReturnDate))}">
+		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
+		            </c:when>
+		            <c:otherwise>
+		                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" /> </td>
+		            </c:otherwise>
+ 		       </c:choose>
 			</tr>
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.expectedReturnDate}" /></th>
 			   	<c:choose>
 		            <c:when test="${readOnly}">
-		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" readOnly="${readOnly}" />
+		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" readOnly="true" />
 		            </c:when>
 		            <c:otherwise>
 		                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" /> </td>
@@ -70,21 +75,19 @@
  		       </c:choose>
 
 			   	<c:choose>
-	                <c:when test="${displayNewLoanTab}">
-	                
-					   	<c:choose>
-							<c:when test="${empty KualiForm.document.loanReturnDate}">
-								<th class="grid" width="25%" align="right" colspan="2"></th>
-				            </c:when>
-				            <c:otherwise>	                
-			    				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>	                
-						        <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" readOnly="${readOnly}" />
-				            </c:otherwise>
- 				       </c:choose>
+	                <c:when test="${empty KualiForm.document.loanReturnDate}">
+						<th class="grid" width="25%" align="right" colspan="2"></th>
 		            </c:when>
 		            <c:otherwise>
-		    			<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>	                
-						<td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" /></td> 
+		    			<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanReturnDate}" /></th>	
+		    			<c:choose>                
+				            <c:when test="${readOnly}">
+								<td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" readOnly="true" />
+				            </c:when>
+				            <c:otherwise>
+								<td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanReturnDate}" property="document.loanReturnDate" /></td> 
+				            </c:otherwise>
+					    </c:choose>
 				    </c:otherwise>
 			    </c:choose>
 
@@ -161,7 +164,7 @@
     <cams:assetLocation defaultTabHide="true" />  
 	<cams:organizationInfo defaultTabHide="true"/>
 
-	<cams:viewPayments 		defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
+	<cams:viewPayments defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />	
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />

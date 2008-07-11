@@ -46,12 +46,12 @@
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
 
-<!-- remove for now, need to add some of this back in and add the BC reports to tables
 	<reference-descriptor name="organizationLevelOrganization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="organizationLevelChartOfAccountsCode" />
 		<foreignkey field-ref="organizationLevelOrganizationCode" />
 	</reference-descriptor>
 
+<!-- remove for now, need to add some of this back in and add the BC reports to tables
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>

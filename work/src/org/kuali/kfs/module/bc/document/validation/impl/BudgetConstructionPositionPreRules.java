@@ -65,6 +65,8 @@ public class BudgetConstructionPositionPreRules extends MaintenancePreRulesBase 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newBudgetConstructionPosition = (BudgetConstructionPosition) document.getNewMaintainableObject().getBusinessObject();
         copyBudgetConstructionPosition = (BudgetConstructionPosition) ObjectUtils.deepCopy(newBudgetConstructionPosition);
-        copyBudgetConstructionPosition.refresh();
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //BudgetConstructionPosition does not have any updatable references
+        copyBudgetConstructionPosition.refreshNonUpdateableReferences();
     }
 }

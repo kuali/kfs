@@ -169,7 +169,9 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
             result = false;
         }
 
-        objectCode.refresh();
+        //KFSMI-798 - refresh() changed to refreshNonUpdateableReferences()
+        //All references for ObjectCode are non-updatable
+        objectCode.refreshNonUpdateableReferences();
 
         // Chart code (fin_coa_cd) must be valid - handled by dd
 

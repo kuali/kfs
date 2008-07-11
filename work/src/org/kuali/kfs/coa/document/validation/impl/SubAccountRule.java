@@ -300,7 +300,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
                     // KULRNE-4660 - this isn't the child of a CG account; sub account must be ICR type
                     if (!ObjectUtils.isNull(newSubAccount.getA21SubAccount())) {
-                        newSubAccount.getA21SubAccount().refresh();
+                        //KFSMI-798 - refresh() changed to refreshNonUpdateableReferences()
+                        //All references for A21SubAccount are non-updatable
+                        newSubAccount.getA21SubAccount().refreshNonUpdateableReferences();
                         a21SubAccountRefreshed = true;
                         if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(SubAccountRule.CG_A21_TYPE_ICR)) {
                             putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue() });

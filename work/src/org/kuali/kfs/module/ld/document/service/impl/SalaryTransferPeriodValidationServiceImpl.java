@@ -273,7 +273,9 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
      * @param transferLine - line to check
      */
     protected boolean containsNecessaryData(ExpenseTransferAccountingLine transferLine) {
-        transferLine.refresh();
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //Both ExpenseTransferSourceAccountingLine and ExpenseTransferTargetAccountingLine do not have any updatable references
+        transferLine.refreshNonUpdateableReferences();
 
         if (ObjectUtils.isNull(transferLine.getAccount()) || ObjectUtils.isNull(transferLine.getLaborObject()) || ObjectUtils.isNull(transferLine.getAmount())) {
             return false;

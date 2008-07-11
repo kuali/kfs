@@ -236,7 +236,10 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(deposit);
 
         // validate foreign-key relationships
-        deposit.refresh();
+        //KFSMI-798 - refresh() changed to refreshNonUpdateableReferences()
+        //Deposit has updatable references, but for validation we do not need to refresh the updatable references. 
+        //E.g. updatable collections - they might have been set by the user and we would not want to overwrite their changes.
+        deposit.refreshNonUpdateableReferences();
 
         // only check for BankAccount if both bankCode and bankAccountNumber are present
         if (StringUtils.isNotBlank(deposit.getDepositBankCode()) && StringUtils.isNotBlank(deposit.getDepositBankAccountNumber())) {

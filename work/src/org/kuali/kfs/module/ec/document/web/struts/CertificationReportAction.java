@@ -85,7 +85,9 @@ public class CertificationReportAction extends EffortCertificationAction {
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail newDetailLine = certificationReportForm.getNewDetailLine();
 
-        newDetailLine.refresh();
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //EffortCertificationDetail does not have any updatable references
+        newDetailLine.refreshNonUpdateableReferences();
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
@@ -172,7 +174,9 @@ public class CertificationReportAction extends EffortCertificationAction {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
 
         for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {
-            detailLine.refresh();
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+            //EffortCertificationDetail does not have any updatable references
+            detailLine.refreshNonUpdateableReferences();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

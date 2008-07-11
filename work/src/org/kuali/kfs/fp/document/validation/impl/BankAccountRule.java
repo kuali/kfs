@@ -214,7 +214,9 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         // default to success
         boolean success = true;
         BankAccount newBankAcct = (BankAccount) document.getNewMaintainableObject().getBusinessObject();
-        newBankAcct.refresh();
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //BankAccount does not have any updatable references
+        newBankAcct.refreshNonUpdateableReferences();
 
         // existence check on bank code
 

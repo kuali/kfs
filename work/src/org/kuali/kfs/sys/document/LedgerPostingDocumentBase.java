@@ -137,7 +137,9 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
         if (year != null && StringUtils.isNotBlank(code)) {
             AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod(code, year);
             if (ObjectUtils.isNotNull(accountingPeriod)) {
-                accountingPeriod.refresh();
+                //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+                //AccountingPeriod does not have any updatable references
+                accountingPeriod.refreshNonUpdateableReferences();
                 this.accountingPeriod = accountingPeriod;
                 this.postingPeriodCode = code;
                 this.postingYear = year;

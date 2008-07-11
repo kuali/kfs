@@ -213,7 +213,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         
         for (BudgetConstructionRequestMove record : dataToValidateList) {
             boolean validLine = true;
-            record.refresh();
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+            //BudgetConstructionRequestMove does not have any updatable references            
+            record.refreshNonUpdateableReferences();
 
             String accountKey = record.getChartOfAccountsCode() + record.getAccountNumber();
             BudgetConstructionHeader budgetConstructionHeader = null;

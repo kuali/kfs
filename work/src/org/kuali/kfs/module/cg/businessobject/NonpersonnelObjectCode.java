@@ -37,7 +37,9 @@ public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implem
         super();
         this.budgetNonpersonnelCategoryCode = nonpersonnelCategoryCode;
         this.budgetNonpersonnelSubCategoryCode = nonpersonnelSubCategoryCode;
-        this.refresh();
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //NonpersonnelObjectCode does not have any updatable references
+        this.refreshNonUpdateableReferences();
     }
 
 

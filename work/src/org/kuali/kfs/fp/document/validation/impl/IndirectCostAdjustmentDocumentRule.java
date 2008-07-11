@@ -135,7 +135,10 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
      */
     protected boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
         // refresh line since this document calls the custom rules first. KULEDOCS-1406
-        accountingLine.refresh();
+        //KFSMI-798 - refresh() changed to refreshNonUpdateableReferences()
+        //AccountingLine has updatable references, but for validation we do not need to refresh the updatable references. 
+        //E.g. updatable collections - they might have been set by the user and we would not want to overwrite their changes.
+        accountingLine.refreshNonUpdateableReferences();
         boolean isValid = isChartOfAccountsAllowed(accountingLine);
         if (isValid) {
             isValid = isAccountAllowed(accountingLine);

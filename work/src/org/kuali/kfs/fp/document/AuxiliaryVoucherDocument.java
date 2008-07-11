@@ -416,7 +416,9 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         // although they are offsets, we need to set the offset indicator to false
         offsetEntry.setTransactionEntryOffsetIndicator(false);
 
-        offsetEntry.refresh(); // may have changed foreign keys here; need accurate object code and account BOs at least
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //GeneralLedgerPendingEntry does not have any updatable references
+        offsetEntry.refreshNonUpdateableReferences(); // may have changed foreign keys here; need accurate object code and account BOs at least
         offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(offsetEntry.getFinancialObject(), offsetEntry.getAccount().getAccountSufficientFundsCode()));
 
         return true;

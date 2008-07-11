@@ -110,7 +110,9 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
      */
     public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {
         this.disbVchrExpenseCode = disbVchrExpenseCode;
-        this.refresh();
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //DisbursementVoucherNonEmployeeExpense does not have any updatable references
+        this.refreshNonUpdateableReferences();
     }
 
     /**

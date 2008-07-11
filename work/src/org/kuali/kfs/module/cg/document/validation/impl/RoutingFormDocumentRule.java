@@ -163,7 +163,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
         for (RoutingFormInstitutionCostShare costShare : routingFormDocument.getRoutingFormInstitutionCostShares()) {
             errorMap.addToErrorPath("routingFormInstitutionCostShare[" + i + "]");
-            costShare.refresh();
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+            //RoutingFormInstitutionCostShare does not have any updatable references
+            costShare.refreshNonUpdateableReferences();
 
             if (costShare.getRoutingFormCostShareAmount() == null || !costShare.getRoutingFormCostShareAmount().isPositive()) {
                 // Amount is zero or less
@@ -230,7 +232,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         int i = 0;
 
         for (RoutingFormOrganization organization : routingFormDocument.getRoutingFormOrganizations()) {
-            organization.refresh();
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+            //RoutingFormOrganization does not have any updatable references
+            organization.refreshNonUpdateableReferences();
 
             errorMap.addToErrorPath("routingFormOrganization[" + i + "]");
 
@@ -275,7 +279,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         int i = 0;
 
         for (RoutingFormSubcontractor subcontractor : routingFormDocument.getRoutingFormSubcontractors()) {
-            subcontractor.refresh();
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+            //RoutingFormSubcontractor does not have any updatable references
+            subcontractor.refreshNonUpdateableReferences();
 
             errorMap.addToErrorPath("routingFormSubcontractor[" + i + "]");
 

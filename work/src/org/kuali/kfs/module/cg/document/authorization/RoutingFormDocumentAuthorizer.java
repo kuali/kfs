@@ -61,7 +61,9 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         // Check personnel
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             if (u.getPersonUniversalIdentifier().equals(person.getPersonUniversalIdentifier())) {
-                person.refresh();
+                //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+                //RoutingFormPersonnel does not have any updatable references                
+                person.refreshNonUpdateableReferences();
                 String role = person.getPersonRole().getPersonRoleCode();
                 if (CGConstants.PROJECT_DIRECTOR_CODE.equals(role) || CGConstants.CO_PROJECT_DIRECTOR_CODE.equals(role)) {
                     if (workflowDocument.getRouteHeader().getDocRouteLevel() > CGConstants.projectDirectorRouteLevel) {

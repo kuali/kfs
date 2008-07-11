@@ -68,7 +68,9 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
         // Make sure all the reference objects fields are filled. Since most pages don't care about them this is important.
         for (RoutingFormPersonnel routingFormPerson : routingForm.getRoutingFormDocument().getRoutingFormPersonnel()) {
-            routingFormPerson.refresh();
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+            //RoutingFormPersonnel does not have any updatable references
+            routingFormPerson.refreshNonUpdateableReferences();
         }
 
         return mapping.findForward("personnel");

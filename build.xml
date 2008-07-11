@@ -196,13 +196,6 @@
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>
 	
-  	<macrodef name="spring-ide-config-line">
-    	<attribute name="springfilepath" />
-       	<sequential>
-       		<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{springfilepath}${spring.ide.support.file.line.suffix}" />
-       	</sequential>
-  	</macrodef>
-  	
   	<target name="filter-project-spring-ide" unless="no.filter.project.spring.ide" depends="init-properties">
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
 		<mkdir dir="${rice.datadictionary.directory}"/>
@@ -216,14 +209,14 @@
 		<path id="kfs.datadictionary.files"><fileset dir="${source.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
 		<path id="kfs.service.files"><fileset dir="${source.directory}" includes="**/*.xml" excludes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
     	<echo append="false" file="${spring.ide.support.file}" message="${spring.ide.support.file.prefix}" />
-		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
     	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.datadictionary}" />
-		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
     	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.services}" />
-		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><spring-ide-config-line springfilepath="@{spring.file.path}" /></sequential></for>
+		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
     	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.suffix}" />
 		<replace file="${spring.ide.support.file}" token="${basedir}${file.separator}" />
 		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />

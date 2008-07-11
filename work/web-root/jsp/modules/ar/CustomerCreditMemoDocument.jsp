@@ -42,6 +42,7 @@
     	</c:if>
       
       	<ar:customerCreditMemoDetails editingMode="${KualiForm.editingMode}" />
+      	<gl:generalLedgerPendingEntries />
     	<kul:notes />
 		<kul:adHocRecipients />
 		<kul:routeLog />

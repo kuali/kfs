@@ -30,7 +30,9 @@
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />
 
-<html:hidden property="${crmPropertyName}.accountingLineIndexForCorrespondingInvoiceDetail" /> 
+<html:hidden property="${crmPropertyName}.accountingLineIndexForCorrespondingInvoiceDetail" />
+<html:hidden property="${crmPropertyName}.documentNumber" /> 
+<html:hidden property="${crmPropertyName}.financialDocumentReferenceInvoiceNumber" />
 
 <tr>
 	<!--  Line Number -->

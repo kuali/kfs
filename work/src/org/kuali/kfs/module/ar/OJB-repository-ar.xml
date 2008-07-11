@@ -922,6 +922,10 @@
         <orderby name="referenceInvoiceItemNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor> 
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail" table="AR_CRDT_MEMO_DTL_T">

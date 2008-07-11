@@ -2,14 +2,16 @@ package org.kuali.kfs.module.ar.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.DateUtils;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -17,15 +19,20 @@ import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
@@ -272,19 +279,29 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
 
     public KualiDecimal getTaxRate() {
-        KualiDecimal stateTaxRate = invoice.getStateTaxPercent();
-        KualiDecimal localTaxRate = invoice.getLocalTaxPercent();
-        KualiDecimal taxRate;
-
-        if (ObjectUtils.isNull(stateTaxRate))
-            stateTaxRate = KualiDecimal.ZERO;
-
-        if (ObjectUtils.isNull(localTaxRate))
-            localTaxRate = KualiDecimal.ZERO;
-
-        taxRate = stateTaxRate.add(localTaxRate);
+        KualiDecimal stateTaxRate = getStateTaxPercent();
+        KualiDecimal localTaxRate = getDistrictTaxPercent();
+        KualiDecimal taxRate = stateTaxRate.add(localTaxRate);
 
         return taxRate;
+    }
+    
+    public KualiDecimal getStateTaxPercent() {
+        KualiDecimal stateTaxRate = invoice.getStateTaxPercent();
+        
+        if (ObjectUtils.isNull(stateTaxRate))
+            stateTaxRate = KualiDecimal.ZERO;
+        
+        return stateTaxRate;
+    }
+    
+    public KualiDecimal getDistrictTaxPercent() {
+        KualiDecimal localTaxRate = invoice.getLocalTaxPercent();
+        
+        if (ObjectUtils.isNull(localTaxRate))
+            localTaxRate = KualiDecimal.ZERO;
+        
+        return localTaxRate;
     }
 
     public void recalculateTotalsBasedOnChangedItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail) {
@@ -374,6 +391,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
                 customerCreditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
                 
                 customerCreditMemoDetail.setInvoiceOpenItemAmount(openInvoiceAmount);
+                customerCreditMemoDetail.setDocumentNumber(this.documentNumber);
+                customerCreditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
 
                 creditMemoDetails.add(customerCreditMemoDetail);
             }
@@ -405,6 +424,8 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
                    openInvoiceQuantity = openInvoiceAmount.divide(invoiceUnitPrice);
                    creditMemoDetail.setInvoiceOpenItemQuantity(openInvoiceQuantity);
                    
+                   creditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
+                   
                    invItemTaxAmount = ((CustomerInvoiceDetail) invoiceDetail).getInvoiceItemTaxAmount();
                    if (invItemTaxAmount == null) {
                        invItemTaxAmount = KualiDecimal.ZERO;
@@ -416,7 +437,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
                    creditMemoDetail.setDuplicateCreditMemoItemTotalAmount(creditMemoItemAmount);
                    if (ObjectUtils.isNotNull(creditMemoItemAmount)){
                        creditMemoTaxAmount = creditMemoItemAmount.multiply(taxRate);
-                       creditMemoDetail.setCreditMemoItemTaxAmount(invItemTaxAmount);
+                       creditMemoDetail.setCreditMemoItemTaxAmount(creditMemoTaxAmount);
                        creditMemoDetail.setCreditMemoLineTotalAmount(creditMemoItemAmount.add(creditMemoTaxAmount));
                   
                        crmTotalItemAmount = crmTotalItemAmount.add(creditMemoItemAmount);
@@ -442,24 +463,27 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             customerCreditMemoDocumentService.recalculateCRMForBlanketApproval(customerCreditMemoDocument);
         else
             customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument);
+        
+        // generate GLPEs
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("general ledger GLPE generation failed");
+        }
+        super.prepareForSave(event);  
     }
 
-    // TODO
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        // TODO
         return success;
     }
 
-    // TODO
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO
         return false;
     }
 
@@ -476,14 +500,27 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
      */
     public void clearAnyGeneralLedgerPendingEntries() {
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
-
     }
 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
-        return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPendingEntrySourceDetails = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        if (creditMemoDetails != null) {
+            Iterator iter = creditMemoDetails.iterator();
+            CustomerCreditMemoDetail customerCreditMemoDetail;
+            KualiDecimal amount; 
+            while (iter.hasNext()) {
+                customerCreditMemoDetail = (CustomerCreditMemoDetail)iter.next();
+                amount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
+                
+                // get only non empty credit memo details to generate GLPEs
+                if (ObjectUtils.isNotNull(amount) && amount.isGreaterThan(KualiDecimal.ZERO))
+                    generalLedgerPendingEntrySourceDetails.add((GeneralLedgerPendingEntrySourceDetail)customerCreditMemoDetail);
+            }
+        }
+        return generalLedgerPendingEntrySourceDetails;
     }
 
     /**
@@ -491,31 +528,107 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
      */
     public void addPendingEntry(GeneralLedgerPendingEntry entry) {
         generalLedgerPendingEntries.add(entry);
-
     }
 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
-        return postable.getAmount().abs();
+        return postable.getAmount();
     }
 
-    // TODO
-    public String getFinancialDocumentTypeCode() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    // TODO
     /**
-     * Perform business rules common to all transactional documents when generating general ledger pending entries.
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * Returns the financial document type code for the given document, using the DocumentTypeService
+     * @return the financial document type code for the given document
      */
+    public String getFinancialDocumentTypeCode() {
+        return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(this.getClass());
+    }
+
+    /**
+     * This method creates the following GLPE's for the customer credit memo
+     *
+     * 1. Credit to receivable object for total line amount (excluding sales tax)
+     * 2. Debit to income object for total line amount (excluding sales tax)
+     * 3. Credit to receivable object in sales tax account(if sales tax exists)
+     * 4. Debit to liability object in sales tax account(if sales tax exists)
+     * 5. Credit to receivable object in district tax account(if district tax exists)
+     * 6. Debit to liability object code in district tax account(if district tax exists)
+     *
+     * @see org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl#processGenerateGeneralLedgerPendingEntries(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        // TODO
+
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        
+        addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addIncomeGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+
         return true;
     }
+    
+    /**
+     * This method creates the receivable GLPEs for credit memo detail lines.
+     *
+     * @param poster
+     * @param sequenceHelper
+     * @param postable
+     * @param explicitEntry
+     */
+    protected void addReceivableGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+
+        CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;
+        CustomerInvoiceDetail customerInvoiceDetail = customerCreditMemoDetail.getCustomerInvoiceDetail();
+        ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, this.getInvoice());
+        boolean isDebit = false;       
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createReceivableGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+    }
+    
+    /**
+     * This method adds pending entry with transaction ledger entry amount set to item price * quantity
+     *
+     * @param poster
+     * @param sequenceHelper
+     * @param postable
+     * @param explicitEntry
+     */
+    protected void addIncomeGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset) {
+
+        CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;        
+        boolean isDebit = true;
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createIncomeGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerCreditMemoDetail.getCreditMemoItemTotalAmount());
+    }
+    
+    protected void addStateSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
+        /*
+        CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;   
+        boolean isDebit = false;
+        KualiDecimal creditMemoDetailStateTaxAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount().multiply(getStateTaxPercent());
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createStateSalesTaxGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasOffset, creditMemoDetailStateTaxAmount);
+        //Add state sales tax receivable too
+        */
+    }
+    
+    protected void addDistrictSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
+        /*
+        CustomerCreditMemoDetail customerCreditMemoDetail = (CustomerCreditMemoDetail)glpeSourceDetail;        
+        boolean isDebit = true;
+        KualiDecimal creditMemoDetailDistrictTaxAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount().multiply(getDistrictTaxPercent());
+        
+        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
+        service.createDistrictSalesTaxGLPEs(this, customerCreditMemoDetail, sequenceHelper, isDebit, hasOffset, creditMemoDetailDistrictTaxAmount);
+        //Add district sales tax receivable too
+        */
+    } 
 
 }

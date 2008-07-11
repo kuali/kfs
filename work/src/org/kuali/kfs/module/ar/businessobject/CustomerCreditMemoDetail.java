@@ -3,15 +3,21 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
+public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail{
 
     private String documentNumber;
     private Integer referenceInvoiceItemNumber;
@@ -24,6 +30,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
     private KualiDecimal invoiceOpenItemAmount; //not in DB
     private KualiDecimal invoiceOpenItemQuantity; // not in DB
     private Integer accountingLineIndexForCorrespondingInvoiceDetail; // not in DB
+    private CustomerInvoiceDetail customerInvoiceDetail; // not in DB
+    private String financialDocumentReferenceInvoiceNumber; // not in DB
     /**
      * Default constructor.
      */
@@ -276,6 +284,101 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase {
      */
     public void setInvoiceOpenItemQuantity(KualiDecimal invoiceOpenItemQuantity) {
         this.invoiceOpenItemQuantity = invoiceOpenItemQuantity;
+    }
+
+    public String getChartOfAccountsCode() {
+        return getCustomerInvoiceDetail().getChartOfAccountsCode();
+    }
+
+    public String getAccountNumber() {
+        return getCustomerInvoiceDetail().getAccountNumber();
+    }
+
+    public Account getAccount() {
+        return getCustomerInvoiceDetail().getAccount();
+    }
+
+    public String getFinancialObjectCode() {
+        return getCustomerInvoiceDetail().getFinancialObjectCode();
+    }
+
+    public ObjectCode getObjectCode() {
+        return getCustomerInvoiceDetail().getObjectCode();
+    }
+
+    public String getOrganizationReferenceId() {
+        return getCustomerInvoiceDetail().getOrganizationReferenceId();
+    }
+
+    public String getProjectCode() {
+        return getCustomerInvoiceDetail().getProjectCode();
+    }
+
+    public String getReferenceNumber() {
+        return getCustomerInvoiceDetail().getReferenceNumber();
+    }
+
+    public String getReferenceTypeCode() {
+        return getCustomerInvoiceDetail().getReferenceTypeCode();
+    }
+
+    public String getReferenceOriginCode() {
+        return getCustomerInvoiceDetail().getReferenceOriginCode();
+    }
+
+    public String getSubAccountNumber() {
+        return getCustomerInvoiceDetail().getSubAccountNumber();
+    }
+
+    public String getFinancialSubObjectCode() {
+        return getCustomerInvoiceDetail().getFinancialSubObjectCode();
+    }
+
+    public String getFinancialDocumentLineDescription() {
+        return getCustomerInvoiceDetail().getFinancialDocumentLineDescription();
+    }
+
+    public KualiDecimal getAmount() {
+        return getCustomerInvoiceDetail().getAmount();
+    }
+
+    public Integer getPostingYear() {
+        return getCustomerInvoiceDetail().getPostingYear();
+    }
+
+    public String getBalanceTypeCode() {
+        return getCustomerInvoiceDetail().getBalanceTypeCode();
+    }
+    
+    public CustomerInvoiceDetail getCustomerInvoiceDetail(){
+        if (ObjectUtils.isNull(customerInvoiceDetail) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) && ObjectUtils.isNotNull(referenceInvoiceItemNumber)){
+            customerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetail(financialDocumentReferenceInvoiceNumber, referenceInvoiceItemNumber);
+        }
+        return customerInvoiceDetail;
+    }
+
+    /**
+     * Sets the customerInvoiceDetail attribute value.
+     * @param customerInvoiceDetail The customerInvoiceDetail to set.
+     */
+    public void setCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
+        this.customerInvoiceDetail = customerInvoiceDetail;
+    }
+
+    /**
+     * Gets the financialDocumentReferenceInvoiceNumber attribute. 
+     * @return Returns the financialDocumentReferenceInvoiceNumber.
+     */
+    public String getFinancialDocumentReferenceInvoiceNumber() {
+        return financialDocumentReferenceInvoiceNumber;
+    }
+
+    /**
+     * Sets the financialDocumentReferenceInvoiceNumber attribute value.
+     * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
+     */
+    public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
+        this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
     }
 
 }

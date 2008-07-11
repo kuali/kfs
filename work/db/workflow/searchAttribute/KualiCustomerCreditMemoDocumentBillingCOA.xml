@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCustomerCreditMemoDocumentBillingCOA</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Customer Credit Memo Document Billing Chart of Account</label>
+      <description>Attribute to identify the Billing Chart of Account of the Customer Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="billByChartOfAccountCode" title="kuali_dd_label(CustomerCreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <quickfinder appliesTo="chartCode" draw="true" service="workflow-org.kuali.kfs.coa.businessobject.Chart-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/billByChartOfAccountCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

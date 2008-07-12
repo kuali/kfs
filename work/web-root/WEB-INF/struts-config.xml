@@ -335,6 +335,7 @@
             <forward name="viewPaymentHistory" path="/jsp/modules/purap/ViewPaymentHistory.jsp" redirect="false" />
             <forward name="printPurchaseOrderPDF" path="/jsp/modules/purap/PrintForward.jsp" redirect="false" />
             <forward name="retransmitPurchaseOrderPDF" path="/jsp/modules/purap/RetransmitForward.jsp" redirect="false" />
+            <forward name="printReceivingTicketPDF" path="/jsp/modules/purap/ReceivingTicketForward.jsp" redirect="false" />
         </action>
 
         <action path="/purapPrint" type="org.kuali.kfs.module.purap.document.web.struts.PrintAction" scope="request" />

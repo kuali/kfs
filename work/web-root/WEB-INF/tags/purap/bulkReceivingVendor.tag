@@ -41,6 +41,7 @@
 		        <html:hidden property="document.goodsDeliveredVendorNumber" />
 		        <html:hidden property="document.vendorNumber" />
 		        <html:hidden property="document.alternateVendorNumber" />
+		        <html:hidden property="document.vendorNoteText" />
         
         		<tr>
 	        		<th align=right valign=middle  class="bord-l-b">
@@ -48,7 +49,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell"> 
 	                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="true" /><br>
-	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.VendorLine1Address" readOnly="true" /><br>
+	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" readOnly="true" /><br>
 	                   	<c:if test="${! empty KualiForm.document.vendorLine2Address}">                   	
 	                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="true" /><br>
 	                   	</c:if>
@@ -77,7 +78,7 @@
 	                	<c:if test="${! empty KualiForm.document.alternateVendorNumber}">
 		                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.alternateVendorDetail.defaultAddressLine1" readOnly="true" /><br>
 		                   	<c:if test="${! empty KualiForm.document.alternateVendorDetail.defaultAddressLine2}">                   	
-		                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.alternateVendorDetail.defaultAddressLine2" readOnly="true" /><br>
+		                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.alternateVendorDetail.defaultAddressLine2" readOnly="true" /><br>
 		                   	</c:if>
 		                   	<c:if test="${! empty KualiForm.document.alternateVendorDetail.defaultAddressCity}">                   	
 		    	           		<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.alternateVendorDetail.defaultAddressCity" readOnly="true" />,&nbsp;
@@ -258,6 +259,7 @@
 	           
 			</c:if>
 
+			<%-- This is common if PO is available or not --%>
 			<tr>
             	<th align=right valign=middle class="bord-l-b">
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" /></div>
@@ -300,7 +302,14 @@
                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.noOfCartons}" property="document.noOfCartons" readOnly="${not fullEntryMode}"/>
                	</td>
             </tr>    
-          
+            <tr>
+                <th align=right valign=middle class="bord-l-b">
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.trackingNumber}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.trackingNumber}" property="document.trackingNumber" readOnly="${not fullEntryMode}"/>
+                </td>
+            </tr>    
 
           
 

@@ -29,8 +29,8 @@
         <ref bean="AccountsPayableSummaryAccount-purapDocumentIdentifier" />
         <ref bean="AccountsPayableSummaryAccount-subAccountNumber" />
         <ref bean="AccountsPayableSummaryAccount-versionNumber" />
-   <!-- <ref bean="AccountsPayableSummaryAccount-creditMemoNumber" />
-        <ref bean="AccountsPayableSummaryAccount-updateTimestamp" />  -->
+        <ref bean="AccountsPayableSummaryAccount-creditMemoId" />
+        <ref bean="AccountsPayableSummaryAccount-updateTimestamp" />  
       </list>
     </property>
   </bean>
@@ -234,11 +234,11 @@
 
   <bean id="AccountsPayableSummaryAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
- <!--  
-  <bean id="AccountsPayableSummaryAccount-creditMemoNumber" parent="AccountsPayableSummaryAccount-creditMemoNumber-parentBean" />
+   
+  <bean id="AccountsPayableSummaryAccount-creditMemoId" parent="AccountsPayableSummaryAccount-creditMemoId-parentBean" />
  
-  <bean id="AccountsPayableSummaryAccount-creditMemoNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="creditMemoNumber" />
+  <bean id="AccountsPayableSummaryAccount-creditMemoId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditMemoId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Credit Memo Number" />
     <property name="shortLabel" value="Credit Memo" />
@@ -267,7 +267,7 @@
             p:size="12" />
     </property>
   </bean>
--->
+
 <!-- Business Object Inquiry Definition -->
 
 

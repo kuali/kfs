@@ -122,6 +122,22 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
 
+    public Integer getCreditMemoId() {
+        return creditMemoId;
+    }
+
+    public void setCreditMemoId(Integer creditMemoId) {
+        this.creditMemoId = creditMemoId;
+    }
+
+    public Date getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(Date updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
+    }
+
 //    @Override
 //    protected void updateObjectAndSubObject() {
 //        // do nothing

@@ -20,8 +20,8 @@ public class Customer extends PersistableBusinessObjectBase {
     private Date customerAddressChangeDate;
     private Date customerRecordAddDate;
     private Date customerLastActivityDate;
-    private String customerSocialSecurityNumberIdentifier;
-    private String customerFederalIdentifierNumber;
+    private String customerTaxTypeCode;
+    private String customerTaxNbr;
     private boolean customerActiveIndicator;
     private String customerPhoneNumber;
     private String customer800PhoneNumber;
@@ -179,45 +179,7 @@ public class Customer extends PersistableBusinessObjectBase {
     }
 
 
-    /**
-     * Gets the customerSocialSecurityNumberIdentifier attribute.
-     * 
-     * @return Returns the customerSocialSecurityNumberIdentifier
-     */
-    public String getCustomerSocialSecurityNumberIdentifier() {
-        return customerSocialSecurityNumberIdentifier;
-    }
-
-    /**
-     * Sets the customerSocialSecurityNumberIdentifier attribute.
-     * 
-     * @param customerSocialSecurityNumberIdentifier The customerSocialSecurityNumberIdentifier to set.
-     */
-    public void setCustomerSocialSecurityNumberIdentifier(String customerSocialSecurityNumberIdentifier) {
-        this.customerSocialSecurityNumberIdentifier = customerSocialSecurityNumberIdentifier;
-    }
-
-
-    /**
-     * Gets the customerFederalIdentifierNumber attribute.
-     * 
-     * @return Returns the customerFederalIdentifierNumber
-     */
-    public String getCustomerFederalIdentifierNumber() {
-        return customerFederalIdentifierNumber;
-    }
-
-    /**
-     * Sets the customerFederalIdentifierNumber attribute.
-     * 
-     * @param customerFederalIdentifierNumber The customerFederalIdentifierNumber to set.
-     */
-    public void setCustomerFederalIdentifierNumber(String customerFederalIdentifierNumber) {
-        this.customerFederalIdentifierNumber = customerFederalIdentifierNumber;
-    }
-
-
-    /**
+      /**
      * Gets the customerActiveIndicator attribute.
      * 
      * @return Returns the customerActiveIndicator
@@ -478,6 +440,22 @@ public class Customer extends PersistableBusinessObjectBase {
      */
     public void setCustomerAddresses(List<CustomerAddress> customerAddresses) {
         this.customerAddresses = customerAddresses;
+    }
+
+    public String getCustomerTaxNbr() {
+        return customerTaxNbr;
+    }
+
+    public void setCustomerTaxNbr(String customerTaxNbr) {
+        this.customerTaxNbr = customerTaxNbr;
+    }
+
+    public String getCustomerTaxTypeCode() {
+        return customerTaxTypeCode;
+    }
+
+    public void setCustomerTaxTypeCode(String customerTaxTypeCode) {
+        this.customerTaxTypeCode = customerTaxTypeCode;
     }
 
 }

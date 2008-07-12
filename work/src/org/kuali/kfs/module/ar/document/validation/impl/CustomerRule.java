@@ -194,7 +194,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     public boolean checkTaxNumber(Customer customer) {
         boolean isValid = true;
         if (isTaxNumberRequired()) {
-            boolean noTaxNumber = (customer.getCustomerFederalIdentifierNumber() == null || customer.getCustomerFederalIdentifierNumber().equalsIgnoreCase("")) && (customer.getCustomerSocialSecurityNumberIdentifier() == null || customer.getCustomerSocialSecurityNumberIdentifier().equalsIgnoreCase(""));
+            boolean noTaxNumber = (customer.getCustomerTaxNbr() == null || customer.getCustomerTaxNbr().equalsIgnoreCase(""));
             if (noTaxNumber) {
                 isValid = false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArConstants.CustomerFields.CUSTOMER_SOCIAL_SECURITY_NUMBER, ArConstants.CustomerConstants.ERROR_TAX_NUMBER_IS_REQUIRED);

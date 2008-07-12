@@ -106,9 +106,9 @@
     <property name="maintainableItems" >
       <list>  
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerSocialSecurityNumberIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerFederalIdentifierNumber" />            
+			  p:name="customerTaxTypeCode" />
+		<bean parent="MaintainableFieldDefinition"
+			  p:name="customerTaxNbr" />           
         <bean parent="MaintainableFieldDefinition"
               p:name="customerTaxExemptIndicator"
               p:defaultValue="false" />

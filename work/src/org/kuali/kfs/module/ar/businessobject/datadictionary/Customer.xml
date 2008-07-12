@@ -30,14 +30,12 @@
 				<ref bean="Customer-customerCreditLimitAmount" />
 				<ref bean="Customer-customerEmailAddress" />
 				<ref bean="Customer-customerFaxNumber" />
-				<ref bean="Customer-customerFederalIdentifierNumber" />
 				<ref bean="Customer-customerLastActivityDate" />
 				<ref bean="Customer-customerName" />
 				<ref bean="Customer-customerNumber" />
 				<ref bean="Customer-customerParentCompanyNumber" />
 				<ref bean="Customer-customerPhoneNumber" />
 				<ref bean="Customer-customerRecordAddDate" />
-				<ref bean="Customer-customerSocialSecurityNumberIdentifier" />
 				<ref bean="Customer-customerTaxExemptIndicator" />
 				<ref bean="Customer-customerTypeCode" />
 				<ref bean="Customer-customerAddresses.customerAddressName" />
@@ -46,7 +44,9 @@
 				<ref bean="Customer-customerAddresses.customerCityName" />
 				<ref bean="Customer-customerAddresses.customerStateCode" />
 				<ref bean="Customer-customerAddresses.customerZipCode" />  
-				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" /> 
+				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
+				<ref bean="Customer-customerTaxTypeCode" />
+				<ref bean="Customer-customerTaxNbr" /> 
                 <ref bean="Customer-versionNumber" />
 			</list>
 		</property>
@@ -249,17 +249,17 @@
 		<property name="description"
 			value="customerFaxNumber description..." />
 	</bean>
-	<bean id="Customer-customerFederalIdentifierNumber"
-		parent="Customer-customerFederalIdentifierNumber-parentBean" />
+	<bean id="Customer-customerTaxTypeCode"
+		parent="Customer-customerTaxTypeCode-parentBean" />
 
-	<bean id="Customer-customerFederalIdentifierNumber-parentBean"
+	<bean id="Customer-customerTaxTypeCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerFederalIdentifierNumber" />
+		<property name="name" value="customerTaxTypeCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label"
-			value="Federal Identifier Number" />
-		<property name="shortLabel" value="Number" />
-		<property name="maxLength" value="9" />
+			value="Tax Type Code" />
+		<property name="shortLabel" value="Type" />
+		<property name="maxLength" value="4" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
@@ -267,9 +267,9 @@
 			<bean parent="TextControlDefinition" p:size="11" />
 		</property>
 		<property name="summary"
-			value="customerFederalIdentifierNumber" />
+			value="customerTaxTypeCode" />
 		<property name="description"
-			value="customerFederalIdentifierNumber description..." />
+			value="customerTaxTypeCode description..." />
 	</bean>
 	<bean id="Customer-customerLastActivityDate"
 		parent="Customer-customerLastActivityDate-parentBean" />
@@ -379,17 +379,17 @@
 		<property name="description"
 			value="customerRecordAddDate description..." />
 	</bean>
-	<bean id="Customer-customerSocialSecurityNumberIdentifier"
-		parent="Customer-customerSocialSecurityNumberIdentifier-parentBean" />
+	<bean id="Customer-customerTaxNbr"
+		parent="Customer-customerTaxNbr-parentBean" />
 
 	<bean
-		id="Customer-customerSocialSecurityNumberIdentifier-parentBean"
+		id="Customer-customerTaxNbr-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name"
-			value="customerSocialSecurityNumberIdentifier" />
+			value="customerTaxNbr" />
 		<property name="forceUppercase" value="true" />
 		<property name="label"
-			value="Social Security Identifier" />
+			value="Tax Identifier" />
 		<property name="shortLabel" value="Identifier" />
 		<property name="maxLength" value="9" />
 		<property name="validationPattern">
@@ -399,9 +399,9 @@
 			<bean parent="TextControlDefinition" p:size="11" />
 		</property>
 		<property name="summary"
-			value="customerSocialSecurityNumberIdentifier" />
+			value="customerTaxNbr" />
 		<property name="description"
-			value="customerSocialSecurityNumberIdentifier description..." />
+			value="customerTaxNbr description..." />
 	</bean>
 	<bean id="Customer-customerTaxExemptIndicator"
 		parent="Customer-customerTaxExemptIndicator-parentBean" />
@@ -531,10 +531,10 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
+						    <bean parent="FieldDefinition"
+								p:attributeName="customerTaxTypeCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="customerSocialSecurityNumberIdentifier" />
-							<bean parent="FieldDefinition"
-								p:attributeName="customerFederalIdentifierNumber" />
+								p:attributeName="customerTaxNbr" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerTaxExemptIndicator" />
 					        <bean parent="FieldDefinition"
@@ -677,9 +677,9 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="customerPhoneNumber" />
 			    <bean parent="FieldDefinition"
-					p:attributeName="customerSocialSecurityNumberIdentifier" />
+					p:attributeName="customerTaxTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="customerFederalIdentifierNumber" />
+					p:attributeName="customerTaxNbr" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerActiveIndicator" />	
 			    <bean parent="FieldDefinition"
@@ -709,9 +709,9 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="customerPhoneNumber" />
 			    <bean parent="FieldDefinition"
-					p:attributeName="customerSocialSecurityNumberIdentifier" />
+					p:attributeName="customerTaxTypeCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="customerFederalIdentifierNumber" />
+					p:attributeName="customerTaxNbr" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerActiveIndicator" />		
 			</list>

@@ -115,8 +115,6 @@
 	<field-descriptor name="customerAddressChangeDate" column="CUST_ADDR_CHG_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerRecordAddDate" column="CUST_REC_ADD_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerLastActivityDate" column="CUST_LST_ACTV_DT" jdbc-type="DATE"/>
-	<field-descriptor name="customerSocialSecurityNumberIdentifier" column="CUST_SSN_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="customerFederalIdentifierNumber" column="CUST_FED_ID_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerActiveIndicator" column="CUST_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="customerPhoneNumber" column="CUST_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customer800PhoneNumber" column="CUST_800_PHONE_NBR" jdbc-type="VARCHAR"/>
@@ -128,6 +126,8 @@
 	<field-descriptor name="customerCreditLimitAmount" column="CUST_CRDT_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerCreditApprovedByName" column="CUST_CRDT_APRV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="customerTaxTypeCode" column="CUST_TAX_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="customerParentCompany" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerParentCompanyNumber" />

@@ -24,10 +24,12 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -39,6 +41,7 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -51,6 +54,8 @@ import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserVO;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
+import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.exception.WorkflowRuntimeException;
 import edu.iu.uis.eden.user.UserService;
 import edu.iu.uis.eden.user.WorkflowUser;
 
@@ -66,6 +71,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String shipmentReferenceNumber;
     private String shipmentWeight;
     private Integer noOfCartons;
+    private String trackingNumber;
     /**
      * Primary Vendor
      */
@@ -79,6 +85,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String vendorPostalCode;
     private String vendorCountryCode;
     private String vendorAddressInternationalProvinceName;
+    private String vendorNoteText;
     
     /**
      * Alternate Vendor
@@ -107,11 +114,18 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     
     private String requestorPersonName;
     private String requestorPersonPhoneNumber;
-    private String requestorPersonWorkflowId;
+    private String requestorPersonEmailAddress;
     
     private String preparerPersonName;
     private String preparerPersonPhoneNumber;
-    private String preparerPersonWorkflowId;
+    
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private String deliveryCampusName;
+    private String organizationName;
+    private String institutionContactName;
+    private String institutionContactPhoneNumber;
+    private String institutionContactEmailAddress;
     
     private Campus deliveryCampus;
     private Country vendorCountry;
@@ -125,19 +139,13 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private transient PurApRelatedViews relatedViews;
     
     /**
-     * Added recently
-     */
-    private String organizationCode;
-    
-    /**
      * Not persisted in DB
      */
     private String vendorNumber;
     private String alternateVendorNumber;
     private String goodsDeliveredVendorName;
     private String vendorContact;
-    private String deliveryCampusName;
-    private String organizationName;
+    
     
     public BulkReceivingDocument() {
         super();
@@ -167,6 +175,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setVendorDetail(po.getVendorDetail());
         setVendorNumber(po.getVendorNumber());
         setVendorAddressInternationalProvinceName(po.getVendorAddressInternationalProvinceName());
+        setVendorNoteText(po.getVendorNoteText());
         
         //copy alternate vendor
         setAlternateVendorName( po.getAlternateVendorName() );
@@ -189,45 +198,18 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setDeliveryToEmailAddress( po.getDeliveryToEmailAddress() );
         setDeliveryToName( po.getDeliveryToName() );
         setDeliveryToPhoneNumber( po.getDeliveryToPhoneNumber() );
-        setDeliveryCampus(po.getDeliveryCampus()); // Object assign - Is it reqd? It's not there in PO doc
-//        setDeliveryCampusName(po.getDeliveryCampus().getCampusName());
+        setDeliveryCampus(po.getDeliveryCampus()); 
         setOrganizationCode(po.getOrganizationCode());
-        setOrganization(po.getOrganization()); // Object assign - Is it reqd? It's not there in PO doc. Here we need to display the org name. so i think it's reqd
-        
+        setOrganization(po.getOrganization());
+        setChartOfAccountsCode(po.getChartOfAccountsCode());
+        setInstitutionContactName(po.getInstitutionContactName());
+        setInstitutionContactPhoneNumber(po.getInstitutionContactPhoneNumber());
+        setInstitutionContactEmailAddress(po.getInstitutionContactEmailAddress());
 
         //Requestor and Requisition preparer
         setRequestorPersonName(po.getRequestorPersonName());
         setRequestorPersonPhoneNumber(po.getRequestorPersonPhoneNumber());
-        
-        /**
-         * TODO : Get UserVO for the REQUESTOR
-         */
-//        try {
-//            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(getRequisitionRequestorName());
-//        }
-//            catch (UserNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            try{
-//            UniversalUser user2 = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getRequisitionRequestorName());}
-//            catch (UserNotFoundException e) {
-//                e.printStackTrace();
-//            }
-            //workflowdocumentservice
-//            UserIdVO user1 = new NetworkIdVO(user.getPersonUserIdentifier());
-//            UserIdVO user4 = new NetworkIdVO(user2.getPersonUserIdentifier());
-//            try {
-//                WorkflowUser wfUser = SpringContext.getBean(UserService.class).getWorkflowUser(user1);
-//                setRequisitionRequestorWorkflowId(wfUser.getWorkflowId());
-//            }
-//            catch (EdenUserNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        catch (UserNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        
+        setRequestorPersonEmailAddress(po.getRequestorPersonEmailAddress());
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
         String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId();
@@ -239,7 +221,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             UserIdVO userVO = new NetworkIdVO(requisitionPreparer);
             WorkflowUser wfUser = SpringContext.getBean(UserService.class).getWorkflowUser(userVO);
             setPreparerPersonName(wfUser.getDisplayName());
-            setPreparerPersonWorkflowId(wfUser.getWorkflowId());
         }
         catch (EdenUserNotFoundException e) {
             e.printStackTrace();
@@ -284,6 +265,42 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         populateDocumentDescription(po);
     }
      
+    private void populateAlternateVendor(){
+        
+        if (ObjectUtils.isNull(getAlternateVendorDetail()) &&
+            getAlternateVendorHeaderGeneratedIdentifier() != null &&
+            getAlternateVendorDetailAssignedIdentifier() != null){
+            
+            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(getAlternateVendorHeaderGeneratedIdentifier(), 
+                                                                                                   getAlternateVendorDetailAssignedIdentifier());
+            //copied from creditmemocreateserviceimpl.populatedocumentfromvendor
+            String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
+            VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(getAlternateVendorHeaderGeneratedIdentifier(), 
+                                                                                                             getAlternateVendorDetailAssignedIdentifier(), 
+                                                                                                             VendorConstants.AddressTypes.REMIT, 
+                                                                                                             userCampus);
+            if (vendorAddress == null) {
+                // pick up the default vendor po address type
+                vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(getAlternateVendorHeaderGeneratedIdentifier(), 
+                                                                                                   getAlternateVendorDetailAssignedIdentifier(), 
+                                                                                                   VendorConstants.AddressTypes.PURCHASE_ORDER, 
+                                                                                                   userCampus);
+            }
+            
+            if (vendorAddress != null){
+                vendorDetail.setDefaultAddressLine1(vendorAddress.getVendorLine1Address());
+                vendorDetail.setDefaultAddressLine2(vendorAddress.getVendorLine2Address());
+                vendorDetail.setDefaultAddressCity(vendorAddress.getVendorCityName());
+                vendorDetail.setDefaultAddressCountryCode(vendorAddress.getVendorCountryCode());
+                vendorDetail.setDefaultAddressPostalCode(vendorAddress.getVendorZipCode());
+                vendorDetail.setDefaultAddressStateCode(vendorAddress.getVendorStateCode());
+                vendorDetail.setDefaultAddressInternationalProvince(vendorAddress.getVendorAddressInternationalProvinceName());
+            }
+            
+            setAlternateVendorDetail(vendorDetail);
+        }
+    }
+    
     /**
      * Perform logic needed to clear the initial fields on a Receiving Line Document
      */
@@ -295,7 +312,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         getDocumentHeader().setOrganizationDocumentNumber(null);
 
         setPurchaseOrderIdentifier(null);
-//        setPOAvailable(false);
         
         setShipmentReceivedDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         setShipmentPackingSlipNumber(null);
@@ -303,6 +319,12 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setCarrierCode(null);        
     }
 
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        refreshNonUpdateableReferences();
+        populateAlternateVendor();
+    }
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -314,48 +336,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         
         super.prepareForSave(event);
     }
-    
-    @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
-        if(getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            /**
-             * FIXME: this is not needed.
-             */
-//            SpringContext.getBean(BulkReceivingService.class).completeBulkReceivingDocument(this);
-        }
-    }
-    
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
-        m.put("documentNumber", this.documentNumber);
-        return m;
-    }
-
-//    @Override
-//    public String getDocumentTitle() {
-//        
-//        String docTitle = ""; 
-//        
-//        if (getPurchaseOrderIdentifier() != null && 
-//            getVendorName() != null){
-//            
-//            docTitle = "PO: " + getPurchaseOrderIdentifier() + " Vendor: " + getVendorName();
-//
-//            int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
-//            if (noteTextMaxLength < docTitle.length()) {
-//                docTitle = docTitle.substring(0, noteTextMaxLength);
-//            }
-//            
-//            return docTitle;
-//        }
-//        
-//        return super.getDocumentTitle();
-//        
-//    }
     
     private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
@@ -777,14 +757,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.requestorPersonPhoneNumber = requestorPersonPhoneNumber;
     }
 
-    public String getRequestorPersonWorkflowId() {
-        return requestorPersonWorkflowId;
-    }
-
-    public void setRequestorPersonWorkflowId(String requestorPersonWorkflowId) {
-        this.requestorPersonWorkflowId = requestorPersonWorkflowId;
-    }
-
     public String getPreparerPersonName() {
         return preparerPersonName;
     }
@@ -799,14 +771,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
 
     public void setPreparerPersonPhoneNumber(String preparerPersonPhoneNumber) {
         this.preparerPersonPhoneNumber = preparerPersonPhoneNumber;
-    }
-
-    public String getPreparerPersonWorkflowId() {
-        return preparerPersonWorkflowId;
-    }
-
-    public void setPreparerPersonWorkflowId(String preparerPersonWorkflowId) {
-        this.preparerPersonWorkflowId = preparerPersonWorkflowId;
     }
 
     public Org getOrganization() {
@@ -825,6 +789,68 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.organizationName = organizationName;
     }
 
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public String getVendorNoteText() {
+        return vendorNoteText;
+    }
+
+    public void setVendorNoteText(String vendorNoteText) {
+        this.vendorNoteText = vendorNoteText;
+    }
+
+    public String getRequestorPersonEmailAddress() {
+        return requestorPersonEmailAddress;
+    }
+
+    public void setRequestorPersonEmailAddress(String requestorPersonEmailAddress) {
+        this.requestorPersonEmailAddress = requestorPersonEmailAddress;
+    }
+
+    public String getInstitutionContactEmailAddress() {
+        return institutionContactEmailAddress;
+    }
+
+    public void setInstitutionContactEmailAddress(String institutionContactEmailAddress) {
+        this.institutionContactEmailAddress = institutionContactEmailAddress;
+    }
+
+    public String getInstitutionContactName() {
+        return institutionContactName;
+    }
+
+    public void setInstitutionContactName(String institutionContactName) {
+        this.institutionContactName = institutionContactName;
+    }
+
+    public String getInstitutionContactPhoneNumber() {
+        return institutionContactPhoneNumber;
+    }
+
+    public void setInstitutionContactPhoneNumber(String institutionContactPhoneNumber) {
+        this.institutionContactPhoneNumber = institutionContactPhoneNumber;
+    }
 
 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("documentNumber", this.documentNumber);
+        m.put("PO", getPurchaseOrderIdentifier());
+        m.put("NoOfcartons", getNoOfCartons());
+        return m;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 }

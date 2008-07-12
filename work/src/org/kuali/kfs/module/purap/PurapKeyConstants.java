@@ -281,7 +281,9 @@ public class PurapKeyConstants {
     //Bulk Receiving
     public static final String ERROR_BULK_RECEIVING_DOCUMENT_ACTIVE_FOR_PO = "errors.bulkReceiving.documentActiveForPo";
     public static final String ERROR_BULK_RECEIVING_DOCUMENT_INVALID_PO = "errors.bulkReceiving.invalidPo";
+    public static final String ERROR_BULK_RECEIVING_PO_NOT_OPEN = "errors.bulkReceiving.purchaseOrder.notOpen";
     public static final String MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL = "message.bulkReceiving.goodsDeliveredBy.label";
-    public static final String MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION = "message.bulkReceiving.defaultdescription";
+    public static final String MESSAGE_BULK_RECEIVING_DUPLICATE_PREFIX = "message.bulkReceiving.duplicate.prefix";
+    public static final String ERROR_BULK_RECEIVING_PDF = "error.bulkreceiving.pdf";
     
 }

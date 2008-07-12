@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -104,4 +106,6 @@ public interface PrintService {
      * @return             Collection of error strings.
      */
     public Collection savePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, String environment);
+    
+    public Collection generateReceivingTicket(BulkReceivingDocument blkRecDoc,ByteArrayOutputStream stream);
 }

@@ -17,7 +17,17 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.Map;
 
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * This class determines permissions for a user to view the
@@ -29,13 +39,23 @@ public class BulkReceivingDocumentActionAuthorizer {
     private BulkReceivingDocument bulkReceivingDocument;
     private boolean isUserAuthorized;
     
-    /**
-     * FIXME: I'm not sure rightnow whether we need this class or not - vpc
-     */
     public BulkReceivingDocumentActionAuthorizer(BulkReceivingDocument bulkDoc, Map editingMode) {
         
         this.bulkReceivingDocument = bulkDoc;
         
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
+
+        try {
+            this.isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
+        }
+        catch (GroupNotFoundException gnfe) {
+            this.isUserAuthorized = false;
+        }
+        
     }
 
+    public boolean canPrintReceivingTicket() {        
+        return SpringContext.getBean(BulkReceivingService.class).canPrintReceivingTicket(bulkReceivingDocument) && isUserAuthorized;
+    }
 }

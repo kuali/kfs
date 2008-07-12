@@ -33,10 +33,12 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.dataaccess.ImageDao;
+import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PrintService;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
+import org.kuali.kfs.module.purap.pdf.BulkReceivingPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdfParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
@@ -513,4 +515,26 @@ public class PrintServiceImpl implements PrintService {
         return savePurchaseOrderPdf(po, TRANSMISSION_IS_RETRANSMIT, environment);
     }
 
+    public Collection generateReceivingTicket(BulkReceivingDocument blkRecDoc, 
+                                              ByteArrayOutputStream baosPDF) {
+        
+        LOG.debug("generateReceivingTicket() started");
+
+        BulkReceivingPdf recBlkTicketPDF = new BulkReceivingPdf();
+        Collection errors = new ArrayList();
+        try {
+            recBlkTicketPDF.generatePdf(blkRecDoc,baosPDF);
+//            if (pdfParameters.isUseImage()) {
+//                // Removes temporary images; only need to call once.
+//                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
+//            }
+        }catch (PurapConfigurationException pce) {
+            LOG.error("Caught exception ", pce);
+            errors.add(pce.getMessage());
+        }
+
+        LOG.debug("generateReceivingTicket() ended");
+        return errors;
+    }
+    
 }

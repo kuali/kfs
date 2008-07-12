@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
@@ -41,17 +42,6 @@ public interface BulkReceivingService {
     public void populateAndSaveBulkReceivingDocument(BulkReceivingDocument blkRecDoc) throws WorkflowException;
 
     /**
-     * Determines if a bulk receiving line document can be created at the time the user requests it.
-     * This version looks up the current purchase order by po id and also excludes the current bulk receiving
-     * document from the check.
-     * 
-     * @param poId
-     * @param bulkReceivingDocumentNumber
-     * @return
-     */
-    public boolean canCreateBulkReceivingDocument(PurchaseOrderDocument poDoc, String bulkReceivingDocumentNumber);
-    
-    /**
      * Checks for duplicate Bulk Receiving documents and passes back a list of those found
      * where vendor date, packing slip number or bill of lading match on previous bulk receiving
      * documents by purchase order.
@@ -60,7 +50,11 @@ public interface BulkReceivingService {
      * @return
      */
     public HashMap<String, String> bulkReceivingDuplicateMessages(BulkReceivingDocument blkRecDoc);
+
+    public boolean canPrintReceivingTicket(BulkReceivingDocument blkRecDoc);
     
-    public void completeBulkReceivingDocument(BulkReceivingDocument blkRecDocument);
+    public void performPrintReceivingTicketPDF(String blkDocId, ByteArrayOutputStream baosPDF);
+    
+    public boolean isBulkReceivingDocumentInProcessForPurchaseOrder(Integer poId,String bulkReceivingDocumentNumber);
     
 }

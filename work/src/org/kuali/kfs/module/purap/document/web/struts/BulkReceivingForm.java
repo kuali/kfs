@@ -20,12 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
@@ -33,13 +36,9 @@ import edu.iu.uis.eden.EdenConstants;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     
+    private static final Logger LOG = Logger.getLogger(BulkReceivingForm.class); 
     private Integer purchaseOrderId;
-//    private boolean isPOAvailable;
-//    private List<VendorDetail> vendorsListForGoodsDeliveryBy = new ArrayList<VendorDetail>();
-    
-    /**
-     * Constructs a BulkReceivingForm instance and sets up the appropriately casted document.
-     */
+
     public BulkReceivingForm() {
         super();
         setDocument(new BulkReceivingDocument());
@@ -62,14 +61,6 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         this.purchaseOrderId = purchaseOrderId;
     }
 
-//    public boolean isPOAvailable() {
-//        return isPOAvailable;
-//    }
-//
-//    public void setPOAvailable(boolean isPOAvailable) {
-//        this.isPOAvailable = isPOAvailable;
-//    }
-    
     /**
      * Override the superclass method to add appropriate buttons for
      * BulkReceivingDocument.
@@ -80,15 +71,15 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
         
-//        BulkReceivingDocumentActionAuthorizer auth = new BulkReceivingDocumentActionAuthorizer(this.getBulkReceivingDocument(), getEditingMode());        
+        BulkReceivingDocumentActionAuthorizer auth = new BulkReceivingDocumentActionAuthorizer(this.getBulkReceivingDocument(), getEditingMode());        
 
-        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB)) {
-            if (this.getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
-                extraButtons.add(createBulkReceivingContinueButton());                
-                extraButtons.add(createClearInitFieldsButton());
-            }
+        if (this.getEditingMode().get(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
+            extraButtons.add(createBulkReceivingContinueButton());                
+            extraButtons.add(createClearInitFieldsButton());
+        }else if (auth.canPrintReceivingTicket()){
+            extraButtons.add(createPrintReceivingTicketButton());
         }
-        
+            
         return extraButtons;
     }        
 
@@ -107,19 +98,19 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         clearButton.setExtraButtonAltText("Clear");
         return clearButton;
     }
+    
+    private ExtraButton createPrintReceivingTicketButton(){
+        ExtraButton printButton = new ExtraButton();
+        printButton.setExtraButtonProperty("methodToCall.printReceivingTicketPDF");
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");
+        printButton.setExtraButtonAltText("Print");
+        return printButton;
+    }
 
     public boolean isStateFinal(){        
         return this.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();              
     }
 
-//    public List<VendorDetail> getVendorsListForGoodsDeliveryBy() {
-//        return vendorsListForGoodsDeliveryBy;
-//    }
-//
-//    public void setVendorsListForGoodsDeliveryBy(List<VendorDetail> vendorsListForGoodsDeliveryBy) {
-//        this.vendorsListForGoodsDeliveryBy = vendorsListForGoodsDeliveryBy;
-//    }
-    
     public String getGoodsDeliveredByLabel(){
         return PurapKeyConstants.MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL;
     }

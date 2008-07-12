@@ -181,8 +181,14 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
                 valid = false;
             }
             
+            if (!(po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
+                po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED))){
+                valid &= false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_BULK_RECEIVING_PO_NOT_OPEN, bulkReceivingDocument.getDocumentNumber(), bulkReceivingDocument.getPurchaseOrderIdentifier().toString());
+            }
+            
             if (valid){
-                if(!SpringContext.getBean(BulkReceivingService.class).canCreateBulkReceivingDocument(po, bulkReceivingDocument.getDocumentNumber())){
+                if(SpringContext.getBean(BulkReceivingService.class).isBulkReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), bulkReceivingDocument.getDocumentNumber())){
                     valid &= false;
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_BULK_RECEIVING_DOCUMENT_ACTIVE_FOR_PO, bulkReceivingDocument.getDocumentNumber(), bulkReceivingDocument.getPurchaseOrderIdentifier().toString());
                 }

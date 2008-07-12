@@ -380,11 +380,6 @@ public class PurapConstants extends JSTLConstants {
         public static final String REQUEST_CANCEL = "REQUEST CANCEL";
     }
     
-    public static class BulkReceivingStatuses {
-        public static final String IN_PROCESS = "INPR";
-        public static final String PENDING_PRINT = "PRPE";
-    }
-    
     public static final class PaymentRequestStatuses {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
@@ -489,6 +484,7 @@ public class PurapConstants extends JSTLConstants {
     public static class BulkReceivingDocumentStrings{
         public static final String DUPLICATE_BULK_RECEIVING_DOCUMENT_QUESTION = "DuplicateBulkReceiving";
         public static final String VENDOR_DATE = "Vendor Date";
+        public static final String MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION = "Not associated with a PO";
     }
     
     public static class PREQDocumentsStrings {

@@ -15,32 +15,36 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.document.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
+    private static final Logger LOG = Logger.getLogger(BulkReceivingAction.class);
+    
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
         
         super.createDocument(kualiDocumentFormBase);
@@ -49,7 +53,6 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument)blkForm.getDocument();
         
         blkRecDoc.setPurchaseOrderIdentifier( blkForm.getPurchaseOrderId() );
-        blkRecDoc.getDocumentHeader().setDocumentDescription(PurapKeyConstants.MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION);
         
         blkRecDoc.initiateDocument();
         
@@ -69,17 +72,6 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         if( forward != null ){
             return forward;
         }
-        
-//        if (blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier() != null &&
-//            blkRecDoc.getAlternateVendorDetailAssignedIdentifier() != null){
-//            VendorDetail alternateVendor = SpringContext.getBean(VendorService.class).getVendorDetail(blkRecDoc.getAlternateVendorHeaderGeneratedIdentifier(), blkRecDoc.getAlternateVendorDetailAssignedIdentifier());
-//            blkRecDoc.setAlternateVendorDetail(alternateVendor);
-//            
-//            List<VendorDetail> vendors = new ArrayList<VendorDetail>();
-//            vendors.add(blkRecDoc.getVendorDetail());
-//            vendors.add(blkRecDoc.getAlternateVendorDetail());
-//            blkForm.setVendorsListForGoodsDeliveryBy(vendors);
-//        }
         
         //populate and save Receiving Line Document from Purchase Order        
         SpringContext.getBean(BulkReceivingService.class).populateAndSaveBulkReceivingDocument(blkRecDoc);
@@ -132,5 +124,88 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         }
 
         return forward;
+    }
+    
+    public ActionForward printReceivingTicket(ActionMapping mapping, 
+                                              ActionForm form, 
+                                              HttpServletRequest request, 
+                                              HttpServletResponse response) 
+    throws Exception {
+        
+        String blkDocId = request.getParameter("docId");
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        
+        try {
+            // will throw validation exception if errors occur
+            SpringContext.getBean(BulkReceivingService.class).performPrintReceivingTicketPDF(blkDocId, baosPDF);
+
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            String useJavascript = request.getParameter("useJavascript");
+            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                sbContentDispValue.append("attachment");
+            }
+            else {
+                sbContentDispValue.append("inline");
+            }
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_RECEIVING_TICKET_");
+            sbFilename.append(blkDocId);
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
+
+            response.setHeader("Content-disposition", sbContentDispValue.toString());
+
+            response.setContentLength(baosPDF.size());
+
+            ServletOutputStream sos = response.getOutputStream();
+            baosPDF.writeTo(sos);
+            sos.flush();
+
+        }finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+
+        return null;
+    }
+    
+    public ActionForward printReceivingTicketPDF(ActionMapping mapping, 
+                                                 ActionForm form, 
+                                                 HttpServletRequest request, 
+                                                 HttpServletResponse response) 
+    throws Exception {
+        
+        String blkRecDocId = request.getParameter("docId");
+        
+        String basePath = getBasePath(request);
+        String docId = ((BulkReceivingForm) form).getDocId();
+        String methodToCallPrintPurchaseOrderPDF = "printReceivingTicket";
+        String methodToCallDocHandler = "docHandler";
+        String printReceivingTicketPDFUrl = getUrlForPrintReceivingTicket(basePath, docId, methodToCallPrintPurchaseOrderPDF);
+        String displayReceivingDocTabbedPageUrl = getUrlForPrintReceivingTicket(basePath, docId, methodToCallDocHandler);
+        request.setAttribute("printReceivingTicketPDFUrl", printReceivingTicketPDFUrl);
+        request.setAttribute("displayReceivingDocTabbedPageUrl", displayReceivingDocTabbedPageUrl);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(BulkReceivingDocument.class);
+        request.setAttribute("receivingDocLabel", label);
+
+        return mapping.findForward("printReceivingTicketPDF");
+    }
+    
+    private String getUrlForPrintReceivingTicket(String basePath, String docId, String methodToCall) {
+        
+        StringBuffer result = new StringBuffer(basePath);
+        result.append("/purapBulkReceiving.do?methodToCall=");
+        result.append(methodToCall);
+        result.append("&docId=");
+        result.append(docId);
+        result.append("&command=displayDocSearchView");
+
+        return result.toString();
     }
 }    

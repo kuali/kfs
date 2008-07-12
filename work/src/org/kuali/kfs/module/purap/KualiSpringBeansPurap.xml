@@ -399,6 +399,10 @@
 	</bean>
 	
 	<bean id="bulkReceivingService" class="org.kuali.kfs.module.purap.document.service.impl.BulkReceivingServiceImpl">
+	
+		<property name="configurationService" ref="kualiConfigurationService" />
+        <property name="dateTimeService" ref="dateTimeService"/>
+        
         <property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>	
@@ -411,13 +415,15 @@
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>        
-        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="purapService">
             <ref bean="purapService" />
         </property>
         <property name="noteService">
             <ref bean="noteService" />
         </property>        
+        <property name="printService">
+            <ref bean="printService" />
+        </property>	
 	</bean>
 
 	<bean id="receivingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.ReceivingDaoOjb" />

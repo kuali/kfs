@@ -33,7 +33,6 @@
 				<ref bean="Customer-customerLastActivityDate" />
 				<ref bean="Customer-customerName" />
 				<ref bean="Customer-customerNumber" />
-				<ref bean="Customer-customerParentCompanyNumber" />
 				<ref bean="Customer-customerPhoneNumber" />
 				<ref bean="Customer-customerRecordAddDate" />
 				<ref bean="Customer-customerTaxExemptIndicator" />
@@ -44,7 +43,7 @@
 				<ref bean="Customer-customerAddresses.customerCityName" />
 				<ref bean="Customer-customerAddresses.customerStateCode" />
 				<ref bean="Customer-customerAddresses.customerZipCode" />  
-				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
+				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" /> 
 				<ref bean="Customer-customerTaxTypeCode" />
 				<ref bean="Customer-customerTaxNbr" /> 
                 <ref bean="Customer-versionNumber" />
@@ -63,6 +62,47 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
+	
+	<bean id="Customer-customerTaxNbr" parent="Customer-customerTaxNbr-parentBean" />
+
+    <bean id="Customer-customerTaxNbr-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="customerTaxNbr" />
+      <property name="forceUppercase" value="true" />
+      <property name="label" value="Tax Number" />
+      <property name="shortLabel" value="Tax Num." />
+      <property name="maxLength" value="9" />
+      <property name="validationPattern" >
+        <bean parent="NumericValidationPattern"
+              p:exactLength="9" />
+      </property>
+      <property name="control" >
+        <bean parent="TextControlDefinition"
+              p:size="11" />
+      </property>
+      <property name="displayMask" >
+        <bean parent="Mask">
+          <property name="maskFormatter" >
+            <bean parent="MaskFormatterLiteral"
+                  p:literal="*********" />
+          </property>
+        </bean>
+      </property>
+      <property name="displayWorkgroup" value="PA_TAX_NUMBER_USERS" />
+    </bean>
+    <bean id="Customer-customerTaxTypeCode" parent="Customer-customerTaxTypeCode-parentBean" />
+
+    <bean id="Customer-customerTaxTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="customerTaxTypeCode" />
+      <property name="forceUppercase" value="true" />
+      <property name="label" value="Tax Number Type" />
+      <property name="shortLabel" value="Tax Type" />
+      <property name="maxLength" value="4" />
+      <property name="control" >
+        <bean parent="RadioControlDefinition"
+              p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.TaxPayerTypeWithNoneValuesFinder"
+              p:includeKeyInLabel="false" />
+      </property>
+    </bean>
 
 
 	<bean id="Customer-customer800PhoneNumber"
@@ -249,28 +289,6 @@
 		<property name="description"
 			value="customerFaxNumber description..." />
 	</bean>
-	<bean id="Customer-customerTaxTypeCode"
-		parent="Customer-customerTaxTypeCode-parentBean" />
-
-	<bean id="Customer-customerTaxTypeCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerTaxTypeCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label"
-			value="Tax Type Code" />
-		<property name="shortLabel" value="Type" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="11" />
-		</property>
-		<property name="summary"
-			value="customerTaxTypeCode" />
-		<property name="description"
-			value="customerTaxTypeCode description..." />
-	</bean>
 	<bean id="Customer-customerLastActivityDate"
 		parent="Customer-customerLastActivityDate-parentBean" />
 
@@ -324,28 +342,6 @@
 		<property name="description"
 			value="customerNumber description..." />
 	</bean>
-	<bean id="Customer-customerParentCompanyNumber"
-		parent="Customer-customerParentCompanyNumber-parentBean" />
-
-	<bean id="Customer-customerParentCompanyNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerParentCompanyNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Parent Company" />
-		<property name="shortLabel" value="Customer Parent" />
-		<property name="maxLength" value="9" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-        <property name="control" >
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerValuesFinder"
-                  p:includeKeyInLabel="false" />
-        </property>
-		<property name="summary" value="customerParentCompanyNumber" />
-		<property name="description"
-			value="customerParentCompanyNumber description..." />
-	</bean>
 	<bean id="Customer-customerPhoneNumber"
 		parent="Customer-customerPhoneNumber-parentBean" />
 
@@ -378,30 +374,6 @@
 		<property name="summary" value="customerRecordAddDate" />
 		<property name="description"
 			value="customerRecordAddDate description..." />
-	</bean>
-	<bean id="Customer-customerTaxNbr"
-		parent="Customer-customerTaxNbr-parentBean" />
-
-	<bean
-		id="Customer-customerTaxNbr-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name"
-			value="customerTaxNbr" />
-		<property name="forceUppercase" value="true" />
-		<property name="label"
-			value="Tax Identifier" />
-		<property name="shortLabel" value="Identifier" />
-		<property name="maxLength" value="9" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="11" />
-		</property>
-		<property name="summary"
-			value="customerTaxNbr" />
-		<property name="description"
-			value="customerTaxNbr description..." />
 	</bean>
 	<bean id="Customer-customerTaxExemptIndicator"
 		parent="Customer-customerTaxExemptIndicator-parentBean" />
@@ -509,8 +481,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="customerNumber" />
 							<bean parent="FieldDefinition"
-								p:attributeName="customerParentCompanyNumber" />
-							<bean parent="FieldDefinition"
 								p:attributeName="customerName" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerTypeCode" />
@@ -531,14 +501,12 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-						    <bean parent="FieldDefinition"
-								p:attributeName="customerTaxTypeCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerTaxNbr" />
 							<bean parent="FieldDefinition"
+								p:attributeName="customerTaxTypeCode" />
+							<bean parent="FieldDefinition"
 								p:attributeName="customerTaxExemptIndicator" />
-					        <bean parent="FieldDefinition"
-								p:attributeName="customerBirthDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerCreditApprovedByName" />
 							<bean parent="FieldDefinition"
@@ -552,6 +520,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
+				            <bean parent="FieldDefinition"
+								p:attributeName="customerBirthDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="customerEmailAddress" />
 						    <bean parent="FieldDefinition"
@@ -677,9 +647,9 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="customerPhoneNumber" />
 			    <bean parent="FieldDefinition"
-					p:attributeName="customerTaxTypeCode" />
-				<bean parent="FieldDefinition"
 					p:attributeName="customerTaxNbr" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="customerTaxTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerActiveIndicator" />	
 			    <bean parent="FieldDefinition"
@@ -708,10 +678,10 @@
 					p:attributeName="customerName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerPhoneNumber" />
-			    <bean parent="FieldDefinition"
-					p:attributeName="customerTaxTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerTaxNbr" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="customerTaxTypeCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="customerActiveIndicator" />		
 			</list>

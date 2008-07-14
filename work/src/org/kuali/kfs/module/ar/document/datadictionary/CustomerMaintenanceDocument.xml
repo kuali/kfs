@@ -71,8 +71,6 @@
               p:name="customerNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="customerParentCompanyNumber" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="customerName"
               p:webUILeaveFieldFunction="setCustomerAddressName"
               p:required="true" />
@@ -104,16 +102,14 @@
     <property name="id" value="Corporate Information" />
     <property name="title" value="Corporate Information" />
     <property name="maintainableItems" >
-      <list>  
+      <list>
         <bean parent="MaintainableFieldDefinition"
-			  p:name="customerTaxTypeCode" />
-		<bean parent="MaintainableFieldDefinition"
-			  p:name="customerTaxNbr" />           
+              p:name="customerTaxNbr" />   
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerTaxTypeCode" />       
         <bean parent="MaintainableFieldDefinition"
               p:name="customerTaxExemptIndicator"
               p:defaultValue="false" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="customerBirthDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerCreditApprovedByName" />
         <bean parent="MaintainableFieldDefinition"
@@ -131,6 +127,8 @@
     <property name="title" value="Contact Information" />
     <property name="maintainableItems" >
       <list>  
+        <bean parent="MaintainableFieldDefinition"
+              p:name="customerBirthDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="customerEmailAddress" />
         <bean parent="MaintainableFieldDefinition"

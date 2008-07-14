@@ -127,7 +127,7 @@
 	<field-descriptor name="customerCreditApprovedByName" column="CUST_CRDT_APRV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerTaxTypeCode" column="CUST_TAX_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
 
 	<reference-descriptor name="customerParentCompany" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerParentCompanyNumber" />

@@ -36,28 +36,44 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
+        KualiDecimal total = new KualiDecimal(0);
+        
         // TODO Auto-generated method stub
-        return null;
+        
+        return total;
     }
 
     public KualiDecimal getTotalCashControlForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
-        // TODO Auto-generated method stub
-        return null;
+        KualiDecimal total = new KualiDecimal(0);
+        CashControlDocument ccd = getCashControlDocumentForPaymentApplicationDocumentNumber(paymentApplicationDocumentNumber);
+        if(null != ccd && null != ccd.getCashControlTotalAmount()) {
+            total = total.add(ccd.getCashControlTotalAmount());
+        }
+        return total;
     }
 
     public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
+        KualiDecimal total = new KualiDecimal(0);
+        
         // TODO Auto-generated method stub
-        return null;
+        
+        return total;
     }
 
     public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
+        KualiDecimal total = new KualiDecimal(0);
+        
         // TODO Auto-generated method stub
-        return null;
+        
+        return total;
     }
 
     public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
+        KualiDecimal total = new KualiDecimal(0);
+        
         // TODO Auto-generated method stub
-        return null;
+        
+        return total;
     }
 
     @SuppressWarnings("unchecked")

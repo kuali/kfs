@@ -160,29 +160,37 @@
 	<kul:tab tabTitle="Quick Apply to Invoice" defaultOpen="true"
 		tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
 		<div class="tab-container" align="center">
-			<table width="100%" cellpadding="0" celspacing="0" class="datatable">
-				<tr>
-			   		<th>Invoice Number</th>
-			   		<th>Open Amount</th>
-			   		<th>Quick Apply</th>
-				</tr>
-		    	<c:forEach items="${KualiForm.invoices}" var="invoice">
-		    		<tr>
-		    			<td><c:out value="${invoice.documentNumber}"/></td>
-		    			<td>$<c:out value="${invoice.balance}"/></td>
-		    			<td><input type="checkbox" name="quickApply" value="${invoice.documentNumber}" /></td>
-		    		</tr>
-		    	</c:forEach>
-				<tr>
-					<td colspan='3' style='text-align: right;'>
-						<html:image property="methodToCall.quickApply"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
-							alt="Quick Apply"
-							title="Quick Apply"
-							styleClass="tinybutton" />
-					</td>
-				</tr>
-			</table>
+		
+			<c:choose>
+		      	<c:when test="${null == KualiForm.customer}">
+		      		No Customer Selected
+		      	</c:when>
+		      	<c:otherwise>
+					<table width="100%" cellpadding="0" celspacing="0" class="datatable">
+						<tr>
+					   		<th>Invoice Number</th>
+					   		<th>Open Amount</th>
+					   		<th>Quick Apply</th>
+						</tr>
+				    	<c:forEach items="${KualiForm.invoices}" var="invoice">
+				    		<tr>
+				    			<td><c:out value="${invoice.documentNumber}"/></td>
+				    			<td>$<c:out value="${invoice.balance}"/></td>
+				    			<td><input type="checkbox" name="quickApply" value="${invoice.documentNumber}" /></td>
+				    		</tr>
+				    	</c:forEach>
+						<tr>
+							<td colspan='3' style='text-align: right;'>
+								<html:image property="methodToCall.quickApply"
+									src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+									alt="Quick Apply"
+									title="Quick Apply"
+									styleClass="tinybutton" />
+							</td>
+						</tr>
+					</table>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</kul:tab>
   
@@ -198,7 +206,7 @@
 							attributeEntry="${customerAttributes.customerNumber}"
 							property="customerNumber"
 							readOnly="${readOnly}" />
-						<kul:lookup boClassName="org.kuali.module.ar.businessobject.Customer" 
+						<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
 							fieldConversions="customerNumber:customer.customerNumber" />
 					</td>
 				</tr>

@@ -11,11 +11,11 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
  */
 public class NonAppliedDistribution extends PersistableBusinessObjectBase {
 
-	private String documentNumber;
-	private Integer paidAppliedItemNumber;
+	private String documentNumber; // ???
+	private Integer paidAppliedItemNumber; // ???
 	private String referenceFinancialDocumentNumber;
-	private Integer universityFiscalYear;
-	private String universityFiscalPeriodCode;
+	private Integer universityFiscalYear; // ???
+	private String universityFiscalPeriodCode; // ???
 	private KualiDecimal financialDocumentLineAmount;
 
 	private AccountingPeriod universityFiscalPeriod;

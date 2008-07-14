@@ -10,7 +10,7 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class NonInvoicedDistribution extends PersistableBusinessObjectBase {
 
-	private String documentNumber;
+	private String documentNumber; // ??? It's not the payment application document number
 	private Integer financialDocumentLineNumber;
 	private String referenceFinancialDocumentNumber;
 	private KualiDecimal financialDocumentLineAmount;

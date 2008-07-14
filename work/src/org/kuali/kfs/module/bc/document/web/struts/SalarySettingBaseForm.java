@@ -63,9 +63,9 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return the refresh caller name of the current form
      */
     public abstract String getRefreshCallerName();
-    
+
     /**
-     * get the key map for the salary setting item: salary expension, position, or incumbent 
+     * get the key map for the salary setting item: salary expension, position, or incumbent
      * 
      * @return the key map for the salary setting item
      */
@@ -86,7 +86,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public void postProcessBCAFLines() {
         this.populateBCAFLines();
-        
+
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean vacatable = SpringContext.getBean(SalarySettingService.class).canBeVacant(appointmentFundings, appointmentFunding);
@@ -108,31 +108,23 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * Updates authorization-related form fields based on the current form contents
      */
     public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        if(budgetByAccountMode) {
-            useBCAuthorizer(documentAuthorizer);
+        useBCAuthorizer(documentAuthorizer);
 
-            // TODO probably need BCAuthorizationConstants extension
-            if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
-            }
+        if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
         }
-
-        /*
-         * //TODO from KualiDocumentFormBase - remove when ready if (isFormDocumentInitialized()) {
-         * useBCAuthorizer(documentAuthorizer); // graceless hack which takes advantage of the fact that here and only here will we
-         * have guaranteed access to the // correct DocumentAuthorizer if
-         * (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) { throw new
-         * AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view",
-         * this.getAccountNumber()+", "+this.getSubAccountNumber()); } }
-         */
     }
 
     public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
-        setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
-        // TODO probably don't need these, editingmode drives expansion screen actions
-        // setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
+        if (this.isBudgetByAccountMode()) {
+            this.setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
+        }
+        else {
+            // user got here through organization salary setting - check that the user is a BC org approver somewhere
+            this.setEditingMode(documentAuthorizer.getEditMode());
+        }
     }
 
     /**
@@ -368,7 +360,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     public void setEditingMode(Map<String, String> editingMode) {
         this.editingMode = editingMode;
     }
-    
+
     /**
      * Gets the budgetByAccountMode attribute.
      * 
@@ -411,7 +403,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * @return Returns the appointmentFundings.
      */
     public abstract List<PendingBudgetConstructionAppointmentFunding> getAppointmentFundings();
-    
+
     /**
      * Gets the appointmentRequestedCsfAmountTotal.
      * 
@@ -518,7 +510,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
         return SalarySettingCalculator.getCsfFullTimeEmploymentQuantityTotal(this.getEffectivePendingBudgetConstructionAppointmentFunding());
-    }    
+    }
 
     /**
      * Gets the percentChangeTotal attribute.
@@ -531,7 +523,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
         return SalarySettingCalculator.getPercentChange(csfAmountTotal, requestedAmountTotal);
     }
-    
+
     /**
      * Gets the EffectivePendingBudgetConstructionAppointmentFunding.
      * 

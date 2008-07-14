@@ -52,6 +52,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
+    @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
@@ -66,6 +67,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
+    @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
@@ -186,6 +188,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @see org.kuali.core.authorization.DocumentAuthorizer#getAccountingLineEditableFields(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
+    @Override
     public Map getAccountingLineEditableFields(Document document, UniversalUser user) {
         Map editableFields = new HashMap();
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

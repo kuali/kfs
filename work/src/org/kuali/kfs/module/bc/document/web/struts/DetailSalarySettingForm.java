@@ -39,9 +39,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private String positionNumber;
     private String emplid;
     private String personName;
-
-    private boolean budgetByAccountMode;
-    private boolean orgSalSetClose = false;
     
     protected SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
@@ -155,42 +152,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      */
     public void setAddLine(boolean addLine) {
         this.addLine = addLine;
-    }
-
-    /**
-     * Gets the budgetByAccountMode attribute.
-     * 
-     * @return Returns the budgetByAccountMode.
-     */
-    public boolean isBudgetByAccountMode() {
-        return budgetByAccountMode;
-    }
-
-    /**
-     * Sets the budgetByAccountMode attribute value.
-     * 
-     * @param budgetByAccountMode The budgetByAccountMode to set.
-     */
-    public void setBudgetByAccountMode(boolean budgetByAccountMode) {
-        this.budgetByAccountMode = budgetByAccountMode;
-    }
-
-    /**
-     * Gets the orgSalSetClose attribute.
-     * 
-     * @return Returns the orgSalSetClose.
-     */
-    public boolean isOrgSalSetClose() {
-        return orgSalSetClose;
-    }
-
-    /**
-     * Sets the orgSalSetClose attribute value.
-     * 
-     * @param orgSalSetClose The orgSalSetClose to set.
-     */
-    public void setOrgSalSetClose(boolean orgSalSetClose) {
-        this.orgSalSetClose = orgSalSetClose;
     }
 
     /**

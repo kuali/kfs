@@ -54,6 +54,9 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private boolean hideDetails = false;
     private Map<String, String> editingMode;
 
+    private boolean budgetByAccountMode;
+    private boolean orgSalSetClose = false;
+
     /**
      * get the refresh caller name of the current form
      * 
@@ -105,12 +108,13 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      * Updates authorization-related form fields based on the current form contents
      */
     public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+        if(budgetByAccountMode) {
+            useBCAuthorizer(documentAuthorizer);
 
-        useBCAuthorizer(documentAuthorizer);
-
-        // TODO probably need BCAuthorizationConstants extension
-        if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
+            // TODO probably need BCAuthorizationConstants extension
+            if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
+            }
         }
 
         /*
@@ -363,6 +367,42 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public void setEditingMode(Map<String, String> editingMode) {
         this.editingMode = editingMode;
+    }
+    
+    /**
+     * Gets the budgetByAccountMode attribute.
+     * 
+     * @return Returns the budgetByAccountMode.
+     */
+    public boolean isBudgetByAccountMode() {
+        return budgetByAccountMode;
+    }
+
+    /**
+     * Sets the budgetByAccountMode attribute value.
+     * 
+     * @param budgetByAccountMode The budgetByAccountMode to set.
+     */
+    public void setBudgetByAccountMode(boolean budgetByAccountMode) {
+        this.budgetByAccountMode = budgetByAccountMode;
+    }
+
+    /**
+     * Gets the orgSalSetClose attribute.
+     * 
+     * @return Returns the orgSalSetClose.
+     */
+    public boolean isOrgSalSetClose() {
+        return orgSalSetClose;
+    }
+
+    /**
+     * Sets the orgSalSetClose attribute value.
+     * 
+     * @param orgSalSetClose The orgSalSetClose to set.
+     */
+    public void setOrgSalSetClose(boolean orgSalSetClose) {
+        this.orgSalSetClose = orgSalSetClose;
     }
 
     /**

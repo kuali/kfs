@@ -23,11 +23,15 @@
 
 	<kfs:hiddenDocumentFields />
 
+	<c:if test="${!empty KualiForm.editingMode['sourceLinesReadOnlyMode']}">
+		<c:set var="sourceLinesReadOnlyMode" value="true" scope="request" />
+	</c:if>
+
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
-    sourceLinesReadOnly="${fn:length(KualiForm.document.electronicPaymentClaims) > 0}"/>
+        sourceLinesReadOnly="${sourceLinesReadOnlyMode}"/>
 
 	<gl:generalLedgerPendingEntries />
 

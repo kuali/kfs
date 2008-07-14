@@ -164,12 +164,13 @@ public class AssetServiceImpl implements AssetService {
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
         String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
-        if (StringUtils.isNotEmpty(lockingDocumentId)) {
-            documentLockingService.checkForLockingDocument(lockingDocumentId);
 
+        try {
+            documentLockingService.checkForLockingDocument(lockingDocumentId);
+        } catch (ValidationException ve) {
             return true;
         }
-
+        
         return false;
     }
 

@@ -26,13 +26,14 @@ import org.kuali.core.document.MaintenanceLock;
  */
 public interface DocumentLockingService {
     /**
-     * This method attempts to find any other active documents that are pending on the same maintenance record.
+     * This method attempts to find any other active documents that are pending on the same record.
      * 
      * If any are pending and locked, thereby blocking this document, then the docHeaderId/documentNumber of the blocking
      * locked document is returned.
      * 
      * Otherwise, if nothing is blocking, then null is returned.
      * 
+     * @see org.kuali.core.service.MaintenanceDocumentService#getLockingDocumentId(org.kuali.core.document.MaintenanceDocument)
      * @param documentNumber document to test for
      * @param maintenanceLocks locks that the document holds
      * @return A String representing the docHeaderId of any blocking document, or null if none are blocking
@@ -41,6 +42,7 @@ public interface DocumentLockingService {
     
     /**
      * Adds error message to global ErrorMap showing the docHeaderId that is blocking. 
+     * @see org.kuali.core.document.MaintenanceDocumentBase#checkForLockingDocument(java.lang.String)
      * @param docHeaderId of blocking document
      */
     public void checkForLockingDocument(String blockingDocId);

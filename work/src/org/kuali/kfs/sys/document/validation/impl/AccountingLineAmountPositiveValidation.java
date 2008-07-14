@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
+import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.sys.KFSConstants;
@@ -41,11 +45,17 @@ public class AccountingLineAmountPositiveValidation extends GenericValidation {
         KualiDecimal amount = accountingLineForValidation.getAmount();
         String correctsDocumentId = accountingDocumentForValidation.getDocumentHeader().getFinancialDocumentInErrorNumber();
         
-        if (null == correctsDocumentId && KualiDecimal.ZERO.compareTo(amount) == 1) { // amount < 0
-            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION);
+        if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
+            GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
-        
+        else {
+            if (null == correctsDocumentId && KualiDecimal.ZERO.compareTo(amount) == 1) { // amount < 0
+                GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION);
+                return false;
+            }
+        }
+
         return true;
     }
 

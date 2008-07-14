@@ -57,6 +57,9 @@
 <!--  We don't need to display the error message text on a page because they are being already displayed in a textbox.-->
 				<c:set var="keyMatch" value="document.barcodeInventoryErrorDetail[${ctr}]*"/>            	            	
 				<c:forEach items="${ErrorPropertyList}" var="key">
+
+				<!-- c:out value="${key}"/-->
+				
 				  <c:if test="${not KualiForm.displayedErrors[key]}">            	            	
 		              <c:forEach items="${fn:split(keyMatch,',')}" var="prefix">
 			                <c:if test="${(fn:endsWith(prefix,'*') && fn:startsWith(key,fn:replace(prefix,'*',''))) || (key == prefix)}">
@@ -69,10 +72,10 @@
             	
 			</logic:iterate>
 		</table>
-		<table table cellpadding="0" cellspacing="0"  border="0">
+		<table table cellpadding="0" cellspacing="0">
 		<tr>
 		<td width="49%"><div align="right">
-			<html:image property="methodToCall.validateLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-activaudit.gif"
+			<html:image property="methodToCall.validateLines" src="${ConfigProperties.externalizable.images.url}tinybutton-validate.gif"
 			    		alt="Validates selected lines"
 			        	styleClass="tinybutton" align="center"/></div>
 		</td>
@@ -190,7 +193,7 @@
 			<tr>
 				<th colspan=4 width="100%"><div align="center">
 					<html:image property="methodToCall.searchAndReplace"
-			    		src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_ok.gif"
+			    		src="${ConfigProperties.externalizable.images.url}tinybutton-replace.gif"
 			    		alt="Start replacing values"
 			        	styleClass="tinybutton" align="center"/></div>
 				</th>

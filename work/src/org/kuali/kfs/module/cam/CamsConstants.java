@@ -77,6 +77,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String MERGE_SEPARATE_RETIREMENT_REASONS = "MERGE_SEPARATE_RETIREMENT_REASONS";
         public static final String RAZE_RETIREMENT_REASONS = "RAZE_RETIREMENT_REASONS";
         public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS="BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS";
     }
 
     public static class Report {
@@ -114,6 +115,10 @@ public class CamsConstants extends JSTLConstants {
         public static final String STATUS_CODE_ERROR="E";
         public static final String STATUS_CODE_CORRECTED="C";
         public static final String STATUS_CODE_DELETED="D";
+        public static final String STATUS_CODE_VALIDATED="V";
+        
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO="N";
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES="Y";        
     }
 
     public static class Workgroups {
@@ -220,7 +225,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String FILE_TYPE_INDENTIFIER = "assetBarcodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";
         public static final String DATA_FILE_EXTENSION = ".csv";
-        public static final String DONE_FILE_EXTENSION = ".done";
+        public static final String DONE_FILE_EXTENSION = ".done";        
     }
 
 

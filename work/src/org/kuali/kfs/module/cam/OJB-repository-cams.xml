@@ -705,15 +705,10 @@
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 
-	<collection-descriptor name="barcodeInventoryErrorDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+	<collection-descriptor name="barcodeInventoryErrorDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="uploadRowNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
-   <!-- collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="sequenceNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor-->    	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail" table="CM_INVN_ERR_DTL_T">

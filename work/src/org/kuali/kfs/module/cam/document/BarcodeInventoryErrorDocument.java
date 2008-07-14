@@ -19,6 +19,7 @@ import org.kuali.rice.KNSServiceLocator;
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocument.class);
     
+    //private Long versionNumber;
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
     
@@ -143,7 +144,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     /**
      * 
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     *
+     */
     @Override
     public List buildListOfDeletionAwareLists() {
         List<List> managedList = super.buildListOfDeletionAwareLists();
@@ -151,7 +152,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
         managedList.add(this.getBarcodeInventoryErrorDetail());
 
         return managedList;
-    }*/
+    }
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -161,5 +162,4 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
         m.put("documentNumber", this.documentNumber);
         return m;
     }
-
 }

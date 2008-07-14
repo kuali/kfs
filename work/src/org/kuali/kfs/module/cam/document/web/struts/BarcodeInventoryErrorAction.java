@@ -52,13 +52,14 @@ import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-
 public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
+    
     private static final KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
     private static final DocumentService documentService = SpringContext.getBean(DocumentService.class);
     private static final AssetBarcodeInventoryLoadService assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
     private static final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      *
@@ -93,7 +94,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
         //To validate all rows
-        document.setBarcodeInventoryErrorSelectedRows(true);
+//        document.setBarcodeInventoryErrorSelectedRows(true);
 
         this.invokeRules(document);
     }
@@ -135,11 +136,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
         KualiDocumentFormBase kForm = (KualiDocumentFormBase)form;
-
         ActionForward af = super.save(mapping, form, request, response);
-
         loadDocument(kForm);
-
         return af;
     }
 
@@ -159,37 +157,28 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
 
-        //To not validate all the rows
-        document.setBarcodeInventoryErrorSelectedRows(false);
-
-        
-        //Iterating over the array of checkboxes that hold the number of lines selected
         int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
-        for(int i=0;i<selectedCheckboxes.length;i++) {
-            LOG.info("*******XXXXXXX SElected ROw BEFORE:"+selectedCheckboxes[i]);                
-            barcodeInventoryErrorDetails.get(selectedCheckboxes[i]-1).setRowSelected(true);
-        }
-
-        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-        barcodeInventoryErrorForm.setDocument(document);
-
-        this.save(mapping, form, request, response);
-        this.invokeRules(document);
-
-        for(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail:barcodeInventoryErrorDetails) {
-            LOG.info("XXXXXXX SelectedROw flag AFTER:"+barcodeInventoryErrorDetail.isRowSelected());
-            // if the record 
-            if (barcodeInventoryErrorDetail.isRowSelected() && barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
-                assetBarcodeInventoryLoadService.updateAssetInformation(barcodeInventoryErrorDetail);
+        
+        if (!(selectedCheckboxes == null)) {
+            this.invokeRules(document);
+            barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
+            for(int i=0;i<selectedCheckboxes.length;i++) {          
+                for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
+                    if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
+                        if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
+                            LOG.info("*******XXXXXXX Selected row to validate:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());                        
+                            assetBarcodeInventoryLoadService.updateAssetInformation(detail);
+                        }
+                    }
+                }
             }
-        }        
 
-        //To validate all rows
-        document.setBarcodeInventoryErrorSelectedRows(true);
+            this.save(mapping, form, request, response);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);                
     }
 
-    
+
     /**
      * 
      * This method deletes selected lines from the document
@@ -204,61 +193,24 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorForm barcodeInventoryErrorForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
-        List<BarcodeInventoryErrorDetail> tmpBarcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
 
-//      for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
-//            LOG.info("*** Data Before deleting :"+detail.toString());
-//        }        
+        int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
+        if (!(selectedCheckboxes == null)) {
+            for(int i=0;i<selectedCheckboxes.length;i++) {          
+                for(BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
+                    if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
+                        LOG.info("*******XXXXXXX Selected rows to delete:"+selectedCheckboxes[i]+ " - uploadRowNumber:"+detail.getUploadRowNumber());
+                        businessObjectService.delete(detail);
+                    }
+                }
 
-      
-      int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
-      for(int i=0;i<selectedCheckboxes.length;i++) {
-          LOG.info("*******XXXXXXX SElected ROw BEFORE:"+selectedCheckboxes[i]);                
-          businessObjectService.delete(barcodeInventoryErrorDetails.get(selectedCheckboxes[i]-1));
-      }
-
-      this.loadDocument((KualiDocumentFormBase)form);
-      
-        //Iterating over the array of checkboxes that hold the number of lines selected
-//        int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
-//        for(int i=0;i<selectedCheckboxes.length;i++) {
-//            for (Iterator<BarcodeInventoryErrorDetail> it = barcodeInventoryErrorDetails.iterator();it.hasNext();) {
-//                barcodeInventoryErrorDetail = (BarcodeInventoryErrorDetail)it.next();
-//
-//                //if no error found, then update asset table and delete the element from the collection
-//                if (barcodeInventoryErrorDetail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0){
-//                    LOG.info("***XXXXXXX Deleing row:"+barcodeInventoryErrorDetail.getUploadRowNumber());
-//
-//                    it.remove();
-//                    break;
-//                }
-//            }
-//        }
-//
-//        
-//        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
-//            LOG.info("*** Data after deleting:"+detail.toString());
-//        }        
-
-        //Reorganizing the order of each line
-//        Long i=new Long(0);
-//        for(BarcodeInventoryErrorDetail detail:barcodeInventoryErrorDetails) {
-//            i++;
-//            detail.setUploadRowNumber(i);
-//            tmpBarcodeInventoryErrorDetails.add(detail);
-//        }
-//        //Reassigning the changes to the document.
-//        document.setBarcodeInventoryErrorDetail(tmpBarcodeInventoryErrorDetails);
-
-        
-//        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-//        barcodeInventoryErrorForm.setDocument(document);
-//        this.invokeRules(document);
-
+            }
+            this.loadDocument((KualiDocumentFormBase)form);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * 
      * This method...
@@ -267,5 +219,4 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private void invokeRules(BarcodeInventoryErrorDocument document) {
         kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document));
     }
-
 }

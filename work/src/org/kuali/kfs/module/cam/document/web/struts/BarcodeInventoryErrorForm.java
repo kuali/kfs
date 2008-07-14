@@ -241,4 +241,11 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         newSubroom="";
         newConditionCode="";        
     }
+    
+    public void resetCheckBoxes() {
+        this.rowCheckbox = new int[rowCheckbox.length];
+        this.selectAllCheckbox = false;
+    }
+    
+    
 }

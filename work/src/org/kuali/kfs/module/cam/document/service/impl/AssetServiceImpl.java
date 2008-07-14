@@ -34,12 +34,15 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 public class AssetServiceImpl implements AssetService {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetServiceImpl.class);
+
     private ParameterService parameterService;
     private DocumentLockingService documentLockingService;
     private PaymentSummaryService paymentSummaryService;
@@ -163,15 +166,16 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
         List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
         maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
+        
         String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
 
+        boolean result=false;
         try {
             documentLockingService.checkForLockingDocument(lockingDocumentId);
         } catch (ValidationException ve) {
-            return true;
+            result=true;
         }
-        
-        return false;
+        return result;
     }
 
     /**

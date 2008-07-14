@@ -218,6 +218,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         List <BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
 
         try {
+            Long ln=new Long(1);
             input = new BufferedReader(new FileReader(file));
             String line = null;
             while ((line = input.readLine()) != null) {
@@ -248,6 +249,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
                 barcodeInventoryErrorDetail = new BarcodeInventoryErrorDetail();
 
+                barcodeInventoryErrorDetail.setUploadRowNumber(ln);
                 barcodeInventoryErrorDetail.setAssetTagNumber(lineStrings[0].trim());
                 barcodeInventoryErrorDetail.setUploadScanIndicator(lineStrings[1].equals("1"));
                 barcodeInventoryErrorDetail.setUploadScanTimestamp(timestamp);
@@ -259,6 +261,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 barcodeInventoryErrorDetail.setRowSelected(true);
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
+                ln++;
             }
 
             BarcodeInventoryErrorDocument document = createInvalidBarcodeInventoryDocument(barcodeInventoryErrorDetails);
@@ -317,23 +320,24 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     private void processBarcodeInventory(BarcodeInventoryErrorDocument barcodeInventoryErrorDocument) throws Exception {
         int totalRecordCount=0;
         int invalidRecordCount=0;
+        Long lineNumber = new Long(0);
         
         // apply rules for the new cash control detail
         kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", barcodeInventoryErrorDocument));
 
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = barcodeInventoryErrorDocument.getBarcodeInventoryErrorDetail();
-        BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
+        List<BarcodeInventoryErrorDetail> tmpBarcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
 
         totalRecordCount = barcodeInventoryErrorDetails.size();
 
-        for (Iterator<BarcodeInventoryErrorDetail> it = barcodeInventoryErrorDetails.iterator();it.hasNext();) {
-            barcodeInventoryErrorDetail = (BarcodeInventoryErrorDetail)it.next();
-
+        for(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
             //if no error found, then update asset table and delete the element from the collection
             if (!barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {
-                this.updateAssetInformation(barcodeInventoryErrorDetail);
-                it.remove();
+                this.updateAssetInformation(barcodeInventoryErrorDetail);   
             } else {
+                lineNumber++;                
+                barcodeInventoryErrorDetail.setUploadRowNumber(lineNumber);
+                tmpBarcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);                
                 invalidRecordCount++;
             }
         }
@@ -351,8 +355,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         //GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.MESSAGE_UPLOAD_ERROR_RECCOUNT,new Integer(invalidRecordCount).toString());
 
         //Storing the invalid barcode inventory records.
-        if (!barcodeInventoryErrorDetails.isEmpty()) {
-            barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+        if (!tmpBarcodeInventoryErrorDetails.isEmpty()) {
+            barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(tmpBarcodeInventoryErrorDetails);
             saveInvalidBarcodeInventoryDocument(barcodeInventoryErrorDocument);
         }
 

@@ -18,7 +18,7 @@
     <property name="documentTypeName" value="DistributionOfIncomeAndExpenseDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.DistributionOfIncomeAndExpenseDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentAuthorizer" />
     <property name="documentTypeCode" value="DI" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

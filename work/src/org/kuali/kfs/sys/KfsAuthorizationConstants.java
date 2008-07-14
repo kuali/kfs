@@ -34,6 +34,10 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String ADMIN_ENTRY = "adminEntry";
     }
 
+    public static class DistributionOfIncomeAndExpenseEditMode extends EditMode {
+        public static final String SOURCE_LINE_READ_ONLY_MODE = "sourceLinesReadOnlyMode";
+    }
+    
     public static class CashManagementEditMode extends EditMode {
         public static final String ALLOW_ADDITIONAL_DEPOSITS = "allowAdditionalDeposits";
         public static final String ALLOW_CANCEL_DEPOSITS = "allowCancelDeposits";

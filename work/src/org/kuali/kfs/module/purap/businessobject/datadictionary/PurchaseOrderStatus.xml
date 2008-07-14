@@ -48,7 +48,6 @@
 
   <bean id="PurchaseOrderStatus-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="statusDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Purchase Order Status Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

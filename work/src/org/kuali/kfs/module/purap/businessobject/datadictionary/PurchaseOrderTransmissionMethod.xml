@@ -50,7 +50,6 @@
 
   <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderTransmissionMethodDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Method of PO Transmission Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

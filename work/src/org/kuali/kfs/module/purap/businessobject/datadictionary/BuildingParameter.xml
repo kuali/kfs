@@ -53,7 +53,6 @@
 
   <bean id="BuildingParameter-buildingOverrideAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingOverrideAddressCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Override Address City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -117,7 +116,6 @@
 
   <bean id="BuildingParameter-buildingOverrideName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingOverrideName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Override Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -133,7 +131,6 @@
 
   <bean id="BuildingParameter-buildingOverrideStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingOverrideStreetAddress" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Building Override Street Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />

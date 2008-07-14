@@ -49,7 +49,6 @@
 
   <bean id="VendorStipulation-vendorStipulationName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorStipulationName" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Stipulation Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -66,7 +65,6 @@
 
   <bean id="VendorStipulation-vendorStipulationDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorStipulationDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Vendor Stipulation Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="4000" />

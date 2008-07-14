@@ -56,7 +56,6 @@
 
   <bean id="PurchaseOrderContractLanguage-purchaseOrderContractLanguageDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderContractLanguageDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Purchase Order Contract Language Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="2000" />

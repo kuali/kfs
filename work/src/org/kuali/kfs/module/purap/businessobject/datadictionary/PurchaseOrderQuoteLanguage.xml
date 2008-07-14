@@ -54,7 +54,6 @@
 
   <bean id="PurchaseOrderQuoteLanguage-purchaseOrderQuoteLanguageDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderQuoteLanguageDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Purchase Order Quote Language Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="2000" />

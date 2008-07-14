@@ -70,7 +70,6 @@
 
   <bean id="BillingAddress-billingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="billingName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Billing Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />

@@ -80,7 +80,6 @@
 
   <bean id="PurchaseOrderVendorStipulation-vendorStipulationDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorStipulationDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Note Text" />
     <property name="shortLabel" value="Note Text" />
     <property name="maxLength" value="4000" />

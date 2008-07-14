@@ -50,7 +50,6 @@
 
   <bean id="CapitalAssetSystemType-capitalAssetSystemTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetSystemTypeDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Capital Asset System Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

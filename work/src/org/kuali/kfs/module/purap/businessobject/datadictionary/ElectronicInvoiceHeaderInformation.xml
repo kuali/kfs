@@ -134,7 +134,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceAddressName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceAddressName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Address Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="100" />
@@ -234,7 +233,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceFileName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceFileName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice File Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
@@ -478,7 +476,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceItemShippingDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemShippingDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Shipping Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="300" />
@@ -591,7 +588,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceItemTaxDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceItemTaxDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Item Tax Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="300" />
@@ -720,7 +716,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceOrderReferenceDocumentReferenceText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceOrderReferenceDocumentReferenceText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Order Reference Document Reference Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="100" />
@@ -832,7 +827,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceShipToCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceShipToCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship To City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="200" />
@@ -912,7 +906,6 @@
 
   <bean id="ElectronicInvoiceHeaderInformation-invoiceShipToPostalCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceShipToPostalCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship To Postal Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="200" />

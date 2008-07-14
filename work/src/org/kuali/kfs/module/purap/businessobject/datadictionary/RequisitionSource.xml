@@ -49,7 +49,6 @@
 
   <bean id="RequisitionSource-requisitionSourceDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionSourceDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Source Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

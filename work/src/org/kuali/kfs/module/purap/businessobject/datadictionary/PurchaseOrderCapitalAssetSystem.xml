@@ -50,7 +50,6 @@
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetManufacturerName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Manufacturer Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -68,7 +67,6 @@
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetModelDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetModelDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Model Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
@@ -100,7 +98,6 @@
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetSystemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetSystemDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset System Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="4000" />

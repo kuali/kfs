@@ -350,7 +350,6 @@
 
   <bean id="PurchaseOrderAccount-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentLineDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Line Description" />
     <property name="shortLabel" value="Line Desc" />
     <property name="maxLength" value="40" />

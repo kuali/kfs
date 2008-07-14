@@ -95,7 +95,6 @@
 
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -131,7 +130,6 @@
 
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetLine1Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Line1 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />

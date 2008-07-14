@@ -59,7 +59,6 @@
 
   <bean id="ElectronicInvoiceRejectTypeCode-invoiceRejectReasonTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceRejectReasonTypeDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Reject Reason Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="60" />

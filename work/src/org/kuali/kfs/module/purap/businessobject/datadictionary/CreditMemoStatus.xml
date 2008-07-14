@@ -48,7 +48,6 @@
 
   <bean id="CreditMemoStatus-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="statusDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Credit Memo Status Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

@@ -51,7 +51,6 @@
 
   <bean id="ItemType-itemTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemTypeDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

@@ -67,7 +67,6 @@
 
   <bean id="ReceivingAddress-receivingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="receivingName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Receiving Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />

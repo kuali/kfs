@@ -158,7 +158,6 @@
 
   <bean id="PurApSummaryItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="4000" />
@@ -193,7 +192,6 @@
 
   <bean id="PurApSummaryItem-itemCapitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemCapitalAssetNoteText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Comments" />
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="800" />
@@ -244,7 +242,6 @@
 
   <bean id="PurApSummaryItem-externalOrganizationB2bProductTypeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="externalOrganizationB2bProductTypeName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="External OrganizationB2b Product Type Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="15" />

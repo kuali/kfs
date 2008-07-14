@@ -174,7 +174,6 @@
 
   <bean id="PurchaseOrderItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="4000" />
@@ -209,7 +208,6 @@
 
   <bean id="PurchaseOrderItem-itemCapitalAssetNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemCapitalAssetNoteText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Comments" />
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="800" />

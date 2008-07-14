@@ -64,12 +64,12 @@
 
   <bean id="ItemReasonAdded-itemReasonAddedDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemReasonAddedDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Item Reason Added Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" 
+      	p:allowWhitespace="true" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

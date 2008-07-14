@@ -90,7 +90,6 @@
 
   <bean id="ShipmentReceiving-deliveryBuildingLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryBuildingLine1Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery Building Line1 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -106,7 +105,6 @@
 
   <bean id="ShipmentReceiving-deliveryBuildingLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryBuildingLine2Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery Building Line2 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -122,7 +120,6 @@
 
   <bean id="ShipmentReceiving-deliveryBuildingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryBuildingName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery Building Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -170,7 +167,6 @@
 
   <bean id="ShipmentReceiving-deliveryCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -202,7 +198,6 @@
 
   <bean id="ShipmentReceiving-deliveryInstructionText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryInstructionText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery Instruction Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="255" />
@@ -267,7 +262,6 @@
 
   <bean id="ShipmentReceiving-deliveryToEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryToEmailAddress" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery To Email Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="100" />
@@ -283,7 +277,6 @@
 
   <bean id="ShipmentReceiving-deliveryToName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="deliveryToName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Delivery To Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -315,7 +308,6 @@
 
   <bean id="ShipmentReceiving-purchaseOrderGeneralDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderGeneralDescription" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order General Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="255" />
@@ -380,7 +372,6 @@
 
   <bean id="ShipmentReceiving-shipmentReceivingNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="shipmentReceivingNoteText" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Shipment Receiving Note Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="255" />
@@ -413,7 +404,6 @@
 
   <bean id="ShipmentReceiving-vendorCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorCityName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -445,7 +435,6 @@
 
   <bean id="ShipmentReceiving-vendorLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorLine1Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Line1 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -461,7 +450,6 @@
 
   <bean id="ShipmentReceiving-vendorLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorLine2Address" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Line2 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -477,7 +465,6 @@
 
   <bean id="ShipmentReceiving-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />

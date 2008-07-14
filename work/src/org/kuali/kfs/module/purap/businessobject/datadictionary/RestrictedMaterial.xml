@@ -52,7 +52,6 @@
 
   <bean id="RestrictedMaterial-restrictedMaterialDefaultDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="restrictedMaterialDefaultDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Restricted Material Default Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
@@ -69,7 +68,6 @@
 
   <bean id="RestrictedMaterial-restrictedMaterialDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="restrictedMaterialDescription" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Restricted Material Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />

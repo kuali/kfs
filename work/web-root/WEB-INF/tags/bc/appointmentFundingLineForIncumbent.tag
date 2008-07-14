@@ -139,7 +139,7 @@
 			boClassSimpleName="SubObjCd"
 			readOnly="${hasBeenAdded}"
 			displayHidden="false"
-			lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
+			lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
 			accountingLineValuesMap="${fundingLine.valuesMap}"
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />
 		

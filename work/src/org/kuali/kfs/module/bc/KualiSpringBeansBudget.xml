@@ -157,6 +157,9 @@
 		<property name="budgetDocumentService">
 			<ref bean="budgetDocumentService" />
 		</property>
+		<property name="benefitsCalculationService">
+			<ref bean="benefitsCalculationService" />
+		</property>
 	</bean>
 
 	<bean id="benefitsCalculationService" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl">
@@ -703,7 +706,7 @@
     
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.kfs.module.bc.document.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>
-    
+        
     <bean id="budgetConstructionGeneralLedgerLoadBatchStep" class="org.kuali.kfs.module.bc.batch.BudgetConstructionGeneralLedgerLoadBatchStep" parent="step"> </bean>
         
     <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step"> </bean>

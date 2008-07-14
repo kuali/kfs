@@ -219,10 +219,10 @@ public class BCConstants extends JSTLConstants {
         public final static String INCOME_EXP_TYPE_E = "E";
         public final static String INCOME_EXP_TYPE_T = "T";
         public final static String INCOME_EXP_TYPE_X = "X";
-        public final static String VACANT = "VACANT";
-        public final static String BLANK_SUB_OBJECT_CODE = "---";
-        public final static String BLANK = "";
-        public final static String DASHES_SUB_ACCOUNT_CODE = "-----";
+        public final static String VACANT = VACANT_EMPLID;
+        public final static String BLANK_SUB_OBJECT_CODE = DASH_SUB_OBJECT_CODE;
+        public final static String BLANK = KFSConstants.EMPTY_STRING;
+        public final static String DASHES_SUB_ACCOUNT_CODE = DASH_SUB_ACCOUNT_NUMBER;
         public final static String DELETE_MARK = "*";
         public final static String DIVIDER = "/";
         public final static String TOTAL_REVENUES = "Total Revenues";

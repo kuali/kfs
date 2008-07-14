@@ -12,15 +12,33 @@
       <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <attributes>
+        <attribute>        
+          <name>KualiCustomerCreditMemoDocumentInvoiceNumber</name>
+        </attribute>      
         <attribute>
-          <name>KualiCustomerCreditMemoDocumentCustomerNumber</name>
+          <name>KualiCustomerCreditMemoDocumentBillingCOA</name>
         </attribute>
         <attribute>
           <name>KualiCustomerCreditMemoDocumentBillingOrganization</name>
         </attribute>
         <attribute>
-          <name>KualiCustomerCreditMemoDocumentInvoiceNumber</name>
+          <name>KualiCustomerCreditMemoDocumentProcessingCOA</name>
         </attribute>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocumentProcessingOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocumentCustomerNumber</name>
+        </attribute>        
+        <attribute>        
+          <name>KualiCustomerCreditMemoDocumentItemCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocumentAmount</name>
+        </attribute>
+        <attribute>
+          <name>KualiCustomerCreditMemoDocSearchResultProcessor</name>
+        </attribute>         
       </attributes>
       <policies>
         <policy>

@@ -33,8 +33,6 @@
     <property name="attributes" >
       <list>                                 
         <ref bean="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" />
-        <ref bean="CustomerCreditMemoDocument-billByChartOfAccountCode" />
-        <ref bean="CustomerCreditMemoDocument-billedByOrganizationCode" />
         <ref bean="CustomerCreditMemoDocument-crmTotalItemAmount" />
         <ref bean="CustomerCreditMemoDocument-crmTotalTaxAmount" />
         <ref bean="CustomerCreditMemoDocument-crmTotalAmount" />
@@ -60,25 +58,6 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Special Processing Instructions" />
-  </bean>
-  
-  <bean id="CustomerCreditMemoDocument-billByChartOfAccountCode" parent="CustomerCreditMemoDocument-billByChartOfAccountCode-parentBean" />
-  <bean id="CustomerCreditMemoDocument-billByChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="billByChartOfAccountCode" />
-    <property name="label" value="Billing Chart Code" />
-    <property name="shortLabel" value="Billing Chart" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  
-  <bean id="CustomerCreditMemoDocument-billedByOrganizationCode" parent="CustomerCreditMemoDocument-billedByOrganizationCode-parentBean" />
-  <bean id="CustomerCreditMemoDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Org-organizationCode">
-    <property name="name" value="billedByOrganizationCode" />
-    <property name="label" value="Billing Organization Code" />
-    <property name="shortLabel" value="Billing Org Code" />
   </bean>
   
   <bean id="CustomerCreditMemoDocument-crmTotalItemAmount" parent="CustomerCreditMemoDocument-crmTotalItemAmount-parentBean" />

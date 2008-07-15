@@ -129,6 +129,8 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE = "error.purchaseOrder.split.atLeastOneItem.mustMove";
     public static final String ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN = "error.purchaseOrder.split.atLeastOneItem.mustRemain";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NO_VENDOR = "error.purchaseOrder.quoteList.no.vendor";
+    public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR = "error.purchaseOrder.quoteList.nonExistence.vendor";
+    public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_MORE_THAN_ONE_VENDOR = "error.purchaseOrder.quoteList.moreThanOne.vendor";
     
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";

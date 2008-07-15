@@ -52,9 +52,6 @@
 
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
     <property name="name" value="vendorDetail.vendorName" />
-    <property name="control" >
-      <bean parent="LookupReadonlyControlDefinition" />
-    </property>
   </bean>
   
     <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" />

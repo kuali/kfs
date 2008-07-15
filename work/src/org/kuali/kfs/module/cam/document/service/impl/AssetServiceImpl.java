@@ -169,13 +169,11 @@ public class AssetServiceImpl implements AssetService {
         
         String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
 
-        boolean result=false;
-        try {
-            documentLockingService.checkForLockingDocument(lockingDocumentId);
-        } catch (ValidationException ve) {
-            result=true;
+        if (documentLockingService.checkForLockingDocument(lockingDocumentId)) {
+            return true;
         }
-        return result;
+
+        return false;
     }
 
     /**

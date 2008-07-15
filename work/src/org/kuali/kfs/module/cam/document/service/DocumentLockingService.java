@@ -44,7 +44,8 @@ public interface DocumentLockingService {
      * Adds error message to global ErrorMap showing the docHeaderId that is blocking. 
      * @see org.kuali.core.document.MaintenanceDocumentBase#checkForLockingDocument(java.lang.String)
      * @param docHeaderId of blocking document
+     * @return whether it's locked or not
      */
-    public void checkForLockingDocument(String blockingDocId);
+    public boolean checkForLockingDocument(String blockingDocId);
     
 }

@@ -24,7 +24,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -59,6 +58,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryLoadServiceImpl.class);
 
     private static final int MAX_NUMBER_OF_COLUMNS = 9;
+    private static final String DOCUMENT_EXPLANATION="BARCODE ERROR INVENTORY";
 
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
@@ -76,6 +76,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
         BufferedReader input = null;
 
+        // Getting the length of each field that needs to be validated
         Integer campusTagNumberMaxLength = dataDictionaryService.getAttributeMaxLength(Asset.class, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
         Integer inventoryScannedCodeMaxLength = new Integer(1);
         Integer InventoryDateMaxLength = dataDictionaryService.getAttributeMaxLength(BarcodeInventoryErrorDetail.class, CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE);
@@ -85,6 +86,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         Integer buildingSubRoomNumberMaxLength = dataDictionaryService.getAttributeMaxLength(Asset.class, CamsPropertyConstants.Asset.BUILDING_SUB_ROOM_NUMBER);
         Integer conditionCodeMaxLength = dataDictionaryService.getAttributeMaxLength(Asset.class, CamsPropertyConstants.Asset.CONDITION_CODE);
 
+        //Getting the label of each field from data dictionary.
         String campusTagNumberLabel= dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
         String inventoryScannedCodeLabel = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.BarcodeInventory.UPLOAD_SCAN_INDICATOR);
         String InventoryDateLabel = dataDictionaryService.getAttributeLabel(BarcodeInventoryErrorDetail.class, CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE);
@@ -108,7 +110,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 recordCount++;
                 errorMsg = "";
                 line = StringUtils.remove(line, "\"");
-                //LOG.info("Reading asset barcode inventory record number " + recordCount);
 
                 String[] column = org.springframework.util.StringUtils.delimitedListToStringArray(line, ",");
 
@@ -120,6 +121,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                     errorMsg += "  Barcode inventory file has record(s) with less than " + MAX_NUMBER_OF_COLUMNS + " columns\n";
                     proceed=false;
                 } else {
+
+                    //Validating length of each field
                     if (column[0].length() > campusTagNumberMaxLength.intValue()) {
                         errorMsg += ", "+campusTagNumberLabel;
                     }
@@ -225,6 +228,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 line = StringUtils.remove(line, "\"");
                 String[] lineStrings = org.springframework.util.StringUtils.delimitedListToStringArray(line, ",");
 
+                //Parsing date so it can be validated.
                 lineStrings[2]=StringUtils.rightPad(lineStrings[2].trim(), 14, "0");
 
                 day = lineStrings[2].substring(0, 2);
@@ -236,6 +240,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
                 String stringDate = month + "/" + day + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
                 Timestamp timestamp=null;
+
                 //If date has invalid format set its value to null
                 try {
                     timestamp = new Timestamp(formatter.parse(stringDate).getTime());
@@ -269,7 +274,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             //Removing *.done files that are created automatically by the framework.
             this.removeDoneFile(file);
-            
+
             return true;
         }
         catch (FileNotFoundException e1) {
@@ -304,12 +309,12 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     private void removeDoneFile(File file) {
         String filePath=file.getAbsolutePath();
         File doneFile = new File(StringUtils.substringBeforeLast(filePath, ".") + ".done");
-        
+
         if (doneFile.exists()) {
             doneFile.delete();
         }
     }
-    
+
     /**
      *
      * This method invokes the rules in order to validate each records of the barcode file and invokes the method that
@@ -317,11 +322,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param barcodeInventoryErrorDetails
      */
-    private void processBarcodeInventory(BarcodeInventoryErrorDocument barcodeInventoryErrorDocument) throws Exception {
+    public void processBarcodeInventory(BarcodeInventoryErrorDocument barcodeInventoryErrorDocument) throws Exception {
         int totalRecordCount=0;
         int invalidRecordCount=0;
         Long lineNumber = new Long(0);
-        
+
         // apply rules for the new cash control detail
         kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", barcodeInventoryErrorDocument));
 
@@ -341,12 +346,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 invalidRecordCount++;
             }
         }
-
-        /*
-         * Deleting any error generated when invoking the rule class, because we only need to display the errors in the
-         * barcode inventory error document page
-         */
-        GlobalVariables.getErrorMap().clear();
 
         //Adding the messages that inform the user how many records were uploaded
         //GlobalVariables.getErrorMap().putError(CamsConstants.DOCUMENT_PATH+"."+CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.BarcodeInventory.MESSAGE_UPLOAD_RECCOUNT,new Integer(totalRecordCount).toString());
@@ -369,7 +368,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param barcodeInventoryErrorDetail
      */
     public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail) {
-        //LOG.info("***updateAssetInformation - update - Start");
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, barcodeInventoryErrorDetail.getAssetTagNumber());
         Asset asset = ((List<Asset>)businessObjectService.findMatching(Asset.class, fieldValues)).get(0);
@@ -382,7 +380,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
         //Updating asset information
         businessObjectService.save(asset);
-        //LOG.info("***updateAssetInformation - update - End");
     }
 
     /**
@@ -394,13 +391,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      */
     private BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) throws Exception {
         String documentTypeCode;
-        //BarcodeInventoryErrorDocument barcodeInventoryErrorDocument = new BarcodeInventoryErrorDocument();
         BarcodeInventoryErrorDocument document;
         try {
-            //KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("BarcodeInventoryErrorDocument", GlobalVariables.getUserSession().getUniversalUser());
-            //KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(new Long(318640), GlobalVariables.getUserSession().getUniversalUser());
-
-
             document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
 
             //TODO this might look unnecessary, but the normal way is giving me an exception.
@@ -415,62 +407,18 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 //LOG.info("**** WORKFLOW DOCUMENT TYPE:"+document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                 GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
             }
-            //*****************************************************************************
 
-            /*LOG.info(document.getDocumentHeader().getWorkflowDocument());
-            LOG.info("*************");*/
-
-
-            //FinancialSystemDocumentHeader documentHeader = new DocumentHeader();
-            //documentHeader.setWorkflowDocument(workflowDocument);
-            //documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
-            //documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
-
-            //TODO put in constants the description
-            document.getDocumentHeader().setExplanation("BARCODE ERROR INVENTORY");
+            document.getDocumentHeader().setExplanation(DOCUMENT_EXPLANATION);
             document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
-            document.getDocumentHeader().setDocumentDescription("BARCODE ERROR INVENTORY");
+            document.getDocumentHeader().setDocumentDescription(DOCUMENT_EXPLANATION);
             document.getDocumentHeader().setDocumentNumber(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
 
-            // **************************************************************************************************
-            // Create a new document header object
-            // **************************************************************************************************
-            /*FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
-            documentHeader.setWorkflowDocument(workflowDocument);
-            documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
-            documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
-            documentHeader.setExplanation("BARCODE ERROR INVENTORY");
-            documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
-            documentHeader.setDocumentDescription("BARCODE ERROR INVENTORY");
-
-            barcodeInventoryErrorDocument.setDocumentHeader(documentHeader);
-            barcodeInventoryErrorDocument.setDocumentNumber(documentHeader.getDocumentNumber());
-            barcodeInventoryErrorDocument.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-            barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-             */
             document.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
             document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-
-            /*
-            Properties parameters = new Properties();
-            parameters.put(KNSConstants.PARAMETER_DOC_ID, document.getDocumentHeader().getDocumentNumber());
-            parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-
-            String url = UrlFactory.parameterizeUrl(
-                    SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY)
-                    + "/" + KNSConstants.DOC_HANDLER_ACTION, parameters);
-
-            String[] errorParameters = { url, document.getDocumentHeader().getDocumentNumber()};
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarCodeInventory.MESSAGE_DOCUMENT_URL, errorParameters);
-             */
-            //GlobalVariables.getMessageList().add("Document "+documentHeader.getDocumentNumber()+" has been succesfully saved.");
         } catch (Exception e) {
             LOG.error("createInvalidBarcodeInventoryDocument - error:", e);
             throw e;
         }
-
-        //LOG.debug("end");
-        //return barcodeInventoryErrorDocument;
         return document;
     }
 
@@ -481,11 +429,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param document
      */
     private void saveInvalidBarcodeInventoryDocument(BarcodeInventoryErrorDocument document) {
-        //this.businessObjectService.save(document);
         try {
-            //Errors are being deleted because the service makes sure there are not errors before it tries to save
-            GlobalVariables.getErrorMap().clear();
+            //The errors are being deleted because, when the document services finds any error then, changes are not saved. 
+            GlobalVariables.clear();
 
+            //Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
         }
         catch (Exception e) {

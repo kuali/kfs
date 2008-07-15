@@ -77,7 +77,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String MERGE_SEPARATE_RETIREMENT_REASONS = "MERGE_SEPARATE_RETIREMENT_REASONS";
         public static final String RAZE_RETIREMENT_REASONS = "RAZE_RETIREMENT_REASONS";
         public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
-        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS="BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS";
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS="IGNORES_LOCKS_IND";
     }
 
     public static class Report {

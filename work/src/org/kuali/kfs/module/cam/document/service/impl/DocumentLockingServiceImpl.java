@@ -64,13 +64,13 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.DocumentLockingService#checkForLockingDocument(java.lang.String)
      */
-    public void checkForLockingDocument(String blockingDocId) {
+    public boolean checkForLockingDocument(String blockingDocId) throws ValidationException {
 
         LOG.info("starting checkForLockingDocument");
 
         // if we got nothing, then no docs are blocking, and we're done
         if (StringUtils.isBlank(blockingDocId)) {
-            return;
+            return false;
         }
 
         if ( LOG.isInfoEnabled() ) {
@@ -88,7 +88,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
 
         // if we can ignore the lock (see method notes), then exit cause we're done
         if (lockCanBeIgnored(lockedDocument)) {
-            return;
+            return false;
         }
 
         // build the link URL for the blocking document. Better to use DocHandler because this could be
@@ -109,7 +109,7 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
         String[] errorParameters = { blockingUrl, blockingDocId };
         GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
 
-        throw new ValidationException("Record is locked by another document.");
+        return true;
     }
     
     /**

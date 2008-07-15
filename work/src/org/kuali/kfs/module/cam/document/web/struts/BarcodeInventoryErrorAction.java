@@ -61,13 +61,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private static final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-     *
-    @Override
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-    }*/
-
-    /**
      * Adds handling for cash control detail amount updates.
      * 
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
@@ -92,9 +85,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
-
-        //To validate all rows
-//        document.setBarcodeInventoryErrorSelectedRows(true);
 
         this.invokeRules(document);
     }
@@ -159,7 +149,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         int selectedCheckboxes[]= barcodeInventoryErrorForm.getRowCheckbox();
         
-        if (!(selectedCheckboxes == null)) {
+        if (selectedCheckboxes != null) {
             this.invokeRules(document);
             barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail(); 
             for(int i=0;i<selectedCheckboxes.length;i++) {          
@@ -172,7 +162,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                     }
                 }
             }
-
             this.save(mapping, form, request, response);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);                
@@ -206,8 +195,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 }
 
             }
-            this.loadDocument((KualiDocumentFormBase)form);
         }
+        this.loadDocument((KualiDocumentFormBase)form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

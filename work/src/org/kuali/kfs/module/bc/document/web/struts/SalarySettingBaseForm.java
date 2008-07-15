@@ -56,6 +56,8 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     private boolean budgetByAccountMode;
     private boolean orgSalSetClose = false;
+    
+    public SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
     /**
      * get the refresh caller name of the current form
@@ -86,11 +88,15 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public void postProcessBCAFLines() {
         this.populateBCAFLines();
+        
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
-            boolean vacatable = SpringContext.getBean(SalarySettingService.class).canBeVacant(appointmentFundings, appointmentFunding);
+            boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
+            
+            salarySettingService.updateAppointmentFundingByUserLevel(appointmentFunding, kualiUser.getPersonUniversalIdentifier());
         }
 
         DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);

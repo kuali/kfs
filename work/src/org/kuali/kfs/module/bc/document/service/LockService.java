@@ -58,7 +58,7 @@ public interface LockService {
      * @return Returns true if locked, false if not locked or not found in the database
      */
     public boolean isAccountLocked(BudgetConstructionHeader bcHeader);
-    
+
     /**
      * Checks the given user has an account lock for the given document.
      * 
@@ -70,7 +70,7 @@ public interface LockService {
      * @return true if locked, false if not locked or not found in the database
      */
     public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
-    
+
     /**
      * This method attempts to unlock the given BudgetConstructionHeader.
      * 
@@ -121,7 +121,7 @@ public interface LockService {
      * @return true if locked, false if not locked or not found in the database
      */
     public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
-    
+
     /**
      * This locks the position, meaning it sets the position lock id field with the puid. Finding the position already locked by the
      * same user simply returns success.
@@ -142,17 +142,17 @@ public interface LockService {
      * @return true or false (not locked or BudgetConstructionPosition not found)
      */
     public boolean isPositionLocked(String positionNumber, Integer fiscalYear);
-    
+
     /**
      * Checks the given user has an position lock for the given position number.
-     *
+     * 
      * @param positionNumber - position number of position record
      * @param fiscalYear - fiscal year of position record
      * @param personUserIdentifier - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
     public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUserIdentifier);
-    
+
     /**
      * Checks the given user has an position/funding lock for the given position number and accounting key.
      * 
@@ -165,7 +165,7 @@ public interface LockService {
      * @return true if locked, false if not locked or not found in the database
      */
     public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
-    
+
     /**
      * This removes an existing positionlock
      * 
@@ -212,7 +212,7 @@ public interface LockService {
      * @return true if locked, false if not locked or not found in the database
      */
     public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUserIdentifier);
-    
+
     /**
      * This removes an existing transactionlock for a BC EDoc (account).
      * 
@@ -265,7 +265,7 @@ public interface LockService {
      * @return positions that are locked.
      */
     public List<BudgetConstructionPosition> getOrphanedPositionLocks(String lockUnivId);
-    
+
     /**
      * Helper method to check if a lock exists for the given parameters.
      * 
@@ -273,7 +273,7 @@ public interface LockService {
      * @return boolean true if lock exists, false otherwise
      */
     public boolean checkLockExists(BudgetConstructionLockSummary lockSummary);
-    
+
     /**
      * Helper method to check the lock type and do the unlock with the lock summary fields.
      * 
@@ -281,4 +281,13 @@ public interface LockService {
      * @return LockStatus.SUCCESS, NO_DOOR (not found), OPTIMISTIC_EX (lost optimistic lock)
      */
     public LockStatus doUnlock(BudgetConstructionLockSummary lockSummary);
+
+    /**
+     * determine whether the account lock on the given budget document is held by the the specified user
+     * 
+     * @param budgetConstructionHeader the given budget document
+     * @param personUserIdentifier the specified user
+     * @return true if the account lock on the given budget document is held by the the specified user; otherwise, false
+     */
+    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier);
 }

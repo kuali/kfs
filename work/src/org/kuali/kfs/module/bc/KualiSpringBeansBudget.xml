@@ -165,7 +165,10 @@
 		</property>
 		<property name="permissionService">
 			<ref bean="permissionService" />
-		</property>		
+		</property>	
+		<property name="lockService">
+			<ref bean="lockService" />
+		</property>				
 	</bean>
 
 	<bean id="benefitsCalculationService" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl">

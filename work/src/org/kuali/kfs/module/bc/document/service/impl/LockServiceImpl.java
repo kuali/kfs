@@ -115,12 +115,7 @@ public class LockServiceImpl implements LockService {
 
         BudgetConstructionHeader freshBcHeader = budgetConstructionDao.getByCandidateKey(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
         if (freshBcHeader != null) {
-            if (freshBcHeader.getBudgetLockUserIdentifier() != null) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return freshBcHeader.getBudgetLockUserIdentifier() != null;
         }
         else {
             return false; // TODO should return not found or throw exception
@@ -618,7 +613,18 @@ public class LockServiceImpl implements LockService {
         
         return LockStatus.NO_DOOR;
     }
-
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader, java.lang.String)
+     */
+    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
+        String chartOfAccountsCode = budgetConstructionHeader.getChartOfAccountsCode();
+        String accountNumber = budgetConstructionHeader.getAccountNumber();
+        String subAccountNumber = budgetConstructionHeader.getSubAccountNumber();
+        Integer fiscalYear = budgetConstructionHeader.getUniversityFiscalYear();
+        return this.isAccountLockedByUser(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, personUserIdentifier);
+    }
+    
     public void setBudgetConstructionDao(BudgetConstructionDao bcHeaderDao) {
         this.budgetConstructionDao = bcHeaderDao;
     }
@@ -631,5 +637,4 @@ public class LockServiceImpl implements LockService {
     public void setBudgetConstructionLockDao(BudgetConstructionLockDao budgetConstructionLockDao) {
         this.budgetConstructionLockDao = budgetConstructionLockDao;
     }
-
 }

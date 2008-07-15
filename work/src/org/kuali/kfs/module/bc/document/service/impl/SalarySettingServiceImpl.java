@@ -49,6 +49,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
@@ -56,6 +57,7 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -73,6 +75,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private BudgetDocumentService budgetDocumentService;
     private BenefitsCalculationService benefitsCalculationService;
     private PermissionService permissionService;
+    private LockService lockService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#getDisabled()
@@ -497,7 +500,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // account manager or delegate could edit the appointment funding if the document is in the beginning level
         if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
             appointmentFunding.setDisplayOnlyMode(false);
-            return this.updateFundingLockArray();
+            return this.acquireFundingLock(budgetConstructionHeader, personUserIdentifier);
         }
 
         List<Org> organazationReviewHierachy = this.getOrganizationReviewHierachy(personUserIdentifier);
@@ -521,7 +524,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             }
             else {
                 appointmentFunding.setDisplayOnlyMode(false);
-                return this.updateFundingLockArray();
+                return this.acquireFundingLock(budgetConstructionHeader, personUserIdentifier);
             }
         }
 
@@ -595,9 +598,22 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
     }
 
-    private boolean updateFundingLockArray() {
-        // TODO Auto-generated method stub
-        return false;
+    /**
+     * acquire funding lock on the given budget document
+     * 
+     * @param budgetConstructionHeader the given budget document
+     * @param personUserIdentifier the specified user
+     * @return true if the funding lock is acquired successfully or the user has the lock already; otherwise, false
+     */
+    private boolean acquireFundingLock(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
+        // allow a user back into the system if attempting to do the same type of lock
+        boolean lockByCurrentuser = lockService.isAccountLockedByUser(budgetConstructionHeader, personUserIdentifier);
+        if (lockByCurrentuser) {
+            return true;
+        }
+
+        BudgetConstructionLockStatus lockStatus = lockService.lockFunding(budgetConstructionHeader, personUserIdentifier);
+        return lockStatus != null && LockStatus.SUCCESS.equals(lockStatus.getLockStatus());
     }
 
     /**
@@ -852,5 +868,14 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
+    }
+
+    /**
+     * Sets the lockService attribute value.
+     * 
+     * @param lockService The lockService to set.
+     */
+    public void setLockService(LockService lockService) {
+        this.lockService = lockService;
     }
 }

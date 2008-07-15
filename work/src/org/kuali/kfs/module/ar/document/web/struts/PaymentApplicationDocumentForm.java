@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
@@ -31,6 +28,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
@@ -39,21 +37,23 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     
     private String customerNumber;
     private String selectedInvoiceDocumentNumber;
-    private Collection<NonAppliedHolding> nonAppliedHoldings;
+    private KualiDecimal unappliedCustomerAmount;
     
     private CustomerService customerService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private BusinessObjectService businessObjectService;
     private PaymentApplicationDocumentService paymentApplicationDocumentService;
+    private NonAppliedHoldingService nonAppliedHoldingService;
 
     public PaymentApplicationDocumentForm() {
         super();
         setDocument(new PaymentApplicationDocument());
+        
         customerService = SpringContext.getBean(CustomerService.class);
         customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
-        nonAppliedHoldings = new ArrayList<NonAppliedHolding>();
+        nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
     }
     
     /**
@@ -209,16 +209,8 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(boolean refresh) {
-        
-        boolean trap = true;
-        if((refresh || nonAppliedHoldings.isEmpty()) && null != getCustomer()) {
-            Map args = new HashMap();
-            args.put("customerNumber", getCustomer().getCustomerNumber());
-            nonAppliedHoldings = businessObjectService.findMatching(NonAppliedHolding.class, args);
-        }
-        
-        return nonAppliedHoldings;
+    public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer() {
+        return nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(getCustomerNumber());
     }
 
     /**
@@ -241,14 +233,7 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
     public KualiDecimal getBalanceForSelectedInvoiceDocument() {
         return customerInvoiceDocumentService.getBalanceForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
     }
-    
-    /**
-     * @return
-     */
-    public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer() {
-        return getNonAppliedHoldingsForCustomer(false);
-    }
-    
+
     public String getCustomerNumber() {
         return customerNumber;
     }
@@ -275,5 +260,9 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
 
     public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService service) {
         this.paymentApplicationDocumentService = service;
+    }
+    
+    public void setNonAppliedHoldingService(NonAppliedHoldingService service) {
+        this.nonAppliedHoldingService = service;
     }
 }

@@ -19,7 +19,11 @@
 <c:set var="paymentApplicationDocumentAttributes" value="${DataDictionary['PaymentApplicationDocument'].attributes}" />
 <c:set var="invoiceAttributes" value="${DataDictionary['CustomerInvoiceDocument'].attributes}" />
 <c:set var="customerAttributes" value="${DataDictionary['Customer'].attributes}" />
+<c:set var="unappliedAttributes" value="${DataDictionary['NonAppliedHolding'].attributes}" />
 <c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="hasRelatedCashControlDocument" value="${null != KualiForm.cashControlDocumentForPaymentApplicationDocument}" />
+<c:set var="cashControlDocument" value="${KualiForm.cashControlDocumentForPaymentApplicationDocument}" />
+<c:set var="isCustomerSelected" value="${!empty KualiForm.customerNumber}" />
 
 <kul:documentPage showDocumentInfo="true"
   documentTypeName="PaymentApplicationDocument"
@@ -30,13 +34,13 @@
 
   <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
-  <kul:tab tabTitle="Control Information" defaultOpen="true"
+  <kul:tab tabTitle="Control Information" defaultOpen="${hasRelatedCashControlDocument}"
     tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
     
     <div class="tab-container" align="center">
     	
     	<c:choose>
-    		<c:when test="${null == document.accountsReceivableDocumentHeader}">
+    		<c:when test="${!hasRelatedCashControlDocument}">
     			No related Cash Control Document.
     		</c:when>
     		<c:otherwise>
@@ -52,19 +56,19 @@
 		          </tr>
 		          <tr>
 		          	<th>Customer</th>
-		          	<td>&nbsp;</td>
+		          	<td>${KualiForm.customer.customerNumber}</td>
 		          </tr>
 		          <tr>
 		          	<th>Control Total</th>
-		          	<td>&nbsp;</td>
+		          	<td>${cashControlDocument.cashControlTotalAmount}</td>
 		          </tr>
 		          <tr>
 		          	<th>Balance</th>
-		          	<td>&nbsp;</td>
+		          	<td>TODO</td>
 		          </tr>
 		          <tr>
 		          	<th>Payment #</th>
-		          	<td>&nbsp;</td>
+		          	<td>TODO</td>
 		          </tr>
 		        </table>
 		      </div>
@@ -84,14 +88,14 @@
     }
   </script>
 
-	<kul:tab tabTitle="Summary of Applied Funds" defaultOpen="true"
+	<kul:tab tabTitle="Summary of Applied Funds" defaultOpen="${isCustomerSelected}"
 		tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
 	    <div class="tab-container" align="center">
 		    <c:choose>
-		    	<c:when test="${empty KualiForm.customerNumber}">
+		    	<c:when test="${!isCustomerSelected}">
 		    		No Customer Selected
 		    	</c:when>
-		    	<c:otherwise>
+	    		<c:otherwise>
 					<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 						<tr>
 							<td style='vertical-align: top;' colspan='2'>
@@ -135,17 +139,25 @@
 							<td valign='top'>
 					        	<table class='datatable'>
 									<tr>
-										<th class='tab-subhead'>Total Unapplied Funds</th>
-										<th class='tab-subhead'>Cash Control</th>
-										<th class='tab-subhead'>Unapplied Funds to be Applied</th>
-										<th class='tab-subhead'>Total to be Applied</th>
+										<c:if test="${!hasRelatedCashControlDocument and 0 lt KualiForm.document.totalUnappliedFunds}">
+											<th class='tab-subhead'>Total Unapplied Funds</th>
+											<th class='tab-subhead'>Unapplied Funds to be Applied</th>
+										</c:if>
+										<c:if test="${hasRelatedCashControlDocument}">
+											<th class='tab-subhead'>Cash Control</th>
+											<th class='tab-subhead'>Total to be Applied</th>
+										</c:if>
 										<th class='tab-subhead'>Applied Amount</th>
 									</tr>
 									<tr>
-										<td>$<c:out value="${KualiForm.document.totalUnappliedFunds}"/></td>
-										<td>$<c:out value="${KualiForm.cashControlTotalForPaymentApplicationDocument}"/></td>
-										<td>$<c:out value="${KualiForm.document.totalUnappliedFundsToBeApplied}"/></td>
-										<td>$<c:out value="${KualiForm.document.totalToBeApplied}"/></td>
+										<c:if test="${!hasRelatedCashControlDocument and 0 lt KualiForm.document.totalUnappliedFunds}">
+											<td>$<c:out value="${KualiForm.document.totalUnappliedFunds}"/></td>
+											<td>$<c:out value="${KualiForm.document.totalUnappliedFundsToBeApplied}"/></td>
+										</c:if>
+										<c:if test="${hasRelatedCashControlDocument}">
+											<td>$<c:out value="${KualiForm.cashControlTotalForPaymentApplicationDocument}"/></td>
+											<td>$<c:out value="${KualiForm.document.totalToBeApplied}"/></td>
+										</c:if>
 										<td>$<c:out value="${KualiForm.document.totalAppliedAmount}"/></td>
 									</tr>
 								</table>
@@ -157,7 +169,7 @@
 	    </div>
 	</kul:tab>
   
-	<kul:tab tabTitle="Quick Apply to Invoice" defaultOpen="true"
+	<kul:tab tabTitle="Quick Apply to Invoice" defaultOpen="${isCustomerSelected}"
 		tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
 		<div class="tab-container" align="center">
 		
@@ -166,7 +178,7 @@
 		      		No Customer Selected
 		      	</c:when>
 		      	<c:otherwise>
-					<table width="100%" cellpadding="0" celspacing="0" class="datatable">
+					<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 						<tr>
 					   		<th>Invoice Number</th>
 					   		<th>Open Amount</th>
@@ -202,7 +214,6 @@
 		        	<th>Customer</th>
 					<td>
 						<kul:htmlControlAttribute
-						    
 							attributeEntry="${customerAttributes.customerNumber}"
 							property="customerNumber"
 							readOnly="${readOnly}" />
@@ -456,68 +467,73 @@
 		</div>
 	</kul:tab>
 
-  <kul:tab tabTitle="Non-AR" defaultOpen="true"
-    tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
+	<kul:tab tabTitle="Non-AR" defaultOpen="true"
+		tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
     
-    <div class="tab-container" align="center">
-      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-        <tr>
-        	<th>Chart</th>
-        	<th>Account</th>
-        	<th>Sacc</th>
-        	<th>Object</th>
-        	<th>Sobj</th>
-        	<th>Project</th>
-        	<th>Amount</th>
-        </tr>
-        <tr>
-        	<td><input type='text' size=''></td>
-        	<td><input type='text' size=''></td>
-        	<td><input type='text' size=''></td>
-        	<td><input type='text' size=''></td>
-        	<td><input type='text' size=''></td>
-        	<td><input type='text' size=''></td>
-        	<td><input type='text' size=''></td>
-        </tr>
-        <tr>
-        	<td colspan='5'>&nbsp;</td>
-        	<th>Non-AR Total</th>
-        	<td> <input type='text' name='nonartotal'></td>
-        </tr>
-      </table>
-    </div>
-    
-  </kul:tab>
+		<div class="tab-container" align="center">
+			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+				<tr>
+					<th>Chart</th>
+					<th>Account</th>
+					<th>Sacc</th>
+					<th>Object</th>
+					<th>Sobj</th>
+					<th>Project</th>
+					<th>Amount</th>
+				</tr>
+				<tr>
+					<td><input type='text' size=''></td>
+					<td><input type='text' size=''></td>
+					<td><input type='text' size=''></td>
+					<td><input type='text' size=''></td>
+					<td><input type='text' size=''></td>
+					<td><input type='text' size=''></td>
+					<td><input type='text' size=''></td>
+				</tr>
+				<tr>
+					<td colspan='5'>&nbsp;</td>
+					<th>Non-AR Total</th>
+					<td> <input type='text' name='nonartotal'></td>
+				</tr>
+			</table>
+		</div>
+	</kul:tab>
 
-  <kul:tab tabTitle="Unapplied" defaultOpen="true"
-    tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
-    <div class="tab-container" align="center">
-      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-        <tr>
-        	<th><label for=''>Customer</label></th>
-        	<td><select>
-        		<option value='0'>Some Really Long Customer Name 0</option>
-        		<option value='1'>Some Really Long Customer Name 1</option>
-        		<option value='2'>Some Really Long Customer Name 2</option>
-        		<option value='3'>Some Really Long Customer Name 3</option>
-        		<option value='4'>Some Really Long Customer Name 4</option>
-        	</select></td>
-        	<th><label for=''>Amount</label></th>
-        	<td><input type='text' name='' value=''></td>
-    	</tr>
-	  </table>
-    </div>
-  </kul:tab>
+	<kul:tab tabTitle="Unapplied" defaultOpen="true"
+		tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
+		<div class="tab-container" align="center">
+			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+				<tr>
+					<th><label for=''>Customer</label></th>
+					<td>
+						<kul:htmlControlAttribute
+							attributeEntry="${customerAttributes.customerNumber}"
+							property="document.nonAppliedHolding.customerNumber"
+							readOnly="${readOnly}" />
+						<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
+							fieldConversions="document.nonAppliedHolding.customerNumber:customer.customerNumber" />
+					</td>
+					<th><label for=''>Amount</label></th>
+					<td>
+						<kul:htmlControlAttribute
+							attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
+							property="document.nonAppliedHolding.financialDocumentLineAmount"
+							readOnly="${readOnly}" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</kul:tab>
 
-  <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
-    noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
+	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
+		noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 
-  <kul:adHocRecipients />
-
-  <kul:routeLog />
-
-  <kul:panelFooter />
-
-  <kfs:documentControls transactionalDocument="true" />
+	<kul:adHocRecipients />
+	
+	<kul:routeLog />
+	
+	<kul:panelFooter />
+	
+	<kfs:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

@@ -97,7 +97,13 @@
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService"/>
 		</property>
-	</bean>	
+	</bean>
+	
+	<bean id="nonAppliedHoldingService" class="org.kuali.kfs.module.ar.document.service.impl.NonAppliedHoldingServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 	
 	<bean id="customerCreditMemoDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDetailServiceImpl"/>
 	

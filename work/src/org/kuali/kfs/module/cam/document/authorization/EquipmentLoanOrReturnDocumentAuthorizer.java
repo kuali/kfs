@@ -35,17 +35,20 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends FinancialSystemTran
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
      */
+    @Override
     public Map getEditMode(Document document, UniversalUser user) {
         Map<String, String> editModeMap = super.getEditMode(document, user);
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
+//        if (ObjectUtils.isNotNull(equipmentLoanOrReturnDocument.getLoanReturnDate())) {
+        if (equipmentLoanOrReturnDocument.isNewLoan()){
+LOG.info("*************new loan");
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
         }
         else {
-            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
+LOG.info("*************renew/return loan");
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
         }
 
         return editModeMap;
     }
-
 }

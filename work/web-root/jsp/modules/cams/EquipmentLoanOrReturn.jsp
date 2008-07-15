@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="camsEquipmentLoanOrReturn"
 	documentTypeName="EquipmentLoanOrReturnDocument" renderMultipart="true"
@@ -24,9 +25,11 @@
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
+	
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
+	<html:hidden property="document.newLoan" />	
 	<kfs:hiddenDocumentFields isTransactionalDocument="false" />
 
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -37,7 +40,8 @@
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>
                 <td colspan="4" class="tab-subhead">Equipment Loan Information</td>
-			</tr>	
+			</tr>
+			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.borrowerUniversalIdentifier}" /></th>
 		      	<td class="grid" width="25%">
 		      	<kul:checkErrors keyMatch="document.borrowerUniversalUser.personUserIdentifier" />
@@ -55,11 +59,19 @@
 
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}" readOnly="true"/></th>
 			   	<c:choose>
-		            <c:when test="${readOnly or (not (empty KualiForm.document.loanReturnDate))}">
+		            <c:when test="${readOnly}">
 		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
 		            </c:when>
 		            <c:otherwise>
-		                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" /> </td>
+					   	<c:choose>
+				            <c:when test="${displayNewLoanTab}">
+				                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" /> </td>
+				            </c:when>
+				            <c:otherwise>${KualiForm.editingMode['displayNewLoanTab']}-1
+				                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.loanDate}" property="document.loanDate" readOnly="true" />
+			            </c:otherwise>
+ 			       </c:choose>
+
 		            </c:otherwise>
  		       </c:choose>
 			</tr>
@@ -75,7 +87,7 @@
  		       </c:choose>
 
 			   	<c:choose>
-	                <c:when test="${empty KualiForm.document.loanReturnDate}">
+	                <c:when test="${displayNewLoanTab or (empty KualiForm.document.loanReturnDate)}">
 						<th class="grid" width="25%" align="right" colspan="2"></th>
 		            </c:when>
 		            <c:otherwise>

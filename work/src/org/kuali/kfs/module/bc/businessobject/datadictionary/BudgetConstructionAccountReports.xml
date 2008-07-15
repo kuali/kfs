@@ -37,11 +37,6 @@
   <bean id="BudgetConstructionAccountReports-chartOfAccountsCode" parent="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" />
 
   <bean id="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
   </bean>
   <bean id="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription-parentBean" />
 
@@ -60,11 +55,6 @@
     <property name="name" value="reportsToChartOfAccountsCode" />
     <property name="label" value="Reports To Chart" />
     <property name="shortLabel" value="Repts to Cht" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
     <property name="description" value="The Chart for the Reports To organization." />
   </bean>
   <bean id="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription-parentBean" />
@@ -107,6 +97,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccounts.codeAndDescription" />
               <bean parent="FieldDefinition"

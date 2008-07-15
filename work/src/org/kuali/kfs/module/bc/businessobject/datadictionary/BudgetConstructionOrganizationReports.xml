@@ -35,11 +35,6 @@
   <bean id="BudgetConstructionOrganizationReports-chartOfAccountsCode" parent="BudgetConstructionOrganizationReports-chartOfAccountsCode-parentBean" />
 
   <bean id="BudgetConstructionOrganizationReports-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
   </bean>
   <bean id="BudgetConstructionOrganizationReports-chartOfAccounts.codeAndDescription" parent="BudgetConstructionOrganizationReports-chartOfAccounts.codeAndDescription-parentBean" />
 
@@ -62,11 +57,6 @@
     <property name="name" value="reportsToChartOfAccountsCode" />
     <property name="label" value="Reports To Chart" />
     <property name="shortLabel" value="Repts to Cht" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
     <property name="description" value="The Chart for the Reports To organization." />
   </bean>
   <bean id="BudgetConstructionOrganizationReports-reportsToChartOfAccounts.codeAndDescription" parent="BudgetConstructionOrganizationReports-reportsToChartOfAccounts.codeAndDescription-parentBean" />

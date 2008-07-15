@@ -47,11 +47,6 @@
   <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode" parent="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode-parentBean" />
 
   <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
     <property name="description" value="Chart of Accounts Code for the override." />
   </bean>
   <bean id="CalculatedSalaryFoundationTrackerOverride-chartOfAccounts.codeAndDescription" parent="CalculatedSalaryFoundationTrackerOverride-chartOfAccounts.codeAndDescription-parentBean" />

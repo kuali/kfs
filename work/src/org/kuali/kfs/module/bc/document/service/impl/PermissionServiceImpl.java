@@ -16,12 +16,20 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +58,7 @@ public class PermissionServiceImpl implements PermissionService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(PermissionServiceImpl.class);
 
     private OrganizationService organizationService;
+    private BusinessObjectService businessObjectService;
 
     private static final String ORG_REVIEW_RULE_CHART_CODE_NAME = "fin_coa_cd";
     private static final String ORG_REVIEW_RULE_ORG_CODE_NAME = "org_cd";
@@ -122,6 +131,36 @@ public class PermissionServiceImpl implements PermissionService {
         }
         return retVar;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account, java.lang.String)
+     */
+    public boolean isAccountManagerOrDelegate(Account account, String personUserIdentifier) {
+        boolean isAccountManager = StringUtils.equals(personUserIdentifier, account.getAccountManagerUserPersonUserIdentifier());
+        
+        return isAccountManager || this.isAccountDelegate(account, personUserIdentifier);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountDelegate(org.kuali.kfs.coa.businessobject.Account, java.lang.String)
+     */
+    public boolean isAccountDelegate(Account account, String personUserIdentifier) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, personUserIdentifier);
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE.toString());
+
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
+        int countOfAccountDelegate = businessObjectService.countMatching(Delegate.class, fieldValues);
+
+        if (countOfAccountDelegate <= 0) {
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.ALL);
+            countOfAccountDelegate += businessObjectService.countMatching(Delegate.class, fieldValues);
+        }
+
+        return countOfAccountDelegate > 0;
+    }
 
     /**
      * Sets the organizationService attribute value.
@@ -130,6 +169,14 @@ public class PermissionServiceImpl implements PermissionService {
      */
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

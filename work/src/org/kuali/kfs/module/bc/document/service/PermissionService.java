@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 
 
@@ -29,9 +30,9 @@ import org.kuali.kfs.coa.businessobject.Org;
  * fiscal officer or delegate of an account for a document at level zero. the User gets View access to a document set at a level
  * below a user's organization approval node. No access is allowed to a document set at a level above the user's organization
  * approval node. Organization review hierarchy approval nodes are defined in Workflow as rules using the KualiOrgReviewTemplate
- * where the Document Type is BudgetConstructionDocument and the Chart and Organization codes define the node in the hierarchy
- * and responsibilty type is Person or Workgroup and Action Request Code is Approve. TODO verify the description of the rule
- * definition after implementation.
+ * where the Document Type is BudgetConstructionDocument and the Chart and Organization codes define the node in the hierarchy and
+ * responsibilty type is Person or Workgroup and Action Request Code is Approve. TODO verify the description of the rule definition
+ * after implementation.
  */
 public interface PermissionService {
 
@@ -53,4 +54,22 @@ public interface PermissionService {
      * @return
      */
     public boolean isOrgReviewApprover(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) throws Exception;
+
+    /**
+     * determine whether the specified user is a manager or account delegate of the given account
+     * 
+     * @param account the given account
+     * @param personUserIdentifier the specified user
+     * @return true if the specified user is a manager or account delegate of the given account; otherwise, false
+     */
+    public boolean isAccountManagerOrDelegate(Account account, String personUserIdentifier);
+    
+    /**
+     * determine whether the specified user is an account delegate of the given account
+     * 
+     * @param account the given account
+     * @param personUserIdentifier the specified user
+     * @return true if the specified user is an account delegate of the given account; otherwise, false
+     */
+    public boolean isAccountDelegate(Account account, String personUserIdentifier);
 }

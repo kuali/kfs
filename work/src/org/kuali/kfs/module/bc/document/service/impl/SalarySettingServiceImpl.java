@@ -19,9 +19,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,11 +33,12 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -45,6 +49,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
@@ -67,6 +72,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     private LaborModuleService laborModuleService;
     private BudgetDocumentService budgetDocumentService;
     private BenefitsCalculationService benefitsCalculationService;
+    private PermissionService permissionService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#getDisabled()
@@ -77,7 +83,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
         // BCConstants.DISABLE_SALARY_SETTING_FLAG);
-
     }
 
     /**
@@ -476,45 +481,52 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         appointmentFundings.remove(appointmentFunding);
     }
 
-    public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String universalIdentifier) {
-        BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);        
-        if(budgetConstructionHeader == null) {
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
+     *      java.lang.String)
+     */
+    public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
+        BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
+        if (budgetConstructionHeader == null) {
             return false;
         }
-        
-        Integer organizationLevelCode = budgetConstructionHeader.getOrganizationLevelCode();
 
-        // account manager or delegate could edit the appointment funding if the document is in the beginning level 
+        Integer documentOrganizationLevelCode = budgetConstructionHeader.getOrganizationLevelCode();
         Account account = appointmentFunding.getAccount();
-        if (organizationLevelCode == 0 && this.isAccountManagerOrDelegate(account, universalIdentifier)) {
+
+        // account manager or delegate could edit the appointment funding if the document is in the beginning level
+        if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
             appointmentFunding.setDisplayOnlyMode(false);
             return this.updateFundingLockArray();
         }
 
-        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-        Integer userLevelCode = this.getUserLevelCode(fiscalYear, account, universalIdentifier);
-        boolean isInBudgetHierachy = this.checkPassed();
+        List<Org> organazationReviewHierachy = this.getOrganizationReviewHierachy(personUserIdentifier);
+        if (organazationReviewHierachy == null) {
+            return false;
+        }
 
-        // if the user is in the hierachy, the editing mode can be determined through comparing user level with document organization level
-        if (isInBudgetHierachy) {
-            if (userLevelCode > organizationLevelCode) {
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+        Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
+
+        // if the user is in the hierachy, the editing mode can be determined by the levels of user and document organization
+        if (userLevelCode != null) {
+            if (userLevelCode > documentOrganizationLevelCode) {
                 appointmentFunding.setDisplayOnlyMode(true);
                 return true;
             }
-            else if (userLevelCode < organizationLevelCode) {
+            else if (userLevelCode < documentOrganizationLevelCode) {
                 appointmentFunding.setDisplayOnlyMode(true);
-                appointmentFunding.setExcludedFromTotal(true);                
+                appointmentFunding.setExcludedFromTotal(true);
                 return true;
             }
             else {
-                appointmentFunding.setDisplayOnlyMode(false);                
+                appointmentFunding.setDisplayOnlyMode(false);
                 return this.updateFundingLockArray();
             }
         }
 
-        // an approver of the budget construction doccument has the read-only access
-        boolean isApprover = this.isAccountApprover(account, universalIdentifier);
-        if (isApprover) {
+        // an organization approver of the budget construction doccument has the read-only access
+        if (!organazationReviewHierachy.isEmpty()) {
             appointmentFunding.setDisplayOnlyMode(true);
             return true;
         }
@@ -522,49 +534,86 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         return false;
     }
 
+    /**
+     * retrive the user level code based on the given information
+     * 
+     * @param documentOrganizationLevelCode the given document organization level code
+     * @param fiscalYear the given fiscal year
+     * @param account the given account
+     * @param organazationReviewHierachy a list of organization review hierachy in which the specified user is
+     * @return the user level code for the given account
+     */
+    private Integer getUserLevelCode(Integer documentOrganizationLevelCode, Integer fiscalYear, Account account, List<Org> organazationReviewHierachy) {
+        Set<Integer> userLevelCodes = new HashSet<Integer>();
+
+        for (Org organazation : organazationReviewHierachy) {
+            this.getAllUserLevelCodes(userLevelCodes, fiscalYear, account, organazation);
+        }
+
+        if (userLevelCodes.isEmpty()) {
+            return null;
+        }
+
+        if (userLevelCodes.contains(documentOrganizationLevelCode)) {
+            return documentOrganizationLevelCode;
+        }
+
+        userLevelCodes.add(documentOrganizationLevelCode);
+
+        List<Integer> userLevelCodeList = new ArrayList<Integer>();
+        userLevelCodeList.addAll(userLevelCodes);
+        Collections.sort(userLevelCodeList);
+
+        int position = userLevelCodeList.indexOf(documentOrganizationLevelCode);
+        if (userLevelCodeList.size() > position) {
+            return userLevelCodeList.get(position + 1);
+        }
+
+        return userLevelCodeList.get(position - 1);
+    }
+
+    /**
+     * retrieve the user level codes and save them into the given level code set
+     * 
+     * @param userLevelCodes the user level code set to be updated
+     * @param fiscalYear the given fiscal year
+     * @param account the given account
+     * @param organazation the given organization for which the user is an approver
+     */
+    private void getAllUserLevelCodes(Set<Integer> userLevelCodes, Integer fiscalYear, Account account, Org organazation) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fiscalYear);
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+
+        fieldValues.put(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, organazation.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ORGANIZATION_CODE, organazation.getOrganizationCode());
+
+        Collection<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = businessObjectService.findMatching(BudgetConstructionAccountOrganizationHierarchy.class, fieldValues);
+        for (BudgetConstructionAccountOrganizationHierarchy hierarchy : accountOrganizationHierarchy) {
+            userLevelCodes.add(hierarchy.getOrganizationLevelCode());
+        }
+    }
+
     private boolean updateFundingLockArray() {
         // TODO Auto-generated method stub
         return false;
     }
 
-    private boolean checkPassed() {
-        return false;
-    }
-
-    private Integer getUserLevelCode(Integer fiscalYear, Account account, String universalIdentifier) {
-        return null;
-    }
-
-    private boolean isAccountManagerOrDelegate(Account account, String universalIdentifier) {
-        boolean isAccountManager = StringUtils.equals(universalIdentifier, account.getAccountManagerUserPersonUserIdentifier());
-        
-        if(!isAccountManager) {
-            return this.isAccountDelegate(account, universalIdentifier);
+    /**
+     * get the orgazation review hierachy in which the specified user is
+     * 
+     * @param personUserIdentifier the specified user
+     * @return the orgazation review hierachy in which the specified user is
+     */
+    private List<Org> getOrganizationReviewHierachy(String personUserIdentifier) {
+        try {
+            List<Org> organazationReview = permissionService.getOrgReview(personUserIdentifier);
+            return organazationReview;
         }
-        
-        return true;
-    }
-
-    private boolean isAccountDelegate(Account account, String universalIdentifier) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, universalIdentifier);
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE.toString());  
-        
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
-        int countOfAccountDelegate = businessObjectService.countMatching(Delegate.class, fieldValues);
-        
-        if(countOfAccountDelegate <= 0) {        
-            fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.ALL);        
-            countOfAccountDelegate += businessObjectService.countMatching(Delegate.class, fieldValues);    
+        catch (Exception e) {
+            throw new RuntimeException("Fail to get organazation review hierachy for " + personUserIdentifier + "." + e);
         }
-        
-        return countOfAccountDelegate > 0;
-    }
-
-    private boolean isAccountApprover(Account account, String universalIdentifier) {
-        return false;
     }
 
     /**
@@ -794,5 +843,14 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      */
     public void setBenefitsCalculationService(BenefitsCalculationService benefitsCalculationService) {
         this.benefitsCalculationService = benefitsCalculationService;
+    }
+
+    /**
+     * Sets the permissionService attribute value.
+     * 
+     * @param permissionService The permissionService to set.
+     */
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 }

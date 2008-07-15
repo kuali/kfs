@@ -142,6 +142,9 @@
 		<property name="organizationService">
 			<ref bean="organizationService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 
 	<bean id="salarySettingService" class="org.kuali.kfs.module.bc.document.service.impl.SalarySettingServiceImpl">
@@ -160,6 +163,9 @@
 		<property name="benefitsCalculationService">
 			<ref bean="benefitsCalculationService" />
 		</property>
+		<property name="permissionService">
+			<ref bean="permissionService" />
+		</property>		
 	</bean>
 
 	<bean id="benefitsCalculationService" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl">

@@ -195,4 +195,12 @@ public interface SalarySettingService {
      * @return the salary setting expension with the information provided by the given appointment funding
      */
     public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * update the access flags of the given appointment funding according to the user level and document organization level 
+     * @param appointmentFunding the given appointment funding
+     * @param personUserIdentifier the user's identifier
+     * @return true if the access flags are updated successfully; otherwsie, false
+     */
+    public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier);
 }

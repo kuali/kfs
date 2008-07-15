@@ -36,6 +36,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -831,6 +832,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setHasMultipleVendorAddresses(1 < vendor.getVendorAddresses().size());
         
         this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator()==null?false:vendor.getVendorHeader().getVendorW9ReceivedIndicator();
+        
+        if(vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate().before(SpringContext.getBean(DateTimeService.class).getCurrentDate()) &&
+           (vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate()==null || vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate().after(SpringContext.getBean(DateTimeService.class).getCurrentDate()))) {
+            this.disbVchrPayeeTaxControlCode = DisbursementVoucherRuleConstants.TAX_CONTROL_CODE_BEGIN_WITHHOLDING;
+        }
     }
 
     /**
@@ -856,8 +862,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
-        // TODO Find out if there's a constant defined out there for the S tax id type code
-        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(!"S".equals(employee.getPersonTaxIdentifierTypeCode()));
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(!DisbursementVoucherRuleConstants.TAX_ID_TYPE_SSN.equals(employee.getPersonTaxIdentifierTypeCode()));
 
         // Determine if employee is a research subject
         ParameterService paramService = SpringContext.getBean(ParameterService.class);

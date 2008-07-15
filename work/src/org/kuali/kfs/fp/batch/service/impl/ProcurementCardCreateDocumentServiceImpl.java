@@ -25,6 +25,7 @@ import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentR
 import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +68,7 @@ import edu.iu.uis.eden.clientapp.vo.DocumentSearchCriteriaVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentSearchResultRowVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentSearchResultVO;
 import edu.iu.uis.eden.clientapp.vo.KeyValueVO;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -141,6 +143,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage());
             throw new RuntimeException(e1.getMessage());
         }
+        catch (RemoteException re) {
+            LOG.error("Error retrieving pcdo documents for routing: " + re.getMessage());
+            throw new RuntimeException(re.getMessage());
+        }
         for (ProcurementCardDocument pcardDocument: documentList) {
             try {
                 LOG.info("Routing PCDO document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + ".");
@@ -162,13 +168,13 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Returns a list of all initiated but not yet routed procurement card documents, using the KualiWorkflowInfo service.
      * @return a list of procurement card documents to route
      */
-    private List<ProcurementCardDocument> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException {
+    private List<ProcurementCardDocument> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<ProcurementCardDocument> documents = new ArrayList<ProcurementCardDocument>();
         
         DocumentSearchCriteriaVO criteria = new DocumentSearchCriteriaVO();
         criteria.setDocTypeFullName(dataDictionaryService.getDocumentTypeNameByClass(ProcurementCardDocument.class));
         criteria.setDocRouteStatus(statusCode);
-        DocumentSearchResultVO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(criteria);
+        DocumentSearchResultVO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(new NetworkIdVO(GlobalVariables.getUserSession().getWorkflowUser().getNetworkId()), criteria);
         
         for (DocumentSearchResultRowVO resultRow: results.getSearchResults()) {
             for (KeyValueVO field : resultRow.getFieldValues()) {
@@ -226,6 +232,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
         catch (WorkflowException e1) {
             throw new RuntimeException(e1.getMessage());
+        }
+        catch (RemoteException re) {
+            throw new RuntimeException(re.getMessage());
         }
 
         // get number of days and type for auto approve

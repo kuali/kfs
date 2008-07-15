@@ -82,16 +82,21 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private List<BudgetConstructionCalculatedSalaryFoundationTracker> bcnCalculatedSalaryFoundationTracker;
     private List<BudgetConstructionSalaryFunding> budgetConstructionSalaryFunding;
     private List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason;
+     
+    private UniversalUser employee;
 
     private KualiDecimal percentChange;
-
     private String adjustmentMeasurement;
     private KualiDecimal adjustmentAmount;
+    
     private boolean persistedDeleteIndicator;
     private boolean vacatable;
     private boolean newLineIndicator;
-
-    private UniversalUser employee;
+    
+    private boolean displayOnlyMode;
+    private boolean budgetable;
+    private boolean hourlyPaid;
+    private boolean excludedFromTotal;
 
     /**
      * Default constructor.
@@ -780,6 +785,24 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     public void setBcnCalculatedSalaryFoundationTracker(List<BudgetConstructionCalculatedSalaryFoundationTracker> bcnCalculatedSalaryFoundationTracker) {
         this.bcnCalculatedSalaryFoundationTracker = bcnCalculatedSalaryFoundationTracker;
     }
+       
+    /**
+     * Gets the employee attribute.
+     * 
+     * @return Returns the employee.
+     */
+    public UniversalUser getEmployee() {
+        return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
+    }
+    
+    /**
+     * Sets the employee attribute value.
+     * 
+     * @param employee The employee to set.
+     */
+    public void setEmployee(UniversalUser employee) {
+        this.employee = employee;
+    }
 
     /**
      * Gets the adjustmentAmount attribute.
@@ -946,23 +969,45 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         
         return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
     }
-    
+
     /**
-     * Gets the employee attribute.
-     * 
-     * @return Returns the employee.
+     * Gets the displayOnlyMode attribute. 
+     * @return Returns the displayOnlyMode.
      */
-    public UniversalUser getEmployee() {
-        return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
+    public boolean isDisplayOnlyMode() {
+        return displayOnlyMode;
     }
-    
+
     /**
-     * Sets the employee attribute value.
-     * 
-     * @param employee The employee to set.
+     * Gets the budgetable attribute. 
+     * @return Returns the budgetable.
      */
-    public void setEmployee(UniversalUser employee) {
-        this.employee = employee;
+    public boolean isBudgetable() {
+        return budgetable;
+    }
+
+    /**
+     * Gets the excludedFromTotal attribute. 
+     * @return Returns the excludedFromTotal.
+     */
+    public boolean isExcludedFromTotal() {
+        return excludedFromTotal;
+    }
+
+    /**
+     * Sets the displayOnlyMode attribute value.
+     * @param displayOnlyMode The displayOnlyMode to set.
+     */
+    public void setDisplayOnlyMode(boolean displayOnlyMode) {
+        this.displayOnlyMode = displayOnlyMode;
+    }
+
+    /**
+     * Sets the excludedFromTotal attribute value.
+     * @param excludedFromTotal The excludedFromTotal to set.
+     */
+    public void setExcludedFromTotal(boolean excludedFromTotal) {
+        this.excludedFromTotal = excludedFromTotal;
     }
 
 }

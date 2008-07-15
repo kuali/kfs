@@ -1138,5 +1138,11 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     // listing of valid university chart codes
     public static final String UNIVERSITY_CHART_CODES = "'IU'";
+    
+    // financial document type codes
+    public static final class FinancialDocumentTypeCodes {
+        public static final String ALL = "ALL";
+        public static final String BUDGET_CONSTRUCTION = "BC";
+    }
 }
 

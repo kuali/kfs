@@ -28,7 +28,7 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * the base struts form for the salary setting
+ * the base struts form for the detail salary setting: by position or by incumbent
  */
 public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingForm.class);

@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * This class...
+ * the base Struts form for salary setting
  */
 public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private String documentNumber;
@@ -115,10 +115,13 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         }
     }
 
-    public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
-
+    /**
+     * setup the budget construction authorization
+     */
+    public void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {       
         if (this.isBudgetByAccountMode()) {
+            UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+
             this.setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
         }
         else {

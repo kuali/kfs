@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.integration.businessobject.LaborLedgerObject;
 import org.kuali.kfs.integration.service.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
@@ -367,13 +370,13 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             List<BudgetConstructionMonthly> budgetConstructionMonthly = this.updateMonthlyAmounts(salarySettingExpansion, changes);
             businessObjectService.save(budgetConstructionMonthly);
         }
-        
+
         // recalculate the benefit
         String documentNumber = salarySettingExpansion.getDocumentNumber();
         Integer fiscalYear = salarySettingExpansion.getUniversityFiscalYear();
         String chartOfAccounts = salarySettingExpansion.getChartOfAccountsCode();
         String accountNumber = salarySettingExpansion.getAccountNumber();
-        String subAccountNumber = salarySettingExpansion.getSubAccountNumber();        
+        String subAccountNumber = salarySettingExpansion.getSubAccountNumber();
         benefitsCalculationService.calculateAllBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
     }
 
@@ -471,6 +474,97 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         PendingBudgetConstructionAppointmentFunding newAppointmentFunding = (PendingBudgetConstructionAppointmentFunding) businessObjectService.retrieve(appointmentFunding);
         appointmentFundings.add(newAppointmentFunding);
         appointmentFundings.remove(appointmentFunding);
+    }
+
+    public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String universalIdentifier) {
+        BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);        
+        if(budgetConstructionHeader == null) {
+            return false;
+        }
+        
+        Integer organizationLevelCode = budgetConstructionHeader.getOrganizationLevelCode();
+
+        // account manager or delegate could edit the appointment funding if the document is in the beginning level 
+        Account account = appointmentFunding.getAccount();
+        if (organizationLevelCode == 0 && this.isAccountManagerOrDelegate(account, universalIdentifier)) {
+            appointmentFunding.setDisplayOnlyMode(false);
+            return this.updateFundingLockArray();
+        }
+
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+        Integer userLevelCode = this.getUserLevelCode(fiscalYear, account, universalIdentifier);
+        boolean isInBudgetHierachy = this.checkPassed();
+
+        // if the user is in the hierachy, the editing mode can be determined through comparing user level with document organization level
+        if (isInBudgetHierachy) {
+            if (userLevelCode > organizationLevelCode) {
+                appointmentFunding.setDisplayOnlyMode(true);
+                return true;
+            }
+            else if (userLevelCode < organizationLevelCode) {
+                appointmentFunding.setDisplayOnlyMode(true);
+                appointmentFunding.setExcludedFromTotal(true);                
+                return true;
+            }
+            else {
+                appointmentFunding.setDisplayOnlyMode(false);                
+                return this.updateFundingLockArray();
+            }
+        }
+
+        // an approver of the budget construction doccument has the read-only access
+        boolean isApprover = this.isAccountApprover(account, universalIdentifier);
+        if (isApprover) {
+            appointmentFunding.setDisplayOnlyMode(true);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean updateFundingLockArray() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    private boolean checkPassed() {
+        return false;
+    }
+
+    private Integer getUserLevelCode(Integer fiscalYear, Account account, String universalIdentifier) {
+        return null;
+    }
+
+    private boolean isAccountManagerOrDelegate(Account account, String universalIdentifier) {
+        boolean isAccountManager = StringUtils.equals(universalIdentifier, account.getAccountManagerUserPersonUserIdentifier());
+        
+        if(!isAccountManager) {
+            return this.isAccountDelegate(account, universalIdentifier);
+        }
+        
+        return true;
+    }
+
+    private boolean isAccountDelegate(Account account, String universalIdentifier) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, universalIdentifier);
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE.toString());  
+        
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
+        int countOfAccountDelegate = businessObjectService.countMatching(Delegate.class, fieldValues);
+        
+        if(countOfAccountDelegate <= 0) {        
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.ALL);        
+            countOfAccountDelegate += businessObjectService.countMatching(Delegate.class, fieldValues);    
+        }
+        
+        return countOfAccountDelegate > 0;
+    }
+
+    private boolean isAccountApprover(Account account, String universalIdentifier) {
+        return false;
     }
 
     /**

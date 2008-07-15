@@ -98,7 +98,6 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             if (salarySettingExpansion != null) {
                 salarySettingExpansionSet.add(salarySettingExpansion);
             }
-            LOG.info("salarySettingExpansionSet.size(): " + salarySettingExpansionSet.size());
         }
 
         salarySettingService.saveAppointmentFundings(appointmentFundings);

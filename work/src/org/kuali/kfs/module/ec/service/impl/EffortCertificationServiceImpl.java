@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ec.batch.service.impl;
+package org.kuali.kfs.module.ec.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,16 +36,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class EffortCertificationServiceImpl implements EffortCertificationService {
-    private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService;
-    private EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao;
-    private ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.integration.service.EffortCertificationService#findReportDefinitionsForPeriod(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
     public List<EffortCertificationReport> findReportDefinitionsForPeriod(Integer fiscalYear, String periodCode, String positionObjectGroupCode) {
-        List<EffortCertificationReport> effortCertificationReports = effortCertificationReportDefinitionDao.getAllByYearAndPositionCode(fiscalYear, positionObjectGroupCode);
+        List<EffortCertificationReport> effortCertificationReports = this.getEffortCertificationReportDefinitionDao().getAllByYearAndPositionCode(fiscalYear, positionObjectGroupCode);
 
         List<EffortCertificationReport> reportsContainingPeriod = new ArrayList<EffortCertificationReport>();
         for (EffortCertificationReport report : effortCertificationReports) {
@@ -64,7 +62,7 @@ public class EffortCertificationServiceImpl implements EffortCertificationServic
      */
     public EffortCertificationReport isEmployeeWithOpenCertification(List<EffortCertificationReport> effortCertificationReports, String emplid) {
         for (EffortCertificationReport report : effortCertificationReports) {
-            if (effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(emplid, report)) {
+            if (this.getEffortCertificationReportDefinitionService().hasBeenUsedForEffortCertificationGeneration(emplid, report)) {
                 return report;
             }
         }
@@ -76,34 +74,33 @@ public class EffortCertificationServiceImpl implements EffortCertificationServic
      * @see org.kuali.kfs.integration.service.EffortCertificationService#getCostShareSubAccountTypeCodes()
      */
     public List<String> getCostShareSubAccountTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
+        return this.getParameterService().getParameterValues(EffortCertificationExtractStep.class, SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
     }
 
     /**
-     * Sets the effortCertificationReportDefinitionService attribute value.
+     * Gets the effortCertificationReportDefinitionService attribute.
      * 
-     * @param effortCertificationReportDefinitionService The effortCertificationReportDefinitionService to set.
+     * @return Returns the effortCertificationReportDefinitionService.
      */
-    public void setEffortCertificationReportDefinitionService(EffortCertificationReportDefinitionService effortCertificationReportDefinitionService) {
-        this.effortCertificationReportDefinitionService = effortCertificationReportDefinitionService;
+    public EffortCertificationReportDefinitionService getEffortCertificationReportDefinitionService() {
+        return SpringContext.getBean(EffortCertificationReportDefinitionService.class);
     }
 
     /**
-     * Sets the effortCertificationReportDefinitionDao attribute value.
+     * Gets the effortCertificationReportDefinitionDao attribute.
      * 
-     * @param effortCertificationReportDefinitionDao The effortCertificationReportDefinitionDao to set.
+     * @return Returns the effortCertificationReportDefinitionDao.
      */
-    public void setEffortCertificationReportDefinitionDao(EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao) {
-        this.effortCertificationReportDefinitionDao = effortCertificationReportDefinitionDao;
+    public EffortCertificationReportDefinitionDao getEffortCertificationReportDefinitionDao() {
+        return SpringContext.getBean(EffortCertificationReportDefinitionDao.class);
     }
 
     /**
-     * Sets the parameterService attribute value.
+     * Gets the parameterService attribute.
      * 
-     * @param parameterService The parameterService to set.
+     * @return Returns the parameterService.
      */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
+    public ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
     }
-
 }

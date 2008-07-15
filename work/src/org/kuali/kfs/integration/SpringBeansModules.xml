@@ -8,4 +8,7 @@
 	<bean id="purchasingAccountsPayableModuleService" class="org.kuali.kfs.module.purap.document.service.impl.PurchasingAccountsPayableModuleServiceImpl" />
 	
 	<bean id="accountsReceivableModuleService" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" />
+	
+	<bean id="effortCertificationService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationServiceImpl" />
+
 </beans>

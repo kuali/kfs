@@ -132,13 +132,13 @@
 		</property>	
 	</bean>
 	
-	<bean id="effortCertificationReportDefinitionService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationReportDefinitionServiceImpl" >
+	<bean id="effortCertificationReportDefinitionService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationReportDefinitionServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>					
 	</bean>	
 	
-	<bean id="effortCertificationReportService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationReportServiceImpl">
+	<bean id="effortCertificationReportService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationReportServiceImpl">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -162,7 +162,7 @@
 		</property>
 	</bean>		
 	
-	<bean id="effortCertificationDocumentBuildService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationDocumentBuildServiceImpl" >
+	<bean id="effortCertificationDocumentBuildService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationDocumentBuildServiceImpl" >
 		<property name="effortCertificationDetailBuildService">
 			<ref bean="effortCertificationDetailBuildService" />
 		</property>	
@@ -171,9 +171,9 @@
 		</property>					
 	</bean>
 			
-	<bean id="effortCertificationDetailBuildService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationDetailBuildServiceImpl" />
+	<bean id="effortCertificationDetailBuildService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationDetailBuildServiceImpl" />
 	
-	<bean id="effortCertificationDocumentService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationDocumentServiceImpl" >
+	<bean id="effortCertificationDocumentService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationDocumentServiceImpl" >
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
 		</property>
@@ -187,18 +187,6 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>	
-		
-	<bean id="effortCertificationService" class="org.kuali.kfs.module.ec.batch.service.impl.EffortCertificationServiceImpl">
-		<property name="effortCertificationReportDefinitionService">
-			<ref bean="effortCertificationReportDefinitionService" />
-		</property>	
-		<property name="effortCertificationReportDefinitionDao">
-			<ref bean="effortCertificationReportDefinitionDao" />
-		</property>	
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>					
-	</bean>
 	 	
 	<!-- DAO declarations -->		
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.kfs.module.ec.dataaccess.impl.EffortCertificationReportDefinitionDaoOjb" />

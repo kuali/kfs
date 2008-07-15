@@ -44,6 +44,9 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     // document location
     public static String NO_DOCUMENTATION_LOCATION = "N";
 
+    public static String TAX_CONTROL_CODE_ALLOWS_EMPLOYEES = "A";
+    public static String TAX_CONTROL_CODE_BEGIN_WITHHOLDING = "B";
+    public static String TAX_CONTROL_CODE_HOLD_PAYMENT = "H";
 
     public static class DocumentStatusCodes {
         public static String APPROVED = "A";
@@ -124,6 +127,9 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
 
     public static String TAX_TYPE_SSN = "1";
     public static String TAX_TYPE_FEIN = "0";
+    
+    public static String TAX_ID_TYPE_SSN = "S";
+    public static String TAX_ID_TYPE_FEIN = "F";
 
     public static String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";
     public static String NRA_TAX_INCOME_CLASS_INDEPENDENT_CONTRACTOR = "I";

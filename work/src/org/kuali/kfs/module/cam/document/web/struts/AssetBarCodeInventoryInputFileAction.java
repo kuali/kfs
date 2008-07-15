@@ -48,7 +48,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
 
     /**
      * 
-     * @see org.kuali.kfs.web.struts.action.KualiBatchInputFileSetAction#download(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#download(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -124,11 +124,12 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
 
         List<KeyLabelPair> fileTypes = new ArrayList<KeyLabelPair>();
         fileTypes.add(new KeyLabelPair("", "Select a file type to download"));
+        
         for (String fileAlias : batchInputFileSetType.getFileTypes()) {
             fileTypes.add(new KeyLabelPair(fileAlias, batchInputFileSetType.getFileTypeDescription().get(fileAlias)));
         }
         form.setFileTypes(fileTypes);
-
+        
         // set title key
         form.setTitleKey(batchInputFileSetType.getTitleKey());
     }

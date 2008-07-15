@@ -70,33 +70,7 @@
          </table>
           
           <br>
-          <!-- <h3>Manage Current Batch File Sets</h3>
-          <table width="100%" summary="" cellpadding="0" cellspacing="0">
-            <tr>
-              <th>&nbsp;</th>
-              <th> <div align="left">Select File Set</div></th>
-              <th> <div align="center">Download</div></th>
-              <th> <div align="center">Delete</div></th>
-            </tr>
-            <tr>
-              <th scope="row"><div align="center">manage:</div></th>
-              <td class="infoline"><span class="fineprint"></span> <label>
-                <html:select property="batchUpload.existingFileName">
-                   <html:optionsCollection property="fileUserIdentifiers" label="label" value="key"/>
-                </html:select>
-               </label></td>
-              <td class="infoline"><div align="center">
-                <html:select property="downloadFileType">
-                  <html:optionsCollection property="fileTypes" label="label" value="key"/>
-                </html:select>
-                <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-download.gif" styleClass="globalbuttons" property="methodToCall.download" title="Download Batch File" alt="Download Batch File" onclick="excludeSubmitRestriction=true;"/></div>
-              </td>
-              <td class="infoline"><div align="center">
-                <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="globalbuttons" property="methodToCall.delete" title="Delete Batch File" alt="Delete Batch File" />
-              </div></td>
-            </tr>
-          </table>
-      </div-->
+          
       
           <h3>Manage current files</h3>
           <table width="100%" summary="" cellpadding="0" cellspacing="0">

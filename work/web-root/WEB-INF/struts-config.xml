@@ -123,6 +123,7 @@
         <form-bean name="AssetTransferForm" type="org.kuali.kfs.module.cam.document.web.struts.AssetTransferForm" />
         <form-bean name="EquipmentLoanOrReturnForm" type="org.kuali.kfs.module.cam.document.web.struts.EquipmentLoanOrReturnForm" />
         <form-bean name="BarcodeInventoryErrorForm" type="org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm" />  
+        <form-bean name="AssetBarCodeInventoryInputFileForm"  type="org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm" /> 
         
         <!-- Effort Certification Bean Definitions -->
         <form-bean name="EffortCertificationForm" type="org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm" />
@@ -215,7 +216,7 @@
     	   <forward name="basic" path="/jsp/modules/ar/{1}.jsp" />
   		</action>
 
-        <action path="/uploadBarcodeInventoryFile" name="KualiBatchInputFileSetForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.module.cam.web.struts.AssetBarCodeInventoryInputFileAction">
+        <action path="/uploadBarcodeInventoryFile" name="AssetBarCodeInventoryInputFileForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/cams/BatchUploadBarCodeInventory.jsp" />
         </action>

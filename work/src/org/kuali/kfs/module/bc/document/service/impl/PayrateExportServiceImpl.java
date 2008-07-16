@@ -53,7 +53,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         }
         results.append("\r\n");
         results.append("\r\n");
-        results.append("Export complete. Export Count: " + exportCount);
+        results.append("Export complete. Export Count: " + exportCount + "\r\n");
         return results;
     }
     

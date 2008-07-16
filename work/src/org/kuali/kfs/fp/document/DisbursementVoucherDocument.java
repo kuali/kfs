@@ -833,8 +833,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         
         this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator()==null?false:vendor.getVendorHeader().getVendorW9ReceivedIndicator();
         
-        if(vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate().before(SpringContext.getBean(DateTimeService.class).getCurrentDate()) &&
-           (vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate()==null || vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate().after(SpringContext.getBean(DateTimeService.class).getCurrentDate()))) {
+        Date vendorFederalWithholdingTaxBeginDate = vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate();
+        Date vendorFederalWithholdingTaxEndDate = vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate();
+        if((vendorFederalWithholdingTaxBeginDate!=null && vendorFederalWithholdingTaxBeginDate.before(SpringContext.getBean(DateTimeService.class).getCurrentDate())) &&
+           (vendorFederalWithholdingTaxEndDate==null || vendorFederalWithholdingTaxEndDate.after(SpringContext.getBean(DateTimeService.class).getCurrentDate()))) {
             this.disbVchrPayeeTaxControlCode = DisbursementVoucherRuleConstants.TAX_CONTROL_CODE_BEGIN_WITHHOLDING;
         }
     }

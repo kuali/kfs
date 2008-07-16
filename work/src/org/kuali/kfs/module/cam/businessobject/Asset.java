@@ -118,7 +118,6 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
     private List<AssetRetirementGlobal> retirementGlobals;
     private ObjSubTyp financialObjectSubType;
-    private AssetDepreciationConvention assetDepreciationConvention;
     private AssetAcquisitionType acquisitionType;
     private Agency agency;
 
@@ -1904,18 +1903,6 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
-    }
-
-    public AssetDepreciationConvention getAssetDepreciationConvention() {
-        return assetDepreciationConvention;
-    }
-
-    /**
-     * @param assetDepreciationConvention
-     * @deprecated
-     */
-    public void setAssetDepreciationConvention(AssetDepreciationConvention assetDepreciationConvention) {
-        this.assetDepreciationConvention = assetDepreciationConvention;
     }
 
     public Date getDepreciationDateCopy() {

@@ -18,15 +18,20 @@ package org.kuali.kfs.module.cam.document.service.impl;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 
@@ -56,7 +61,10 @@ public class AssetDateServiceImpl implements AssetDateService {
             newAsset.setCapitalAssetInServiceDate(null);
         }
         else if (assetService.isInServiceDateChanged(oldAsset, newAsset) || assetService.isFinancialObjectSubTypeCodeChanged(oldAsset, newAsset)) {
-            newAsset.setDepreciationDate(computeDepreciationDate(newAsset.getCapitalAssetType(), newAsset.getAssetDepreciationConvention(), newAsset.getCapitalAssetInServiceDate()));
+            Map<String, String> primaryKeys = new HashMap<String, String>();
+            primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, newAsset.getFinancialObjectSubTypeCode());
+            AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
+            newAsset.setDepreciationDate(computeDepreciationDate(newAsset.getCapitalAssetType(), depreciationConvention, newAsset.getCapitalAssetInServiceDate()));
         }
     }
 

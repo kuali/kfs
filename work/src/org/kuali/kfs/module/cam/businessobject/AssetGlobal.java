@@ -12,6 +12,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -704,8 +705,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         String financialObjectSubTypeCode = null;
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
 
-        if (!assetPaymentDetails.isEmpty()) {
-            financialObjectSubTypeCode = assetPaymentDetails.get(0).getFinancialSubObjectCode();
+       if (!assetPaymentDetails.isEmpty()&& ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
+            financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
         }
 
         for (AssetGlobalDetail detail : assetGlobalDetails) {

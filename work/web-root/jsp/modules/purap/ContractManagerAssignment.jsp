@@ -16,15 +16,15 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-      documentTypeName="AssignContractManagerDocument"
-      htmlFormAction="purapAssignContractManager" renderMultipart="true"
+      documentTypeName="ContractManagerAssignmentDocument"
+      htmlFormAction="purapContractManagerAssignment" renderMultipart="true"
       showTabButtons="true">
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
     <kfs:hiddenDocumentFields isFinancialDocument="false" />
 
-    <purap:assignContractManager />
+    <purap:contractManagerAssignment />
 
 	<kul:notes />
 

@@ -8,7 +8,7 @@
       <description>Attribute to identify the Billing Organization of the Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="billedByOrganizationCode" title="kuali_dd_label(CustomerCreditMemoDocument)">
+        <fieldDef name="billedByOrganizationCode" title="kuali_dd_label(CustomerInvoiceDocument)">
           <display>
             <type>text</type>
           </display>

@@ -8,7 +8,7 @@
       <description>Attribute to identify the Processing Chart of Account of the Customer Credit Memo Document</description>
       <type>SearchableXmlAttribute</type>
       <searchingConfig>
-        <fieldDef name="processingChartOfAccountCode" title="kuali_dd_label(AccountsReceivableDocumentHeader)">
+        <fieldDef name="billByChartOfAccountCode" title="kuali_dd_label(CustomerInvoiceDocument)">
           <display>
             <type>text</type>
           </display>

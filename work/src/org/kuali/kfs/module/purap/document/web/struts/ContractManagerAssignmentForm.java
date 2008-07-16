@@ -29,7 +29,7 @@ import edu.iu.uis.eden.EdenConstants;
 public class ContractManagerAssignmentForm extends FinancialSystemTransactionalDocumentFormBase {
 
     /**
-     * Constructs a AssignContractManagerForm instance
+     * Constructs a ContractManagerAssignmentForm instance
      */
     public ContractManagerAssignmentForm() {
         super();

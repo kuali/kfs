@@ -57,9 +57,9 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
     }
 
     /**
-     * Constructs a AssignContractManagerDetail object from an existing AssignContractManagerDocument object.
+     * Constructs a ContractManagerAssignmentDetail object from an existing ContractManagerAssignmentDocument object.
      * 
-     * @param acmDocument the AssignContractManagerDocument to copy from.
+     * @param acmDocument the ContractManagerAssignmentDocument to copy from.
      * @param requisitionDocument reference to the related requisition document.
      */
     public ContractManagerAssignmentDetail(ContractManagerAssignmentDocument acmDocument, RequisitionDocument requisitionDocument) {
@@ -151,8 +151,8 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
         return contractManagerAssignmentDocument;
     }
 
-    public void setContractManagerAssignmentDocument(ContractManagerAssignmentDocument assignContractManagerDocument) {
-        this.contractManagerAssignmentDocument = assignContractManagerDocument;
+    public void setContractManagerAssignmentDocument(ContractManagerAssignmentDocument contractManagerAssignmentDocument) {
+        this.contractManagerAssignmentDocument = contractManagerAssignmentDocument;
     }
     
     /**

@@ -1462,7 +1462,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     /**
      * 
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#processACMReq(org.kuali.kfs.module.purap.document.AssignContractManagerDocument)
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#processACMReq(org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument)
      */
     public void processACMReq(ContractManagerAssignmentDocument acmDoc) {
         List<ContractManagerAssignmentDetail> acmDetails = acmDoc.getContractManagerAssignmentDetails();
@@ -1470,7 +1470,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail) iter.next();
 
             if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
-                // Get the requisition for this AssignContractManagerDetail.
+                // Get the requisition for this ContractManagerAssignmentDetail.
                 RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
 
                 if (req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {

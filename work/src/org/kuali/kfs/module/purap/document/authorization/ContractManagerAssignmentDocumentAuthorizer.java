@@ -61,7 +61,7 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
     /**
      * Override this method to add extra validation, so that when there's no requistion to
      * assign contract manager, an error mesage will be displayed, instead of creating an
-     * AssignContractManagerDocument.
+     * ContractManagerAssignmentDocument.
      * 
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, UniversalUser user)
      */

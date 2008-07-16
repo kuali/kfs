@@ -38,7 +38,7 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentAction.class);
 
     /**
-     * Do initialization for a new <code>AssignContractManagerDocument</code>.
+     * Do initialization for a new <code>ContractManagerAssignmentDocument</code>.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
@@ -52,7 +52,7 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
     
     /**
      * Overrides the method in KualiDocumentActionBase to fetch a List of requisition documents for the
-     * AssignContractManagerDocument from documentService, because we need the workflowDocument to get the
+     * ContractManagerAssignmentDocument from documentService, because we need the workflowDocument to get the
      * createDate. If we don't fetch the requisition documents from the documentService, the workflowDocument
      * in the requisition's documentHeader would be null and would cause the transient flexDoc is null error.
      * That's the reason we need this override.
@@ -67,7 +67,7 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
         Map<String, ContractManagerAssignmentDetail>documentHeaderIdsAndDetails = new HashMap();
         
         //Compose a Map in which the keys are the document header ids of each requisition in this acm document and the values are the 
-        //corresponding AssignContractManagerDetail object.
+        //corresponding ContractManagerAssignmentDetail object.
         for (ContractManagerAssignmentDetail detail : (List<ContractManagerAssignmentDetail>)document.getContractManagerAssignmentDetails()) {
             documentHeaderIdsAndDetails.put(detail.getRequisition().getDocumentNumber(), detail);
         }
@@ -87,7 +87,7 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
             throw new RuntimeException(errorMsg, we);
         }
         
-        //Set the documentHeader of the requisition of each of the AssignContractManagerDetail to the documentHeader of
+        //Set the documentHeader of the requisition of each of the ContractManagerAssignmentDetail to the documentHeader of
         //the requisitions resulted from the documentService, so that we'll have workflowDocument in the documentHeader.
         for (RequisitionDocument req : requisitionDocumentsFromDocService) {
             ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail)documentHeaderIdsAndDetails.get(req.getDocumentNumber());

@@ -72,19 +72,19 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
     }
 
     /**
-     * Review the list of AssignContractManagerDetails where the user has entered ContractManagerCodes,
+     * Review the list of ContractManagerAssignmentDetails where the user has entered ContractManagerCodes,
      * validates that each entered code is valid;
      * on the other hand, validate that at least one row has a valid CM code assigned.
      * 
-     * @param assignContractManagerDetails A list containing the code to be validated.
+     * @param contractManagerAssignmentDetails A list containing the code to be validated.
      * @return Boolean indicating if validation succeeded
      */
-    public boolean validateContractManagerCodes(List assignContractManagerDetails) {
+    public boolean validateContractManagerCodes(List contractManagerAssignmentDetails) {
         LOG.debug("validateContractManagerCodes(): entered method.");
         boolean isValid = true;
         int count = 0;
         
-        for (Iterator iter = assignContractManagerDetails.iterator(); iter.hasNext();) {
+        for (Iterator iter = contractManagerAssignmentDetails.iterator(); iter.hasNext();) {
             ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail) iter.next();
 
             // Look for the contractManagerCode in the table. If not there the code is invalid.

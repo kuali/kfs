@@ -17,7 +17,7 @@
 
 <c:set var="requisitionAttributes" value="${DataDictionary.RequisitionDocument.attributes}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
-<c:set var="assignContractManagerAttributes" value="${DataDictionary.ContractManagerAssignmentDocument.attributes}" />
+<c:set var="ContractManagerAssignmentAttributes" value="${DataDictionary.ContractManagerAssignmentDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}">
@@ -36,25 +36,25 @@
 	                
 	                    <kul:htmlAttributeHeaderCell attributeEntry="${purchaseOrderAttributes.contractManagerCode}" />
  
-	                 	  <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionNumber}" />
+	                 	  <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.requisitionNumber}" />
 
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.deliveryCampusCode}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.deliveryCampusCode}" />
 	
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.vendorName}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.vendorName}" />
 	                    
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.generalDescription}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.generalDescription}" />
 	                    
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionTotalAmount}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.requisitionTotalAmount}" />
 	                    
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.requisitionCreateDate}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.requisitionCreateDate}" />
 	                    
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.firstItemDescription}" />
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.firstItemDescription}" />
 
-                      <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.firstItemCommodityCode}" />
+                      <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.firstItemCommodityCode}" />
                         
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.firstObjectCode}" /> 
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.firstObjectCode}" /> 
 	                	
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${assignContractManagerAttributes.universityFiscalYear}" /> 
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.universityFiscalYear}" /> 
 	            </tr>
 	
 		        <logic:iterate id="acmDetail" name="KualiForm" property="document.contractManagerAssignmentDetails" indexId="ctr">

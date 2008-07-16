@@ -68,7 +68,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
         super();
     }
 
-    public ContractManagerAssignmentDetail getAssignContractManagerDetail(int index) {
+    public ContractManagerAssignmentDetail getContractManagerAssignmentDetail(int index) {
         while (contractManagerAssignmentDetails.size() <= index) {
             contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail());
         }
@@ -133,7 +133,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
-                    workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, PurapWorkflowConstants.AssignContractManagerDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
+                    workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {
                     // do nothing; document should have processed successfully and problem is with sending FYI
@@ -160,7 +160,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     public String getDocumentTitle() {
         String title = "";
         if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ContractManagerAssignmentDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
-            title = PurapWorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
+            title = PurapWorkflowConstants.ContractManagerAssignmentDocument.WORKFLOW_DOCUMENT_TITLE;
         }
         else {
             title = super.getDocumentTitle();

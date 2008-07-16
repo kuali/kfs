@@ -27,29 +27,29 @@ import org.kuali.kfs.sys.context.SpringContext;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public enum ContractManagerAssignmentDocumentFixture {
-    ACM_DOCUMENT_VALID (new AssignContractManagerDetailFixture[] {AssignContractManagerDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS, AssignContractManagerDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } ),
-    ACM_DOCUMENT_VALID_2 (new AssignContractManagerDetailFixture[] {AssignContractManagerDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } )
+    ACM_DOCUMENT_VALID (new ContractManagerAssignmentDetailFixture[] {ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS, ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } ),
+    ACM_DOCUMENT_VALID_2 (new ContractManagerAssignmentDetailFixture[] {ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } )
  ;
 
-    private AssignContractManagerDetailFixture[] acmDetailFixtures;
-    private List <ContractManagerAssignmentDetail> assignContractManagerDetails;
-    private ContractManagerAssignmentDocumentFixture(AssignContractManagerDetailFixture[] acmDetailFixtures) {
+    private ContractManagerAssignmentDetailFixture[] acmDetailFixtures;
+    private List <ContractManagerAssignmentDetail> contractManagerAssignmentDetails;
+    private ContractManagerAssignmentDocumentFixture(ContractManagerAssignmentDetailFixture[] acmDetailFixtures) {
         this.acmDetailFixtures = acmDetailFixtures;
-        assignContractManagerDetails = new ArrayList();
-        for (AssignContractManagerDetailFixture detail : acmDetailFixtures) {
-            assignContractManagerDetails.add(detail.createAssignContractManagerDetail());
+        contractManagerAssignmentDetails = new ArrayList();
+        for (ContractManagerAssignmentDetailFixture detail : acmDetailFixtures) {
+            contractManagerAssignmentDetails.add(detail.createContractManagerAssignmentDetail());
         }
     }
 
-    public List<ContractManagerAssignmentDetail> getAssignContractManagerDetails() {
-        return assignContractManagerDetails;
+    public List<ContractManagerAssignmentDetail> getContractManagerAssignmentDetails() {
+        return contractManagerAssignmentDetails;
     }
     
-    public ContractManagerAssignmentDocument createAssignContractManagerDocument() {
+    public ContractManagerAssignmentDocument createContractManagerAssignmentDocument() {
         ContractManagerAssignmentDocument doc = null;
         try {
             doc = (ContractManagerAssignmentDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), ContractManagerAssignmentDocument.class);
-            doc.setContractManagerAssignmentDetailss(assignContractManagerDetails);
+            doc.setContractManagerAssignmentDetailss(contractManagerAssignmentDetails);
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Document creation failed.");

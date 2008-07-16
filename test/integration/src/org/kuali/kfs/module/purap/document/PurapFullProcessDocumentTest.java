@@ -69,7 +69,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     @ConfigureContext(session = PARKE, shouldCommitTransactions = true)
     public final void testFullProcess() throws Exception {
         // 1. use the ACM document to create the REQ and PO
-        AssignContractManagerDocumentTest acmDocTest = new AssignContractManagerDocumentTest();
+        ContractManagerAssignmentDocumentTest acmDocTest = new ContractManagerAssignmentDocumentTest();
         String reqNumber = acmDocTest.testRouteDocument2();
         RequisitionDocument reqDoc = (RequisitionDocument) documentService.getByDocumentHeaderId(reqNumber);
         String poNumber = reqDoc.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();

@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 /**
  * Document Authorizer for the Assign Contract Manager document.
  */
-public class AssignContractManagerDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
+public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,

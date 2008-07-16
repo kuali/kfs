@@ -63,13 +63,13 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.VendorChoice;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -1464,10 +1464,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#processACMReq(org.kuali.kfs.module.purap.document.AssignContractManagerDocument)
      */
-    public void processACMReq(AssignContractManagerDocument acmDoc) {
-        List<AssignContractManagerDetail> acmDetails = acmDoc.getAssignContractManagerDetails();
+    public void processACMReq(ContractManagerAssignmentDocument acmDoc) {
+        List<ContractManagerAssignmentDetail> acmDetails = acmDoc.getContractManagerAssignmentDetails();
         for (Iterator iter = acmDetails.iterator(); iter.hasNext();) {
-            AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
+            ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail) iter.next();
 
             if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
                 // Get the requisition for this AssignContractManagerDetail.

@@ -23,7 +23,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,7 +35,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Assign Contract Manager Detail Business Object. Defines attributes in Assign Contract Manager tab.
  */
-public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
+public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Integer requisitionIdentifier;
@@ -45,14 +45,14 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
     
     private RequisitionDocument requisition;
     private ContractManager contractManager;
-    private AssignContractManagerDocument assignContractManagerDocument;
+    private ContractManagerAssignmentDocument contractManagerAssignmentDocument;
     
     private String createDate;
     
     /**
      * Default constructor.
      */
-    public AssignContractManagerDetail() {
+    public ContractManagerAssignmentDetail() {
 
     }
 
@@ -62,9 +62,9 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
      * @param acmDocument the AssignContractManagerDocument to copy from.
      * @param requisitionDocument reference to the related requisition document.
      */
-    public AssignContractManagerDetail(AssignContractManagerDocument acmDocument, RequisitionDocument requisitionDocument) {
+    public ContractManagerAssignmentDetail(ContractManagerAssignmentDocument acmDocument, RequisitionDocument requisitionDocument) {
         this.documentNumber = acmDocument.getDocumentNumber();
-        this.assignContractManagerDocument = acmDocument;
+        this.contractManagerAssignmentDocument = acmDocument;
         this.requisition = requisitionDocument;
         this.requisitionIdentifier = requisitionDocument.getPurapDocumentIdentifier();
         this.deliveryCampusCode = requisitionDocument.getDeliveryCampusCode();
@@ -100,7 +100,7 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
      */
     public Integer getContractManagerCode() {
         String paramName = PurapParameterConstants.ENABLE_DEFAULT_CONTRACT_MANAGER_IND;
-        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "AssignContractManager", paramName);
+        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "ContractManagerAssignment", paramName);
         if ( paramValue.equals("Y") && (contractManagerCode == null) && getFirstLineItem().getCommodityCode() != null) {
             List<CommodityContractManager> commodityContractManagers = getFirstLineItem().getCommodityCode().getCommodityContractManagers();
             if (commodityContractManagers != null && commodityContractManagers.size() > 0) {
@@ -147,12 +147,12 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.requisition = requisition;
     }
 
-    public AssignContractManagerDocument getAssignContractManagerDocument() {
-        return assignContractManagerDocument;
+    public ContractManagerAssignmentDocument getContractManagerAssignmentDocument() {
+        return contractManagerAssignmentDocument;
     }
 
-    public void setAssignContractManagerDocument(AssignContractManagerDocument assignContractManagerDocument) {
-        this.assignContractManagerDocument = assignContractManagerDocument;
+    public void setContractManagerAssignmentDocument(ContractManagerAssignmentDocument assignContractManagerDocument) {
+        this.contractManagerAssignmentDocument = assignContractManagerDocument;
     }
     
     /**

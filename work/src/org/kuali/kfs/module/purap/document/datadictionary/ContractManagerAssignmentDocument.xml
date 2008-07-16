@@ -4,21 +4,21 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssignContractManagerDocument" parent="AssignContractManagerDocument-parentBean" />
+  <bean id="ContractManagerAssignmentDocument" parent="ContractManagerAssignmentDocument-parentBean" />
 
-  <bean id="AssignContractManagerDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="ContractManagerAssignmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Contract Manager Assignment" />
     <property name="shortLabel" value="Contract Manager Assignment" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" p:parameterName="ASSIGN_CONTRACT_MANAGER" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" p:parameterName="CONTRACT_MANAGER_ASSIGNMENT" />
     </property>
-    <property name="documentTypeName" value="AssignContractManagerDocument" />
-    <property name="documentClass" value="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.AssignContractManagerDocumentRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.AssignContractManagerDocumentAuthorizer" />
+    <property name="documentTypeName" value="ContractManagerAssignmentDocument" />
+    <property name="documentClass" value="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ContractManagerAssignmentDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ContractManagerAssignmentDocumentAuthorizer" />
     <property name="documentTypeCode" value="ACM" />
     <property name="workflowProperties" >
-      <ref bean="AssignContractManagerDocument-workflowProperties" />
+      <ref bean="ContractManagerAssignmentDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -34,16 +34,16 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="AssignContractManagerDocument-requisitionNumber" />
-        <ref bean="AssignContractManagerDocument-deliveryCampusCode" />
-        <ref bean="AssignContractManagerDocument-vendorName" />
-        <ref bean="AssignContractManagerDocument-generalDescription" />
-        <ref bean="AssignContractManagerDocument-requisitionTotalAmount" />
-        <ref bean="AssignContractManagerDocument-requisitionCreateDate" />
-        <ref bean="AssignContractManagerDocument-firstItemDescription" />
-        <ref bean="AssignContractManagerDocument-firstItemCommodityCode" />
-        <ref bean="AssignContractManagerDocument-firstObjectCode" />
-        <ref bean="AssignContractManagerDocument-universityFiscalYear" />
+        <ref bean="ContractManagerAssignmentDocument-requisitionNumber" />
+        <ref bean="ContractManagerAssignmentDocument-deliveryCampusCode" />
+        <ref bean="ContractManagerAssignmentDocument-vendorName" />
+        <ref bean="ContractManagerAssignmentDocument-generalDescription" />
+        <ref bean="ContractManagerAssignmentDocument-requisitionTotalAmount" />
+        <ref bean="ContractManagerAssignmentDocument-requisitionCreateDate" />
+        <ref bean="ContractManagerAssignmentDocument-firstItemDescription" />
+        <ref bean="ContractManagerAssignmentDocument-firstItemCommodityCode" />
+        <ref bean="ContractManagerAssignmentDocument-firstObjectCode" />
+        <ref bean="ContractManagerAssignmentDocument-universityFiscalYear" />
       </list>
     </property>
   </bean>
@@ -51,28 +51,28 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AssignContractManagerDocument-requisitionNumber" parent="AssignContractManagerDocument-requisitionNumber-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-requisitionNumber" parent="ContractManagerAssignmentDocument-requisitionNumber-parentBean" />
 
-  <bean id="AssignContractManagerDocument-requisitionNumber-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+  <bean id="ContractManagerAssignmentDocument-requisitionNumber-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="requisitionNumber" />
     <property name="label" value="Requisition Number" />
     <property name="shortLabel" value="Requisition Number" />
   </bean>
-  <bean id="AssignContractManagerDocument-deliveryCampusCode" parent="AssignContractManagerDocument-deliveryCampusCode-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-deliveryCampusCode" parent="ContractManagerAssignmentDocument-deliveryCampusCode-parentBean" />
 
-  <bean id="AssignContractManagerDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
+  <bean id="ContractManagerAssignmentDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="deliveryCampusCode" />
     <property name="label" value="Delivery Campus" />
     <property name="shortLabel" value="Delivery Campus" />
   </bean>
-  <bean id="AssignContractManagerDocument-vendorName" parent="AssignContractManagerDocument-vendorName-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-vendorName" parent="ContractManagerAssignmentDocument-vendorName-parentBean" />
 
-  <bean id="AssignContractManagerDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+  <bean id="ContractManagerAssignmentDocument-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
     <property name="label" value="Suggested Vendor" />
   </bean>
-  <bean id="AssignContractManagerDocument-generalDescription" parent="AssignContractManagerDocument-generalDescription-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-generalDescription" parent="ContractManagerAssignmentDocument-generalDescription-parentBean" />
 
-  <bean id="AssignContractManagerDocument-generalDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-generalDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="generalDescription" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="General Description" />
@@ -83,9 +83,9 @@
             p:size="22" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDocument-requisitionTotalAmount" parent="AssignContractManagerDocument-requisitionTotalAmount-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-requisitionTotalAmount" parent="ContractManagerAssignmentDocument-requisitionTotalAmount-parentBean" />
 
-  <bean id="AssignContractManagerDocument-requisitionTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-requisitionTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionTotalAmount" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisition Total Amount" />
@@ -96,9 +96,9 @@
             p:size="22" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDocument-requisitionCreateDate" parent="AssignContractManagerDocument-requisitionCreateDate-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-requisitionCreateDate" parent="ContractManagerAssignmentDocument-requisitionCreateDate-parentBean" />
 
-  <bean id="AssignContractManagerDocument-requisitionCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-requisitionCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionCreateDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisition Create Date" />
@@ -109,9 +109,9 @@
             p:size="22" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDocument-firstItemDescription" parent="AssignContractManagerDocument-firstItemDescription-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-firstItemDescription" parent="ContractManagerAssignmentDocument-firstItemDescription-parentBean" />
 
-  <bean id="AssignContractManagerDocument-firstItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-firstItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="firstItemDescription" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="First Item Description" />
@@ -122,9 +122,9 @@
             p:size="22" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDocument-firstItemCommodityCode" parent="AssignContractManagerDocument-firstItemCommodityCode-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-firstItemCommodityCode" parent="ContractManagerAssignmentDocument-firstItemCommodityCode-parentBean" />
 
-  <bean id="AssignContractManagerDocument-firstItemCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-firstItemCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="firstItemCommodityCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="First Item Commodity Code" />
@@ -135,9 +135,9 @@
             p:size="22" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDocument-firstObjectCode" parent="AssignContractManagerDocument-firstObjectCode-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-firstObjectCode" parent="ContractManagerAssignmentDocument-firstObjectCode-parentBean" />
 
-  <bean id="AssignContractManagerDocument-firstObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-firstObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="firstObjectCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="First Object Code" />
@@ -151,9 +151,9 @@
             p:size="22" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDocument-universityFiscalYear" parent="AssignContractManagerDocument-universityFiscalYear-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-universityFiscalYear" parent="ContractManagerAssignmentDocument-universityFiscalYear-parentBean" />
 
-  <bean id="AssignContractManagerDocument-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDocument-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="University Fiscal Year" />
     <property name="shortLabel" value="University Fiscal Year" />
@@ -170,9 +170,9 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="AssignContractManagerDocument-workflowProperties" parent="AssignContractManagerDocument-workflowProperties-parentBean" />
+  <bean id="ContractManagerAssignmentDocument-workflowProperties" parent="ContractManagerAssignmentDocument-workflowProperties-parentBean" />
 
-  <bean id="AssignContractManagerDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="ContractManagerAssignmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">

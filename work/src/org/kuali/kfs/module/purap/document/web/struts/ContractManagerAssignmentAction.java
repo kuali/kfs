@@ -23,8 +23,8 @@ import java.util.Map;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
-import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
+import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
@@ -34,8 +34,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Struts Action for Contract Manager Assignment document.
  */
-public class AssignContractManagerAction extends FinancialSystemTransactionalDocumentActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
+public class ContractManagerAssignmentAction extends FinancialSystemTransactionalDocumentActionBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentAction.class);
 
     /**
      * Do initialization for a new <code>AssignContractManagerDocument</code>.
@@ -45,7 +45,7 @@ public class AssignContractManagerAction extends FinancialSystemTransactionalDoc
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) kualiDocumentFormBase.getDocument();
+        ContractManagerAssignmentDocument acmDocument = (ContractManagerAssignmentDocument) kualiDocumentFormBase.getDocument();
         acmDocument.getDocumentHeader().setDocumentDescription(PurapConstants.ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC);
         acmDocument.populateDocumentWithRequisitions();
     }
@@ -62,13 +62,13 @@ public class AssignContractManagerAction extends FinancialSystemTransactionalDoc
     @Override
     protected void loadDocument (KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        AssignContractManagerDocument document = (AssignContractManagerDocument)kualiDocumentFormBase.getDocument();
+        ContractManagerAssignmentDocument document = (ContractManagerAssignmentDocument)kualiDocumentFormBase.getDocument();
         List<String>documentHeaderIds = new ArrayList();
-        Map<String, AssignContractManagerDetail>documentHeaderIdsAndDetails = new HashMap();
+        Map<String, ContractManagerAssignmentDetail>documentHeaderIdsAndDetails = new HashMap();
         
         //Compose a Map in which the keys are the document header ids of each requisition in this acm document and the values are the 
         //corresponding AssignContractManagerDetail object.
-        for (AssignContractManagerDetail detail : (List<AssignContractManagerDetail>)document.getAssignContractManagerDetails()) {
+        for (ContractManagerAssignmentDetail detail : (List<ContractManagerAssignmentDetail>)document.getContractManagerAssignmentDetails()) {
             documentHeaderIdsAndDetails.put(detail.getRequisition().getDocumentNumber(), detail);
         }
         //Add all of the document header ids (which are the keys of the documentHeaderIdsAndDetails  map) to the 
@@ -90,7 +90,7 @@ public class AssignContractManagerAction extends FinancialSystemTransactionalDoc
         //Set the documentHeader of the requisition of each of the AssignContractManagerDetail to the documentHeader of
         //the requisitions resulted from the documentService, so that we'll have workflowDocument in the documentHeader.
         for (RequisitionDocument req : requisitionDocumentsFromDocService) {
-            AssignContractManagerDetail detail = (AssignContractManagerDetail)documentHeaderIdsAndDetails.get(req.getDocumentNumber());
+            ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail)documentHeaderIdsAndDetails.get(req.getDocumentNumber());
             detail.getRequisition().setDocumentHeader(req.getDocumentHeader());
         }
     }

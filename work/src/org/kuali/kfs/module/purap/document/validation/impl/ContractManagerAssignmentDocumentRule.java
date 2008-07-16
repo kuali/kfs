@@ -29,16 +29,16 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
-import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
+import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 
 /**
  * Business rule(s) applicable to Contract Manager Assignment document.
  */
-public class AssignContractManagerDocumentRule extends TransactionalDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocumentRule.class);
+public class ContractManagerAssignmentDocumentRule extends TransactionalDocumentRuleBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocumentRule.class);
 
     /**
      * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
@@ -46,7 +46,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
-        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) document;
+        ContractManagerAssignmentDocument acmDocument = (ContractManagerAssignmentDocument) document;
         return isValid &= processValidation(acmDocument);
     }
 
@@ -56,7 +56,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
-        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) approveEvent.getDocument();
+        ContractManagerAssignmentDocument acmDocument = (ContractManagerAssignmentDocument) approveEvent.getDocument();
         // isValid &= processValidation(acmDocument);
         return isValid;
     }
@@ -67,8 +67,8 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
      * @param document Contract Manager Assignment document
      * @return Boolean indicating if validation succeeded
      */
-    private boolean processValidation(AssignContractManagerDocument document) {
-        return validateContractManagerCodes(document.getAssignContractManagerDetails());
+    private boolean processValidation(ContractManagerAssignmentDocument document) {
+        return validateContractManagerCodes(document.getContractManagerAssignmentDetails());
     }
 
     /**
@@ -85,7 +85,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
         int count = 0;
         
         for (Iterator iter = assignContractManagerDetails.iterator(); iter.hasNext();) {
-            AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
+            ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail) iter.next();
 
             // Look for the contractManagerCode in the table. If not there the code is invalid.
             if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {

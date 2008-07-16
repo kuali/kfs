@@ -60,7 +60,7 @@
 
 	<strong>Purchasing/Accounts Payable</strong><br />
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Contract Manager Assignment" url="purapAssignContractManager.do?methodToCall=docHandler&command=initiate&docTypeName=AssignContractManagerDocument" /></li>
+        <li><portal:portalLink displayTitle="true" title="Contract Manager Assignment" url="purapContractManagerAssignment.do?methodToCall=docHandler&command=initiate&docTypeName=ContractManagerAssignmentDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Credit Memo" url="purapCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=CreditMemoDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Payment Request" url="purapPaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentRequestDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Receiving" url="purapReceivingLine.do?methodToCall=docHandler&command=initiate&docTypeName=ReceivingLineDocument" /></li>

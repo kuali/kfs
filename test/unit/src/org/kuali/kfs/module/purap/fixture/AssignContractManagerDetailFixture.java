@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 public enum AssignContractManagerDetailFixture {
@@ -43,8 +43,8 @@ public enum AssignContractManagerDetailFixture {
         this.requisitionIdentifier = requisition.getPurapDocumentIdentifier();
     }
 
-    public AssignContractManagerDetail createAssignContractManagerDetail() {
-        AssignContractManagerDetail detail = new AssignContractManagerDetail();
+    public ContractManagerAssignmentDetail createAssignContractManagerDetail() {
+        ContractManagerAssignmentDetail detail = new ContractManagerAssignmentDetail();
         detail.setDocumentNumber(documentNumber);
         detail.setRequisitionIdentifier(requisitionIdentifier);
         detail.setContractManagerCode(contractManagerCode);

@@ -4,16 +4,16 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssignContractManagerDetail" parent="AssignContractManagerDetail-parentBean" />
+  <bean id="ContractManagerAssignmentDetail" parent="ContractManagerAssignmentDetail-parentBean" />
 
-  <bean id="AssignContractManagerDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail" />
+  <bean id="ContractManagerAssignmentDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail" />
     <property name="attributes" >
       <list>
-        <ref bean="AssignContractManagerDetail-contractManagerCode" />
-        <ref bean="AssignContractManagerDetail-documentNumber" />
-        <ref bean="AssignContractManagerDetail-requisitionIdentifier" />
-        <ref bean="AssignContractManagerDetail-versionNumber" />
+        <ref bean="ContractManagerAssignmentDetail-contractManagerCode" />
+        <ref bean="ContractManagerAssignmentDetail-documentNumber" />
+        <ref bean="ContractManagerAssignmentDetail-requisitionIdentifier" />
+        <ref bean="ContractManagerAssignmentDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -21,9 +21,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AssignContractManagerDetail-contractManagerCode" parent="AssignContractManagerDetail-contractManagerCode-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-contractManagerCode" parent="ContractManagerAssignmentDetail-contractManagerCode-parentBean" />
 
-  <bean id="AssignContractManagerDetail-contractManagerCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDetail-contractManagerCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractManagerCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Contract Manager Code" />
@@ -37,9 +37,9 @@
             p:size="4" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDetail-documentNumber" parent="AssignContractManagerDetail-documentNumber-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-documentNumber" parent="ContractManagerAssignmentDetail-documentNumber-parentBean" />
 
-  <bean id="AssignContractManagerDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Document Number" />
@@ -53,9 +53,9 @@
             p:size="16" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDetail-requisitionIdentifier" parent="AssignContractManagerDetail-requisitionIdentifier-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-requisitionIdentifier" parent="ContractManagerAssignmentDetail-requisitionIdentifier-parentBean" />
 
-  <bean id="AssignContractManagerDetail-requisitionIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ContractManagerAssignmentDetail-requisitionIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionIdentifier" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Identifier" />
@@ -69,8 +69,8 @@
             p:size="10" />
     </property>
   </bean>
-  <bean id="AssignContractManagerDetail-versionNumber" parent="AssignContractManagerDetail-versionNumber-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-versionNumber" parent="ContractManagerAssignmentDetail-versionNumber-parentBean" />
 
-  <bean id="AssignContractManagerDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  <bean id="ContractManagerAssignmentDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

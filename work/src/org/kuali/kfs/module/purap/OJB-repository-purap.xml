@@ -3169,13 +3169,13 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail" table="PUR_ASGN_CONTR_MGR_DTL_T">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail" table="PUR_ASGN_CONTR_MGR_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
-    <reference-descriptor name="assignContractManagerDocument" class-ref="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="contractManagerAssignmentDocument" class-ref="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="requisition" class-ref="org.kuali.kfs.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -3186,14 +3186,14 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.document.AssignContractManagerDocument" table="PUR_ASGN_CONTR_MGR_T">
+<class-descriptor class="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" table="PUR_ASGN_CONTR_MGR_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <collection-descriptor name="assignContractManagerDetails" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="contractManagerAssignmentDetails" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>

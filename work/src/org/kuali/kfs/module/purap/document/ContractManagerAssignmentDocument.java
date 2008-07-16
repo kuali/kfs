@@ -30,7 +30,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
+import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
@@ -43,10 +43,10 @@ import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class AssignContractManagerDocument extends FinancialSystemTransactionalDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
+public class ContractManagerAssignmentDocument extends FinancialSystemTransactionalDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocument.class);
 
-    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList<AssignContractManagerDetail>();
+    private List<ContractManagerAssignmentDetail> contractManagerAssignmentDetails = new ArrayList<ContractManagerAssignmentDetail>();
 
     // Not persisted (only for labels in tag)
     private String requisitionNumber;
@@ -64,15 +64,15 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
     /**
      * Default constructor.
      */
-    public AssignContractManagerDocument() {
+    public ContractManagerAssignmentDocument() {
         super();
     }
 
-    public AssignContractManagerDetail getAssignContractManagerDetail(int index) {
-        while (assignContractManagerDetails.size() <= index) {
-            assignContractManagerDetails.add(new AssignContractManagerDetail());
+    public ContractManagerAssignmentDetail getAssignContractManagerDetail(int index) {
+        while (contractManagerAssignmentDetails.size() <= index) {
+            contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail());
         }
-        return (AssignContractManagerDetail) assignContractManagerDetails.get(index);
+        return (ContractManagerAssignmentDetail) contractManagerAssignmentDetails.get(index);
     }
 
     /**
@@ -102,11 +102,11 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
         }
   
         for (RequisitionDocument req : requisitionDocumentsFromDocService) {
-            assignContractManagerDetails.add(new AssignContractManagerDetail(this, req));
+            contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail(this, req));
         }
 
         String[] fieldNames = {PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapPropertyConstants.VENDOR_NAME, PurapPropertyConstants.REQUISITION_IDENTIFIER};
-        DynamicCollectionComparator.sort(assignContractManagerDetails, fieldNames);
+        DynamicCollectionComparator.sort(contractManagerAssignmentDetails, fieldNames);
         LOG.debug("populateDocumentWithRequisitions() Leaving method.");   
     }
 
@@ -159,7 +159,7 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
     @Override
     public String getDocumentTitle() {
         String title = "";
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(AssignContractManagerDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ContractManagerAssignmentDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
             title = PurapWorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
         }
         else {
@@ -168,12 +168,12 @@ public class AssignContractManagerDocument extends FinancialSystemTransactionalD
         return title;
     }
 
-    public List getAssignContractManagerDetails() {
-        return assignContractManagerDetails;
+    public List getContractManagerAssignmentDetails() {
+        return contractManagerAssignmentDetails;
     }
 
-    public void setAssignContractManagerDetails(List assignContractManagerDetails) {
-        this.assignContractManagerDetails = assignContractManagerDetails;
+    public void setContractManagerAssignmentDetailss(List contractManagerAssignmentDetails) {
+        this.contractManagerAssignmentDetails = contractManagerAssignmentDetails;
     }
 
     /**

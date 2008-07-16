@@ -34,7 +34,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.dataaccess.ImageDao;
-import org.kuali.kfs.module.purap.document.AssignContractManagerDocument;
+import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.sys.KFSConstants;
@@ -78,8 +78,8 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         NumberFormat formatter = new DecimalFormat("00");
         String cm = formatter.format(contractManagerId);
 
-        String prefix = parameterService.getParameterValue(AssignContractManagerDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
-        String extension = "." + parameterService.getParameterValue(AssignContractManagerDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
+        String prefix = parameterService.getParameterValue(ContractManagerAssignmentDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
+        String extension = "." + parameterService.getParameterValue(ContractManagerAssignmentDocument.class, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
         return getFile(prefix, cm, key, extension, location);
     }
 

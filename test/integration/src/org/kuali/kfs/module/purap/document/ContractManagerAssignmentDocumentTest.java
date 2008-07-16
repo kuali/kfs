@@ -25,8 +25,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.module.purap.businessobject.AssignContractManagerDetail;
-import org.kuali.kfs.module.purap.fixture.AssignContractManagerDocumentFixture;
+import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
+import org.kuali.kfs.module.purap.fixture.ContractManagerAssignmentDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,11 +42,11 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class is used to test create and route populated Assign Contract Manager Documents.
  */
 @ConfigureContext(session = PARKE)
-public class AssignContractManagerDocumentTest extends KualiTestBase {
-    public static final Class<AssignContractManagerDocument> DOCUMENT_CLASS = AssignContractManagerDocument.class;
+public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
+    public static final Class<ContractManagerAssignmentDocument> DOCUMENT_CLASS = ContractManagerAssignmentDocument.class;
     private static final String ACCOUNT_REVIEW = "Account Review";
 
-    private AssignContractManagerDocument acmDocument = null;
+    private ContractManagerAssignmentDocument acmDocument = null;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -94,7 +94,7 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
         assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         routeDocument(acmDocument, "saving copy source document", documentService);
         WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
-        AssignContractManagerDocument document = (AssignContractManagerDocument) documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
+        ContractManagerAssignmentDocument document = (ContractManagerAssignmentDocument) documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
         return acmDocument.getAssignContractManagerDetail(0).getRequisition().getDocumentNumber();
     }
@@ -123,18 +123,18 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
      * @return            The AssignContractManagerDocument created by this method.
      * @throws Exception
      */
-    private AssignContractManagerDocument buildSimpleDocument() throws Exception {
-        List<AssignContractManagerDetail> details = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID.getAssignContractManagerDetails();
-        for (AssignContractManagerDetail detail : details) {
+    private ContractManagerAssignmentDocument buildSimpleDocument() throws Exception {
+        List<ContractManagerAssignmentDetail> details = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_VALID.getAssignContractManagerDetails();
+        for (ContractManagerAssignmentDetail detail : details) {
             RequisitionDocument routedReq = routeRequisitionUntilAwaitingContractManager(detail.getRequisition());
             detail.setRequisitionIdentifier(routedReq.getPurapDocumentIdentifier());
             detail.refreshNonUpdateableReferences();
         }
-        acmDocument = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID.createAssignContractManagerDocument();
-        for (AssignContractManagerDetail detail : details) {
-            detail.setAssignContractManagerDocument(acmDocument);
+        acmDocument = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_VALID.createAssignContractManagerDocument();
+        for (ContractManagerAssignmentDetail detail : details) {
+            detail.setContractManagerAssignmentDocument(acmDocument);
         }
-        acmDocument.setAssignContractManagerDetails(details);
+        acmDocument.setContractManagerAssignmentDetailss(details);
         return acmDocument;
     }
 
@@ -144,18 +144,18 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
      * @return            The AssignContractManagerDocument created by this method.
      * @throws Exception
      */
-    private AssignContractManagerDocument buildSimpleDocument2() throws Exception {
-        List<AssignContractManagerDetail> details = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID_2.getAssignContractManagerDetails();
-        for (AssignContractManagerDetail detail : details) {
+    private ContractManagerAssignmentDocument buildSimpleDocument2() throws Exception {
+        List<ContractManagerAssignmentDetail> details = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_VALID_2.getAssignContractManagerDetails();
+        for (ContractManagerAssignmentDetail detail : details) {
             RequisitionDocument routedReq = routeRequisitionUntilAwaitingContractManager2(detail.getRequisition());
             detail.setRequisitionIdentifier(routedReq.getPurapDocumentIdentifier());
             detail.refreshNonUpdateableReferences();
         }
-        acmDocument = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID_2.createAssignContractManagerDocument();
-        for (AssignContractManagerDetail detail : details) {
-            detail.setAssignContractManagerDocument(acmDocument);
+        acmDocument = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_VALID_2.createAssignContractManagerDocument();
+        for (ContractManagerAssignmentDetail detail : details) {
+            detail.setContractManagerAssignmentDocument(acmDocument);
         }
-        acmDocument.setAssignContractManagerDetails(details);
+        acmDocument.setContractManagerAssignmentDetailss(details);
         return acmDocument;
     }
 

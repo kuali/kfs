@@ -93,7 +93,7 @@
         <form-bean name="BalanceInquiryLookupForm" type="org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm" />
 
         <!-- PURAP Module Bean Definitions -->
-        <form-bean name="AssignContractManagerForm" type="org.kuali.kfs.module.purap.document.web.struts.AssignContractManagerForm" />
+        <form-bean name="ContractManagerAssignmentForm" type="org.kuali.kfs.module.purap.document.web.struts.ContractManagerAssignmentForm" />
         <form-bean name="RequisitionForm" type="org.kuali.kfs.module.purap.document.web.struts.RequisitionForm" />
         <form-bean name="PurchaseOrderForm" type="org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm" />
         <form-bean name="PaymentRequestForm" type="org.kuali.kfs.module.purap.document.web.struts.PaymentRequestForm" />

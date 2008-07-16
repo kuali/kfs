@@ -956,11 +956,22 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
+        boolean hasStateSalesTax = false;
+        boolean hasDistrictSalesTax = false;
         
         addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        sequenceHelper.increment();
         addIncomeGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
-        addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
-        addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        
+        if( hasStateSalesTax ){
+            sequenceHelper.increment();
+            addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        }
+        
+        if( hasDistrictSalesTax ){
+            sequenceHelper.increment();
+            addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        }
 
         return true;
     }
@@ -1001,6 +1012,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
         service.createIncomeGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
+        
     }
     
     protected void addStateSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){

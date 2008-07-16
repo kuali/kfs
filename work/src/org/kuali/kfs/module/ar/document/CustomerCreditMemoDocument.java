@@ -563,10 +563,22 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
         
+        boolean hasStateSalesTax = false;
+        boolean hasDistrictSalesTax = false;
+        
         addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        sequenceHelper.increment();
         addIncomeGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
-        addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
-        addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        
+        if( hasStateSalesTax ){
+            sequenceHelper.increment();
+            addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        }
+        
+        if( hasDistrictSalesTax ){
+            sequenceHelper.increment();
+            addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        }
 
         return true;
     }

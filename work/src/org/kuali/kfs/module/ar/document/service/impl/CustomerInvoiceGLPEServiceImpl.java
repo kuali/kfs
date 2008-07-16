@@ -77,15 +77,14 @@ public class CustomerInvoiceGLPEServiceImpl implements CustomerInvoiceGLPEServic
         
         //add explicit entry
         glpeSource.addPendingEntry(explicitEntry);
-        sequenceHelper.increment();
-        
         
         //add claim on cash offset entry
         if( hasClaimOnCashOffset ){
+            sequenceHelper.increment();
+            
             GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
             generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(glpeSource.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
             glpeSource.addPendingEntry(offsetEntry);
-            sequenceHelper.increment();
         }
     }
     

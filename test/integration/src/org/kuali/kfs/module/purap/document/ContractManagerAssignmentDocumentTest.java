@@ -66,7 +66,6 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KFSMI1087)
     @ConfigureContext(session = PARKE, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         acmDocument = buildSimpleDocument();

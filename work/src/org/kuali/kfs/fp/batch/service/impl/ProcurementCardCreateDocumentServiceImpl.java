@@ -28,6 +28,7 @@ import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -115,6 +116,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
                 documentService.saveDocument(pcardDocument, DocumentSystemSaveEvent.class);
+                LOG.info("Saved Procurement Card document: "+pcardDocument.getDocumentNumber());
                 // documentService.saveDocumentWithoutRunningValidation(pcardDocument);
             }
             catch (Exception e) {
@@ -135,9 +137,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
      */
     public boolean routeProcurementCardDocuments() {
-        List<ProcurementCardDocument> documentList = new ArrayList<ProcurementCardDocument>();
+        List<String> documentIdList = null;
         try {
-            documentList = retrieveProcurementCardDocumentsToRoute(EdenConstants.ROUTE_HEADER_SAVED_CD);
+            documentIdList = retrieveProcurementCardDocumentsToRoute(EdenConstants.ROUTE_HEADER_SAVED_CD);
         }
         catch (WorkflowException e1) {
             LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage());
@@ -147,16 +149,21 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             LOG.error("Error retrieving pcdo documents for routing: " + re.getMessage());
             throw new RuntimeException(re.getMessage());
         }
-        for (ProcurementCardDocument pcardDocument: documentList) {
+        
+        Collections.reverse(documentIdList);
+        LOG.info("PCards to Route: "+documentIdList);
+        
+        for (String pcardDocumentId: documentIdList) {
             try {
-                LOG.info("Routing PCDO document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + ".");
+                ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
+                LOG.info("Routing PCDO document # " + pcardDocumentId + ".");
                 documentService.prepareWorkflowDocument(pcardDocument);
 
                 // calling workflow service to bypass business rule checks
                 workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
             }
             catch (WorkflowException e) {
-                LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+                LOG.error("Error routing document # " + pcardDocumentId + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage());
             }
         }
@@ -168,8 +175,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Returns a list of all initiated but not yet routed procurement card documents, using the KualiWorkflowInfo service.
      * @return a list of procurement card documents to route
      */
-    private List<ProcurementCardDocument> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
-        List<ProcurementCardDocument> documents = new ArrayList<ProcurementCardDocument>();
+    private List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
+        List<String> documentIds = new ArrayList<String>();
         
         DocumentSearchCriteriaVO criteria = new DocumentSearchCriteriaVO();
         criteria.setDocTypeFullName(dataDictionaryService.getDocumentTypeNameByClass(ProcurementCardDocument.class));
@@ -179,21 +186,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (DocumentSearchResultRowVO resultRow: results.getSearchResults()) {
             for (KeyValueVO field : resultRow.getFieldValues()) {
                 if (field.getKey().equals(WORKFLOW_SEARCH_RESULT_KEY)) {
-                    documents.add(getDocumentFromRouteDocHeader(field.getValue()));
+                    documentIds.add(parseDocumentIdFromRouteDocHeader(field.getValue()));
                 }
             }
         }
         
-        return documents;
-    }
-    
-    /**
-     * Given a routeDocHeader link from workflow, finds the procurement card document it points to
-     * @param routeDocHeader the String representing an HTML link to the document
-     * @return the ProcurementCardDocument pointed to by the routeDocHeader
-     */
-    private ProcurementCardDocument getDocumentFromRouteDocHeader(String routeDocHeader) throws WorkflowException {
-        return (ProcurementCardDocument)documentService.getByDocumentHeaderId(parseDocumentIdFromRouteDocHeader(routeDocHeader));
+        return documentIds;
     }
     
     /**
@@ -221,14 +219,13 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         // check if auto approve is turned on
         boolean autoApproveOn = parameterService.getIndicatorParameter(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_DOCUMENTS_IND);
 
-        if (!autoApproveOn) { // This doesn't make sense - ????
+        if (!autoApproveOn) { // no auto approve?  then skip out of here...
             return true;
         }
 
-        List<ProcurementCardDocument> documentList = new ArrayList<ProcurementCardDocument>();
-
+        List<String> documentIdList = null;
         try {
-            documentList = retrieveProcurementCardDocumentsToRoute(EdenConstants.ROUTE_HEADER_ENROUTE_CD);
+            documentIdList = retrieveProcurementCardDocumentsToRoute(EdenConstants.ROUTE_HEADER_ENROUTE_CD);
         }
         catch (WorkflowException e1) {
             throw new RuntimeException(e1.getMessage());
@@ -241,22 +238,22 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValue(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));
 
         Timestamp currentDate = dateTimeService.getCurrentTimestamp();
-        for (ProcurementCardDocument pcardDocument: documentList) {
-            Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        for (String pcardDocumentId: documentIdList) {
+            try {
+                ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
+                Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
 
-            // if number of days in route is passed the allowed number, call doc service for super user approve
-            if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
-                // update document description to reflect the auto approval
-                pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
-
-                try {
+                // if number of days in route is passed the allowed number, call doc service for super user approve
+                if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
+                    // update document description to reflect the auto approval
+                    pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
+                
                     LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
                     documentService.superUserApproveDocument(pcardDocument, "");
                 }
-                catch (WorkflowException e) {
-                    LOG.error("Error auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-                    throw new RuntimeException(e.getMessage());
-                }
+            } catch (WorkflowException e) {
+                LOG.error("Error auto approving document # " + pcardDocumentId + " " + e.getMessage());
+                throw new RuntimeException(e.getMessage());
             }
         }
 

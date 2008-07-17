@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.UniversalUser;
@@ -515,19 +516,48 @@ public class PrintServiceImpl implements PrintService {
         return savePurchaseOrderPdf(po, TRANSMISSION_IS_RETRANSMIT, environment);
     }
 
-    public Collection generateReceivingTicket(BulkReceivingDocument blkRecDoc, 
-                                              ByteArrayOutputStream baosPDF) {
+    public Collection generateBulkReceivingPDF(BulkReceivingDocument blkRecDoc, 
+                                               ByteArrayOutputStream baosPDF) {
         
-        LOG.debug("generateReceivingTicket() started");
+        LOG.debug("generateBulkReceivingPDF() started");
 
         BulkReceivingPdf recBlkTicketPDF = new BulkReceivingPdf();
         Collection errors = new ArrayList();
+        
+        String imageTempLocation = StringUtils.EMPTY;
+        String logoImage = StringUtils.EMPTY;
+        
+        String key = blkRecDoc.getDocumentNumber().toString(); // key can be any string; 
+        String campusCode = blkRecDoc.getDeliveryCampusCode().toLowerCase();
+        
+        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        
+        boolean useImage = true;
+        if (parameterService.parameterExists(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
+            useImage = parameterService.getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
+        }
+
+        if (useImage) {
+            imageTempLocation = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
+
+            if (imageTempLocation == null) {
+                throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");
+            }
+
+            // Get images
+            logoImage = imageDao.getLogo(key, campusCode, imageTempLocation);
+            
+            if (StringUtils.isEmpty(logoImage)) {
+                throw new PurapConfigurationException("logoImage is null.");
+            }
+        }
+        
         try {
-            recBlkTicketPDF.generatePdf(blkRecDoc,baosPDF);
-//            if (pdfParameters.isUseImage()) {
-//                // Removes temporary images; only need to call once.
-//                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
-//            }
+            recBlkTicketPDF.generatePdf(blkRecDoc,baosPDF,logoImage,environment);
+            if (useImage) {
+                // Removes temporary images; only need to call once.
+                imageDao.removeImages(key, imageTempLocation);
+            }
         }catch (PurapConfigurationException pce) {
             LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());

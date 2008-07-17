@@ -254,7 +254,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
                                                ByteArrayOutputStream baosPDF){
         
         BulkReceivingDocument blkRecDoc = getBulkReceivingByDocumentNumber(blkDocId);
-        Collection<String> generatePDFErrors = printService.generateReceivingTicket(blkRecDoc, baosPDF);
+        Collection<String> generatePDFErrors = printService.generateBulkReceivingPDF(blkRecDoc, baosPDF);
         
         if (!generatePDFErrors.isEmpty()) {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_BULK_RECEIVING_PDF, generatePDFErrors);

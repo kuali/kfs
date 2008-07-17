@@ -153,10 +153,8 @@
 			    	       </c:if>
 			    	   </td>    
 		              <th align=right valign=middle class="bord-l-b">
-		                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReceivedDate}" /></div>
 		              </th>
 		              <td align=left valign=middle class="datacell">
-		                  <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" datePicker="true" readOnly="${not fullEntryMode}"/>
 		              </td>
 	            </tr>
 	             
@@ -240,9 +238,9 @@
 	            
 	            <tr>
 	            	<th align=right valign=middle class="bord-l-b">
-	            	</th>
-	            	<td align=left valign=middle class="datacell">
-	            	</td>
+                	</th>
+                	<td align=left valign=middle class="datacell">
+                	</td>
 	            	<th align=right valign=middle class="bord-l-b">
 	            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
 	            	</th>
@@ -253,13 +251,28 @@
 	            	</td>
 	            </tr>
             
-	            <tr>
-	                <td colspan="4" class="subhead">Shipment Information</td>
-	            </tr>
-	           
 			</c:if>
 
 			<%-- This is common if PO is available or not --%>
+			
+			<tr>
+                <td colspan="4" class="subhead">Shipment Information</td>
+            </tr> 
+	           
+			<tr>
+				 <th align=right valign=middle class="bord-l-b">
+                   	 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.trackingNumber}" /></div>
+                 </th>
+                 <td align=left valign=middle class="datacell">
+                   	 <kul:htmlControlAttribute attributeEntry="${documentAttributes.trackingNumber}" property="document.trackingNumber" readOnly="${not fullEntryMode}"/>
+                 </td>
+				 <th align=right valign=middle class="bord-l-b">
+	                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReceivedDate}" /></div>
+	             </th>
+	             <td align=left valign=middle class="datacell">
+	                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" datePicker="true" readOnly="${not fullEntryMode}"/>
+	             </td>
+            </tr>
 			<tr>
             	<th align=right valign=middle class="bord-l-b">
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" /></div>
@@ -302,32 +315,6 @@
                   		<kul:htmlControlAttribute attributeEntry="${documentAttributes.noOfCartons}" property="document.noOfCartons" readOnly="${not fullEntryMode}"/>
                	</td>
             </tr>    
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.trackingNumber}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.trackingNumber}" property="document.trackingNumber" readOnly="${not fullEntryMode}"/>
-                </td>
-            </tr>    
-
-          
-
-      
-
-          
-
-           
-
-            
-            
-			
-			
-            
-
-        </table>
-
-        
-
+      </table> <%-- If PO not available --%>
     </div>
 </kul:tab>

@@ -36,7 +36,7 @@
 	        	<html:hidden property="document.institutionContactPhoneNumber" />
 	        	<html:hidden property="document.institutionContactEmailAddress" />
 	        	<html:hidden property="document.deliveryToName" />
-	        	
+	        	<html:hidden property="document.requestorPersonEmailAddress" />
 	        	
 	        	<tr>
 	        		<th align=right valign=middle  class="bord-l-b">

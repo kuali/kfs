@@ -107,5 +107,5 @@ public interface PrintService {
      */
     public Collection savePurchaseOrderPdfForRetransmission(PurchaseOrderDocument po, String environment);
     
-    public Collection generateReceivingTicket(BulkReceivingDocument blkRecDoc,ByteArrayOutputStream stream);
+    public Collection generateBulkReceivingPDF(BulkReceivingDocument blkRecDoc,ByteArrayOutputStream stream);
 }

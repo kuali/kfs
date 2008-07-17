@@ -226,49 +226,19 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             e.printStackTrace();
         }
         
-        
-        if (StringUtils.isNotEmpty(getAlternateVendorNumber())){
-            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(getAlternateVendorHeaderGeneratedIdentifier(), 
-                                                                                                   getAlternateVendorDetailAssignedIdentifier());
-            //copied from creditmemocreateserviceimpl.populatedocumentfromvendor
-            String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
-            VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(getAlternateVendorHeaderGeneratedIdentifier(), 
-                                                                                                             getAlternateVendorDetailAssignedIdentifier(), 
-                                                                                                             VendorConstants.AddressTypes.REMIT, 
-                                                                                                             userCampus);
-            if (vendorAddress == null) {
-                // pick up the default vendor po address type
-                vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(getAlternateVendorHeaderGeneratedIdentifier(), 
-                                                                                                   getAlternateVendorDetailAssignedIdentifier(), 
-                                                                                                   VendorConstants.AddressTypes.PURCHASE_ORDER, 
-                                                                                                   userCampus);
-            }
-            
-            if (vendorAddress != null){
-                vendorDetail.setDefaultAddressLine1(vendorAddress.getVendorLine1Address());
-                vendorDetail.setDefaultAddressLine2(vendorAddress.getVendorLine2Address());
-                vendorDetail.setDefaultAddressCity(vendorAddress.getVendorCityName());
-                vendorDetail.setDefaultAddressCountryCode(vendorAddress.getVendorCountryCode());
-                vendorDetail.setDefaultAddressPostalCode(vendorAddress.getVendorZipCode());
-                vendorDetail.setDefaultAddressStateCode(vendorAddress.getVendorStateCode());
-                vendorDetail.setDefaultAddressInternationalProvince(vendorAddress.getVendorAddressInternationalProvinceName());
-            }
-            
-            setAlternateVendorDetail(vendorDetail);
-        }
-        
         if (getVendorNumber() != null){
             setGoodsDeliveredVendorNumber(getVendorNumber());
             setGoodsDeliveredVendorName(getVendorName());
         }
         
+        populateAlternateVendor();
         populateDocumentDescription(po);
+        
     }
      
     private void populateAlternateVendor(){
         
-        if (ObjectUtils.isNull(getAlternateVendorDetail()) &&
-            getAlternateVendorHeaderGeneratedIdentifier() != null &&
+        if (getAlternateVendorHeaderGeneratedIdentifier() != null &&
             getAlternateVendorDetailAssignedIdentifier() != null){
             
             VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(getAlternateVendorHeaderGeneratedIdentifier(), 
@@ -280,14 +250,15 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
                                                                                                              VendorConstants.AddressTypes.REMIT, 
                                                                                                              userCampus);
             if (vendorAddress == null) {
-                // pick up the default vendor po address type
+            // pick up the default vendor po address type
                 vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(getAlternateVendorHeaderGeneratedIdentifier(), 
                                                                                                    getAlternateVendorDetailAssignedIdentifier(), 
                                                                                                    VendorConstants.AddressTypes.PURCHASE_ORDER, 
                                                                                                    userCampus);
             }
-            
+
             if (vendorAddress != null){
+                setAlternateVendorNumber(vendorDetail.getVendorNumber());
                 vendorDetail.setDefaultAddressLine1(vendorAddress.getVendorLine1Address());
                 vendorDetail.setDefaultAddressLine2(vendorAddress.getVendorLine2Address());
                 vendorDetail.setDefaultAddressCity(vendorAddress.getVendorCityName());
@@ -296,7 +267,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
                 vendorDetail.setDefaultAddressStateCode(vendorAddress.getVendorStateCode());
                 vendorDetail.setDefaultAddressInternationalProvince(vendorAddress.getVendorAddressInternationalProvinceName());
             }
-            
+
             setAlternateVendorDetail(vendorDetail);
         }
     }
@@ -332,6 +303,9 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         // first populate, then call super
         if (event instanceof ContinuePurapEvent) {
             SpringContext.getBean(BulkReceivingService.class).populateBulkReceivingFromPurchaseOrder(this);
+            if (getPurchaseOrderIdentifier() == null){
+                getDocumentHeader().setDocumentDescription(PurapConstants.BulkReceivingDocumentStrings.MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION);;
+            }
         }
         
         super.prepareForSave(event);

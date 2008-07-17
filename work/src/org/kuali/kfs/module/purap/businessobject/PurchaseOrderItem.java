@@ -107,6 +107,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemActiveIndicator(true);
         
         this.setPurchasingCommodityCode(ri.getPurchasingCommodityCode());
+        this.setCommodityCode(getCommodityCode());
     }
 
     public boolean isItemActiveIndicator() {

@@ -37,7 +37,7 @@
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/bc/dwr-budget.xml</value>
+				<value>org/kuali/kfs/module/bc/dwr-bc.xml</value>
 			</list>
 		</property>
 		<property name="jobNames">

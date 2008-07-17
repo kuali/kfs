@@ -41,6 +41,7 @@ import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
@@ -49,7 +50,10 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEvent;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +79,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private BudgetParameterService budgetParameterService;
     private PermissionService permissionService;
     private FiscalYearFunctionControlService fiscalYearFunctionControlService;
+    private OptionsService optionsService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
@@ -83,7 +88,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public BudgetConstructionHeader getByCandidateKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear) {
         return budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
     }
-
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocument(org.kuali.core.document.Document) similar to
@@ -126,6 +130,9 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkFlow(org.kuali.kfs.module.bc.document.BudgetConstructionDocument, org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType, boolean)
+     */
     public Document saveDocumentNoWorkFlow(BudgetConstructionDocument bcDoc, MonthSpreadDeleteType monthSpreadDeleteType, boolean doMonthRICheck) throws ValidationException {
 
         checkForNulls(bcDoc);
@@ -407,9 +414,126 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         }
 
-
         return editMode;
     }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#updatePendingBudgetGeneralLedger(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.core.util.KualiInteger)
+     */
+    public void updatePendingBudgetGeneralLedger(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
+        BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
+        if (budgetConstructionHeader == null) {
+            return;
+        }
+
+        PendingBudgetConstructionGeneralLedger pendingRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount, false);
+        businessObjectService.save(pendingRecord);
+
+        if (this.canUpdatePlugRecord(appointmentFunding)) {
+            PendingBudgetConstructionGeneralLedger plugRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount.negated(), true);
+            KualiInteger annualBalanceAmount = plugRecord.getAccountLineAnnualBalanceAmount();
+            KualiInteger beginningBalanceAmount = plugRecord.getFinancialBeginningBalanceLineAmount();
+
+            if ((annualBalanceAmount == null || annualBalanceAmount.isZero()) && (beginningBalanceAmount == null || beginningBalanceAmount.isZero())) {
+                businessObjectService.delete(plugRecord);
+            }
+            else {
+                businessObjectService.save(plugRecord);
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getBudgetConstructionHeader(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
+        String accountNumber = appointmentFunding.getAccountNumber();
+        String subAccountNumber = appointmentFunding.getSubAccountNumber();
+        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+
+        return this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
+    }
+
+    /**
+     * determine whether the plug line can be updated or created. If the given appointment funding is in the plug override mode or
+     * it associates with a contract and grant account, then no plug can be updated or created
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the plug line can be updated or created; otherwise, false
+     */
+    private boolean canUpdatePlugRecord(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        if (appointmentFunding.isOverride2plgMode()) {
+            return false;
+        }
+        return !appointmentFunding.getAccount().isForContractsAndGrants();
+    }
+
+    /**
+     * get a pending budget construction GL record, and set its to the given update amount if it exists in database; otherwise,
+     * create it with the given information
+     * 
+     * @param budgetConstructionHeader the budget construction header of the pending budget construction GL record
+     * @param appointmentFunding the appointment funding associated with the pending budget construction GL record
+     * @return a pending budget construction GL record if any; otherwise, null
+     */
+    private PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount, boolean is2PLG) {
+        PendingBudgetConstructionGeneralLedger pendingRecord = this.retrievePendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, is2PLG);
+
+        if (pendingRecord != null) {
+            KualiInteger newAnnaulBalanceAmount = pendingRecord.getAccountLineAnnualBalanceAmount().add(updateAmount);
+            pendingRecord.setAccountLineAnnualBalanceAmount(newAnnaulBalanceAmount);
+        }
+        else {
+            Integer budgetYear = appointmentFunding.getUniversityFiscalYear();
+            String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
+            String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
+            String objectTypeCode = optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd();
+
+            pendingRecord = new PendingBudgetConstructionGeneralLedger();
+            pendingRecord.setDocumentNumber(budgetConstructionHeader.getDocumentNumber());
+            pendingRecord.setUniversityFiscalYear(appointmentFunding.getUniversityFiscalYear());
+            pendingRecord.setChartOfAccountsCode(appointmentFunding.getChartOfAccountsCode());
+            pendingRecord.setAccountNumber(appointmentFunding.getAccountNumber());
+            pendingRecord.setSubAccountNumber(appointmentFunding.getSubAccountNumber());
+            pendingRecord.setFinancialObjectCode(objectCode);
+            pendingRecord.setFinancialSubObjectCode(subObjectCode);
+            pendingRecord.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+            pendingRecord.setFinancialObjectTypeCode(objectTypeCode);
+            pendingRecord.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
+            pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
+        }
+
+        return pendingRecord;
+    }
+
+    /**
+     * retrieve a pending budget construction GL record based on the given infromation
+     * 
+     * @param budgetConstructionHeader the budget construction header of the pending budget construction GL record to be retrieved
+     * @param appointmentFunding the appointment funding associated with the pending budget construction GL record to be retrieved
+     * @return a pending budget construction GL record if any; otherwise, null
+     */
+    private PendingBudgetConstructionGeneralLedger retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, boolean is2PLG) {
+        String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
+        String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
+
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+
+        searchCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionHeader.getDocumentNumber());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetConstructionHeader.getUniversityFiscalYear());
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, budgetConstructionHeader.getChartOfAccountsCode());
+        searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionHeader.getAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionHeader.getSubAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, optionsService.getOptions(appointmentFunding.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd());
+
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjectCode);
+
+        return (PendingBudgetConstructionGeneralLedger) this.businessObjectService.findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, searchCriteria);
+    }
+
 
     /**
      * Gets the Budget Construction access mode for a Budget Construction document header and Organization Approver user. This
@@ -633,4 +757,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         this.fiscalYearFunctionControlService = fiscalYearFunctionControlService;
     }
 
+
+    /**
+     * Sets the optionsService attribute value.
+     * @param optionsService The optionsService to set.
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
 }

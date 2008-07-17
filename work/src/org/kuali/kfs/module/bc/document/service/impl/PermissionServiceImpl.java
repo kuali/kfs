@@ -49,9 +49,9 @@ import edu.iu.uis.eden.clientapp.vo.RuleVO;
  * fiscal officer or delegate of an account for a document at level zero. the User gets View access to a document set at a level
  * below a user's organization approval node. No access is allowed to a document set at a level above the user's organization
  * approval node. Organization review hierarchy approval nodes are defined in Workflow as rules using the KualiOrgReviewTemplate
- * where the Document Type is BudgetConstructionDocument and the Chart and Organization codes define the node in the hierarchy
- * and responsibilty type is Person or Workgroup and Action Request Code is Approve. TODO verify the description of the rule
- * definition after implementation.
+ * where the Document Type is BudgetConstructionDocument and the Chart and Organization codes define the node in the hierarchy and
+ * responsibilty type is Person or Workgroup and Action Request Code is Approve. TODO verify the description of the rule definition
+ * after implementation.
  */
 @Transactional
 public class PermissionServiceImpl implements PermissionService {
@@ -131,18 +131,39 @@ public class PermissionServiceImpl implements PermissionService {
         }
         return retVar;
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(org.kuali.kfs.coa.businessobject.Org,
+     *      java.lang.String)
+     */
+    public boolean isOrgReviewApprover(Org organzation, String personUserIdentifier) {
+        try {
+            return this.isOrgReviewApprover(personUserIdentifier, organzation.getChartOfAccountsCode(), organzation.getOrganizationCode());
+        }
+        catch (Exception e) { 
+            StringBuilder errorMessage = new StringBuilder();
+            errorMessage.append("Fail to determine whether ");
+            errorMessage.append(personUserIdentifier);
+            errorMessage.append(" is an approver of ");
+            errorMessage.append(organzation + "."); 
+            
+            throw new RuntimeException(errorMessage.toString() + e);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account,
+     *      java.lang.String)
      */
     public boolean isAccountManagerOrDelegate(Account account, String personUserIdentifier) {
         boolean isAccountManager = StringUtils.equals(personUserIdentifier, account.getAccountManagerUserPersonUserIdentifier());
-        
+
         return isAccountManager || this.isAccountDelegate(account, personUserIdentifier);
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountDelegate(org.kuali.kfs.coa.businessobject.Account, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountDelegate(org.kuali.kfs.coa.businessobject.Account,
+     *      java.lang.String)
      */
     public boolean isAccountDelegate(Account account, String personUserIdentifier) {
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -173,10 +194,10 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 }

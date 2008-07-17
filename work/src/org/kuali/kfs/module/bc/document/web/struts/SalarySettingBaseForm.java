@@ -89,14 +89,15 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     public void postProcessBCAFLines() {
         this.populateBCAFLines();
         
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean vacatable = salarySettingService.canBeVacant(appointmentFundings, appointmentFunding);
             appointmentFunding.setVacatable(vacatable);
             
-            salarySettingService.updateAppointmentFundingByUserLevel(appointmentFunding, kualiUser.getPersonUniversalIdentifier());
+            // TODO: apply locking somewhere
+            salarySettingService.updateAppointmentFundingByUserLevel(appointmentFunding, currentUser.getPersonUniversalIdentifier());
         }
 
         DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);

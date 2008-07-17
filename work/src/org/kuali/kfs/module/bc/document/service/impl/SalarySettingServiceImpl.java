@@ -378,14 +378,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             List<BudgetConstructionMonthly> budgetConstructionMonthly = this.updateMonthlyAmounts(salarySettingExpansion, changes);
             businessObjectService.save(budgetConstructionMonthly);
         }
-
-        // recalculate the benefit
-        String documentNumber = salarySettingExpansion.getDocumentNumber();
-        Integer fiscalYear = salarySettingExpansion.getUniversityFiscalYear();
-        String chartOfAccounts = salarySettingExpansion.getChartOfAccountsCode();
-        String accountNumber = salarySettingExpansion.getAccountNumber();
-        String subAccountNumber = salarySettingExpansion.getSubAccountNumber();
-        benefitsCalculationService.calculateAllBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
     }
 
     /**
@@ -429,7 +421,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#retriveSalarySalarySettingExpansion(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        BudgetConstructionHeader budgetDocument = this.getBudgetConstructionHeader(appointmentFunding);
+        BudgetConstructionHeader budgetDocument = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
 
         Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(appointmentFunding, SalarySettingExpansion.getPrimaryKeyFields());
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetDocument.getDocumentNumber());
@@ -489,7 +481,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      *      java.lang.String)
      */
     public boolean updateAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, String personUserIdentifier) {
-        BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
+        BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
         if (budgetConstructionHeader == null) {
             return false;
         }
@@ -500,9 +492,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // account manager or delegate could edit the appointment funding if the document is in the beginning level
         if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
             appointmentFunding.setDisplayOnlyMode(false);
-            return this.acquireFundingLock(budgetConstructionHeader, personUserIdentifier);
+            return true;
         }
 
+        // get the organization review hierachy path for which the user could be an approver
         List<Org> organazationReviewHierachy = this.getOrganizationReviewHierachy(personUserIdentifier);
         if (organazationReviewHierachy == null) {
             return false;
@@ -511,24 +504,22 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         Integer userLevelCode = this.getUserLevelCode(documentOrganizationLevelCode, fiscalYear, account, organazationReviewHierachy);
 
-        // if the user is in the hierachy, the editing mode can be determined by the levels of user and document organization
+        // if funding line is inside the hierachy path, the editing mode can be determined by the levels of user and document organization
         if (userLevelCode != null) {
             if (userLevelCode > documentOrganizationLevelCode) {
                 appointmentFunding.setDisplayOnlyMode(true);
-                return true;
             }
             else if (userLevelCode < documentOrganizationLevelCode) {
                 appointmentFunding.setDisplayOnlyMode(true);
                 appointmentFunding.setExcludedFromTotal(true);
-                return true;
             }
             else {
                 appointmentFunding.setDisplayOnlyMode(false);
-                return this.acquireFundingLock(budgetConstructionHeader, personUserIdentifier);
-            }
+            }            
+            return true;
         }
 
-        // an organization approver of the budget construction doccument has the read-only access
+        // if funding line is outside the hierachy path, an organization approver of the budget construction doccument has the read-only access
         if (!organazationReviewHierachy.isEmpty()) {
             appointmentFunding.setDisplayOnlyMode(true);
             return true;
@@ -605,7 +596,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @param personUserIdentifier the specified user
      * @return true if the funding lock is acquired successfully or the user has the lock already; otherwise, false
      */
-    private boolean acquireFundingLock(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
+    public boolean acquireFundingLock(BudgetConstructionHeader budgetConstructionHeader, String personUserIdentifier) {
         // allow a user back into the system if attempting to do the same type of lock
         boolean lockByCurrentuser = lockService.isAccountLockedByUser(budgetConstructionHeader, personUserIdentifier);
         if (lockByCurrentuser) {
@@ -630,21 +621,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         catch (Exception e) {
             throw new RuntimeException("Fail to get organazation review hierachy for " + personUserIdentifier + "." + e);
         }
-    }
-
-    /**
-     * get the budget document with the information provided by the given appointment funding
-     * 
-     * @param appointmentFunding the given appointment funding
-     * @return the budget document with the information provided by the given appointment funding
-     */
-    private BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
-        String accountNumber = appointmentFunding.getAccountNumber();
-        String subAccountNumber = appointmentFunding.getSubAccountNumber();
-        Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
-
-        return budgetDocumentService.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
     }
 
     /**

@@ -16,15 +16,17 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
@@ -32,14 +34,16 @@ import org.kuali.kfs.sys.context.SpringContext;
  */
 public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailSalarySettingForm.class);
-    
+
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
     private boolean addLine;
+    private boolean singleAccountMode;
+
     private String positionNumber;
     private String emplid;
     private String personName;
-    
+
     protected SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
 
     /**
@@ -61,29 +65,29 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
         this.populateBCAFLines();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#populateBCAFLines()
      */
     @Override
     public void populateBCAFLines() {
         super.populateBCAFLines();
-        
+
         this.refreshBCAFLine(this.getNewBCAFLine());
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#refreshBCAFLine(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     @Override
     public void refreshBCAFLine(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         super.refreshBCAFLine(appointmentFunding);
-        
+
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_INTENDED_INCUMBENT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_ADMINISTRATIVE_POST);
     }
-    
+
     /**
      * sets the default fields not setable by the user for added lines and any other required initialization
      * 
@@ -173,7 +177,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * Gets the personName attribute. 
+     * Gets the personName attribute.
+     * 
      * @return Returns the personName.
      */
     public String getPersonName() {
@@ -182,9 +187,56 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the personName attribute value.
+     * 
      * @param personName The personName to set.
      */
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    /**
+     * Gets the singleAccountMode attribute.
+     * 
+     * @return Returns the singleAccountMode.
+     */
+    public boolean isSingleAccountMode() {
+        return singleAccountMode;
+    }
+
+    /**
+     * Sets the singleAccountMode attribute value.
+     * 
+     * @param singleAccountMode The singleAccountMode to set.
+     */
+    public void setSingleAccountMode(boolean singleAccountMode) {
+        this.singleAccountMode = singleAccountMode;
+    }
+
+    /**
+     * determine whether the editing mode for detail salary setting is in single account mode or not
+     */
+    private boolean resetSingleAccountModeFlag() {
+        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
+
+        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+
+        Account account = new Account();
+        account.setAccountNumber(this.getAccountNumber());
+        account.setChartOfAccountsCode(this.getChartOfAccountsCode());
+        account.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
+
+        // instruct the detail salary setting by single account mode if current user is an account approver or delegate
+        if (permissionService.isAccountManagerOrDelegate(account, personUserIdentifier)) {
+            return true;
+        }
+
+        // instruct the detail salary setting by multiple account mode if current user is an organization level approver
+        boolean isOrgReviewApprover = permissionService.isOrgReviewApprover(account.getOrganization(), personUserIdentifier);
+        if (isOrgReviewApprover) {
+            return false;
+        }
+        else {
+            throw new RuntimeException("Access denied: not authorized to do the detail salary setting");
+        }
     }
 }

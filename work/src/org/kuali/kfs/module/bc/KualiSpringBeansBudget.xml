@@ -94,6 +94,9 @@
 		<property name="fiscalYearFunctionControlService">
 			<ref bean="fiscalYearFunctionControlService" />
 		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>		
 	</bean>
 
 	<bean id="budgetOrganizationTreeService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetOrganizationTreeServiceImpl">

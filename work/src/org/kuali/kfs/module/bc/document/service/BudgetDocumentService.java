@@ -24,6 +24,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 
@@ -143,4 +144,20 @@ public interface BudgetDocumentService {
     
 
     public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser u);
+    
+    /**
+     * update the pending budget construction GL record assocating with the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param updateAmount the amount that can be used to update the amounts of the pending budget construction GL record
+     */
+    public void updatePendingBudgetGeneralLedger(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount);
+    
+    /**
+     * get the budget document with the information provided by the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return the budget document with the information provided by the given appointment funding
+     */
+    public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

@@ -60,4 +60,7 @@ public class BCPropertyConstants {
     public static final String CSF_FREEZE_DATE = "csfFreezeDate";
     public static final String BUDGET_CONSTRUCTION_ADMINISTRATIVE_POST = "budgetConstructionAdministrativePost";
     public static final String CONFIDENTIAL_POSITION = "confidentialPosition";
+    public static final Object ADD_LINE = "addLine";
+    public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
+    public static final String SINGLE_ACCOUNT_MODE = "singleAccountMode";
 }

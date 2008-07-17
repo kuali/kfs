@@ -54,6 +54,15 @@ public interface PermissionService {
      * @return
      */
     public boolean isOrgReviewApprover(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) throws Exception;
+    
+    /**
+     * determine whether or not the specified user is an organization level approver for the given organization
+     * 
+     * @param organization the given organization
+     * @param personUserIdentifier the specified user
+     * @return true if the specified user is an organization level approver for the given organization; otherwise, false
+     */
+    public boolean isOrgReviewApprover(Org organization, String personUserIdentifier);
 
     /**
      * determine whether the specified user is a manager or account delegate of the given account

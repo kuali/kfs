@@ -15,20 +15,20 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class QuickSalarySettingForm extends SalarySettingBaseForm {
@@ -62,7 +62,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      * @return the key map for the salary setting expension
      */
     @Override
-    public Map<String, Object> getKeyMapOfSalarySettingItem() {        
+    public Map<String, Object> getKeyMapOfSalarySettingItem() {
         return ObjectUtil.buildPropertyMap(this, SalarySettingExpansion.getPrimaryKeyFields());
     }
 
@@ -74,6 +74,9 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
         return this.getSalarySettingExpansion().getPendingBudgetConstructionAppointmentFunding();
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getRefreshCallerName()
+     */
     @Override
     public String getRefreshCallerName() {
         return BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER;

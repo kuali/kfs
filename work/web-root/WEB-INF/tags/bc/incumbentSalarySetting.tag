@@ -28,6 +28,8 @@
 <html:hidden property="financialSubObjectCode" />
 <html:hidden property="emplid" />
 <html:hidden property="budgetByAccountMode" />
+<html:hidden property="singleAccountMode" />
+<html:hidden property="addLine" />
 
 <kul:tabTop tabTitle="Incumbent" defaultOpen="true">
 	<div class="tab-container" align=center>

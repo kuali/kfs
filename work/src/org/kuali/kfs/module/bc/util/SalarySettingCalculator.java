@@ -245,7 +245,7 @@ public class SalarySettingCalculator {
     }
 
     /**
-     * get a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
+     * get a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted and excluded from total
      * 
      * @param AppointmentFundings the given appointment funding lines
      * @return a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
@@ -254,7 +254,7 @@ public class SalarySettingCalculator {
         List<PendingBudgetConstructionAppointmentFunding> effectiveAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : AppointmentFundings) {
-            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isExcludedFromTotal()) {
                 effectiveAppointmentFundings.add(appointmentFunding);
             }
         }

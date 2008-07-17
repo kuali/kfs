@@ -97,6 +97,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private boolean budgetable;
     private boolean hourlyPaid;
     private boolean excludedFromTotal;
+    private boolean override2plgMode;
 
     /**
      * Default constructor.
@@ -1008,6 +1009,22 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public void setExcludedFromTotal(boolean excludedFromTotal) {
         this.excludedFromTotal = excludedFromTotal;
+    }
+
+    /**
+     * Gets the override2plgMode attribute. 
+     * @return Returns the override2plgMode.
+     */
+    public boolean isOverride2plgMode() {
+        return override2plgMode;
+    }
+
+    /**
+     * Sets the override2plgMode attribute value.
+     * @param override2plgMode The override2plgMode to set.
+     */
+    public void setOverride2plgMode(boolean override2plgMode) {
+        this.override2plgMode = override2plgMode;
     }
 
 }

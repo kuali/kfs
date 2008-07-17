@@ -33,6 +33,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.businessobject.LaborLedgerBenefitsCalculation;
@@ -50,6 +51,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.DeleteMonthlySpreadEvent;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -463,10 +465,24 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @return true if the plug line can be updated or created; otherwise, false
      */
     private boolean canUpdatePlugRecord(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        // no plug if the override mode is enabled
         if (appointmentFunding.isOverride2plgMode()) {
             return false;
         }
-        return !appointmentFunding.getAccount().isForContractsAndGrants();
+        
+        Account account = appointmentFunding.getAccount();
+        
+        // no plug for the account with the sub groups setup as a system parameter 
+        if(BudgetParameterFinder.getNotGenerate2PlgSubFundGroupCodes().contains(account.getSubFundGroupCode())) {
+            return false;
+        }
+        
+        // no plug for the contract and grant account
+        if(account.isForContractsAndGrants()) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**

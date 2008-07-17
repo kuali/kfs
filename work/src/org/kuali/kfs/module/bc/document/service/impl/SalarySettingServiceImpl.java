@@ -396,28 +396,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateSalarySettingExpansion(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
-     */
-    @SuppressWarnings("deprecation")
-    public void updateSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingExpansion.getPendingBudgetConstructionAppointmentFunding();
-
-        KualiInteger requestedAmountTotal = SalarySettingCalculator.getAppointmentRequestedAmountTotal(appointmentFundings);
-        KualiInteger changes = KualiInteger.ZERO;
-
-        if (requestedAmountTotal != null) {
-            KualiInteger annualBalanceAmount = salarySettingExpansion.getAccountLineAnnualBalanceAmount();
-            changes = (annualBalanceAmount != null) ? annualBalanceAmount.subtract(requestedAmountTotal) : requestedAmountTotal;
-        }
-
-        salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
-
-        if (changes.isNonZero()) {
-            salarySettingExpansion.setBudgetConstructionMonthly(this.updateMonthlyAmounts(salarySettingExpansion, changes));
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#retriveSalarySalarySettingExpansion(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public SalarySettingExpansion retriveSalarySalarySettingExpansion(PendingBudgetConstructionAppointmentFunding appointmentFunding) {

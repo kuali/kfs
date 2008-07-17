@@ -19,6 +19,8 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 	private Date documentRecurrenceBeginDate;
 	private Date documentRecurrenceEndDate;
 	private Integer documentTotalRecurrenceNumber;
+	//TODO looks like in OJB descriptor you were going to get the interval code BO from PURAP.  
+	//Make sure this BO gets moved out of the PURAP module and into the sys module.
 	private String documentRecurrenceIntervalCode;
 	private Long workgroupIdentifier;
 	private String documentInitiatorUserIdentifier;

@@ -488,14 +488,6 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * Returns a document header associated with this general ledger posting helper 
-     * @return a document header
-     */
-    public FinancialSystemDocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
      */
     public void clearAnyGeneralLedgerPendingEntries() {

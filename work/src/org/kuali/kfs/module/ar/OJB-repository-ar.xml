@@ -988,9 +988,12 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
+	<!-- Commenting this out because it's causing issues with OJB Test -->
+	<!--
     <reference-descriptor name="recurringPaymentFrequency" class-ref="org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentRecurrenceIntervalCode" />
     </reference-descriptor>
+    -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerType" table="AR_CUST_TYP_T">
@@ -1212,10 +1215,7 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 	<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceItemTotalAmount" column="AR_INV_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="invoiceDueAmount" column="AR_INV_DUE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-
-	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="customerNumber" />
-	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.Over30Invoice" table="AR_OVER_30_INV_V">

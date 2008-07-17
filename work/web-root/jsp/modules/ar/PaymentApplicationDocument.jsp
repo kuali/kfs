@@ -215,8 +215,7 @@
 					<td>
 						<kul:htmlControlAttribute
 							attributeEntry="${customerAttributes.customerNumber}"
-							property="customerNumber"
-							readOnly="${readOnly}" />
+							property="customerNumber"/>
 						<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
 							fieldConversions="customerNumber:customer.customerNumber" />
 					</td>
@@ -226,8 +225,7 @@
 					<td>
 						<kul:htmlControlAttribute
 							attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
-							property="selectedInvoiceDocumentNumber"
-							readOnly="${readOnly}" />
+							property="selectedInvoiceDocumentNumber"/>
 					</td>
 				</tr>
 				<tr>
@@ -480,6 +478,7 @@
 					<th>Sobj</th>
 					<th>Project</th>
 					<th>Amount</th>
+					<th>Action</th>
 				</tr>
 				<tr>
 					<td><input type='text' size=''></td>
@@ -489,11 +488,17 @@
 					<td><input type='text' size=''></td>
 					<td><input type='text' size=''></td>
 					<td><input type='text' size=''></td>
+					<td><html:image property="methodToCall.addNonAr"
+									src="${ConfigProperties.externalizable.images.url}tinybutton-add1.gif"
+									alt="Add"
+									title="Add"
+									styleClass="tinybutton" /></td>
 				</tr>
 				<tr>
 					<td colspan='5'>&nbsp;</td>
 					<th>Non-AR Total</th>
 					<td> <input type='text' name='nonartotal'></td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 		</div>
@@ -508,8 +513,7 @@
 					<td>
 						<kul:htmlControlAttribute
 							attributeEntry="${customerAttributes.customerNumber}"
-							property="document.nonAppliedHolding.customerNumber"
-							readOnly="${readOnly}" />
+							property="document.nonAppliedHolding.customerNumber"/>
 						<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" 
 							fieldConversions="document.nonAppliedHolding.customerNumber:customer.customerNumber" />
 					</td>

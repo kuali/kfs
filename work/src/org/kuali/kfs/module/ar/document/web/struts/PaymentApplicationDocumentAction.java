@@ -69,6 +69,12 @@ public class PaymentApplicationDocumentAction extends KualiAccountingDocumentAct
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    public ActionForward addNonAr(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean trap = true;
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO Auto-generated method stub

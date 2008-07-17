@@ -52,7 +52,7 @@
 		        <table id='ctrl-info' width="100%" cellpadding="0" cellspacing="0" class="datatable">
 		          <tr>
 		          	<th>Org Doc #</th>
-		          	<td><input type='text' name=''></td>
+		          	<td>${cashControlDocument.documentNumber}</td>
 		          </tr>
 		          <tr>
 		          	<th>Customer</th>

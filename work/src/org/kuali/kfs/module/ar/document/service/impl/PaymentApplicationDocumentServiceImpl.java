@@ -88,7 +88,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         Collection matches = businessObjectService.findMatching(CashControlDetail.class, criteria);
         if(matches.size() > 0) {
             CashControlDetail detail = (CashControlDetail) matches.iterator().next();
-            document = detail.getCashControlDocument();
+            Map ccdocCriteria = new HashMap();
+            ccdocCriteria.put("documentNumber", detail.getDocumentNumber());
+            Object ccdoc = businessObjectService.findByPrimaryKey(CashControlDocument.class, ccdocCriteria);
+            document = (CashControlDocument) ccdoc;
         }
         return document;
     }

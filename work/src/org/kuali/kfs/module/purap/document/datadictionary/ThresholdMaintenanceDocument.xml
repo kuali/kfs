@@ -21,6 +21,11 @@
     </property>
     <property name="label" value="Threshold" />
     <property name="shortLabel" value="Threshold" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
+            p:parameterName="THRESHOLD"
+            p:parameterDetailType="Threshold" />
+    </property>
     <property name="documentTypeName" value="ThresholdMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ThresholdRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

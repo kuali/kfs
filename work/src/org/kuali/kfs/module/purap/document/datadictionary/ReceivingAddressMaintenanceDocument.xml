@@ -30,6 +30,11 @@
       </list>
     </property>
     <property name="label" value="Receiving Address" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
+            p:parameterName="RECEIVING_ADDRESS"
+            p:parameterDetailType="Receiving Address" />
+    </property>    
     <property name="shortLabel" value="Receiving Address" />
     <property name="summary" value="Receiving Address Maintenance Document" />
     <property name="description" value="Maintenance document which allows you to create, copy, or modify Receiving Addresses." />

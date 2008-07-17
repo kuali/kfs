@@ -21,6 +21,11 @@
     </property>
     <property name="label" value="Capital Asset System Type" />
     <property name="shortLabel" value="Capital Asset System Type" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
+            p:parameterName="CAPITAL_ASSET_SYSTEM_TYPE"
+            p:parameterDetailType="Capital Asset System Type" />
+    </property>
     <property name="documentTypeName" value="CapitalAssetSystemTypeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMSY" />

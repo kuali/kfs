@@ -37,6 +37,7 @@
     <property name="name" value="vendorFederalWithholdingTaxBeginningDate" />
     <property name="label" value="Backup Withholding Begin Date" />
     <property name="shortLabel" value="Begin Date" />
+    <property name="maxLength" value="10" />
   </bean>
   <bean id="VendorHeader-vendorFederalWithholdingTaxEndDate" parent="VendorHeader-vendorFederalWithholdingTaxEndDate-parentBean" />
 
@@ -44,6 +45,7 @@
     <property name="name" value="vendorFederalWithholdingTaxEndDate" />
     <property name="label" value="Backup Withholding End Date" />
     <property name="shortLabel" value="End Date" />
+    <property name="maxLength" value="10" />
   </bean>
   <bean id="VendorHeader-vendorHeaderGeneratedIdentifier" parent="VendorHeader-vendorHeaderGeneratedIdentifier-parentBean" />
 

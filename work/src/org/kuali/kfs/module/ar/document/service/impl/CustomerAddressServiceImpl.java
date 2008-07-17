@@ -50,6 +50,20 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         }
         return customerAddress;
     }
+    
+    @SuppressWarnings("unchecked")
+    public CustomerAddress getPrimaryAddress(String customerNumber) {
+        CustomerAddress primaryAddress = null;
+        if (StringUtils.isNotBlank(customerNumber)) {
+            Map criteria = new HashMap();
+            criteria.put("customerNumber", customerNumber);
+            criteria.put("customerAddressTypeCode", "P");
+            
+            primaryAddress = (CustomerAddress)SpringContext.getBean(BusinessObjectService.class).findMatching(CustomerAddress.class, criteria).iterator().next();
+        }
+        
+        return primaryAddress;
+    }
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;

@@ -305,6 +305,82 @@
 		</property>
 	</bean>
 	
+	<!-- Report Service  -->
+	
+	<bean id="CustomerCreditMemoReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerCreditMemoReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="customerCreditMemoReportInfo">
+			<ref bean="customerCreditMemoReportInfo" />
+		</property>
+	</bean>
+	
+	<bean id="customerCreditMemoReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="Customer Credit Memo Report" />
+		<property name="reportFileName" value="customer_credit_memo" />
+		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="CreditMemo" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="creditMemoDetails" value="CreditMemoDetails"/>
+			</map>
+		</property>
+	</bean>		
+	
+	<bean id="CustomerInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerInvoiceReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="customerInvoiceReportInfo">
+			<ref bean="customerInvoiceReportInfo" />
+		</property>
+	</bean>
+	
+	<bean id="customerInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="Customer Invoice Report" />
+		<property name="reportFileName" value="customer_invoice" />
+		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="Invoice" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="invoiceDetails" value="InvoiceDetails"/>
+			</map>
+		</property>
+	</bean>	
+	
+	<bean id="CustomerStatementReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerStatementReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="customerStatementReportInfo">
+			<ref bean="customerStatementReportInfo" />
+		</property>
+	</bean>
+	
+	<bean id="customerStatementReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="Customer Statement Report" />
+		<property name="reportFileName" value="customer_statement" />
+		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="Statement" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="statementDetails" value="StatementDetails"/>
+			</map>
+		</property>
+	</bean>	
+	
+	<bean id="accountsReceivableReportService" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl"/>
+	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 </beans>

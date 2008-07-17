@@ -42,4 +42,13 @@ public interface CustomerAddressService {
      * @return
      */
     public Integer getNextCustomerAddressIdentifier();
+    
+    /**
+     * 
+     * This method returns the CustomerAddress specified as the primary address for a Customer.
+     * @param customerNumber
+     * @return
+     */
+    
+    public CustomerAddress getPrimaryAddress(String customerNumber);
 }

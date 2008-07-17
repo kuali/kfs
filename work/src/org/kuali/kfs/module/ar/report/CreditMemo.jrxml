@@ -49,7 +49,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToName")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("Name")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -62,7 +62,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToStreetAddressLine1")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("StreetAddressLine1")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -75,7 +75,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToCity")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("City")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -88,7 +88,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToState")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("State")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -101,7 +101,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToZipcode")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("Zipcode")]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -270,34 +270,8 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToStreetAddressLine2")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("StreetAddressLine2")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="41"
-						y="106"
-						width="216"
-						height="17"
-						key="textField-88"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceAttentionLineText")]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="1"
-						y="105"
-						width="35"
-						height="17"
-						key="staticText-51"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[ATTN: Text]]></text>
-				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="41"
@@ -309,7 +283,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToCountry")]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("Country")]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement

@@ -8,7 +8,7 @@
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_MAINTENANCE_USERS</blanketApproveWorkgroupName>
-      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler&amp;businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal</docHandler>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>
     </documentType>

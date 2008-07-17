@@ -3,9 +3,9 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>BarcodeInventoryErrorDocument</name>
-      <parent>KualiFinancialDocument</parent>
+      <parent>KualiBaseDocument</parent>
       <label>Barcode Inventory Error</label>
-      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>
       <docHandler>${application.url}/camsBarcodeInventoryError.do?methodToCall=docHandler</docHandler>

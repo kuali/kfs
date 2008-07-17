@@ -8,7 +8,7 @@
       <label>Organization Reports</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>SY_MAINTENANCE_REVIEWERS</blanketApproveWorkgroupName>
+      <blanketApproveWorkgroupName>SY_MAINTENANCE_USERS</blanketApproveWorkgroupName>
       <docHandler>http://localhost:8080/kuali-dev/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>1</routingVersion>

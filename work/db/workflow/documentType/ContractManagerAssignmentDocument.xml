@@ -2,21 +2,17 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
-      <name>AssignContractManagerDocument</name>
+      <name>ContractManagerAssignmentDocument</name>
       <parent>KualiPurapDocument</parent>
       <label>Contract Manager Assignment</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <defaultExceptionWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</defaultExceptionWorkgroupName>
-      <docHandler>${application.url}/purapAssignContractManager.do?methodToCall=docHandler</docHandler>
+      <docHandler>${application.url}/purapContractManagerAssignment.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <policies>
         <policy>
-          <name>INITIATOR_MUST_ROUTE</name>
-          <value>true</value>
-        </policy>
-        <policy>
-          <name>INITIATOR_MUST_SAVE</name>
+          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
           <value>true</value>
         </policy>
         <policy>
@@ -24,7 +20,11 @@
           <value>true</value>
         </policy>
         <policy>
-          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
+          <name>INITIATOR_MUST_ROUTE</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>INITIATOR_MUST_SAVE</name>
           <value>true</value>
         </policy>
       </policies>

@@ -500,23 +500,27 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             KualiInteger newAnnaulBalanceAmount = pendingRecord.getAccountLineAnnualBalanceAmount().add(updateAmount);
             pendingRecord.setAccountLineAnnualBalanceAmount(newAnnaulBalanceAmount);
         }
-        else {
+        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())){ // initialize a new pending record if not plug line or plug line not zero          
             Integer budgetYear = appointmentFunding.getUniversityFiscalYear();
+            
             String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
             String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
             String objectTypeCode = optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd();
 
             pendingRecord = new PendingBudgetConstructionGeneralLedger();
+            
             pendingRecord.setDocumentNumber(budgetConstructionHeader.getDocumentNumber());
             pendingRecord.setUniversityFiscalYear(appointmentFunding.getUniversityFiscalYear());
             pendingRecord.setChartOfAccountsCode(appointmentFunding.getChartOfAccountsCode());
             pendingRecord.setAccountNumber(appointmentFunding.getAccountNumber());
             pendingRecord.setSubAccountNumber(appointmentFunding.getSubAccountNumber());
+            
             pendingRecord.setFinancialObjectCode(objectCode);
             pendingRecord.setFinancialSubObjectCode(subObjectCode);
             pendingRecord.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
             pendingRecord.setFinancialObjectTypeCode(objectTypeCode);
-            pendingRecord.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
+            
+            pendingRecord.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
             pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
         }
 

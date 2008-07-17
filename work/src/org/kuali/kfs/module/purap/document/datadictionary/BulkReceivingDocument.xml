@@ -9,12 +9,11 @@
   <bean id="BulkReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="label" value="Bulk Receiving" />
     <property name="shortLabel" value="Bulk Receiving" />
-<!-- <property name="helpDefinition" >
-     <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="BULK RECEIVING"
-            p:parameterDetailType="BulkReceiving" />
-    </property>     -->
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" 
+      		p:parameterClass="org.kuali.kfs.module.purap.document.BulkReceivingDocument" 
+      		p:parameterName="BULK_RECEIVING" />
+    </property>
     <property name="documentTypeName" value="BulkReceivingDocument" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingDocumentRule" />

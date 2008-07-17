@@ -36,12 +36,12 @@
         </property>
         <property name="databaseRepositoryFilePaths">
             <list>
-                <value>org/kuali/kfs/sys/OJB-repository-kfs.xml</value>
+                <value>org/kuali/kfs/sys/ojb-sys.xml</value>
             </list>
         </property>
         <property name="scriptConfigurationFilePaths">
             <list>
-                <value>org/kuali/kfs/sys/dwr-kfs.xml</value>
+                <value>org/kuali/kfs/sys/dwr-sys.xml</value>
             </list>
         </property>
         <property name="triggerNames">

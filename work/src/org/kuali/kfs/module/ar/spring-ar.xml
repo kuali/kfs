@@ -32,7 +32,7 @@
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/ar/OJB-repository-ar.xml</value>
+				<value>org/kuali/kfs/module/ar/ojb-ar.xml</value>
 			</list>
 		</property>
 

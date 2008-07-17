@@ -32,7 +32,7 @@
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/cg/OJB-repository-cg.xml</value>
+				<value>org/kuali/kfs/module/cg/ojb-cg.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">

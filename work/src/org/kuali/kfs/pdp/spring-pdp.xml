@@ -32,7 +32,7 @@
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/pdp/OJB-repository-pdp.xml</value>
+				<value>org/kuali/kfs/pdp/ojb-pdp.xml</value>
 			</list>
 		</property>
 		<property name="jobNames">

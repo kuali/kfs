@@ -32,12 +32,12 @@
 		</property>
 		<property name="scriptConfigurationFilePaths">
             <list>
-                <value>org/kuali/kfs/vnd/dwr-vendor.xml</value>
+                <value>org/kuali/kfs/vnd/dwr-vnd.xml</value>
             </list>
         </property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/vnd/OJB-repository-vendor.xml</value>
+				<value>org/kuali/kfs/vnd/ojb-vnd.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -32,12 +32,12 @@
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/ld/OJB-repository-labor.xml</value>
+				<value>org/kuali/kfs/module/ld/ojb-ld.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/ld/dwr-labor.xml</value>
+				<value>org/kuali/kfs/module/ld/dwr-ld.xml</value>
 			</list>
 		</property>
 		

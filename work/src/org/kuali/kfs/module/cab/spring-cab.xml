@@ -31,12 +31,12 @@
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/cab/OJB-repository-capitalAssetBuilder.xml</value>
+				<value>org/kuali/kfs/module/cab/ojb-cab.xml</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/cab/dwr-capitalAssetBuilder.xml</value>
+				<value>org/kuali/kfs/module/cab/dwr-cab.xml</value>
 			</list>
 		</property>
 		<property name="jobNames">

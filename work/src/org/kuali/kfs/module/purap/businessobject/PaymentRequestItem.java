@@ -194,7 +194,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             return null;
         }
         else {
-            if(ObjectUtils.isNull(this.getItemQuantity()) || KualiDecimal.ZERO.equals(this.getItemQuantity())){
+            if(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE.equals(this.getItemTypeCode())){
                 return null;
             }else{
                 return poi.getOutstandingQuantity();

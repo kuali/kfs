@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -37,13 +39,13 @@ public class CustomerInvoiceReceivableAccountNumberValidation extends GenericVal
 
     public boolean validate(AttributedDocumentEvent event) {
         if (StringUtils.isEmpty(customerInvoiceDocument.getPaymentAccountNumber())) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
             return false;
         }
         else {
             customerInvoiceDocument.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentAccount())) {
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER);
                 return false;
             }
         }

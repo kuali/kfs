@@ -146,6 +146,7 @@ public class CamsKeyConstants {
         public static final String MESSAGE_UPLOAD_ERROR_RECCOUNT="message.upload.record.error.count";
         //public static final String MESSAGE_DOCUMENT_URL="message.upload.document.barcodeInventory";
         public static final String MESSAGE_DOCUMENT_CREATED="message.upload.document.barcodeInventory.created";
+        public static final String MESSAGE_NO_DOCUMENT_CREATED="message.upload.document.barcodeInventory.not.created";
         
         public static final String ERROR_INVALID_FIELD="error.document.invalid.field";
         public static final String ERROR_CAPITAL_ASSET_DOESNT_EXISTS="error.document.capitalAsset.not.found";

@@ -52,7 +52,7 @@ import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This is the default implementation of the AssetBarcodeInventoryLoadService interface. Handles loading, parsing, and storing of
+ * Implementation of the AssetBarcodeInventoryLoadService interface. Handles loading, parsing, and storing of
  * incoming barcode inventory files.
  */
 public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInventoryLoadService {
@@ -350,6 +350,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         if (!tmpBarcodeInventoryErrorDetails.isEmpty()) {
             barcodeInventoryErrorDocument.setBarcodeInventoryErrorDetail(tmpBarcodeInventoryErrorDetails);
             saveInvalidBarcodeInventoryDocument(barcodeInventoryErrorDocument);
+        } else {
+            GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_NO_DOCUMENT_CREATED);            
         }
 
     }
@@ -421,6 +423,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // Saving....
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+            
+            GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);            
         }
         catch (Exception e) {
             LOG.error("Error persisting document # " + document.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);

@@ -79,15 +79,11 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }            
         
-        super.save(mapping, form, request, response);
-        //Removing message
-        GlobalVariables.getMessageList().remove(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
-        
-        //Instead adding this new message
-        GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return super.save(mapping, form, request, response);
 
+        //Removing message
+//        GlobalVariables.getMessageList().remove(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
+//        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**

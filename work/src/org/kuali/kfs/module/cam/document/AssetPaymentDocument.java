@@ -125,7 +125,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-
 		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();        
         
         //Update asset payment table with the approved asset detail records.

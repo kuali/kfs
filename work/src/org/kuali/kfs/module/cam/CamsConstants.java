@@ -225,7 +225,10 @@ public class CamsConstants extends JSTLConstants {
         public static final String FILE_TYPE_INDENTIFIER = "assetBarcodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";
         public static final String DATA_FILE_EXTENSION = ".csv";
-        public static final String DONE_FILE_EXTENSION = ".done";        
+        public static final String DONE_FILE_EXTENSION = ".done";
+        
+        public static final String BCI_MANUALLY_KEYED_CODE="0";
+        public static final String BCI_SCANED_INTO_DEVICE="1";
     }
 
 

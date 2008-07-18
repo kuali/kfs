@@ -36,7 +36,9 @@ public interface AssetBarcodeInventoryLoadService {
      
      /**
       * 
-      * This method...
+      * This method creates the barcode inventory error document, validates each record, and invokes the 
+      * method that actually stores the record in the tables
+      *  
       * @param file
       * @return
       */

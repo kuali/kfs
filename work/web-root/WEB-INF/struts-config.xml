@@ -218,7 +218,7 @@
 
         <action path="/uploadBarcodeInventoryFile" name="AssetBarCodeInventoryInputFileForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileAction">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/modules/cams/BatchUploadBarCodeInventory.jsp" />
+            <forward name="basic" path="/jsp/modules/cams/BarcodeInventoryUpload.jsp" />
         </action>
 		
         <action path="/cams*" name="{1}Form" 	  input="/jsp/modules/cams/{1}.jsp" 	 type="org.kuali.kfs.module.cam.document.web.struts.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 

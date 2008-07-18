@@ -32,12 +32,14 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.gl.batch.EnterpriseFeedStep;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.BarcodeInventoryError;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * Batch input type for the procurement card job.
+ * Batch input type for the barcode inventory document.
  */
 public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryInputFileType.class);
@@ -54,9 +56,10 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
         return this.directoryPath;
     }
 
+    
     /**
      * 
-     * This method...
+     * Sets the path were the files will be saved
      * @param directoryPath
      */
     public void setDirectoryPath(String directoryPath) {
@@ -79,7 +82,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param fileType the file type (returned in {@link #getFileTypes()})
      * @return the file extension
      */
-    protected String getFileExtension(String fileType) {
+    public String getFileExtension() {
         return CamsConstants.BarCodeInventory.DATA_FILE_EXTENSION;
     }
 
@@ -92,7 +95,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      */
     public Map<String, String> getFileTypeDescription() {
         Map<String, String> values = new HashMap<String, String>();
-        values.put(CamsConstants.BarCodeInventory.DATA_FILE_TYPE, "CVS File");
+        values.put(CamsConstants.BarCodeInventory.DATA_FILE_TYPE, "CSV File");
         return values;
     }
 
@@ -109,7 +112,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPersonUserIdentifier()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension(fileType));
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPersonUserIdentifier()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension());
         return buf.toString();
     }
 
@@ -145,14 +148,18 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
                 isAuthorized = true;
             }
         }
-
         return isAuthorized;
     }
 
-    
-    //TODO this is not required. Talk to Warren about it because this is not a batch process.
+
+    /* 
+     * TODO
+     * Create a new system parameter with component "BarcodeInventoryError", parameter name of "UPLOAD_GROUP", and value of "CM_BARCODE_USERS" 
+     * 
+     * see BatchInputFileSetServiceImpl.isUserAuthorizedForBatchType()
+     */    
     public Class getUploadWorkgroupParameterComponent() {
-        return EnterpriseFeedStep.class;        
+        return BarcodeInventoryErrorDocument.class;
     }
 
     /**
@@ -163,18 +170,14 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     }
 
     /**
-     * Return true if file is required
-     * 
-     * @param fileType type of file
-     * @return true if file type is required
-     * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#isFileRequired(java.lang.String)
      */
     public boolean isFileRequired(String fileType) {
-        if (CamsConstants.BarCodeInventory.DATA_FILE_TYPE.equals(fileType)) { 
-            return true;
-        }
-        throw new IllegalArgumentException("Unknown file type found: " + fileType);
+        return true;
+//        if (CamsConstants.BarCodeInventory.DATA_FILE_TYPE.equals(fileType)) { 
+//            return true;
+//        }
+//        throw new IllegalArgumentException("Unknown file type found: " + fileType);
     }
 
     /**
@@ -266,9 +269,9 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     public boolean validate(Map<String, File> typeToFiles) {
         boolean isValid=true;
         //Validating file format.
+
         if (!SpringContext.getBean(AssetBarcodeInventoryLoadService.class).isFileFormatValid(typeToFiles.get(CamsConstants.BarCodeInventory.DATA_FILE_TYPE))) {
             isValid=false;
-            //TODO display error message
         }
         return isValid;
     }

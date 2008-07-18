@@ -18,8 +18,11 @@ package org.kuali.kfs.module.cam.document.web.struts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,10 +32,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
+import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryInputFileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
@@ -43,12 +50,42 @@ import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
 
 
+/**
+ * 
+ * Action class for the CAMS Barcode Inventory upload. 
+ */
 public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSetAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarCodeInventoryInputFileAction.class);
 
     /**
      * 
+     * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * 
+     * Overridden because I needed to validate the file type is correct.
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BatchUpload batchUpload = ((KualiBatchInputFileSetForm) form).getBatchUpload();
+        BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
+        
+        Map<String, FormFile> uploadedFiles = ((KualiBatchInputFileSetForm) form).getUploadedFiles();
+        
+        String fileTypeExtension = ((AssetBarcodeInventoryInputFileType)batchType).getFileExtension();
+        String fileName = uploadedFiles.get(fileTypeExtension.substring(1)).getFileName();
+            
+        //Validating the file type is the correct one before saving.
+        if (!fileName.endsWith(fileTypeExtension)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FILE_TYPE);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }            
+        return super.save(mapping, form, request, response);
+    }
+    
+    /**
+     * 
      * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#download(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * 
+     * Overridden because the super class has a set of files and a second pulldown menu. BCI only has one file type and therefore one pulldown menu to select from.
      */
     @Override
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -85,9 +122,11 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
     
     
     /**
+     * 
      * Builds list of filenames that the user has permission to manage, and populates the form member. Throws an exception if the
      * batch file set type is not active. Sets the title key from the batch input type. This method must be called before the action
      * handler to ensure proper authorization.
+     * 
      */
     @Override    
     public void setupForm(KualiBatchInputFileSetForm form) {
@@ -134,4 +173,44 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         form.setTitleKey(batchInputFileSetType.getTitleKey());
     }
 
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#delete(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiBatchInputFileSetForm kualiBatchInputFileSetForm = (KualiBatchInputFileSetForm) form;
+        BatchUpload batchUpload = kualiBatchInputFileSetForm.getBatchUpload();
+
+        if (StringUtils.isBlank(batchUpload.getExistingFileName())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE, new String[] {});
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        //BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
+        AssetBarcodeInventoryInputFileService batchInputFileSetService = SpringContext.getBean(AssetBarcodeInventoryInputFileService.class);
+        
+        if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getExistingFileName())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
+        try {
+            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getExistingFileName());
+
+            if (deleteSuccessful) {
+                GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);
+            }
+        }
+        catch (FileNotFoundException e1) {
+            LOG.error("errors deleting file " + e1.getMessage(), e1);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE, new String[] { e1.getMessage() });
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    
 }

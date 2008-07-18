@@ -28,9 +28,12 @@
 <html:hidden property="${propertyName}.objectId" />
 <html:hidden property="${propertyName}.uploadRowNumber"/>
 <tr>
-	<td align="right" class="${cssClass}">
-		<html:checkbox property="rowCheckbox" value="${rowNumber}"/>
-	</td>
+   	<c:if test="${!readOnly}">				
+		<td align="right" class="${cssClass}">
+			<html:checkbox property="rowCheckbox" value="${rowNumber}"/>
+		</td>
+	</c:if>
+	
 	<td align="right" class="${cssClass}">
 	    ${lineNumber}	
 	</td>

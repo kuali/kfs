@@ -48,6 +48,7 @@
             <c:forEach items="${KualiForm.batchInputFileSetType.fileTypes}" var="fileType" varStatus="loopStatus">
               <tr>
                 <th scope="row"><div align="right">add <c:out value="${KualiForm.batchInputFileSetType.fileTypeDescription[fileType]}"/>:</div></th>
+                
                 <td class="infoline"><html:file property="uploadedFiles(${fileType})"/>
                   <span class="fineprint"></span>
                 </td>

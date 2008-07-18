@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
-<c:set var="readOnly" value="${empty KualiForm.editingMode['viewOnly']}" />
+<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 <!-- kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="${CamsConstants.BarcodeInventoryError.DETAIL_ERRORS}"-->
 <kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" >
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
@@ -26,7 +26,10 @@
 			<tr>
 			    <!-- Columns Header -->
 				<!-- kul:htmlAttributeHeaderCell literalLabel="Line#" /-->
-				<td align="right" class="${cssClass}" width="1%"><html:checkbox property="selectAllCheckbox" onclick="selectAllCheckboxes(document.forms[0])" /></td>
+            	<c:if test="${!readOnly}">				
+					<td align="right" class="${cssClass}" width="1%"><html:checkbox property="selectAllCheckbox" onclick="selectAllCheckboxes(document.forms[0])" /></td>
+				</c:if>
+									
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadRowNumber}" width="1%" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetTagNumber}"  width="6%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" width="3%"/>
@@ -39,15 +42,18 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" width="20%"/>
 				<!-- kul:htmlAttributeHeaderCell literalLabel="Action" width="5%"/-->
 			</tr>
+			
+			<c:out value="${readOnly}"/>
+			
 			<c:set var="lineNumber" value="${0}"/>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
 				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>
-            	<c:if test="${status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR}">
+            	<c:if test="${(status == CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR) || readOnly}">
             		<c:set var="lineNumber" value="${lineNumber + 1}"/>
 					<cams:barcodeInventoryErrorDetail
 						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
 						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"
-						readOnly="${!readOnly}" 
+						readOnly="${readOnly}" 
 						cssClass="datacell"
 						lineNumber="${lineNumber}" 
 						rowNumber="${detail.uploadRowNumber}"
@@ -72,132 +78,139 @@
             	
 			</logic:iterate>
 		</table>
-		<table table cellpadding="0" cellspacing="0">
-		<tr>
-		<td width="49%"><div align="right">
-			<html:image property="methodToCall.validateLines" src="${ConfigProperties.externalizable.images.url}tinybutton-validate.gif"
-			    		alt="Validates selected lines"
-			        	styleClass="tinybutton" align="center"/></div>
-		</td>
-		<td width="1%">&nbsp<td/>		
-		<td width="48%"><div align="left">
-			<html:image property="methodToCall.deleteLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
-			    		alt="Delete selected lines"
-			        	styleClass="tinybutton" align="center"/></div>
-		</td>
 
-		</tr>
-		</table>
+	<c:if test="${!readOnly}">						
+			<table table cellpadding="0" cellspacing="0">
+			<tr>
+			<td width="49%"><div align="right">
+				<html:image property="methodToCall.validateLines" src="${ConfigProperties.externalizable.images.url}tinybutton-validate.gif"
+				    		alt="Validates selected lines"
+				        	styleClass="tinybutton" align="center"/></div>
+			</td>
+			<td width="1%">&nbsp<td/>		
+			<td width="48%"><div align="left">
+				<html:image property="methodToCall.deleteLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
+				    		alt="Delete selected lines"
+				        	styleClass="tinybutton" align="center"/></div>
+			</td>
+	
+			</tr>
+			</table>
+	</c:if>
+			
 	</div>
 </kul:tab>
-<kul:tab tabTitle="Global replace" defaultOpen="true">
-	<div id="barcodeInventoryDetails" class="tab-container" align=center>
-		<table cellpadding="0" cellspacing="0">
-			<tr>
-				<td colspan="11" class="subhead">Global replace</td>
-			</tr>
-		</table>
-		<table cellpadding="0" cellspacing="0">
-			<tr>
-				<td  colspan="2"><div align="center"><label><strong>Search for lines containing...</strong></label></div></td>
-				<td  colspan="2"><div align="center"><label><strong>...and replace them with:</strong></label></div></td>
-			</tr>
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetTagNumber}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="currentTagNumber"/>
-				</td>
 
-		        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetTagNumber}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="newTagNumber"/>
-				</td-->
-		        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
-				<td align=left class="${cssClass}">&nbsp</td>
-
-			</tr>				
-
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="currentScanCode"/>
-				</td>
-		        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
-				<td align=left class="${cssClass}">&nbsp</td>
-
-		        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="newScanCode"/>
-				</td-->
-			</tr>				
-
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="currentCampusCode"/>
-				</td>
-
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="newCampusCode"/>
-				</td>
-			</tr>				
-
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="currentBuildingNumber"/>
-				</td>
-
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="newBuildingNumber"/>
-				</td>
-			</tr>				
-
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="currentRoom"/>
-				</td>
-
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="newRoom"/>
-				</td>
-			</tr>				
-
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" property="currentSubroom"/>
-				</td>
-
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" property="newSubroom"/>
-				</td>
-			</tr>				
-
-			<tr>
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>
-				<td align=left class="${cssClass}">&nbsp				
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="currentConditionCode"/>
-				</td>
-
-		        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>				
-				<td align=left class="${cssClass}">&nbsp
-					<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="newConditionCode"/>
-				</td>
-			</tr>		
-			<tr>
-				<th colspan=4 width="100%"><div align="center">
-					<html:image property="methodToCall.searchAndReplace"
-			    		src="${ConfigProperties.externalizable.images.url}tinybutton-replace.gif"
-			    		alt="Start replacing values"
-			        	styleClass="tinybutton" align="center"/></div>
-				</th>
-			</tr>					
-		</table>
-	</div>
-</kul:tab>
+<c:if test="${!readOnly}">				
+	<kul:tab tabTitle="Global Replace" defaultOpen="true">
+		<div id="barcodeInventoryDetails" class="tab-container" align=center>
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td colspan="11" class="subhead">Global replace</td>
+				</tr>
+			</table>
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td  colspan="2"><div align="center"><label><strong>Search for lines containing...</strong></label></div></td>
+					<td  colspan="2"><div align="center"><label><strong>...and replace them with:</strong></label></div></td>
+				</tr>
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetTagNumber}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="currentTagNumber"/>
+					</td>
+	
+			        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetTagNumber}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="newTagNumber"/>
+					</td-->
+			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
+					<td align=left class="${cssClass}">&nbsp</td>
+	
+				</tr>				
+	
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="currentScanCode"/>
+					</td>
+			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
+					<td align=left class="${cssClass}">&nbsp</td>
+	
+			        <!-- th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="newScanCode"/>
+					</td-->
+				</tr>				
+	
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="currentCampusCode"/>
+					</td>
+	
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="newCampusCode"/>
+					</td>
+				</tr>				
+	
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="currentBuildingNumber"/>
+					</td>
+	
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="newBuildingNumber"/>
+					</td>
+				</tr>				
+	
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="currentRoom"/>
+					</td>
+	
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="newRoom"/>
+					</td>
+				</tr>				
+	
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" property="currentSubroom"/>
+					</td>
+	
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" property="newSubroom"/>
+					</td>
+				</tr>				
+	
+				<tr>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>
+					<td align=left class="${cssClass}">&nbsp				
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="currentConditionCode"/>
+					</td>
+	
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>				
+					<td align=left class="${cssClass}">&nbsp
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="newConditionCode"/>
+					</td>
+				</tr>		
+				<tr>
+					<th colspan=4 width="100%"><div align="center">
+						<html:image property="methodToCall.searchAndReplace"
+				    		src="${ConfigProperties.externalizable.images.url}tinybutton-replace.gif"
+				    		alt="Start replacing values"
+				        	styleClass="tinybutton" align="center"/></div>
+					</th>
+				</tr>					
+			</table>
+		</div>
+	</kul:tab>
+</c:if>

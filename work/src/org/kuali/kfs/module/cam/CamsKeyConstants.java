@@ -150,6 +150,7 @@ public class CamsKeyConstants {
         public static final String ERROR_CAPITAL_ASSET_DOESNT_EXISTS="error.document.capitalAsset.not.found";
         public static final String ERROR_DUPLICATED_TAG_NUMBER="error.document.duplicated.tagNumber";
         public static final String ERROR_ASSET_LOCKED="error.document.locked.asset";
+        public static final String ERROR_INVALID_FILE_TYPE="error.uploadFile.invalid.type";
     }
 
     public static class EquipmentLoanOrReturn {

@@ -1,25 +1,18 @@
 package org.kuali.kfs.module.cam.document;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
-import org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.KNSServiceLocator;
 
 
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocument.class);
     
-    //private Long versionNumber;
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
     
@@ -104,25 +97,29 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     }
 
 
-//    public void setBarcodeInventoryErrorDetail(BarcodeInventoryErrorDetail detail) {
-//        System.out.println("*** Index: "+detail.toString());
-//    }
-
+    /**
+     * 
+     * This method returns a particular element of the BCIE collection
+     * @param index
+     * @return
+     */
+//    public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
+//        if (index >= barcodeInventoryErrorDetail.size()) {
+//            for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {
+//                barcodeInventoryErrorDetail.add(new BarcodeInventoryErrorDetail());
+//            }
+//        }
+//        return barcodeInventoryErrorDetail.get(index);
+//    }  
     
-    public BarcodeInventoryErrorDetail getBarcodeInventoryErrorDetail(int index) {
-        if (index >= barcodeInventoryErrorDetail.size()) {
-            for (int i = barcodeInventoryErrorDetail.size(); i <= index; i++) {
-                LOG.info("WWWWWWWWWWWWWWWWWW: barcodedocument - Adding element!!!!!!!");
-                barcodeInventoryErrorDetail.add(new BarcodeInventoryErrorDetail());
-            }
-        }
-        return barcodeInventoryErrorDetail.get(index);
-    }  
-    
-
-    public void deleteBarcodeInventoryErrorDetail(int index) {
-        barcodeInventoryErrorDetail.remove(index);
-    }   
+    /**
+     * 
+     * This method removes elements from the collection that holds the BCIE record detail
+     * @param index
+     */
+//    public void deleteBarcodeInventoryErrorDetail(int index) {
+//        barcodeInventoryErrorDetail.remove(index);
+//    }   
     
     /**
      * 
@@ -130,29 +127,17 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
      * 
      * Left empty in order to prevent rule validation when saving the document.
      */
-    @Override    
-    public void validateBusinessRules(KualiDocumentEvent event) {
-    }
+//    @Override    
+//    public void validateBusinessRules(KualiDocumentEvent event) {
+//    }
     
 
+    /*
     public void setBarcodeInventoryErrorSelectedRows(boolean flag) {
         for (int i=0;i<this.getBarcodeInventoryErrorDetail().size();i++){
             this.getBarcodeInventoryErrorDetail().get(i).setRowSelected(flag);
         }        
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedList = super.buildListOfDeletionAwareLists();
-
-        managedList.add(this.getBarcodeInventoryErrorDetail());
-
-        return managedList;
-    }
+    }*/
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

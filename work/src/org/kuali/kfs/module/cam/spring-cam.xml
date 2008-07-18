@@ -251,7 +251,7 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-<!-- Asset Bar Code inventory batch job -->
+<!-- Asset Bar Code inventory-->
 	<bean id="assetBarcodeInventoryLoadService" class="org.kuali.kfs.module.cam.batch.service.impl.AssetBarcodeInventoryLoadServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -275,6 +275,12 @@
 	       <value>${staging.directory}/CM_BARCODE</value>
 	    </property>
 	</bean>
+
+    <bean id="assetBarcodeInventoryInputFileService" class="org.kuali.kfs.module.cam.batch.service.impl.AssetBarcodeInventoryInputFileServiceImpl">
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+	</bean>
+	
+<!-- END of Asset Bar Code inventory batch job -->
 	
 	<bean id="assetGlobalService" class="org.kuali.kfs.module.cam.document.service.impl.AssetGlobalServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />

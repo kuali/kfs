@@ -373,10 +373,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         salarySettingExpansion.setAccountLineAnnualBalanceAmount(requestedAmountTotal);
         businessObjectService.save(salarySettingExpansion);
-
+        
+        // update or create plug line if the total amount has been changed
         if (changes.isNonZero()) {
-            List<BudgetConstructionMonthly> budgetConstructionMonthly = this.updateMonthlyAmounts(salarySettingExpansion, changes);
-            businessObjectService.save(budgetConstructionMonthly);
+            budgetDocumentService.updatePendingBudgetGeneralLedgerPlug(appointmentFundings.get(0), changes.negated());
         }
     }
 

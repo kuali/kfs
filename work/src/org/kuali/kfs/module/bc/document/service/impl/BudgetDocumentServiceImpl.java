@@ -431,6 +431,20 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         PendingBudgetConstructionGeneralLedger pendingRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount, false);
         businessObjectService.save(pendingRecord);
 
+        this.updatePendingBudgetGeneralLedgerPlug(appointmentFunding, updateAmount.negated());
+    }
+    
+    /**
+     * This method...
+     * @param appointmentFunding
+     * @param updateAmount
+     */
+    public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount) {
+        BudgetConstructionHeader budgetConstructionHeader = this.getBudgetConstructionHeader(appointmentFunding);
+        if (budgetConstructionHeader == null) {
+            return;
+        }
+
         if (this.canUpdatePlugRecord(appointmentFunding)) {
             PendingBudgetConstructionGeneralLedger plugRecord = this.getPendingBudgetConstructionGeneralLedger(budgetConstructionHeader, appointmentFunding, updateAmount.negated(), true);
             KualiInteger annualBalanceAmount = plugRecord.getAccountLineAnnualBalanceAmount();

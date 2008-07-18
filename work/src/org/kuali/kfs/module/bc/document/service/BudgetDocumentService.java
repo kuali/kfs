@@ -154,6 +154,14 @@ public interface BudgetDocumentService {
     public void updatePendingBudgetGeneralLedger(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount);
     
     /**
+     * update the pending budget construction GL plug record assocating with the given appointment funding
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @param updateAmount the amount that can be used to update the amounts of the pending budget construction GL plug record
+     */
+    public void updatePendingBudgetGeneralLedgerPlug(PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount);
+    
+    /**
      * get the budget document with the information provided by the given appointment funding
      * 
      * @param appointmentFunding the given appointment funding

@@ -354,8 +354,6 @@
 	      </td>
 		</tr>
 
-
-
     	<tr>
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">Controls</span>
@@ -364,9 +362,6 @@
 
     	<tr>
           <td colspan="4" class="datacell" nowrap>
-<%--
-            <html-el:hidden name="KualiForm" property="pushdownKeyCode" />
---%>
             <div align="center">
 
             <c:forEach items="${KualiForm.accountOrgHierLevels}" var="item" varStatus="status">

@@ -1,0 +1,87 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CustomerInvoiceWriteoffDocument" parent="CustomerInvoiceWriteoffDocument-parentBean" />
+
+  <bean id="CustomerInvoiceWriteoffDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    <property name="label" value="Customer Invoice Writeoff" />
+    <property name="shortLabel" value="Customer Invoice Writeoff" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument" p:parameterName="INVW" />
+    </property>
+    <property name="documentTypeName" value="CustomerInvoiceWriteoffDocument" />
+    <property name="documentClass" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffDocumentRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceWriteoffDocumentAuthorizer" />
+    <property name="documentTypeCode" value="INVW" />
+    <property name="authorizations" >
+      <list>
+        <bean parent="AuthorizationDefinition">
+          <property name="action" value="initiate" />
+          <property name="authorizedGroups" >
+            <set>
+              <value>kualiUniversalGroup</value>
+            </set>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="attributes" >
+      <list>                                 
+      	<ref bean="CustomerInvoiceDocument-documentHeader.documentDescription" />
+        <ref bean="CustomerInvoiceDocument-versionNumber" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber" parent="CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber-parentBean" />
+
+  <bean id="CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentReferenceInvoiceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Invoice Ref. Number" />
+    <property name="shortLabel" value="Invoice Ref. Number" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Special Processing Instructions" />
+  </bean>
+  
+  <bean id="CustomerInvoiceDocument-documentHeader.documentDescription" parent="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" />
+
+  <bean id="CustomerInvoiceDocument-documentHeader.documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription">
+    <property name="name" value="documentHeader.documentDescription" />
+  </bean>
+  
+  <bean id="CustomerInvoiceDocument-versionNumber" parent="CustomerInvoiceDocument-versionNumber-parentBean" />
+
+  <bean id="CustomerInvoiceDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>  
+  
+  <bean id="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber" parent="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber-parentBean" />
+
+  <bean id="CustomerCreditMemoDocument-financialDocumentReferenceInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentReferenceInvoiceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Invoice Ref. Number" />
+    <property name="shortLabel" value="Invoice Ref. Number" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="Special Processing Instructions" />
+  </bean>  
+
+</beans>

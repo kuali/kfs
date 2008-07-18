@@ -23,7 +23,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
             p:parameterName="RESTRICTED_MATERIAL"
-            p:parameterDetailType="Restricted Material" />
+            p:parameterDetailType="RestrictedMaterial" />
     </property>
     <property name="shortLabel" value="Restricted Material" />
     <property name="documentTypeName" value="RestrictedMaterialMaintenanceDocument" />

@@ -24,7 +24,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
             p:parameterName="ITEM_REASON_ADDED"
-            p:parameterDetailType="Item Reason Added" />
+            p:parameterDetailType="ItemReasonAdded" />
     </property>   
     <property name="documentTypeName" value="ItemReasonAddedMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

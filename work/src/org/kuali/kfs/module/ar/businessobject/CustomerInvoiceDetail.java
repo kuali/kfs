@@ -63,12 +63,19 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         
         return total;
     }
+    
+    public void setAppliedAmount(KualiDecimal appliedAmount) {
 
-    public Collection<InvoicePaidApplied> getInvoicePaidApplieds() {
-        return SpringContext.getBean(CustomerInvoiceDetailService.class).getInvoicePaidAppliedsForInvoiceDetail(this);
     }
 
-    public void setInvoicePaidApplieds(Collection<InvoicePaidApplied> invoicePaidApplieds) {}
+    public Collection<InvoicePaidApplied> getInvoicePaidApplieds() {
+        // return SpringContext.getBean(CustomerInvoiceDetailService.class).getInvoicePaidAppliedsForInvoiceDetail(this);
+        return invoicePaidApplieds;
+    }
+
+    public void setInvoicePaidApplieds(Collection<InvoicePaidApplied> invoicePaidApplieds) {
+        this.invoicePaidApplieds = invoicePaidApplieds;
+    }
 
     /**
      * Gets the accountsReceivableObjectCode attribute.
@@ -412,4 +419,5 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     public void setDiscountCustomerInvoiceDetail(CustomerInvoiceDetail discountCustomerInvoiceDetail) {
         this.discountCustomerInvoiceDetail = discountCustomerInvoiceDetail;
     }
+
 }

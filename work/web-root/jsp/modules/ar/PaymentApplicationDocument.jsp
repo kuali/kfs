@@ -109,29 +109,32 @@
 							               <td colspan='4' class='tab-subhead'>Unapplied Funds</td>
 							             </tr>
 							             <tr>
-							               <th>Doc Nbr</th>
-							               <th>Amount Available</th>
-							               <th>Date</th>
-							               <th>Apply</th>
+							               <th>Invoice Nbr</th>
+							               <th>Item #</th>
+							               <th>Inv Item Desc</th>
+							               <th>Applied Amount</th>
 							             </tr>
-							             <tr>
-							             	<td>123456</td>
-							             	<td>$100.00</td>
-							             	<td>12-01-2008</td>
-							             	<td><input type='checkbox' value='1' name='a'/></td>
-							             </tr>
-							             <tr>
-							             	<td>123456</td>
-							             	<td>$100.00</td>
-							             	<td>12-01-2008</td>
-							             	<td><input type='checkbox' value='1' name='a'/></td>
-							             </tr>
-							             <tr>
-							             	<td>123456</td>
-							             	<td>$100.00</td>
-							             	<td>12-01-2008</td>
-							             	<td><input type='checkbox' value='1' name='a'/></td>
-							             </tr>
+							            <logic:iterate id="appliedPayment" name="KualiForm" property="document.appliedPayments" indexId="ctr">
+                   
+                
+				    		               <tr>
+				    		               		<html:hidden property="document.appliedPayment[${ctr}].documentNumber" />
+		                                        <html:hidden property="document.appliedPayment[${ctr}].versionNumber" />
+		                                        <html:hidden property="document.appliedPayment[${ctr}].objectId" />
+				    			              <td><c:out value="${appliedPayment.financialDocumentReferenceInvoiceNumber}"/>
+				    			              <html:hidden property="document.appliedPayment[${ctr}].financialDocumentReferenceInvoiceNumber" /></td>
+				    			              <td><c:out value="${appliedPayment.invoiceItemNumber}"/>
+				    			              <html:hidden property="document.appliedPayment[${ctr}].invoiceItemNumber" />
+				    			              </td>
+				    			              <td><c:out value="${appliedPayment.invoiceItem.financialDocumentLineDescription}"/>
+				    			              <html:hidden property="document.appliedPayment[${ctr}].invoiceItem.financialDocumentLineDescription" />
+				    			              </td>
+				    			              <td>$<c:out value="${appliedPayment.invoiceItemAppliedAmount}"/>
+				    			              <html:hidden property="document.appliedPayment[${ctr}].invoiceItemAppliedAmount" />
+				    			              </td>
+				    		               </tr>
+				    		               </logic:iterate>
+				    	                 
 							           </table>	    	
 							     	</c:otherwise>
 							   </c:choose>
@@ -326,8 +329,8 @@
 						                      <td><input type='text' value='${customerInvoiceDetail.invoiceItemDescription}'></td>
 						                      <td><input type='text' value='${customerInvoiceDetail.amount}'></td>
 						                      <td><input type='text' value='${customerInvoiceDetail.balance}'></td>
-						                      <td><input type='text' value='${customerInvoiceDetail.appliedAmount}'></td>
-						                      <td><input type='checkbox' value='1' name=''></td>
+						                      <td><input type='text' name="amountToBeApplied_${customerInvoiceDetail.sequenceNumber}" value="${customerInvoiceDetail.appliedAmount}"></td>
+						                      <td><input type='checkbox' name="fullApply" value="${customerInvoiceDetail.sequenceNumber}"></td>
 						                    </tr>
 					                    </c:forEach>
 					                  </table>

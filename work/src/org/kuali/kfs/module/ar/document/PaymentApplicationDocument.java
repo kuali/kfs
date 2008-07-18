@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -32,14 +33,14 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 
 public class PaymentApplicationDocument extends AccountingDocumentBase {
 
-    private Collection<InvoicePaidApplied> appliedPayments;
+    private List<InvoicePaidApplied> appliedPayments;
     private Collection<NonInvoiced> nonInvoicedPayments;
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private NonAppliedHolding nonAppliedHolding;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
-    
+
     public PaymentApplicationDocument() {
         super();
         this.appliedPayments = new ArrayList<InvoicePaidApplied>();
@@ -52,25 +53,27 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     public KualiDecimal getTotalUnappliedFunds() {
         return paymentApplicationDocumentService.getTotalUnappliedFundsForPaymentApplicationDocument(getDocumentNumber());
     }
-    
+
     public KualiDecimal getTotalCashControl() {
         return paymentApplicationDocumentService.getTotalCashControlForPaymentApplicationDocument(getDocumentNumber());
     }
-    
+
     public KualiDecimal getTotalUnappliedFundsToBeApplied() {
         return paymentApplicationDocumentService.getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(getDocumentNumber());
     }
-    
+
     public KualiDecimal getTotalToBeApplied() {
         return paymentApplicationDocumentService.getTotalToBeAppliedForPaymentApplicationDocument(getDocumentNumber());
     }
-    
+
     public KualiDecimal getTotalAppliedAmount() {
         return paymentApplicationDocumentService.getTotalAppliedAmountForPaymentApplicationDocument(getDocumentNumber());
     }
-    
+
     /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
+     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE
+     * generation
+     * 
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
@@ -79,11 +82,11 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
         return false;
     }
 
-    public Collection<InvoicePaidApplied> getAppliedPayments() {
+    public List<InvoicePaidApplied> getAppliedPayments() {
         return appliedPayments;
     }
 
-    public void setAppliedPayments(Collection<InvoicePaidApplied> appliedPayments) {
+    public void setAppliedPayments(List<InvoicePaidApplied> appliedPayments) {
         this.appliedPayments = appliedPayments;
     }
 
@@ -126,5 +129,19 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
         this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
     }
-    
+
+    /**
+     * This method retrieves a specific applied payment from the list, by array index
+     * 
+     * @param index the index of the applied payment to retrieve
+     * @return an InvoicePaidApplied
+     */
+    public InvoicePaidApplied getAppliedPayment(int index) {
+        if (index >= appliedPayments.size()) {
+            for (int i = appliedPayments.size(); i <= index; i++) {
+                appliedPayments.add(new InvoicePaidApplied());
+            }
+        }
+        return (InvoicePaidApplied) appliedPayments.get(index);
+    }
 }

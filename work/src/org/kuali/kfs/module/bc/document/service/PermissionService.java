@@ -63,6 +63,14 @@ public interface PermissionService {
      * @return true if the specified user is an organization level approver for the given organization; otherwise, false
      */
     public boolean isOrgReviewApprover(Org organization, String personUserIdentifier);
+    
+    /**
+     * get the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
+     * 
+     * @param personUserIdentifier the specified user
+     * @return the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
+     */
+    public List<Org> getOrganizationReviewHierachy(String personUserIdentifier);
 
     /**
      * determine whether the specified user is a manager or account delegate of the given account

@@ -150,6 +150,20 @@ public class PermissionServiceImpl implements PermissionService {
             throw new RuntimeException(errorMessage.toString() + e);
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(java.lang.String)
+     */
+    public List<Org> getOrganizationReviewHierachy(String personUserIdentifier) {
+        try {
+            List<Org> organazationReview = this.getOrgReview(personUserIdentifier);
+            return organazationReview;
+        }
+        catch (Exception e) {
+            LOG.info(e.getStackTrace());
+        }
+        return null;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account,

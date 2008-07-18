@@ -474,7 +474,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         }
 
         // get the organization review hierachy path for which the user could be an approver
-        List<Org> organazationReviewHierachy = this.getOrganizationReviewHierachy(personUserIdentifier);
+        List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(personUserIdentifier);
         if (organazationReviewHierachy == null) {
             return false;
         }
@@ -583,22 +583,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BudgetConstructionLockStatus lockStatus = lockService.lockFunding(budgetConstructionHeader, personUserIdentifier);
         return lockStatus != null && LockStatus.SUCCESS.equals(lockStatus.getLockStatus());
-    }
-
-    /**
-     * get the orgazation review hierachy in which the specified user is
-     * 
-     * @param personUserIdentifier the specified user
-     * @return the orgazation review hierachy in which the specified user is
-     */
-    private List<Org> getOrganizationReviewHierachy(String personUserIdentifier) {
-        try {
-            List<Org> organazationReview = permissionService.getOrgReview(personUserIdentifier);
-            return organazationReview;
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Fail to get organazation review hierachy for " + personUserIdentifier + "." + e);
-        }
     }
 
     /**

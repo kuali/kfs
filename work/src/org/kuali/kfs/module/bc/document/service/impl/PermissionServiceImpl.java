@@ -123,13 +123,8 @@ public class PermissionServiceImpl implements PermissionService {
             return this.isOrgReviewApprover(personUserIdentifier, organzation.getChartOfAccountsCode(), organzation.getOrganizationCode());
         }
         catch (Exception e) {
-            StringBuilder errorMessage = new StringBuilder();
-            errorMessage.append("Fail to determine whether ");
-            errorMessage.append(personUserIdentifier);
-            errorMessage.append(" is an approver for ");
-            errorMessage.append(organzation + ".");
-
-            LOG.info(errorMessage.toString() + e);
+            String errorMessage = String.format("Fail to determine if %s is an approver for %s. ", personUserIdentifier, organzation);
+            LOG.info(errorMessage + e);
         }
 
         return false;
@@ -145,7 +140,8 @@ public class PermissionServiceImpl implements PermissionService {
             organazationReview = this.getOrgReview(personUserIdentifier);
         }
         catch (Exception e) {
-            LOG.info("Fail to get organazation review hierachy for " + personUserIdentifier + "." + e);
+            String errorMessage = String.format("Fail to get organazation review hierachy for %s. ", personUserIdentifier);
+            LOG.info(errorMessage + e);
         }
 
         return organazationReview;

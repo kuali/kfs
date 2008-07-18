@@ -38,6 +38,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -47,6 +48,8 @@ import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInvento
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This is the default implementation of the AssetBarcodeInventoryLoadService interface. Handles loading, parsing, and storing of
@@ -369,6 +372,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
          * LOG.info("************************************");
          */
 
+
         asset.setBuildingCode(barcodeInventoryErrorDetail.getBuildingCode());
         asset.setBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber());
         asset.setBuildingSubRoomNumber(barcodeInventoryErrorDetail.getBuildingSubRoomNumber());
@@ -379,7 +383,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         businessObjectService.save(asset);
 
         /*
-         * asset = ((List<Asset>)businessObjectService.findMatching(Asset.class, fieldValues)).get(0); LOG.info("********* After
+         * asset = ((List<Asset>)businessObjectService.findMatching(Asset.class, fieldValues)).get(0); LOG.info("********* After *
          * *****************"); LOG.info("Asset:"+asset.getCapitalAssetNumber()); LOG.info("BuildingCode:"+asset.getBuildingCode());
          * LOG.info("Room:"+asset.getBuildingRoomNumber()); LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber());
          * LOG.info("Condition Code:"+asset.getConditionCode()); LOG.info("************************************");
@@ -392,40 +396,15 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param barcodeInventoryErrorDetails
      * @return BarcodeInventoryErrorDocument
      */
-    private BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) throws Exception {
-        String documentTypeCode;
-        BarcodeInventoryErrorDocument document;
-        try {
-            document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
-
-            // TODO this might look unnecessary, but the normal way is giving me an exception.
-            /*
-             * java.lang.RuntimeException: transient FlexDoc is null - this should never happen at
-             * org.kuali.core.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:73)
-             */
-
-            try {
-                document.getDocumentHeader().getWorkflowDocument();
-            }
-            catch (Exception e) {
-                KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("BarcodeInventoryErrorDocument", GlobalVariables.getUserSession().getUniversalUser());
-                document.getDocumentHeader().setWorkflowDocument(workflowDocument);
-                // LOG.info("**** WORKFLOW DOCUMENT TYPE:"+document.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
-            }
-
-            document.getDocumentHeader().setExplanation(DOCUMENT_EXPLANATION);
-            document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
-            document.getDocumentHeader().setDocumentDescription(DOCUMENT_EXPLANATION);
-            document.getDocumentHeader().setDocumentNumber(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
-
-            document.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-            document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-        }
-        catch (Exception e) {
-            LOG.error("createInvalidBarcodeInventoryDocument - error:", e);
-            throw e;
-        }
+    private BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) throws WorkflowException {
+        BarcodeInventoryErrorDocument document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
+        
+        document.getDocumentHeader().setExplanation(DOCUMENT_EXPLANATION);
+        document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(0));
+        document.getDocumentHeader().setDocumentDescription(DOCUMENT_EXPLANATION);
+        document.setUploaderUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+        
         return document;
     }
 

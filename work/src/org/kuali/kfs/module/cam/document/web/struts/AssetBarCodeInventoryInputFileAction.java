@@ -74,11 +74,20 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         String fileName = uploadedFiles.get(fileTypeExtension.substring(1)).getFileName();
             
         //Validating the file type is the correct one before saving.
-        if (!fileName.endsWith(fileTypeExtension)) {
+        if (!StringUtils.isBlank(fileName) && !fileName.endsWith(fileTypeExtension)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FILE_TYPE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }            
-        return super.save(mapping, form, request, response);
+        
+        super.save(mapping, form, request, response);
+        //Removing message
+        GlobalVariables.getMessageList().remove(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
+        
+        //Instead adding this new message
+        GlobalVariables.getMessageList().add(CamsKeyConstants.BarcodeInventory.MESSAGE_DOCUMENT_CREATED);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
     }
     
     /**

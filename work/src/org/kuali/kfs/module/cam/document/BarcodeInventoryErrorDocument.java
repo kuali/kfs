@@ -17,7 +17,7 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 	private String uploaderUniversalIdentifier;
     
     private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
-    private FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();    
+    //private FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();    
     
 	/**
 	 * Default constructor.
@@ -69,24 +69,24 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 	}
 
 	/**
-	 * Gets the documentHeader attribute.
-	 * 
-	 * @return Returns the documentHeader
-	 * 
-	 */
-	public FinancialSystemDocumentHeader getDocumentHeader() { 
-		return documentHeader;
-	}
-
-	/**
-	 * Sets the documentHeader attribute.
-	 * 
-	 * @param documentHeader The documentHeader to set.
-	 * @deprecated
-	 */
-	public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
-		this.documentHeader = documentHeader;
-	}
+//	 * Gets the documentHeader attribute.
+//	 * 
+//	 * @return Returns the documentHeader
+//	 * 
+//	 */
+//	public FinancialSystemDocumentHeader getDocumentHeader() { 
+//		return documentHeader;
+//	}
+//
+//	/**
+//	 * Sets the documentHeader attribute.
+//	 * 
+//	 * @param documentHeader The documentHeader to set.
+//	 * @deprecated
+//	 */
+//	public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+//		this.documentHeader = documentHeader;
+//	}
 
     public List<BarcodeInventoryErrorDetail> getBarcodeInventoryErrorDetail() {
         return barcodeInventoryErrorDetail;

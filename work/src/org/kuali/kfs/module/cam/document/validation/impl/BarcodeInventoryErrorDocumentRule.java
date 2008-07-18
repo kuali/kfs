@@ -268,11 +268,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         boolean isAssetLocked = false;
         String skipAssetLockValidation;
 
-        // JIRA KFSMI-1116 still open - Creation of new parameter.
-
         // Getting system parameter in order to determine whether or not the asset locks will be ignored.
         if (parameterService.parameterExists(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS)) {
-            // LOG.info("CAMS Parameter '"+ CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS+"' WAS FOUND!");
             skipAssetLockValidation = parameterService.getParameterValue(BarcodeInventoryErrorDocument.class, CamsConstants.Parameters.BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS);
         }
         else {
@@ -298,7 +295,6 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         else {
             result = true;
         }
-        // LOG.info("****validateTaggingLock - tag#: "+tagNumber+ " Result:"+result);
         return result;
     }
 

@@ -47,6 +47,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -810,7 +811,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // must also save it on the incoming document
         document.setHoldIndicator(true);
         document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-        return preqDoc;
+        
+        return document;
     }
 
     /**
@@ -827,11 +829,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         preqDoc.setHoldIndicator(false);
         preqDoc.setLastActionPerformedByUniversalUserId(null);
         saveDocumentWithoutValidation(preqDoc);
-
+        
         // must also save it on the incoming document
         document.setHoldIndicator(false);
         document.setLastActionPerformedByUniversalUserId(null);
-        return preqDoc;
+                        
+        return document;
     }
 
     /**

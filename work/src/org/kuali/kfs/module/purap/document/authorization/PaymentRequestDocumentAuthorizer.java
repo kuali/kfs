@@ -95,19 +95,26 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
 
             if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
+                
                 // expense_entry was already added in super
                 // add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY;
 
-                List lineList = new ArrayList();
-                for (Iterator iter = preq.getItems().iterator(); iter.hasNext();) {
-                    PaymentRequestItem item = (PaymentRequestItem) iter.next();
-                    lineList.addAll(item.getSourceAccountingLines());
-                    // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
-                    if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
-                        editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
-                        editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
+                //only do line item check if the hold/cancel indicator is false, otherwise
+                // document editing should be turned off.
+                if (preq.isHoldIndicator() == false && preq.isPaymentRequestedCancelIndicator() == false){
+                    List lineList = new ArrayList();
+                    for (Iterator iter = preq.getItems().iterator(); iter.hasNext();) {
+                        PaymentRequestItem item = (PaymentRequestItem) iter.next();
+                        lineList.addAll(item.getSourceAccountingLines());
+                        // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
+                        if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
+                            editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
+                            editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
+                        }
                     }
+                }else{
+                    editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
                 }
             }
             //This is for ad hoc approval

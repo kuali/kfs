@@ -154,7 +154,7 @@ public class PaymentApplicationDocumentAction extends KualiAccountingDocumentAct
         }
 
         for (String invoiceNbr : invoiceNumbers) {
-            Collection<CustomerInvoiceDetail> customerInvoiceDetails = pform.getCustomerInvoiceDetailsForSelectedCustomerInvoiceDocument();
+            Collection<CustomerInvoiceDetail> customerInvoiceDetails = pform.getCustomerInvoiceDetailsForCustomerInvoiceDocumentNbr(invoiceNbr);
             for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
 
                 InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, paymentApplicationDocumentNbr, universityFiscalYear, universityFiscalPeriodCode, customerInvoiceDetail.getAmount());

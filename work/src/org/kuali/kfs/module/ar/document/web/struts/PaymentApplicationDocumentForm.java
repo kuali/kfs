@@ -17,10 +17,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
@@ -239,7 +236,12 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForSelectedCustomerInvoiceDocument() {
 
-        Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+      return getCustomerInvoiceDetailsForCustomerInvoiceDocumentNbr(getSelectedInvoiceDocumentNumber());
+    }
+    
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocumentNbr(String invoiceNumber)
+    {
+        Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(invoiceNumber);
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
             Collection<InvoicePaidApplied> invoicePaidAppliedsForDetail = getInvoicePaidAppliedForCustomerInvoiceDetail(customerInvoiceDetail);
             Collection<InvoicePaidApplied> invoicePaidAppliedToBeAdded = new ArrayList<InvoicePaidApplied>();

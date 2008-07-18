@@ -67,37 +67,27 @@ public class PermissionServiceImpl implements PermissionService {
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(java.lang.String)
      */
     public List<Org> getOrgReview(String personUserIdentifier) throws Exception {
+        List<Org> orgReview = new ArrayList<Org>();
 
-        List<Org> orgReview = new ArrayList();
-        String organizationCode = null;
-        String chartOfAccounts = null;
+        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
+        RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
 
-        WorkflowInfo info = new WorkflowInfo();
-        RuleReportCriteriaVO ruleReportCriteria = new RuleReportCriteriaVO();
-        ruleReportCriteria.setDocumentTypeName(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-        ruleReportCriteria.setRuleTemplateName(BudgetConstructionConstants.ORG_REVIEW_RULE_TEMPLATE);
-        ruleReportCriteria.setResponsibleUser(new NetworkIdVO(personUserIdentifier));
-        ruleReportCriteria.setActionRequestCodes(new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ });
-        ruleReportCriteria.setIncludeDelegations(Boolean.FALSE);
-        RuleVO[] rules = info.ruleReport(ruleReportCriteria);
-        for (int i = 0; i < rules.length; i++) {
-            RuleExtensionVO[] ruleExtensionVOs = rules[i].getRuleExtensions();
-            organizationCode = null;
-            chartOfAccounts = null;
-            for (int j = 0; j < ruleExtensionVOs.length; j++) {
-                RuleExtensionVO extensionVO = ruleExtensionVOs[j];
+        for (RuleVO ruleVO : rules) {
+            String organizationCode = null;
+            String chartOfAccounts = null;
+
+            RuleExtensionVO[] ruleExtensionVOs = ruleVO.getRuleExtensions();
+            for (RuleExtensionVO extensionVO : ruleExtensionVOs) {
                 if (ORG_REVIEW_RULE_CHART_CODE_NAME.equals(extensionVO.getKey())) {
                     chartOfAccounts = extensionVO.getValue();
                 }
                 else if (ORG_REVIEW_RULE_ORG_CODE_NAME.equals(extensionVO.getKey())) {
                     organizationCode = extensionVO.getValue();
                 }
-                else {
-                    // do nothing, not an extension we are interested in
-                }
             }
+
             if (chartOfAccounts != null && organizationCode != null) {
-                Org org = (Org) organizationService.getByPrimaryId(chartOfAccounts, organizationCode);
+                Org org = organizationService.getByPrimaryId(chartOfAccounts, organizationCode);
                 if (org != null && !orgReview.contains(org)) {
                     orgReview.add(org);
                 }
@@ -112,24 +102,16 @@ public class PermissionServiceImpl implements PermissionService {
      */
     public boolean isOrgReviewApprover(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) throws Exception {
 
-        boolean retVar = false;
-
-        WorkflowInfo info = new WorkflowInfo();
-        RuleReportCriteriaVO ruleReportCriteria = new RuleReportCriteriaVO();
-        ruleReportCriteria.setDocumentTypeName(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-        ruleReportCriteria.setRuleTemplateName(BudgetConstructionConstants.ORG_REVIEW_RULE_TEMPLATE);
-        ruleReportCriteria.setResponsibleUser(new NetworkIdVO(personUserIdentifier));
-        ruleReportCriteria.setIncludeDelegations(Boolean.FALSE);
-        ruleReportCriteria.setActionRequestCodes(new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ });
         RuleExtensionVO ruleExtensionVO = new RuleExtensionVO(ORG_REVIEW_RULE_CHART_CODE_NAME, chartOfAccountsCode);
         RuleExtensionVO ruleExtensionVO2 = new RuleExtensionVO(ORG_REVIEW_RULE_ORG_CODE_NAME, organizationCode);
         RuleExtensionVO[] ruleExtensionVOs = new RuleExtensionVO[] { ruleExtensionVO, ruleExtensionVO2 };
+
+        RuleReportCriteriaVO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
         ruleReportCriteria.setRuleExtensionVOs(ruleExtensionVOs);
-        RuleVO[] rules = info.ruleReport(ruleReportCriteria);
-        if (rules.length >= 1) {
-            retVar = true;
-        }
-        return retVar;
+
+        RuleVO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
+
+        return rules.length > 0;
     }
 
     /**
@@ -140,29 +122,33 @@ public class PermissionServiceImpl implements PermissionService {
         try {
             return this.isOrgReviewApprover(personUserIdentifier, organzation.getChartOfAccountsCode(), organzation.getOrganizationCode());
         }
-        catch (Exception e) { 
+        catch (Exception e) {
             StringBuilder errorMessage = new StringBuilder();
             errorMessage.append("Fail to determine whether ");
             errorMessage.append(personUserIdentifier);
-            errorMessage.append(" is an approver of ");
-            errorMessage.append(organzation + "."); 
-            
-            throw new RuntimeException(errorMessage.toString() + e);
+            errorMessage.append(" is an approver for ");
+            errorMessage.append(organzation + ".");
+
+            LOG.info(errorMessage.toString() + e);
         }
+
+        return false;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(java.lang.String)
      */
     public List<Org> getOrganizationReviewHierachy(String personUserIdentifier) {
+        List<Org> organazationReview = null;
+
         try {
-            List<Org> organazationReview = this.getOrgReview(personUserIdentifier);
-            return organazationReview;
+            organazationReview = this.getOrgReview(personUserIdentifier);
         }
         catch (Exception e) {
-            LOG.info(e.getStackTrace());
+            LOG.info("Fail to get organazation review hierachy for " + personUserIdentifier + "." + e);
         }
-        return null;
+
+        return organazationReview;
     }
 
     /**
@@ -180,11 +166,11 @@ public class PermissionServiceImpl implements PermissionService {
      *      java.lang.String)
      */
     public boolean isAccountDelegate(Account account, String personUserIdentifier) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, personUserIdentifier);
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE.toString());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
         int countOfAccountDelegate = businessObjectService.countMatching(Delegate.class, fieldValues);
@@ -195,6 +181,24 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         return countOfAccountDelegate > 0;
+    }
+
+    /**
+     * get the rule report criteria for budget construction document with the specified user
+     * 
+     * @param personUserIdentifier the specified user
+     * @return the rule report criteria for budget construction document with the specified user
+     */
+    private RuleReportCriteriaVO getRuleReportCriteriaForBudgetDocument(String personUserIdentifier) {
+        RuleReportCriteriaVO ruleReportCriteria = new RuleReportCriteriaVO();
+
+        ruleReportCriteria.setDocumentTypeName(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+        ruleReportCriteria.setRuleTemplateName(BudgetConstructionConstants.ORG_REVIEW_RULE_TEMPLATE);
+        ruleReportCriteria.setResponsibleUser(new NetworkIdVO(personUserIdentifier));
+        ruleReportCriteria.setIncludeDelegations(Boolean.FALSE);
+        ruleReportCriteria.setActionRequestCodes(new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ });
+
+        return ruleReportCriteria;
     }
 
     /**

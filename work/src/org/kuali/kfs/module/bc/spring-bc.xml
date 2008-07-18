@@ -819,17 +819,14 @@
 		<property name="lockService">
 			<ref bean="lockService" />
 		</property>
-		<property name="budgetParameterService">
-			<ref bean="budgetParameterService" />
-		</property>
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
 		<property name="payrateImportDao">
 			<ref bean="payrateImportDao" />
 		</property>
-		<property name="budgetConstructionDao">
-			<ref bean="budgetConstructionDao" />
+		<property name="budgetDocumentService">
+			<ref bean="budgetDocumentService" />
 		</property>
 	</bean>
 	

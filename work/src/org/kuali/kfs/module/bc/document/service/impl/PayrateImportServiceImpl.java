@@ -40,10 +40,12 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.PayrateImportLine;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateImportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.PayrateImportService;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -70,6 +72,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     private BudgetParameterService budgetParameterService;
     private OptionsService optionsService;
     private PayrateImportDao payrateImportDao;
+    private BudgetConstructionDao budgetConstructionDao;
     
     /**
      * 
@@ -138,19 +141,19 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
                 
                 if ( !fundingRecord.getAppointmentRequestedPayRate().equals(holdingRecord.getAppointmentRequestedPayRate()) ) {
-                    if (fundingRecord.getAppointmentRequestedPayRate().equals(0) || fundingRecord.getAppointmentRequestedPayRate() == null) {
+                    if (fundingRecord.getAppointmentRequestedFteQuantity().equals(0) || fundingRecord.getAppointmentRequestedFteQuantity() == null) {
                         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_NO_UPDATE_FTE_ZERO_OR_BLANK, holdingRecord.getEmplid(), holdingRecord.getPositionNumber(), fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber()));
                         updateContainsErrors = true;
                         continue;
                     } 
                     
                     BigDecimal temp1 = fundingRecord.getAppointmentRequestedTimePercent().divide(new BigDecimal(100));
-                    BigDecimal temp2 = new BigDecimal((fundingRecord.getAppointmentFundingMonth()/fundingRecord.getBudgetConstructionPosition().getIuPayMonths()) * 2080);
+                    BigDecimal temp2 = new BigDecimal((fundingRecord.getAppointmentFundingMonth()/fundingRecord.getBudgetConstructionPosition().getIuPayMonths()) * BudgetParameterFinder.getAnnualWorkingHours());
                     
                     KualiInteger annualAmount = new KualiInteger(holdingRecord.getAppointmentRequestedPayRate().multiply(temp1.multiply(temp2)));
                     KualiInteger updateAmount = annualAmount.subtract(fundingRecord.getAppointmentRequestedAmount());
                     
-                    BudgetConstructionHeader header = getHeaderRecord(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
+                    BudgetConstructionHeader header = this.budgetConstructionDao.getByCandidateKey(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
                     if (header == null ) {
                         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_NO_BUDGET_DOCUMENT, budgetYear.toString(), fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber()));
                         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_OBJECT_LEVEL_ERROR, fundingRecord.getEmplid(), fundingRecord.getPositionNumber(), fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber()));
@@ -210,8 +213,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         Set<String> locks = lockMap.keySet();
         for (String lockingKey : locks) {
             PendingBudgetConstructionAppointmentFunding recordToUnlock = lockMap.get(lockingKey);
-            this.lockService.unlockAccount(getHeaderRecord(recordToUnlock.getChartOfAccountsCode(), recordToUnlock.getAccountNumber(), recordToUnlock.getSubAccountNumber(), budgetYear));
-            this.lockService.unlockFunding(recordToUnlock.getChartOfAccountsCode(), recordToUnlock.getAccountNumber(), recordToUnlock.getSubAccountNumber(), budgetYear, user.getPersonUniversalIdentifier());
+            this.lockService.unlockAccount(this.budgetConstructionDao.getByCandidateKey(recordToUnlock.getChartOfAccountsCode(), recordToUnlock.getAccountNumber(), recordToUnlock.getSubAccountNumber(), budgetYear));
         }
         
         return messageList;
@@ -268,11 +270,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     }
     
     @NonTransactional
-    public BudgetParameterService getBudgetParameterService() {
-        return budgetParameterService;
-    }
-    
-    @NonTransactional
     public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
         this.budgetParameterService = budgetParameterService;
     }
@@ -287,6 +284,11 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         this.payrateImportDao = payrateImportDao;
     }
     
+    @NonTransactional
+    public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao) {
+        this.budgetConstructionDao = budgetConstructionDao;
+    }
+
     private BudgetConstructionPayRateHolding createHoldingRecord(PayrateImportLine record) {
         BudgetConstructionPayRateHolding budgetConstructionPayRateHolding = new BudgetConstructionPayRateHolding();
         
@@ -306,18 +308,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         return record.getUniversityFiscalYear() + "-" + record.getChartOfAccountsCode() + "-" + record.getAccountNumber() + "-" + record.getSubAccountNumber();
     }
     
-    private BudgetConstructionHeader getHeaderRecord(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer budgetYear) {
-        Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
-        
-        BudgetConstructionHeader header = (BudgetConstructionHeader)this.businessObjectService.findByPrimaryKey(BudgetConstructionHeader.class, searchCriteria);
-        
-        return header;
-    }
-    
     private void clearPayrateHoldingTable() {
         List<BudgetConstructionPayRateHolding> records = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findAll(BudgetConstructionPayRateHolding.class);
         for (BudgetConstructionPayRateHolding record : records) {
@@ -330,7 +320,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         for (BudgetConstructionPayRateHolding record: records) {
                 List<PendingBudgetConstructionAppointmentFunding> fundingRecords = this.payrateImportDao.getFundingRecords(record, budgetYear, budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES));
                 for (PendingBudgetConstructionAppointmentFunding fundingRecord : fundingRecords) {
-                    BudgetConstructionHeader header = getHeaderRecord(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
+                    BudgetConstructionHeader header = this.budgetConstructionDao.getByCandidateKey(fundingRecord.getChartOfAccountsCode(), fundingRecord.getAccountNumber(), fundingRecord.getSubAccountNumber(), budgetYear);
                     String lockingKey = getLockingKeyString(fundingRecord);
                     if ( !lockMap.containsKey(lockingKey) ) {
                         BudgetConstructionLockStatus lockStatus = this.lockService.lockAccount(header, user.getPersonUniversalIdentifier());
@@ -362,7 +352,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fundingRecord.getChartOfAccountsCode());
         searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, fundingRecord.getAccountNumber());
         searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, fundingRecord.getSubAccountNumber());
-        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : budgetParameterService.getParameterValues(BudgetConstructionPayRateHolding.class, "BIWEEKLY_PAY_OBJECT_CODES"));
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : fundingRecord.getFinancialObjectCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : fundingRecord.getFinancialSubObjectCode());
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, optionsService.getOptions(fundingRecord.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd());

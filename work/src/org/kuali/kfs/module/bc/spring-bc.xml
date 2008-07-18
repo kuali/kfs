@@ -798,6 +798,9 @@
 		<property name="payrateImportDao">
 			<ref bean="payrateImportDao" />
 		</property>
+		<property name="budgetConstructionDao">
+			<ref bean="budgetConstructionDao" />
+		</property>
 	</bean>
 	
 	<bean id="payrateImportDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.PayrateImportDaoOjb">

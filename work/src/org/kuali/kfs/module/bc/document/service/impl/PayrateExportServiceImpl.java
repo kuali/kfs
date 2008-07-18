@@ -125,15 +125,15 @@ public class PayrateExportServiceImpl implements PayrateExportService {
     @NonTransactional
     private StringBuilder buildExportLine(BudgetConstructionPayRateHolding holdingRecord, String csfFreezeDate) {
         StringBuilder line = new StringBuilder();
-        String emplid = padString(holdingRecord.getEmplid(), 11);
-        String positionNumber = padString(holdingRecord.getPositionNumber(), 8);
-        String personName = padString(holdingRecord.getPersonName(), 50);
-        String setIdSalary = padString(holdingRecord.getSetidSalary(), 5);
-        String salAdminPlan = padString(holdingRecord.getSalaryAdministrationPlan(), 4);
-        String grade = padString(holdingRecord.getGrade(), 3);
-        String unionCode = padString(holdingRecord.getUnionCode(), 3);
-        String payRate = padString(String.valueOf(holdingRecord.getAppointmentRequestedPayRate().multiply(new BigDecimal(100)).intValue()), 10);
-        csfFreezeDate = padString(csfFreezeDate, 8);
+        String emplid = padString(holdingRecord.getEmplid(), 11, true);
+        String positionNumber = padString(holdingRecord.getPositionNumber(), 8, true);
+        String personName = padString(holdingRecord.getPersonName(), 50, true);
+        String setIdSalary = padString(holdingRecord.getSetidSalary(), 5, true);
+        String salAdminPlan = padString(holdingRecord.getSalaryAdministrationPlan(), 4, true);
+        String grade = padString(holdingRecord.getGrade(), 3, true);
+        String unionCode = padString(holdingRecord.getUnionCode(), 3, true);
+        String payRate = padString(String.valueOf(holdingRecord.getAppointmentRequestedPayRate().multiply(new BigDecimal(100)).intValue()), 10, false);
+        csfFreezeDate = padString(csfFreezeDate, 8, true);
         
         line.append(emplid);
         line.append(positionNumber);
@@ -157,8 +157,11 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @return
      */
     @NonTransactional
-    private String padString(String stringToPad, int fieldSize) {
-        if (stringToPad.length() < fieldSize) return StringUtils.leftPad(stringToPad, fieldSize);
+    private String padString(String stringToPad, int fieldSize, boolean leftJustifiy) {
+        if (stringToPad.length() < fieldSize) {
+            if (leftJustifiy) StringUtils.rightPad(stringToPad, fieldSize);
+            else return StringUtils.leftPad(stringToPad, fieldSize);
+        }
         else if (stringToPad.length() > fieldSize) return stringToPad.substring(0, fieldSize - 1);
         
         return stringToPad;

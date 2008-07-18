@@ -26,6 +26,7 @@ public class PayrateImportExportForm extends BudgetExpansionForm {
     private int importCount;
     private int updateCount;
     private FormFile file;
+    private String csfFreezeDateFormattedForExportFile;
     
     public FormFile getFile() {
         return file;
@@ -82,5 +83,12 @@ public class PayrateImportExportForm extends BudgetExpansionForm {
     public void setPositionUnionCode(String positionUnionCode) {
         this.positionUnionCode = positionUnionCode;
     }
-
+    
+    public String getCsfFreezeDateFormattedForExportFile() {
+        return this.csfFreezeDateFormattedForExportFile;
+    }
+    
+    public void setCsfFreezeDateFormattedForExportFile(String formattedDate) {
+        this.csfFreezeDateFormattedForExportFile = formattedDate;
+    }
 }

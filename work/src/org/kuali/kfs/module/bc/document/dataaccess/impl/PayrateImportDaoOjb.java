@@ -42,5 +42,14 @@ public class PayrateImportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
         
         return records;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.bc.document.dataaccess.PayrateImportDao#getImportCount(java.lang.String)
+     */
+    public int getImportCount(String personUniversalIdentifier) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
 }

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -115,9 +116,8 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE, positionUnionCode);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        String formattedCsfFreezeDate = payrateImportExportForm.getCsfFreezeDate().replace("/","");
         
-        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, formattedCsfFreezeDate);
+        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, payrateImportExportForm.getCsfFreezeDateFormattedForExportFile());
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(fileContents.toString().getBytes());
@@ -184,7 +184,18 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED);
             isValid = false;
         }
+        SimpleDateFormat validDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        SimpleDateFormat exportFileFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
+        try {
+            Date validDate = validDateFormatter.parse(form.getCsfFreezeDate());
+            importForm.setCsfFreezeDateFormattedForExportFile(exportFileFormat.format(validDate));
+        }
+        catch (ParseException e) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT);
+            isValid = false;
+        }
         
         return isValid;
     }
+    
 }

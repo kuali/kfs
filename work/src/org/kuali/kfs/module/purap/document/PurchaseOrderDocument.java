@@ -31,6 +31,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -341,7 +342,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setDefaultValuesForAPO() {
         this.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
         if (!RequisitionSources.B2B.equals(this.getRequisitionSourceCode())) {
-            this.setPurchaseOrderVendorChoiceCode(VendorChoice.SMALL_ORDER);
+            String paramName = PurapParameterConstants.DEFAULT_APO_VENDOR_CHOICE;
+            String paramValue = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, paramName);
+            this.setPurchaseOrderVendorChoiceCode(paramValue);
         }
     }
 

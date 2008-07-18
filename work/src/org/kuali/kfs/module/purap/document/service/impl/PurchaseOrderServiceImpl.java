@@ -61,7 +61,6 @@ import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapConstants.VendorChoice;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -81,7 +80,6 @@ import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationServi
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.purap.util.ThresholdHelper;
 import org.kuali.kfs.sys.KFSConstants;
@@ -326,7 +324,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         poDocument.setPendingActionIndicator(false);
 
         if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-            poDocument.setPurchaseOrderVendorChoiceCode(VendorChoice.CONTRACTED_PRICE);
+            String paramName = PurapParameterConstants.DEFAULT_B2B_VENDOR_CHOICE;
+            String paramValue = parameterService.getParameterValue(PurchaseOrderDocument.class, paramName);
+            poDocument.setPurchaseOrderVendorChoiceCode(paramValue);
+
         }
 
         if (ObjectUtils.isNotNull(poDocument.getVendorContract())) {

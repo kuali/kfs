@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
@@ -32,6 +33,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
+import org.kuali.kfs.module.ar.util.CustomerInvoiceBalanceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
@@ -98,7 +100,8 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
      * @return
      */
     public KualiDecimal getAmountAppliedDirectlyToInvoice() {
-        return customerInvoiceDocumentService.getTotalAmountForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+        CustomerInvoiceBalanceHelper balanceHelper = new CustomerInvoiceBalanceHelper(getSelectedInvoiceDocument(), getInvoicePaidAppliedsForInvoice(getSelectedInvoiceDocumentNumber()));
+      return balanceHelper.getTotalAppliedAmount();
     }
 
     /**
@@ -212,6 +215,16 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
             return customerService.getInvoicesForCustomer(getCustomer());
         }
     }
+    
+    public Collection<CustomerInvoiceBalanceHelper> getUpdatedBalanceInvoices()
+    {
+        Collection<CustomerInvoiceBalanceHelper> invoices = new ArrayList<CustomerInvoiceBalanceHelper>();
+        for(CustomerInvoiceDocument invoice: getInvoices())
+        {
+            invoices.add(new CustomerInvoiceBalanceHelper(invoice, getInvoicePaidAppliedsForInvoice(invoice.getDocumentNumber())));
+        }
+        return invoices;
+    }
 
     /**
      * @param refresh
@@ -270,10 +283,15 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
      * @return the invoice paid applieds for the selected invoice
      */
     private Collection<InvoicePaidApplied> getInvoicePaidAppliedsForSelectedInvoice() {
+       
+        return getInvoicePaidAppliedsForInvoice(getSelectedInvoiceDocumentNumber());
+    }
+    
+    private Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String invoiceNumber) {
         Collection<InvoicePaidApplied> invoicePaidAppliedsForSelectedInvoice = new ArrayList<InvoicePaidApplied>();
         PaymentApplicationDocument applicationDocument = getPaymentApplicationDocument();
         for (InvoicePaidApplied invoicePaidApplied : applicationDocument.getAppliedPayments()) {
-            if (invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equalsIgnoreCase(getSelectedInvoiceDocumentNumber())) {
+            if (invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equalsIgnoreCase(invoiceNumber)) {
                 invoicePaidAppliedsForSelectedInvoice.add(invoicePaidApplied);
             }
         }
@@ -300,7 +318,9 @@ public class PaymentApplicationDocumentForm extends KualiAccountingDocumentFormB
      * @return
      */
     public KualiDecimal getBalanceForSelectedInvoiceDocument() {
-        return customerInvoiceDocumentService.getBalanceForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+        CustomerInvoiceBalanceHelper balanceHelper = new CustomerInvoiceBalanceHelper(getSelectedInvoiceDocument(), getInvoicePaidAppliedsForInvoice(getSelectedInvoiceDocumentNumber()));
+//        return customerInvoiceDocumentService.getBalanceForCustomerInvoiceDocument(getSelectedInvoiceDocumentNumber());
+        return balanceHelper.getCalculatedBalance();
     }
 
     public String getCustomerNumber() {

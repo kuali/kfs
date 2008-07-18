@@ -110,10 +110,9 @@ public class PaymentApplicationDocumentAction extends KualiAccountingDocumentAct
                 }
             }
             else {
-                if (amount.isNonZero() && (amount.subtract(customerInvoiceDetail.getAppliedAmount())).isNonZero()) {
+                if (amount.isNonZero() && (amount.subtract(customerInvoiceDetail.getAppliedAmount())).isNonZero() && amount.isLessEqual(customerInvoiceDetail.getAmount())) {
                     InvoicePaidApplied invoicePaidApplied = paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(customerInvoiceDetail, paymentApplicationDocumentNbr, universityFiscalYear, universityFiscalPeriodCode, amount);
                     if (invoicePaidApplied != null) {
-                        invoicePaidApplied.setDocumentNumber(pAppDoc.getDocumentNumber());
                         pAppDoc.getAppliedPayments().add(invoicePaidApplied);
                     }
                 }

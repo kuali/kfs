@@ -117,8 +117,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         if (invoicePaidApplieds != null || invoicePaidApplieds.size() > 0) {
             for (InvoicePaidApplied pdApp : invoicePaidApplieds) {
                 if (pdApp.getDocumentNumber().equals(applicationDocNbr) && pdApp.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber()) && pdApp.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber())) {
-                    // invoicePaidApplied = pdApp;// ??
-                    // invoicePaidAppliedItemNbr = pdApp.getPaidAppliedItemNumber();
                     pdApp.setInvoiceItemAppliedAmount(amount);
                     found = true;
                     break;
@@ -133,6 +131,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
             invoicePaidApplied = new InvoicePaidApplied();
 
+            invoicePaidApplied.setDocumentNumber(applicationDocNbr);
+            
             invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
             invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
             invoicePaidApplied.setInvoiceItemAppliedAmount(amount);

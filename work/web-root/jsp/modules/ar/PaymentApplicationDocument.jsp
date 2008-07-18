@@ -118,19 +118,19 @@
                    
                 
 				    		               <tr>
-				    		               		<html:hidden property="document.appliedPayment[${ctr}].documentNumber" />
-		                                        <html:hidden property="document.appliedPayment[${ctr}].versionNumber" />
-		                                        <html:hidden property="document.appliedPayment[${ctr}].objectId" />
+				    		               		 <html:hidden property="document.appliedPayment[${ctr}].documentNumber" />
+		                                         <html:hidden property="document.appliedPayment[${ctr}].versionNumber" />
+		                                         <html:hidden property="document.appliedPayment[${ctr}].objectId" />
 				    			              <td><c:out value="${appliedPayment.financialDocumentReferenceInvoiceNumber}"/>
-				    			              <html:hidden property="document.appliedPayment[${ctr}].financialDocumentReferenceInvoiceNumber" /></td>
+				    			                  <html:hidden property="document.appliedPayment[${ctr}].financialDocumentReferenceInvoiceNumber" /></td>
 				    			              <td><c:out value="${appliedPayment.invoiceItemNumber}"/>
-				    			              <html:hidden property="document.appliedPayment[${ctr}].invoiceItemNumber" />
+				    			                  <html:hidden property="document.appliedPayment[${ctr}].invoiceItemNumber" />
 				    			              </td>
 				    			              <td><c:out value="${appliedPayment.invoiceItem.financialDocumentLineDescription}"/>
-				    			              <html:hidden property="document.appliedPayment[${ctr}].invoiceItem.financialDocumentLineDescription" />
+				    			                  <html:hidden property="document.appliedPayment[${ctr}].invoiceItem.financialDocumentLineDescription" />
 				    			              </td>
 				    			              <td>$<c:out value="${appliedPayment.invoiceItemAppliedAmount}"/>
-				    			              <html:hidden property="document.appliedPayment[${ctr}].invoiceItemAppliedAmount" />
+				    			                  <html:hidden property="document.appliedPayment[${ctr}].invoiceItemAppliedAmount" />
 				    			              </td>
 				    		               </tr>
 				    		               </logic:iterate>
@@ -187,11 +187,11 @@
 					   		<th>Open Amount</th>
 					   		<th>Quick Apply</th>
 						</tr>
-				    	<c:forEach items="${KualiForm.invoices}" var="invoice">
+				    	<c:forEach items="${KualiForm.updatedBalanceInvoices}" var="updatedBalanceInvoice">
 				    		<tr>
-				    			<td><c:out value="${invoice.documentNumber}"/></td>
-				    			<td>$<c:out value="${invoice.balance}"/></td>
-				    			<td><input type="checkbox" name="quickApply" value="${invoice.documentNumber}" /></td>
+				    			<td><c:out value="${updatedBalanceInvoice.invoice.documentNumber}"/></td>
+				    			<td>$<c:out value="${updatedBalanceInvoice.calculatedBalance}"/></td>
+				    			<td><input type="checkbox" name="quickApply" value="${updatedBalanceInvoice.invoice.documentNumber}" /></td>
 				    		</tr>
 				    	</c:forEach>
 						<tr>

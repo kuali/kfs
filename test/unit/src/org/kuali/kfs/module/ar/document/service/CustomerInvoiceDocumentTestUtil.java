@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
@@ -22,12 +23,17 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.CustomerFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
+import org.kuali.kfs.module.ec.service.impl.EffortCertificationDocumentServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CustomerInvoiceDocumentTestUtil {
     
     public static final String CUSTOMER_MAINT_DOC_NAME = "CustomerMaintenanceDocument";
     
+    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentTestUtil.class);
     
     /**
      * This method saves a customer BO based on the passed in customer fixture
@@ -44,7 +50,7 @@ public class CustomerInvoiceDocumentTestUtil {
      * @param customerInvoiceDocumentFixture
      * @param customerInvoiceDocumentFixtures
      */
-    public static void saveNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDocumentFixtures, CustomerFixture customerFixture) throws Exception{
+    public static String saveNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDocumentFixtures, CustomerFixture customerFixture){
                 
         CustomerInvoiceDocument document = null;
         if( ObjectUtils.isNotNull( customerFixture ) ){
@@ -53,7 +59,13 @@ public class CustomerInvoiceDocumentTestUtil {
             document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerInvoiceDocumentFixtures);
         }
         
-        SpringContext.getBean(BusinessObjectService.class).save(document);
+        Document savedDocument = null;
+        try {
+            savedDocument = SpringContext.getBean(DocumentService.class).saveDocument(document, DocumentSystemSaveEvent.class);
+        } catch (Exception e){
+            LOG.error(e.getMessage());
+        }
+        return ObjectUtils.isNotNull(savedDocument)? savedDocument.getDocumentNumber() : null;
     }    
     
     /**
@@ -62,18 +74,22 @@ public class CustomerInvoiceDocumentTestUtil {
      * @param customerInvoiceDocumentFixture
      * @param customerInvoiceDocumentFixtures
      */
-    public static void submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDocumentFixtures, CustomerFixture customerFixture) throws Exception{
-        
+    public static String submitNewCustomerInvoiceDocument(CustomerInvoiceDocumentFixture customerInvoiceDocumentFixture, CustomerInvoiceDetailFixture[] customerInvoiceDetailFixtures, CustomerFixture customerFixture){
         
         CustomerInvoiceDocument document = null;
         if( ObjectUtils.isNotNull( customerFixture ) ){
-            document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerFixture, customerInvoiceDocumentFixtures);
+            document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerFixture, customerInvoiceDetailFixtures);
         } else {
-            document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerInvoiceDocumentFixtures);
+            document  = customerInvoiceDocumentFixture.createCustomerInvoiceDocument(customerInvoiceDetailFixtures);
         }
         document.getDocumentHeader().setDocumentDescription("CREATING TEST CUSTOMER INVOICE DOCUMENT");
         
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        documentService.routeDocument(document, null, null);
+        Document routedDocument = null;
+        try {
+            routedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, null, null);
+        } catch (Exception e){
+            LOG.error(e.getMessage());
+        }
+        return ObjectUtils.isNotNull(routedDocument)? routedDocument.getDocumentNumber() : null;
     }
 }

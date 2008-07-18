@@ -27,6 +27,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao;
 import org.kuali.kfs.module.bc.document.service.PayrateExportService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class PayrateExportServiceImpl implements PayrateExportService {
@@ -38,7 +39,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * 
      * @see org.kuali.kfs.module.bc.service.PayrateExportService#buildExportFile()
      */
-    @Transactional
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
     public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate) {
         this.exportCount = 0;
         clearPayrateHoldingTable();

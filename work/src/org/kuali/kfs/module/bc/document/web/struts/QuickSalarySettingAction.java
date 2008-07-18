@@ -34,8 +34,12 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -69,20 +73,52 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Forwards to budget incumbent lookup passing parameters for new funding line.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     public ActionForward addIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
-        QuickSalarySettingForm tForm = (QuickSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Incumbent");
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
+        parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
+        parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
+        parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
+        parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, "true");
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "true");
+        
+        String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT, BudgetConstructionIntendedIncumbent.class.getName(), parameters);
+        
+        return new ActionForward(lookupUrl, true);
     }
 
+    /**
+     * Forwards to budget position lookup passing parameters for new funding line.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     public ActionForward addPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
-        QuickSalarySettingForm tForm = (QuickSalarySettingForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Add Position");
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
+        parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
+        parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
+        parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
+        parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, "true");
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "true");
+        
+        String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP, BudgetConstructionPosition.class.getName(), parameters);
+        
+        return new ActionForward(lookupUrl, true);
     }
 
     /**
@@ -179,8 +215,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFunding.getPositionNumber());
         parameters.put(KFSPropertyConstants.EMPLID, appointmentFunding.getEmplid());
 
-        parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
-        parameters.put(BCPropertyConstants.ADD_LINE, Boolean.FALSE.toString());
+        parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, Boolean.TRUE.toString());
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, Boolean.FALSE.toString());
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(salarySettingForm.getAnchor())) {

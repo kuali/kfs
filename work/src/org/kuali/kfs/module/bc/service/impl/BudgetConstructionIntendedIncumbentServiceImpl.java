@@ -20,7 +20,10 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.Incumbent;
+import org.kuali.kfs.module.bc.exception.BudgetIncumbentAlreadyExistsException;
 import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
+import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
@@ -30,6 +33,47 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionIntendedIncumbentServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
+    private HumanResourcesPayrollService humanResourcesPayrollService;
+
+    /**
+     * @see org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService#pullNewIncumbentFromExternal(java.lang.String)
+     */
+    public synchronized void pullNewIncumbentFromExternal(String emplid) throws BudgetIncumbentAlreadyExistsException {
+        // call humanResourcesPayrollService service to pull record
+        Incumbent incumbent = humanResourcesPayrollService.getIncumbent(emplid);
+
+        // populate BudgetConstructionIntendedIncumbent
+        BudgetConstructionIntendedIncumbent bcIncumbent = new BudgetConstructionIntendedIncumbent();
+        bcIncumbent.setEmplid(incumbent.getEmplid());
+        bcIncumbent.setPersonName(incumbent.getPersonName());
+
+        // check if incumbent already exists in budget incumbent table, if not add incumbent
+        BudgetConstructionIntendedIncumbent retrievedIncumbent = getByPrimaryId(emplid);
+        if (retrievedIncumbent != null) {
+            throw new BudgetIncumbentAlreadyExistsException(emplid);
+        }
+
+        businessObjectService.save(bcIncumbent);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService#refreshIncumbentFromExternal(java.lang.String)
+     */
+    public void refreshIncumbentFromExternal(String emplid) {
+        // call humanResourcesPayrollService service to pull record
+        Incumbent incumbent = humanResourcesPayrollService.getIncumbent(emplid);
+
+        // populate BudgetConstructionIntendedIncumbent
+        BudgetConstructionIntendedIncumbent bcIncumbent = new BudgetConstructionIntendedIncumbent();
+        bcIncumbent.setEmplid(incumbent.getEmplid());
+        bcIncumbent.setPersonName(incumbent.getPersonName());
+
+        // update budget record
+        BudgetConstructionIntendedIncumbent retrievedIncumbent = getByPrimaryId(emplid);
+        bcIncumbent.setVersionNumber(retrievedIncumbent.getVersionNumber());
+
+        businessObjectService.save(bcIncumbent);
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService#getByPrimaryId(java.lang.String)
@@ -48,5 +92,14 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the humanResourcesPayrollService attribute value.
+     * 
+     * @param humanResourcesPayrollService The humanResourcesPayrollService to set.
+     */
+    public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {
+        this.humanResourcesPayrollService = humanResourcesPayrollService;
     }
 }

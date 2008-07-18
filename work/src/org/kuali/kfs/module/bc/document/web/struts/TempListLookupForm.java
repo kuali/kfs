@@ -19,6 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.web.struts.form.LookupForm;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 
 /**
  * Action Form for budget special lookup screens.
@@ -37,6 +43,52 @@ public class TempListLookupForm extends LookupForm {
     private String subAccountNumber;
     private List<String> messages;
     private boolean forceToAccountListScreen;
+    private boolean showSalaryByPositionAction;
+    private boolean showSalaryByIncumbentAction;
+    private boolean addLine;
+    private String objectCode;
+    private String subObjectCode;
+    private boolean budgetByAccountMode;
+
+    /**
+     * Checks if the get new button for retrieving a position from the payroll service should be enabled.
+     * 
+     * @return true if button should be enabled, false otherwise
+     */
+    public boolean isGetNewPositionEnabled() {
+        // check if position data is maintained externally
+        boolean positionDataExternal = SpringContext.getBean(ParameterService.class).getIndicatorParameter(BudgetConstructionPosition.class, BCParameterKeyConstants.EXTERNAL_POSITION_FEED_IND);
+        if (!positionDataExternal) {
+            return false;
+        }
+
+        // check if budget updates and updates from HR are enabled
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+        boolean budgetUpdatesAllowed = fiscalYearFunctionControlService.isBudgetUpdateAllowed(getUniversityFiscalYear());
+        boolean updatesFromHumanResourcedAllowed = fiscalYearFunctionControlService.isApplicationUpdateFromHumanResourcesAllowed(getUniversityFiscalYear());
+
+        return budgetUpdatesAllowed && updatesFromHumanResourcedAllowed;
+    }
+
+    /**
+     * Checks if the get new button for retrieving an incumbent from the payroll service should be enabled.
+     * 
+     * @return true if button should be enabled, false otherwise
+     */
+    public boolean isGetNewIncumbentEnabled() {
+        // check if incumbent data is maintained externally
+        boolean incumbentDataExternal = SpringContext.getBean(ParameterService.class).getIndicatorParameter(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
+        if (!incumbentDataExternal) {
+            return false;
+        }
+
+        // check if budget updates and updates from HR are enabled
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+        boolean budgetUpdatesAllowed = fiscalYearFunctionControlService.isBudgetUpdateAllowed(getUniversityFiscalYear());
+        boolean updatesFromHumanResourcedAllowed = fiscalYearFunctionControlService.isApplicationUpdateFromHumanResourcesAllowed(getUniversityFiscalYear());
+
+        return budgetUpdatesAllowed && updatesFromHumanResourcedAllowed;
+    }
 
     public boolean isForceToAccountListScreen() {
         return forceToAccountListScreen;
@@ -207,7 +259,7 @@ public class TempListLookupForm extends LookupForm {
     public void setMessages(List<String> messages) {
         this.messages = messages;
     }
-    
+
     /**
      * Adds a message to the form message list.
      * 
@@ -242,6 +294,114 @@ public class TempListLookupForm extends LookupForm {
 
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
+    }
+
+    /**
+     * Gets the showSalaryByPositionAction attribute.
+     * 
+     * @return Returns the showSalaryByPositionAction.
+     */
+    public boolean isShowSalaryByPositionAction() {
+        return showSalaryByPositionAction;
+    }
+
+    /**
+     * Sets the showSalaryByPositionAction attribute value.
+     * 
+     * @param showSalaryByPositionAction The showSalaryByPositionAction to set.
+     */
+    public void setShowSalaryByPositionAction(boolean showSalaryByPositionAction) {
+        this.showSalaryByPositionAction = showSalaryByPositionAction;
+    }
+
+    /**
+     * Gets the addLine attribute.
+     * 
+     * @return Returns the addLine.
+     */
+    public boolean isAddLine() {
+        return addLine;
+    }
+
+    /**
+     * Sets the addLine attribute value.
+     * 
+     * @param addLine The addLine to set.
+     */
+    public void setAddLine(boolean addLine) {
+        this.addLine = addLine;
+    }
+
+    /**
+     * Gets the objectCode attribute.
+     * 
+     * @return Returns the objectCode.
+     */
+    public String getObjectCode() {
+        return objectCode;
+    }
+
+    /**
+     * Sets the objectCode attribute value.
+     * 
+     * @param objectCode The objectCode to set.
+     */
+    public void setObjectCode(String objectCode) {
+        this.objectCode = objectCode;
+    }
+
+    /**
+     * Gets the subObjectCode attribute.
+     * 
+     * @return Returns the subObjectCode.
+     */
+    public String getSubObjectCode() {
+        return subObjectCode;
+    }
+
+    /**
+     * Sets the subObjectCode attribute value.
+     * 
+     * @param subObjectCode The subObjectCode to set.
+     */
+    public void setSubObjectCode(String subObjectCode) {
+        this.subObjectCode = subObjectCode;
+    }
+
+    /**
+     * Gets the showSalaryByIncumbentAction attribute.
+     * 
+     * @return Returns the showSalaryByIncumbentAction.
+     */
+    public boolean isShowSalaryByIncumbentAction() {
+        return showSalaryByIncumbentAction;
+    }
+
+    /**
+     * Sets the showSalaryByIncumbentAction attribute value.
+     * 
+     * @param showSalaryByIncumbentAction The showSalaryByIncumbentAction to set.
+     */
+    public void setShowSalaryByIncumbentAction(boolean showSalaryByIncumbentAction) {
+        this.showSalaryByIncumbentAction = showSalaryByIncumbentAction;
+    }
+
+    /**
+     * Gets the budgetByAccountMode attribute.
+     * 
+     * @return Returns the budgetByAccountMode.
+     */
+    public boolean isBudgetByAccountMode() {
+        return budgetByAccountMode;
+    }
+
+    /**
+     * Sets the budgetByAccountMode attribute value.
+     * 
+     * @param budgetByAccountMode The budgetByAccountMode to set.
+     */
+    public void setBudgetByAccountMode(boolean budgetByAccountMode) {
+        this.budgetByAccountMode = budgetByAccountMode;
     }
 
 }

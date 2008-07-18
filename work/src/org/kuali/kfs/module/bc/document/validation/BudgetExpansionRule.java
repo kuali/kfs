@@ -13,14 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.document.service;
+package org.kuali.kfs.module.bc.document.validation;
 
-public interface PayrollPerimeterService {
+import org.kuali.core.rule.BusinessRule;
+import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
 
+/**
+ * Defines rule methods for handling expansion events.
+ */
+public interface BudgetExpansionRule extends BusinessRule {
+    
     /**
+     * Process an expansion event.
      * 
-     * @param positionUnionCode
-     * @return
+     * @param budgetExpansionEvent <code>event</code> to process
+     * @return <code>boolean</code> true if validation was successful, false if errors were encountered
      */
-    public boolean validatePositionUnionCode(String positionUnionCode);
+    public boolean processExpansionRule(BudgetExpansionEvent budgetExpansionEvent);
 }

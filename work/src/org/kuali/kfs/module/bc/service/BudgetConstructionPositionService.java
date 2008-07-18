@@ -16,13 +16,31 @@
 package org.kuali.kfs.module.bc.service;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.exception.BudgetPositionAlreadyExistsException;
 
 /**
- * define the service methods that are related to budget construction position class
- * 
- * @see org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition
+ * Provides methods to retrieve and populate budget construction position records.
  */
 public interface BudgetConstructionPositionService {
+
+    /**
+     * Retrieves a new position record from an external system using <code>HumanResourcesPayrollService</code> then populates the
+     * record in the budget position table.
+     * 
+     * @param universityFiscalYear budget fiscal year for the position
+     * @param positionNumber position number for the record
+     * @exception BudgetPositionAlreadyExistsException thrown when position is already in the budget table
+     */
+    public void pullNewPositionFromExternal(Integer universityFiscalYear, String positionNumber) throws BudgetPositionAlreadyExistsException;
+
+    /**
+     * Refreshes a position record from an external system using <code>HumanResourcesPayrollService</code> then updates the record
+     * in the budget position table.
+     * 
+     * @param universityFiscalYear budget fiscal year for the position
+     * @param positionNumber position number for the record
+     */
+    public void refreshPositionFromExternal(Integer universityFiscalYear, String positionNumber);
 
     /**
      * retrieve a Budget Construction Position object by its primary key.

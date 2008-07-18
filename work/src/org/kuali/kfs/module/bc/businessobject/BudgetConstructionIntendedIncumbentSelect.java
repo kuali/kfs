@@ -31,9 +31,6 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
     private String financialObjectCode;
     private String personName;
 
-    // dummy field
-    private Integer universityFiscalYear;
-
     /**
      * Default constructor.
      */
@@ -114,24 +111,6 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
      */
     public void setPersonName(String personName) {
         this.personName = personName;
-    }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
     }
 
     /**

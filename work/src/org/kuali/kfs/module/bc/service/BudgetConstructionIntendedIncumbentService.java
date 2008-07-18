@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.service;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
+import org.kuali.kfs.module.bc.exception.BudgetIncumbentAlreadyExistsException;
 
 /**
  * define the service methods that are related to budget construction Intended Incumbent class
@@ -23,6 +24,24 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
  * @see org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent
  */
 public interface BudgetConstructionIntendedIncumbentService {
+    
+    /**
+     * Retrieves a new incumbent record from an external system using <code>HumanResourcesPayrollService</code> then populates the
+     * record in the budget intended incumbent table.
+     * 
+     * @param emplid university id for the incumbent to pull
+     * @exception BudgetPositionAlreadyExistsException thrown when position is already in the budget table
+     */
+    public void pullNewIncumbentFromExternal(String emplid) throws BudgetIncumbentAlreadyExistsException;
+
+    /**
+     * Refreshes an incumbent record from an external system using <code>HumanResourcesPayrollService</code> then updates the
+     * record in the budget intended incumbent table.
+     * 
+     * @param emplid university id for the incumbent to pull
+     */
+    public void refreshIncumbentFromExternal(String emplid);
+    
     /**
      * retrieve a Budget Construction Intended Incumbent object by its primary key - the employee id.
      * 

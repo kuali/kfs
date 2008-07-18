@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -47,10 +48,22 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         if (budgetConstructionPosition == null) {
             // TODO this is an RI error need to report it
         }
+        
+        if (positionSalarySettingForm.isRefreshPositionBeforeSalarySetting()) {
+            SpringContext.getBean(BudgetConstructionPositionService.class).refreshPositionFromExternal(positionSalarySettingForm.getUniversityFiscalYear(), positionSalarySettingForm.getPositionNumber());
+        }
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
         positionSalarySettingForm.populateBCAFLines();        
         positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
+        
+        if (positionSalarySettingForm.isAddLine()) {
+            positionSalarySettingForm.getNewBCAFLine().setChartOfAccountsCode(request.getParameter(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+            positionSalarySettingForm.getNewBCAFLine().setAccountNumber(request.getParameter(KFSPropertyConstants.ACCOUNT_NUMBER));
+            positionSalarySettingForm.getNewBCAFLine().setSubAccountNumber(request.getParameter(KFSPropertyConstants.SUB_ACCOUNT_NUMBER));
+            positionSalarySettingForm.getNewBCAFLine().setFinancialObjectCode(request.getParameter(KFSPropertyConstants.OBJECT_CODE));
+            positionSalarySettingForm.getNewBCAFLine().setFinancialSubObjectCode(request.getParameter(KFSPropertyConstants.SUB_OBJECT_CODE));
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -28,6 +28,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingForm.class);
 
+    private boolean refreshIncumbentBeforeSalarySetting;
+
     private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
 
     /**
@@ -38,19 +40,19 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
         setBudgetConstructionIntendedIncumbent(new BudgetConstructionIntendedIncumbent());
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#createNewAppointmentFundingLine()
      */
     @Override
     protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
-        
+
         appointmentFunding.setEmplid(this.getBudgetConstructionIntendedIncumbent().getEmplid());
 
         return appointmentFunding;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
      */
@@ -95,4 +97,23 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     public void setBudgetConstructionIntendedIncumbent(BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent) {
         this.budgetConstructionIntendedIncumbent = budgetConstructionIntendedIncumbent;
     }
+
+    /**
+     * Gets the refreshIncumbentBeforeSalarySetting attribute.
+     * 
+     * @return Returns the refreshIncumbentBeforeSalarySetting.
+     */
+    public boolean isRefreshIncumbentBeforeSalarySetting() {
+        return refreshIncumbentBeforeSalarySetting;
+    }
+
+    /**
+     * Sets the refreshIncumbentBeforeSalarySetting attribute value.
+     * 
+     * @param refreshIncumbentBeforeSalarySetting The refreshIncumbentBeforeSalarySetting to set.
+     */
+    public void setRefreshIncumbentBeforeSalarySetting(boolean refreshIncumbentBeforeSalarySetting) {
+        this.refreshIncumbentBeforeSalarySetting = refreshIncumbentBeforeSalarySetting;
+    }
+
 }

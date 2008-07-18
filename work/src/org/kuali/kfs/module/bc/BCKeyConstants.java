@@ -114,10 +114,16 @@ public class BCKeyConstants {
     public static final String MSG_PAYRATE_IMPORT_UPDATE_COMPLETE = "message.budget.payrate.updateComplete";
     public static final String MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER = "message.budget.payrate.footerLine";
     
+    public static final String ERROR_REQUIRED_FOR_GET_NEW_POSITION = "error.budget.requiredGetNewPosition";
+    public static final String ERROR_EXTERNAL_POSITION_NOT_FOUND = "error.budget.externalPositionNotFound";
+    public static final String ERROR_BUDGET_POSITION_ALREADY_EXISTS = "error.budget.positionAlreadyExists";
+    public static final String ERROR_REQUIRED_FOR_GET_NEW_INCUMBENT = "error.budget.requiredGetNewIncumbent";
+    public static final String ERROR_BUDGET_INCUMBENT_ALREADY_EXISTS = "error.budget.incumbentAlreadyExists";
+    public static final String ERROR_EXTERNAL_INCUMBENT_NOT_FOUND = "error.budget.externalIncumbentNotFound";
+    
     public static final String ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE = "error.budget.payrate.export.invalidPositionUnionCode";
     public static final String ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED = "error.budget.payrate.export.positionUnionCodeRequired";
     public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED = "error.budget.payrate.export.CsfFreezeDateRequired";
     public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT = "error.budget.payrate.export.CsfFreezeDateIncorrectFormat";
-    
 }
 

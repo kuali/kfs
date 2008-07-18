@@ -53,14 +53,16 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_TOTAL_INTENDED_AMOUNT = "appointmentTotalIntendedAmount";
     public static final String APPOINTMENT_TOTAL_INTENDED_FTE_QUANTITY = "appointmentTotalIntendedFteQuantity";
     public static final String APPOINTMENT_FUNDING_REASON_CODE = "appointmentFundingReasonCode";
-    public static final String SET_SALARY_ID = "setidSalary";
+    
+    public static final String POSITION_DEPARTMENT_IDENTIFIER = "positionDepartmentIdentifier";
+    public static final String IU_POSITION_TYPE = "iuPositionType";
+    public static final String POSITION_SALARY_PLAN_DEFAULT = "positionSalaryPlanDefault";
     public static final String SALARY_ADMINISTRATION_PLAN = "salaryAdministrationPlan";
+    public static final String POSITION_GRADE_DEFAULT = "positionGradeDefault";
     public static final String GRADE = "grade";
+    public static final String SET_SALARY_ID = "setidSalary";
     public static final String POSITION_UNION_CODE = "unionCode";
     public static final String CSF_FREEZE_DATE = "csfFreezeDate";
     public static final String BUDGET_CONSTRUCTION_ADMINISTRATIVE_POST = "budgetConstructionAdministrativePost";
     public static final String CONFIDENTIAL_POSITION = "confidentialPosition";
-    public static final Object ADD_LINE = "addLine";
-    public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
-    public static final String SINGLE_ACCOUNT_MODE = "singleAccountMode";
 }

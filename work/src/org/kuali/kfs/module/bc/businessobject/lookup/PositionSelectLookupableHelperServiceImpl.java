@@ -42,11 +42,11 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
 
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, positionSelect.getUniversityFiscalYear().toString());
         parameters.put(BCPropertyConstants.POSITION_NUMBER, positionSelect.getPositionNumber());
-        parameters.put(BCConstants.BUDGET_BY_ACCOUNT_MODE, "false");
-        parameters.put(KFSConstants.ADD_LINE_METHOD, "false");
+        parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, "false");
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
 
         String url = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
 
-        return url = "<a href=\"" + url + "\" target=\"blank\" title=\"Position Salary Setting\">Position Salary Setting</a>";
+        return url = "<a href=\"" + url + "\" target=\"blank\" title=\"Posn Salset\">Posn Salset</a>";
     }
 }

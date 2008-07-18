@@ -233,6 +233,36 @@
 			<ref bean="positionSelectLookupableHelperService" />
 		</property>
 	</bean>	
+	
+	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
+	<bean id="budgetPositionLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="budgetPositionLookupableHelperService" />
+		</property>
+	</bean>	
+	
+	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+
+	<bean id="budgetIntendedIncumbentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="budgetIntendedIncumbentLookupableHelperService" />
+		</property>
+	</bean>	
 
 	<bean id="accountSelectLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.AccountSelectLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
@@ -862,12 +892,18 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property> 
-    </bean> 
-        
+		<property name="humanResourcesPayrollService">
+			<ref bean="humanResourcesPayrollService" />
+		</property> 
+    </bean> 	
+    
     <bean id="budgetConstructionPositionService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionPositionServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property> 
+		<property name="humanResourcesPayrollService">
+			<ref bean="humanResourcesPayrollService" />
+		</property> 		
     </bean>	
     
     <bean id="budgetConstructionAdministrativePostService" class="org.kuali.kfs.module.bc.service.impl.BudgetConstructionAdministrativePostServiceImpl">
@@ -876,6 +912,15 @@
 		</property> 
     </bean> 	
     
-    <bean id="payrollPerimeterService" class="org.kuali.kfs.module.bc.document.service.impl.PayrollPerimeterServiceImpl">
-	</bean>  	
+    <bean id="humanResourcesPayrollDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.dataaccess.impl.HumanResourcesPayrollDaoJdbc">
+    </bean>
+    
+    <bean id="humanResourcesPayrollService" class="org.kuali.kfs.module.bc.service.impl.HumanResourcesPayrollServiceImpl">
+		<property name="humanResourcesPayrollDao">
+			<ref bean="humanResourcesPayrollDao" />
+		</property> 
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property> 
+	</bean> 
 </beans>

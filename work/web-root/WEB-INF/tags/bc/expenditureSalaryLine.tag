@@ -18,7 +18,8 @@
 <c:set var="sseAttributes" value="${DataDictionary['SalarySettingExpansion'].attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary['Account'].attributes}" />
 
-<c:set var="readOnly" value="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}" />
+<!-- <c:set var="readOnly" value="${!KualiForm.editingMode['systemViewOnly'] && KualiForm.editingMode['fullEntry']}" />-->
+<c:set var="readOnly" value="false" />
 <c:set var="accountingLine" value="salarySettingExpansion" />
 <c:set var="colSpan" value="7" />
 

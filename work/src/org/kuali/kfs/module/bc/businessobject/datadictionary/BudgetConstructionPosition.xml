@@ -571,6 +571,7 @@
 
   <bean id="BudgetConstructionPosition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Construction Position Lookup" />
+    <property name="lookupableID" value="budgetPositionLookupable" />
     <property name="instructions" value="Look up a Budget Construction Position" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
@@ -579,7 +580,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
+              p:attributeName="positionNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition"
               p:attributeName="positionDescription" />
         <bean parent="FieldDefinition"

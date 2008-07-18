@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.bc.document.service.impl;
+package org.kuali.kfs.module.bc.document.validation.impl;
 
-import org.kuali.kfs.module.bc.document.service.PayrollPerimeterService;
+import java.util.Collection;
 
-public class PayrollPerimeterServiceImpl implements PayrollPerimeterService {
-    
-    /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.service.PayrollPerimeterService#validatePositionUnionCode(java.lang.String)
-     */
-    public boolean validatePositionUnionCode(String positionUnionCode) {
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.validation.DetailSalarySettingSaveRule;
+
+public class SalarySettingRules implements DetailSalarySettingSaveRule {
+
+    public boolean processSave(BudgetConstructionPosition budgetConstructionPosition, Collection<PendingBudgetConstructionAppointmentFunding> appointmentFunding) {
         // TODO Auto-generated method stub
-        return true;
+        return false;
     }
 
 }

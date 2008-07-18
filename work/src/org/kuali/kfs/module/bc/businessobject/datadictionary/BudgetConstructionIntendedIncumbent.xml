@@ -180,11 +180,11 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition" parent="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean" />
 
   <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Construction Intended Incumbent Lookup" />
+    <property name="lookupableID" value="budgetIntendedIncumbentLookupable" />
     <property name="instructions" value="Look up a Budget Construction Intended Incumbent" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

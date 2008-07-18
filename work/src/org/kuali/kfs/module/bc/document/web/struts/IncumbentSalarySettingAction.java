@@ -25,8 +25,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
@@ -48,10 +49,22 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
         if (budgetConstructionIntendedIncumbent == null) {
             // TODO this is an RI error need to report it
         }
+        
+        if (incumbentSalarySettingForm.isRefreshIncumbentBeforeSalarySetting()) {
+            SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).refreshIncumbentFromExternal(incumbentSalarySettingForm.getEmplid());
+        }
 
         incumbentSalarySettingForm.setBudgetConstructionIntendedIncumbent(budgetConstructionIntendedIncumbent);
         incumbentSalarySettingForm.populateBCAFLines();
         incumbentSalarySettingForm.setNewBCAFLine(incumbentSalarySettingForm.createNewAppointmentFundingLine());
+        
+        if (incumbentSalarySettingForm.isAddLine()) {
+            incumbentSalarySettingForm.getNewBCAFLine().setChartOfAccountsCode(request.getParameter(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+            incumbentSalarySettingForm.getNewBCAFLine().setAccountNumber(request.getParameter(KFSPropertyConstants.ACCOUNT_NUMBER));
+            incumbentSalarySettingForm.getNewBCAFLine().setSubAccountNumber(request.getParameter(KFSPropertyConstants.SUB_ACCOUNT_NUMBER));
+            incumbentSalarySettingForm.getNewBCAFLine().setFinancialObjectCode(request.getParameter(KFSPropertyConstants.OBJECT_CODE));
+            incumbentSalarySettingForm.getNewBCAFLine().setFinancialSubObjectCode(request.getParameter(KFSPropertyConstants.SUB_OBJECT_CODE));
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

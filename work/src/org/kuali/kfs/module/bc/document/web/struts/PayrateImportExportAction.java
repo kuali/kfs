@@ -39,7 +39,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.document.service.PayrateExportService;
 import org.kuali.kfs.module.bc.document.service.PayrateImportService;
-import org.kuali.kfs.module.bc.document.service.PayrollPerimeterService;
+import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -99,7 +99,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     public ActionForward performExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PayrateImportExportForm payrateImportExportForm = (PayrateImportExportForm) form;
         PayrateExportService payrateExportService = SpringContext.getBean(PayrateExportService.class);
-        PayrollPerimeterService payrollPerimeterService = SpringContext.getBean(PayrollPerimeterService.class);
+        HumanResourcesPayrollService payrollPerimeterService = SpringContext.getBean(HumanResourcesPayrollService.class);
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         String positionUnionCode = payrateImportExportForm.getPositionUnionCode();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -197,5 +197,4 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         
         return isValid;
     }
-    
 }

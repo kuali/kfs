@@ -297,7 +297,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
+              p:attributeName="positionNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition"
               p:attributeName="iuPositionType" />
         <bean parent="FieldDefinition"

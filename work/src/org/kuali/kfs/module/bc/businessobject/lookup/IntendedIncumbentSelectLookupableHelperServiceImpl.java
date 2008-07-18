@@ -35,29 +35,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
 
     /**
-     * Override to set the fiscal year on the BudgetConstructionIntendedIncumbentSelect objects after they have been retrieved.
-     * 
-     * @see org.kuali.module.budget.web.lookupable.SelectLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     */
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        Integer universityFiscalYear = Integer.valueOf(fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
-        fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-
-        List<BudgetConstructionIntendedIncumbentSelect> resultIntendedIncumbents = new ArrayList<BudgetConstructionIntendedIncumbentSelect>();
-
-        List searchResults = super.getSearchResults(fieldValues);
-        for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
-            BudgetConstructionIntendedIncumbentSelect intendedIncumbentSelect = (BudgetConstructionIntendedIncumbentSelect) iterator.next();
-            intendedIncumbentSelect.setUniversityFiscalYear(universityFiscalYear);
-
-            resultIntendedIncumbents.add(intendedIncumbentSelect);
-        }
-
-        return new CollectionIncomplete(resultIntendedIncumbents, new Long(0));
-    }
-
-    /**
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
      */
     @Override
@@ -67,14 +44,16 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLo
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.INCUMBENT_SALARY_SETTING_METHOD);
 
-        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, intendedIncumbentSelect.getUniversityFiscalYear().toString());
+        String[] universityFiscalYear = (String[]) super.getParameters().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear[0]);
+
         parameters.put(KFSPropertyConstants.EMPLID, intendedIncumbentSelect.getEmplid());
-        parameters.put(BCConstants.BUDGET_BY_ACCOUNT_MODE, "false");
-        parameters.put(KFSConstants.ADD_LINE_METHOD, "false");
+        parameters.put(BCConstants.SINGLE_ACCOUNT_MODE, "false");
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
 
         String url = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
 
-        return url = "<a href=\"" + url + "\" target=\"blank\" title=\"Incumbent Salary Setting\">Incumbent Salary Setting</a>";
+        return url = "<a href=\"" + url + "\" target=\"blank\" title=\"Incmbnt Salset\">Incmbnt Salset</a>";
     }
- 
+
 }

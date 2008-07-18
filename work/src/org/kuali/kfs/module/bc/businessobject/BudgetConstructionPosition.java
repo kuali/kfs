@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
-public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware {
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position {
 
     private String positionNumber;
     private Integer universityFiscalYear;
@@ -707,4 +707,5 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     public void setBudgetConstructionPositionSelect(List<BudgetConstructionPositionSelect> budgetConstructionPositionSelect) {
         this.budgetConstructionPositionSelect = budgetConstructionPositionSelect;
     }
+
 }

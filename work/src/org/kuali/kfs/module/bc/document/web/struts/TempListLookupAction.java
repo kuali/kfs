@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -40,11 +41,19 @@ import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService;
+import org.kuali.kfs.module.bc.exception.BudgetIncumbentAlreadyExistsException;
+import org.kuali.kfs.module.bc.exception.BudgetPositionAlreadyExistsException;
+import org.kuali.kfs.module.bc.exception.IncumbentNotFoundException;
+import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
+import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
+import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -178,7 +187,210 @@ public class TempListLookupAction extends KualiLookupAction {
     }
 
     /**
+     * Forwards to budget position lookup.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward performExtendedPositionSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+
+        parameters.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionPosition.class.getName());
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
+        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP));
+
+        // pass lookup fields as parameters
+        Map fieldValues = tempListLookupForm.getFieldsForLookup();
+        parameters.put(BCPropertyConstants.POSITION_NUMBER, fieldValues.get(BCPropertyConstants.POSITION_NUMBER));
+        parameters.put(BCPropertyConstants.POSITION_DEPARTMENT_IDENTIFIER, fieldValues.get(BCPropertyConstants.POSITION_DEPARTMENT_IDENTIFIER));
+        parameters.put(BCPropertyConstants.IU_POSITION_TYPE, fieldValues.get(BCPropertyConstants.IU_POSITION_TYPE));
+        parameters.put(BCPropertyConstants.POSITION_SALARY_PLAN_DEFAULT, fieldValues.get(BCPropertyConstants.SALARY_ADMINISTRATION_PLAN));
+        parameters.put(BCPropertyConstants.POSITION_GRADE_DEFAULT, fieldValues.get(BCPropertyConstants.GRADE));
+
+        parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, "true");
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
+
+        return new ActionForward(lookupUrl, true);
+    }
+
+    /**
+     * Validates the get new action for position then calls BudgetPositionService to pull the new position record.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward getNewPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        // check bc updates are allowed and updates from payroll are turned on
+        if (!tempListLookupForm.isGetNewPositionEnabled()) {
+            LOG.error("get new position not enabled.");
+            throw new RuntimeException("get new position not enabled");
+        }
+
+        // verify a position number to retrieve was given
+        String positionNumber = (String) tempListLookupForm.getFieldsForLookup().get(BCPropertyConstants.POSITION_NUMBER);
+        if (StringUtils.isBlank(positionNumber)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_REQUIRED_FOR_GET_NEW_POSITION);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        // call service to pull new position
+        try {
+            SpringContext.getBean(BudgetConstructionPositionService.class).pullNewPositionFromExternal(tempListLookupForm.getUniversityFiscalYear(), positionNumber);
+        }
+        catch (PositionNotFoundException e) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e.getMessageKey(), e.getMessageParameters());
+        }
+        catch (BudgetPositionAlreadyExistsException e1) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e1.getMessageKey(), e1.getMessageParameters());
+        }
+
+        // perform search which should return the new budget position
+        return this.search(mapping, form, request, response);
+    }
+
+    /**
+     * Calls budget position service to refresh a position record then refreshes search results.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward refreshPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        // parse position key to refresh from methodToCall request attr/parm
+        String positionKeyString = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isBlank(positionKeyString)) {
+            positionKeyString = request.getParameter(KNSConstants.METHOD_TO_CALL_PATH);
+        }
+
+        String universityFiscalYear = StringUtils.substringBetween(positionKeyString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String positionNumber = StringUtils.substringBetween(positionKeyString, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+
+        // call service to refresh position record in budget
+        SpringContext.getBean(BudgetConstructionPositionService.class).refreshPositionFromExternal(Integer.valueOf(universityFiscalYear), positionNumber);
+
+        // refresh search results
+        return this.search(mapping, form, request, response);
+    }
+    
+    /**
+     * Forwards to intended incumbent lookup.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward performExtendedIncumbentSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+
+        parameters.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionIntendedIncumbent.class.getName());
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
+        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.INTENDED_INCUMBENT));
+
+        // pass lookup fields as parameters
+        Map fieldValues = tempListLookupForm.getFieldsForLookup();
+        parameters.put(KFSPropertyConstants.EMPLID, fieldValues.get(KFSPropertyConstants.EMPLID));
+        parameters.put(KFSPropertyConstants.PERSON_NAME, fieldValues.get(KFSPropertyConstants.PERSON_NAME));
+
+        parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, "true");
+        parameters.put(BCConstants.ADD_NEW_FUNDING_LINE, "false");
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
+
+        return new ActionForward(lookupUrl, true);
+    }
+    
+    /**
+     * Validates the get new action for incumbent then calls BudgetPositionService to pull the new incumbent record.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward getNewIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        // check bc updates are allowed and updates from payroll are turned on
+        if (!tempListLookupForm.isGetNewIncumbentEnabled()) {
+            LOG.error("get new incumbent not enabled.");
+            throw new RuntimeException("get new incumbent not enabled");
+        }
+
+        // verify an emplid to retrieve was given
+        String emplid = (String) tempListLookupForm.getFieldsForLookup().get(KFSPropertyConstants.EMPLID);
+        if (StringUtils.isBlank(emplid)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_REQUIRED_FOR_GET_NEW_INCUMBENT);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        // call service to pull new incumbent
+        try {
+            SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).pullNewIncumbentFromExternal(emplid);
+        }
+        catch (IncumbentNotFoundException e) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e.getMessageKey(), e.getMessageParameters());
+        }
+        catch (BudgetIncumbentAlreadyExistsException e1) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e1.getMessageKey(), e1.getMessageParameters());
+        }
+
+        // perform search which should return the new incumbent
+        return this.search(mapping, form, request, response);
+    }
+    
+    /**
+     * Calls budget incumbent service to refresh a incumbent record then refreshes search results.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward refreshIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+
+        // parse incumbent key to refresh from methodToCall request attr/parm
+        String incumbentKeyString = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isBlank(incumbentKeyString)) {
+            incumbentKeyString = request.getParameter(KNSConstants.METHOD_TO_CALL_PATH);
+        }
+
+        String emplid = StringUtils.substringBetween(incumbentKeyString, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+
+        // call service to refresh incumbent record in budget
+        SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).refreshIncumbentFromExternal(emplid);
+
+        // refresh search results
+        return this.search(mapping, form, request, response);
+    }
+
+    /**
      * Continues the organization report action after viewing the account list.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward submitReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;

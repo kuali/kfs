@@ -27,7 +27,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 public class PositionSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingForm.class);
 
+    private boolean refreshPositionBeforeSalarySetting;
+
     private BudgetConstructionPosition budgetConstructionPosition;
+
 
     /**
      * Constructs a PositionSalarySettingForm.java.
@@ -37,19 +40,19 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
 
         this.setBudgetConstructionPosition(new BudgetConstructionPosition());
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.DetailSalarySettingForm#createNewAppointmentFundingLine()
      */
     @Override
     protected PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
         PendingBudgetConstructionAppointmentFunding appointmentFunding = super.createNewAppointmentFundingLine();
-        
+
         appointmentFunding.setPositionNumber(this.getBudgetConstructionPosition().getPositionNumber());
 
         return appointmentFunding;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseForm#getKeyMapOfSalarySettingItem()
      */
@@ -96,4 +99,23 @@ public class PositionSalarySettingForm extends DetailSalarySettingForm {
     public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
         this.budgetConstructionPosition = budgetConstructionPosition;
     }
+
+    /**
+     * Gets the refreshPositionBeforeSalarySetting attribute.
+     * 
+     * @return Returns the refreshPositionBeforeSalarySetting.
+     */
+    public boolean isRefreshPositionBeforeSalarySetting() {
+        return refreshPositionBeforeSalarySetting;
+    }
+
+    /**
+     * Sets the refreshPositionBeforeSalarySetting attribute value.
+     * 
+     * @param refreshPositionBeforeSalarySetting The refreshPositionBeforeSalarySetting to set.
+     */
+    public void setRefreshPositionBeforeSalarySetting(boolean refreshPositionBeforeSalarySetting) {
+        this.refreshPositionBeforeSalarySetting = refreshPositionBeforeSalarySetting;
+    }
+
 }

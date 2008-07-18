@@ -56,6 +56,15 @@
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
 	<html-el:hidden name="KualiForm" property="tempListLookupMode" />
 	<html-el:hidden name="KualiForm" property="forceToAccountListScreen" />
+	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
+	<html-el:hidden name="KualiForm" property="accountNumber" />
+	<html-el:hidden name="KualiForm" property="subAccountNumber" />
+	<html-el:hidden name="KualiForm" property="objectCode" />
+	<html-el:hidden name="KualiForm" property="subObjectCode" />
+	<html-el:hidden name="KualiForm" property="showSalaryByPositionAction" />
+	<html-el:hidden name="KualiForm" property="addLine" />
+	<html-el:hidden name="KualiForm" property="showSalaryByIncumbentAction" />
+	<html-el:hidden name="KualiForm" property="budgetByAccountMode" />
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
@@ -132,6 +141,39 @@
 						property="methodToCall.cancel" value="cancel"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="tinybutton"
 						alt="cancel" title="cancel" border="0" />
+	            
+	                <c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.POSITION_SELECT}">
+					  <html:image
+					  	  property="methodToCall.performExtendedPositionSearch" value="submit"
+						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_extended.gif" styleClass="tinybutton"
+						  alt="perform extended search" title="perform extended search" border="0"/>
+					</c:if>
+					
+	                <c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT}">
+					  <html:image
+					  	  property="methodToCall.performExtendedIncumbentSearch" value="submit"
+						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_extended.gif" styleClass="tinybutton"
+						  alt="perform extended search" title="perform extended search" border="0"/>
+					</c:if>
+					
+			        <c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP}">
+					  <c:if test="${KualiForm.getNewPositionEnabled}">
+					    <html:image
+					  	    property="methodToCall.getNewPosition" value="submit"
+						    src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
+						    alt="get new position" title="get new position" border="0"/>
+					  </c:if>	  
+					</c:if>
+					
+					<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.INTENDED_INCUMBENT}">
+					  <c:if test="${KualiForm.getNewIncumbentEnabled}">
+					    <html:image
+					  	    property="methodToCall.getNewIncumbent" value="submit"
+						    src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
+						    alt="get new incumbent" title="get new incumbent" border="0"/>
+					  </c:if>	  
+					</c:if>
+				
 					<!-- Optional extra buttons --> 					
 					<c:forEach items="${KualiForm.extraButtons}" var="extraButton" varStatus="status">
 						<c:if test="${!empty extraButton.extraButtonSource && !empty extraButton.extraButtonParams}">

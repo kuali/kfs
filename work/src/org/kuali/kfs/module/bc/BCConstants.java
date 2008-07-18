@@ -286,6 +286,8 @@ public class BCConstants extends JSTLConstants {
         public final static int ACCOUNT_SELECT_PULLUP_DOCUMENTS = 7;
         public final static int ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS = 8;
         public final static int ACCOUNT_SELECT_MANAGER_DELEGATE = 9;
+        public final static int BUDGET_POSITION_LOOKUP = 10;
+        public final static int INTENDED_INCUMBENT = 11;
     }
 
     public enum RequestImportFileType {
@@ -391,7 +393,7 @@ public class BCConstants extends JSTLConstants {
     }
     
     public static final String PICK_LIST_MODE = "pickListMode";
-    public static final String BUDGET_BY_ACCOUNT_MODE = "budgetByAccountMode";
+    public static final String SINGLE_ACCOUNT_MODE = "singleAccountMode";
     
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     public static final BigDecimal STANDARD_WEEKLY_WORK_HOUR = BigDecimal.valueOf(40);
@@ -401,7 +403,18 @@ public class BCConstants extends JSTLConstants {
     public static final String TEMP_LIST_UNLOCK_METHOD = "unlock";
     public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
     public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
-    
+
     public static final String DASH_SUB_ACCOUNT_NUMBER = "-----";
     public static final String DASH_SUB_OBJECT_CODE = "---";
+    
+    public static final String ADD_NEW_FUNDING_LINE = "addLine";
+    public static final String SHOW_SALARY_BY_POSITION_ACTION = "showSalaryByPositionAction";
+    public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
+    public static final String TEMP_LIST_REFRESH_POSITION_METHOD = "refreshPosition";
+    public static final String REFRESH_POSITION_BUTTON_NAME = "tinybutton-sync.gif";
+    
+    public static final String SHOW_SALARY_BY_INCUMBENT_ACTION = "showSalaryByIncumbentAction";
+    public static final String REFRESH_INCUMBENT_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
+    public static final String TEMP_LIST_REFRESH_INCUMBENT_METHOD = "refreshIncumbent";
+    public static final String REFRESH_INCUMBENT_BUTTON_NAME = "tinybutton-sync.gif";
 }

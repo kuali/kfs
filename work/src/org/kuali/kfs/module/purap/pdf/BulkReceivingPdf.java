@@ -51,6 +51,7 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
@@ -74,69 +75,13 @@ public class BulkReceivingPdf extends PurapPdf {
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onOpenDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
     public void onOpenDocument(PdfWriter writer, Document document) {
-        
         try {
             
-            float[] headerWidths = { 0.20f, 0.80f };
-            
-            headerTable = new PdfPTable(headerWidths);
-            headerTable.setWidthPercentage(100);
-            headerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerTable.setSplitLate(false);
-            headerTable.getDefaultCell().setBorderWidth(0);
-            headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
-            
-            /**
-             * Logo display
-             */
-            if (StringUtils.isNotBlank(logoImage)) {
-                logo = Image.getInstance(logoImage);
-                logo.scalePercent(3, 3);
-                headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
-            }
-            else {
-                headerTable.addCell(new Phrase(new Chunk("")));
-            }
-            
-            /**
-             * Nested table in tableHeader to display title and doc number
-             */
-            float[] nestedHeaderWidths = { 0.70f, 0.30f };
-            nestedHeaderTable = new PdfPTable(nestedHeaderWidths);
-            nestedHeaderTable.setSplitLate(false);
-            PdfPCell cell;
-
-            /**
-             * Title
-             */
-            cell = new PdfPCell(new Paragraph(" ", ver_15_normal));
-            cell.setBorderWidth(0);
-            nestedHeaderTable.addCell(cell);
-            cell = new PdfPCell(new Paragraph("BULK RECEIVING", ver_15_normal));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setBorderWidth(0);
-            nestedHeaderTable.addCell(cell);
-            
-//            /**
-//             * Doc Number
-//             */
-//            Paragraph p = new Paragraph();
-//            p.add(new Chunk("Doc Number: ", ver_5_normal));
-//            p.add(new Chunk(blkRecDoc.getDocumentNumber().toString(), cour_10_normal));
-//            cell = new PdfPCell(p);
-//            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-//            cell.setBorderWidth(0);
-//            nestedHeaderTable.addCell(cell);
-            
-            // Add the nestedHeaderTable to the headerTable
-            cell = new PdfPCell(nestedHeaderTable);
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setBorderWidth(0);
-            headerTable.addCell(cell);
+            loadHeaderTable();
             
             // initialization of the template
             tpl = writer.getDirectContent().createTemplate(100, 100);
+            
             // initialization of the font
             helv = BaseFont.createFont("Helvetica", BaseFont.WINANSI, false);
         }
@@ -145,6 +90,57 @@ public class BulkReceivingPdf extends PurapPdf {
         }
     }
 
+    private void loadHeaderTable()
+    throws Exception {
+        
+        float[] headerWidths = { 0.20f, 0.80f };
+        
+        headerTable = new PdfPTable(headerWidths);
+        headerTable.setWidthPercentage(100);
+        headerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerTable.setSplitLate(false);
+        headerTable.getDefaultCell().setBorderWidth(0);
+        headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
+        
+        /**
+         * Logo display
+         */
+        if (StringUtils.isNotBlank(logoImage)) {
+            logo = Image.getInstance(logoImage);
+            logo.scalePercent(3, 3);
+            headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
+        }
+        else {
+            headerTable.addCell(new Phrase(new Chunk("")));
+        }
+        
+        /**
+         * Nested table in tableHeader to display title and doc number
+         */
+        float[] nestedHeaderWidths = { 0.70f, 0.30f };
+        nestedHeaderTable = new PdfPTable(nestedHeaderWidths);
+        nestedHeaderTable.setSplitLate(false);
+        PdfPCell cell;
+
+        /**
+         * Title
+         */
+        cell = new PdfPCell(new Paragraph(" ", ver_15_normal));
+        cell.setBorderWidth(0);
+        nestedHeaderTable.addCell(cell);
+        cell = new PdfPCell(new Paragraph("BULK RECEIVING", ver_15_normal));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderWidth(0);
+        nestedHeaderTable.addCell(cell);
+        
+        // Add the nestedHeaderTable to the headerTable
+        cell = new PdfPCell(nestedHeaderTable);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderWidth(0);
+        headerTable.addCell(cell);
+    }
+    
     /**
      * Gets a PageEvents object.
      * 
@@ -168,37 +164,42 @@ public class BulkReceivingPdf extends PurapPdf {
         
         LOG.debug("generatePdf() started for bulk receiving - " + blkRecDoc.getDocumentNumber());
 
+        Document document = null;
+        
         try {
-            Document doc = this.getDocument(9, 9, 70, 36);
-            PdfWriter writer = PdfWriter.getInstance(doc, byteStream);
-            this.createPdf(blkRecDoc, doc, writer,logoImage,environment);
-        }
-        catch (Exception de) {
-            LOG.debug("generatePdf() DocumentException: " + de.getMessage(), de);
+            
+            document = this.getDocument(9, 9, 70, 36);
+            PdfWriter writer = PdfWriter.getInstance(document, byteStream);
+
+            //These have to be set because they are used by the onOpenDocument() and onStartPage() methods.
+            this.logoImage = logoImage;
+            this.blkRecDoc = blkRecDoc;
+            this.environment = environment;
+            
+            // This turns on the page events that handle the header and page numbers.
+            BulkReceivingPdf events = new BulkReceivingPdf().getPageEvents();
+            writer.setPageEvent(this); 
+
+            document.open();
+            
+            document.add(createVendorAndDeliveryDetailsTable());
+            document.add(new Paragraph("\nAdditional Details\n  ", ver_8_bold));
+            document.add(createAdditionalDetailsTable());
+            
+            document.close();
+            
+        }catch (Exception de) {
             throw new RuntimeException("Document Exception when trying to save a Bulk Receiving PDF", de);
+        }finally{
+            if (document != null && document.isOpen()){
+                document.close();
+            }
         }
+        LOG.debug("generatePdf() completed for bulk receiving - " + blkRecDoc.getDocumentNumber());
     }
-
-    private void createPdf(BulkReceivingDocument blkRecDoc, 
-                           Document document, 
-                           PdfWriter writer,
-                           String logoImage,
-                           String environment) 
-    throws DocumentException {
+    
+    private PdfPTable createVendorAndDeliveryDetailsTable(){
         
-        LOG.debug("createPdf() started for bulk receiving - " + blkRecDoc.getDocumentNumber());
-
-        //These have to be set because they are used by the onOpenDocument() and onStartPage() methods.
-        this.logoImage = logoImage;
-        this.blkRecDoc = blkRecDoc;
-        this.environment = environment;
-        
-        // This turns on the page events that handle the header and page numbers.
-        BulkReceivingPdf events = new BulkReceivingPdf().getPageEvents();
-        writer.setPageEvent(this); 
-
-        document.open();
-
         PdfPCell cell;
         Paragraph p = new Paragraph();
 
@@ -208,11 +209,11 @@ public class BulkReceivingPdf extends PurapPdf {
         infoTable.setWidthPercentage(100);
         infoTable.setHorizontalAlignment(Element.ALIGN_CENTER);
         infoTable.setSplitLate(false);
-
+        
         /**
          * Doc Number
          */
-        p.add(new Chunk("Doc Number: ", ver_5_normal));
+        p.add(new Chunk("Doc Number: ", ver_10_normal));
         p.add(new Chunk(blkRecDoc.getDocumentNumber().toString(), cour_10_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -220,55 +221,96 @@ public class BulkReceivingPdf extends PurapPdf {
         cell.setColspan(2);
         infoTable.addCell(cell);
         
-        /**
-         * Vendor Address
-         */
+        infoTable.addCell(getPDFCell("Vendor", getFormattedVendorAddress()));
+        infoTable.addCell(getPDFCell("Delivery", getFormattedDeliveryAddress()));
+        infoTable.addCell(getPDFCell("Reference Number\n", blkRecDoc.getShipmentReferenceNumber()));
+        
+        if (blkRecDoc.getCarrier() != null){
+            infoTable.addCell(getPDFCell("Carrier\n", blkRecDoc.getCarrier().getCarrierDescription()));
+        }else{
+            infoTable.addCell(getPDFCell("Carrier\n", StringUtils.EMPTY));
+        }
+        
+        infoTable.addCell(getPDFCell("Tracking/Pro Number\n", blkRecDoc.getTrackingNumber()));
+        
+        if (blkRecDoc.getPurchaseOrderIdentifier() != null){
+            infoTable.addCell(getPDFCell("PO\n", blkRecDoc.getPurchaseOrderIdentifier().toString()));
+        }else{
+            infoTable.addCell(getPDFCell("PO\n", StringUtils.EMPTY));
+        }
+        
+        infoTable.addCell(getPDFCell("# of Pieces\n", "" + blkRecDoc.getNoOfCartons()));
+        infoTable.addCell(getPDFCell("Shipment Received Date\n", blkRecDoc.getShipmentReceivedDate().toString()));
+
+        return infoTable;
+    }
+    
+    private PdfPCell getPDFCell(String fieldTitle,
+                                String fieldValue){
+        
+        Paragraph p = new Paragraph();
+        p.add(new Chunk("  " + fieldTitle, ver_5_normal));
+        
+        if (StringUtils.isNotEmpty(fieldValue)){
+            p.add(new Chunk("     " + fieldValue, cour_10_normal));
+        }else{
+            p.add(new Chunk("  "));
+        }
+        
+        PdfPCell cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        
+        return cell;
+    }
+    
+    private String getFormattedVendorAddress(){
+        
         StringBuffer vendorInfo = new StringBuffer();
         vendorInfo.append("\n");
         
         if (StringUtils.isNotBlank(blkRecDoc.getVendorName())) {
             vendorInfo.append("     " + blkRecDoc.getVendorName() + "\n");
         }
+        
         if (StringUtils.isNotBlank(blkRecDoc.getVendorLine1Address())) {
             vendorInfo.append("     " + blkRecDoc.getVendorLine1Address() + "\n");
         }
+        
         if (StringUtils.isNotBlank(blkRecDoc.getVendorLine2Address())) {
             vendorInfo.append("     " + blkRecDoc.getVendorLine2Address() + "\n");
         }
+        
         if (StringUtils.isNotBlank(blkRecDoc.getVendorCityName())) {
             vendorInfo.append("     " + blkRecDoc.getVendorCityName());
         }
+        
         if (StringUtils.isNotBlank(blkRecDoc.getVendorStateCode())) {
             vendorInfo.append(", " + blkRecDoc.getVendorStateCode());
         }
+        
         if (StringUtils.isNotBlank(blkRecDoc.getVendorAddressInternationalProvinceName())) {
             vendorInfo.append(", " + blkRecDoc.getVendorAddressInternationalProvinceName());
         }
+        
         if (StringUtils.isNotBlank(blkRecDoc.getVendorPostalCode())) {
             vendorInfo.append(" " + blkRecDoc.getVendorPostalCode() + "\n");
-        }
-        else {
+        }else {
             vendorInfo.append("\n");
         }
+        
         if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(blkRecDoc.getVendorCountryCode()) && blkRecDoc.getVendorCountry() != null) {
             vendorInfo.append("     " + blkRecDoc.getVendorCountry().getPostalCountryName() + "\n\n");
-        }
-        else {
+        }else {
             vendorInfo.append("\n\n");
         }
         
-        p = new Paragraph();
-        p.add(new Chunk("  Vendor", ver_5_normal));
-        p.add(new Chunk(vendorInfo.toString(), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
+        return vendorInfo.toString();
+    }
 
-        /**
-         * Delivery Address
-         */
+    private String getFormattedDeliveryAddress(){
+        
         StringBuffer shipToInfo = new StringBuffer();
+        
         shipToInfo.append("\n");
         shipToInfo.append("     " + StringUtils.defaultString(blkRecDoc.getDeliveryToName()) + "\n");
         
@@ -282,101 +324,26 @@ public class BulkReceivingPdf extends PurapPdf {
             shipToInfo.append("     " + blkRecDoc.getDeliveryBuildingLine2Address() + "\n");
         }
         
-        shipToInfo.append("     " + blkRecDoc.getDeliveryCityName() + ", " + blkRecDoc.getDeliveryStateCode() + " " + blkRecDoc.getDeliveryPostalCode() + "\n\n");
+        shipToInfo.append("     " + blkRecDoc.getDeliveryCityName() + ", " + 
+                                    blkRecDoc.getDeliveryStateCode() + " " + 
+                                    blkRecDoc.getDeliveryPostalCode() + "\n\n");
         
-        p = new Paragraph();
-        p.add(new Chunk("  Delivery", ver_5_normal));
-        p.add(new Chunk(shipToInfo.toString(), cour_10_normal));
-        cell = new PdfPCell(p);
-        infoTable.addCell(cell);
-
-        /**
-         * Shipment Reference number
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Reference Number\n", ver_5_normal));
-        p.add(new Chunk("     " + StringUtils.defaultString(blkRecDoc.getShipmentReferenceNumber()), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
-        
-        /**
-         * Carrier 
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Carrier\n", ver_5_normal));
-        if (blkRecDoc.getCarrier() != null){
-            p.add(new Chunk("     " + StringUtils.defaultString(blkRecDoc.getCarrier().getCarrierDescription()), cour_10_normal));
-        }else{
-            p.add(new Chunk(" "));
-        }
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
-        
-        /**
-         * Tracking number 
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Tracking/Pro Number\n", ver_5_normal));
-        p.add(new Chunk("     " + StringUtils.defaultString(blkRecDoc.getTrackingNumber()), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
-        
-        /**
-         * PO number 
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  PO\n", ver_5_normal));
-        if (blkRecDoc.getPurchaseOrderIdentifier() != null){
-            p.add(new Chunk("     " + blkRecDoc.getPurchaseOrderIdentifier(), cour_10_normal));
-        }else{
-            p.add(new Chunk(" "));
-        }
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
-        
-        /**
-         * # of Pieces 
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  # of Pieces\n", ver_5_normal));
-        p.add(new Chunk("     " + blkRecDoc.getNoOfCartons(), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
-        
-        /**
-         * Shipment Received Date 
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Shipment Received Date\n", ver_5_normal));
-        p.add(new Chunk("     " + blkRecDoc.getShipmentReceivedDate(), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        infoTable.addCell(cell);
-        
-        document.add(infoTable);
-        
-        document.add(new Paragraph("\nAdditional Details\n  ", ver_8_bold));
+        return shipToInfo.toString();
+    }
+    
+    private PdfPTable createAdditionalDetailsTable(){
         
         float[] additionalInfoWidths = { 0.25f, 0.75f };
         PdfPTable additionalInfoTable = new PdfPTable(additionalInfoWidths);
         additionalInfoTable.setWidthPercentage(100);
         additionalInfoTable.setSplitLate(false);
         
+        Paragraph p = new Paragraph();
+        PdfPCell cell;
+        
         /**
          * Notes to vendor
          */
-        p = new Paragraph();
         p.add(new Chunk("  Notes to Vendor  ", ver_5_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -400,6 +367,22 @@ public class BulkReceivingPdf extends PurapPdf {
         
         p = new Paragraph();
         p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getDeliveryInstructionText()), cour_10_normal));
+        
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        additionalInfoTable.addCell(cell);
+        
+        /**
+         * Additional Delivery instructions
+         */
+        p = new Paragraph();
+        p.add(new Chunk("  Additional Delivery instructions  ", ver_5_normal));
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        additionalInfoTable.addCell(cell);
+        
+        p = new Paragraph();
+        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getDeliveryAdditionalInstructionText()), cour_10_normal));
         
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -536,11 +519,6 @@ public class BulkReceivingPdf extends PurapPdf {
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         additionalInfoTable.addCell(cell);
         
-        document.add(additionalInfoTable);
-        
-        document.close();
-     
-        LOG.debug("createPdf()pdf document closed.");
-        
+        return additionalInfoTable;
     }
 }

@@ -49,10 +49,6 @@
    <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 	<html:hidden property="document.purchaseOrderIdentifier" />
 	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
-	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.vendorDetailAssignedIdentifier" />
-	<html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
     
 	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	

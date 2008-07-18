@@ -36,9 +36,11 @@
 		        <html:hidden property="document.vendorDetailAssignedIdentifier" />
 		        <html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
 		        <html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
-		        <html:hidden property="document.alternateVendorName" />
+		        <html:hidden property="document.goodsDeliveredVendorHeaderGeneratedIdentifier" />
+		        <html:hidden property="document.goodsDeliveredVendorDetailAssignedIdentifier" />
 		        <html:hidden property="document.vendorName" />
-		        <html:hidden property="document.goodsDeliveredVendorNumber" />
+		        <html:hidden property="document.alternateVendorName" />
+		        <html:hidden property="document.goodsDeliveredVendorName" />
 		        <html:hidden property="document.vendorNumber" />
 		        <html:hidden property="document.alternateVendorNumber" />
 		        <html:hidden property="document.vendorNoteText" />
@@ -107,12 +109,12 @@
                         						  property="document.vendorContact" 
                         						  readOnly="true"/>   
                         <c:if test="${(not empty KualiForm.document.vendorNumber) and fullEntryMode}" > 						                   
-	                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorContact" 
-	                        		     readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" 
-	                        		     autoSearch="yes" 
-	 			                         lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
-	                        	         hideReturnLink="true" 
-	                        	         extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />     
+	                        <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.VendorContact" 
+	                        		    readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" 
+	                        		    autoSearch="yes" 
+	 			                        lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+	                        	        hideReturnLink="false" 
+	                        	        extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />     
 	                    </c:if>    	                        
                     </td>
                     <th align=right valign=middle class="bord-l-b">
@@ -127,7 +129,7 @@
 	                        		    autoSearch="yes" 
 										fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier" 
 										lookupParameters="document.alternateVendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.alternateVendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
-										hideReturnLink="true" 
+										hideReturnLink="false" 
 										extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />
 						</c:if> 
                     </td>
@@ -137,18 +139,16 @@
     	                    <div align="right"><bean:message key="${KualiForm.goodsDeliveredByLabel}" /></div>
         	          </th>
         	          <td align=left valign=middle class="datacell" width="25%">
-	        	          <c:if test="${(not empty KualiForm.document.alternateVendorNumber) and fullEntryMode}" > 
+	        	          <c:if test="${(not empty KualiForm.document.alternateVendorNumber) and fullEntryMode}" >
 	            	 			<html:radio property="document.goodsDeliveredVendorNumber" 
 			            		    		value="${KualiForm.document.vendorNumber}"> 
 			            		<c:out value="${KualiForm.document.vendorName}"/></html:radio>
 			         			<html:radio property="document.goodsDeliveredVendorNumber" 
 			            		    		value="${KualiForm.document.alternateVendorNumber}"> 
-			            		<c:out value="${KualiForm.document.alternateVendorName}"/></html:radio>
-			               </c:if>
-				           <c:if test="${(empty KualiForm.document.alternateVendorNumber) and fullEntryMode}" > 
-				              	  <kul:htmlControlAttribute attributeEntry="${documentAttributes.goodsDeliveredVendorName}" property="document.goodsDeliveredVendorName" readOnly="true" />
-			    	       </c:if>
-			    	       <c:if test="${not fullEntryMode}" > 
+			            		<c:out value="${KualiForm.document.alternateVendorName}"/>
+			            		</html:radio>
+						   </c:if>
+				           <c:if test="${((empty KualiForm.document.alternateVendorNumber) and fullEntryMode) or not fullEntryMode}" > 
 				              	  <kul:htmlControlAttribute attributeEntry="${documentAttributes.goodsDeliveredVendorName}" property="document.goodsDeliveredVendorName" readOnly="true" />
 			    	       </c:if>
 			    	   </td>    

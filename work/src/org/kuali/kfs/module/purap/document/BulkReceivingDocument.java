@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
@@ -61,13 +62,14 @@ import edu.iu.uis.eden.user.WorkflowUser;
 
 public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase {
 
+    private static final Logger LOG = Logger.getLogger(BulkReceivingDocument.class);
+    
     private Integer purchaseOrderIdentifier;
     private Date shipmentReceivedDate;
     private String shipmentPackingSlipNumber;
     private String carrierCode;
     private String shipmentBillOfLadingNumber;
     
-    private String goodsDeliveredVendorNumber;
     private String shipmentReferenceNumber;
     private String shipmentWeight;
     private Integer noOfCartons;
@@ -95,6 +97,13 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String alternateVendorName;
     
     /**
+     * Goods delivered vendor
+     */
+    private Integer goodsDeliveredVendorHeaderGeneratedIdentifier;
+    private Integer goodsDeliveredVendorDetailAssignedIdentifier;
+    private String goodsDeliveredVendorNumber;
+    
+    /**
      * Delivery Information
      */
     private String deliveryBuildingCode;
@@ -108,6 +117,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String deliveryCountryCode;
     private String deliveryCampusCode;
     private String deliveryInstructionText;
+    private String deliveryAdditionalInstructionText;
     private String deliveryToName;
     private String deliveryToEmailAddress;
     private String deliveryToPhoneNumber;
@@ -119,10 +129,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String preparerPersonName;
     private String preparerPersonPhoneNumber;
     
-    private String chartOfAccountsCode;
-    private String organizationCode;
     private String deliveryCampusName;
-    private String organizationName;
     private String institutionContactName;
     private String institutionContactPhoneNumber;
     private String institutionContactEmailAddress;
@@ -132,7 +139,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private Carrier carrier;
     private VendorDetail vendorDetail;
     private VendorDetail alternateVendorDetail;
-    private Org organization;
     
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
 
@@ -199,9 +205,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setDeliveryToName( po.getDeliveryToName() );
         setDeliveryToPhoneNumber( po.getDeliveryToPhoneNumber() );
         setDeliveryCampus(po.getDeliveryCampus()); 
-        setOrganizationCode(po.getOrganizationCode());
-        setOrganization(po.getOrganization());
-        setChartOfAccountsCode(po.getChartOfAccountsCode());
         setInstitutionContactName(po.getInstitutionContactName());
         setInstitutionContactPhoneNumber(po.getInstitutionContactPhoneNumber());
         setInstitutionContactEmailAddress(po.getInstitutionContactEmailAddress());
@@ -227,16 +230,26 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         }
         
         if (getVendorNumber() != null){
+            setGoodsDeliveredVendorHeaderGeneratedIdentifier(getVendorHeaderGeneratedIdentifier());
+            setGoodsDeliveredVendorDetailAssignedIdentifier(getVendorDetailAssignedIdentifier());
             setGoodsDeliveredVendorNumber(getVendorNumber());
             setGoodsDeliveredVendorName(getVendorName());
         }
         
-        populateAlternateVendor();
+        populateVendorDetails();
         populateDocumentDescription(po);
         
     }
      
-    private void populateAlternateVendor(){
+    private void populateVendorDetails(){
+        
+        if (getVendorHeaderGeneratedIdentifier() != null &&
+            getVendorDetailAssignedIdentifier() != null){
+            VendorDetail tempVendor = new VendorDetail();
+            tempVendor.setVendorHeaderGeneratedIdentifier(getVendorHeaderGeneratedIdentifier());
+            tempVendor.setVendorDetailAssignedIdentifier(getVendorDetailAssignedIdentifier());
+            setVendorNumber(tempVendor.getVendorNumber());
+        }
         
         if (getAlternateVendorHeaderGeneratedIdentifier() != null &&
             getAlternateVendorDetailAssignedIdentifier() != null){
@@ -258,6 +271,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             }
 
             if (vendorAddress != null){
+                setAlternateVendorName(vendorDetail.getVendorName());
                 setAlternateVendorNumber(vendorDetail.getVendorNumber());
                 vendorDetail.setDefaultAddressLine1(vendorAddress.getVendorLine1Address());
                 vendorDetail.setDefaultAddressLine2(vendorAddress.getVendorLine2Address());
@@ -269,6 +283,19 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             }
 
             setAlternateVendorDetail(vendorDetail);
+        }
+        
+        if (getGoodsDeliveredVendorHeaderGeneratedIdentifier() != null &&
+            getGoodsDeliveredVendorDetailAssignedIdentifier() != null){
+            VendorDetail tempVendor = new VendorDetail();
+            tempVendor.setVendorHeaderGeneratedIdentifier(getGoodsDeliveredVendorHeaderGeneratedIdentifier());
+            tempVendor.setVendorDetailAssignedIdentifier(getGoodsDeliveredVendorDetailAssignedIdentifier());
+            setGoodsDeliveredVendorNumber(tempVendor.getVendorNumber());
+            if (StringUtils.equals(getVendorNumber(),getGoodsDeliveredVendorNumber())){
+                setGoodsDeliveredVendorName(getVendorName());
+            }else {
+                setGoodsDeliveredVendorName(getAlternateVendorName());
+            }
         }
     }
     
@@ -294,17 +321,23 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         refreshNonUpdateableReferences();
-        populateAlternateVendor();
+        populateVendorDetails();
     }
     
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         
-        // first populate, then call super
         if (event instanceof ContinuePurapEvent) {
             SpringContext.getBean(BulkReceivingService.class).populateBulkReceivingFromPurchaseOrder(this);
             if (getPurchaseOrderIdentifier() == null){
                 getDocumentHeader().setDocumentDescription(PurapConstants.BulkReceivingDocumentStrings.MESSAGE_BULK_RECEIVING_DEFAULT_DOC_DESCRIPTION);;
+            }
+        }else{
+            if (getGoodsDeliveredVendorNumber() != null){
+                VendorDetail tempVendor = new VendorDetail();
+                tempVendor.setVendorNumber(getGoodsDeliveredVendorNumber());
+                setGoodsDeliveredVendorHeaderGeneratedIdentifier(tempVendor.getVendorHeaderGeneratedIdentifier());
+                setGoodsDeliveredVendorDetailAssignedIdentifier(tempVendor.getVendorDetailAssignedIdentifier());
             }
         }
         
@@ -512,17 +545,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
-    public PurApRelatedViews getRelatedViews() {
-        if (relatedViews == null) {
-            relatedViews = new PurApRelatedViews(this.documentNumber, this.accountsPayablePurchasingDocumentLinkIdentifier);
-        }
-        return relatedViews;
-    }
-
-    public void setRelatedViews(PurApRelatedViews relatedViews) {
-        this.relatedViews = relatedViews;
-    }
-
     public String getShipmentBillOfLadingNumber() {
         return shipmentBillOfLadingNumber;
     }
@@ -707,14 +729,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.deliveryCampusName = deliveryCampusName;
     }
 
-    public String getOrganizationCode() {
-        return organizationCode;
-    }
-
-    public void setOrganizationCode(String organizationCode) {
-        this.organizationCode = organizationCode;
-    }
-
     public String getRequestorPersonName() {
         return requestorPersonName;
     }
@@ -745,22 +759,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
 
     public void setPreparerPersonPhoneNumber(String preparerPersonPhoneNumber) {
         this.preparerPersonPhoneNumber = preparerPersonPhoneNumber;
-    }
-
-    public Org getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Org organization) {
-        this.organization = organization;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
     }
 
     public String getTrackingNumber() {
@@ -811,20 +809,45 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.institutionContactPhoneNumber = institutionContactPhoneNumber;
     }
 
+    public String getDeliveryAdditionalInstructionText() {
+        return deliveryAdditionalInstructionText;
+    }
 
+    public void setDeliveryAdditionalInstructionText(String deliveryAdditionalInstructionText) {
+        this.deliveryAdditionalInstructionText = deliveryAdditionalInstructionText;
+    }
+
+    public Integer getGoodsDeliveredVendorDetailAssignedIdentifier() {
+        return goodsDeliveredVendorDetailAssignedIdentifier;
+    }
+
+    public void setGoodsDeliveredVendorDetailAssignedIdentifier(Integer goodsDeliveredVendorDetailAssignedIdentifier) {
+        this.goodsDeliveredVendorDetailAssignedIdentifier = goodsDeliveredVendorDetailAssignedIdentifier;
+    }
+
+    public Integer getGoodsDeliveredVendorHeaderGeneratedIdentifier() {
+        return goodsDeliveredVendorHeaderGeneratedIdentifier;
+    }
+
+    public void setGoodsDeliveredVendorHeaderGeneratedIdentifier(Integer goodsDeliveredVendorHeaderGeneratedIdentifier) {
+        this.goodsDeliveredVendorHeaderGeneratedIdentifier = goodsDeliveredVendorHeaderGeneratedIdentifier;
+    }
+
+    public void setRelatedViews(PurApRelatedViews relatedViews) {
+        this.relatedViews = relatedViews;
+    }
+    
+    public PurApRelatedViews getRelatedViews() {
+        if (relatedViews == null) {
+            relatedViews = new PurApRelatedViews(this.documentNumber, this.accountsPayablePurchasingDocumentLinkIdentifier);
+        }
+        return relatedViews;
+    }
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         m.put("PO", getPurchaseOrderIdentifier());
-        m.put("NoOfcartons", getNoOfCartons());
         return m;
-    }
-
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
-
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
     }
 }

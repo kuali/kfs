@@ -3929,7 +3929,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<!-- <class-descriptor class="org.kuali.kfs.module.purap.document.BulkReceivingDocument" table="PUR_BLK_RCVNG_T">
+<class-descriptor class="org.kuali.kfs.module.purap.document.BulkReceivingDocument" table="PUR_BLK_RCVNG_T">
 
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -3942,10 +3942,9 @@
 	<field-descriptor name="shipmentBillOfLadingNumber" column="SHPMNT_BLL_OF_LDNG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="trackingNumber" column="TRAKNG_NBR" jdbc-type="VARCHAR"/>
 
-	<field-descriptor name="goodsDeliveredVendorNumber" column="GDS_DLVD_VNDR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="shipmentReferenceNumber" column="SHPMNT_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="shipmentWeight" column="SHPMNT_WGHT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noOfCartons" column="CARTONS_CNT" jdbc-type="INTEGER"/>
+	<field-descriptor name="noOfCartons" column="CRTNS_CNT" jdbc-type="INTEGER"/>
 	
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -3961,8 +3960,10 @@
 	
 	<field-descriptor name="alternateVendorHeaderGeneratedIdentifier" column="ALTRNT_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="alternateVendorDetailAssignedIdentifier" column="ALTRNT_VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
 
+	<field-descriptor name="goodsDeliveredVendorHeaderGeneratedIdentifier" column="GDS_DLVD_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="goodsDeliveredVendorDetailAssignedIdentifier" column="GDS_DLVD_VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+	
 	<field-descriptor name="deliveryBuildingCode" column="DLVY_BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingName" column="DLVY_BLDG_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingRoomNumber" column="DLVY_BLDG_RM_NBR" jdbc-type="VARCHAR"/>
@@ -3977,14 +3978,18 @@
 	<field-descriptor name="deliveryToPhoneNumber" column="DLVY_TO_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryCampusCode" column="DLVY_CMP_CD" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="deliveryInstructionText" column="DLVY_INSTRC_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deliveryAdditionalInstructionText" column="DLVY_ADDL_INSTRC_TXT" jdbc-type="VARCHAR"/>
 	
-	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-	
+	<field-descriptor name="institutionContactName" column="INST_CNTCT_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="institutionContactPhoneNumber" column="INST_CNTCT_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="institutionContactEmailAddress" column="INST_CNTCT_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+    
 	<field-descriptor name="requestorPersonName" column="RQSTR_PRSN_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="requestorPersonEmailAddress" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     
-    <field-descriptor name="preparerPersonName" column="PEPR_PRSN_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="preparerPersonPhoneNumber" column="PEPR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="preparerPersonName" column="PREPR_PRSN_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="preparerPersonPhoneNumber" column="PREPR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 	
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER" autoincrement="true" sequence-name="AP_PUR_DOC_LNK_ID"/>
     
@@ -4004,10 +4009,6 @@
         <foreignkey field-ref="carrierCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-    
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -4018,5 +4019,5 @@
         <foreignkey field-ref="alternateVendorDetailAssignedIdentifier" />
     </reference-descriptor>
     
-</class-descriptor>  -->
+</class-descriptor> 
 </descriptor-repository>

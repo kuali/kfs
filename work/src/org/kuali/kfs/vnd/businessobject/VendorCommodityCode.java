@@ -2,9 +2,10 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
-public class VendorCommodityCode extends PersistableBusinessObjectBase {
+public class VendorCommodityCode extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private Integer vendorHeaderGeneratedIdentifier;
 	private Integer vendorDetailAssignedIdentifier;

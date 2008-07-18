@@ -90,7 +90,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // apprise user of granted access
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-        if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)) {
+        if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
 
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
@@ -501,6 +501,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performMonthlyBudget(boolean isRevenue, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
+        // TODO adjust this to check for 2PLG and turn off SS/monthly RI check if found
+        // the final save after removing 2PLG will catch any monthly discrepencies
+
         // validate, save, etc first then goto the monthly screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
@@ -556,6 +559,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     public ActionForward performSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
+
+        // TODO adjust this to check for 2PLG and turn off SS/monthly RI check if found
+        // the final save after removing 2PLG will catch any monthly discrepencies
 
         // validate, save, etc first then goto the SalarySetting screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
@@ -1017,7 +1023,57 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performAccountPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Pushdown");
+        BudgetConstructionDocument bcDocument = tForm.getBudgetConstructionDocument();
+
+        // this method is called only if user as edit access and there is somewhere to push to
+        // check for system view only and validate and save if not
+        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
+            BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+
+            budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
+            budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
+            tForm.initializePersistedRequestAmounts();
+
+            // repop and refresh refs - esp monthly so jsp can properly display state
+            tForm.populatePBGLLines();
+        }
+        
+        // getting here means doc is valid and persisted - do pushdown
+        HashMap primaryKey = new HashMap();
+        primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
+
+        BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+        if (budgetConstructionHeader != null){
+            budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPushdownKeyCode()));
+            if (Integer.parseInt(tForm.getPushdownKeyCode()) == 0){
+                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(null);
+                budgetConstructionHeader.setOrganizationLevelOrganizationCode(null);
+            }
+            else {
+                budgetConstructionHeader.setOrganizationLevelChartOfAccountsCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationChartOfAccountsCode());
+                budgetConstructionHeader.setOrganizationLevelOrganizationCode(tForm.getAccountOrgHierLevels().get(Integer.parseInt(tForm.getPushdownKeyCode())).getOrganizationCode());
+            }
+        }
+        
+        // unlock (which stores) if not system view only - otherwise store the new level
+        if (!tForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            LockService lockService = SpringContext.getBean(LockService.class);
+            lockService.unlockAccount(budgetConstructionHeader);
+        }
+        else {
+            SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionHeader); 
+        }
+        
+        // finally refresh the doc with the changed header info
+        tForm.getBudgetConstructionDocument().setVersionNumber(budgetConstructionHeader.getVersionNumber());
+        tForm.getBudgetConstructionDocument().setOrganizationLevelCode(budgetConstructionHeader.getOrganizationLevelCode());
+        tForm.getBudgetConstructionDocument().setOrganizationLevelChartOfAccountsCode(budgetConstructionHeader.getOrganizationLevelChartOfAccountsCode());
+        tForm.getBudgetConstructionDocument().setOrganizationLevelOrganizationCode(budgetConstructionHeader.getOrganizationLevelOrganizationCode());
+        tForm.getBudgetConstructionDocument().setBudgetLockUserIdentifier(budgetConstructionHeader.getBudgetLockUserIdentifier());
+        
+        // refresh organization - so UI shows new level description
+        tForm.getBudgetConstructionDocument().refreshReferenceObject("organizationLevelOrganization");
+        
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

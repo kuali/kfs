@@ -160,7 +160,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
     @NonTransactional
     private String padString(String stringToPad, int fieldSize, boolean leftJustifiy) {
         if (stringToPad.length() < fieldSize) {
-            if (leftJustifiy) StringUtils.rightPad(stringToPad, fieldSize);
+            if (leftJustifiy) return StringUtils.rightPad(stringToPad, fieldSize);
             else return StringUtils.leftPad(stringToPad, fieldSize);
         }
         else if (stringToPad.length() > fieldSize) return stringToPad.substring(0, fieldSize - 1);

@@ -350,21 +350,20 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         catch (IllegalAccessException ex)
         {
             LOG.error(String.format("\nunable to use get method to access value of %s in %s\n",monthlyPeriodProperties[0],BudgetConstructionMonthly.class.getName()),ex);
+            diagnosticCounters.writeDiagnosticCounters();
             throw new RuntimeException(ex);
         }
         catch (InvocationTargetException ex)
         {
             LOG.error(String.format("\nunable to invoke get method for %s in %s\n",monthlyPeriodProperties[0],BudgetConstructionMonthly.class.getName()),ex);
+            diagnosticCounters.writeDiagnosticCounters();
             throw new RuntimeException(ex);
         }
         catch (NoSuchMethodException ex)
         {
             LOG.error(String.format("\nNO get method found for %s in %s ???\n",monthlyPeriodProperties[0],BudgetConstructionMonthly.class.getName()),ex);
-            throw new RuntimeException(ex);
-        }
-        finally
-        {
             diagnosticCounters.writeDiagnosticCounters();
+            throw new RuntimeException(ex);
         }
         if (!(monthlyAmount.isZero()))
         {    

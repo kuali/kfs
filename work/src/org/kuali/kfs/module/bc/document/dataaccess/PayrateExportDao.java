@@ -30,4 +30,12 @@ public interface PayrateExportDao {
      * @return
      */
     List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(Integer budgetYear, String positionUnionCode);
+    
+    /**
+     * Checks if this position union code exsits in the database
+     * 
+     * @param positionUnionCode
+     * @return
+     */
+    public boolean isValidPositionUnionCode(String positionUnionCode);
 }

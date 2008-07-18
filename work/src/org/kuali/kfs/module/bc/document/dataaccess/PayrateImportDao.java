@@ -37,5 +37,6 @@ public interface PayrateImportDao {
      * @param personUniversalIdentifier
      * @return
      */
-    int getImportCount(String personUniversalIdentifier);
+    public int getImportCount(String personUniversalIdentifier);
+    
 }

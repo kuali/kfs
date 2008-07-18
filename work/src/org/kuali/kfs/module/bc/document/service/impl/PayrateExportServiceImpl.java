@@ -60,11 +60,12 @@ public class PayrateExportServiceImpl implements PayrateExportService {
     
     /**
      * 
-     * @see org.kuali.kfs.module.bc.service.PayrateExportService#getExportCount()
+     * @see org.kuali.kfs.module.bc.document.service.PayrateExportService#isValidPositionUnionCode(java.lang.String)
      */
-    @NonTransactional
-    public int getExportCount() {
-        return exportCount;
+    @Transactional
+    public boolean isValidPositionUnionCode(String positionUnionCode) {
+        
+        return this.payrateExportDao.isValidPositionUnionCode(positionUnionCode);
     }
 
     /**

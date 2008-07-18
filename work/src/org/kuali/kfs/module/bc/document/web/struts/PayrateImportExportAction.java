@@ -66,26 +66,19 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE, dateFormatter.format(startTime)));
         
         //parse file
-        List<ExternalizedMessageWrapper> parsingErrors = payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream());
-        
-        if (!parsingErrors.isEmpty()) {
-            messageList.addAll(parsingErrors);
+        if (!payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream(), messageList) ) {
             payrateImportService.generatePdf(messageList, baos);
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.PAYRATE_IMPORT_LOG_FILE);
             return null;
         }
-        if (payrateImportService.getImportCount() == 0 ) messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS));
-        else  messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COUNT, String.valueOf(payrateImportService.getImportCount())));
         
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COMPLETE));
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         
         //perform updates
-        List<ExternalizedMessageWrapper> updateMessages = payrateImportService.update(budgetYear, user);
+        payrateImportService.update(budgetYear, user, messageList);
         
-        messageList.addAll(updateMessages);
-        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_UPDATE_COMPLETE, String.valueOf(payrateImportService.getUpdateCount())));
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER, dateFormatter.format(new Date())));
         
         //write messages to log file
@@ -175,6 +168,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         boolean isValid = true;
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
+        PayrateExportService payrateExportService = SpringContext.getBean(PayrateExportService.class);
         
         if (StringUtils.isBlank(importForm.getPositionUnionCode()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED);
@@ -182,6 +176,10 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         }
         if (StringUtils.isBlank(importForm.getCsfFreezeDate()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED);
+            isValid = false;
+        }
+        if (!payrateExportService.isValidPositionUnionCode(form.getPositionUnionCode()) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE);
             isValid = false;
         }
         SimpleDateFormat validDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);

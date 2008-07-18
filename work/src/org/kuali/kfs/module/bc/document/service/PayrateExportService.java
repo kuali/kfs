@@ -25,9 +25,11 @@ public interface PayrateExportService {
     public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate);
     
     /**
-     * Returns the number export records
+     * Checks if this position object code is valid
      * 
+     * @param positionUnionCode
      * @return
      */
-    public int getExportCount();
+    public boolean isValidPositionUnionCode(String positionUnionCode);
+
 }

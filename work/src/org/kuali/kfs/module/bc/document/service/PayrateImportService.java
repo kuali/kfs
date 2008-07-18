@@ -32,12 +32,12 @@ public interface PayrateImportService {
      * @param fileImportStream
      * @return
      */
-    public List<ExternalizedMessageWrapper> importFile(InputStream fileImportStream);
+    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList);
     
     /**
      * Processes all payrate holding records
      */
-    public List<ExternalizedMessageWrapper> update(Integer budgetYear, UniversalUser user);
+    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList);
     
     /**
      * Generates the log file
@@ -55,11 +55,4 @@ public interface PayrateImportService {
      */
     public int getImportCount();
     
-    /**
-     * Returns the updateCount
-     * 
-     * @return
-     */
-    public int getUpdateCount();
-
 }

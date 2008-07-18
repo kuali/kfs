@@ -81,7 +81,7 @@ public class PayrateImportExportForm extends BudgetExpansionForm {
     }
 
     public void setPositionUnionCode(String positionUnionCode) {
-        this.positionUnionCode = positionUnionCode;
+        if (positionUnionCode != null) this.positionUnionCode = positionUnionCode.toUpperCase();
     }
     
     public String getCsfFreezeDateFormattedForExportFile() {

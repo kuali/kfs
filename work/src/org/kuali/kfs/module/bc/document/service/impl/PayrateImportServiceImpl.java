@@ -74,10 +74,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#importFile(java.io.InputStream)
      */
     @Transactional
-    public List<ExternalizedMessageWrapper> importFile(InputStream fileImportStream) {
+    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList) {
         clearPayrateHoldingTable();
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileImportStream));
-        List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         this.importCount = 0;
         
         try {
@@ -93,10 +92,13 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             clearPayrateHoldingTable();
             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_IMPORT_ABORTED));
             
-            return messageList;
+            return false;
         }
-
-        return messageList;
+        
+        if (importCount == 0 ) messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS));
+        else  messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COUNT, String.valueOf(importCount)));
+        
+        return true;
     }
     
     /**
@@ -104,8 +106,8 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#update()
      */
     @Transactional
-    public List<ExternalizedMessageWrapper> update(Integer budgetYear, UniversalUser user) {
-        List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
+    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList) {
+        //List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         Map<String, PendingBudgetConstructionAppointmentFunding> lockMap = new HashMap<String, PendingBudgetConstructionAppointmentFunding>();
         boolean updateContainsErrors = false;
         this.updateCount = 0;
@@ -115,7 +117,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         if ( !getPayrateLock(lockMap, messageList, budgetYear, user, records) ) {
             messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_UPDATE_ABORTED, String.valueOf(this.updateCount)));
             doRollback();
-            return messageList;
+            //return messageList;
         }
         
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
@@ -170,13 +172,15 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             this.updateCount ++;
         }
         
+        messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_UPDATE_COMPLETE, String.valueOf(updateCount)));
+        
         Set<String> locks = lockMap.keySet();
         for (String lockingKey : locks) {
             PendingBudgetConstructionAppointmentFunding recordToUnlock = lockMap.get(lockingKey);
             this.lockService.unlockAccount(budgetDocumentService.getBudgetConstructionHeader(recordToUnlock));
         }
         
-        return messageList;
+        //return messageList;
     }
     
     /**
@@ -208,15 +212,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     @NonTransactional
     public int getImportCount() {
         return importCount;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kfs.module.bc.service.PayrateImportService#getUpdateCount()
-     */
-    @NonTransactional
-    public int getUpdateCount() {
-        return updateCount;
     }
     
     @NonTransactional

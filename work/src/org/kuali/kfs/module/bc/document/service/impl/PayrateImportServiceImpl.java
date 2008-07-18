@@ -37,7 +37,6 @@ import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
-import org.kuali.kfs.module.bc.businessobject.PayrateImportLine;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
@@ -87,10 +86,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
         
         try {
             while(fileReader.ready()) {
-                PayrateImportLine temp = new PayrateImportLine();
+                BudgetConstructionPayRateHolding budgetConstructionPayRateHolding = new BudgetConstructionPayRateHolding();
                 String line = fileReader.readLine();
-                ObjectUtil.convertLineToBusinessObject(temp, line, DefaultImportFileFormat.fieldLengths, Arrays.asList(DefaultImportFileFormat.fieldNames));
-                BudgetConstructionPayRateHolding budgetConstructionPayRateHolding = createHoldingRecord(temp);
+                ObjectUtil.convertLineToBusinessObject(budgetConstructionPayRateHolding, line, DefaultImportFileFormat.fieldLengths, Arrays.asList(DefaultImportFileFormat.fieldNames));
                 businessObjectService.save(budgetConstructionPayRateHolding);
                 this.importCount++;
             }
@@ -287,21 +285,6 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     @NonTransactional
     public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao) {
         this.budgetConstructionDao = budgetConstructionDao;
-    }
-
-    private BudgetConstructionPayRateHolding createHoldingRecord(PayrateImportLine record) {
-        BudgetConstructionPayRateHolding budgetConstructionPayRateHolding = new BudgetConstructionPayRateHolding();
-        
-        budgetConstructionPayRateHolding.setEmplid(record.getEmplid());
-        budgetConstructionPayRateHolding.setPositionNumber(record.getPositionNumber());
-        budgetConstructionPayRateHolding.setPersonName(record.getPersonName());
-        budgetConstructionPayRateHolding.setSetidSalary(record.getSetidSalary());
-        budgetConstructionPayRateHolding.setSalaryAdministrationPlan(record.getSalaryAdministrationPlan());
-        budgetConstructionPayRateHolding.setGrade(record.getGrade());
-        budgetConstructionPayRateHolding.setUnionCode(record.getPositionUnionCode());
-        budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(record.getAppointmentRequestedPayRate().divide(new BigDecimal(100)));
-        
-        return budgetConstructionPayRateHolding;
     }
     
     private String getLockingKeyString(PendingBudgetConstructionAppointmentFunding record) {
